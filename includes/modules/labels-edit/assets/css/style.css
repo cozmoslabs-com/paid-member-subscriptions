@@ -1,0 +1,49 @@
+#pmsle-id .mb-right-column{
+    overflow: visible;
+}
+
+#pmsle-id .mb-list-entry-fields li{
+    overflow: visible;
+}
+
+#pmsle-id .description {
+    overflow: hidden;
+    max-width: 80%;
+    padding-top: 5px;
+    font-style: normal;
+}
+
+#pmsle-id .mb-textarea {
+    width: 80%;
+    max-width: 80%;
+    height: 100px;
+}
+
+#container_pmsle thead .wppb-delete-all-fields {
+    color: #333;
+    text-decoration: underline;
+}
+
+#container_pmsle tbody .wck-delete {
+    padding: 8px 16px;
+}
+
+#pmsle-id-side-impexp hr {
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 8px auto;
+    height: 0;
+    width: 100%;
+    max-height: 0;
+    font-size: 1px;
+    line-height: 0;
+    clear: both;
+    border: none;
+    border-top: 1px solid #d4d4d4;
+    border-bottom: 1px solid #eeeeee;
+}
+
+#pmsle-upload {
+    width: 100%;
+}

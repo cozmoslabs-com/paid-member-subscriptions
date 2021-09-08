@@ -1,0 +1,34 @@
+/**
+Style the Add-ons listing page
+*/
+#pms-add-ons-listing .pms-main-header{
+    margin-bottom:30px;
+}
+
+#pms-add-ons-listing .pms-add-ons-section{
+    margin:40px 0;
+}
+
+#pms-add-ons-listing .tablenav{
+    display:none;
+}
+
+#pms-add-ons-listing .column-add_on{
+    width:80%;
+}
+
+#pms-add-ons-listing .column-icon{
+    width: 64px;
+}
+
+#pms-add-ons-listing .column-actions{
+    width:225px;
+    vertical-align: middle !important;
+}
+#pms-add-ons-listing .pms-add-ons-search-box{
+    margin-bottom:40px;
+}
+
+#pms-add-ons-listing #pms-add-ons-search-input{
+    width:350px;
+}
