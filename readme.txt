@@ -1096,10 +1096,3 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 = 1.0.0 =
 * Initial release.
-
-    2.4.7
-    
-
-
-    2.4.7
-    

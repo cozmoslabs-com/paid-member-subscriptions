@@ -115,8 +115,8 @@ Class PMS_IN_LabelsEdit {
     		'parent_slug'	=> 'paid-member-subscriptions'
     	);
 
-    	if( class_exists( 'WCK_Page_Creator_PMSLE' ) )
-    		new WCK_Page_Creator_PMSLE( $args );
+    	if( class_exists( 'WCK_Page_Creator_PMSLE_IN' ) )
+    		new WCK_Page_Creator_PMSLE_IN( $args );
 
     	// array with Profile Builder strings to edit
     	$strings = get_option( 'pmsle_backup', array() );
@@ -301,7 +301,7 @@ Class PMS_IN_LabelsEdit {
                     if( ! empty( $current_file_pathinfo['extension'] ) && $current_file_pathinfo['extension'] == "php" ) {
 
                         if( file_exists( $current_file ) )
-                            _pms_in_potx_process_file( realpath( $current_file ), 0, 'pms_le_output_string' );
+                            _pms_in_potx_process_file( realpath( $current_file ), 0, 'pms_in_le_output_string' );
                     }
                 }
             }

@@ -59,8 +59,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
     //Add Basic section
-    $pms_addons_listing->section_header = array( 'title' => __('Basic Add-ons', 'paid-member-subscriptions' ), 'description' => __('These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Elite plans.', 'paid-member-subscriptions')  );
-    $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Basic', 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Elite', 'Paid Member Subscriptions - Dev' );
+    $pms_addons_listing->section_header = array( 'title' => __('Basic Add-ons', 'paid-member-subscriptions' ), 'description' => __('These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Unlimited plans.', 'paid-member-subscriptions')  );
+    $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Basic', 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Elite', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited' );
     $pms_addons_listing->items = array(
         array(  'slug' => 'pms-add-on-bbpress/index.php',
             'type' => 'add-on',
@@ -83,7 +83,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             'icon' => 'email_reminders_icon.png',
             'doc_url' => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/email-reminders/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
         ),
-        array(  'slug' => 'pms-add-on-fixed-period-membership/index.php',
+        array(  'slug' => 'pms-add-on-member-subscription-fixed-period/index.php',
             'type' => 'add-on',
             'name' => __( 'Fixed Period Membership', 'paid-member-subscriptions' ),
             'description' => __( 'The Fixed Period Membership Add-On allows your Subscriptions to end at a specific date, no matter when a client subscribes to it.', 'paid-member-subscriptions' ),
@@ -115,8 +115,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     $pms_addons_listing->add_section();
 
     //Add Pro Section
-    $pms_addons_listing->section_header = array( 'title' => __('Pro Add-ons', 'paid-member-subscriptions' ), 'description' => __('These addons extend Paid Member Subscriptions and are available in the Pro and Elite plans.', 'paid-member-subscriptions')  );
-    $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Elite', 'Paid Member Subscriptions - Dev' );
+    $pms_addons_listing->section_header = array( 'title' => __('Pro Add-ons', 'paid-member-subscriptions' ), 'description' => __('These addons extend Paid Member Subscriptions and are available in the Pro and Unlimited plans.', 'paid-member-subscriptions')  );
+    $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Elite', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited' );
     $pms_addons_listing->items = array(
         array(  'slug' => 'pms-add-on-content-dripping/index.php',
             'type' => 'add-on',

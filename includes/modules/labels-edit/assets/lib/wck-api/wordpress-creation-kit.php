@@ -553,7 +553,7 @@ class Wordpress_Creation_Kit_PMSLE_IN{
 		}
 
 		//convert field_details to single array if option groups are defined.
-		if( pmsle_wck_is_multi( $field_details['options'] ) ){
+		if( pmsle_in_wck_is_multi( $field_details['options'] ) ){
 			$select_options = array();
 			foreach($field_details['options']['optgroups'] as $optgroup) {
 				foreach($optgroup['options'] as $group_option ){
@@ -1484,7 +1484,7 @@ public $hookname ( for required for 'page_type' => 'menu_page' ) string used int
 				 or false if the user does not have the capability required.
 */
 
-class WCK_Page_Creator_PMSLE{
+class WCK_Page_Creator_PMSLE_IN{
 
 	private $defaults = array(
 							'page_type' => 'menu_page',
@@ -1652,7 +1652,7 @@ class WCK_Page_Creator_PMSLE{
 	}
 }
 
-function pmsle_wck_generate_select_option($option, $details, $value, $i){
+function pmsle_in_wck_generate_select_option($option, $details, $value, $i){
 
 	if( strpos( $option, '%' ) === false ){
 		$label = $option;
@@ -1682,7 +1682,7 @@ function pmsle_wck_generate_select_option($option, $details, $value, $i){
 	return $optionOutput;
 }
 
-function pmsle_wck_is_multi($a) {
+function pmsle_in_wck_is_multi($a) {
 	foreach ($a as $v) {
 		if (is_array($v)) return true;
 	}

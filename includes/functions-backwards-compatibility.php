@@ -83,3 +83,31 @@ function pms_recreate_old_settings( $value, $option ) {
 
     return $settings;
 }
+
+//Handle Labels Edit migration from a plugin to a module with a misc setting
+add_action( 'plugins_loaded', 'pms_handle_labels_edit_migration', 10 );
+function pms_handle_labels_edit_migration(){
+
+    //if it's triggered in the frontend we need this include
+    if( !function_exists('is_plugin_active') )
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+    $addon_slug = 'pms-add-on-labels-edit/index.php';
+    if( is_plugin_active( $addon_slug ) ) {
+        if( is_multisite() ){
+            if( is_plugin_active_for_network($addon_slug) )
+                deactivate_plugins($addon_slug, true);
+            else
+                deactivate_plugins($addon_slug, true, false);
+        }
+        else {
+            deactivate_plugins($addon_slug, true);
+        }
+
+
+        $misc_settings = get_option('pms_misc_settings', array());
+        $misc_settings['labels-edit'] = 'enabled';
+        update_option('pms_misc_settings', $misc_settings);
+    }
+
+}

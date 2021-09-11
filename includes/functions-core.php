@@ -1217,6 +1217,48 @@ if ( ! defined( 'ABSPATH' ) ) exit;
      }
 
 
+    /**
+     * Adds a dismissable admin notice on all WordPress pages and a non-dismissable admin notice on PMS's
+     * NOtify users that old addon-on plugins will no longer be maintained
+     *
+     */
+    //if it's triggered in the frontend we need this include
+    if( !function_exists('is_plugin_active') )
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+    $old_addon_list = array(
+        'pms-add-on-bbpress/index.php',
+        'pms-add-on-content-dripping/index.php',
+        'pms-add-on-discount-codes/index.php',
+        'pms-add-on-email-reminders/index.php',
+        'pms-add-on-member-subscription-fixed-period/index.php',
+        'pms-add-on-global-content-restriction/index.php',
+        'pms-add-on-group-memberships/index.php',
+        'pms-add-on-invoices/index.php',
+        'pms-add-on-labels-edit/index.php',
+        'pms-add-on-multiple-subscriptions-per-user/index.php',
+        'pms-add-on-navigation-menu-filtering/index.php',
+        'pms-add-on-pay-what-you-want/index.php',
+        'pms-add-on-paypal-express-pro/index.php',
+        'pms-add-on-paypal-standard-recurring-payments/index.php',
+        'pms-add-on-stripe/index.php',
+        'pms-add-on-tax/index.php',
+    );
+
+    foreach( $old_addon_list as $addon_slug ) {
+        if (is_plugin_active($addon_slug)) {
+            $url_info = 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/basic-information-and-installation/upgrade-to-version-2-5-0-or-newer/';
+            $url_account = 'https://cozmoslabs.com/account/';
+            $message = sprintf( __( 'All individual Paid Member Subscriptions add-on plugins <a href="%1$s" target="_blank">have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions. Please log into your <a href="%2$s" target="_blank">account page</a>, download the new premium version and install it. Your individual addons settings will be ported over.', 'paid-member-subscriptions' ), esc_url($url_info), esc_url($url_account) );
+            new PMS_Add_General_Notices( 'pms_add_ons_repackage',
+                sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url(add_query_arg('pms_add_ons_repackage_dismiss_notification', '0')) . "'>", "</a>"),
+                'notice-warning');
+            break;
+        }
+    }
+
+
+
      /**
       * Add a notice if a recurring PayPal gateway is active but API credentials are missing
       * @TODO: reactivate after paypal merge

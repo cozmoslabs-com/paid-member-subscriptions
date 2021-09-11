@@ -16,11 +16,11 @@ if( !empty( $details['default-option'] ) && $details['default-option'] )
 $field_name = Wordpress_Creation_Kit_PMSLE_IN::wck_generate_slug( $details['title'], $details );
 
 $options = '';
-if( !empty( $details['options'] ) && !pmsle_wck_is_multi( $details['options'] ) ){
+if( !empty( $details['options'] ) && !pmsle_in_wck_is_multi( $details['options'] ) ){
 		$i = 0;
 		foreach( $details['options'] as $option ){
 
-            $optionOutput = pmsle_wck_generate_select_option($option, $details, $value, $i);
+            $optionOutput = pmsle_in_wck_generate_select_option($option, $details, $value, $i);
 			$options .= apply_filters( "wck_select_{$meta}_{$field_name}_option_{$i}", $optionOutput, $i);
 
 			$i++;
@@ -31,7 +31,7 @@ if( !empty( $details['options'] ) && !pmsle_wck_is_multi( $details['options'] ) 
 		if(!empty($optgroup['options'])) {
 			$options .= '<optgroup label="' . $optgroup['label'] . '">';
 			foreach($optgroup['options'] as $option ){
-				$optionOutput = pmsle_wck_generate_select_option($option, $details, $value, $i);
+				$optionOutput = pmsle_in_wck_generate_select_option($option, $details, $value, $i);
 				$options .= apply_filters( "wck_select_{$meta}_{$field_name}_option_{$i}", $optionOutput, $i);
 
 				$i++;
