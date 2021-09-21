@@ -91,7 +91,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 <?php } else { ?>
 
-                    <span class="readonly medium"><strong><?php echo esc_html( $member->username ); ?></strong></span>
+                    <strong><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'member_id' => $payment->user_id, 'subpage' => 'edit_member' ), admin_url( 'admin.php' ) ) ) ?>" title="<?php esc_html_e( 'Edit Member', 'paid-member-subscriptions' ); ?>"><?php echo esc_html( $member->username ); ?></a></strong>
 
                 <?php } ?>
 

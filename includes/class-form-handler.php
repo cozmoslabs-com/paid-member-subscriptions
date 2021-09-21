@@ -672,6 +672,8 @@ Class PMS_Form_Handler {
 
                     pms_add_member_subscription_log( $member_subscription->id, 'subscription_canceled' );
 
+                    pms_update_member_subscription_meta( $member_subscription->id, 'pms_retry_payment', 'inactive' );
+
                     /**
                      * Action for when the cancellation is successful
                      *
@@ -770,6 +772,8 @@ Class PMS_Form_Handler {
                     pms_success()->add( 'subscription_plans', apply_filters( 'pms_abandon_subscription_success', __( 'Your subscription has been successfully removed.', 'paid-member-subscriptions' ) ) );
 
                     pms_add_member_subscription_log( $member_subscription->id, 'subscription_abandoned' );
+
+                    pms_update_member_subscription_meta( $member_subscription->id, 'pms_retry_payment', 'inactive' );
                 }
 
 

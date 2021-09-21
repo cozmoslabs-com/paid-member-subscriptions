@@ -504,7 +504,7 @@ jQuery( function($) {
     // Display confirmation prompt on bulk delete members
     $(document).off( 'click', '#doaction' ).on( 'click', '#doaction', function(e){
         message = pms_confirmation_message.message.split("\\n").join("\n");
-        if ( $('#bulk-action-selector-top').val() == 'delete' || $('#bulk-action-selector-bottom').val() == 'delete' ){
+        if ( $('#bulk-action-selector-top').val() == 'pms-delete-subscriptions' || $('#bulk-action-selector-bottom').val() == 'pms-delete-subscriptions' ){
             return confirm(message);
         }
 
@@ -512,7 +512,7 @@ jQuery( function($) {
 
     $(document).off( 'click', '#doaction2' ).on( 'click', '#doaction2', function(e){
         message = pms_confirmation_message.message.split("\\n").join("\n");
-        if ( $('#bulk-action-selector-top').val() == 'delete' || $('#bulk-action-selector-bottom').val() == 'delete' ){
+        if ( $('#bulk-action-selector-top').val() == 'pms-delete-subscriptions' || $('#bulk-action-selector-bottom').val() == 'pms-delete-subscriptions' ){
             return confirm(message);
         }
 

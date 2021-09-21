@@ -218,7 +218,7 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 			);
 
 			$element->before_render();
-				echo wp_kses_post( $message );
+				echo $message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			$element->after_render();
 		}
 	}

@@ -47,6 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         $user_status          = get_post_meta( $post->ID, 'pms-content-restrict-user-status', true );
         $subscription_plans   = pms_get_subscription_plans();
         $selected_subscription_plans = get_post_meta( $post->ID, 'pms-content-restrict-subscription-plan' );
+        $all_plans_selected   = get_post_meta( $post->ID, 'pms-content-restrict-all-subscription-plans');
         ?>
 
         <label class="pms-meta-box-checkbox-label" for="pms-content-restrict-user-status">
@@ -54,16 +55,26 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <?php echo esc_html__( 'Logged In Users', 'paid-member-subscriptions' ); ?>
         </label>
 
-        <?php if( !empty( $subscription_plans ) ): foreach( $subscription_plans as $subscription_plan ): ?>
+        <?php if( !empty( $subscription_plans ) ): ?>
 
-            <label class="pms-meta-box-checkbox-label" for="pms-content-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ) ?>">
-                <input type="checkbox" value="<?php echo esc_attr( $subscription_plan->id ); ?>" <?php if( in_array( $subscription_plan->id, $selected_subscription_plans ) ) echo 'checked="checked"'; ?> name="pms-content-restrict-subscription-plan[]" id="pms-content-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ) ?>">
-                <?php echo esc_html( $subscription_plan->name ); ?>
+            <label class="pms-meta-box-checkbox-label" for="pms-content-restrict-all-subscription-plans">
+                <input type="checkbox" value="all" <?php if( $all_plans_selected ) echo 'checked="checked"'; ?> name="pms-content-restrict-all-subscription-plans" id="pms-content-restrict-all-subscription-plans">
+                <?php echo esc_html__( 'All Subscription Plans', 'paid-member-subscriptions' ); ?>
             </label>
 
-        <?php endforeach; ?>
+            <?php foreach( $subscription_plans as $subscription_plan ): ?>
+
+                <label class="pms-meta-box-checkbox-label" for="pms-content-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ) ?>">
+                    <input type="checkbox" value="<?php echo esc_attr( $subscription_plan->id ); ?>" <?php if( in_array( $subscription_plan->id, $selected_subscription_plans ) || $all_plans_selected ) echo 'checked="checked"'; ?> name="pms-content-restrict-subscription-plan[]" id="pms-content-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ) ?>">
+                    <?php echo esc_html( $subscription_plan->name ); ?>
+                </label>
+
+            <?php endforeach; ?>
             <p class="description" style="margin-top: 10px;">
                 <?php printf( esc_html__( 'Checking only "Logged In Users" will show this %s to all logged in users, regardless of subscription plan.', 'paid-member-subscriptions' ), esc_html( $post->post_type ) ); ?>
+            </p>
+            <p class="description">
+                <?php printf( esc_html__( 'Checking "All Subscription Plans" will show this %s to users that are subscribed any of the plans.', 'paid-member-subscriptions' ), esc_html( $post->post_type ) ); ?>
             </p>
             <p class="description">
                 <?php printf( esc_html__( 'Checking any subscription plan will show this %s only to users that are subscribed to those particular plans.', 'paid-member-subscriptions' ), esc_html( $post->post_type ) ); ?>

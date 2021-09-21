@@ -231,7 +231,7 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
             $action = ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] != '-1' ? sanitize_text_field( $_REQUEST['action'] ) : ( isset( $_REQUEST['action2'] ) ? sanitize_text_field( $_REQUEST['action2'] ) : '' ) );
 
-            if( isset( $_REQUEST[ 'member_subscriptions' ] ) && !empty( $_REQUEST[ 'member_subscriptions' ] ) && $action == 'delete' ){
+            if( isset( $_REQUEST[ 'member_subscriptions' ] ) && !empty( $_REQUEST[ 'member_subscriptions' ] ) && $action == 'pms-delete-subscriptions' ){
 
                 $deleted_subscriptions_count = 0;
                 $subscription_ids            = array_map( 'sanitize_text_field', $_REQUEST[ 'member_subscriptions' ] );

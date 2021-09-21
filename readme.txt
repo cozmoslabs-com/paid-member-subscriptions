@@ -3,8 +3,8 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
-Tested up to: 5.8
-Stable tag: 2.4.7
+Tested up to: 5.8.1
+Stable tag: 2.4.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,18 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.4.9 =
+* Fix: Issue with plugin generated URLs on page with slugs that contained special characters
+* Fix: Issue with Bulk Delete Subscriptions popup triggering in unwanted cases
+* Fix: Make [pms-account] actions work from within a Profile Builder edit profile form
+* Misc: Added possibility to search Members by full name
+* Misc: Improved payment retry workflow
+* Misc: Added option to select all subscription plans when restricting a post/page
+
+= 2.4.8 =
+* Feature: Add recurring support to Manual/Offline payment gateway
+* Fix: Issue with Elementor Template restriction
+
 = 2.4.7 =
 * Feature: Apply tax to payments added from back-end if necessary billing data is available
 * Feature: Add option for a Honeypot field that can be used as an alternative to reCaptcha or alongside it. The option is found under Settings -> Misc
@@ -865,7 +877,7 @@ For more information please check out [Paid Member Subscriptions documentation](
 * New: Added option to set the automatic renewal option for each subscription plan, if the active payment gateways support the renewal functionality.
 * New: Added Abandon Subscription action to mimic the Cancel Subscription action.
 * Fixed: The Cancel Subscription action will now only cancel the members subscription without removing it completely.
-* Misc: The Member Account shortcode has been improved to display more information about the user’s subscription.
+* Misc: The Member Account shortcode has been improved to display more information about the user's subscription.
 * Misc: The admin Edit Subscription screen has been improved, to offer more flexibility for setting up and editing the details of a subscription.
 
 = 1.4.8 =
@@ -879,7 +891,7 @@ For more information please check out [Paid Member Subscriptions documentation](
 = 1.4.6 =
 * Fixed: Issue regarding the from email address. The from email address set in the Settings page would be replaced for all emails sent, not only the ones sent by Paid Member Subscriptions.
 * Fixed: Content restrictions for attachment pages did not work.
-* Misc: Added “pms_get_subscription_plan_upgrades” filter on the return values of the function that gets the subscription plan upgrades available for a subscription plan.
+* Misc: Added "pms_get_subscription_plan_upgrades" filter on the return values of the function that gets the subscription plan upgrades available for a subscription plan.
 
 = 1.4.5 =
 * New: Added German, Italian and Portuguese translations

@@ -266,8 +266,8 @@ class PMS_Plugin_Usage_Tracker {
 
 			case 'tax':
 
-				if( function_exists( 'pms_tax_enabled' ) )
-					return pms_tax_enabled();
+				if( function_exists( 'pms_in_tax_enabled' ) )
+					return pms_in_tax_enabled();
 
 				break;
 

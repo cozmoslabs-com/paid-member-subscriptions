@@ -30,7 +30,8 @@ class PMS_Elementor {
 		add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widgets' ) );
 
         // Load Elements restriction class
-        require_once( __DIR__ . '/class-elementor-elements-restriction.php' );
+        if( apply_filters( 'pms_elementor_enable_content_restriction', true ) )
+            require_once( __DIR__ . '/class-elementor-elements-restriction.php' );
 
         // Register new section to display restriction controls
         $this->register_sections();

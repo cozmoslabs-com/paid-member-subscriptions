@@ -76,15 +76,19 @@ function pms_pb_subscription_plans_handler( $output, $form_location, $field, $us
 
                 $output = do_shortcode('[pms-account show_tabs="no"]');
 
-                /* compatibility with conditional logic on edit profile forms */
-                if( !empty( $member->subscriptions ) ){
+                /**
+                 * compatibility with conditional logic on edit profile forms
+                 *
+                 * this is not added when pms-action is set and we are performing an action
+                 */
+                if( !empty( $member->subscriptions ) && !isset( $_GET['pms-action'] ) ){
                     foreach( $member->subscriptions as $sub_plan ){
                         $output .= '<input type="hidden" value="'. esc_attr( $sub_plan['subscription_plan_id'] ).'">';
                     }
                 }
 
                 /* compatibility with MailChimp on edit profile forms */
-                if( !empty( $member->subscriptions ) ){
+                if( !empty( $member->subscriptions ) && !isset( $_GET['pms-action'] ) ){
                     $output .= '<input name="subscription_plans" type="hidden" value="';
                     $i = 0;
                     foreach ($member->subscriptions as $sub_plan) {

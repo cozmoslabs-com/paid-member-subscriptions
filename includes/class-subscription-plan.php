@@ -187,6 +187,14 @@ Class PMS_Subscription_Plan {
 
     }
 
+    /*
+     * Method that checks if the subscription plan has signup fee
+     *
+     */
+    public function has_sign_up_fee(){
+        return ( isset( $this->sign_up_fee ) && $this->sign_up_fee != '0' );
+    }
+
 
     /*
      * Activate the subscription plan

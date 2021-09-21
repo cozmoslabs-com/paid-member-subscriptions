@@ -13,15 +13,27 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: index-dev.php:39
+#: index-dev.php:34
+msgid "Plugin activated."
+msgstr ""
+
+#: index-dev.php:37
+msgid "Could not install. Try again from <a href=\"%s\" >Plugins Dashboard.</a>"
+msgstr ""
+
+#: index-dev.php:54
 msgid "Please update the Paid Member Subscriptions plugin to version 2.5.0 at least for %s to work properly"
 msgstr ""
 
-#: index-dev.php:33
+#: index-dev.php:45
 msgid "Please install and activate the Paid Member Subscriptions plugin"
 msgstr ""
 
-#: index-dev.php:220
+#: index-dev.php:47
+msgid "Install & Activate"
+msgstr ""
+
+#: index-dev.php:234
 msgid "This Paid Member Subscriptions add-on has been migrated to the main plugin and is no longer used. You can delete it."
 msgstr ""
 
@@ -311,11 +323,11 @@ msgstr ""
 msgid "This username is already taken. Please choose another one or login %shere%s."
 msgstr ""
 
-#: includes/class-form-handler.php:102, includes/class-form-handler.php:109, includes/class-form-handler.php:1327, includes/class-form-handler.php:1334
+#: includes/class-form-handler.php:102, includes/class-form-handler.php:109, includes/class-form-handler.php:1331, includes/class-form-handler.php:1338
 msgid "Please enter an e-mail address."
 msgstr ""
 
-#: includes/class-form-handler.php:123, includes/class-form-handler.php:1344
+#: includes/class-form-handler.php:123, includes/class-form-handler.php:1348
 msgid "This e-mail is already registered. Please choose another one."
 msgstr ""
 
@@ -323,7 +335,7 @@ msgstr ""
 msgid "This e-mail is already registered. Please choose another one or login %shere%s."
 msgstr ""
 
-#: includes/class-form-handler.php:113, includes/class-form-handler.php:1338, add-ons-pro/invoices/includes/functions-form-extra-fields.php:319
+#: includes/class-form-handler.php:113, includes/class-form-handler.php:1342, add-ons-pro/invoices/includes/functions-form-extra-fields.php:319
 msgid "The e-mail address doesn't seem to be valid."
 msgstr ""
 
@@ -335,7 +347,7 @@ msgstr ""
 msgid "Please repeat the password."
 msgstr ""
 
-#: includes/class-form-handler.php:150, includes/class-form-handler.php:1377
+#: includes/class-form-handler.php:150, includes/class-form-handler.php:1381
 msgid "The passwords did not match."
 msgstr ""
 
@@ -383,7 +395,7 @@ msgstr ""
 msgid "You are already a member."
 msgstr ""
 
-#: includes/class-form-handler.php:688
+#: includes/class-form-handler.php:690
 msgid "Something went wrong. We could not cancel your subscription."
 msgstr ""
 
@@ -391,80 +403,80 @@ msgstr ""
 msgid "Your subscription has been successfully canceled."
 msgstr ""
 
-#: includes/class-form-handler.php:780
+#: includes/class-form-handler.php:784
 msgid "Something went wrong. We could not remove your subscription."
 msgstr ""
 
-#: includes/class-form-handler.php:770
+#: includes/class-form-handler.php:772
 msgid "Your subscription has been successfully removed."
 msgstr ""
 
-#: includes/class-form-handler.php:865, includes/class-form-handler.php:875, includes/modules/recaptcha/includes/functions-field-validate.php:147, includes/modules/recaptcha/includes/functions-field-validate.php:174
+#: includes/class-form-handler.php:869, includes/class-form-handler.php:879, includes/modules/recaptcha/includes/functions-field-validate.php:147, includes/modules/recaptcha/includes/functions-field-validate.php:174
 msgid "ERROR"
 msgstr ""
 
-#: includes/class-form-handler.php:870
+#: includes/class-form-handler.php:874
 msgid "The username and password combination is wrong."
 msgstr ""
 
-#: includes/class-form-handler.php:868
+#: includes/class-form-handler.php:872
 msgid "The email and password combination is wrong."
 msgstr ""
 
-#: includes/class-form-handler.php:875
+#: includes/class-form-handler.php:879
 msgid "Both fields are empty."
 msgstr ""
 
-#: includes/class-form-handler.php:1072
+#: includes/class-form-handler.php:1076
 msgid "Congratulations, you have successfully created an account."
 msgstr ""
 
 #. translators: 1: Browser cookie documentation URL, 2: Support forums URL
-#: includes/class-form-handler.php:1138
+#: includes/class-form-handler.php:1142
 msgid "<strong>ERROR</strong>: Cookies are blocked due to unexpected output. For help, please see <a href=\"%1$s\">this documentation</a> or try the <a href=\"%2$s\">support forums</a>."
 msgstr ""
 
-#: includes/class-form-handler.php:1199
+#: includes/class-form-handler.php:1203
 msgid "The entered username doesn't exist. Please try again."
 msgstr ""
 
-#: includes/class-form-handler.php:1207
+#: includes/class-form-handler.php:1211
 msgid "The entered email wasn't found in our database. Please try again."
 msgstr ""
 
-#: includes/class-form-handler.php:1190
+#: includes/class-form-handler.php:1194
 msgid "Please enter a username or email address."
 msgstr ""
 
-#: includes/class-form-handler.php:1227
+#: includes/class-form-handler.php:1231
 msgid "Someone has just requested a password reset for the following account: <b>%1$s</b><br/><br/>If this was a mistake, just ignore this email and nothing will happen.<br/>To reset your password, visit the following link: %2$s"
 msgstr ""
 
-#: includes/class-form-handler.php:1231
+#: includes/class-form-handler.php:1235
 msgid "Password Reset from \"%s\""
 msgstr ""
 
-#: includes/class-form-handler.php:1245
+#: includes/class-form-handler.php:1249
 msgid "There was an error while trying to send the activation link."
 msgstr ""
 
-#: includes/class-form-handler.php:1285
+#: includes/class-form-handler.php:1289
 msgid "The entered passwords don't match! Please try again."
 msgstr ""
 
-#: includes/class-form-handler.php:1369, includes/class-form-handler.php:1372
+#: includes/class-form-handler.php:1373, includes/class-form-handler.php:1376
 msgid "Some of the characters entered were not valid."
 msgstr ""
 
-#: includes/class-form-handler.php:1416
+#: includes/class-form-handler.php:1420
 msgid "Something went wrong. We could not update your profile."
 msgstr ""
 
-#: includes/class-form-handler.php:1413
+#: includes/class-form-handler.php:1417
 msgid "Profile updated successfully"
 msgstr ""
 
-#: includes/class-form-handler.php:1611
+#: includes/class-form-handler.php:1615
 msgid "Something went wrong while registering the user. Contact the website administrator."
 msgstr ""
 
@@ -2400,7 +2412,7 @@ msgstr ""
 msgid "In order to restore it, you need to put the plugin into <strong>Test Mode</strong>."
 msgstr ""
 
-#: includes/functions-core.php:1149, includes/functions-core.php:1176, includes/functions-core.php:1214, includes/functions-core.php:1195, includes/functions-plugin-compatibilities.php:101, add-ons-pro/group-memberships/index.php:45, add-ons-pro/group-memberships/index.php:170, add-ons-pro/group-memberships/includes/functions.php:250, add-ons-pro/group-memberships/includes/functions.php:270
+#: includes/functions-core.php:1149, includes/functions-core.php:1176, includes/functions-core.php:1214, includes/functions-core.php:1195, includes/functions-core.php:1254, includes/functions-plugin-compatibilities.php:101, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:250, add-ons-pro/group-memberships/includes/functions.php:270
 msgid " %1$sDismiss%2$s"
 msgstr ""
 
@@ -2414,6 +2426,10 @@ msgstr ""
 
 #: includes/functions-core.php:1190
 msgid "Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>"
+msgstr ""
+
+#: includes/functions-core.php:1252
+msgid "All individual Paid Member Subscriptions add-on plugins <a href=\"%1$s\" target=\"_blank\">have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions. Please log into your <a href=\"%2$s\" target=\"_blank\">account page</a>, download the new premium version and install it. Your individual addons settings will be ported over."
 msgstr ""
 
 #: includes/functions-form-extra-fields.php:575
@@ -2588,16 +2604,12 @@ msgstr ""
 msgid "Applying discount code. Please wait..."
 msgstr ""
 
-#: add-ons-pro/group-memberships/index.php:40
+#: add-ons-pro/group-memberships/index.php:39
 msgid "Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version."
 msgstr ""
 
-#: add-ons-pro/group-memberships/index.php:136, add-ons-pro/group-memberships/index.php:155
+#: add-ons-pro/group-memberships/index.php:116, add-ons-pro/group-memberships/index.php:135
 msgid "Are you sure you want to remove this member ?"
-msgstr ""
-
-#: add-ons-pro/group-memberships/index.php:165
-msgid "Your version of <strong>Paid Member Subscriptions</strong> is not 100% compatible with the <strong>Group Memberships</strong> add-on. Please update to <strong>Paid Member Subscriptions</strong> version <strong>2.0.7</strong> or above."
 msgstr ""
 
 #: add-ons-pro/tax/index.php:89
@@ -2624,11 +2636,11 @@ msgstr ""
 msgid "Your VAT Number is too short."
 msgstr ""
 
-#: add-ons-pro/tax/index.php:133, add-ons-pro/tax/includes/class-tax.php:260
+#: add-ons-pro/tax/index.php:133, add-ons-pro/tax/includes/class-tax.php:261
 msgid "VAT"
 msgstr ""
 
-#: extend/bbpress/functions.php:16, extend/elementor/class-elementor.php:101, includes/admin/class-admin-settings.php:198, includes/admin/meta-boxes/class-meta-box-single-content-restriction.php:108, includes/admin/views/setup-wizard/view-tab-next.php:18, includes/admin/views/setup-wizard/view-tab-next.php:24, add-ons-basic/bbpress/includes/admin/meta-boxes/functions-meta-box-content-restriction.php:28
+#: extend/bbpress/functions.php:16, extend/elementor/class-elementor.php:102, includes/admin/class-admin-settings.php:198, includes/admin/meta-boxes/class-meta-box-single-content-restriction.php:125, includes/admin/views/setup-wizard/view-tab-next.php:18, includes/admin/views/setup-wizard/view-tab-next.php:24, add-ons-basic/bbpress/includes/admin/meta-boxes/functions-meta-box-content-restriction.php:28
 msgid "Content Restriction"
 msgstr ""
 
@@ -2660,7 +2672,7 @@ msgstr ""
 msgid "Allow only members of the selected plans to see this content."
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:62, includes/admin/views/view-page-settings-content_restriction.php:69, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:130
+#: extend/elementor/class-elementor-elements-restriction.php:62, includes/admin/views/view-page-settings-content_restriction.php:69, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:141
 msgid "Restriction Messages"
 msgstr ""
 
@@ -2672,7 +2684,7 @@ msgstr ""
 msgid "Replace hidden content with the default messages from PMS -> Settings -> Content Restriction, a custom message or an Elementor Template."
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:78, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:136
+#: extend/elementor/class-elementor-elements-restriction.php:78, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:147
 msgid "Enable Custom Messages"
 msgstr ""
 
@@ -2696,7 +2708,7 @@ msgstr ""
 msgid "Select Template"
 msgstr ""
 
-#: extend/elementor/class-elementor.php:86
+#: extend/elementor/class-elementor.php:87
 msgid "Paid Member Subscriptions Shortcodes"
 msgstr ""
 
@@ -2946,11 +2958,11 @@ msgstr ""
 msgid "View Details"
 msgstr ""
 
-#: includes/admin/class-admin-member-payments-list-table.php:188, includes/admin/class-admin-payments-list-table.php:453, includes/views/shortcodes/view-shortcode-payment-history.php:66
+#: includes/admin/class-admin-member-payments-list-table.php:188, includes/admin/class-admin-payments-list-table.php:455, includes/views/shortcodes/view-shortcode-payment-history.php:66
 msgid "No payments found"
 msgstr ""
 
-#: includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1070, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:502, includes/admin/views/view-page-members-add-new-edit-subscription.php:187, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
+#: includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1070, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:503, includes/admin/views/view-page-members-add-new-edit-subscription.php:187, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
 msgid "Subscription Plan"
 msgstr ""
 
@@ -3046,7 +3058,7 @@ msgstr ""
 msgid "Abandoned subscriptions"
 msgstr ""
 
-#: includes/admin/class-admin-members-list-table.php:457, includes/admin/views/view-page-members-edit.php:14, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:237
+#: includes/admin/class-admin-members-list-table.php:457, includes/admin/class-admin-payments-list-table.php:349, includes/admin/views/view-page-members-edit.php:14, includes/admin/views/view-page-payments-add-new-edit.php:94, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:237
 msgid "Edit Member"
 msgstr ""
 
@@ -3278,11 +3290,11 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: includes/admin/class-admin-payments-list-table.php:390
+#: includes/admin/class-admin-payments-list-table.php:392
 msgid "View Logs"
 msgstr ""
 
-#: includes/admin/class-admin-payments-list-table.php:415, add-ons-pro/tax/includes/functions-admin.php:343
+#: includes/admin/class-admin-payments-list-table.php:417, add-ons-pro/tax/includes/functions-admin.php:343
 msgid "Discount code"
 msgstr ""
 
@@ -4085,7 +4097,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:411, includes/admin/views/view-page-addons.php:95, includes/admin/views/view-page-basic-info.php:139
+#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:414, includes/admin/views/view-page-addons.php:95, includes/admin/views/view-page-basic-info.php:139
 msgid "Global Content Restriction"
 msgstr ""
 
@@ -4097,7 +4109,7 @@ msgstr ""
 msgid "Display To"
 msgstr ""
 
-#: add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:107, extend/woocommerce/views/view-content-restriction-product-purchase-options.php:20, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:54
+#: add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:107, extend/woocommerce/views/view-content-restriction-product-purchase-options.php:20, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:55
 msgid "Logged In Users"
 msgstr ""
 
@@ -4372,7 +4384,7 @@ msgstr ""
 msgid "Registration page not selected. Contact administrator."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:340, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:199, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:147, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:153, extend/profile-builder/front-end/subscription-plans-field.php:136
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:340, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:199, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:147, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:153, extend/profile-builder/front-end/subscription-plans-field.php:140
 msgid "Something went wrong. Please try again."
 msgstr ""
 
@@ -4462,7 +4474,7 @@ msgstr ""
 msgid "Company Details are required in order to create invoices."
 msgstr ""
 
-#: add-ons-pro/invoices/includes/functions-admin.php:91, add-ons-pro/invoices/includes/functions-invoices.php:198, add-ons-pro/invoices/includes/functions-invoices.php:373, add-ons-pro/invoices/includes/functions-invoices.php:456, add-ons-pro/tax/includes/class-tax.php:294, add-ons-pro/tax/includes/class-tax.php:424, add-ons-pro/invoices/includes/templates/default.php:24, add-ons-pro/invoices/includes/templates/default.php:146, add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:68
+#: add-ons-pro/invoices/includes/functions-admin.php:91, add-ons-pro/invoices/includes/functions-invoices.php:198, add-ons-pro/invoices/includes/functions-invoices.php:377, add-ons-pro/invoices/includes/functions-invoices.php:460, add-ons-pro/tax/includes/class-tax.php:295, add-ons-pro/tax/includes/class-tax.php:425, add-ons-pro/invoices/includes/templates/default.php:24, add-ons-pro/invoices/includes/templates/default.php:146, add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:68
 msgid "Invoice"
 msgstr ""
 
@@ -4478,11 +4490,11 @@ msgstr ""
 msgid "Invoice-%d"
 msgstr ""
 
-#: add-ons-pro/invoices/includes/functions-invoices.php:398, add-ons-pro/invoices/includes/functions-invoices.php:431
+#: add-ons-pro/invoices/includes/functions-invoices.php:402, add-ons-pro/invoices/includes/functions-invoices.php:435
 msgid "Download Invoice"
 msgstr ""
 
-#: add-ons-pro/invoices/includes/functions-invoices.php:468
+#: add-ons-pro/invoices/includes/functions-invoices.php:472
 msgid "Payments & Invoices"
 msgstr ""
 
@@ -4730,22 +4742,6 @@ msgstr ""
 msgid "Your Stripe API settings are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-actions.php:372
-msgid "Your <strong>Paid Member Subscriptions</strong> version is not 100% compatible with the current version of the <strong>Stripe add-on</strong>.<br>"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/functions-actions.php:373
-msgid "Please update <strong>Paid Member Subscriptions</strong> to the latest version."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/functions-actions.php:386
-msgid "Your <strong>Tax & EU VAT</strong> add-on version is not 100% compatible with the current version of the <strong>Stripe add-on</strong>.<br>"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/functions-actions.php:387
-msgid "Please update the <strong>Tax & EU VAT</strong> add-on to the latest version."
-msgstr ""
-
 #: add-ons-pro/stripe/includes/functions-filters.php:41
 msgid "Card - One Time"
 msgstr ""
@@ -4866,63 +4862,63 @@ msgstr ""
 msgid "EU VAT Number"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:293, add-ons-pro/invoices/includes/templates/default.php:23
+#: add-ons-pro/tax/includes/class-tax.php:294, add-ons-pro/invoices/includes/templates/default.php:23
 msgid "Please fill your company details in Paid Member Subscriptions -> Settings -> Invoices"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:397
+#: add-ons-pro/tax/includes/class-tax.php:398
 msgid "VAT Number: "
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:402, add-ons-pro/invoices/includes/templates/default.php:124
+#: add-ons-pro/tax/includes/class-tax.php:403, add-ons-pro/invoices/includes/templates/default.php:124
 msgid "E-mail: "
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:440, add-ons-pro/invoices/includes/templates/default.php:162
+#: add-ons-pro/tax/includes/class-tax.php:441, add-ons-pro/invoices/includes/templates/default.php:162
 msgid "Invoice number: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:443, add-ons-pro/invoices/includes/templates/default.php:165
+#: add-ons-pro/tax/includes/class-tax.php:444, add-ons-pro/invoices/includes/templates/default.php:165
 msgid "Payment ID: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:446, add-ons-pro/invoices/includes/templates/default.php:168
+#: add-ons-pro/tax/includes/class-tax.php:447, add-ons-pro/invoices/includes/templates/default.php:168
 msgid "Payment date: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:449, add-ons-pro/invoices/includes/templates/default.php:171
+#: add-ons-pro/tax/includes/class-tax.php:450, add-ons-pro/invoices/includes/templates/default.php:171
 msgid "Payment status: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:453, add-ons-pro/invoices/includes/templates/default.php:175
+#: add-ons-pro/tax/includes/class-tax.php:454, add-ons-pro/invoices/includes/templates/default.php:175
 msgid "Payment gateway: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:467, add-ons-pro/invoices/includes/templates/default.php:189
+#: add-ons-pro/tax/includes/class-tax.php:468, add-ons-pro/invoices/includes/templates/default.php:189
 msgid "Provided by:"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:471, add-ons-pro/invoices/includes/templates/default.php:193
+#: add-ons-pro/tax/includes/class-tax.php:472, add-ons-pro/invoices/includes/templates/default.php:193
 msgid "Provided to:"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:508, includes/admin/views/view-page-payments-add-new-edit.php:134, add-ons-pro/invoices/includes/templates/default.php:230
+#: add-ons-pro/tax/includes/class-tax.php:509, includes/admin/views/view-page-payments-add-new-edit.php:134, add-ons-pro/invoices/includes/templates/default.php:230
 msgid "Amount (%s)"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:549
+#: add-ons-pro/tax/includes/class-tax.php:550
 msgid "%s%% %s: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:554, add-ons-pro/invoices/includes/templates/default.php:268
+#: add-ons-pro/tax/includes/class-tax.php:555, add-ons-pro/invoices/includes/templates/default.php:268
 msgid "Total (%s): %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:564, add-ons-pro/tax/includes/class-tax.php:575
+#: add-ons-pro/tax/includes/class-tax.php:565, add-ons-pro/tax/includes/class-tax.php:576
 msgid "TAX/VAT"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:592
+#: add-ons-pro/tax/includes/class-tax.php:588
 msgid "* Taxes might be applied at the end of the checkout."
 msgstr ""
 
@@ -5163,7 +5159,7 @@ msgid "Basic Add-ons"
 msgstr ""
 
 #: includes/admin/views/view-page-addons.php:62
-msgid "These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Elite plans."
+msgid "These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Unlimited plans."
 msgstr ""
 
 #: includes/admin/views/view-page-addons.php:67, includes/admin/views/view-page-basic-info.php:183
@@ -5211,7 +5207,7 @@ msgid "Pro Add-ons"
 msgstr ""
 
 #: includes/admin/views/view-page-addons.php:118
-msgid "These addons extend Paid Member Subscriptions and are available in the Pro and Elite plans."
+msgid "These addons extend Paid Member Subscriptions and are available in the Pro and Unlimited plans."
 msgstr ""
 
 #: includes/admin/views/view-page-addons.php:123, includes/admin/views/view-page-basic-info.php:271
@@ -5838,11 +5834,11 @@ msgstr ""
 msgid "If not specified, all users accessing a restricted page will be redirected to the \"Redirect URL\" from above."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-content_restriction.php:72, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:149
+#: includes/admin/views/view-page-settings-content_restriction.php:72, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:160
 msgid "Messages for logged-out users"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-content_restriction.php:77, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:152
+#: includes/admin/views/view-page-settings-content_restriction.php:77, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:163
 msgid "Messages for logged-in non-member users"
 msgstr ""
 
@@ -6274,23 +6270,23 @@ msgstr ""
 msgid "To confirm the Uninstall process please type the word <strong>REMOVE</strong> in the field below and then click the Uninstall button."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:130
+#: includes/gateways/manual/class-payment-gateway-manual.php:139
 msgid "Thank you for upgrading. The changes will take effect after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:134
+#: includes/gateways/manual/class-payment-gateway-manual.php:143
 msgid "Thank you for renewing. The changes will take effect after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:138
+#: includes/gateways/manual/class-payment-gateway-manual.php:147
 msgid "Thank you for subscribing. The subscription will be activated after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:142
+#: includes/gateways/manual/class-payment-gateway-manual.php:151
 msgid "The subscription will be activated after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:292
+#: includes/gateways/manual/class-payment-gateway-manual.php:301
 msgid "Complete Payment"
 msgstr ""
 
@@ -7267,47 +7263,55 @@ msgstr ""
 msgid "Display For"
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:66
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:62
+msgid "All Subscription Plans"
+msgstr ""
+
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:74
 msgid "Checking only \"Logged In Users\" will show this %s to all logged in users, regardless of subscription plan."
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:69
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:77
+msgid "Checking \"All Subscription Plans\" will show this %s to users that are subscribed any of the plans."
+msgstr ""
+
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:80
 msgid "Checking any subscription plan will show this %s only to users that are subscribed to those particular plans."
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:83
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:94
 msgid "Restriction Redirect URL"
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:91
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:102
 msgid "Enable Custom Redirect URL"
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:95
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:106
 msgid "Check if you wish to add a custom redirect URL for this %s."
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:104
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:115
 msgid "Custom Redirect URL"
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:108
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:119
 msgid "Add a URL where you wish to redirect users that do not have access to this %s and try to access it directly."
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:117
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:128
 msgid "Custom Non-Member Redirect URL"
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:121
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:132
 msgid "Add a URL where you wish to redirect logged-in non-members that do not have access to this %s and try to access it directly."
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:122
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:133
 msgid "Leave this field empty if you want all users to be redirected to the same URL."
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:140
+#: includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:151
 msgid "Check if you wish to add custom messages for this %s."
 msgstr ""
 

@@ -55,7 +55,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     else
         $pms_addons_listing->current_version = 'Paid Member Subscriptions';//in free version we do not define the constant as free version needs to be active always
     $pms_addons_listing->tooltip_header = __( 'Paid Member Subscriptions Add-ons', 'paid-member-subscriptions' );
-    $pms_addons_listing->tooltip_content = sprintf( __( 'You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ), '<a target="_blank" href="'. 'https://https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS'.'">', '</a>' );
+    $pms_addons_listing->tooltip_content = sprintf( __( 'You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ), '<a target="_blank" href="'. 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS'.'">', '</a>' );
 
 
     //Add Basic section

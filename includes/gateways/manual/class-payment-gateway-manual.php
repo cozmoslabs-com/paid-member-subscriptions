@@ -8,11 +8,11 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
     /*
      * The payment gateway slug
      *
-     * @access private
+     * @access public
      * @var string
      *
      */
-    private $payment_gateway = 'manual';
+    public $payment_gateway = 'manual';
 
 
     /**
@@ -29,7 +29,8 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
         $this->supports = array(
             'subscription_sign_up_fee',
-            'subscription_free_trial'
+            'subscription_free_trial',
+            'recurring_payments'
         );
 
         // Add custom user messages for this gateway
@@ -51,7 +52,6 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
     }
 
-
     /*
      * Process payment
      *
@@ -68,6 +68,15 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
             pms_add_member_subscription_log( $subscription->id, 'subscription_trial_started', array( 'until' => $this->subscription_data['trial_end'] ) );
 
             pms_add_member_subscription_log( $subscription->id, 'subscription_activated' );
+
+        }
+        if( $this->recurring ){
+
+            $billing_next_payment = !empty( $this->subscription_data['trial_end'] )?  $this->subscription_data['trial_end'] : $this->subscription_data['expiration_date'];
+
+            $subscription = pms_get_current_subscription_from_tier( $this->user_id, $this->subscription_data['subscription_plan_id'] );
+
+            $subscription->update( array( 'billing_next_payment' => $billing_next_payment, 'billing_duration' => $this->subscription_plan->duration, 'billing_duration_unit' => $this->subscription_plan->duration_unit, 'billing_amount' => $this->amount ) );
 
         }
 

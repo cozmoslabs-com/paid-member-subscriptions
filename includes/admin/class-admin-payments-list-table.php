@@ -344,7 +344,9 @@ Class PMS_Payments_List_Table extends WP_List_Table {
          */
         $actions = apply_filters( 'pms_payments_list_table_entry_actions', $actions, $item );
 
-        $output  = $item['username'];
+        $payment = pms_get_payment( $item['id'] );
+
+        $output  = '<a href="' . add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'member_id' => $payment->user_id, 'subpage' => 'edit_member' ), admin_url( 'admin.php' ) ) . '" title="' . __( 'Edit Member', 'paid-member-subscriptions' ) . '">' . $item['username'];
         $output .= $this->row_actions( $actions );
 
         return $output;

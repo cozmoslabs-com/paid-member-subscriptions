@@ -479,6 +479,7 @@ function pms_cron_process_member_subscriptions_payments() {
             continue;
 
         $payment_gateway = pms_get_payment_gateway( $subscription->payment_gateway );
+        $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
 
         if( ! method_exists( $payment_gateway, 'process_payment' ) )
             continue;
@@ -489,7 +490,7 @@ function pms_cron_process_member_subscriptions_payments() {
                 'user_id'              => $subscription->user_id,
                 'subscription_plan_id' => $subscription->subscription_plan_id,
                 'date'                 => date( 'Y-m-d H:i:s' ),
-                'amount'               => $subscription->billing_amount,
+                'amount'               => ( isset( $payment_gateway->payment_gateway ) && $payment_gateway->payment_gateway == 'manual' && ( $subscription->billing_amount == 0 || $subscription_plan->has_sign_up_fee() ) ) ? $subscription_plan->price : $subscription->billing_amount,
                 'payment_gateway'      => $subscription->payment_gateway,
                 'currency'             => pms_get_active_currency(),
                 'status'               => 'pending',
@@ -584,6 +585,24 @@ function pms_cron_process_member_subscriptions_payments() {
                 }
 
             }
+            // If there is an automatically recurring manual payment
+            else if( isset( $payment_gateway->payment_gateway ) && $payment_gateway->payment_gateway == 'manual' ){
+
+                $subscription_data = array(
+                    'status'               => 'pending',
+                    'expiration_date'      => date( 'Y-m-d H:i:s', strtotime( "+" . $subscription->billing_duration . " " . $subscription->billing_duration_unit, strtotime( $subscription->billing_next_payment ) ) ),
+                    'billing_last_payment' => date( 'Y-m-d H:i:s' )
+                );
+
+                // Set the next billing date
+                if( ! empty( $subscription->billing_duration ) ) {
+
+                    $next_payment = date( 'Y-m-d H:i:s', strtotime( "+" . $subscription->billing_duration . " " . $subscription->billing_duration_unit, strtotime( $subscription->billing_next_payment ) ) );
+
+                    $subscription_data['billing_next_payment'] = $next_payment;
+
+                }
+            }
 
         }
 
@@ -673,7 +692,7 @@ function pms_add_retry_subscriptions_to_cron_query( $subscriptions, $args ){
 
         $subscription = pms_get_member_subscription( $result->member_subscription_id );
 
-        if( !empty( $subscription->id ) && strtotime( $subscription->billing_next_payment ) < strtotime( $args['billing_next_payment_before'] ) )
+        if( !empty( $subscription->id ) && in_array( $subscription->status, array( 'active', 'expired' ) ) && strtotime( $subscription->billing_next_payment ) < strtotime( $args['billing_next_payment_before'] ) )
             $retry_subscriptions[] = $subscription;
 
     }

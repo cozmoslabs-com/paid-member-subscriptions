@@ -45,9 +45,26 @@ Class PMS_Meta_Box_Content_Restriction extends PMS_Meta_Box {
             update_post_meta( $post_id, 'pms-content-restrict-type', sanitize_text_field( $_POST['pms-content-restrict-type'] ) );
 
         delete_post_meta( $post_id, 'pms-content-restrict-subscription-plan' );
-        if( isset( $_POST['pms-content-restrict-subscription-plan'] ) ) {
+        delete_post_meta( $post_id, 'pms-content-restrict-all-subscription-plans' );
+        if( isset( $_POST['pms-content-restrict-subscription-plan'] ) || isset( $_POST['pms-content-restrict-all-subscription-plans'] ) ) {
 
-            $plans = array_map( 'sanitize_text_field', $_POST['pms-content-restrict-subscription-plan'] );
+            if( isset( $_POST['pms-content-restrict-all-subscription-plans'] ) )
+                update_post_meta( $post_id, 'pms-content-restrict-all-subscription-plans', 'all' );
+
+            if( isset( $_POST['pms-content-restrict-all-subscription-plans'] ) ){
+
+                $active_plans = pms_get_subscription_plans();
+                $active_plan_ids = array();
+
+                foreach( $active_plans as $active_plan ){
+                    $active_plan_ids[] = (int)$active_plan->id;
+                }
+
+                $plans = $active_plan_ids;
+
+            }
+            else
+                $plans = array_map( 'sanitize_text_field', $_POST['pms-content-restrict-subscription-plan'] );
 
             foreach( $plans as $subscription_plan_id ) {
 

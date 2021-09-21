@@ -65,7 +65,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                          $redirect_url = site_url() . '/';
                          if( isset( $_SERVER["HTTP_HOST"] ) && isset( $_SERVER['REQUEST_URI'] ) ) {
-                             $redirect_url = urldecode( html_entity_decode( esc_url( $http . sanitize_text_field( $_SERVER["HTTP_HOST"] ) . str_replace('?option=moopenid', '', sanitize_text_field( $_SERVER['REQUEST_URI'] ) ) ) ) );
+                             $redirect_url = urldecode( html_entity_decode( esc_url( $http . sanitize_text_field( $_SERVER["HTTP_HOST"] ) . str_replace('?option=moopenid', '', esc_url_raw( $_SERVER['REQUEST_URI'] ) ) ) ) );
 
                              if ( html_entity_decode( esc_url( remove_query_arg('message', $redirect_url) ) ) == wp_login_url() || strpos( sanitize_text_field( $_SERVER['REQUEST_URI'] ), 'wp-login.php') !== false || strpos( sanitize_text_field( $_SERVER['REQUEST_URI'] ), 'wp-admin') !== false) {
                                  $redirect_url = site_url() . '/';

@@ -217,7 +217,7 @@ function pms_restricted_post_redirect() {
     if( $post_restriction_type !== 'redirect' && $general_restriction_type !== 'redirect' )
         return;
 
-    if( ! in_array( $post_restriction_type, array( 'default', 'redirect' ) ) )
+    if( ! in_array( $post_restriction_type, array( '', 'default', 'redirect' ) ) )
         return;
 
     if( ! pms_is_post_restricted( $post_id ) )

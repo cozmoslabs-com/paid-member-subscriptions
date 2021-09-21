@@ -1,6 +1,9 @@
 <?php __("", "paid-member-subscriptions"); ?>
+<?php __("Plugin activated.", "paid-member-subscriptions"); ?>
+<?php __("Could not install. Try again from <a href=\"%s\" >Plugins Dashboard.</a>", "paid-member-subscriptions"); ?>
 <?php __("Please update the Paid Member Subscriptions plugin to version 2.5.0 at least for %s to work properly", "paid-member-subscriptions"); ?>
 <?php __("Please install and activate the Paid Member Subscriptions plugin", "paid-member-subscriptions"); ?>
+<?php __("Install & Activate", "paid-member-subscriptions"); ?>
 <?php __("This Paid Member Subscriptions add-on has been migrated to the main plugin and is no longer used. You can delete it.", "paid-member-subscriptions"); ?>
 <?php __("You must be logged in to view this content.", "paid-member-subscriptions"); ?>
 <?php __("This content is restricted for your membership level.", "paid-member-subscriptions"); ?>
@@ -598,6 +601,7 @@
 <?php __("Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate.", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support.  <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
+<?php __('All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions. Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version and install it. Your individual addons settings will be ported over.', 'paid-member-subscriptions' ); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
 <?php __("Abandoned", "paid-member-subscriptions"); ?>
 <?php __("Completed", "paid-member-subscriptions"); ?>
@@ -645,7 +649,6 @@
 <?php __("Applying discount code. Please wait...", "paid-member-subscriptions"); ?>
 <?php __("Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this member ?", "paid-member-subscriptions"); ?>
-<?php __("Your version of <strong>Paid Member Subscriptions</strong> is not 100% compatible with the <strong>Group Memberships</strong> add-on. Please update to <strong>Paid Member Subscriptions</strong> version <strong>2.0.7</strong> or above.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Tax Rate?", "paid-member-subscriptions"); ?>
 <?php __("TAX", "paid-member-subscriptions"); ?>
 <?php __("Validated successfully.", "paid-member-subscriptions"); ?>
@@ -1188,10 +1191,6 @@
 <?php __("User returned to the website for authentication.", "paid-member-subscriptions"); ?>
 <?php __("The selected gateway is not configured correctly: <strong>API credentials are missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
 <?php __('Your Stripe API settings are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
-<?php __("Your <strong>Paid Member Subscriptions</strong> version is not 100% compatible with the current version of the <strong>Stripe add-on</strong>.<br>", "paid-member-subscriptions"); ?>
-<?php __("Please update <strong>Paid Member Subscriptions</strong> to the latest version.", "paid-member-subscriptions"); ?>
-<?php __("Your <strong>Tax & EU VAT</strong> add-on version is not 100% compatible with the current version of the <strong>Stripe add-on</strong>.<br>", "paid-member-subscriptions"); ?>
-<?php __("Please update the <strong>Tax & EU VAT</strong> add-on to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Card - One Time", "paid-member-subscriptions"); ?>
 <?php __("Payment could not be processed.", "paid-member-subscriptions"); ?>
 <?php __("Please %slog in%s and try again.", "paid-member-subscriptions"); ?>
@@ -1296,7 +1295,7 @@
 <?php __("Paid Member Subscriptions Add-ons", "paid-member-subscriptions"); ?>
 <?php __('You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Basic Add-ons", "paid-member-subscriptions"); ?>
-<?php __("These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Elite plans.", "paid-member-subscriptions"); ?>
+<?php __("These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Unlimited plans.", "paid-member-subscriptions"); ?>
 <?php __("bbPress", "paid-member-subscriptions"); ?>
 <?php __("Integrate Paid Member Subscriptions with the popular forums plugin, bbPress. Restrict your forums and topics and allow only premium members to have access to them.", "paid-member-subscriptions"); ?>
 <?php __("Friction-less discount code creation for running promotions, making price reductions or simply rewarding your users.", "paid-member-subscriptions"); ?>
@@ -1308,7 +1307,7 @@
 <?php __("Dynamically display menu items based on logged-in status as well as selected subscription plans.", "paid-member-subscriptions"); ?>
 <?php __("Let subscribers pay what they want by offering a variable pricing option when they purchase a membership plan.", "paid-member-subscriptions"); ?>
 <?php __("Pro Add-ons", "paid-member-subscriptions"); ?>
-<?php __("These addons extend Paid Member Subscriptions and are available in the Pro and Elite plans.", "paid-member-subscriptions"); ?>
+<?php __("These addons extend Paid Member Subscriptions and are available in the Pro and Unlimited plans.", "paid-member-subscriptions"); ?>
 <?php __("Content Dripping", "paid-member-subscriptions"); ?>
 <?php __("Create schedules for your content, making posts or categories available for your members only after a certain time has passed since they signed up for a subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Group Memberships", "paid-member-subscriptions"); ?>
@@ -1823,7 +1822,9 @@
 <?php __("Display Options", "paid-member-subscriptions"); ?>
 <?php __("Settings Default", "paid-member-subscriptions"); ?>
 <?php __("Display For", "paid-member-subscriptions"); ?>
+<?php __("All Subscription Plans", "paid-member-subscriptions"); ?>
 <?php __("Checking only \"Logged In Users\" will show this %s to all logged in users, regardless of subscription plan.", "paid-member-subscriptions"); ?>
+<?php __("Checking \"All Subscription Plans\" will show this %s to users that are subscribed any of the plans.", "paid-member-subscriptions"); ?>
 <?php __("Checking any subscription plan will show this %s only to users that are subscribed to those particular plans.", "paid-member-subscriptions"); ?>
 <?php __("Restriction Redirect URL", "paid-member-subscriptions"); ?>
 <?php __("Enable Custom Redirect URL", "paid-member-subscriptions"); ?>

@@ -64,7 +64,7 @@ function pms_get_current_page_url( $strip_query_args = false ) {
     $home_path_regex = sprintf( '|^%s|i', preg_quote( $home_path, '|' ) );
 
     if( isset( $_SERVER['REQUEST_URI'] ) )
-        $request_uri = preg_replace( $home_path_regex, '', ltrim( sanitize_text_field( $_SERVER['REQUEST_URI'] ), '/' ) );
+        $request_uri = preg_replace( $home_path_regex, '', ltrim( esc_url_raw( $_SERVER['REQUEST_URI'] ), '/' ) );
     else
         $request_uri = '';
 
