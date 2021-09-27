@@ -350,6 +350,21 @@ jQuery( function($) {
          */
         $( '#pms-paygates-inner' ).css( 'visibility', 'visible' );
 
+        /**
+         * Compatibility when the form is placed inside an Elementor Popup
+         */
+        jQuery(document).on('elementor/popup/show', function () {
+
+            handle_auto_renew_field_display();
+            handle_payment_gateways_display();
+
+            $('#pms-paygates-inner').css('visibility', 'visible');
+
+        })
+
+        /**
+         * WPPB Conditional Logic compatibility
+         */
         if( $( '.wppb-subscription-plans').length != 0 ){
 
             $(document).on( "wppbRemoveRequiredAttributeEvent", pmsHandleGatewaysDisplayRemove )

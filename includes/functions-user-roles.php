@@ -174,7 +174,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         pms_add_user_role( $member_subscription->user_id, pms_get_subscription_plan_user_role( (int)$new_data['subscription_plan_id'] ) );
 
     }
-    add_action( 'pms_member_subscription_inserted', 'pms_member_add_user_role_subscription_inserted', 10, 2 );
+    add_action( 'pms_member_subscription_insert', 'pms_member_add_user_role_subscription_inserted', 10, 2 );
 
     /**
      * When a member subscription is being updated and the subscription plan id is changed we also want
@@ -229,7 +229,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         }
 
     }
-    add_action( 'pms_member_subscription_updated', 'pms_member_add_user_role_subscription_updated', 10, 3 );
+    add_action( 'pms_member_subscription_update', 'pms_member_add_user_role_subscription_updated', 10, 3 );
 
 
     /**
@@ -257,7 +257,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         pms_remove_user_role( $member_subscription->user_id, $subscription_plan_user_role );
 
     }
-    add_action( 'pms_member_subscription_updated', 'pms_member_remove_user_role_subscription_expire', 10, 3 );
+    add_action( 'pms_member_subscription_update', 'pms_member_remove_user_role_subscription_expire', 10, 3 );
 
 
     /**
@@ -284,7 +284,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         pms_remove_user_role( $old_data['user_id'], $subscription_plan_user_role );
 
     }
-    add_action( 'pms_member_subscription_deleted', 'pms_member_remove_user_role_subscription_deleted', 10, 2 );
+    add_action( 'pms_member_subscription_delete', 'pms_member_remove_user_role_subscription_deleted', 10, 2 );
 
     /**
      * Removes the user role, attached to the subscription plan, from the member when the user is abandoning
