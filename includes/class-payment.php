@@ -26,12 +26,20 @@ Class PMS_Payment {
     public $user_id;
 
     /**
-     * Subscription id
+     * Subscription plan id
      *
      * @access public
      * @var int
      */
     public $subscription_id;
+
+    /**
+     * Member Subscription ID
+     *
+     * @access public
+     * @var int
+     */
+    public $member_subscription_id;
 
     /**
      * Payment status
@@ -179,6 +187,8 @@ Class PMS_Payment {
             }
 
         }
+
+        $this->member_subscription_id = pms_get_payment_meta( $this->id, 'subscription_id', true );
 
     }
 

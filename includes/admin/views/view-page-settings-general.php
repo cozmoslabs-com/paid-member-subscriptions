@@ -184,7 +184,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         </select>
 
-        <p class="description"><?php esc_html_e( '<b>Profile Builder</b> is enabled. <b>You can replace the edit profile in the [pms-account] page</b> with the Profile Builder alternative.', 'paid-member-subscriptions' ); ?></p>
+        <p class="description"><?php echo wp_kses_post( __( '<b>Profile Builder</b> is enabled. <b>You can replace the edit profile in the [pms-account] page</b> with the Profile Builder alternative.', 'paid-member-subscriptions' ) ); ?></p>
     </div>
 
         <?php endif;?>

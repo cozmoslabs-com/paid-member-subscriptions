@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 5.8.1
-Stable tag: 2.5.1
+Stable tag: 2.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,10 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.5.2 =
+* Feature: added possibility for users to Downgrade or Change their subscriptions. Disabled by default, admin can activate these options from the PMS -> Settings -> Payments page
+* Fix: some issues with HTML characters showing in some back-end strings
+
 = 2.5.1 =
 * Fix: issue with user roles not getting assigned correctly after a subscription was purchased
 * Fix: issue with the payment gateway selector not showing when the form was placed in an Elementor Popup

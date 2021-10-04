@@ -18,6 +18,7 @@ Class PMS_Form_Handler {
         add_action( 'init', array( __CLASS__, 'register_form' ) );
         add_action( 'init', array( __CLASS__, 'new_subscription_form') );
         add_action( 'init', array( __CLASS__, 'upgrade_subscription' ) );
+        add_action( 'init', array( __CLASS__, 'change_subscription' ) );
         add_action( 'init', array( __CLASS__, 'renew_subscription' ) );
         add_action( 'init', array( __CLASS__, 'cancel_subscription') );
         add_action( 'init', array( __CLASS__, 'abandon_subscription') );
@@ -560,6 +561,62 @@ Class PMS_Form_Handler {
 
     }
 
+    public static function change_subscription() {
+
+        // Verify nonce
+        if( !isset( $_REQUEST['pmstkn'] ) || !wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_change_subscription' ) )
+            return;
+
+        // Upgrade subscription
+        if( isset( $_POST['pms_change_subscription'] ) ) {
+
+            // Validate data sent from the upgrade subscription form
+            if( !self::validate_change_subscription_form() )
+                return;
+
+                // Log Attempt?
+                if ( isset( $_GET['subscription_id'] ) && isset( $_POST['subscription_plans'] ) ){
+
+                    $subscription = pms_get_member_subscription( absint( $_GET['subscription_id'] ) );
+                    $context      = pms_get_change_subscription_plan_context( $subscription->subscription_plan_id, absint( $_POST['subscription_plans'] ) );
+
+                    pms_add_member_subscription_log( absint( $_GET['subscription_id'] ), 'subscription_'. $context .'_attempt', array( 'new_plan' => isset( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : '' ) );
+
+                }
+
+            // Proceed to checkout
+            self::process_checkout();
+
+        }
+
+        // Redirect to current page and remove all query arguments
+        if( isset( $_POST['pms_redirect_back'] ) ) {
+            wp_redirect( esc_url( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
+            exit;
+        }
+
+    }
+
+    public static function validate_change_subscription_form() {
+
+        // Just in case, do not let logged out users get here
+        if( !is_user_logged_in() )
+            return;
+
+        if( !self::validate_subscription_plans( $_POST ) )
+            return;
+
+        // Extra validations
+        do_action( 'pms_change_subscription_form_validation' );
+
+        // Stop if there are errors
+        if ( count( pms_errors()->get_error_codes() ) > 0 )
+            return false;
+        else
+            return true;
+
+    }
+
     /*
      * Renew Form logic
      */
@@ -991,6 +1048,21 @@ Class PMS_Form_Handler {
             if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_new_subscription_form_nonce' ) )
                 $location = 'new_subscription';
 
+            // Change subscription
+            if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_change_subscription' ) ){
+                $location = 'change_subscription';
+
+                if( isset( $_REQUEST['form_action'] ) ){
+
+                    if( wp_verify_nonce( sanitize_text_field( $_REQUEST['form_action'] ), 'pms_upgrade_subscription' ) )
+                        $location = 'upgrade_subscription';
+
+                    if( wp_verify_nonce( sanitize_text_field( $_REQUEST['form_action'] ), 'pms_downgrade_subscription' ) )
+                        $location = 'downgrade_subscription';
+
+                }
+            }
+
             // Upgrade subscription
             if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_upgrade_subscription' ) )
                 $location = 'upgrade_subscription';
@@ -1006,6 +1078,8 @@ Class PMS_Form_Handler {
             // Retry subscription payment
             if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_retry_payment_subscription' ) )
                 $location = 'retry_payment';
+
+
 
             /**
              * For the Discount Codes request made from the PB form where there is no PMS nonce
@@ -1733,18 +1807,27 @@ Class PMS_Form_Handler {
          */
         } else {
 
-            $current_subscriptions    = pms_get_member_subscriptions( array( 'user_id' => $user_data['user_id'] ) );
-            $subscription_plans_group = pms_get_subscription_plans_group( $subscription_plan->id );
+            if( isset( $_POST['current_subscription'] ) ){
 
-            foreach( $subscription_plans_group as $subscription_plan_sibling ) {
-                foreach( $current_subscriptions as $current_subscription ) {
-                    if( $subscription_plan_sibling->id == $current_subscription->subscription_plan_id ) {
-                        break 2;
+                $subscription = pms_get_member_subscription( absint( $_POST['pms_current_subscription'] ) );
+
+            } else {
+
+                $current_subscriptions    = pms_get_member_subscriptions( array( 'user_id' => $user_data['user_id'] ) );
+                $subscription_plans_group = pms_get_subscription_plans_group( $subscription_plan->id );
+
+                foreach( $subscription_plans_group as $subscription_plan_sibling ) {
+                    foreach( $current_subscriptions as $current_subscription ) {
+                        if( $subscription_plan_sibling->id == $current_subscription->subscription_plan_id ) {
+                            break 2;
+                        }
                     }
                 }
-            }
 
-            $subscription = $current_subscription;
+                $subscription = $current_subscription;
+
+            }
+ 
 
         }
 
@@ -1755,14 +1838,14 @@ Class PMS_Form_Handler {
          */
         if( $has_trial ) {
 
-            if( ! is_null( $payment_gateway ) && $payment_gateway->supports( 'subscription_sign_up_fee' ) && in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ), $form_location, $subscription ) ) )
+            if( ! is_null( $payment_gateway ) && $payment_gateway->supports( 'subscription_sign_up_fee' ) && in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription' ), $form_location, $subscription ) ) )
                 $amount = $subscription_plan->sign_up_fee;
             else
                 $amount = 0;
 
         } else {
 
-            if( ! is_null( $payment_gateway ) && $payment_gateway->supports( 'subscription_sign_up_fee' ) && in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ), $form_location, $subscription ) ) )
+            if( ! is_null( $payment_gateway ) && $payment_gateway->supports( 'subscription_sign_up_fee' ) && in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription' ), $form_location, $subscription ) ) )
                 $amount =  $subscription_plan->price + $subscription_plan->sign_up_fee;
             else
                 $amount =  $subscription_plan->price;
@@ -1830,9 +1913,18 @@ Class PMS_Form_Handler {
             elseif( $form_location == 'upgrade_subscription' )
                 $payment_data['type'] = 'subscription_upgrade_payment';
 
+            elseif( $form_location == 'downgrade_subscription' )
+                $payment_data['type'] = 'subscription_downgrade_payment';
+
+            elseif( $form_location == 'change_subscription' )
+                $payment_data['type'] = 'subscription_initial_payment';
+
 
             /**
              * Filter the subscription data after its been set
+             *
+             * @NOTE: This is not used when the payment happens through the Stripe (Payment Intents) gateway
+             * since the gateway is called directly through AJAX to build the data
              *
              * @param array $payment_data
              *
@@ -1986,14 +2078,29 @@ Class PMS_Form_Handler {
 
                 // upgrading the subscription
                 case 'upgrade_subscription':
+                // downgrade the subscription
+                case 'downgrade_subscription':
+                // changing the subscription
+                case 'change_subscription':
 
-                    do_action( 'pms_psp_before_upgrade_subscription', $subscription, $payment, $subscription_data );
+                    // Payment can be not set when the new subscription plan is free
+                    if( !isset( $payment ) )
+                        $payment = '';
 
-                    pms_add_member_subscription_log( $subscription->id, 'subscription_upgrade_success', array( 'old_plan' => $subscription->subscription_plan_id, 'new_plan' => $subscription_data['subscription_plan_id'] ) );
+                    do_action( 'pms_psp_before_'. $form_location, $subscription, $payment, $subscription_data );
+
+                    $context = 'change';
+
+                    if( $form_location == 'upgrade_subscription' )
+                        $context = 'upgrade';
+                    elseif( $form_location == 'downgrade_subscription' )
+                        $context = 'downgrade';
+
+                    pms_add_member_subscription_log( $subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $subscription->subscription_plan_id, 'new_plan' => $subscription_data['subscription_plan_id'] ) );
 
                     $subscription->update( $subscription_data );
 
-                    do_action( 'pms_psp_after_upgrade_subscription', $subscription, $payment );
+                    do_action( 'pms_psp_after_'. $form_location, $subscription, $payment );
 
                     break;
 
@@ -2018,7 +2125,6 @@ Class PMS_Form_Handler {
 
                     pms_delete_member_subscription_meta( $subscription->id, 'pms_retry_payment' );
 
-
                     break;
 
                 default:
@@ -2040,7 +2146,7 @@ Class PMS_Form_Handler {
 
                 if( isset( $_POST['pmstkn'] ) ) {
 
-                    if( isset( $payment ) )
+                    if( isset( $payment ) && isset( $payment->id ) )
                         $redirect_url = add_query_arg( array( 'pms_payment_error' => '1', 'pms_is_register' => ( in_array( $form_location, array( 'register', 'register_email_confirmation' ) ) ) ? '1' : '0', 'pms_payment_id' => $payment->id ), pms_get_current_page_url( true ) );
                     else
                         $redirect_url = add_query_arg( array( 'pms_payment_error' => '1', 'pms_is_register' => ( in_array( $form_location, array( 'register', 'register_email_confirmation' ) ) ) ? '1' : '0' ), pms_get_current_page_url( true ) );
@@ -2068,7 +2174,7 @@ Class PMS_Form_Handler {
          */
         if( isset( $_POST['pmstkn'] ) ) {
 
-            if( isset( $payment ) )
+            if( isset( $payment ) && isset( $payment->id ) )
                 $success_redirect_link = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pms_gateway_payment_action' => base64_encode( $form_location ), 'pms_gateway_payment_id' => base64_encode( $payment->id ) ), self::get_redirect_url() );
 
             else

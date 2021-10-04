@@ -73,6 +73,7 @@ jQuery( function($) {
     // Paid Member Subscriptions submit buttons
     pms_payment_buttons  = 'input[name=pms_register], ';
     pms_payment_buttons += 'input[name=pms_new_subscription], ';
+    pms_payment_buttons += 'input[name=pms_change_subscription], ';
     pms_payment_buttons += 'input[name=pms_upgrade_subscription], ';
     pms_payment_buttons += 'input[name=pms_renew_subscription], ';
     pms_payment_buttons += 'input[name=pms_confirm_retry_payment_subscription], ';
@@ -417,6 +418,32 @@ jQuery( function($) {
             }
 
         }
+
+        /**
+         * On the Change Subscription form change the button name based on which plans group the user clicks
+         */
+        $( '#pms-change-subscription-form .pms-upgrade__group--upgrade .pms-subscription-plan input' ).on( 'click', function(){
+
+            $( '#pms-change-subscription-form input[name="pms_change_subscription"]' ).val( $( '#pms-change-subscription-form input[name="pms_button_name_upgrade"]' ).val() )
+            $( '#pms-change-subscription-form input[name="form_action"]' ).val( $( '#pms-change-subscription-form input[data-name="upgrade_subscription"]' ).val() )
+
+        })
+
+        $( '#pms-change-subscription-form .pms-upgrade__group--downgrade .pms-subscription-plan input' ).on( 'click', function(){
+
+            $( '#pms-change-subscription-form input[name="pms_change_subscription"]' ).val( $( '#pms-change-subscription-form input[name="pms_button_name_downgrade"]' ).val() )
+            $( '#pms-change-subscription-form input[name="form_action"]' ).val( $( '#pms-change-subscription-form input[data-name="downgrade_subscription"]' ).val() )
+
+
+        })
+
+        $( '#pms-change-subscription-form .pms-upgrade__group--change .pms-subscription-plan input' ).on( 'click', function(){
+
+            $( '#pms-change-subscription-form input[name="pms_change_subscription"]' ).val( $( '#pms-change-subscription-form input[name="pms_button_name_change"]' ).val() )
+            $( '#pms-change-subscription-form input[name="form_action"]' ).val( '' )
+
+
+        })
 
     });
 

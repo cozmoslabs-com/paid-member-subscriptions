@@ -39,6 +39,9 @@ function pms_add_form_extra_fields() {
         case 'pms_edit_profile_form_after_fields' :
             $form_name = 'edit_profile';
             break;
+        case 'pms_change_subscription_form_bottom' :
+            $form_name = 'change_subscription';
+            break;
     }
 
     /**
@@ -107,6 +110,7 @@ add_action( 'pms_upgrade_subscription_form_bottom', 'pms_add_form_extra_fields',
 add_action( 'pms_renew_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_retry_payment_form_bottom', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_edit_profile_form_after_fields', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_change_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );
 
 
 /**

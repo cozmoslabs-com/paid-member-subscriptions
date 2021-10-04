@@ -150,6 +150,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     if( $payment_action == 'upgrade_subscription' )
                         pms_success()->add( $message_code, apply_filters( 'pms_message_gateway_payment_action', __( 'Congratulations, you have successfully upgraded your subscription.', 'paid-member-subscriptions' ), $payment->status, $payment_action, $payment ) );
 
+                    elseif( $payment_action == 'downgrade_subscription' )
+                        pms_success()->add( $message_code, apply_filters( 'pms_message_gateway_payment_action', __( 'Congratulations, you have successfully downgraded your subscription.', 'paid-member-subscriptions' ), $payment->status, $payment_action, $payment ) );
+
+                    elseif( $payment_action == 'change_subscription' )
+                        pms_success()->add( $message_code, apply_filters( 'pms_message_gateway_payment_action', __( 'Congratulations, you have successfully changed your subscription.', 'paid-member-subscriptions' ), $payment->status, $payment_action, $payment ) );
+
                     elseif( $payment_action == 'renew_subscription' )
                         pms_success()->add( $message_code, apply_filters( 'pms_message_gateway_payment_action', __( 'Congratulations, you have successfully renewed your subscription.', 'paid-member-subscriptions' ), $payment->status, $payment_action, $payment ) );
 
@@ -163,6 +169,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                     if( $payment_action == 'upgrade_subscription' )
                         pms_success()->add( $message_code, apply_filters( 'pms_message_gateway_payment_action', __( 'Thank you for your payment. The upgrade may take a while to be processed.', 'paid-member-subscriptions' ), $payment->status, $payment_action, $payment ) );
+
+                    elseif( $payment_action == 'downgrade_subscription' )
+                        pms_success()->add( $message_code, apply_filters( 'pms_message_gateway_payment_action', __( 'Thank you for your payment. The downgrade may take a while to be processed.', 'paid-member-subscriptions' ), $payment->status, $payment_action, $payment ) );
+
+                    elseif( $payment_action == 'change_subscription' )
+                        pms_success()->add( $message_code, apply_filters( 'pms_message_gateway_payment_action', __( 'Thank you for your payment. The plan change may take a while to be processed.', 'paid-member-subscriptions' ), $payment->status, $payment_action, $payment ) );
 
                     elseif( $payment_action == 'renew_subscription' )
                         pms_success()->add( $message_code, apply_filters( 'pms_message_gateway_payment_action', __( 'Thank you for your payment. The renew may take a while to be processed.', 'paid-member-subscriptions' ), $payment->status, $payment_action, $payment ) );
@@ -202,6 +214,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     add_action( 'pms_register_form_top', 'pms_display_errors_form_general' );
     add_action( 'pms_new_subscription_form_top', 'pms_display_errors_form_general' );
     add_action( 'pms_upgrade_subscription_form_top', 'pms_display_errors_form_general' );
+    add_action( 'pms_change_subscription_form_top', 'pms_display_errors_form_general' );
     add_action( 'pms_renew_subscription_form_bottom', 'pms_display_errors_form_general' );
     add_action( 'pms_retry_payment_form_top', 'pms_display_errors_form_general' );
 
@@ -219,6 +232,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     add_action( 'pms_register_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
     add_action( 'pms_new_subscription_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
     add_action( 'pms_upgrade_subscription_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
+    add_action( 'pms_change_subscription_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
     add_action( 'pms_renew_subscription_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
     add_action( 'pms_retry_payment_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
 

@@ -721,13 +721,25 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                 $message = __( 'Subscription could not be renewed. Payment retry was disabled.', 'paid-member-subscriptions' );
                 break;
             case 'subscription_upgrade_attempt':
-                $message = sprintf( __( 'User attempted to upgrade his subscription to <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->parse_admin_changed_value( $log['data']['new_plan'], 'Subscription Plan' ) );
+                $message = sprintf( __( 'User attempted to upgrade his subscription plan to <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->parse_admin_changed_value( $log['data']['new_plan'], 'Subscription Plan' ) );
+                break;
+            case 'subscription_downgrade_attempt':
+                $message = sprintf( __( 'User attempted to downgrade his subscription plan to <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->parse_admin_changed_value( $log['data']['new_plan'], 'Subscription Plan' ) );
+                break;
+            case 'subscription_change_attempt':
+                $message = sprintf( __( 'User attempted to change his subscription plan to <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->parse_admin_changed_value( $log['data']['new_plan'], 'Subscription Plan' ) );
                 break;
             case 'subscription_retry_attempt':
                 $message = __( 'User attempted to retry the payment for his subscription.', 'paid-member-subscriptions' );
                 break;
             case 'subscription_upgrade_success':
-                $message = sprintf( __( 'Subscription upgraded from <strong>%s</strong> to <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->parse_admin_changed_value( $log['data']['old_plan'], 'Subscription Plan' ), $this->parse_admin_changed_value( $log['data']['new_plan'], 'Subscription Plan' ) );
+                $message = sprintf( __( 'Subscription successfully upgraded from <strong>%s</strong> to <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->parse_admin_changed_value( $log['data']['old_plan'], 'Subscription Plan' ), $this->parse_admin_changed_value( $log['data']['new_plan'], 'Subscription Plan' ) );
+                break;
+            case 'subscription_downgrade_success':
+                $message = sprintf( __( 'Subscription successfully downgraded from <strong>%s</strong> to <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->parse_admin_changed_value( $log['data']['old_plan'], 'Subscription Plan' ), $this->parse_admin_changed_value( $log['data']['new_plan'], 'Subscription Plan' ) );
+                break;
+            case 'subscription_change_success':
+                $message = sprintf( __( 'Subscription successfully changed from <strong>%s</strong> to <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->parse_admin_changed_value( $log['data']['old_plan'], 'Subscription Plan' ), $this->parse_admin_changed_value( $log['data']['new_plan'], 'Subscription Plan' ) );
                 break;
             case 'subscription_trial_started':
                 $message = sprintf( __( 'Subscription trial started until <strong>%s</strong>.', 'paid-member-subscriptions' ), date_i18n( get_option('date_format'), strtotime( $log['data']['until'] ) ) );

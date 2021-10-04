@@ -100,6 +100,6 @@ function pms_log_payment_gateway_changes( $subscription_id, $data, $old_data ){
         return;
 
     if( isset( $data['payment_gateway'], $old_data['payment_gateway'] ) && $data['payment_gateway'] != $old_data['payment_gateway'] )
-        pms_add_member_subscription_log( $subscription_id, 'changed_payment_gateway', array( 'field' => 'payment_gateway', 'old' => $old_data['payment_gateway'], 'new' => $data['payment_gateway'], 'who' => get_current_user_id() ) );
+        pms_add_member_subscription_log( $subscription_id, 'changed_payment_gateway', array( 'field' => 'payment_gateway', 'old' => !empty( $old_data['payment_gateway'] ) ? $old_data['payment_gateway'] : '-', 'new' => $data['payment_gateway'], 'who' => get_current_user_id() ) );
 
 }

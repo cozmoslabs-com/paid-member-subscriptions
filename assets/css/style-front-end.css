@@ -477,7 +477,11 @@ ul.pms-field-section {
     display: block;
 }
 
-#pms-upgrade-subscription-form .pms-upgrade__message {
+#pms-upgrade-subscription-form .pms-upgrade__message, #pms-change-subscription-form .pms-upgrade__message {
     margin-bottom: 1.2em;
     font-size: 115%;
+}
+
+.pms-upgrade__group--upgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee, .pms-upgrade__group--downgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee {
+    display: none;
 }

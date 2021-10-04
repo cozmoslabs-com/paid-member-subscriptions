@@ -25,14 +25,14 @@ function pms_get_subscription_plan( $id_or_post ) {
  * @return array
  *
  */
-function pms_get_subscription_plans( $only_active = true, $include = array() ) {
+function pms_get_subscription_plans( $only_active = true, $include = array(), $exclude = array() ) {
 
-    $subscription_plans = array();
+    $subscription_plans         = array();
     $subscription_plan_post_ids = array();
 
     if( empty( $include ) ) {
 
-        $subscription_plan_posts = get_posts( array('post_type' => 'pms-subscription', 'numberposts' => -1, 'post_status' => 'any' ) );
+        $subscription_plan_posts = get_posts( array( 'post_type' => 'pms-subscription', 'numberposts' => -1, 'exclude' => $exclude, 'post_status' => 'any' ) );
 
         $page_hierarchy_posts = get_page_hierarchy( $subscription_plan_posts );
 
@@ -42,8 +42,7 @@ function pms_get_subscription_plans( $only_active = true, $include = array() ) {
 
     } else {
 
-        $subscription_plan_posts = get_posts( array('post_type' => 'pms-subscription', 'numberposts' => -1, 'include' => $include, 'orderby' => 'post__in', 'post_status' => 'any' ) );
-        $subscription_plan_post_ids = $subscription_plan_posts;
+        $subscription_plan_post_ids = get_posts( array('post_type' => 'pms-subscription', 'numberposts' => -1, 'include' => $include, 'orderby' => 'post__in', 'post_status' => 'any' ) );
 
     }
 
@@ -185,6 +184,32 @@ function pms_get_subscription_plan_upgrades( $subscription_plan_id, $only_active
 
 }
 
+/**
+ * Returns an array of PMS_Subscription_Plan objects that are possible downgrades for the given
+ * subscription_plan_id
+ *
+ * @param int  $subscription_plan_id - the id of the subscription plan for which we want to receive the possible downgrades
+ * @param bool $only_active          - whether to return only active subscription plans or no
+ */
+function pms_get_subscription_plan_downgrades( $subscription_plan_id, $only_active = true ){
+
+    $upgrades = pms_get_subscription_plan_upgrades( $subscription_plan_id, $only_active );
+
+    // get an array of Subscription Plan ids
+    $upgrades = array_map( function( $plan ) { return $plan->id; }, $upgrades );
+
+    $group = pms_get_subscription_plans_group( $subscription_plan_id, $only_active );
+
+    // Remove upgrades and current plan from the group to determine downgrades
+    foreach( $group as $key => $subscription_plan ){
+        if( in_array( $subscription_plan->id, $upgrades ) || $subscription_plan->id == $subscription_plan_id )
+            unset( $group[$key] );
+    }
+
+    return array_values( $group );
+
+}
+
 
 /**
  * Returns the user role attached to the subscription plan with the provided id
@@ -273,7 +298,7 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
      */
     if( !empty( $subscription_plan_groups ) ) {
 
-        if( !$member && count( $subscription_plan_groups ) == 1 && count( $subscription_plan_groups[ key($subscription_plan_groups) ] ) == 1 ) {
+        if( !$member && count( $subscription_plan_groups ) == 1 && count( $subscription_plan_groups[ key($subscription_plan_groups) ] ) == 1 && $form_location != 'change_subscription' ) {
 
             $subscription_plan = $subscription_plan_groups[ key($subscription_plan_groups) ][0];
 
@@ -287,7 +312,7 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
                 // Output subscription plan price
                 $subscription_plan_output .= '<span class="pms-subscription-plan-price">' . pms_get_output_subscription_plan_price( $subscription_plan ) . '</span>';
 
-                if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation', 'wppb_register' ) ) ) {
+                if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation', 'wppb_register', 'change_subscription' ) ) ) {
 
                     // Output subscription plan trial
                     $subscription_plan_output .= '<span class="pms-subscription-plan-trial">' . pms_get_output_subscription_plan_trial( $subscription_plan ) . '</span>';
@@ -347,7 +372,7 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
                             // Output subscription plan price
                             $subscription_plan_output .= '<span class="pms-subscription-plan-price">' . pms_get_output_subscription_plan_price( $subscription_plan ) . '</span>';
 
-                            if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation', 'wppb_register' ) ) ) {
+                            if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation', 'wppb_register', 'change_subscription' ) ) ) {
 
                                 // Output subscription plan trial
                                 $subscription_plan_output .= '<span class="pms-subscription-plan-trial">' . pms_get_output_subscription_plan_trial( $subscription_plan ) . '</span>';
@@ -703,6 +728,7 @@ function _pms_compare_subscription_plans( $object_a, $object_b ) {
  * @return array
  */
 function pms_get_subscription_plans_list() {
+
     $plans = array();
 
     $plan_ids = get_posts( array( 'post_type' => 'pms-subscription', 'meta_key' => 'pms_subscription_plan_status', 'meta_value' => 'active', 'numberposts' => -1, 'post_status' => 'any', 'fields' => 'ids' ) );
@@ -714,6 +740,7 @@ function pms_get_subscription_plans_list() {
         $plans[$plan_id] = get_the_title( $plan_id );
 
     return $plans;
+
 }
 
 /**
@@ -768,5 +795,76 @@ function pms_get_current_subscription_from_tier( $user_id, $plan_id ) {
     }
 
     return false;
+
+}
+
+/**
+ * Useful to remove the extra UI that is added on this filter when the pms_output_subscription_plans() function
+ * is called multiple times on the same page
+ *
+ */
+function pms_output_subscription_plans_filter( $action ){
+
+    if( $action === 'remove' ){
+
+        remove_filter( 'pms_output_subscription_plans', 'pms_output_subscription_plans_payment_gateways', 10 );
+        remove_filter( 'pms_output_subscription_plans', 'pms_dc_output_discount_box', 25 );
+        remove_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5 );
+        remove_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 20 );
+
+        global $pms_tax;
+        if( isset( $pms_tax ) )
+            remove_filter( 'pms_output_subscription_plans', array( $pms_tax, 'display_frontend_message' ), defined( 'PMS_DC_VERSION' ) ? 26 : 9 );
+
+        global $pms_group_memberships;
+        if( isset( $pms_group_memberships ) ){
+            remove_filter( 'pms_output_subscription_plans', array( $pms_group_memberships, 'add_custom_fields' ), 8 );
+            remove_filter( 'pms_output_subscription_plans', array( $pms_group_memberships, 'add_purchase_message' ), 7 );
+        }
+
+    } else if( $action === 'add' ){
+
+        if( function_exists( 'pms_output_subscription_plans_payment_gateways' ) )
+            add_filter( 'pms_output_subscription_plans', 'pms_output_subscription_plans_payment_gateways', 10, 7 );
+
+        if( function_exists( 'pms_renewal_option_field' ) )
+            add_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5, 5 );
+
+        if( function_exists( 'pms_dc_output_discount_box' ) )
+            add_filter( 'pms_output_subscription_plans', 'pms_dc_output_discount_box', 25, 6 );
+
+        global $pms_tax;
+        if( isset( $pms_tax ) )
+            add_filter( 'pms_output_subscription_plans', array( $pms_tax, 'display_frontend_message' ), defined( 'PMS_DC_VERSION' ) ? 26 : 9 );
+
+        global $pms_group_memberships;
+        if( isset( $pms_group_memberships ) ){
+            add_filter( 'pms_output_subscription_plans', array( $pms_group_memberships, 'add_custom_fields' ), 8, 7 );
+            add_filter( 'pms_output_subscription_plans', array( $pms_group_memberships, 'add_purchase_message' ), 7, 7 );
+        }
+
+    }
+
+}
+
+/**
+ * Given the current user's subscription plan ID and the new plan we want to change it to,
+ * this function determines the context of this subscription plan change
+ *
+ * @return string context
+ */
+function pms_get_change_subscription_plan_context( $current_subscription_plan_id, $new_subscription_plan_id ){
+
+    $upgrades = array_map( function( $plan ) { return $plan->id; }, pms_get_subscription_plan_upgrades( $current_subscription_plan_id ) );
+    $downgrades = array_map( function( $plan ) { return $plan->id; }, pms_get_subscription_plan_downgrades( $current_subscription_plan_id ) );
+
+    if( in_array( $new_subscription_plan_id, $upgrades ) )
+        $context = 'upgrade';
+    else if( in_array( $new_subscription_plan_id, $downgrades ) )
+        $context = 'downgrade';
+    else
+        $context = 'change';
+
+    return $context;
 
 }

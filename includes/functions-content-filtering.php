@@ -417,6 +417,74 @@ function pms_member_upgrade_subscription( $content ) {
 }
 add_filter( 'pms_account_shortcode_content', 'pms_member_upgrade_subscription', 11 );
 
+/**
+ * Hijack the content when a member wants to change his subscription plan
+ */
+function pms_member_change_subscription( $content ){
+
+    // Do nothing if we cannot validate the nonce
+    if( !isset( $_REQUEST['pmstkn'] ) || !( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_member_nonce' ) || wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_change_subscription' ) ) )
+        return $content;
+
+    $user_id = pms_get_current_user_id();
+    $member  = pms_get_member( $user_id );
+
+    // Do nothing if the user is not a member
+    if( !$member->is_member() )
+        return $content;
+
+    if( !isset( $_REQUEST['pms-action'] ) || ( $_REQUEST['pms-action'] !== 'change_subscription' ) || !isset( $_REQUEST['subscription_plan'] ) )
+        return $content;
+
+    $current_subscription         = isset( $_REQUEST['subscription_id'] ) ? pms_get_member_subscription( absint( $_REQUEST['subscription_id'] ) ) : '';
+    $current_subscription_plan_id = trim( absint( $_REQUEST['subscription_plan'] ) );
+    $current_subscription_plan    = pms_get_subscription_plan( $current_subscription_plan_id );
+
+    $payments_settings = get_option( 'pms_payments_settings' );
+
+    // Determine if we have anything to show
+    $subscription_plan_upgrades = pms_get_subscription_plan_upgrades( $current_subscription_plan_id );
+
+    if( isset( $payments_settings['allow-downgrades'] ) && $payments_settings['allow-downgrades'] == '1' )
+        $subscription_plan_downgrades = pms_get_subscription_plan_downgrades( $current_subscription_plan_id );
+    else
+        $subscription_plan_downgrades = array();
+
+    if( isset( $payments_settings['allow-change'] ) && $payments_settings['allow-change'] == '1' ){
+
+        // Grab only the Plan IDs from the Upgrades and Downgrades lists and then merge them
+        $excluded = array_merge( array_map( function( $plan ) { return $plan->id; }, $subscription_plan_upgrades ), array_map( function( $plan ) { return $plan->id; }, $subscription_plan_downgrades ) );
+
+        // Exclude subscriptions that the user already has
+        if( !empty( $member->subscriptions ) ){
+            foreach( $member->subscriptions as $member_subscription ){
+
+                // Need to exclude the whole tier if a user is subscribed to another plan
+                $plans_from_tier = pms_get_subscription_plans_group( $member_subscription['subscription_plan_id'] );
+
+                foreach( $plans_from_tier as $plan ){
+                    $excluded[] = $plan->id;
+                }
+
+            }
+        }
+
+        $subscription_plan_others = pms_get_subscription_plans( true, array(), $excluded );
+
+    } else
+        $subscription_plan_others = array();
+
+    ob_start();
+
+        include 'views/actions/view-actions-account-change-subscription-form.php';
+
+    $output = ob_get_contents();
+    ob_end_clean();
+
+    return $output;
+
+}
+add_filter( 'pms_account_shortcode_content', 'pms_member_change_subscription', 11 );
 
 /*
  * Hijack the content when a member wants to renew a subscription plan
@@ -495,6 +563,9 @@ function pms_member_renew_subscription( $content ) {
 
         // Output nonce field
         $output .= wp_nonce_field( 'pms_renew_subscription', 'pmstkn' );
+
+        // Output current subscription id
+        $output .= '<input type="hidden" name="pms_current_subscription" value="'. esc_attr( $member_subscription['id'] ) .'" />';
 
         // Output submit button
         $output .= '<input type="submit" name="pms_renew_subscription" value="' . esc_attr( apply_filters( 'pms_renew_subscription_button_value', __( 'Renew Subscription', 'paid-member-subscriptions' ) ) ). '" />';

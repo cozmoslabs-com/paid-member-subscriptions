@@ -79,7 +79,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             ?>
                         </select>
 
-                        <p class="description"><?php printf( esc_html__( 'Select the username you wish to associate a subscription plan with. You can create a new user <a href="%s">here</a>.', 'paid-member-subscriptions' ), esc_url( admin_url('user-new.php') ) ); ?></p>
+                        <p class="description"><?php wp_kses_post( printf( __( 'Select the username you wish to associate a subscription plan with. You can create a new user <a href="%s">here</a>.', 'paid-member-subscriptions' ), esc_url( admin_url('user-new.php') ) ) ); ?></p>
                     <?php else : ?>
                         <label for="pms-member-username-input"><?php esc_html_e( 'Username', 'paid-member-subscriptions' ) ?></label>
                         <input type="text" id="pms-member-username-input" name="pms-member-username" value="<?php echo !empty( $form_data['pms-member-username'] ) ? esc_attr( $form_data['pms-member-username'] ) : ''; ?>" />

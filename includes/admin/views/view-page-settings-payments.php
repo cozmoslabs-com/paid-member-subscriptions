@@ -121,18 +121,42 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         if( pms_payment_gateways_support( pms_get_payment_gateways( true ), 'plugin_scheduled_payments' ) ) : ?>
 
             <div class="pms-form-field-wrapper">
-                <label class="pms-form-field-label" for="retry-payments"><?php esc_html_e( 'Retry Payments' , 'paid-member-subscriptions' ) ?></label>
+                <label class="pms-form-field-label" for="retry-payments"><?php esc_html_e( 'Retry Payments', 'paid-member-subscriptions' ) ?></label>
 
                 <p class="description">
                     <input type="checkbox" id="retry-payments" name="pms_payments_settings[retry-payments]" value="1" <?php echo ( isset( $this->options['retry-payments'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Enable', 'paid-member-subscriptions' ); ?>
                 </p>
                 <p class="description">
-                    <?php printf( esc_html__( 'By checking this option, if a payment fails, the plugin will try to charge the user again after %s days for a maximum of %s retries.', 'paid-member-subscriptions' ), 3, 3 );//@TODO: apply filter ?><br>
+                    <?php printf( esc_html__( 'By checking this option, if a payment fails, the plugin will try to charge the user again after %s days for a maximum of %s retries.', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_retry_payment_interval', 3, '' ) ), 3 );?><br>
                     <?php esc_html_e( 'This is valid for the Stripe and PayPal Express with Reference Transactions payment gateways. For PayPal Subscriptions, this is happening by default.', 'paid-member-subscriptions' ); ?>
                 </p>
             </div>
 
         <?php endif; ?>
+
+        <!-- Allow downgrades -->
+        <div class="pms-form-field-wrapper">
+            <label class="pms-form-field-label" for="allow-downgrades"><?php esc_html_e( 'Allow Subscription Downgrades', 'paid-member-subscriptions' ) ?></label>
+
+            <p class="description">
+                <input type="checkbox" id="allow-downgrades" name="pms_payments_settings[allow-downgrades]" value="1" <?php echo ( isset( $this->options['allow-downgrades'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Enable', 'paid-member-subscriptions' ); ?>
+            </p>
+            <p class="description">
+                <?php esc_html_e( 'By checking this option, you are allowing members to downgrade their subscription plan to a lower one from the same tier.', 'paid-member-subscriptions' ); ?>
+            </p>
+        </div>
+
+        <!-- Allow users to jump between tiers -->
+        <div class="pms-form-field-wrapper">
+            <label class="pms-form-field-label" for="allow-change"><?php esc_html_e( 'Allow Subscription Change', 'paid-member-subscriptions' ) ?></label>
+
+            <p class="description">
+                <input type="checkbox" id="allow-change" name="pms_payments_settings[allow-change]" value="1" <?php echo ( isset( $this->options['allow-change'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Enable', 'paid-member-subscriptions' ); ?>
+            </p>
+            <p class="description">
+                <?php esc_html_e( 'By checking this option, you are allowing members to change their subscription to one from another tier.', 'paid-member-subscriptions' ); ?>
+            </p>
+        </div>
 
     <?php endif; ?>
 

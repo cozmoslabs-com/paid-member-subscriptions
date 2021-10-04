@@ -15,13 +15,17 @@
         <div class="pms-form-field-wrapper">
             <label class="pms-form-field-label" for="woocommerce-cumulative-discounts"><?php esc_html_e( 'Allow cumulative discounts', 'paid-member-subscriptions' ) ?></label>
 
-            <p class="description"><input type="checkbox" id="woocommerce-cumulative-discounts" name="pms_woocommerce_settings[cumulative_discounts]" value="1" <?php echo ( isset( $options['cumulative_discounts'] ) ? checked($options['cumulative_discounts'], '1', false) : '' ); ?> /><?php esc_html_e( 'By checking this option we will cumulate all discounts that apply to a specific product. <strong> By default we\'re applying only the highest discount. </strong>', 'paid-member-subscriptions' ); ?></p>
+            <p class="description"><input type="checkbox" id="woocommerce-cumulative-discounts" name="pms_woocommerce_settings[cumulative_discounts]" value="1" <?php echo ( isset( $options['cumulative_discounts'] ) ? checked($options['cumulative_discounts'], '1', false) : '' ); ?> />
+                <?php echo wp_kses_post( __( 'By checking this option we will cumulate all discounts that apply to a specific product. <strong> By default we\'re applying only the highest discount. </strong>', 'paid-member-subscriptions' ) ); ?>
+            </p>
         </div>
 
         <div class="pms-form-field-wrapper">
             <label class="pms-form-field-label" for="woocommerce-exclude-on-sale"><?php esc_html_e( 'Exclude products on sale ', 'paid-member-subscriptions' ) ?></label>
 
-            <p class="description"><input type="checkbox" id="woocommerce-exclude-on-sale" name="pms_woocommerce_settings[exclude_on_sale]" value="1" <?php echo ( isset( $options['exclude_on_sale'] ) ? checked($options['exclude_on_sale'], '1', false) : '' ); ?> /><?php esc_html_e( 'Do not apply any member discounts to products that are currently on sale.', 'paid-member-subscriptions' ); ?></p>
+            <p class="description"><input type="checkbox" id="woocommerce-exclude-on-sale" name="pms_woocommerce_settings[exclude_on_sale]" value="1" <?php echo ( isset( $options['exclude_on_sale'] ) ? checked($options['exclude_on_sale'], '1', false) : '' ); ?> />
+                <?php esc_html_e( 'Do not apply any member discounts to products that are currently on sale.', 'paid-member-subscriptions' ); ?>
+            </p>
         </div>
 
         <?php do_action( 'pms-settings-page_woocommerce_products_after_content', $options ); ?>

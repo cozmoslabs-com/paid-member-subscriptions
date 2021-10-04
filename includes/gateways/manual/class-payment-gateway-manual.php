@@ -87,9 +87,12 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
         // Success Redirect
         if( isset( $_POST['pmstkn'] ) ) {
-            $redirect_url = add_query_arg(array('pms_gateway_payment_id' => base64_encode($this->payment_id), 'pmsscscd' => base64_encode('subscription_plans')), $this->redirect_url);
-            wp_redirect($redirect_url);
+
+            $redirect_url = add_query_arg( array( 'pms_gateway_payment_id' => base64_encode( $this->payment_id ), 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pms_gateway_payment_action' => base64_encode( $this->form_location ) ), $this->redirect_url );
+
+            wp_redirect( $redirect_url );
             exit;
+
         }
 
     }
@@ -139,6 +142,14 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
                 $message = __( 'Thank you for upgrading. The changes will take effect after the payment is received.', 'paid-member-subscriptions' );
                 break;
 
+            case 'downgrade_subscription':
+                $message = __( 'Thank you for downgrading. The changes will take effect after the payment is received.', 'paid-member-subscriptions' );
+                break;
+
+            case 'change_subscription':
+                $message = __( 'Thank you for choosing another plan. The changes will take effect after the payment is received.', 'paid-member-subscriptions' );
+                break;
+
             case 'renew_subscription':
                 $message = __( 'Thank you for renewing. The changes will take effect after the payment is received.', 'paid-member-subscriptions' );
                 break;
@@ -182,43 +193,17 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         if( $payment->payment_gateway !== $this->payment_gateway )
             return;
 
-        if( $payment->type == 'subscription_upgrade_payment' ) {
+        // Get plan
+        $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
 
-            $old_subscription = pms_get_current_subscription_from_tier( $payment->user_id, $payment->subscription_id );
+        // The subscription plan ID from the payment matches an existing subscription for this user
+        $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $payment->user_id, 'subscription_plan_id' => $payment->subscription_id, 'number' => 1 ) );
 
-            if( !empty( $old_subscription ) && !empty( $old_subscription->id ) ) {
-
-                $old_plan_id = $old_subscription->subscription_plan_id;
-
-                $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
-
-                $subscription_data = array(
-                    'user_id'              => $payment->user_id,
-                    'subscription_plan_id' => $subscription_plan->id,
-                    'start_date'           => date('Y-m-d H:i:s'),
-                    'expiration_date'      => $subscription_plan->get_expiration_date(),
-                    'status'               => 'active',
-                    'payment_gateway'      => $this->payment_gateway,
-                );
-
-                $old_subscription->update( $subscription_data );
-
-                pms_add_member_subscription_log( $old_subscription->id, 'subscription_upgrade_success', array( 'old_plan' => $old_plan_id, 'new_plan' => $subscription_plan->id ) );
-
-            }
-
-        } else {
-
-            $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $payment->user_id, 'subscription_plan_id' => $payment->subscription_id ) );
-
-            if( empty( $member_subscriptions ) )
-                return;
+        if( !empty( $member_subscriptions ) ){
 
             $member_subscription = $member_subscriptions[0];
 
             if( ! empty( $member_subscription ) ) {
-
-                $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
 
                 if ( $member_subscription->status == 'active' )
                     $member_subscription->update( array( 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ) ) );
@@ -231,13 +216,48 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
                         $timestamp = strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit );
 
                     $member_subscription->update( array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', $timestamp ) ) );
-                }
-                else
+                } else
                     $member_subscription->update( array( 'status' => 'active' ) );
 
                 pms_add_member_subscription_log( $member_subscription->id, 'admin_subscription_activated_payments' );
 
             }
+
+        }
+
+        // The plan from the payment is not the current user plan
+        $old_subscription = pms_get_member_subscription( $payment->member_subscription_id );
+
+        if( !empty( $old_subscription ) && !empty( $old_subscription->id ) ) {
+
+            $old_plan_id = $old_subscription->subscription_plan_id;
+
+            $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
+
+            $subscription_data = array(
+                'user_id'              => $payment->user_id,
+                'subscription_plan_id' => $subscription_plan->id,
+                'start_date'           => date('Y-m-d H:i:s'),
+                'expiration_date'      => $subscription_plan->get_expiration_date(),
+                'status'               => 'active',
+                'payment_gateway'      => $this->payment_gateway,
+                // reset custom schedule
+                'billing_amount'        => '',
+                'billing_duration'      => '',
+                'billing_duration_unit' => '',
+                'billing_next_payment'  => ''
+            );
+
+            $old_subscription->update( $subscription_data );
+
+            $context = 'change';
+
+            if( $form_location == 'upgrade_subscription' )
+                $context = 'upgrade';
+            elseif( $form_location == 'downgrade_subscription' )
+                $context = 'downgrade';
+
+            pms_add_member_subscription_log( $old_subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $old_plan_id, 'new_plan' => $subscription_plan->id ) );
 
         }
 

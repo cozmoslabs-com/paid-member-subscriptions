@@ -183,9 +183,13 @@
 <?php __("You do not have access to this content. You need to create an account.", "paid-member-subscriptions"); ?>
 <?php __("Thank you for your payment. The subscription may take a while to get activated.", "paid-member-subscriptions"); ?>
 <?php __("Thank you for your payment. The renew may take a while to be processed.", "paid-member-subscriptions"); ?>
+<?php __("Thank you for your payment. The plan change may take a while to be processed.", "paid-member-subscriptions"); ?>
+<?php __("Thank you for your payment. The downgrade may take a while to be processed.", "paid-member-subscriptions"); ?>
 <?php __("Thank you for your payment. The upgrade may take a while to be processed.", "paid-member-subscriptions"); ?>
 <?php __("Congratulations, you have successfully subscribed to our website.", "paid-member-subscriptions"); ?>
 <?php __("Congratulations, you have successfully renewed your subscription.", "paid-member-subscriptions"); ?>
+<?php __("Congratulations, you have successfully changed your subscription.", "paid-member-subscriptions"); ?>
+<?php __("Congratulations, you have successfully downgraded your subscription.", "paid-member-subscriptions"); ?>
 <?php __("Congratulations, you have successfully upgraded your subscription.", "paid-member-subscriptions"); ?>
 <?php __("Processing. Please wait...", "paid-member-subscriptions"); ?>
 <?php __("US Dollar", "paid-member-subscriptions"); ?>
@@ -613,6 +617,7 @@
 <?php __("Subscription Recurring Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Renewal Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Upgrade Payment", "paid-member-subscriptions"); ?>
+<?php __("Subscription Downgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Retry Payment", "paid-member-subscriptions"); ?>
 <?php __("If you have issues with the styling of the submit button on <strong>Paid Member Subscriptions</strong> forms, <a href=\"%s\" target=\"_blank\">click here</a> for more info.", "paid-member-subscriptions"); ?>
 <?php __("Check out the new <strong>Tax & EU VAT</strong> add-on which helps you collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.", "paid-member-subscriptions"); ?>
@@ -794,9 +799,13 @@
 <?php __("Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>. Payment will be retried in %s days.", "paid-member-subscriptions"); ?>
 <?php __("Subscription could not be renewed. Payment retry was disabled.", "paid-member-subscriptions"); ?>
-<?php __("User attempted to upgrade his subscription to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __("User attempted to upgrade his subscription plan to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __("User attempted to downgrade his subscription plan to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __("User attempted to change his subscription plan to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("User attempted to retry the payment for his subscription.", "paid-member-subscriptions"); ?>
-<?php __("Subscription upgraded from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __("Subscription successfully upgraded from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __("Subscription successfully downgraded from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __("Subscription successfully changed from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription trial started until <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription trial ended.", "paid-member-subscriptions"); ?>
 <?php __("%s changed <strong>%s</strong>.", "paid-member-subscriptions"); ?>
@@ -1559,6 +1568,10 @@
 <?php __("Enable", "paid-member-subscriptions"); ?>
 <?php __("By checking this option, if a payment fails, the plugin will try to charge the user again after %s days for a maximum of %s retries.", "paid-member-subscriptions"); ?>
 <?php __("This is valid for the Stripe and PayPal Express with Reference Transactions payment gateways. For PayPal Subscriptions, this is happening by default.", "paid-member-subscriptions"); ?>
+<?php __("Allow Subscription Downgrades", "paid-member-subscriptions"); ?>
+<?php __("By checking this option, you are allowing members to downgrade their subscription plan to a lower one from the same tier.", "paid-member-subscriptions"); ?>
+<?php __("Allow Subscription Change", "paid-member-subscriptions"); ?>
+<?php __("By checking this option, you are allowing members to change their subscription to one from another tier.", "paid-member-subscriptions"); ?>
 <?php __("Payment Gateways", "paid-member-subscriptions"); ?>
 <?php __("Setup Wizard -> Paid Member Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Skip Setup", "paid-member-subscriptions"); ?>
@@ -1574,6 +1587,8 @@
 <?php __("Confirm Uninstall", "paid-member-subscriptions"); ?>
 <?php __("To confirm the Uninstall process please type the word <strong>REMOVE</strong> in the field below and then click the Uninstall button.", "paid-member-subscriptions"); ?>
 <?php __("Thank you for upgrading. The changes will take effect after the payment is received.", "paid-member-subscriptions"); ?>
+<?php __("Thank you for downgrading. The changes will take effect after the payment is received.", "paid-member-subscriptions"); ?>
+<?php __("Thank you for choosing another plan. The changes will take effect after the payment is received.", "paid-member-subscriptions"); ?>
 <?php __("Thank you for renewing. The changes will take effect after the payment is received.", "paid-member-subscriptions"); ?>
 <?php __("Thank you for subscribing. The subscription will be activated after the payment is received.", "paid-member-subscriptions"); ?>
 <?php __("The subscription will be activated after the payment is received.", "paid-member-subscriptions"); ?>
@@ -1608,9 +1623,15 @@
 <?php __("Delete all", "paid-member-subscriptions"); ?>
 <?php __(" labels scanned.", "paid-member-subscriptions"); ?>
 <?php __("No labels edited, nothing to export!", "paid-member-subscriptions"); ?>
+<?php __("Downgrade %s to:", "paid-member-subscriptions"); ?>
+<?php __('Downgrade %1$s to %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Change %s to:", "paid-member-subscriptions"); ?>
+<?php __("Downgrade Subscription", "paid-member-subscriptions"); ?>
+<?php __("Change Subscription", "paid-member-subscriptions"); ?>
 <?php __("Trial", "paid-member-subscriptions"); ?>
 <?php __("Trial End Date", "paid-member-subscriptions"); ?>
 <?php __("%s on %s", "paid-member-subscriptions"); ?>
+<?php __("Change", "paid-member-subscriptions"); ?>
 <?php __("Upgrade", "paid-member-subscriptions"); ?>
 <?php __("Renew", "paid-member-subscriptions"); ?>
 <?php __("Cancels recurring payments for this subscription, letting it expire at the end of the current peiod.", "paid-member-subscriptions"); ?>

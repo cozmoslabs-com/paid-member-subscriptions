@@ -47,6 +47,24 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
         $payment = pms_get_payment( $this->payment_id );
         $payment->update( array( 'type' => apply_filters( 'pms_paypal_standard_payment_type', 'web_accept_paypal_standard', $this, $settings ) ) );
 
+        if( isset( $_GET['subscription_plan'] ) ){
+
+            $change_subscription_context = pms_get_change_subscription_plan_context( absint( $_GET['subscription_plan'] ), $this->subscription_plan->id );
+
+            // Update form location to match current action in case of change_subscription so
+            // we can add relevant custom success messages
+            if( $this->form_location == 'change_subscription' && !empty( $change_subscription_context ) ){
+
+                if( $change_subscription_context == 'upgrade' )
+                    $this->form_location = 'upgrade_subscription';
+
+                elseif( $change_subscription_context == 'downgrade' )
+                    $this->form_location = 'downgrade_subscription';
+
+            }
+
+        }
+        
         add_filter( 'trp_home_url', 'pms_trp_paypal_return_absolute_home', 20, 2 );
 
         // Set the notify URL
@@ -70,7 +88,7 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
             'tax'           => 0,
             'custom'        => $this->payment_id,
             'notify_url'    => $notify_url,
-            'return'        => add_query_arg( array( 'pms_gateway_payment_id' => base64_encode($this->payment_id), 'pmsscscd' => base64_encode('subscription_plans') ), $this->redirect_url ),
+            'return'        => add_query_arg( array( 'pms_gateway_payment_id' => base64_encode( $this->payment_id ), 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pms_gateway_payment_action' => base64_encode( $this->form_location ) ), $this->redirect_url ),
             'bn'            => 'Cozmoslabs_SP',
             'charset'       => 'UTF-8',
             'no_shipping'   => 1,
@@ -161,6 +179,7 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
                 if( $payment->status == 'completed' )
                     return;
 
+                // New subscription + Renewal workflow
                 // If the status is completed update the payment and also activate the member subscriptions
                 if( $payment_data['status'] == 'completed' ) {
 
@@ -206,20 +225,17 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
                             'billing_next_payment'  => ''
                         ) );
 
-                        //Can be a renewal payment or a new payment
+                        // Can be a renewal payment or a new payment
                         do_action( 'pms_paypal_web_accept_after_subscription_activation', $member_subscription, $payment_data, $post_data );
                     }
 
                     /*
-                     * If the subscription plan id sent by the IPN is not found in the members subscriptions
-                     * then it could be an update to an existing one
+                     * Change Subscription, upgrade, downgrade flow
                      *
-                     * If one of the member subscriptions is in the same group as the payment subscription id,
-                     * the payment subscription id is an upgrade to the member subscription one
-                     *
+                     * To grab the relevant subscription, we use the $member_subscription_id property from the payment
                      */
 
-                     $current_subscription = pms_get_current_subscription_from_tier( $payment_data['user_id'], $payment_data['subscription_id'] );
+                     $current_subscription = pms_get_member_subscription( $payment->member_subscription_id );
 
                      if( !empty( $current_subscription ) && $current_subscription->subscription_plan_id != $payment_data['subscription_id'] ) {
 
@@ -243,7 +259,9 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
                          $current_subscription->update( $subscription_data );
 
-                         pms_add_member_subscription_log( $current_subscription->id, 'subscription_upgrade_success', array( 'old_plan' => $old_plan_id, 'new_plan' => $new_subscription_plan->id ) );
+                         $context = pms_get_change_subscription_plan_context( $old_plan_id, $subscription_data['subscription_plan_id'] );
+
+                         pms_add_member_subscription_log( $current_subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $old_plan_id, 'new_plan' => $new_subscription_plan->id ) );
 
                          do_action( 'pms_paypal_web_accept_after_upgrade_subscription', $member_subscription_plan->id, $payment_data, $post_data );
 

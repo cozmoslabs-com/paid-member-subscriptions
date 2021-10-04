@@ -394,6 +394,7 @@ function pms_get_payment_types() {
         'subscription_recurring_payment' => __( 'Subscription Recurring Payment', 'paid-member-subscriptions' ),
         'subscription_renewal_payment'   => __( 'Subscription Renewal Payment', 'paid-member-subscriptions' ),
         'subscription_upgrade_payment'   => __( 'Subscription Upgrade Payment', 'paid-member-subscriptions' ),
+        'subscription_downgrade_payment' => __( 'Subscription Downgrade Payment', 'paid-member-subscriptions' ),
         'subscription_retry_payment'     => __( 'Subscription Retry Payment', 'paid-member-subscriptions' ),
     );
 
