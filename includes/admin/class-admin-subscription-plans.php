@@ -383,7 +383,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
         // Information shown in the price column
         if( $column == 'price' ) {
             $duration = '';
-            if( $subscription_plan->duration > 0) {
+            if( $subscription_plan->duration > 0 && !$subscription_plan->is_fixed_period_membership() ) {
 
                 switch ($subscription_plan->duration_unit) {
                     case 'day':
@@ -400,6 +400,11 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                         break;
                 }
                 $duration = '<span class="pms-divider"> / </span>' . $duration;
+            }
+            if( $subscription_plan->is_fixed_period_membership() ){
+
+                $duration = '<span class="pms-divider"> until </span>' . date( get_option( 'date_format' ), strtotime( $subscription_plan->get_expiration_date() ) );
+
             }
 
             if( $subscription_plan->price == 0 )

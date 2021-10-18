@@ -223,10 +223,14 @@ Class PMS_Merge_Tags{
             if( !empty( $subscription->subscription_plan_id ) ){
                 $plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
 
-                if ( $plan->duration == 0 )
-                    return __( 'unlimited', 'paid-member-subscriptions' );
-                else
-                    return $plan->duration . ' ' . $plan->duration_unit . '(s)';
+                if( $plan->is_fixed_period_membership() ){
+                    return __( 'until', 'paid-member-subscriptions' ) . ' ' . date( get_option( 'date_format' ), strtotime( $plan->get_expiration_date() ) );
+                } else{
+                    if ( $plan->duration == 0 )
+                        return __( 'unlimited', 'paid-member-subscriptions' );
+                    else
+                        return $plan->duration . ' ' . $plan->duration_unit . '(s)';
+                }
             }
         }
 

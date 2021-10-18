@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <?php do_action( 'pms_view_meta_box_subscription_details_description_bottom', $subscription_plan->id ); ?>
 
 <!-- Duration -->
-<div class="pms-meta-box-field-wrapper">
+<div class="pms-meta-box-field-wrapper" id="pms-subscription-plan-duration-field">
 
     <label for="pms-subscription-plan-duration" class="pms-meta-box-field-label"><?php esc_html_e( 'Duration', 'paid-member-subscriptions' ); ?></label>
 
@@ -121,7 +121,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <!-- Renewal option -->
 <?php if( pms_payment_gateways_support( pms_get_active_payment_gateways(), 'recurring_payments' ) ) : ?>
 
-    <div class="pms-meta-box-field-wrapper">
+    <div class="pms-meta-box-field-wrapper" id="pms-subscription-plan-renewal-option-field">
         <label for="pms-subscription-plan-recurring" class="pms-meta-box-field-label"><?php esc_html_e( 'Renewal', 'paid-member-subscriptions' ); ?></label>
 
         <select id="pms-subscription-plan-recurring" name="pms_subscription_plan_recurring">

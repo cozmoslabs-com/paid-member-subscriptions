@@ -219,10 +219,18 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
                                     $member_subscription = pms_get_member_subscription( $member_subscription_data['id'] );
 
                                     if( !empty( $member_subscription ) ){
-                                        $data = array(
-                                            'expiration_date' => date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ),
-                                            'status'          => $member_subscription_status
-                                        );
+
+                                        if( $subscription_plan->is_fixed_period_membership() ){
+                                            $data = array(
+                                                'expiration_date' => ( $subscription_plan->fixed_period_renewal_allowed() ) ? date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+ 1 year' ) ) : date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date ) ),
+                                                'status'          => $member_subscription_status
+                                            );
+                                        } else{
+                                            $data = array(
+                                                'expiration_date' => date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ),
+                                                'status'          => $member_subscription_status
+                                            );
+                                        }
 
                                         $member_subscription->update( $data );
 

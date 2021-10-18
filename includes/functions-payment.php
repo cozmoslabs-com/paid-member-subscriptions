@@ -521,7 +521,18 @@ function pms_cron_process_member_subscriptions_payments() {
             // Set the next billing date
             if( ! empty( $subscription->billing_duration ) ) {
 
-                $next_payment = date( 'Y-m-d H:i:s', strtotime( "+" . $subscription->billing_duration . " " . $subscription->billing_duration_unit, strtotime( $subscription->billing_next_payment ) ) );
+                $plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+
+                // If trial ends for fixed period membership next payment is the expiration date
+                if( $plan->is_fixed_period_membership() && !( $subscription->billing_duration == '1' && $subscription->billing_duration_unit == 'year' ) ){
+
+                    $next_payment = $plan->get_expiration_date();
+                    $subscription_data['billing_duration'] = '1';
+                    $subscription_data['billing_duration_unit'] = 'year';
+
+                }
+                else
+                    $next_payment = date( 'Y-m-d H:i:s', strtotime( "+" . $subscription->billing_duration . " " . $subscription->billing_duration_unit, strtotime( $subscription->billing_next_payment ) ) );
 
                 $subscription_data['billing_next_payment'] = $next_payment;
 
@@ -533,7 +544,7 @@ function pms_cron_process_member_subscriptions_payments() {
                 // For Unlimited plans we need to set the expiration date; we get here after a free trial has ended
                 $plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
 
-                if( isset( $plan->id, $plan->duration ) && $plan->duration == 0 )
+                if( isset( $plan->id, $plan->duration ) && $plan->duration == 0 && !$plan->is_fixed_period_membership() )
                     $subscription_data['expiration_date'] = '';
 
             }
@@ -563,11 +574,12 @@ function pms_cron_process_member_subscriptions_payments() {
 
                     if( $retry_count < apply_filters( 'pms_retry_payment_count', 3, $subscription->id ) ){
 
+                        $plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
                         $subscription_data = array(
                             'status'                => 'expired',
                             'billing_duration'      => $subscription->billing_duration,
                             'billing_duration_unit' => $subscription->billing_duration_unit,
-                            'billing_next_payment'  => date( 'Y-m-d H:i:s', strtotime( "+" . apply_filters( 'pms_retry_payment_interval', 3, $subscription->id ) . " day", strtotime( $subscription->billing_next_payment ) ) ),
+                            'billing_next_payment'  => $plan->is_fixed_period_membership() ? $subscription->billing_next_payment : date( 'Y-m-d H:i:s', strtotime( "+" . apply_filters( 'pms_retry_payment_interval', 3, $subscription->id ) . " day", strtotime( $subscription->billing_next_payment ) ) ),
                         );
 
 	                    pms_add_member_subscription_log( $subscription->id, 'subscription_renewal_failed_retry_enabled', array( 'days'=> apply_filters( 'pms_retry_payment_interval', 3, $subscription->id ) ) );

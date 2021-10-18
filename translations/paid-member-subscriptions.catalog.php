@@ -117,6 +117,7 @@
 <?php __("abandoned", "paid-member-subscriptions"); ?>
 <?php __("Free", "paid-member-subscriptions"); ?>
 <?php __("unlimited", "paid-member-subscriptions"); ?>
+<?php __("until", "paid-member-subscriptions"); ?>
 <?php __("The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired.", "paid-member-subscriptions"); ?>
 <?php __("Help us improve Paid Member Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Allow Paid Member Subscriptions to anonymously track the plugin's usage. Data provided by this tracking helps us improve the plugin.<br>", "paid-member-subscriptions"); ?>
@@ -958,14 +959,19 @@
 <?php __("%s months", "paid-member-subscriptions"); ?>
 <?php __("%s year", "paid-member-subscriptions"); ?>
 <?php __("%s years", "paid-member-subscriptions"); ?>
+<?php __("until %s", "paid-member-subscriptions"); ?>
 <?php __("Discount successfully applied! ", "paid-member-subscriptions"); ?>
 <?php __("Amount to be charged is %s.", "paid-member-subscriptions"); ?>
 <?php __('Amount to be charged now is %1$s, then after %2$s %3$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Amount to be charged after %1$s is %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Amount to be charged now is %1$s, then %2$s every %3$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Amount to be charged %1$s is %2$s, then %3$s yearly.', 'paid-member-subscriptions' ); ?>
 <?php __('Amount to be charged is %1$s every %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Amount to be charged is %1$s %2$s and repeated yearly.', 'paid-member-subscriptions' ); ?>
 <?php __('Amount to be charged now is %1$s, then after %2$s %3$s every %4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Amount to be charged now is %1$s, then after %2$s %3$s %4$s and repeated yearly.', 'paid-member-subscriptions' ); ?>
 <?php __('Amount to be charged after %1$s is %2$s, then %3$s every %4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Amount to be charged after %1$s is %2$s %3$s, then %4$s repeated yearly.', 'paid-member-subscriptions' ); ?>
 <?php __("The discount code you entered is invalid.", "paid-member-subscriptions"); ?>
 <?php __("Please select a subscription plan and try again.", "paid-member-subscriptions"); ?>
 <?php __("The discount is not valid for this subscription plan.", "paid-member-subscriptions"); ?>
@@ -1031,7 +1037,6 @@
 <?php __("Please fill in the Content for the Email Reminder", "paid-member-subscriptions"); ?>
 <?php __("Please select at least one Subscription plan", "paid-member-subscriptions"); ?>
 <?php __("Email Reminder Details", "paid-member-subscriptions"); ?>
-<?php __(" until %s", "paid-member-subscriptions"); ?>
 <?php __("Post Type", "paid-member-subscriptions"); ?>
 <?php __("Choose a post type.", "paid-member-subscriptions"); ?>
 <?php __("Add Taxonomy", "paid-member-subscriptions"); ?>
@@ -1669,11 +1674,11 @@
 <?php __('You can set the From Name and From Email in under %1$sGeneral Email Options%2$s. ', 'paid-member-subscriptions' ); ?>
 <?php __("Select the subscription(s) to which this email reminder should be sent.", "paid-member-subscriptions"); ?>
 <?php __("Select the email reminder status.", "paid-member-subscriptions"); ?>
-<?php __("Regular", "paid-member-subscriptions"); ?>
-<?php __("Fixed Period", "paid-member-subscriptions"); ?>
-<?php __("Subscription Type", "paid-member-subscriptions"); ?>
-<?php __("Please select the duration type for this subscription plan.", "paid-member-subscriptions"); ?>
-<?php __("The date at which member subscriptions associated with this subscription plan should expire.", "paid-member-subscriptions"); ?>
+<?php __("Fixed Membership", "paid-member-subscriptions"); ?>
+<?php __("Check this box for enabling fixed period memberships.", "paid-member-subscriptions"); ?>
+<?php __("Set the subscription expiration date.", "paid-member-subscriptions"); ?>
+<?php __("Allow plan to be renewed", "paid-member-subscriptions"); ?>
+<?php __("Check this box for allowing the plan to be renewed each year.", "paid-member-subscriptions"); ?>
 <?php __("Select the subscription plan for which this content dripping set should apply.", "paid-member-subscriptions"); ?>
 <?php __("Select content dripping set status.", "paid-member-subscriptions"); ?>
 <?php __("Name", "paid-member-subscriptions"); ?>
@@ -1684,7 +1689,10 @@
 <?php __("Owner", "paid-member-subscriptions"); ?>
 <?php __("Registered", "paid-member-subscriptions"); ?>
 <?php __("No Members in this Group", "paid-member-subscriptions"); ?>
+<?php __("Regular", "paid-member-subscriptions"); ?>
 <?php __("Group", "paid-member-subscriptions"); ?>
+<?php __("Subscription Type", "paid-member-subscriptions"); ?>
+<?php __("Please select the duration type for this subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("The number of additional members, including the owner, that can be added to the subscription.", "paid-member-subscriptions"); ?>
 <?php __("Group...", "paid-member-subscriptions"); ?>
 <?php __("Edit Owner", "paid-member-subscriptions"); ?>
@@ -1762,10 +1770,11 @@
 <?php __("The provided PayPal Billing Agreement ID is not valid.", "paid-member-subscriptions"); ?>
 <?php __("Payment confirmation", "paid-member-subscriptions"); ?>
 <?php __("Recurring", "paid-member-subscriptions"); ?>
-<?php __('For first %1$d %2$s, "paid-member-subscriptions"); ?>
-<?php __(For first %1$d %2$ss', 'paid-member-subscriptions' ); ?>
-<?php __('Once every %1$d %2$s, "paid-member-subscriptions"); ?>
-<?php __(Once every %1$d %2$ss', 'paid-member-subscriptions' ); ?>
+<?php __("For first %d %s", "paid-member-subscriptions"); ?>
+<?php __("For first %d %ss", "paid-member-subscriptions"); ?>
+<?php __("Once every %d %s", "paid-member-subscriptions"); ?>
+<?php __("Once every %d %ss", "paid-member-subscriptions"); ?>
+<?php __("Once every year", "paid-member-subscriptions"); ?>
 <?php __("Confirm payment", "paid-member-subscriptions"); ?>
 <?php __("Test Publishable Key", "paid-member-subscriptions"); ?>
 <?php __("Test Secret Key", "paid-member-subscriptions"); ?>

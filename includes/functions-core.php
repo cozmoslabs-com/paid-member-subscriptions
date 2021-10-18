@@ -235,6 +235,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     add_action( 'pms_change_subscription_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
     add_action( 'pms_renew_subscription_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
     add_action( 'pms_retry_payment_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
+    add_action( 'pms_ppe_confirm_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
 
 
     /**

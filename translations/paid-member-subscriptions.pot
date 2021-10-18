@@ -359,11 +359,11 @@ msgstr ""
 msgid "The selected subscription plan does not exist or is inactive."
 msgstr ""
 
-#: includes/class-form-handler.php:261, includes/admin/class-admin-members.php:357, includes/admin/class-admin-payments.php:328
+#: includes/class-form-handler.php:261, includes/admin/class-admin-members.php:361, includes/admin/class-admin-payments.php:336
 msgid "Please select a subscription plan."
 msgstr ""
 
-#: includes/class-form-handler.php:307, includes/admin/class-admin-members.php:789, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:102, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:296
+#: includes/class-form-handler.php:307, includes/admin/class-admin-members.php:793, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:102, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:296
 msgid "Something went wrong."
 msgstr ""
 
@@ -476,7 +476,7 @@ msgstr ""
 msgid "Profile updated successfully"
 msgstr ""
 
-#: includes/class-form-handler.php:1689
+#: includes/class-form-handler.php:1693
 msgid "Something went wrong while registering the user. Contact the website administrator."
 msgstr ""
 
@@ -484,15 +484,19 @@ msgstr ""
 msgid "abandoned"
 msgstr ""
 
-#: includes/class-merge-tags.php:202, includes/functions-subscription-plan.php:437, includes/admin/class-admin-subscription-plans.php:406, add-ons-pro/group-memberships/includes/class-group-memberships.php:540, includes/admin/views/view-page-addons.php:233, includes/admin/views/view-page-addons.php:305
+#: includes/class-merge-tags.php:202, includes/functions-subscription-plan.php:437, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:540, includes/admin/views/view-page-addons.php:233, includes/admin/views/view-page-addons.php:305
 msgid "Free"
 msgstr ""
 
-#: includes/class-merge-tags.php:227
+#: includes/class-merge-tags.php:230
 msgid "unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:318
+#: includes/class-merge-tags.php:227
+msgid "until"
+msgstr ""
+
+#: includes/class-merge-tags.php:322
 msgid "The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired."
 msgstr ""
 
@@ -556,7 +560,7 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: includes/class-shortcodes.php:247, includes/admin/class-admin-payments.php:462, includes/admin/class-admin-payments.php:462, includes/admin/class-admin-settings.php:197, includes/admin/class-admin-setup-wizard.php:48, includes/admin/views/view-page-basic-info.php:74
+#: includes/class-shortcodes.php:247, includes/admin/class-admin-payments.php:470, includes/admin/class-admin-payments.php:470, includes/admin/class-admin-settings.php:197, includes/admin/class-admin-setup-wizard.php:48, includes/admin/views/view-page-basic-info.php:74
 msgid "Payments"
 msgstr ""
 
@@ -692,51 +696,51 @@ msgstr ""
 msgid "Upgrade Subscription"
 msgstr ""
 
-#: includes/functions-content-filtering.php:411, includes/functions-content-filtering.php:572, includes/functions-content-filtering.php:625, includes/functions-content-filtering.php:675, includes/functions-content-filtering.php:749, includes/views/actions/view-actions-account-change-subscription-form.php:98
+#: includes/functions-content-filtering.php:411, includes/functions-content-filtering.php:581, includes/functions-content-filtering.php:634, includes/functions-content-filtering.php:684, includes/functions-content-filtering.php:758, includes/views/actions/view-actions-account-change-subscription-form.php:98
 msgid "Go back"
 msgstr ""
 
-#: includes/functions-content-filtering.php:535, includes/admin/class-admin-member-subscription-list-table.php:273, includes/admin/class-admin-members-list-table.php:507, includes/views/shortcodes/view-shortcode-account-subscription-details.php:53, includes/views/shortcodes/view-shortcode-account.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:64
+#: includes/functions-content-filtering.php:544, includes/admin/class-admin-member-subscription-list-table.php:273, includes/admin/class-admin-members-list-table.php:507, includes/views/shortcodes/view-shortcode-account-subscription-details.php:53, includes/views/shortcodes/view-shortcode-account.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:64
 msgid "Unlimited"
 msgstr ""
 
-#: includes/functions-content-filtering.php:551, add-ons-basic/fixed-period-membership/includes/functions.php:127
+#: includes/functions-content-filtering.php:560
 msgid "Renew %s subscription. The subscription will be active until %s"
 msgstr ""
 
-#: includes/functions-content-filtering.php:571, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:261
+#: includes/functions-content-filtering.php:580, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:261
 msgid "Renew Subscription"
 msgstr ""
 
-#: includes/functions-content-filtering.php:615
+#: includes/functions-content-filtering.php:624
 msgid "Are you sure you want to cancel your %s subscription? No further payments will be made for this subscription and it will expire."
 msgstr ""
 
-#: includes/functions-content-filtering.php:624
+#: includes/functions-content-filtering.php:633
 msgid "Confirm"
 msgstr ""
 
-#: includes/functions-content-filtering.php:665
+#: includes/functions-content-filtering.php:674
 msgid "Are you sure you want to abandon your %s subscription? This subscription will be removed completely from your account."
 msgstr ""
 
-#: includes/functions-content-filtering.php:674, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:259
+#: includes/functions-content-filtering.php:683, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:259
 msgid "Abandon Subscription"
 msgstr ""
 
-#: includes/functions-content-filtering.php:730
+#: includes/functions-content-filtering.php:739
 msgid "Your %s subscription is still pending. Do you wish to retry the payment?"
 msgstr ""
 
-#: includes/functions-content-filtering.php:748, includes/views/shortcodes/view-shortcode-account-subscription-details.php:114, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:122
+#: includes/functions-content-filtering.php:757, includes/views/shortcodes/view-shortcode-account-subscription-details.php:127, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:136
 msgid "Retry payment"
 msgstr ""
 
-#: includes/functions-content-filtering.php:807
+#: includes/functions-content-filtering.php:816
 msgid "You must be logged in to view the comments."
 msgstr ""
 
-#: includes/functions-content-filtering.php:805
+#: includes/functions-content-filtering.php:814
 msgid "Comments are restricted for your membership level."
 msgstr ""
 
@@ -792,1659 +796,1659 @@ msgstr ""
 msgid "Processing. Please wait..."
 msgstr ""
 
-#: includes/functions-core.php:311, includes/functions-core.php:343, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:222
+#: includes/functions-core.php:312, includes/functions-core.php:344, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:222
 msgid "US Dollar"
 msgstr ""
 
-#: includes/functions-core.php:312, includes/functions-core.php:344, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:223
+#: includes/functions-core.php:313, includes/functions-core.php:345, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:223
 msgid "Euro"
 msgstr ""
 
-#: includes/functions-core.php:313
+#: includes/functions-core.php:314
 msgid "Pound Sterling"
 msgstr ""
 
-#: includes/functions-core.php:314
+#: includes/functions-core.php:315
 msgid "Canadian Dollar"
 msgstr ""
 
-#: includes/functions-core.php:315
+#: includes/functions-core.php:316
 msgid "Australian Dollar"
 msgstr ""
 
-#: includes/functions-core.php:316
+#: includes/functions-core.php:317
 msgid "Brazilian Real"
 msgstr ""
 
-#: includes/functions-core.php:317
+#: includes/functions-core.php:318
 msgid "Czech Koruna"
 msgstr ""
 
-#: includes/functions-core.php:318
+#: includes/functions-core.php:319
 msgid "Danish Krone"
 msgstr ""
 
-#: includes/functions-core.php:319
+#: includes/functions-core.php:320
 msgid "Hong Kong Dollar"
 msgstr ""
 
-#: includes/functions-core.php:320
+#: includes/functions-core.php:321
 msgid "Hungarian Forint"
 msgstr ""
 
-#: includes/functions-core.php:321
+#: includes/functions-core.php:322
 msgid "Israeli New Sheqel"
 msgstr ""
 
-#: includes/functions-core.php:322
+#: includes/functions-core.php:323
 msgid "Japanese Yen"
 msgstr ""
 
-#: includes/functions-core.php:323
+#: includes/functions-core.php:324
 msgid "Malaysian Ringgit"
 msgstr ""
 
-#: includes/functions-core.php:324
+#: includes/functions-core.php:325
 msgid "Mexican Peso"
 msgstr ""
 
-#: includes/functions-core.php:325
+#: includes/functions-core.php:326
 msgid "Norwegian Krone"
 msgstr ""
 
-#: includes/functions-core.php:326
+#: includes/functions-core.php:327
 msgid "New Zealand Dollar"
 msgstr ""
 
-#: includes/functions-core.php:327
+#: includes/functions-core.php:328
 msgid "Philippine Peso"
 msgstr ""
 
-#: includes/functions-core.php:328
+#: includes/functions-core.php:329
 msgid "Polish Zloty"
 msgstr ""
 
-#: includes/functions-core.php:329
+#: includes/functions-core.php:330
 msgid "Russian Ruble"
 msgstr ""
 
-#: includes/functions-core.php:330
+#: includes/functions-core.php:331
 msgid "Singapore Dollar"
 msgstr ""
 
-#: includes/functions-core.php:331
+#: includes/functions-core.php:332
 msgid "Swedish Krona"
 msgstr ""
 
-#: includes/functions-core.php:332
+#: includes/functions-core.php:333
 msgid "Swiss Franc"
 msgstr ""
 
-#: includes/functions-core.php:333
+#: includes/functions-core.php:334
 msgid "Taiwan New Dollar"
 msgstr ""
 
-#: includes/functions-core.php:334
+#: includes/functions-core.php:335
 msgid "Thai Baht"
 msgstr ""
 
-#: includes/functions-core.php:335
+#: includes/functions-core.php:336
 msgid "Turkish Lira"
 msgstr ""
 
-#: includes/functions-core.php:345, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:224
+#: includes/functions-core.php:346, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:224
 msgid "Pound sterling"
 msgstr ""
 
-#: includes/functions-core.php:346, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:225
+#: includes/functions-core.php:347, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:225
 msgid "Canadian dollar"
 msgstr ""
 
-#: includes/functions-core.php:347, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:226
+#: includes/functions-core.php:348, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:226
 msgid "United Arab Emirates dirham"
 msgstr ""
 
-#: includes/functions-core.php:348, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:227
+#: includes/functions-core.php:349, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:227
 msgid "Afghan afghani"
 msgstr ""
 
-#: includes/functions-core.php:349, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:228
+#: includes/functions-core.php:350, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:228
 msgid "Albanian lek"
 msgstr ""
 
-#: includes/functions-core.php:350, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:229
+#: includes/functions-core.php:351, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:229
 msgid "Armenian dram"
 msgstr ""
 
-#: includes/functions-core.php:351, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:230
+#: includes/functions-core.php:352, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:230
 msgid "Netherlands Antillean guilder"
 msgstr ""
 
-#: includes/functions-core.php:352, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:231
+#: includes/functions-core.php:353, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:231
 msgid "Angolan kwanza"
 msgstr ""
 
-#: includes/functions-core.php:353, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:232
+#: includes/functions-core.php:354, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:232
 msgid "Argentine peso"
 msgstr ""
 
-#: includes/functions-core.php:354, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:233
+#: includes/functions-core.php:355, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:233
 msgid "Australian dollar"
 msgstr ""
 
-#: includes/functions-core.php:355, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:234
+#: includes/functions-core.php:356, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:234
 msgid "Aruban florin"
 msgstr ""
 
-#: includes/functions-core.php:356, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:235
+#: includes/functions-core.php:357, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:235
 msgid "Azerbaijani manat"
 msgstr ""
 
-#: includes/functions-core.php:357, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:236
+#: includes/functions-core.php:358, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:236
 msgid "Bosnia and Herzegovina convertible mark"
 msgstr ""
 
-#: includes/functions-core.php:358, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:237
+#: includes/functions-core.php:359, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:237
 msgid "Barbadian dollar"
 msgstr ""
 
-#: includes/functions-core.php:359, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:238
+#: includes/functions-core.php:360, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:238
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: includes/functions-core.php:360, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:239
+#: includes/functions-core.php:361, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:239
 msgid "Bulgarian lev"
 msgstr ""
 
-#: includes/functions-core.php:361, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:240
+#: includes/functions-core.php:362, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:240
 msgid "Burundian franc"
 msgstr ""
 
-#: includes/functions-core.php:362, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:241
+#: includes/functions-core.php:363, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:241
 msgid "Bermudian dollar"
 msgstr ""
 
-#: includes/functions-core.php:363, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:242
+#: includes/functions-core.php:364, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:242
 msgid "Brunei dollar"
 msgstr ""
 
-#: includes/functions-core.php:364, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:243
+#: includes/functions-core.php:365, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:243
 msgid "Bolivian boliviano"
 msgstr ""
 
-#: includes/functions-core.php:365, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:244
+#: includes/functions-core.php:366, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:244
 msgid "Brazilian real"
 msgstr ""
 
-#: includes/functions-core.php:366, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:245
+#: includes/functions-core.php:367, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:245
 msgid "Bahamian dollar"
 msgstr ""
 
-#: includes/functions-core.php:367, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:246
+#: includes/functions-core.php:368, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:246
 msgid "Botswana pula"
 msgstr ""
 
-#: includes/functions-core.php:368, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:247
+#: includes/functions-core.php:369, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:247
 msgid "Belize dollar"
 msgstr ""
 
-#: includes/functions-core.php:369, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:248
+#: includes/functions-core.php:370, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:248
 msgid "Congolese franc"
 msgstr ""
 
-#: includes/functions-core.php:370, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:249
+#: includes/functions-core.php:371, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:249
 msgid "Swiss franc"
 msgstr ""
 
-#: includes/functions-core.php:371, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:250
+#: includes/functions-core.php:372, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:250
 msgid "Chilean peso"
 msgstr ""
 
-#: includes/functions-core.php:372, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:251
+#: includes/functions-core.php:373, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:251
 msgid "Chinese yuan"
 msgstr ""
 
-#: includes/functions-core.php:373, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:252
+#: includes/functions-core.php:374, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:252
 msgid "Colombian peso"
 msgstr ""
 
-#: includes/functions-core.php:374, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:253
+#: includes/functions-core.php:375, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:253
 msgid "Costa Rican col&oacute;n"
 msgstr ""
 
-#: includes/functions-core.php:375, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:254
+#: includes/functions-core.php:376, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:254
 msgid "Cape Verdean escudo"
 msgstr ""
 
-#: includes/functions-core.php:376, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:255
+#: includes/functions-core.php:377, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:255
 msgid "Czech koruna"
 msgstr ""
 
-#: includes/functions-core.php:377, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:256
+#: includes/functions-core.php:378, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:256
 msgid "Djiboutian franc"
 msgstr ""
 
-#: includes/functions-core.php:378, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:257
+#: includes/functions-core.php:379, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:257
 msgid "Danish krone"
 msgstr ""
 
-#: includes/functions-core.php:379, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:258
+#: includes/functions-core.php:380, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:258
 msgid "Dominican peso"
 msgstr ""
 
-#: includes/functions-core.php:380, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:259
+#: includes/functions-core.php:381, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:259
 msgid "Algerian dinar"
 msgstr ""
 
-#: includes/functions-core.php:381, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:260
+#: includes/functions-core.php:382, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:260
 msgid "Egyptian pound"
 msgstr ""
 
-#: includes/functions-core.php:382, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:261
+#: includes/functions-core.php:383, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:261
 msgid "Eritrean nakfa"
 msgstr ""
 
-#: includes/functions-core.php:383, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:262
+#: includes/functions-core.php:384, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:262
 msgid "Ethiopian birr"
 msgstr ""
 
-#: includes/functions-core.php:384, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:263
+#: includes/functions-core.php:385, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:263
 msgid "Fijian dollar"
 msgstr ""
 
-#: includes/functions-core.php:385, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:264
+#: includes/functions-core.php:386, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:264
 msgid "Falkland Islands pound"
 msgstr ""
 
-#: includes/functions-core.php:386, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:265
+#: includes/functions-core.php:387, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:265
 msgid "Georgian lari"
 msgstr ""
 
-#: includes/functions-core.php:387, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:266
+#: includes/functions-core.php:388, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:266
 msgid "Gibraltar pound"
 msgstr ""
 
-#: includes/functions-core.php:388, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:267
+#: includes/functions-core.php:389, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:267
 msgid "Gambian dalasi"
 msgstr ""
 
-#: includes/functions-core.php:389, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:268
+#: includes/functions-core.php:390, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:268
 msgid "Guinean franc"
 msgstr ""
 
-#: includes/functions-core.php:390, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:269
+#: includes/functions-core.php:391, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:269
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: includes/functions-core.php:391, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:270
+#: includes/functions-core.php:392, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:270
 msgid "Guyanese dollar"
 msgstr ""
 
-#: includes/functions-core.php:392, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:271
+#: includes/functions-core.php:393, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:271
 msgid "Hong Kong dollar"
 msgstr ""
 
-#: includes/functions-core.php:393, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:272
+#: includes/functions-core.php:394, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:272
 msgid "Honduran lempira"
 msgstr ""
 
-#: includes/functions-core.php:394, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:273
+#: includes/functions-core.php:395, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:273
 msgid "Croatian kuna"
 msgstr ""
 
-#: includes/functions-core.php:395, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:274
+#: includes/functions-core.php:396, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:274
 msgid "Haitian gourde"
 msgstr ""
 
-#: includes/functions-core.php:396, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:275
+#: includes/functions-core.php:397, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:275
 msgid "Hungarian forint"
 msgstr ""
 
-#: includes/functions-core.php:397, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:276
+#: includes/functions-core.php:398, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:276
 msgid "Indonesian rupiah"
 msgstr ""
 
-#: includes/functions-core.php:398, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:277
+#: includes/functions-core.php:399, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:277
 msgid "Israeli new shekel"
 msgstr ""
 
-#: includes/functions-core.php:399, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:278
+#: includes/functions-core.php:400, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:278
 msgid "Indian rupee"
 msgstr ""
 
-#: includes/functions-core.php:400, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:279
+#: includes/functions-core.php:401, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:279
 msgid "Icelandic kr&oacute;na"
 msgstr ""
 
-#: includes/functions-core.php:401, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:280
+#: includes/functions-core.php:402, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:280
 msgid "Jamaican dollar"
 msgstr ""
 
-#: includes/functions-core.php:402, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:281
+#: includes/functions-core.php:403, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:281
 msgid "Japanese yen"
 msgstr ""
 
-#: includes/functions-core.php:403, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:282
+#: includes/functions-core.php:404, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:282
 msgid "Kenyan shilling"
 msgstr ""
 
-#: includes/functions-core.php:404, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:283
+#: includes/functions-core.php:405, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:283
 msgid "Kyrgyzstani som"
 msgstr ""
 
-#: includes/functions-core.php:405, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:284
+#: includes/functions-core.php:406, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:284
 msgid "Cambodian riel"
 msgstr ""
 
-#: includes/functions-core.php:406, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:285
+#: includes/functions-core.php:407, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:285
 msgid "Comorian franc"
 msgstr ""
 
-#: includes/functions-core.php:407, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:286
+#: includes/functions-core.php:408, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:286
 msgid "South Korean won"
 msgstr ""
 
-#: includes/functions-core.php:408, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:287
+#: includes/functions-core.php:409, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:287
 msgid "Cayman Islands dollar"
 msgstr ""
 
-#: includes/functions-core.php:409, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:288
+#: includes/functions-core.php:410, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:288
 msgid "Kazakhstani tenge"
 msgstr ""
 
-#: includes/functions-core.php:410, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:289
+#: includes/functions-core.php:411, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:289
 msgid "Lao kip"
 msgstr ""
 
-#: includes/functions-core.php:411, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:290
+#: includes/functions-core.php:412, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:290
 msgid "Lebanese pound"
 msgstr ""
 
-#: includes/functions-core.php:412, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:291
+#: includes/functions-core.php:413, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:291
 msgid "Sri Lankan rupee"
 msgstr ""
 
-#: includes/functions-core.php:413, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:292
+#: includes/functions-core.php:414, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:292
 msgid "Liberian dollar"
 msgstr ""
 
-#: includes/functions-core.php:414, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:293
+#: includes/functions-core.php:415, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:293
 msgid "Lesotho loti"
 msgstr ""
 
-#: includes/functions-core.php:415, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:294
+#: includes/functions-core.php:416, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:294
 msgid "Moroccan dirham"
 msgstr ""
 
-#: includes/functions-core.php:416, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:295
+#: includes/functions-core.php:417, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:295
 msgid "Moldovan leu"
 msgstr ""
 
-#: includes/functions-core.php:417, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:296
+#: includes/functions-core.php:418, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:296
 msgid "Malagasy ariary"
 msgstr ""
 
-#: includes/functions-core.php:418, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:297
+#: includes/functions-core.php:419, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:297
 msgid "Macedonian denar"
 msgstr ""
 
-#: includes/functions-core.php:419, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:298
+#: includes/functions-core.php:420, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:298
 msgid "Burmese kyat"
 msgstr ""
 
-#: includes/functions-core.php:420, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:299
+#: includes/functions-core.php:421, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:299
 msgid "Mongolian t&ouml;gr&ouml;g"
 msgstr ""
 
-#: includes/functions-core.php:421, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:300
+#: includes/functions-core.php:422, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:300
 msgid "Macanese pataca"
 msgstr ""
 
-#: includes/functions-core.php:422, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:301
+#: includes/functions-core.php:423, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:301
 msgid "Mauritian rupee"
 msgstr ""
 
-#: includes/functions-core.php:423, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:302
+#: includes/functions-core.php:424, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:302
 msgid "Maldivian rufiyaa"
 msgstr ""
 
-#: includes/functions-core.php:424, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:303
+#: includes/functions-core.php:425, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:303
 msgid "Malawian kwacha"
 msgstr ""
 
-#: includes/functions-core.php:425, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:304
+#: includes/functions-core.php:426, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:304
 msgid "Mexican peso"
 msgstr ""
 
-#: includes/functions-core.php:426, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:305
+#: includes/functions-core.php:427, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:305
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: includes/functions-core.php:427, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:306
+#: includes/functions-core.php:428, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:306
 msgid "Mozambican metical"
 msgstr ""
 
-#: includes/functions-core.php:428, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:307
+#: includes/functions-core.php:429, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:307
 msgid "Namibian dollar"
 msgstr ""
 
-#: includes/functions-core.php:429, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:308
+#: includes/functions-core.php:430, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:308
 msgid "Nigerian naira"
 msgstr ""
 
-#: includes/functions-core.php:430, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:309
+#: includes/functions-core.php:431, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:309
 msgid "Nicaraguan c&oacute;rdoba"
 msgstr ""
 
-#: includes/functions-core.php:431, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:310
+#: includes/functions-core.php:432, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:310
 msgid "Norwegian krone"
 msgstr ""
 
-#: includes/functions-core.php:432, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:311
+#: includes/functions-core.php:433, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:311
 msgid "Nepalese rupee"
 msgstr ""
 
-#: includes/functions-core.php:433, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:312
+#: includes/functions-core.php:434, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:312
 msgid "New Zealand dollar"
 msgstr ""
 
-#: includes/functions-core.php:434, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:313
+#: includes/functions-core.php:435, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:313
 msgid "Panamanian balboa"
 msgstr ""
 
-#: includes/functions-core.php:435, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:314
+#: includes/functions-core.php:436, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:314
 msgid "Sol"
 msgstr ""
 
-#: includes/functions-core.php:436, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:315
+#: includes/functions-core.php:437, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:315
 msgid "Papua New Guinean kina"
 msgstr ""
 
-#: includes/functions-core.php:437, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:316
+#: includes/functions-core.php:438, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:316
 msgid "Philippine peso"
 msgstr ""
 
-#: includes/functions-core.php:438, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:317
+#: includes/functions-core.php:439, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:317
 msgid "Pakistani rupee"
 msgstr ""
 
-#: includes/functions-core.php:439, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:318
+#: includes/functions-core.php:440, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:318
 msgid "Polish z&#x142;oty"
 msgstr ""
 
-#: includes/functions-core.php:440, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:319
+#: includes/functions-core.php:441, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:319
 msgid "Paraguayan guaran&iacute;"
 msgstr ""
 
-#: includes/functions-core.php:441, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:320
+#: includes/functions-core.php:442, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:320
 msgid "Qatari riyal"
 msgstr ""
 
-#: includes/functions-core.php:442, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:321
+#: includes/functions-core.php:443, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:321
 msgid "Romanian leu"
 msgstr ""
 
-#: includes/functions-core.php:443, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:322
+#: includes/functions-core.php:444, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:322
 msgid "Serbian dinar"
 msgstr ""
 
-#: includes/functions-core.php:444, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:323
+#: includes/functions-core.php:445, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:323
 msgid "Russian ruble"
 msgstr ""
 
-#: includes/functions-core.php:445, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:324
+#: includes/functions-core.php:446, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:324
 msgid "Rwandan franc"
 msgstr ""
 
-#: includes/functions-core.php:446, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:325
+#: includes/functions-core.php:447, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:325
 msgid "Saudi riyal"
 msgstr ""
 
-#: includes/functions-core.php:447, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:326
+#: includes/functions-core.php:448, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:326
 msgid "Solomon Islands dollar"
 msgstr ""
 
-#: includes/functions-core.php:448, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:327
+#: includes/functions-core.php:449, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:327
 msgid "Seychellois rupee"
 msgstr ""
 
-#: includes/functions-core.php:449, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:328
+#: includes/functions-core.php:450, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:328
 msgid "Swedish krona"
 msgstr ""
 
-#: includes/functions-core.php:450, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:329
+#: includes/functions-core.php:451, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:329
 msgid "Singapore dollar"
 msgstr ""
 
-#: includes/functions-core.php:451, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:330
+#: includes/functions-core.php:452, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:330
 msgid "Saint Helena pound"
 msgstr ""
 
-#: includes/functions-core.php:452, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:331
+#: includes/functions-core.php:453, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:331
 msgid "Sierra Leonean leone"
 msgstr ""
 
-#: includes/functions-core.php:453, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:332
+#: includes/functions-core.php:454, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:332
 msgid "Somali shilling"
 msgstr ""
 
-#: includes/functions-core.php:454, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:333
+#: includes/functions-core.php:455, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:333
 msgid "Surinamese dollar"
 msgstr ""
 
-#: includes/functions-core.php:455, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:334
+#: includes/functions-core.php:456, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:334
 msgid "Swazi lilangeni"
 msgstr ""
 
-#: includes/functions-core.php:456, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:335
+#: includes/functions-core.php:457, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:335
 msgid "Thai baht"
 msgstr ""
 
-#: includes/functions-core.php:457, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:336
+#: includes/functions-core.php:458, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:336
 msgid "Tajikistani somoni"
 msgstr ""
 
-#: includes/functions-core.php:458, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:337
+#: includes/functions-core.php:459, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:337
 msgid "Tongan pa&#x2bb;anga"
 msgstr ""
 
-#: includes/functions-core.php:459, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:338
+#: includes/functions-core.php:460, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:338
 msgid "Turkish lira"
 msgstr ""
 
-#: includes/functions-core.php:460, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:339
+#: includes/functions-core.php:461, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:339
 msgid "Trinidad and Tobago dollar"
 msgstr ""
 
-#: includes/functions-core.php:461, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:340
+#: includes/functions-core.php:462, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:340
 msgid "New Taiwan dollar"
 msgstr ""
 
-#: includes/functions-core.php:462, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:341
+#: includes/functions-core.php:463, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:341
 msgid "Tanzanian shilling"
 msgstr ""
 
-#: includes/functions-core.php:463, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:342
+#: includes/functions-core.php:464, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:342
 msgid "Ukrainian hryvnia"
 msgstr ""
 
-#: includes/functions-core.php:464, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:343
+#: includes/functions-core.php:465, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:343
 msgid "Ugandan shilling"
 msgstr ""
 
-#: includes/functions-core.php:465, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:344
+#: includes/functions-core.php:466, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:344
 msgid "Uruguayan peso"
 msgstr ""
 
-#: includes/functions-core.php:466, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:345
+#: includes/functions-core.php:467, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:345
 msgid "Uzbekistani som"
 msgstr ""
 
-#: includes/functions-core.php:467, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:346
+#: includes/functions-core.php:468, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:346
 msgid "Vietnamese &#x111;&#x1ed3;ng"
 msgstr ""
 
-#: includes/functions-core.php:468, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:347
+#: includes/functions-core.php:469, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:347
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: includes/functions-core.php:469, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:348
+#: includes/functions-core.php:470, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:348
 msgid "Samoan t&#x101;l&#x101;"
 msgstr ""
 
-#: includes/functions-core.php:470, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:349
+#: includes/functions-core.php:471, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:349
 msgid "Central African CFA franc"
 msgstr ""
 
-#: includes/functions-core.php:471, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:350
+#: includes/functions-core.php:472, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:350
 msgid "East Caribbean dollar"
 msgstr ""
 
-#: includes/functions-core.php:472, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:351
+#: includes/functions-core.php:473, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:351
 msgid "West African CFA franc"
 msgstr ""
 
-#: includes/functions-core.php:473, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:352
+#: includes/functions-core.php:474, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:352
 msgid "CFP franc"
 msgstr ""
 
-#: includes/functions-core.php:474, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:353
+#: includes/functions-core.php:475, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:353
 msgid "Yemeni rial"
 msgstr ""
 
-#: includes/functions-core.php:475, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:354
+#: includes/functions-core.php:476, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:354
 msgid "South African rand"
 msgstr ""
 
-#: includes/functions-core.php:476, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:355
+#: includes/functions-core.php:477, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:355
 msgid "Zambian kwacha"
 msgstr ""
 
-#: includes/functions-core.php:679
+#: includes/functions-core.php:680
 msgid "Afghanistan"
 msgstr ""
 
-#: includes/functions-core.php:680
+#: includes/functions-core.php:681
 msgid "Aland Islands"
 msgstr ""
 
-#: includes/functions-core.php:681
+#: includes/functions-core.php:682
 msgid "Albania"
 msgstr ""
 
-#: includes/functions-core.php:682
+#: includes/functions-core.php:683
 msgid "Algeria"
 msgstr ""
 
-#: includes/functions-core.php:683
+#: includes/functions-core.php:684
 msgid "American Samoa"
 msgstr ""
 
-#: includes/functions-core.php:684
+#: includes/functions-core.php:685
 msgid "Andorra"
 msgstr ""
 
-#: includes/functions-core.php:685
+#: includes/functions-core.php:686
 msgid "Angola"
 msgstr ""
 
-#: includes/functions-core.php:686
+#: includes/functions-core.php:687
 msgid "Anguilla"
 msgstr ""
 
-#: includes/functions-core.php:687
+#: includes/functions-core.php:688
 msgid "Antarctica"
 msgstr ""
 
-#: includes/functions-core.php:688
+#: includes/functions-core.php:689
 msgid "Antigua and Barbuda"
 msgstr ""
 
-#: includes/functions-core.php:689
+#: includes/functions-core.php:690
 msgid "Argentina"
 msgstr ""
 
-#: includes/functions-core.php:690
+#: includes/functions-core.php:691
 msgid "Armenia"
 msgstr ""
 
-#: includes/functions-core.php:691
+#: includes/functions-core.php:692
 msgid "Aruba"
 msgstr ""
 
-#: includes/functions-core.php:692
+#: includes/functions-core.php:693
 msgid "Australia"
 msgstr ""
 
-#: includes/functions-core.php:693, add-ons-pro/tax/includes/functions.php:115
+#: includes/functions-core.php:694, add-ons-pro/tax/includes/functions.php:115
 msgid "Austria"
 msgstr ""
 
-#: includes/functions-core.php:694
+#: includes/functions-core.php:695
 msgid "Azerbaijan"
 msgstr ""
 
-#: includes/functions-core.php:695
+#: includes/functions-core.php:696
 msgid "Bahamas"
 msgstr ""
 
-#: includes/functions-core.php:696
+#: includes/functions-core.php:697
 msgid "Bahrain"
 msgstr ""
 
-#: includes/functions-core.php:697
+#: includes/functions-core.php:698
 msgid "Bangladesh"
 msgstr ""
 
-#: includes/functions-core.php:698
+#: includes/functions-core.php:699
 msgid "Barbados"
 msgstr ""
 
-#: includes/functions-core.php:699
+#: includes/functions-core.php:700
 msgid "Belarus"
 msgstr ""
 
-#: includes/functions-core.php:700, add-ons-pro/tax/includes/functions.php:116
+#: includes/functions-core.php:701, add-ons-pro/tax/includes/functions.php:116
 msgid "Belgium"
 msgstr ""
 
-#: includes/functions-core.php:701
+#: includes/functions-core.php:702
 msgid "Belize"
 msgstr ""
 
-#: includes/functions-core.php:702
+#: includes/functions-core.php:703
 msgid "Benin"
 msgstr ""
 
-#: includes/functions-core.php:703
+#: includes/functions-core.php:704
 msgid "Bermuda"
 msgstr ""
 
-#: includes/functions-core.php:704
+#: includes/functions-core.php:705
 msgid "Bhutan"
 msgstr ""
 
-#: includes/functions-core.php:705
+#: includes/functions-core.php:706
 msgid "Bolivia"
 msgstr ""
 
-#: includes/functions-core.php:706
+#: includes/functions-core.php:707
 msgid "Bonaire, Saint Eustatius and Saba"
 msgstr ""
 
-#: includes/functions-core.php:707
+#: includes/functions-core.php:708
 msgid "Bosnia and Herzegovina"
 msgstr ""
 
-#: includes/functions-core.php:708
+#: includes/functions-core.php:709
 msgid "Botswana"
 msgstr ""
 
-#: includes/functions-core.php:709
+#: includes/functions-core.php:710
 msgid "Bouvet Island"
 msgstr ""
 
-#: includes/functions-core.php:710
+#: includes/functions-core.php:711
 msgid "Brazil"
 msgstr ""
 
-#: includes/functions-core.php:711
+#: includes/functions-core.php:712
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: includes/functions-core.php:712
+#: includes/functions-core.php:713
 msgid "British Virgin Islands"
 msgstr ""
 
-#: includes/functions-core.php:713
+#: includes/functions-core.php:714
 msgid "Brunei"
 msgstr ""
 
-#: includes/functions-core.php:714, add-ons-pro/tax/includes/functions.php:117
+#: includes/functions-core.php:715, add-ons-pro/tax/includes/functions.php:117
 msgid "Bulgaria"
 msgstr ""
 
-#: includes/functions-core.php:715
+#: includes/functions-core.php:716
 msgid "Burkina Faso"
 msgstr ""
 
-#: includes/functions-core.php:716
+#: includes/functions-core.php:717
 msgid "Burundi"
 msgstr ""
 
-#: includes/functions-core.php:717
+#: includes/functions-core.php:718
 msgid "Cambodia"
 msgstr ""
 
-#: includes/functions-core.php:718
+#: includes/functions-core.php:719
 msgid "Cameroon"
 msgstr ""
 
-#: includes/functions-core.php:719
+#: includes/functions-core.php:720
 msgid "Canada"
 msgstr ""
 
-#: includes/functions-core.php:720
+#: includes/functions-core.php:721
 msgid "Cape Verde"
 msgstr ""
 
-#: includes/functions-core.php:721
+#: includes/functions-core.php:722
 msgid "Cayman Islands"
 msgstr ""
 
-#: includes/functions-core.php:722
+#: includes/functions-core.php:723
 msgid "Central African Republic"
 msgstr ""
 
-#: includes/functions-core.php:723
+#: includes/functions-core.php:724
 msgid "Chad"
 msgstr ""
 
-#: includes/functions-core.php:724
+#: includes/functions-core.php:725
 msgid "Chile"
 msgstr ""
 
-#: includes/functions-core.php:725
+#: includes/functions-core.php:726
 msgid "China"
 msgstr ""
 
-#: includes/functions-core.php:726
+#: includes/functions-core.php:727
 msgid "Christmas Island"
 msgstr ""
 
-#: includes/functions-core.php:727
+#: includes/functions-core.php:728
 msgid "Cocos Islands"
 msgstr ""
 
-#: includes/functions-core.php:728
+#: includes/functions-core.php:729
 msgid "Colombia"
 msgstr ""
 
-#: includes/functions-core.php:729
+#: includes/functions-core.php:730
 msgid "Comoros"
 msgstr ""
 
-#: includes/functions-core.php:730
+#: includes/functions-core.php:731
 msgid "Cook Islands"
 msgstr ""
 
-#: includes/functions-core.php:731
+#: includes/functions-core.php:732
 msgid "Costa Rica"
 msgstr ""
 
-#: includes/functions-core.php:732, add-ons-pro/tax/includes/functions.php:127
+#: includes/functions-core.php:733, add-ons-pro/tax/includes/functions.php:127
 msgid "Croatia"
 msgstr ""
 
-#: includes/functions-core.php:733
+#: includes/functions-core.php:734
 msgid "Cuba"
 msgstr ""
 
-#: includes/functions-core.php:734
+#: includes/functions-core.php:735
 msgid "Curacao"
 msgstr ""
 
-#: includes/functions-core.php:735, add-ons-pro/tax/includes/functions.php:118
+#: includes/functions-core.php:736, add-ons-pro/tax/includes/functions.php:118
 msgid "Cyprus"
 msgstr ""
 
-#: includes/functions-core.php:736, add-ons-pro/tax/includes/functions.php:119
+#: includes/functions-core.php:737, add-ons-pro/tax/includes/functions.php:119
 msgid "Czech Republic"
 msgstr ""
 
-#: includes/functions-core.php:737
+#: includes/functions-core.php:738
 msgid "Democratic Republic of the Congo"
 msgstr ""
 
-#: includes/functions-core.php:738, add-ons-pro/tax/includes/functions.php:121
+#: includes/functions-core.php:739, add-ons-pro/tax/includes/functions.php:121
 msgid "Denmark"
 msgstr ""
 
-#: includes/functions-core.php:739
+#: includes/functions-core.php:740
 msgid "Djibouti"
 msgstr ""
 
-#: includes/functions-core.php:740
+#: includes/functions-core.php:741
 msgid "Dominica"
 msgstr ""
 
-#: includes/functions-core.php:741
+#: includes/functions-core.php:742
 msgid "Dominican Republic"
 msgstr ""
 
-#: includes/functions-core.php:742
+#: includes/functions-core.php:743
 msgid "East Timor"
 msgstr ""
 
-#: includes/functions-core.php:743
+#: includes/functions-core.php:744
 msgid "Ecuador"
 msgstr ""
 
-#: includes/functions-core.php:744
+#: includes/functions-core.php:745
 msgid "Egypt"
 msgstr ""
 
-#: includes/functions-core.php:745
+#: includes/functions-core.php:746
 msgid "El Salvador"
 msgstr ""
 
-#: includes/functions-core.php:746
+#: includes/functions-core.php:747
 msgid "Equatorial Guinea"
 msgstr ""
 
-#: includes/functions-core.php:747
+#: includes/functions-core.php:748
 msgid "Eritrea"
 msgstr ""
 
-#: includes/functions-core.php:748, add-ons-pro/tax/includes/functions.php:122
+#: includes/functions-core.php:749, add-ons-pro/tax/includes/functions.php:122
 msgid "Estonia"
 msgstr ""
 
-#: includes/functions-core.php:749
+#: includes/functions-core.php:750
 msgid "Ethiopia"
 msgstr ""
 
-#: includes/functions-core.php:750
+#: includes/functions-core.php:751
 msgid "Falkland Islands"
 msgstr ""
 
-#: includes/functions-core.php:751
+#: includes/functions-core.php:752
 msgid "Faroe Islands"
 msgstr ""
 
-#: includes/functions-core.php:752
+#: includes/functions-core.php:753
 msgid "Fiji"
 msgstr ""
 
-#: includes/functions-core.php:753, add-ons-pro/tax/includes/functions.php:125
+#: includes/functions-core.php:754, add-ons-pro/tax/includes/functions.php:125
 msgid "Finland"
 msgstr ""
 
-#: includes/functions-core.php:754, add-ons-pro/tax/includes/functions.php:126
+#: includes/functions-core.php:755, add-ons-pro/tax/includes/functions.php:126
 msgid "France"
 msgstr ""
 
-#: includes/functions-core.php:755
+#: includes/functions-core.php:756
 msgid "French Guiana"
 msgstr ""
 
-#: includes/functions-core.php:756
+#: includes/functions-core.php:757
 msgid "French Polynesia"
 msgstr ""
 
-#: includes/functions-core.php:757
+#: includes/functions-core.php:758
 msgid "French Southern Territories"
 msgstr ""
 
-#: includes/functions-core.php:758
+#: includes/functions-core.php:759
 msgid "Gabon"
 msgstr ""
 
-#: includes/functions-core.php:759
+#: includes/functions-core.php:760
 msgid "Gambia"
 msgstr ""
 
-#: includes/functions-core.php:760
+#: includes/functions-core.php:761
 msgid "Georgia"
 msgstr ""
 
-#: includes/functions-core.php:761, add-ons-pro/tax/includes/functions.php:120
+#: includes/functions-core.php:762, add-ons-pro/tax/includes/functions.php:120
 msgid "Germany"
 msgstr ""
 
-#: includes/functions-core.php:762
+#: includes/functions-core.php:763
 msgid "Ghana"
 msgstr ""
 
-#: includes/functions-core.php:763
+#: includes/functions-core.php:764
 msgid "Gibraltar"
 msgstr ""
 
-#: includes/functions-core.php:764, add-ons-pro/tax/includes/functions.php:123
+#: includes/functions-core.php:765, add-ons-pro/tax/includes/functions.php:123
 msgid "Greece"
 msgstr ""
 
-#: includes/functions-core.php:765
+#: includes/functions-core.php:766
 msgid "Greenland"
 msgstr ""
 
-#: includes/functions-core.php:766
+#: includes/functions-core.php:767
 msgid "Grenada"
 msgstr ""
 
-#: includes/functions-core.php:767
+#: includes/functions-core.php:768
 msgid "Guadeloupe"
 msgstr ""
 
-#: includes/functions-core.php:768
+#: includes/functions-core.php:769
 msgid "Guam"
 msgstr ""
 
-#: includes/functions-core.php:769
+#: includes/functions-core.php:770
 msgid "Guatemala"
 msgstr ""
 
-#: includes/functions-core.php:770
+#: includes/functions-core.php:771
 msgid "Guernsey"
 msgstr ""
 
-#: includes/functions-core.php:771
+#: includes/functions-core.php:772
 msgid "Guinea"
 msgstr ""
 
-#: includes/functions-core.php:772
+#: includes/functions-core.php:773
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: includes/functions-core.php:773
+#: includes/functions-core.php:774
 msgid "Guyana"
 msgstr ""
 
-#: includes/functions-core.php:774
+#: includes/functions-core.php:775
 msgid "Haiti"
 msgstr ""
 
-#: includes/functions-core.php:775
+#: includes/functions-core.php:776
 msgid "Heard Island and McDonald Islands"
 msgstr ""
 
-#: includes/functions-core.php:776
+#: includes/functions-core.php:777
 msgid "Honduras"
 msgstr ""
 
-#: includes/functions-core.php:777
+#: includes/functions-core.php:778
 msgid "Hong Kong"
 msgstr ""
 
-#: includes/functions-core.php:778, add-ons-pro/tax/includes/functions.php:129
+#: includes/functions-core.php:779, add-ons-pro/tax/includes/functions.php:129
 msgid "Hungary"
 msgstr ""
 
-#: includes/functions-core.php:779
+#: includes/functions-core.php:780
 msgid "Iceland"
 msgstr ""
 
-#: includes/functions-core.php:780
+#: includes/functions-core.php:781
 msgid "India"
 msgstr ""
 
-#: includes/functions-core.php:781
+#: includes/functions-core.php:782
 msgid "Indonesia"
 msgstr ""
 
-#: includes/functions-core.php:782
+#: includes/functions-core.php:783
 msgid "Iran"
 msgstr ""
 
-#: includes/functions-core.php:783
+#: includes/functions-core.php:784
 msgid "Iraq"
 msgstr ""
 
-#: includes/functions-core.php:784, add-ons-pro/tax/includes/functions.php:130
+#: includes/functions-core.php:785, add-ons-pro/tax/includes/functions.php:130
 msgid "Ireland"
 msgstr ""
 
-#: includes/functions-core.php:785
+#: includes/functions-core.php:786
 msgid "Isle of Man"
 msgstr ""
 
-#: includes/functions-core.php:786
+#: includes/functions-core.php:787
 msgid "Israel"
 msgstr ""
 
-#: includes/functions-core.php:787, add-ons-pro/tax/includes/functions.php:131
+#: includes/functions-core.php:788, add-ons-pro/tax/includes/functions.php:131
 msgid "Italy"
 msgstr ""
 
-#: includes/functions-core.php:788
+#: includes/functions-core.php:789
 msgid "Ivory Coast"
 msgstr ""
 
-#: includes/functions-core.php:789
+#: includes/functions-core.php:790
 msgid "Jamaica"
 msgstr ""
 
-#: includes/functions-core.php:790
+#: includes/functions-core.php:791
 msgid "Japan"
 msgstr ""
 
-#: includes/functions-core.php:791
+#: includes/functions-core.php:792
 msgid "Jersey"
 msgstr ""
 
-#: includes/functions-core.php:792
+#: includes/functions-core.php:793
 msgid "Jordan"
 msgstr ""
 
-#: includes/functions-core.php:793
+#: includes/functions-core.php:794
 msgid "Kazakhstan"
 msgstr ""
 
-#: includes/functions-core.php:794
+#: includes/functions-core.php:795
 msgid "Kenya"
 msgstr ""
 
-#: includes/functions-core.php:795
+#: includes/functions-core.php:796
 msgid "Kiribati"
 msgstr ""
 
-#: includes/functions-core.php:796
+#: includes/functions-core.php:797
 msgid "Kosovo"
 msgstr ""
 
-#: includes/functions-core.php:797
+#: includes/functions-core.php:798
 msgid "Kuwait"
 msgstr ""
 
-#: includes/functions-core.php:798
+#: includes/functions-core.php:799
 msgid "Kyrgyzstan"
 msgstr ""
 
-#: includes/functions-core.php:799
+#: includes/functions-core.php:800
 msgid "Laos"
 msgstr ""
 
-#: includes/functions-core.php:800, add-ons-pro/tax/includes/functions.php:134
+#: includes/functions-core.php:801, add-ons-pro/tax/includes/functions.php:134
 msgid "Latvia"
 msgstr ""
 
-#: includes/functions-core.php:801
+#: includes/functions-core.php:802
 msgid "Lebanon"
 msgstr ""
 
-#: includes/functions-core.php:802
+#: includes/functions-core.php:803
 msgid "Lesotho"
 msgstr ""
 
-#: includes/functions-core.php:803
+#: includes/functions-core.php:804
 msgid "Liberia"
 msgstr ""
 
-#: includes/functions-core.php:804
+#: includes/functions-core.php:805
 msgid "Libya"
 msgstr ""
 
-#: includes/functions-core.php:805
+#: includes/functions-core.php:806
 msgid "Liechtenstein"
 msgstr ""
 
-#: includes/functions-core.php:806, add-ons-pro/tax/includes/functions.php:132
+#: includes/functions-core.php:807, add-ons-pro/tax/includes/functions.php:132
 msgid "Lithuania"
 msgstr ""
 
-#: includes/functions-core.php:807, add-ons-pro/tax/includes/functions.php:133
+#: includes/functions-core.php:808, add-ons-pro/tax/includes/functions.php:133
 msgid "Luxembourg"
 msgstr ""
 
-#: includes/functions-core.php:808
+#: includes/functions-core.php:809
 msgid "Macao"
 msgstr ""
 
-#: includes/functions-core.php:809
+#: includes/functions-core.php:810
 msgid "North Macedonia"
 msgstr ""
 
-#: includes/functions-core.php:810
+#: includes/functions-core.php:811
 msgid "Madagascar"
 msgstr ""
 
-#: includes/functions-core.php:811
+#: includes/functions-core.php:812
 msgid "Malawi"
 msgstr ""
 
-#: includes/functions-core.php:812
+#: includes/functions-core.php:813
 msgid "Malaysia"
 msgstr ""
 
-#: includes/functions-core.php:813
+#: includes/functions-core.php:814
 msgid "Maldives"
 msgstr ""
 
-#: includes/functions-core.php:814
+#: includes/functions-core.php:815
 msgid "Mali"
 msgstr ""
 
-#: includes/functions-core.php:815, add-ons-pro/tax/includes/functions.php:135
+#: includes/functions-core.php:816, add-ons-pro/tax/includes/functions.php:135
 msgid "Malta"
 msgstr ""
 
-#: includes/functions-core.php:816
+#: includes/functions-core.php:817
 msgid "Marshall Islands"
 msgstr ""
 
-#: includes/functions-core.php:817
+#: includes/functions-core.php:818
 msgid "Martinique"
 msgstr ""
 
-#: includes/functions-core.php:818
+#: includes/functions-core.php:819
 msgid "Mauritania"
 msgstr ""
 
-#: includes/functions-core.php:819
+#: includes/functions-core.php:820
 msgid "Mauritius"
 msgstr ""
 
-#: includes/functions-core.php:820
+#: includes/functions-core.php:821
 msgid "Mayotte"
 msgstr ""
 
-#: includes/functions-core.php:821
+#: includes/functions-core.php:822
 msgid "Mexico"
 msgstr ""
 
-#: includes/functions-core.php:822
+#: includes/functions-core.php:823
 msgid "Micronesia"
 msgstr ""
 
-#: includes/functions-core.php:823
+#: includes/functions-core.php:824
 msgid "Moldova"
 msgstr ""
 
-#: includes/functions-core.php:824
+#: includes/functions-core.php:825
 msgid "Monaco"
 msgstr ""
 
-#: includes/functions-core.php:825
+#: includes/functions-core.php:826
 msgid "Mongolia"
 msgstr ""
 
-#: includes/functions-core.php:826
+#: includes/functions-core.php:827
 msgid "Montenegro"
 msgstr ""
 
-#: includes/functions-core.php:827
+#: includes/functions-core.php:828
 msgid "Montserrat"
 msgstr ""
 
-#: includes/functions-core.php:828
+#: includes/functions-core.php:829
 msgid "Morocco"
 msgstr ""
 
-#: includes/functions-core.php:829
+#: includes/functions-core.php:830
 msgid "Mozambique"
 msgstr ""
 
-#: includes/functions-core.php:830
+#: includes/functions-core.php:831
 msgid "Myanmar"
 msgstr ""
 
-#: includes/functions-core.php:831
+#: includes/functions-core.php:832
 msgid "Namibia"
 msgstr ""
 
-#: includes/functions-core.php:832
+#: includes/functions-core.php:833
 msgid "Nauru"
 msgstr ""
 
-#: includes/functions-core.php:833
+#: includes/functions-core.php:834
 msgid "Nepal"
 msgstr ""
 
-#: includes/functions-core.php:834, add-ons-pro/tax/includes/functions.php:136
+#: includes/functions-core.php:835, add-ons-pro/tax/includes/functions.php:136
 msgid "Netherlands"
 msgstr ""
 
-#: includes/functions-core.php:835
+#: includes/functions-core.php:836
 msgid "New Caledonia"
 msgstr ""
 
-#: includes/functions-core.php:836
+#: includes/functions-core.php:837
 msgid "New Zealand"
 msgstr ""
 
-#: includes/functions-core.php:837
+#: includes/functions-core.php:838
 msgid "Nicaragua"
 msgstr ""
 
-#: includes/functions-core.php:838
+#: includes/functions-core.php:839
 msgid "Niger"
 msgstr ""
 
-#: includes/functions-core.php:839
+#: includes/functions-core.php:840
 msgid "Nigeria"
 msgstr ""
 
-#: includes/functions-core.php:840
+#: includes/functions-core.php:841
 msgid "Niue"
 msgstr ""
 
-#: includes/functions-core.php:841
+#: includes/functions-core.php:842
 msgid "Norfolk Island"
 msgstr ""
 
-#: includes/functions-core.php:842
+#: includes/functions-core.php:843
 msgid "North Korea"
 msgstr ""
 
-#: includes/functions-core.php:843
+#: includes/functions-core.php:844
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#: includes/functions-core.php:844, add-ons-pro/tax/includes/functions.php:137
+#: includes/functions-core.php:845, add-ons-pro/tax/includes/functions.php:137
 msgid "Norway"
 msgstr ""
 
-#: includes/functions-core.php:845
+#: includes/functions-core.php:846
 msgid "Oman"
 msgstr ""
 
-#: includes/functions-core.php:846
+#: includes/functions-core.php:847
 msgid "Pakistan"
 msgstr ""
 
-#: includes/functions-core.php:847
+#: includes/functions-core.php:848
 msgid "Palau"
 msgstr ""
 
-#: includes/functions-core.php:848
+#: includes/functions-core.php:849
 msgid "Palestinian Territory"
 msgstr ""
 
-#: includes/functions-core.php:849
+#: includes/functions-core.php:850
 msgid "Panama"
 msgstr ""
 
-#: includes/functions-core.php:850
+#: includes/functions-core.php:851
 msgid "Papua New Guinea"
 msgstr ""
 
-#: includes/functions-core.php:851
+#: includes/functions-core.php:852
 msgid "Paraguay"
 msgstr ""
 
-#: includes/functions-core.php:852
+#: includes/functions-core.php:853
 msgid "Peru"
 msgstr ""
 
-#: includes/functions-core.php:853
+#: includes/functions-core.php:854
 msgid "Philippines"
 msgstr ""
 
-#: includes/functions-core.php:854
+#: includes/functions-core.php:855
 msgid "Pitcairn"
 msgstr ""
 
-#: includes/functions-core.php:855, add-ons-pro/tax/includes/functions.php:138
+#: includes/functions-core.php:856, add-ons-pro/tax/includes/functions.php:138
 msgid "Poland"
 msgstr ""
 
-#: includes/functions-core.php:856, add-ons-pro/tax/includes/functions.php:139
+#: includes/functions-core.php:857, add-ons-pro/tax/includes/functions.php:139
 msgid "Portugal"
 msgstr ""
 
-#: includes/functions-core.php:857
+#: includes/functions-core.php:858
 msgid "Puerto Rico"
 msgstr ""
 
-#: includes/functions-core.php:858
+#: includes/functions-core.php:859
 msgid "Qatar"
 msgstr ""
 
-#: includes/functions-core.php:859
+#: includes/functions-core.php:860
 msgid "Republic of the Congo"
 msgstr ""
 
-#: includes/functions-core.php:860
+#: includes/functions-core.php:861
 msgid "Reunion"
 msgstr ""
 
-#: includes/functions-core.php:861, add-ons-pro/tax/includes/functions.php:140
+#: includes/functions-core.php:862, add-ons-pro/tax/includes/functions.php:140
 msgid "Romania"
 msgstr ""
 
-#: includes/functions-core.php:862
+#: includes/functions-core.php:863
 msgid "Russia"
 msgstr ""
 
-#: includes/functions-core.php:863
+#: includes/functions-core.php:864
 msgid "Rwanda"
 msgstr ""
 
-#: includes/functions-core.php:864
+#: includes/functions-core.php:865
 msgid "Saint Barthelemy"
 msgstr ""
 
-#: includes/functions-core.php:865
+#: includes/functions-core.php:866
 msgid "Saint Helena"
 msgstr ""
 
-#: includes/functions-core.php:866
+#: includes/functions-core.php:867
 msgid "Saint Kitts and Nevis"
 msgstr ""
 
-#: includes/functions-core.php:867
+#: includes/functions-core.php:868
 msgid "Saint Lucia"
 msgstr ""
 
-#: includes/functions-core.php:868
+#: includes/functions-core.php:869
 msgid "Saint Martin"
 msgstr ""
 
-#: includes/functions-core.php:869
+#: includes/functions-core.php:870
 msgid "Saint Pierre and Miquelon"
 msgstr ""
 
-#: includes/functions-core.php:870
+#: includes/functions-core.php:871
 msgid "Saint Vincent and the Grenadines"
 msgstr ""
 
-#: includes/functions-core.php:871
+#: includes/functions-core.php:872
 msgid "Samoa"
 msgstr ""
 
-#: includes/functions-core.php:872
+#: includes/functions-core.php:873
 msgid "San Marino"
 msgstr ""
 
-#: includes/functions-core.php:873
+#: includes/functions-core.php:874
 msgid "Sao Tome and Principe"
 msgstr ""
 
-#: includes/functions-core.php:874
+#: includes/functions-core.php:875
 msgid "Saudi Arabia"
 msgstr ""
 
-#: includes/functions-core.php:875
+#: includes/functions-core.php:876
 msgid "Senegal"
 msgstr ""
 
-#: includes/functions-core.php:876
+#: includes/functions-core.php:877
 msgid "Serbia"
 msgstr ""
 
-#: includes/functions-core.php:877
+#: includes/functions-core.php:878
 msgid "Seychelles"
 msgstr ""
 
-#: includes/functions-core.php:878
+#: includes/functions-core.php:879
 msgid "Sierra Leone"
 msgstr ""
 
-#: includes/functions-core.php:879
+#: includes/functions-core.php:880
 msgid "Singapore"
 msgstr ""
 
-#: includes/functions-core.php:880
+#: includes/functions-core.php:881
 msgid "Sint Maarten"
 msgstr ""
 
-#: includes/functions-core.php:881, add-ons-pro/tax/includes/functions.php:144
+#: includes/functions-core.php:882, add-ons-pro/tax/includes/functions.php:144
 msgid "Slovakia"
 msgstr ""
 
-#: includes/functions-core.php:882, add-ons-pro/tax/includes/functions.php:143
+#: includes/functions-core.php:883, add-ons-pro/tax/includes/functions.php:143
 msgid "Slovenia"
 msgstr ""
 
-#: includes/functions-core.php:883
+#: includes/functions-core.php:884
 msgid "Solomon Islands"
 msgstr ""
 
-#: includes/functions-core.php:884
+#: includes/functions-core.php:885
 msgid "Somalia"
 msgstr ""
 
-#: includes/functions-core.php:885
+#: includes/functions-core.php:886
 msgid "South Africa"
 msgstr ""
 
-#: includes/functions-core.php:886
+#: includes/functions-core.php:887
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
-#: includes/functions-core.php:887
+#: includes/functions-core.php:888
 msgid "South Korea"
 msgstr ""
 
-#: includes/functions-core.php:888
+#: includes/functions-core.php:889
 msgid "South Sudan"
 msgstr ""
 
-#: includes/functions-core.php:889, add-ons-pro/tax/includes/functions.php:124
+#: includes/functions-core.php:890, add-ons-pro/tax/includes/functions.php:124
 msgid "Spain"
 msgstr ""
 
-#: includes/functions-core.php:890
+#: includes/functions-core.php:891
 msgid "Sri Lanka"
 msgstr ""
 
-#: includes/functions-core.php:891
+#: includes/functions-core.php:892
 msgid "Sudan"
 msgstr ""
 
-#: includes/functions-core.php:892
+#: includes/functions-core.php:893
 msgid "Suriname"
 msgstr ""
 
-#: includes/functions-core.php:893
+#: includes/functions-core.php:894
 msgid "Svalbard and Jan Mayen"
 msgstr ""
 
-#: includes/functions-core.php:894
+#: includes/functions-core.php:895
 msgid "Swaziland"
 msgstr ""
 
-#: includes/functions-core.php:895, add-ons-pro/tax/includes/functions.php:141
+#: includes/functions-core.php:896, add-ons-pro/tax/includes/functions.php:141
 msgid "Sweden"
 msgstr ""
 
-#: includes/functions-core.php:896, add-ons-pro/tax/includes/functions.php:142
+#: includes/functions-core.php:897, add-ons-pro/tax/includes/functions.php:142
 msgid "Switzerland"
 msgstr ""
 
-#: includes/functions-core.php:897
+#: includes/functions-core.php:898
 msgid "Syria"
 msgstr ""
 
-#: includes/functions-core.php:898
+#: includes/functions-core.php:899
 msgid "Taiwan"
 msgstr ""
 
-#: includes/functions-core.php:899
+#: includes/functions-core.php:900
 msgid "Tajikistan"
 msgstr ""
 
-#: includes/functions-core.php:900
+#: includes/functions-core.php:901
 msgid "Tanzania"
 msgstr ""
 
-#: includes/functions-core.php:901
+#: includes/functions-core.php:902
 msgid "Thailand"
 msgstr ""
 
-#: includes/functions-core.php:902
+#: includes/functions-core.php:903
 msgid "Togo"
 msgstr ""
 
-#: includes/functions-core.php:903
+#: includes/functions-core.php:904
 msgid "Tokelau"
 msgstr ""
 
-#: includes/functions-core.php:904
+#: includes/functions-core.php:905
 msgid "Tonga"
 msgstr ""
 
-#: includes/functions-core.php:905
+#: includes/functions-core.php:906
 msgid "Trinidad and Tobago"
 msgstr ""
 
-#: includes/functions-core.php:906
+#: includes/functions-core.php:907
 msgid "Tunisia"
 msgstr ""
 
-#: includes/functions-core.php:907
+#: includes/functions-core.php:908
 msgid "Turkey"
 msgstr ""
 
-#: includes/functions-core.php:908
+#: includes/functions-core.php:909
 msgid "Turkmenistan"
 msgstr ""
 
-#: includes/functions-core.php:909
+#: includes/functions-core.php:910
 msgid "Turks and Caicos Islands"
 msgstr ""
 
-#: includes/functions-core.php:910
+#: includes/functions-core.php:911
 msgid "Tuvalu"
 msgstr ""
 
-#: includes/functions-core.php:911
+#: includes/functions-core.php:912
 msgid "U.S. Virgin Islands"
 msgstr ""
 
-#: includes/functions-core.php:912
+#: includes/functions-core.php:913
 msgid "Uganda"
 msgstr ""
 
-#: includes/functions-core.php:913
+#: includes/functions-core.php:914
 msgid "Ukraine"
 msgstr ""
 
-#: includes/functions-core.php:914
+#: includes/functions-core.php:915
 msgid "United Arab Emirates"
 msgstr ""
 
-#: includes/functions-core.php:915, add-ons-pro/tax/includes/functions.php:128
+#: includes/functions-core.php:916, add-ons-pro/tax/includes/functions.php:128
 msgid "United Kingdom"
 msgstr ""
 
-#: includes/functions-core.php:916
+#: includes/functions-core.php:917
 msgid "United States"
 msgstr ""
 
-#: includes/functions-core.php:917
+#: includes/functions-core.php:918
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
-#: includes/functions-core.php:918
+#: includes/functions-core.php:919
 msgid "Uruguay"
 msgstr ""
 
-#: includes/functions-core.php:919
+#: includes/functions-core.php:920
 msgid "Uzbekistan"
 msgstr ""
 
-#: includes/functions-core.php:920
+#: includes/functions-core.php:921
 msgid "Vanuatu"
 msgstr ""
 
-#: includes/functions-core.php:921
+#: includes/functions-core.php:922
 msgid "Vatican"
 msgstr ""
 
-#: includes/functions-core.php:922
+#: includes/functions-core.php:923
 msgid "Venezuela"
 msgstr ""
 
-#: includes/functions-core.php:923
+#: includes/functions-core.php:924
 msgid "Vietnam"
 msgstr ""
 
-#: includes/functions-core.php:924
+#: includes/functions-core.php:925
 msgid "Wallis and Futuna"
 msgstr ""
 
-#: includes/functions-core.php:925
+#: includes/functions-core.php:926
 msgid "Western Sahara"
 msgstr ""
 
-#: includes/functions-core.php:926
+#: includes/functions-core.php:927
 msgid "Yemen"
 msgstr ""
 
-#: includes/functions-core.php:927
+#: includes/functions-core.php:928
 msgid "Zambia"
 msgstr ""
 
-#: includes/functions-core.php:928
+#: includes/functions-core.php:929
 msgid "Zimbabwe"
 msgstr ""
 
-#: includes/functions-core.php:1151
+#: includes/functions-core.php:1152
 msgid "It looks like this website is a clone of another one. In order to not generate errors like double payments, the Plugin Scheduled Payments functionality from <strong>Paid Member Subscriptions</strong> has been disabled."
 msgstr ""
 
-#: includes/functions-core.php:1152
+#: includes/functions-core.php:1153
 msgid "In order to restore it, you need to put the plugin into <strong>Test Mode</strong>."
 msgstr ""
 
-#: includes/functions-core.php:1163, includes/functions-core.php:1190, includes/functions-core.php:1228, includes/functions-core.php:1209, includes/functions-core.php:1268, includes/functions-plugin-compatibilities.php:101, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:250, add-ons-pro/group-memberships/includes/functions.php:270
+#: includes/functions-core.php:1164, includes/functions-core.php:1191, includes/functions-core.php:1229, includes/functions-core.php:1210, includes/functions-core.php:1269, includes/functions-plugin-compatibilities.php:101, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:250, add-ons-pro/group-memberships/includes/functions.php:270
 msgid " %1$sDismiss%2$s"
 msgstr ""
 
-#: includes/functions-core.php:1179
+#: includes/functions-core.php:1180
 msgid "Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate."
 msgstr ""
 
-#: includes/functions-core.php:1227
+#: includes/functions-core.php:1228
 msgid "Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support.  <a class=\"button-primary\" href=\"%s\">Renew now</a>"
 msgstr ""
 
-#: includes/functions-core.php:1204
+#: includes/functions-core.php:1205
 msgid "Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>"
 msgstr ""
 
-#: includes/functions-core.php:1266
+#: includes/functions-core.php:1267
 msgid "All individual Paid Member Subscriptions add-on plugins <a href=\"%1$s\" target=\"_blank\">have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions. Please log into your <a href=\"%2$s\" target=\"_blank\">account page</a>, download the new premium version and install it. Your individual addons settings will be ported over."
 msgstr ""
 
@@ -2512,63 +2516,63 @@ msgstr ""
 msgid "More Details"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:451, includes/admin/class-admin-subscription-plans.php:390, includes/admin/class-admin-subscription-plans.php:435
+#: includes/functions-subscription-plan.php:460, includes/admin/class-admin-subscription-plans.php:390, includes/admin/class-admin-subscription-plans.php:440
 msgid "%s Day"
 msgid_plural "%s Days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:454, includes/admin/class-admin-subscription-plans.php:393, includes/admin/class-admin-subscription-plans.php:438
+#: includes/functions-subscription-plan.php:463, includes/admin/class-admin-subscription-plans.php:393, includes/admin/class-admin-subscription-plans.php:443
 msgid "%s Week"
 msgid_plural "%s Weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:457, includes/admin/class-admin-subscription-plans.php:396, includes/admin/class-admin-subscription-plans.php:441
+#: includes/functions-subscription-plan.php:466, includes/admin/class-admin-subscription-plans.php:396, includes/admin/class-admin-subscription-plans.php:446
 msgid "%s Month"
 msgid_plural "%s Months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:460, includes/admin/class-admin-subscription-plans.php:399, includes/admin/class-admin-subscription-plans.php:444
+#: includes/functions-subscription-plan.php:469, includes/admin/class-admin-subscription-plans.php:399, includes/admin/class-admin-subscription-plans.php:449
 msgid "%s Year"
 msgid_plural "%s Years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:516
+#: includes/functions-subscription-plan.php:527, includes/functions-subscription-plan.php:546
 msgid "day"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:519
+#: includes/functions-subscription-plan.php:530
 msgid "week"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:522
+#: includes/functions-subscription-plan.php:533
 msgid "month"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:525
+#: includes/functions-subscription-plan.php:536
 msgid "year"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:533
+#: includes/functions-subscription-plan.php:550
 msgid " with a %1$s %2$s free trial"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:572
+#: includes/functions-subscription-plan.php:589
 msgid " and a %1$s sign-up fee"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:645
+#: includes/functions-subscription-plan.php:662
 msgid "Automatically renew subscription"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:759
+#: includes/functions-subscription-plan.php:778
 msgid "You need to create Subscription Plans before you can use this form. Go to your <strong>Dashboard -> Paid Member Subscriptions -> Subscriptions Plans</strong> to do this."
 msgstr ""
 
-#: includes/functions-subscription-plan.php:760, add-ons-pro/stripe/includes/functions-actions.php:25, includes/gateways/paypal_standard/functions-paypal-standard.php:76, includes/gateways/paypal_standard/functions-paypal-standard.php:104, includes/gateways/paypal_standard/functions-paypal-standard.php:241, includes/gateways/paypal_standard/functions-paypal-standard.php:269
+#: includes/functions-subscription-plan.php:779, add-ons-pro/stripe/includes/functions-actions.php:25, includes/gateways/paypal_standard/functions-paypal-standard.php:76, includes/gateways/paypal_standard/functions-paypal-standard.php:104, includes/gateways/paypal_standard/functions-paypal-standard.php:241, includes/gateways/paypal_standard/functions-paypal-standard.php:269
 msgid "This message is visible only by Administrators."
 msgstr ""
 
@@ -2580,7 +2584,7 @@ msgstr ""
 msgid "Paid Member Subscriptions Payments"
 msgstr ""
 
-#: includes/functions-user.php:242, includes/admin/class-admin-member-payments-list-table.php:50, includes/admin/class-admin-payments-list-table.php:101, includes/admin/views/view-page-payments-add-new-edit.php:103, includes/views/shortcodes/view-shortcode-account.php:13, add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:30
+#: includes/functions-user.php:242, includes/admin/class-admin-member-payments-list-table.php:50, includes/admin/class-admin-payments-list-table.php:101, includes/admin/views/view-page-payments-add-new-edit.php:103, includes/views/shortcodes/view-shortcode-account.php:13, add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:42
 msgid "Subscription"
 msgstr ""
 
@@ -2732,7 +2736,7 @@ msgstr ""
 msgid "Paid Member Subscriptions Shortcodes"
 msgstr ""
 
-#: extend/profile-builder/functions-email-confirmation.php:114, includes/views/shortcodes/view-shortcode-new-subscription-form.php:40
+#: extend/profile-builder/functions-email-confirmation.php:114, includes/views/shortcodes/view-shortcode-new-subscription-form.php:41
 msgid "Subscribe"
 msgstr ""
 
@@ -2829,7 +2833,7 @@ msgstr ""
 msgid "Insert the [pms-register] shortcode"
 msgstr ""
 
-#: extend/wpbakery/class-wpbakery.php:28, includes/admin/class-admin-subscription-plans.php:1070, extend/elementor/widgets/class-widget-register.php:60, includes/admin/views/view-page-basic-info.php:61, extend/beaver-builder/modules/pms-register/pms-register.php:35, extend/beaver-builder/modules/pms-register/pms-register.php:47, extend/siteorigin/widgets/pms-register/pms-register.php:23
+#: extend/wpbakery/class-wpbakery.php:28, includes/admin/class-admin-subscription-plans.php:1075, extend/elementor/widgets/class-widget-register.php:60, includes/admin/views/view-page-basic-info.php:61, extend/beaver-builder/modules/pms-register/pms-register.php:35, extend/beaver-builder/modules/pms-register/pms-register.php:47, extend/siteorigin/widgets/pms-register/pms-register.php:23
 msgid "Subscription Plans"
 msgstr ""
 
@@ -2982,7 +2986,7 @@ msgstr ""
 msgid "No payments found"
 msgstr ""
 
-#: includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1070, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:503, includes/admin/views/view-page-members-add-new-edit-subscription.php:187, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
+#: includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1075, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:503, includes/admin/views/view-page-members-add-new-edit-subscription.php:187, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
 msgid "Subscription Plan"
 msgstr ""
 
@@ -3042,7 +3046,7 @@ msgstr ""
 msgid "Select Subscription Status..."
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:167, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:124, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:122, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:145, includes/admin/views/view-page-members-add-new-edit-subscription.php:267, includes/views/shortcodes/view-shortcode-account-subscription-details.php:52, add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:63
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:167, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:124, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:122, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:145, includes/admin/views/view-page-members-add-new-edit-subscription.php:267, includes/views/shortcodes/view-shortcode-account-subscription-details.php:52, add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:40, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:63
 msgid "Expiration Date"
 msgstr ""
 
@@ -3126,167 +3130,167 @@ msgid_plural "%d Member Subscriptions successfully deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-members.php:317
+#: includes/admin/class-admin-members.php:321
 msgid "%d members successfully added."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:349, includes/admin/class-admin-payments.php:322
+#: includes/admin/class-admin-members.php:353, includes/admin/class-admin-payments.php:330
 msgid "It seems this user does not exist."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:341, includes/admin/class-admin-payments.php:314
+#: includes/admin/class-admin-members.php:345, includes/admin/class-admin-payments.php:322
 msgid "Please select a user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:368
+#: includes/admin/class-admin-members.php:372
 msgid "This user is already subscribed to the selected plan or another plan from this tier. Select another one."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:376
+#: includes/admin/class-admin-members.php:380
 msgid "Please add a start date for the subscription."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:385
+#: includes/admin/class-admin-members.php:389
 msgid "The expiration date needs to be greater than the start date."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:388
+#: includes/admin/class-admin-members.php:392
 msgid "The expiration date needs to be greater than the trial end date."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:421, includes/admin/class-admin-members.php:434, includes/admin/class-admin-members.php:430
+#: includes/admin/class-admin-members.php:425, includes/admin/class-admin-members.php:438, includes/admin/class-admin-members.php:434
 msgid "Something went wrong. Could not complete your request."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:442
+#: includes/admin/class-admin-members.php:446
 msgid "The user already has a non-abandoned subscription with this plan."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:471
+#: includes/admin/class-admin-members.php:475
 msgid "The expiration date needs to be less than the current date."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:678
+#: includes/admin/class-admin-members.php:682
 msgid "Subscription canceled by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:681
+#: includes/admin/class-admin-members.php:685
 msgid "Subscription initiated by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:684
+#: includes/admin/class-admin-members.php:688
 msgid "Subscription abandoned by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:691
+#: includes/admin/class-admin-members.php:695
 msgid "Subscription activated successfully."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:689
+#: includes/admin/class-admin-members.php:693
 msgid "Subscription activated until <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:695
+#: includes/admin/class-admin-members.php:699
 msgid "Subscription expired."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:702
+#: includes/admin/class-admin-members.php:706
 msgid "Subscription renewed by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:700
+#: includes/admin/class-admin-members.php:704
 msgid "Subscription renewed until <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:706
+#: includes/admin/class-admin-members.php:710
 msgid "Subscription renewed automatically."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:709
+#: includes/admin/class-admin-members.php:713
 msgid "Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:717, includes/admin/class-admin-members.php:713
+#: includes/admin/class-admin-members.php:721, includes/admin/class-admin-members.php:717
 msgid "Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>. Payment will be retried in %s days."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:721
+#: includes/admin/class-admin-members.php:725
 msgid "Subscription could not be renewed. Payment retry was disabled."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:724
+#: includes/admin/class-admin-members.php:728
 msgid "User attempted to upgrade his subscription plan to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:727
+#: includes/admin/class-admin-members.php:731
 msgid "User attempted to downgrade his subscription plan to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:730
+#: includes/admin/class-admin-members.php:734
 msgid "User attempted to change his subscription plan to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:733
+#: includes/admin/class-admin-members.php:737
 msgid "User attempted to retry the payment for his subscription."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:736
+#: includes/admin/class-admin-members.php:740
 msgid "Subscription successfully upgraded from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:739
+#: includes/admin/class-admin-members.php:743
 msgid "Subscription successfully downgraded from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:742
+#: includes/admin/class-admin-members.php:746
 msgid "Subscription successfully changed from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:745
+#: includes/admin/class-admin-members.php:749
 msgid "Subscription trial started until <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:748
+#: includes/admin/class-admin-members.php:752
 msgid "Subscription trial ended."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:761
+#: includes/admin/class-admin-members.php:765
 msgid "%s changed <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:759
+#: includes/admin/class-admin-members.php:763
 msgid "%s changed <strong>%s</strong> from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:765
+#: includes/admin/class-admin-members.php:769
 msgid "Subscription activated successfully (by admin, manual offline)"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:768
+#: includes/admin/class-admin-members.php:772
 msgid "Subscription initiated by %s."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:771
+#: includes/admin/class-admin-members.php:775
 msgid "Subscription initiated by %s (bulk)."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:774
+#: includes/admin/class-admin-members.php:778
 msgid "Subscription initiated by %s (payment)."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:780
+#: includes/admin/class-admin-members.php:784
 msgid "Subscription canceled because user was deleted by <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:783
+#: includes/admin/class-admin-members.php:787
 msgid "Subscription canceled by gateway."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:786
+#: includes/admin/class-admin-members.php:790
 msgid "Payment gateway was changed from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:857, includes/admin/class-admin-members.php:857, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:66, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:13, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
+#: includes/admin/class-admin-members.php:861, includes/admin/class-admin-members.php:861, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:66, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:13, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
 msgid "Members"
 msgstr ""
 
@@ -3394,15 +3398,15 @@ msgstr ""
 msgid "Payment successfully updated."
 msgstr ""
 
-#: includes/admin/class-admin-payments.php:297
+#: includes/admin/class-admin-payments.php:305
 msgid "Payment successfully completed."
 msgstr ""
 
-#: includes/admin/class-admin-payments.php:333
+#: includes/admin/class-admin-payments.php:341
 msgid "Please enter a date for the payment."
 msgstr ""
 
-#: includes/admin/class-admin-payments.php:352
+#: includes/admin/class-admin-payments.php:360
 msgid "This user already has a subscription (%s) from the same group with the one you selected. Select it or remove it to be able to complete this payment."
 msgstr ""
 
@@ -3476,19 +3480,19 @@ msgid_plural "Inactive <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-subscription-plans.php:265, includes/admin/class-admin-subscription-plans.php:483, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:175, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:260, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:167, includes/admin/views/view-page-addons.php:245, includes/admin/views/view-page-addons.php:317, includes/admin/views/view-page-addons.php:353
+#: includes/admin/class-admin-subscription-plans.php:265, includes/admin/class-admin-subscription-plans.php:488, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:175, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:260, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:167, includes/admin/views/view-page-addons.php:245, includes/admin/views/view-page-addons.php:317, includes/admin/views/view-page-addons.php:353
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:263, includes/admin/class-admin-subscription-plans.php:484, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:173, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:258, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:165, includes/admin/views/view-page-addons.php:249, includes/admin/views/view-page-addons.php:321, includes/admin/views/view-page-addons.php:365
+#: includes/admin/class-admin-subscription-plans.php:263, includes/admin/class-admin-subscription-plans.php:489, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:173, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:258, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:165, includes/admin/views/view-page-addons.php:249, includes/admin/views/view-page-addons.php:321, includes/admin/views/view-page-addons.php:365
 msgid "Deactivate"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:273, includes/admin/class-admin-subscription-plans.php:612
+#: includes/admin/class-admin-subscription-plans.php:273, includes/admin/class-admin-subscription-plans.php:617
 msgid "Add Upgrade"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:281, includes/admin/class-admin-subscription-plans.php:613
+#: includes/admin/class-admin-subscription-plans.php:281, includes/admin/class-admin-subscription-plans.php:618
 msgid "Add Downgrade"
 msgstr ""
 
@@ -3496,7 +3500,7 @@ msgstr ""
 msgid "Duplicate"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:313, add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:31, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:47
+#: includes/admin/class-admin-subscription-plans.php:313, add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:43, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:47
 msgid "Price"
 msgstr ""
 
@@ -3516,103 +3520,103 @@ msgstr ""
 msgid "Move Subscription Plan Down"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:589
+#: includes/admin/class-admin-subscription-plans.php:594
 msgid "Are you sure you want to delete this Subscription Plan?"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:589
+#: includes/admin/class-admin-subscription-plans.php:594
 msgid "Delete Plan"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:642
+#: includes/admin/class-admin-subscription-plans.php:647
 msgid "a downgrade"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:642
+#: includes/admin/class-admin-subscription-plans.php:647
 msgid "an upgrade"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:644
+#: includes/admin/class-admin-subscription-plans.php:649
 msgid "This will be %s for the %s subscription plan."
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:702
+#: includes/admin/class-admin-subscription-plans.php:707
 msgid "Enter Subscription Plan name here"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:956, includes/admin/class-admin-subscription-plans.php:959
+#: includes/admin/class-admin-subscription-plans.php:961, includes/admin/class-admin-subscription-plans.php:964
 msgid "Subscription Plan updated."
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:957, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:315, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:333, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:277
+#: includes/admin/class-admin-subscription-plans.php:962, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:315, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:333, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:277
 msgid "Custom field updated."
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:958, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:316, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:334, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:278
+#: includes/admin/class-admin-subscription-plans.php:963, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:316, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:334, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:278
 msgid "Custom field deleted."
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:960
+#: includes/admin/class-admin-subscription-plans.php:965
 msgid "Subscription Plan restored to revision from %s"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:961, includes/admin/class-admin-subscription-plans.php:962
+#: includes/admin/class-admin-subscription-plans.php:966, includes/admin/class-admin-subscription-plans.php:967
 msgid "Subscription Plan saved."
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:963
+#: includes/admin/class-admin-subscription-plans.php:968
 msgid "Subscription Plan submitted."
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:964
+#: includes/admin/class-admin-subscription-plans.php:969
 msgid "Subscription Plan scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:964, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:322, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:340, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:284
+#: includes/admin/class-admin-subscription-plans.php:969, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:322, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:340, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:284
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:965
+#: includes/admin/class-admin-subscription-plans.php:970
 msgid "Subscription Plan draft updated."
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:980
+#: includes/admin/class-admin-subscription-plans.php:985
 msgid "%s Subscription Plan updated."
 msgid_plural "%s Subscription Plans updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-subscription-plans.php:981
+#: includes/admin/class-admin-subscription-plans.php:986
 msgid "%s Subscription Plan not updated, somebody is editing it."
 msgid_plural "%s Subscription Plans not updated, somebody is editing them."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-subscription-plans.php:982
+#: includes/admin/class-admin-subscription-plans.php:987
 msgid "%s Subscription Plan permanently deleted."
 msgid_plural "%s Subscription Plans permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-subscription-plans.php:983
+#: includes/admin/class-admin-subscription-plans.php:988
 msgid "%s Subscription Plan moved to the Trash."
 msgid_plural "%s Subscription Plans moved to the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-subscription-plans.php:984
+#: includes/admin/class-admin-subscription-plans.php:989
 msgid "%s Subscription Plan restored from the Trash."
 msgid_plural "%s Subscription Plans restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-subscription-plans.php:1033
+#: includes/admin/class-admin-subscription-plans.php:1038
 msgid "%d subscription plan has been successfully activated"
 msgid_plural "%d subscription plans have been successfully activated"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-subscription-plans.php:1036
+#: includes/admin/class-admin-subscription-plans.php:1041
 msgid "%d subscription plan has been successfully deactivated"
 msgid_plural "%d subscription plans have been successfully deactivated"
 msgstr[0] ""
@@ -3793,87 +3797,107 @@ msgstr ""
 msgid "Discount Code Details"
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:193, add-ons-basic/discount-codes/includes/functions-discount.php:212
+#: add-ons-basic/discount-codes/includes/functions-discount.php:193, add-ons-basic/discount-codes/includes/functions-discount.php:209, add-ons-basic/discount-codes/includes/functions-discount.php:218
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:196, add-ons-basic/discount-codes/includes/functions-discount.php:215
+#: add-ons-basic/discount-codes/includes/functions-discount.php:196, add-ons-basic/discount-codes/includes/functions-discount.php:221
 msgid "%s week"
 msgid_plural "%s weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:199, add-ons-basic/discount-codes/includes/functions-discount.php:218
+#: add-ons-basic/discount-codes/includes/functions-discount.php:199, add-ons-basic/discount-codes/includes/functions-discount.php:224
 msgid "%s month"
 msgid_plural "%s months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:202, add-ons-basic/discount-codes/includes/functions-discount.php:221
+#: add-ons-basic/discount-codes/includes/functions-discount.php:202, add-ons-basic/discount-codes/includes/functions-discount.php:227
 msgid "%s year"
 msgid_plural "%s years"
 msgstr[0] ""
 msgstr[1] ""
 
 #: add-ons-basic/discount-codes/includes/functions-discount.php:237
+msgid "until %s"
+msgstr ""
+
+#: add-ons-basic/discount-codes/includes/functions-discount.php:251
 msgid "Discount successfully applied! "
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:262
+#: add-ons-basic/discount-codes/includes/functions-discount.php:296
 msgid "Amount to be charged is %s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:260
+#: add-ons-basic/discount-codes/includes/functions-discount.php:294
 msgid "Amount to be charged now is %1$s, then after %2$s %3$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:258
+#: add-ons-basic/discount-codes/includes/functions-discount.php:292
 msgid "Amount to be charged after %1$s is %2$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:252
+#: add-ons-basic/discount-codes/includes/functions-discount.php:284
 msgid "Amount to be charged now is %1$s, then %2$s every %3$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:250
+#: add-ons-basic/discount-codes/includes/functions-discount.php:282
+msgid "Amount to be charged %1$s is %2$s, then %3$s yearly."
+msgstr ""
+
+#: add-ons-basic/discount-codes/includes/functions-discount.php:277
 msgid "Amount to be charged is %1$s every %2$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:246
+#: add-ons-basic/discount-codes/includes/functions-discount.php:275
+msgid "Amount to be charged is %1$s %2$s and repeated yearly."
+msgstr ""
+
+#: add-ons-basic/discount-codes/includes/functions-discount.php:268
 msgid "Amount to be charged now is %1$s, then after %2$s %3$s every %4$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:244
+#: add-ons-basic/discount-codes/includes/functions-discount.php:266
+msgid "Amount to be charged now is %1$s, then after %2$s %3$s %4$s and repeated yearly."
+msgstr ""
+
+#: add-ons-basic/discount-codes/includes/functions-discount.php:261
 msgid "Amount to be charged after %1$s is %2$s, then %3$s every %4$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:460
+#: add-ons-basic/discount-codes/includes/functions-discount.php:259
+msgid "Amount to be charged after %1$s is %2$s %3$s, then %4$s repeated yearly."
+msgstr ""
+
+#: add-ons-basic/discount-codes/includes/functions-discount.php:498
 msgid "The discount code you entered is invalid."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:411
+#: add-ons-basic/discount-codes/includes/functions-discount.php:449
 msgid "Please select a subscription plan and try again."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:415
+#: add-ons-basic/discount-codes/includes/functions-discount.php:453
 msgid "The discount is not valid for this subscription plan."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:420
+#: add-ons-basic/discount-codes/includes/functions-discount.php:458
 msgid "The discount code you entered is not active yet."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:425
+#: add-ons-basic/discount-codes/includes/functions-discount.php:463
 msgid "The discount code you entered has expired."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:430
+#: add-ons-basic/discount-codes/includes/functions-discount.php:468
 msgid "The discount code maximum uses have been reached."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:440
+#: add-ons-basic/discount-codes/includes/functions-discount.php:478
 msgid "The discount code maximum uses for this user have been reached."
 msgstr ""
 
@@ -4101,10 +4125,6 @@ msgstr ""
 msgid "Email Reminder Details"
 msgstr ""
 
-#: add-ons-basic/fixed-period-membership/includes/functions.php:102
-msgid " until %s"
-msgstr ""
-
 #: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:165, add-ons-pro/content-dripping/includes/class-meta-box-content-dripping-rules.php:73
 msgid "Post Type"
 msgstr ""
@@ -4254,7 +4274,7 @@ msgstr ""
 msgid "Original: %s"
 msgstr ""
 
-#: add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:228, includes/admin/views/view-page-payments-add-new-edit.php:266, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:61, includes/views/shortcodes/view-shortcode-account-subscription-details.php:108, includes/views/shortcodes/view-shortcode-account-subscription-details.php:106, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:117
+#: add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:228, includes/admin/views/view-page-payments-add-new-edit.php:266, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:61, includes/views/shortcodes/view-shortcode-account-subscription-details.php:121, includes/views/shortcodes/view-shortcode-account-subscription-details.php:119, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:131
 msgid "Cancel"
 msgstr ""
 
@@ -4554,15 +4574,15 @@ msgstr ""
 msgid "%sClick here%s to go now."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:905, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:457
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:971, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:490
 msgid "No request response received."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1003, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:698, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:296
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1069, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:698, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:300
 msgid "The selected gateway is not configured correctly: <strong>PayPal Address is missing</strong>. Contact the system administrator."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1006, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:701
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1072, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:701
 msgid "The selected gateway is not configured correctly: <strong>PayPal API credentials are missing</strong>. Contact the system administrator."
 msgstr ""
 
@@ -4698,7 +4718,7 @@ msgstr ""
 msgid "More info:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:625, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:718
+#: add-ons-pro/paypal-express-pro/includes/functions.php:625, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:751
 msgid "Subscription setup successfully with PayPal."
 msgstr ""
 
@@ -4706,11 +4726,11 @@ msgstr ""
 msgid "PayPal Standard - Subscription Payment"
 msgstr ""
 
-#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:412
+#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:445
 msgid "PayPal API credentials are missing or are incomplete"
 msgstr ""
 
-#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:418
+#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:451
 msgid "Payment profile ID is empty, nothing to cancel."
 msgstr ""
 
@@ -4730,7 +4750,7 @@ msgstr ""
 msgid "Stripe API key is not valid."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:548
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:554
 msgid "An error occurred. Please try again."
 msgstr ""
 
@@ -5162,7 +5182,7 @@ msgstr ""
 msgid "Paid Member Subscriptions Payments Summary"
 msgstr ""
 
-#: includes/admin/meta-boxes/class-meta-box-subscription-plan-details.php:215
+#: includes/admin/meta-boxes/class-meta-box-subscription-plan-details.php:214
 msgid "Subscription Plan Details"
 msgstr ""
 
@@ -6346,7 +6366,7 @@ msgstr ""
 msgid "The subscription will be activated after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:321
+#: includes/gateways/manual/class-payment-gateway-manual.php:358
 msgid "Complete Payment"
 msgstr ""
 
@@ -6503,31 +6523,31 @@ msgctxt "[amount] on [date]"
 msgid "%s on %s"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:90, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:102
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:92, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:104
 msgid "Change"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:93, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:105
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:95, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:107
 msgid "Upgrade"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:103, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:114
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:116, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:128
 msgid "Renew"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:108
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:121
 msgid "Cancels recurring payments for this subscription, letting it expire at the end of the current peiod."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:106, includes/views/shortcodes/view-shortcode-account-subscription-details.php:119
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:119, includes/views/shortcodes/view-shortcode-account-subscription-details.php:132
 msgid "This action is not available because your website doesn't have https enabled."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:121
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:134
 msgid "Cancels recurring payments and then removes the subscription from your account immediately."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:121, includes/views/shortcodes/view-shortcode-account-subscription-details.php:119, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:127
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:134, includes/views/shortcodes/view-shortcode-account-subscription-details.php:132, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:141
 msgid "Abandon"
 msgstr ""
 
@@ -6655,24 +6675,24 @@ msgstr ""
 msgid "Select the email reminder status."
 msgstr ""
 
-#: add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:22, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:76
-msgid "Regular"
+#: add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:25
+msgid "Fixed Membership"
 msgstr ""
 
-#: add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:23
-msgid "Fixed Period"
+#: add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:31
+msgid "Check this box for enabling fixed period memberships."
 msgstr ""
 
-#: add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:32, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:86
-msgid "Subscription Type"
+#: add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:44
+msgid "Set the subscription expiration date."
 msgstr ""
 
-#: add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:41, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:96
-msgid "Please select the duration type for this subscription plan."
+#: add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:51
+msgid "Allow plan to be renewed"
 msgstr ""
 
-#: add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:53
-msgid "The date at which member subscriptions associated with this subscription plan should expire."
+#: add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:57
+msgid "Check this box for allowing the plan to be renewed each year."
 msgstr ""
 
 #: add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:22
@@ -6715,8 +6735,20 @@ msgstr ""
 msgid "No Members in this Group"
 msgstr ""
 
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:76
+msgid "Regular"
+msgstr ""
+
 #: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:77, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:106, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:174
 msgid "Group"
+msgstr ""
+
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:86
+msgid "Subscription Type"
+msgstr ""
+
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:96
+msgid "Please select the duration type for this subscription plan."
 msgstr ""
 
 #: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:150
@@ -7019,27 +7051,31 @@ msgstr ""
 msgid "The provided PayPal Billing Agreement ID is not valid."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:26
+#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:38
 msgid "Payment confirmation"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:32
+#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:44
 msgid "Recurring"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:48
-msgid "For first %1$d %2$s"
-msgid_plural "For first %1$d %2$ss"
+#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:63
+msgid "For first %d %s"
+msgid_plural "For first %d %ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:53
-msgid "Once every %1$d %2$s"
-msgid_plural "Once every %1$d %2$ss"
+#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:70
+msgid "Once every %d %s"
+msgid_plural "Once every %d %ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:72
+#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:68
+msgid "Once every year"
+msgstr ""
+
+#: add-ons-pro/paypal-express-pro/includes/views/view-paypal-express-confirmation-form.php:95
 msgid "Confirm payment"
 msgstr ""
 

@@ -296,7 +296,11 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
                         if( isset( $subscription_plan ) && isset( $subscription_plan->duration ) && isset( $subscription_plan->duration_unit ) ){
 
-                            $time = '-' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit;
+                            if( $subscription_plan->is_fixed_period_membership() )
+                                $time = '- 1 year';
+                            else
+                                $time = '-' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit;
+
                             $data[ 'start_date' ] = date( 'Y-m-d H:i:s', strtotime( $data[ 'expiration_date' ] . $time ) );
 
                         }

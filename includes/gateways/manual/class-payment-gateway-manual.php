@@ -205,16 +205,53 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
             if( ! empty( $member_subscription ) ) {
 
-                if ( $member_subscription->status == 'active' )
-                    $member_subscription->update( array( 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ) ) );
-                else if ( $member_subscription->status == 'expired' )
-                    $member_subscription->update( array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ) ) );
-                else if ( $member_subscription->status == 'canceled' ) {
-                    if ( strtotime( $member_subscription->expiration_date ) > strtotime( 'now' ) )
-                        $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit );
-                    else
-                        $timestamp = strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit );
+                $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
 
+                if ( $member_subscription->status == 'active' ){
+                    if( $subscription_plan->is_fixed_period_membership() ){
+                        if( $subscription_plan->fixed_period_renewal_allowed() )
+                            $member_subscription->update( array( 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+ 1 year' ) ) ) );
+                        else
+                            $member_subscription->update( array( 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) ) ) ) );
+                    }
+                    else{
+                        $member_subscription->update( array( 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ) ) );
+                    }
+                }
+                else if ( $member_subscription->status == 'expired' ){
+                    if( $subscription_plan->is_fixed_period_membership() ){
+                        if( $subscription_plan->fixed_period_renewal_allowed() )
+                            $member_subscription->update( array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+ 1 year' ) ) ) );
+                        else
+                            $member_subscription->update( array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) ) ) ) );
+                    }
+                    else{
+                        $member_subscription->update( array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ) ) );
+                    }
+                }
+                else if ( $member_subscription->status == 'canceled' ) {
+                    if ( strtotime( $member_subscription->expiration_date ) > strtotime( 'now' ) ){
+                        if( $subscription_plan->is_fixed_period_membership() ){
+                            if( $subscription_plan->fixed_period_renewal_allowed() )
+                                $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+ 1 year' );
+                            else
+                                $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) );
+                        }
+                        else{
+                            $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit );
+                        }
+                    }
+                    else{
+                        if( $subscription_plan->is_fixed_period_membership() ){
+                            if( $subscription_plan->fixed_period_renewal_allowed() )
+                                $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+ 1 year' );
+                            else
+                                $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) );
+                        }
+                        else{
+                            $timestamp = strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit );
+                        }
+                    }
                     $member_subscription->update( array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', $timestamp ) ) );
                 } else
                     $member_subscription->update( array( 'status' => 'active' ) );

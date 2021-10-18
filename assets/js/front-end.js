@@ -77,6 +77,7 @@ jQuery( function($) {
     pms_payment_buttons += 'input[name=pms_upgrade_subscription], ';
     pms_payment_buttons += 'input[name=pms_renew_subscription], ';
     pms_payment_buttons += 'input[name=pms_confirm_retry_payment_subscription], ';
+    pms_payment_buttons += '#pms-paypal-express-confirmation-form input[type="submit"], ';
 
     // Profile Builder submit buttons
     pms_payment_buttons += '.wppb-register-user input[name=register]';
@@ -124,12 +125,11 @@ jQuery( function($) {
 
             }
 
-
-            if( $pms_checked_subscription.data('recurring') == 2 || $pms_checked_subscription.data('recurring') == 3 ) {
+            if( ( $pms_checked_subscription.data('fixed_membership') == 'on' && $pms_checked_subscription.data('allow_renew') != 'on' ) || $pms_checked_subscription.data('recurring') == 2 || $pms_checked_subscription.data('recurring') == 3 ) {
                 $pms_auto_renew_field.hide();
             }
 
-            if ( $pms_checked_subscription.data('duration') == 0 || $pms_checked_subscription.data('price') == 0 ) {
+            if ( ( $pms_checked_subscription.data('fixed_membership') != 'on' && $pms_checked_subscription.data('duration') == 0 ) || $pms_checked_subscription.data('price') == 0 ) {
                 $pms_auto_renew_field.hide();
             }
 

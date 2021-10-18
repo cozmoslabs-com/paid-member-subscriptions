@@ -916,6 +916,20 @@ body.post-type-pms-subscription #delete-action {
     min-width: 145px;
 }
 
+/* Hide empty Datepicker div loading on Edit Subscription Plan page */
+#ui-datepicker-div{
+    display:none;
+}
+
+.pms-subscription-plan-fixed-membership-checkbox-wrapper{
+    display: flex;
+    align-items: center;
+}
+
+#pms-subscription-plan-allow-renew,
+#pms-subscription-plan-fixed-membership{
+    margin-right: 12px;
+}
 
 /**************************************************/
 /* Subscription Plan User Roles Meta-Box

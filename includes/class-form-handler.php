@@ -1511,7 +1511,11 @@ Class PMS_Form_Handler {
         $subscription_plan = pms_get_subscription_plan( absint( $_POST['subscription_plans'] ) );
 
         // Subscription plan is never ending
-        if( empty( $subscription_plan->duration ) )
+        if( !$subscription_plan->is_fixed_period_membership() && empty( $subscription_plan->duration ) )
+            return false;
+
+        // Subscription plan is fixed and option allow renew is not checked
+        if( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() )
             return false;
 
         // Subscription plan has options: always recurring
@@ -2106,10 +2110,15 @@ Class PMS_Form_Handler {
 
                 case 'renew_subscription':
 
-                    if( strtotime( $subscription->expiration_date ) < time() || $subscription_plan->duration === 0 )
+                    if( strtotime( $subscription->expiration_date ) < time() || ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration === 0 ) || ( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() ) )
                         $expiration_date = $subscription_plan->get_expiration_date();
                     else {
-                        $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
+                        if( $subscription_plan->is_fixed_period_membership() ){
+                            $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+ 1 year' ) );
+                        }
+                        else{
+                            $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
+                        }
                     }
 
                     if( $is_recurring ) {
@@ -2239,7 +2248,14 @@ Class PMS_Form_Handler {
                 $expiration_date = time();
 
             // Extend expiration date to accomodate the trial period
-            $subscription_data['expiration_date'] = date( 'Y-m-d H:i:s', strtotime( "+" . $subscription_plan->trial_duration . ' ' . $subscription_plan->trial_duration_unit, $expiration_date ) );
+            if( $subscription_plan->is_fixed_period_membership() ) {
+
+                $subscription_data['expiration_date'] = date( 'Y-m-d H:i:s', $expiration_date );
+                $days_difference = ( strtotime( $subscription_plan->get_expiration_date() ) - strtotime( $subscription_plan->get_trial_expiration_date() ) ) / 86400;
+
+            }
+            else
+                $subscription_data['expiration_date'] = date( 'Y-m-d H:i:s', strtotime( "+" . $subscription_plan->trial_duration . ' ' . $subscription_plan->trial_duration_unit, $expiration_date ) );
 
         } else
             $subscription_data['trial_end'] = '';
@@ -2250,18 +2266,30 @@ Class PMS_Form_Handler {
             $subscription_data['billing_amount']     = $subscription_plan->price;
             $subscription_data['payment_profile_id'] = '';
 
-            if( $is_recurring ) {
+            if( $is_recurring && !$subscription_plan->is_fixed_period_membership() ) {
                 $subscription_data['expiration_date']       = '';
                 $subscription_data['billing_duration']      = $subscription_plan->duration;
                 $subscription_data['billing_duration_unit'] = $subscription_plan->duration_unit;
                 $subscription_data['billing_next_payment']  = ( ! empty( $subscription_plan->duration ) ? $subscription_plan->get_expiration_date() : '' );
+            }
+            elseif( $is_recurring && $subscription_plan->is_fixed_period_membership() ){
+                $subscription_data['expiration_date']       = '';
+                if( isset( $days_difference ) && $days_difference > 0 ){
+                    $subscription_data['billing_duration']      = $days_difference;
+                    $subscription_data['billing_duration_unit'] = 'day';
+                    $subscription_data['billing_next_payment']  = $subscription_plan->get_trial_expiration_date();
+                } else{
+                    $subscription_data['billing_duration']      = '1';
+                    $subscription_data['billing_duration_unit'] = 'year';
+                    $subscription_data['billing_next_payment']  = $subscription_plan->get_expiration_date();
+                }
             } else {
                 $subscription_data['billing_duration']      = '';
                 $subscription_data['billing_duration_unit'] = '';
                 $subscription_data['billing_next_payment']  = '';
             }
 
-            if( $has_trial )
+            if( ( !$subscription_plan->is_fixed_period_membership() && $has_trial ) || ( $has_trial && strtotime( $subscription_plan->get_expiration_date() ) > strtotime( $subscription_plan->get_trial_expiration_date() ) ) )
                 $subscription_data['billing_next_payment'] = $subscription_plan->get_trial_expiration_date();
 
         }

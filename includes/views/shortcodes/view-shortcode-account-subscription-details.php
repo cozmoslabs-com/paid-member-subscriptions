@@ -79,7 +79,9 @@ foreach( $subscriptions as $subscription ) :
                     if( $subscription->status != 'pending' && $subscription_plan->status != 'inactive' ) {
 
                         // Show the Change action if any other subscription plan besides the current one exists
-                        $plans = pms_get_subscription_plans_list();
+                        $plans           = pms_get_subscription_plans_list();
+                        $plan_upgrades   = pms_get_subscription_plan_upgrades( $subscription_plan->id );
+                        $plan_downgrades = pms_get_subscription_plan_downgrades( $subscription_plan->id );
 
                         // remove current plan
                         if( isset( $plans[$subscription->subscription_plan_id ] ) )
@@ -89,17 +91,28 @@ foreach( $subscriptions as $subscription ) :
 
                         $change_action_name = __( 'Change', 'paid-member-subscriptions' );
 
-                        if( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-upgrades'] ) )
+                        if( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-change'] ) )
                             $change_action_name = __( 'Upgrade', 'paid-member-subscriptions' );
-                        
-                        if( !empty( $plans ) )
-                            echo wp_kses_post( apply_filters( 'pms_output_subscription_plan_action_change', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__change" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'change_subscription', 'subscription_id' => $subscription->id, 'subscription_plan' => $subscription_plan->id ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '">' . $change_action_name . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id ) );
+                                                
+                        // Display logic
+                        $display_action = false;
 
+                        if( ( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-change'] ) ) && !empty( $plan_upgrades ) )
+                            $display_action = true;
+                        else if( ( !isset( $payments_settings['allow-downgrades'] ) && isset( $payments_settings['allow-change'] ) ) && ( !empty( $plans ) || !empty( $plan_upgrades ) ) )
+                            $display_action = true;
+                        else if( ( !isset( $payments_settings['allow-change'] ) && isset( $payments_settings['allow-downgrades'] ) ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
+                            $display_action = true;
+                        else if( isset( $payments_settings['allow-change'] ) && isset( $payments_settings['allow-downgrades'] ) && !empty( $plans ) )
+                            $display_action = true;
+
+                        if( $display_action === true )
+                            echo wp_kses_post( apply_filters( 'pms_output_subscription_plan_action_change', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__change" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'change_subscription', 'subscription_id' => $subscription->id, 'subscription_plan' => $subscription_plan->id ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '">' . $change_action_name . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id ) );
 
                         // Number of days before expiration to show the renewal action
                         $renewal_display_time = apply_filters( 'pms_output_subscription_plan_action_renewal_time', 15 );
 
-                        if( $subscription_plan->duration != '0' && ( ! $subscription->is_auto_renewing() && strtotime( $subscription->expiration_date ) - time() < $renewal_display_time * DAY_IN_SECONDS ) || $subscription->status == 'canceled' )
+                        if( ( ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration != '0' ) || ( $subscription_plan->is_fixed_period_membership() && $subscription_plan->fixed_expiration_date != '' && $subscription_plan->fixed_period_renewal_allowed() ) ) && ( ! $subscription->is_auto_renewing() && strtotime( $subscription->expiration_date ) - time() < $renewal_display_time * DAY_IN_SECONDS ) || $subscription->status == 'canceled' )
                             echo wp_kses_post( apply_filters( 'pms_output_subscription_plan_action_renewal', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__renew" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'renew_subscription', 'subscription_id' => $subscription->id, 'subscription_plan' => $subscription_plan->id ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '">' . __( 'Renew', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id ) );
 
 						if( !pms_is_https() )

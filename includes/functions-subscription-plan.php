@@ -442,29 +442,40 @@ function pms_get_output_subscription_plan_price( $subscription_plan = null ) {
     $price_output = apply_filters( 'pms_subscription_plan_output_price', '<span class="pms-divider"> - </span>' . $price_output, $subscription_plan );
 
     // Handle the subscription plan duration
-    if( $subscription_plan->duration == 0 )
-        $duration_output = apply_filters( 'pms_subscription_plan_output_duration_unlimited', '', $subscription_plan );
-    else {
-        $duration = '';
-        switch ($subscription_plan->duration_unit) {
-            case 'day':
-                $duration = sprintf( _n( '%s Day', '%s Days', $subscription_plan->duration, 'paid-member-subscriptions' ), $subscription_plan->duration );
-                break;
-            case 'week':
-                $duration = sprintf( _n( '%s Week', '%s Weeks', $subscription_plan->duration, 'paid-member-subscriptions' ), $subscription_plan->duration );
-                break;
-            case 'month':
-                $duration = sprintf( _n( '%s Month', '%s Months', $subscription_plan->duration, 'paid-member-subscriptions' ), $subscription_plan->duration );
-                break;
-            case 'year':
-                $duration = sprintf( _n( '%s Year', '%s Years', $subscription_plan->duration, 'paid-member-subscriptions' ), $subscription_plan->duration );
-                break;
+    if( $subscription_plan->is_fixed_period_membership() ){
+        if( $subscription_plan->fixed_expiration_date != '' ){
+            $duration_output = '<span class="pms-divider"> until </span>' . date( get_option( 'date_format' ), strtotime( $subscription_plan->get_expiration_date() ) );
+        }
+        else{
+            $duration_output = '';
+        }
+    }
+    else{
+        if( $subscription_plan->duration == 0 )
+            $duration_output = apply_filters( 'pms_subscription_plan_output_duration_unlimited', '', $subscription_plan );
+        else {
+            $duration = '';
+            switch ($subscription_plan->duration_unit) {
+                case 'day':
+                    $duration = sprintf( _n( '%s Day', '%s Days', $subscription_plan->duration, 'paid-member-subscriptions' ), $subscription_plan->duration );
+                    break;
+                case 'week':
+                    $duration = sprintf( _n( '%s Week', '%s Weeks', $subscription_plan->duration, 'paid-member-subscriptions' ), $subscription_plan->duration );
+                    break;
+                case 'month':
+                    $duration = sprintf( _n( '%s Month', '%s Months', $subscription_plan->duration, 'paid-member-subscriptions' ), $subscription_plan->duration );
+                    break;
+                case 'year':
+                    $duration = sprintf( _n( '%s Year', '%s Years', $subscription_plan->duration, 'paid-member-subscriptions' ), $subscription_plan->duration );
+                    break;
+            }
+
+            $duration_output = apply_filters('pms_subscription_plan_output_duration_limited', '<span class="pms-divider"> / </span>' . $duration, $subscription_plan);
         }
 
-        $duration_output = apply_filters('pms_subscription_plan_output_duration_limited', '<span class="pms-divider"> / </span>' . $duration, $subscription_plan);
-    }
+        $duration_output = apply_filters( 'pms_subscription_plan_output_duration', $duration_output, $subscription_plan );
 
-    $duration_output = apply_filters( 'pms_subscription_plan_output_duration', $duration_output, $subscription_plan );
+    }
 
     // Return output
     return $price_output . $duration_output;
@@ -527,6 +538,12 @@ function pms_get_output_subscription_plan_trial( $subscription_plan = null ) {
         default:
             $trial_duration_unit = '';
             break;
+    }
+
+    // The case of a fixed period membership with trial expiration date after plan expiration date
+    if( $subscription_plan->is_fixed_period_membership() && strtotime( $subscription_plan->get_expiration_date() ) < strtotime( '+' . $trial_duration . ' ' . $trial_duration_unit ) ){
+        $trial_duration = ( strtotime( $subscription_plan->get_expiration_date() ) - strtotime( 'today' ) ) / 86400;
+        $trial_duration_unit = __( 'day', 'paid-member-subscriptions' );
     }
 
     // Actual output
@@ -676,8 +693,10 @@ function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null )
 
     // The extra data attributes array for this Subscription Plan
     $subscription_plan_input_data_arr = array(
-        'price'       => $subscription_plan->price,
-        'duration'    => $subscription_plan->duration
+        'price'                 => $subscription_plan->price,
+        'duration'              => $subscription_plan->duration,
+        'fixed_membership'      => $subscription_plan->fixed_membership,
+        'allow_renew'           => $subscription_plan->allow_renew,
     );
 
     // Sign Up Fee extra attribute

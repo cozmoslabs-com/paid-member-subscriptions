@@ -298,13 +298,13 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
             if( $_GET[ 'pms-filter-start-date' ] != 'custom' ){
 
-                $args[ 'start_date_end' ] = date( 'Y-m-d H:i:s', strtotime( 'today' ) );
+                $args[ 'start_date_end' ] = date( 'Y-m-d 23:59:59', strtotime( 'today' ) );
 
                 if( $_GET[ 'pms-filter-start-date' ] == 'last_week' ){
-                    $args[ 'start_date_beginning' ] = date( 'Y-m-d H:i:s', strtotime( 'today - 1 week' ) );
+                    $args[ 'start_date_beginning' ] = date( 'Y-m-d 23:59:59', strtotime( 'today - 1 week' ) );
                 }
                 else if( $_GET[ 'pms-filter-start-date' ] == 'last_month' ){
-                    $args[ 'start_date_beginning' ] = date( 'Y-m-d H:i:s', strtotime( 'today - 1 month' ) );
+                    $args[ 'start_date_beginning' ] = date( 'Y-m-d 23:59:59', strtotime( 'today - 1 month' ) );
                 }
                 else{
                     $args[ 'start_date_beginning' ] = date( 'Y-m-d 00:00:00', strtotime( 'first day of last year' ) );
@@ -313,10 +313,10 @@ Class PMS_Members_List_Table extends WP_List_Table {
             }
             else{
                 if( !empty( $_GET[ 'pms-datepicker-start-date-beginning' ] ) ){
-                    $args[ 'start_date_beginning' ] = sanitize_text_field( $_GET[ 'pms-datepicker-start-date-beginning' ] );
+                    $args[ 'start_date_beginning' ] = date( 'Y-m-d 00:00:00', strtotime( sanitize_text_field( $_GET[ 'pms-datepicker-start-date-beginning' ] ) ) );
                 }
                 if( !empty( $_GET[ 'pms-datepicker-start-date-end' ] ) ){
-                    $args[ 'start_date_end' ] = sanitize_text_field( $_GET[ 'pms-datepicker-start-date-end' ] );
+                    $args[ 'start_date_end' ] = date( 'Y-m-d 23:59:59', strtotime( sanitize_text_field( $_GET[ 'pms-datepicker-start-date-end' ] ) ) );
                 }
             }
         }
@@ -344,10 +344,10 @@ Class PMS_Members_List_Table extends WP_List_Table {
             }
             else{
                 if( !empty( $_GET[ 'pms-datepicker-expiration-date-beginning' ] ) ){
-                    $args[ 'expiration_date_beginning' ] = sanitize_text_field( $_GET[ 'pms-datepicker-expiration-date-beginning' ] );
+                    $args[ 'expiration_date_beginning' ] = date( 'Y-m-d 00:00:00', strtotime( sanitize_text_field( $_GET[ 'pms-datepicker-expiration-date-beginning' ] ) ) );
                 }
                 if( !empty( $_GET[ 'pms-datepicker-expiration-date-end' ] ) ){
-                    $args[ 'expiration_date_end' ] = sanitize_text_field( $_GET[ 'pms-datepicker-expiration-date-end' ] );
+                    $args[ 'expiration_date_end' ] = date( 'Y-m-d 23:59:59', strtotime( sanitize_text_field( $_GET[ 'pms-datepicker-expiration-date-end' ] ) ) );
                 }
             }
         }

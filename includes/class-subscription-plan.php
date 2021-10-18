@@ -88,7 +88,11 @@ Class PMS_Subscription_Plan {
 
     public $type;
 
+    public $fixed_membership;
+
     public $fixed_expiration_date;
+
+    public $allow_renew;
 
 
     public function __construct( $id_or_post ) {
@@ -169,8 +173,15 @@ Class PMS_Subscription_Plan {
         // Subscription Plan Type
         $this->type = !empty( $post_meta_subscription['pms_subscription_plan_type'][0] ) ? $post_meta_subscription['pms_subscription_plan_type'][0] : 'regular';
 
+        // Subscription Plan Fixed Membership
+        $this->fixed_membership = !empty( $post_meta_subscription['pms_subscription_plan_fixed_membership'][0] ) ? $post_meta_subscription['pms_subscription_plan_fixed_membership'][0] : '';
+
         // Subscription Plan Fixed Expiration Date
         $this->fixed_expiration_date = !empty( $post_meta_subscription['pms_subscription_plan_expiration_date'][0] ) ? $post_meta_subscription['pms_subscription_plan_expiration_date'][0] : '';
+
+        // Subscription Plan Allow Renew
+        $this->allow_renew = !empty( $post_meta_subscription['pms_subscription_plan_allow_renew'][0] ) ? $post_meta_subscription['pms_subscription_plan_allow_renew'][0] : '';
+
     }
 
 
@@ -183,6 +194,32 @@ Class PMS_Subscription_Plan {
         if( $this->status == 'active' )
             return true;
         elseif( $this->status == 'inactive' )
+            return false;
+
+    }
+
+    /*
+     * Method that checks if the subscription plan is a fixed period membership
+     *
+     */
+    public function is_fixed_period_membership(){
+
+        if( $this->fixed_membership == 'on' )
+            return true;
+        else
+            return false;
+
+    }
+
+    /*
+     * Method that checks if the subscription plan allows renew (for fixed period memberships)
+     *
+     */
+    public function fixed_period_renewal_allowed(){
+
+        if( $this->allow_renew == 'on' )
+            return true;
+        else
             return false;
 
     }
@@ -334,8 +371,26 @@ Class PMS_Subscription_Plan {
      */
     public function get_expiration_date( $timestamp = false ) {
 
-        if ( $this->type == 'fixed-period' )
-            $date = strtotime( $this->fixed_expiration_date );
+        if ( $this->is_fixed_period_membership() ){
+
+            if( $this->fixed_period_renewal_allowed() && strtotime( $this->fixed_expiration_date ) < time() ){
+
+                $fixed_expiration_date = date_create( date( 'Y-m-d', strtotime( $this->fixed_expiration_date ) ) );
+                $current_date = date_create( date( 'Y-m-d', time() ) );
+                $difference = date_diff( $fixed_expiration_date, $current_date );
+
+                if( isset( $difference ) && isset( $difference->y ) ){
+
+                    $years = (int)$difference->y + 1;
+                    $date = strtotime( $this->fixed_expiration_date . '+ ' . $years . ' years' );
+
+                }
+
+            }
+            else{
+                $date = strtotime( $this->fixed_expiration_date );
+            }
+        }
         else {
             if( $this->duration != 0 ) {
                 $duration      = $this->duration;
@@ -371,6 +426,9 @@ Class PMS_Subscription_Plan {
             return '';
 
         $time = strtotime( "+" . $this->trial_duration . ' ' . $this->trial_duration_unit );
+
+        if( $this->is_fixed_period_membership() && strtotime( $this->get_expiration_date() ) < $time )
+            $time = strtotime( $this->get_expiration_date() );
 
         if( $timestamp )
             return $time;

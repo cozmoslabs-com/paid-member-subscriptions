@@ -5,6 +5,11 @@
  */
 jQuery( function($) {
 
+    $(document).ready( function(){
+        $('.datepicker').datepicker();
+        pms_handle_fixed_membership_display();
+    });
+
     /*
      * Validates the duration value introduced, this value must be a whole number
      *
@@ -22,4 +27,59 @@ jQuery( function($) {
 
     });
 
+    /*
+     * Function that controls the display of duration and fixed membership datepicker fields accordingly
+     *
+     */
+    function pms_handle_fixed_membership_display(){
+        if( $('#pms-subscription-plan-fixed-membership:checked').length > 0 ){
+            $('#pms-subscription-plan-duration-field').hide();
+            $('.pms-subscription-plan-fixed-membership-field').show();
+            pms_handle_renewal_options_display();
+        }
+        else{
+            $('#pms-subscription-plan-duration-field').show();
+            $('#pms-subscription-plan-renewal-option-field').show();
+            $('.pms-subscription-plan-fixed-membership-field').hide();
+        }
+    }
+
+    /*
+     * Function that controls the display of renewal options for fixed memberships when Allow renewal checkbox is checked
+     *
+     */
+    function pms_handle_renewal_options_display(){
+        if( $('#pms-subscription-plan-renewal-option-field') !== undefined ){
+            if( $('#pms-subscription-plan-allow-renew:checked').length > 0 ){
+                $('#pms-subscription-plan-renewal-option-field').show();
+            }
+            else{
+                $('#pms-subscription-plan-renewal-option-field').hide();
+            }
+        }
+    }
+
+    /*
+     * Displays a datepicker instead of the duration field if Fixed Membership is checked
+     *
+     */
+    $(document).on( 'click', '#pms-subscription-plan-fixed-membership', function() {
+        pms_handle_fixed_membership_display();
+    });
+
+    /*
+     * Displays Renewal options for Fixed Membership if Allow plan renewal is checked
+     *
+     */
+    $(document).on( 'click', '#pms-subscription-plan-allow-renew', function() {
+        pms_handle_renewal_options_display();
+    });
+
+    /*
+     * Handles Renewal options displayed according to Fixed Membership and Allow plan renewal
+     *
+     */
+    if( $('#pms-subscription-plan-renewal-option-field') !== undefined && $('#pms-subscription-plan-fixed-membership:checked').length > 0 && $('#pms-subscription-plan-allow-renew:checked').length <= 0 ){
+        $('#pms-subscription-plan-renewal-option-field').hide();
+    }
 });

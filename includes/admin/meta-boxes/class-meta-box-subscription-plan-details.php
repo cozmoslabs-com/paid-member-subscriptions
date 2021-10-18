@@ -52,7 +52,6 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
         if( isset( $_POST['pms_subscription_plan_description'] ) )
             update_post_meta( $post_id, 'pms_subscription_plan_description', wp_kses_post( $_POST['pms_subscription_plan_description'] ) );
 
-
         // Update subscription plan duration meta data
         if( isset( $_POST['pms_subscription_plan_duration'] ) ) {
 

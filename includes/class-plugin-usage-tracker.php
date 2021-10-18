@@ -218,7 +218,7 @@ class PMS_Plugin_Usage_Tracker {
 			case 'member-subscription-fixed-period':
 
 				foreach( pms_get_subscription_plans( true ) as $plan ) {
-					if( $plan->type == 'fixed-period' )
+					if( $plan->is_fixed_period_membership() )
 						return true;
 				}
 
