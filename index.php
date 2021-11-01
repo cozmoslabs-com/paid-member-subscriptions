@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.5.3
+ * Version: 2.5.4
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -36,7 +36,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.5.3' );
+        define( 'PMS_VERSION', '2.5.4' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -953,7 +953,7 @@ Class Paid_Member_Subscriptions {
         wp_localize_script( 'pms-front-end', 'PMS_States', pms_get_billing_states() );
 
         // Add chosen in the front-end if Billing Details are showing
-        if( defined( 'PMS_TAX_VERSION' ) || defined( 'PMS_INV_VERSION' ) ) {
+        if( defined( 'PMS_IN_TAX_VERSION' ) || defined( 'PMS_IN_INV_VERSION' ) ) {
             $account_page  = pms_get_page( 'account' );
             $register_page = pms_get_page( 'register' );
 

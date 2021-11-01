@@ -169,6 +169,9 @@ Class PMS_Member_Subscription {
 			 */
 			do_action( 'pms_member_subscription_update', $this->id, $data, $this->to_array() );
 
+			// Update the current instance with the new data values
+			$this->set_instance( $data );
+
 		}
 
 		return $update_result;

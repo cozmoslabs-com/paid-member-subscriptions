@@ -448,3 +448,25 @@ function pms_icl_t( $context, $name, $value ){
 		return $value;
 
 }
+
+function pms_are_paid_versions_active(){
+
+    $slugs = array(
+        '/paid-member-subscriptions-basic/index.php',
+        '/paid-member-subscriptions-elite/index.php',
+        '/paid-member-subscriptions-pro/index.php',
+        '/paid-member-subscriptions-unlimited/index.php',
+    );
+
+    $active = false;
+
+    foreach( $slugs as $slug ){
+        if( file_exists( WP_PLUGIN_DIR . $slug ) ){
+            $active = true;
+            break;
+        }
+    }
+
+    return $active;
+
+}

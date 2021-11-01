@@ -759,7 +759,7 @@ Class PMS_Shortcodes {
 
                         }
 
-                        if( $show_content === true )
+                        if( $show_content === false )
                             return do_shortcode( $content );
                         else
                             return $message;

@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 5.8.1
-Stable tag: 2.5.3
+Stable tag: 2.5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.5.4 =
+* Fix: issue with reset password form not working with usernames
+* Fix: chosen js load for front-end billing fields
+* Fix: member subscription class to set the new data after an update
+* Misc: added a notice if serial number is added but premium version not installed
+
 = 2.5.3 =
 * Fix: Display of some back-end strings that weren't properly escaped
 * Fix: Some issues with the Upgrade/Change subscription button showing in some cases it wasn't intended to
@@ -1127,4 +1133,4 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 = 1.0.0 =
 * Initial release.
-    
+

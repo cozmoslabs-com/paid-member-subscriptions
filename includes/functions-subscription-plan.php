@@ -833,7 +833,7 @@ function pms_output_subscription_plans_filter( $action ){
 
         global $pms_tax;
         if( isset( $pms_tax ) )
-            remove_filter( 'pms_output_subscription_plans', array( $pms_tax, 'display_frontend_message' ), defined( 'PMS_DC_VERSION' ) ? 26 : 9 );
+            remove_filter( 'pms_output_subscription_plans', array( $pms_tax, 'display_frontend_message' ), 26 );
 
         global $pms_group_memberships;
         if( isset( $pms_group_memberships ) ){
@@ -850,11 +850,11 @@ function pms_output_subscription_plans_filter( $action ){
             add_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5, 5 );
 
         if( function_exists( 'pms_dc_output_discount_box' ) )
-            add_filter( 'pms_output_subscription_plans', 'pms_dc_output_discount_box', 25, 6 );
+            add_filter( 'pms_output_subscription_plans', 'pms_in_dc_output_discount_box', 25, 6 );
 
         global $pms_tax;
         if( isset( $pms_tax ) )
-            add_filter( 'pms_output_subscription_plans', array( $pms_tax, 'display_frontend_message' ), defined( 'PMS_DC_VERSION' ) ? 26 : 9 );
+            add_filter( 'pms_output_subscription_plans', array( $pms_tax, 'display_frontend_message' ), 26 );
 
         global $pms_group_memberships;
         if( isset( $pms_group_memberships ) ){

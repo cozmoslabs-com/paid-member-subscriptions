@@ -331,7 +331,7 @@ if( ! empty( $_POST ) ) {
 						<?php endif; ?>
 
 						<!-- Member Subscription Billing Schedule Meta-box -->
-						<?php if( isset( $member_subscription ) && pms_payment_gateways_support( array( $member_subscription->payment_gateway ), 'recurring_payments' ) && ( !empty( $form_data['payment_profile_id'] ) || pms_payment_gateways_support( array( $member_subscription->payment_gateway ), 'change_subscription_payment_method_admin' ) ) ) : ?>
+						<?php if( isset( $member_subscription ) && pms_payment_gateways_support( array( $member_subscription->payment_gateway ), 'recurring_payments' ) && ( !empty( $form_data['payment_profile_id'] ) || pms_payment_gateways_support( array( $member_subscription->payment_gateway ), 'change_subscription_payment_method_admin' ) || apply_filters( 'pms_edit_subscription_edit_payment_profile_id', false ) ) ) : ?>
 
 						<div id="normal-sortables" class="meta-box-sortables ui-sortable">
 							<div id="pms-member-subscriptions-billing-schedule" class="postbox">
@@ -342,12 +342,16 @@ if( ! empty( $_POST ) ) {
 
 								<div class="inside">
 
-									<?php if( ! empty( $form_data['payment_profile_id'] ) ) : ?>
+									<?php if( ! empty( $form_data['payment_profile_id'] ) || apply_filters( 'pms_edit_subscription_edit_payment_profile_id', false ) ) : ?>
 
 										<div class="pms-meta-box-field-wrapper">
 											<label class="pms-meta-box-field-label"><?php esc_html_e( 'Payment Gateway Subscription ID', 'paid-member-subscriptions' ); ?></label>
 
-											<span class="readonly medium"><strong><?php echo esc_html( $form_data['payment_profile_id'] ); ?></strong></span>
+											<?php if( !apply_filters( 'pms_edit_subscription_edit_payment_profile_id', false ) ) : ?>
+												<span class="readonly medium"><strong><?php echo esc_html( $form_data['payment_profile_id'] ); ?></strong></span>
+											<?php else : ?>
+												<input id="pms-subscription-payment-profile-id" name="payment_profile_id" type="text" value="<?php echo !empty( $form_data['payment_profile_id'] ) ? $form_data['payment_profile_id'] : '' ?>" />
+											<?php endif; ?>
 
 											<p class="description"><?php esc_html_e( 'The subscription payment schedule is handled by the payment gateway.', 'paid-member-subscriptions' ); ?></p>
 

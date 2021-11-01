@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </form>
 
         <p>
-            <?php esc_html_e( 'The serial number is used to access the premium add-ons, any updates made to them and support.', 'paid-member-subscriptions' ); ?>
+            <?php esc_html_e( 'The serial number is used to access the premium plugin versions, any updates made to them and support.', 'paid-member-subscriptions' ); ?>
         </p>
 
     </div>
@@ -185,11 +185,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 </div>
-
-
-
-
-
 
 <?php
 $pms_get_all_plugins    = get_plugins();

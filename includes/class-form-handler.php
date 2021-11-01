@@ -1262,7 +1262,10 @@ Class PMS_Form_Handler {
             if( !isset( $_POST['pmstkn'] ) || ( !wp_verify_nonce( sanitize_text_field( $_POST['pmstkn'] ), 'pms_recover_password_form_nonce') ) )
                 return;
 
-            $username_email = sanitize_email( $_POST['pms_username_email'] );
+            if( is_email( $_POST['pms_username_email'] ) )
+                $username_email = sanitize_email( $_POST['pms_username_email'] );
+            else
+                $username_email = sanitize_text_field( $_POST['pms_username_email'] );
 
             if( empty( $username_email ) )
                 pms_errors()->add( 'pms_username_email', __( 'Please enter a username or email address.', 'paid-member-subscriptions' ) );

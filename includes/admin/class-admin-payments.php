@@ -411,9 +411,9 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
             $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
 
             // Apply tax when the payment is handled in backend via admin
-            if( class_exists( 'PMS_Tax' ) ){
+            if( class_exists( 'PMS_IN_Tax' ) ){
 
-                $pms_tax = new PMS_Tax;
+                $pms_tax = new PMS_IN_Tax;
                 $tax_exempt = get_post_meta( $subscription_plan_id, 'pms_subscription_plan_tax_exempt', true );
 
             }

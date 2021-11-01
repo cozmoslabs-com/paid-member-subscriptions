@@ -604,9 +604,10 @@
 <?php __("In order to restore it, you need to put the plugin into <strong>Test Mode</strong>.", "paid-member-subscriptions"); ?>
 <?php __(' %1$sDismiss%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate.", "paid-member-subscriptions"); ?>
+<?php __("You have a valid <strong>Paid Member Subscriptions</strong> licence but we can't find any paid version of the plugin installed.<br> Please go to your <a href=\"%s\" target=\"_blank\">Cozmoslabs Account</a> page, download the premium version that you purchased and install it on your website.", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support.  <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
-<?php __('All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions. Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version and install it. Your individual addons settings will be ported over.', 'paid-member-subscriptions' ); ?>
+<?php __('<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
 <?php __("Abandoned", "paid-member-subscriptions"); ?>
 <?php __("Completed", "paid-member-subscriptions"); ?>
@@ -1305,7 +1306,7 @@
 <?php __("Activate your licence", "paid-member-subscriptions"); ?>
 <?php __("Serial number", "paid-member-subscriptions"); ?>
 <?php __("Save Changes", "paid-member-subscriptions"); ?>
-<?php __("The serial number is used to access the premium add-ons, any updates made to them and support.", "paid-member-subscriptions"); ?>
+<?php __("The serial number is used to access the premium plugin versions, any updates made to them and support.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Add-ons", "paid-member-subscriptions"); ?>
 <?php __('You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Basic Add-ons", "paid-member-subscriptions"); ?>
@@ -1718,6 +1719,9 @@
 <?php __("Members List", "paid-member-subscriptions"); ?>
 <?php __("Search For:", "paid-member-subscriptions"); ?>
 <?php __("Search...", "paid-member-subscriptions"); ?>
+<?php __("Sort by Email", "paid-member-subscriptions"); ?>
+<?php __("Sort by Name", "paid-member-subscriptions"); ?>
+<?php __("Sort by Status", "paid-member-subscriptions"); ?>
 <?php __("Group Name", "paid-member-subscriptions"); ?>
 <?php __("%d out of %d", "paid-member-subscriptions"); ?>
 <?php __("Manage group", "paid-member-subscriptions"); ?>

@@ -1200,7 +1200,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
      *
      */
     $pms_serial_number_status = pms_get_serial_number_status();
-     if ( $pms_serial_number_status == 'expired' ) {
+    if ( $pms_serial_number_status == 'expired' ) {
 
          $pms_expired_message = sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) );
 
@@ -1220,17 +1220,28 @@ if ( ! defined( 'ABSPATH' ) ) exit;
              '',
              '',
              $pms_force_show );
-     }
-     elseif ( strpos( $pms_serial_number_status, 'aboutToExpire' ) !== false ){
-         $about_to_expire_status = explode('#', $pms_serial_number_status);//format of about to expire status is like aboutToExpire#19 of April 2019
-         if( is_array( $about_to_expire_status ) ){
-             new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
-                 sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support.  <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), $about_to_expire_status[1], esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) ).
-                 sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url(add_query_arg('pms_about_to_expire_licence_dismiss_notification', '0')) . "'>", "</a>"),
-                 'notice-warning' );
-         }
-     }
+    }
+    elseif ( strpos( $pms_serial_number_status, 'aboutToExpire' ) !== false ){
 
+        $about_to_expire_status = explode('#', $pms_serial_number_status);//format of about to expire status is like aboutToExpire#19 of April 2019
+        if( is_array( $about_to_expire_status ) ){
+            new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
+                sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support.  <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), $about_to_expire_status[1], esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) ).
+                sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url(add_query_arg('pms_about_to_expire_licence_dismiss_notification', '0')) . "'>", "</a>"), 
+                'notice-warning' );
+         }
+
+    } else if( $pms_serial_number_status == 'found' && !pms_are_paid_versions_active() ){
+
+        $pms_expired_message = sprintf( __( 'You have a valid <strong>Paid Member Subscriptions</strong> licence but we can\'t find any paid version of the plugin installed.<br> Please go to your <a href="%s" target="_blank">Cozmoslabs Account</a> page, download the premium version that you purchased and install it on your website.', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-paid-version-not-installed-notification' ) );
+        
+        $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
+
+        if( $pms_notifications_instance->is_plugin_page() ) {
+            new PMS_Add_General_Notices( 'pms_paid_version_not_installed', $pms_expired_message, 'error', '', '', true );
+        }
+
+    }
 
     /**
      * Adds a dismissable admin notice on all WordPress pages and a non-dismissable admin notice on PMS's
@@ -1264,15 +1275,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         if (is_plugin_active($addon_slug)) {
             $url_info = 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/basic-information-and-installation/upgrade-to-version-2-5-0-or-newer/';
             $url_account = 'https://cozmoslabs.com/account/';
-            $message = sprintf( __( 'All individual Paid Member Subscriptions add-on plugins <a href="%1$s" target="_blank">have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions. Please log into your <a href="%2$s" target="_blank">account page</a>, download the new premium version and install it. Your individual addons settings will be ported over.', 'paid-member-subscriptions' ), esc_url($url_info), esc_url($url_account) );
+            $message = sprintf( __( '<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href="%1$s" target="_blank">have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href="%2$s" target="_blank">account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ), esc_url($url_info), esc_url($url_account) );
             new PMS_Add_General_Notices( 'pms_add_ons_repackage',
-                sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url(add_query_arg('pms_add_ons_repackage_dismiss_notification', '0')) . "'>", "</a>"),
+                sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<p><a href='" . esc_url(add_query_arg('pms_add_ons_repackage_dismiss_notification', '0')) . "'>", "</a></p>"),
                 'notice-warning');
             break;
         }
     }
 
+    add_filter( 'pms_add_ons_repackage_notification_message', 'pms_notices_remove_repackage_notice_wrapper', 20, 2 );
+    function pms_notices_remove_repackage_notice_wrapper( $processed_message, $original_message ){
 
+        return '<div id="pms_add_ons_repackage" class="notice pms_add_ons_repackage notice-warning">'.$original_message.'</div>';
+
+    }
 
      /**
       * Add a notice if a recurring PayPal gateway is active but API credentials are missing
