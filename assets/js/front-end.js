@@ -593,10 +593,10 @@ jQuery( function($) {
         })
 
         if( typeof PMS_ChosenStrings !== 'undefined' && $.fn.chosen != undefined ){
-            $('#pms_billing_country').chosen( JSON.parse( PMS_ChosenStrings ) )
+            $('#pms_billing_country').chosen( PMS_ChosenStrings )
 
             if( $('#pms_billing_state option').length > 0 )
-                $('#pms_billing_state').chosen( JSON.parse( PMS_ChosenStrings ) )
+                $('#pms_billing_state').chosen( PMS_ChosenStrings )
         }
 
     });
@@ -627,7 +627,7 @@ jQuery( function($) {
             $('.pms-billing-state__select').attr('name','pms_billing_state').attr('id','pms_billing_state').show()
 
             if( typeof PMS_ChosenStrings !== 'undefined' && $.fn.chosen != undefined )
-                $('.pms-billing-state__select').chosen( JSON.parse( PMS_ChosenStrings ) )
+                $('.pms-billing-state__select').chosen( PMS_ChosenStrings )
 
         } else {
 

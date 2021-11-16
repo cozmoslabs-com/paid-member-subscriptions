@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 5.8.1
-Stable tag: 2.5.4
+Stable tag: 2.5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.5.5 =
+* Fix: Issue with honeypot field displaying in some cases
+* Fix: Don't display Free Trial when downgrading subscriptions
+* Fix: Apply Free Trial when changing subscriptions
+* Fix: An issue when searching for Members
+
 = 2.5.4 =
 * Fix: issue with reset password form not working with usernames
 * Fix: chosen js load for front-end billing fields
@@ -1133,4 +1139,4 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 = 1.0.0 =
 * Initial release.
-
+    

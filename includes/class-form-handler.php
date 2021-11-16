@@ -1593,7 +1593,7 @@ Class PMS_Form_Handler {
         // Set has trial
         $has_trial = false;
 
-        if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation' ) ) ) {
+        if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation', 'change_subscription' ) ) ) {
 
             if( $payment_gateway->supports( 'subscription_free_trial' ) ) {
 

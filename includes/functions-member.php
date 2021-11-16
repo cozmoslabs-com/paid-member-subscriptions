@@ -104,14 +104,14 @@ function pms_get_members( $args = array(), $count = false ) {
 
     // Start query string
     if( ! $count )
-        $query_string   = "SELECT DISTINCT users.ID ";
+        $query_string = "SELECT DISTINCT users.ID ";
     else
-        $query_string   = "SELECT COUNT( DISTINCT users.ID ) ";
+        $query_string = "SELECT COUNT( DISTINCT users.ID ) ";
 
     // Query string sections
-    $query_from         = "FROM {$wpdb->users} users ";
-    $query_inner_join   = "INNER JOIN {$wpdb->prefix}pms_member_subscriptions member_subscriptions ON users.ID = member_subscriptions.user_id ";
-    $query_inner_join  .= "INNER JOIN {$wpdb->usermeta} usermeta ON users.ID = usermeta.user_id ";
+    $query_from        = "FROM {$wpdb->users} users ";
+    $query_inner_join  = "INNER JOIN {$wpdb->prefix}pms_member_subscriptions member_subscriptions ON users.ID = member_subscriptions.user_id ";
+    $query_inner_join .= "INNER JOIN {$wpdb->usermeta} usermeta ON users.ID = usermeta.user_id ";
 
     if( !empty( $args['group_owner'] ) )
         $query_inner_join .= "INNER JOIN {$wpdb->prefix}pms_member_subscriptionmeta member_subscriptions_meta ON member_subscriptions.id = member_subscriptions_meta.member_subscription_id ";
@@ -119,46 +119,47 @@ function pms_get_members( $args = array(), $count = false ) {
     if( ! empty( $args['payment_gateway'] ) )
         $query_inner_join .= "INNER JOIN {$wpdb->prefix}pms_payments payments ON (member_subscriptions.user_id = payments.user_id AND member_subscriptions.subscription_plan_id = payments.subscription_plan_id) ";
 
-    $query_where        = "WHERE 1=%d ";
+    $query_where = "WHERE 1=%d ";
 
     if( ! empty( $args['member_subscription_status'] ) )
-        $query_where    = $query_where . " AND member_subscriptions.status = '" . sanitize_text_field( $args['member_subscription_status'] ) . "' ";
+        $query_where = $query_where . " AND member_subscriptions.status = '" . sanitize_text_field( $args['member_subscription_status'] ) . "' ";
 
     if( ! empty( $args['subscription_plan_id'] ) )
-        $query_where    = $query_where . " AND member_subscriptions.subscription_plan_id = " . (int)$args['subscription_plan_id'] . " ";
+        $query_where = $query_where . " AND member_subscriptions.subscription_plan_id = " . (int)$args['subscription_plan_id'] . " ";
 
     if( ! empty( $args['payment_gateway'] ) )
-        $query_where    = $query_where . " AND payments.payment_gateway = '" . sanitize_text_field( $args['payment_gateway'] ) . "' ";
+        $query_where = $query_where . " AND payments.payment_gateway = '" . sanitize_text_field( $args['payment_gateway'] ) . "' ";
 
     if( ! empty( $args['start_date_beginning'] ) && ! empty( $args['start_date_end'] ) )
-        $query_where    = $query_where . " AND member_subscriptions.start_date >= '" . sanitize_text_field( $args['start_date_beginning'] ) . "' AND member_subscriptions.start_date <= '" . sanitize_text_field( $args['start_date_end'] ) . "' ";
+        $query_where = $query_where . " AND member_subscriptions.start_date >= '" . sanitize_text_field( $args['start_date_beginning'] ) . "' AND member_subscriptions.start_date <= '" . sanitize_text_field( $args['start_date_end'] ) . "' ";
 
     if( ! empty( $args['expiration_date_beginning'] ) && ! empty( $args['expiration_date_end'] ) )
-        $query_where    = $query_where . " AND member_subscriptions.expiration_date >= '" . sanitize_text_field( $args['expiration_date_beginning'] ) . "' AND member_subscriptions.expiration_date <= '" . sanitize_text_field( $args['expiration_date_end'] ) . "' ";
+        $query_where = $query_where . " AND member_subscriptions.expiration_date >= '" . sanitize_text_field( $args['expiration_date_beginning'] ) . "' AND member_subscriptions.expiration_date <= '" . sanitize_text_field( $args['expiration_date_end'] ) . "' ";
 
     if( ! empty( $args['group_owner' ] ) ){
-        $query_where    = $query_where . " AND ( member_subscriptions_meta.meta_key = 'pms_group_subscription_owner' AND member_subscriptions_meta.meta_value = '" . sanitize_text_field( $args['group_owner'] ) . "'
+        $query_where = $query_where . " AND ( member_subscriptions_meta.meta_key = 'pms_group_subscription_owner' AND member_subscriptions_meta.meta_value = '" . sanitize_text_field( $args['group_owner'] ) . "'
         OR member_subscriptions_meta.meta_key = 'pms_group_name' AND member_subscriptions_meta.meta_value = '".sanitize_text_field( pms_get_member_subscription_meta( $args['group_owner'], 'pms_group_name', true ) )."') ";
     }
 
     // Add search query
     if( ! empty( $args['search'] ) ) {
-        $search_term        = sanitize_text_field( $args['search'] );
-        $query_inner_join  .= "INNER JOIN (SELECT usermeta.user_id, GROUP_CONCAT(usermeta.meta_value SEPARATOR ' ') AS fullname FROM {$wpdb->usermeta} usermeta WHERE usermeta.meta_key IN ('first_name', 'last_name') GROUP BY usermeta.user_id) fullname_table ON fullname_table.user_id = users.ID ";
-        $query_where        = $query_where . " AND  " . "  (users.user_email LIKE '%%%s%%' OR users.user_nicename LIKE '%%%s%%' OR usermeta.meta_value LIKE '%%%s%%' OR fullname_table.fullname LIKE '%%%s%%')  ". " ";
+        $search_term       = sanitize_text_field( $args['search'] );
+        $query_inner_join .= "LEFT JOIN (SELECT usermeta.user_id, GROUP_CONCAT(usermeta.meta_value SEPARATOR ' ') AS fullname FROM {$wpdb->usermeta} usermeta WHERE usermeta.meta_key IN ('first_name', 'last_name') GROUP BY usermeta.user_id) fullname_table ON fullname_table.user_id = users.ID ";
+        $query_where       = $query_where . " AND  " . "  (users.user_email LIKE '%%%s%%' OR users.user_nicename LIKE '%%%s%%' OR usermeta.meta_value LIKE '%%%s%%' OR fullname_table.fullname LIKE '%%%s%%')  ". " ";
     }
 
-    $query_oder_by      = "ORDER BY users." . sanitize_text_field( $args['orderby'] ) . ' ';
+    $query_oder_by = "ORDER BY users." . sanitize_text_field( $args['orderby'] ) . ' ';
+    $query_order   = strtoupper( sanitize_text_field( $args['order'] ) ) . ' ';
 
-    $query_order        = strtoupper( sanitize_text_field( $args['order'] ) ) . ' ';
+    $query_limit = '';
 
-    $query_limit        = '';
     if( $args['number'] )
-        $query_limit    = 'LIMIT ' . (int)trim( $args['number'] ) . ' ';
+        $query_limit = 'LIMIT ' . (int)trim( $args['number'] ) . ' ';
 
-    $query_offset       = '';
+    $query_offset = '';
+
     if( $args['offset'] )
-        $query_offset   = 'OFFSET ' . (int)trim( $args['offset'] ) . ' ';
+        $query_offset = 'OFFSET ' . (int)trim( $args['offset'] ) . ' ';
 
     // Concatenate query string
     if( ! $count )

@@ -37,7 +37,7 @@ pms_output_subscription_plans_filter( 'remove' );
                 <?php endif; ?>
             </div>
 
-            <?php echo pms_output_subscription_plans( $subscription_plan_upgrades, array(), false, '', 'change_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+            <?php echo pms_output_subscription_plans( $subscription_plan_upgrades, array(), false, '', 'upgrade_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
         </div>
 
@@ -59,7 +59,7 @@ pms_output_subscription_plans_filter( 'remove' );
             <?php endif; ?>
         </div>
 
-        <?php echo pms_output_subscription_plans( $subscription_plan_downgrades, array(), false, '', 'change_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        <?php echo pms_output_subscription_plans( $subscription_plan_downgrades, array(), false, '', 'downgrade_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
     </div>
 

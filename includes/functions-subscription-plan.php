@@ -298,7 +298,7 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
      */
     if( !empty( $subscription_plan_groups ) ) {
 
-        if( !$member && count( $subscription_plan_groups ) == 1 && count( $subscription_plan_groups[ key($subscription_plan_groups) ] ) == 1 && $form_location != 'change_subscription' ) {
+        if( !$member && count( $subscription_plan_groups ) == 1 && count( $subscription_plan_groups[ key($subscription_plan_groups) ] ) == 1 && !in_array( $form_location, array( 'change_subscription', 'upgrade_subscription', 'downgrade_subscription' ) ) ) {
 
             $subscription_plan = $subscription_plan_groups[ key($subscription_plan_groups) ][0];
 
@@ -827,7 +827,7 @@ function pms_output_subscription_plans_filter( $action ){
     if( $action === 'remove' ){
 
         remove_filter( 'pms_output_subscription_plans', 'pms_output_subscription_plans_payment_gateways', 10 );
-        remove_filter( 'pms_output_subscription_plans', 'pms_dc_output_discount_box', 25 );
+        remove_filter( 'pms_output_subscription_plans', 'pms_in_dc_output_discount_box', 25 );
         remove_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5 );
         remove_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 20 );
 
@@ -849,7 +849,7 @@ function pms_output_subscription_plans_filter( $action ){
         if( function_exists( 'pms_renewal_option_field' ) )
             add_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5, 5 );
 
-        if( function_exists( 'pms_dc_output_discount_box' ) )
+        if( function_exists( 'pms_in_dc_output_discount_box' ) )
             add_filter( 'pms_output_subscription_plans', 'pms_in_dc_output_discount_box', 25, 6 );
 
         global $pms_tax;
