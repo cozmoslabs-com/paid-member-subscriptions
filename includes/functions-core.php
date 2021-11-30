@@ -1045,22 +1045,25 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         $settings = get_option( 'pms_payments_settings' );
 
-        $currency = pms_get_currency_symbol( $currency );
+        $currency = pms_get_currency_symbol( empty( $currency ) ? pms_get_active_currency() : $currency );
 
-        //format number based on current locale with 2 decimals
+        // format number based on current locale with 2 decimals
         $price = number_format_i18n( $price, 2 );
 
-        //remove any decimal 0s that are irrelevant; will match: x,00, x.00 and also x,10 or x.10
+        // remove any decimal 0s that are irrelevant; will match: x,00, x.00 and also x,10 or x.10
         if( ( !isset( $settings['price-display-format'] ) && apply_filters( 'pms_format_price_trim_zeroes', true ) ) || ( isset( $settings['price-display-format'] ) && $settings['price-display-format'] == 'without_insignificant_zeroes' ) )
             $price = preg_replace('/(\.|\,)?0*$/', '', $price);
 
-        //filter clean price that can be altered, no HTML
+        // filter clean price that can be altered, no HTML
         $price = apply_filters( 'pms_format_price_before_html', $price, $currency, $args );
 
         $price    = ( !empty( $args['before_price'] ) && !empty( $args['after_price'] ) ? $args['before_price'] . $price . $args['after_price'] : $price );
         $currency = ( !empty( $args['before_currency'] ) && !empty( $args['after_currency'] ) ? $args['before_currency'] . $currency . $args['after_currency'] : $currency );
 
-        $output = ( !isset( $settings['currency_position'] ) || ( isset( $settings['currency_position'] ) && $settings['currency_position'] == 'after' ) ? $price . $currency : $currency . $price );
+        // maybe add a space between price and currency
+        $separator = isset( $settings['currency_position'] ) && ( $settings['currency_position'] == 'before_with_space' || $settings['currency_position'] == 'after_with_space' ) ? ' ' : '';
+
+        $output = ( !isset( $settings['currency_position'] ) || ( isset( $settings['currency_position'] ) && ( $settings['currency_position'] == 'after' || $settings['currency_position'] == 'after_with_space' ) ) ? $price . $separator . $currency : $currency . $separator . $price );
 
         return apply_filters( 'pms_format_price', $output, $price, $currency, $args );
 

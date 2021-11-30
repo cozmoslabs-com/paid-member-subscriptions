@@ -1859,6 +1859,10 @@ Class PMS_Form_Handler {
 
         }
 
+        // Handle the case in which a non-recurring Fixed Period Membership has a free trial that ends on the expiration date and no sign up fee
+        if( $has_trial && !$is_recurring && $subscription_plan->is_fixed_period_membership() && ( $subscription_plan->get_trial_expiration_date() == $subscription_plan->get_expiration_date() ) && !$subscription_plan->has_sign_up_fee() )
+            $needs_payment = false;
+
 
         /**
          * With the payment response we will activate the member's subscription data
@@ -1926,6 +1930,11 @@ Class PMS_Form_Handler {
             elseif( $form_location == 'change_subscription' )
                 $payment_data['type'] = 'subscription_initial_payment';
 
+            // Payment for a non-recurring Fixed Period Membership has a free trial that ends on the expiration date and no sign up fee
+            if( $has_trial && !$is_recurring && $subscription_plan->is_fixed_period_membership() && ( $subscription_plan->get_trial_expiration_date() == $subscription_plan->get_expiration_date() ) && !$subscription_plan->has_sign_up_fee() && ( $payment_data['payment_gateway'] == 'paypal_standard' || $payment_data['payment_gateway'] == 'paypal_express' ) ){
+                $payment_data['type']   = $payment_data['payment_gateway'] . '_trial_payment';
+                $payment_data['status'] = 'completed';
+            }
 
             /**
              * Filter the subscription data after its been set
@@ -1942,8 +1951,10 @@ Class PMS_Form_Handler {
             /**
              * Insert the payment into the db
              *
+             * Allow for empty amounts to be introduced for PayPal subscriptions, as it is the amount considered for the trial period
+             *
              */
-            if( ! empty( $payment_data['amount'] ) ) {
+            if( ! empty( $payment_data['amount'] ) || $pay_gate == 'paypal_standard' || ( empty( $payment_data['amount'] ) && $pay_gate == 'paypal_express' && $has_trial ) ) {
 
                 $payment = new PMS_Payment();
                 $payment->insert( $payment_data );
@@ -2037,7 +2048,8 @@ Class PMS_Form_Handler {
                      * In case of an error, don't intrerrupt the flow (basically, do not redirect) and the plugin will redirect to the
                      * error page (see else @ line 1864 below)
                      */
-                    pms_to_gateway( $pay_gate, $payment_gateway_data );
+                    if( $needs_payment )
+                        pms_to_gateway( $pay_gate, $payment_gateway_data );
 
                 }
 
@@ -2064,7 +2076,7 @@ Class PMS_Form_Handler {
 
                     $subscription->update( $subscription_data );
 
-                    if( isset( $has_trial ) && $has_trial == true && isset( $register_automatic_billing_info_response ) && $register_automatic_billing_info_response == true ){
+                    if( isset( $has_trial ) && $has_trial == true && ( ( isset( $register_automatic_billing_info_response ) && $register_automatic_billing_info_response == true ) || ( !$is_recurring && $subscription_plan->is_fixed_period_membership() && strtotime( $subscription_plan->get_expiration_date() ) <= strtotime( $subscription_plan->get_trial_expiration_date() ) ) ) ){
                         pms_add_member_subscription_log( $subscription->id, 'subscription_trial_started', array( 'until' => $subscription_data['trial_end'] ) );
 
                         // Save email when trial is used
@@ -2108,6 +2120,8 @@ Class PMS_Form_Handler {
                     $subscription->update( $subscription_data );
 
                     do_action( 'pms_psp_after_'. $form_location, $subscription, $payment );
+
+                    pms_delete_member_subscription_meta( $subscription->id, 'pms_retry_payment' );
 
                     break;
 
@@ -2232,6 +2246,8 @@ Class PMS_Form_Handler {
             'expiration_date'      => $subscription_plan->get_expiration_date(),
             'status'               => 'pending',
             'payment_gateway'      => $pay_gate,
+            // billing_amount is used for payments only for psp supported gateways, but if the price is modified (pwyw, dc) it will be updated here for all gateways
+            'billing_amount'       => $subscription_plan->price,
         );
 
         // Add start date for new subscriptions
@@ -2266,7 +2282,6 @@ Class PMS_Form_Handler {
         // Add custom payment schedule data to the subscription
         if( $psp_supported ) {
 
-            $subscription_data['billing_amount']     = $subscription_plan->price;
             $subscription_data['payment_profile_id'] = '';
 
             if( $is_recurring && !$subscription_plan->is_fixed_period_membership() ) {

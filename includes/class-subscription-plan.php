@@ -199,6 +199,22 @@ Class PMS_Subscription_Plan {
     }
 
     /*
+     * Method that checks if the subscription plan has signup fee
+     *
+     */
+    public function has_sign_up_fee(){
+        return ( isset( $this->sign_up_fee ) && $this->sign_up_fee != '0' );
+    }
+
+    /*
+     * Method that checks if the subscription plan has trial set
+     *
+     */
+    public function has_trial(){
+        return ( isset( $this->trial_duration ) && $this->trial_duration != '0' );
+    }
+
+    /*
      * Method that checks if the subscription plan is a fixed period membership
      *
      */
@@ -222,14 +238,6 @@ Class PMS_Subscription_Plan {
         else
             return false;
 
-    }
-
-    /*
-     * Method that checks if the subscription plan has signup fee
-     *
-     */
-    public function has_sign_up_fee(){
-        return ( isset( $this->sign_up_fee ) && $this->sign_up_fee != '0' );
     }
 
 

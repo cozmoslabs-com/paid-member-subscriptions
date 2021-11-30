@@ -40,7 +40,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <select id="payment-currency-position" name="pms_payments_settings[currency_position]">
             <option value="before" <?php ( isset( $this->options['currency_position'] ) ? selected( $this->options['currency_position'], 'before', true ) : ''); ?>><?php esc_html_e( 'Before', 'paid-member-subscriptions' ); ?></option>
+            <option value="before_with_space" <?php ( isset( $this->options['currency_position'] ) ? selected( $this->options['currency_position'], 'before_with_space', true ) : ''); ?>><?php esc_html_e( 'Before with space', 'paid-member-subscriptions' ); ?></option>
             <option value="after" <?php ( isset( $this->options['currency_position'] ) ? selected( $this->options['currency_position'], 'after', true ) : ''); ?>><?php esc_html_e( 'After', 'paid-member-subscriptions' ); ?></option>
+            <option value="after_with_space" <?php ( isset( $this->options['currency_position'] ) ? selected( $this->options['currency_position'], 'after_with_space', true ) : ''); ?>><?php esc_html_e( 'After with space', 'paid-member-subscriptions' ); ?></option>
         </select>
 
         <p class="description"><?php esc_html_e( 'Select whether the currency symbol should appear before the price or after the price.', 'paid-member-subscriptions' ); ?></p>

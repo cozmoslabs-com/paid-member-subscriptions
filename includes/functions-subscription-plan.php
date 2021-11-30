@@ -317,11 +317,11 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
                     // Output subscription plan trial
                     $subscription_plan_output .= '<span class="pms-subscription-plan-trial">' . pms_get_output_subscription_plan_trial( $subscription_plan ) . '</span>';
 
-                    if( $form_location != 'upgrade_subscription' ){
+                    //if( $form_location != 'upgrade_subscription' ){
 
                         // Output subscription plan sign-up
                         $subscription_plan_output .= '<span class="pms-subscription-plan-sign-up-fee">' . pms_get_output_subscription_plan_sign_up_fee( $subscription_plan ) . '</span>';
-                    }
+                    //}
 
                 }
 
@@ -377,11 +377,11 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
                                 // Output subscription plan trial
                                 $subscription_plan_output .= '<span class="pms-subscription-plan-trial">' . pms_get_output_subscription_plan_trial( $subscription_plan ) . '</span>';
 
-                                if( $form_location != 'upgrade_subscription' ){
+                                //if( $form_location != 'upgrade_subscription' ){
 
                                     // Output subscription plan sign-up
                                     $subscription_plan_output .= '<span class="pms-subscription-plan-sign-up-fee">' . pms_get_output_subscription_plan_sign_up_fee( $subscription_plan ) . '</span>';
-                                }
+                                //}
                             }
 
                         $subscription_plan_output .= '</label>';

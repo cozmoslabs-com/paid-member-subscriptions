@@ -481,7 +481,3 @@ ul.pms-field-section {
     margin-bottom: 1.2em;
     font-size: 115%;
 }
-
-.pms-upgrade__group--upgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee, .pms-upgrade__group--downgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee {
-    display: none;
-}

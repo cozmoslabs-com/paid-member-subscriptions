@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 5.8.1
-Stable tag: 2.5.5
+Stable tag: 2.5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,11 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.5.6 =
+* Feature: added option to display prices with a space between the currency and the amount. Choose your preferred display from Settings -> Payments -> Currency Position
+* Fix: compatibility issue with PB conditional logic where if more than one subscription plans field was in the form, the one showing didn't always have a default plan selected
+* Fix: Dashboard widget to respect Currency display settings
+
 = 2.5.5 =
 * Fix: Issue with honeypot field displaying in some cases
 * Fix: Don't display Free Trial when downgrading subscriptions

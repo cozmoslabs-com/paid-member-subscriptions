@@ -97,7 +97,6 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
         $paypal_link .= http_build_query( apply_filters( 'pms_paypal_standard_args', $paypal_args, $this, $settings ) );
 
-
         do_action( 'pms_before_paypal_redirect', $paypal_link, $this, $settings );
 
         $payment->log_data( 'paypal_to_checkout' );
@@ -197,6 +196,7 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
                         // If subscription is pending it is a new one
                         if( $member_subscription->status == 'pending' ) {
+
                             $member_subscription_expiration_date = $subscription_plan->get_expiration_date();
 
                             pms_add_member_subscription_log( $member_subscription->id, 'subscription_activated', array( 'until' => $member_subscription_expiration_date ) );
@@ -231,6 +231,9 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
                         // Can be a renewal payment or a new payment
                         do_action( 'pms_paypal_web_accept_after_subscription_activation', $member_subscription, $payment_data, $post_data );
+
+                        pms_delete_member_subscription_meta( $member_subscription->id, 'pms_retry_payment' );
+
                     }
 
                     /*
@@ -268,6 +271,8 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
                          pms_add_member_subscription_log( $current_subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $old_plan_id, 'new_plan' => $new_subscription_plan->id ) );
 
                          do_action( 'pms_paypal_web_accept_after_upgrade_subscription', $member_subscription_plan->id, $payment_data, $post_data );
+
+                         pms_delete_member_subscription_meta( $current_subscription->id, 'pms_retry_payment' );
 
                      }
 

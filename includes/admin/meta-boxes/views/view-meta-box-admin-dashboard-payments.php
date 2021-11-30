@@ -25,9 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     foreach( $today_payments as $payment )
         $today_income +=(int)$payment->amount;
 
-    // Get currency symbol
-    $currency_symbol = pms_get_currency_symbol( pms_get_active_currency() );
-
 ?>
 
 <div id="pms-payments-summary">
@@ -39,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <p>
             <span><?php esc_html_e( 'Income:', 'paid-member-subscriptions' ); ?></span>
-            <span><?php echo esc_html( $currency_symbol . $month_income ); ?></span>
+            <span><?php echo esc_html( pms_format_price( $month_income ) ); ?></span>
         </p>
 
         <p>
@@ -56,7 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <p>
             <span><?php esc_html_e( 'Income:', 'paid-member-subscriptions' ); ?></span>
-            <span><?php echo esc_html( $currency_symbol . $today_income ); ?></span>
+            <span><?php echo esc_html( pms_format_price( $today_income ) ); ?></span>
         </p>
 
         <p>
@@ -77,7 +74,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="pms-recent-payment">
                 <div>
                     <?php echo esc_html( $payment_user->user_login ) . ' (' . esc_html( $payment_user->user_email ) . ')' ?>
-                    <span class="pms-recent-payments-amount"><?php echo esc_html( $currency_symbol . $payment->amount ); ?></span>
+                    <span class="pms-recent-payments-amount"><?php echo esc_html( pms_format_price( $payment->amount ) ); ?></span>
                 </div>
                 <a href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-payments-page', 'pms-action' => 'edit_payment', 'payment_id' => $payment->id ), admin_url( 'admin.php' ) ) ); ?>"><?php echo esc_html__( 'View Details', 'paid-member-subscriptions' ); ?></a>
             </div>

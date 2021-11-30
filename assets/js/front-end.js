@@ -368,6 +368,11 @@ jQuery( function($) {
          */
         if( $( '.wppb-subscription-plans').length != 0 ){
 
+            // if there are 2 or more plans in the form, since they use the same meta name, only the LAST field from the
+            // PB Form Fields interface will have a default values selected, but we have no idea which field is displayed
+            // so we need to make sure the visible one has it's default plan selected
+            pmsHandleDefaultWPPBFormSelectedPlanOnLoad()
+
             $(document).on( "wppbRemoveRequiredAttributeEvent", pmsHandleGatewaysDisplayRemove )
 
             function pmsHandleGatewaysDisplayRemove(event) {
@@ -398,22 +403,32 @@ jQuery( function($) {
 
             }
 
-            function pmsHandleGatewaysDisplayAdd(event) {
+            function pmsHandleDefaultWPPBFormSelectedPlanOnLoad() {
 
-                var element = event.target
-
-                if( typeof $(element).attr('conditional-name') == 'undefined' || $(element).attr('conditional-name') != 'subscription_plans' )
+                if( !( jQuery( '#wppb-register-user' ).length > 0 ) )
                     return
 
-                var visible_plans = false
+                // 2 or more plans in the form
+                if( !( jQuery( '.wppb-subscription-plans').length > 1 ) )
+                    return
 
-                $('.wppb-subscription-plans').each( function( index, item ){
-                    if( $( item ).is( ':visible' ) )
-                        visible_plans = true
+                jQuery('.wppb-subscription-plans' ).each( function(){
+
+                    if( jQuery( this ).is( ':visible' ) ){
+
+                        jQuery( this ).find("input[name=\'subscription_plans\']").each(function (index, item) {
+
+                            if ( typeof jQuery(item).data("default-selected") != "undefined" && jQuery(item).data("default-selected") == true ) {
+                                jQuery(item).prop("checked", "checked")
+                                jQuery(item).trigger("click")
+                            }
+
+                        })
+
+                        return
+                    }
+
                 })
-
-                if( visible_plans === true )
-                    handle_payment_gateways_display()
 
             }
 

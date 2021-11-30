@@ -74,7 +74,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <span class="pms-disabled-input">0</span><?php echo esc_html( pms_get_active_currency() ); ?>
 
-        <p class="description"><?php printf( esc_html__( 'This feature is available only with the Manual, %1$sStripe%2$s or %3$sPayPal Express with Reference Transactions%4$s gateways.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/stripe-payment-gateway/" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/paypal-pro-and-express-checkout/#Reference_Transactions" target="_blank">', '</a>' ); ?></p>
+        <p class="description"><?php printf( esc_html__( 'This feature is available only with the Manual, %1$sStripe%2$s, %3$sPayPal Express%4$s gateways or %5$sRecurring Payments for PayPal Standard%6$s add-on.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/stripe-payment-gateway/" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/paypal-pro-and-express-checkout/" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/recurring-payments-for-paypal-standard/" target="_blank">', '</a>' ); ?></p>
 
     </div>
 <?php endif; ?>
@@ -111,7 +111,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <option value="month" <?php selected( 'month', $subscription_plan->trial_duration_unit, true ); ?>><?php esc_html_e( 'Month(s)', 'paid-member-subscriptions' ); ?></option>
             <option value="year"  <?php selected( 'year', $subscription_plan->trial_duration_unit, true ); ?>><?php esc_html_e( 'Year(s)', 'paid-member-subscriptions' ); ?></option>
         </select>
-        <p class="description"><?php printf( esc_html__( 'This feature is available only with the Manual, %1$sStripe%2$s or %3$sPayPal Express with Reference Transactions%4$s gateways.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/stripe-payment-gateway/" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/paypal-pro-and-express-checkout/#Reference_Transactions" target="_blank">', '</a>' ); ?></p>
+        <p class="description"><?php printf( esc_html__( 'This feature is available only with the Manual, %1$sStripe%2$s, %3$sPayPal Express%4$s gateways or %5$sRecurring Payments for PayPal Standard%6$s add-on.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/stripe-payment-gateway/" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/paypal-pro-and-express-checkout/" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/recurring-payments-for-paypal-standard/" target="_blank">', '</a>' ); ?></p>
 
     </div>
 
@@ -122,6 +122,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <?php if( pms_payment_gateways_support( pms_get_active_payment_gateways(), 'recurring_payments' ) ) : ?>
 
     <div class="pms-meta-box-field-wrapper" id="pms-subscription-plan-renewal-option-field">
+
         <label for="pms-subscription-plan-recurring" class="pms-meta-box-field-label"><?php esc_html_e( 'Renewal', 'paid-member-subscriptions' ); ?></label>
 
         <select id="pms-subscription-plan-recurring" name="pms_subscription_plan_recurring">

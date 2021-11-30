@@ -1171,6 +1171,7 @@
 <?php __("PayPal Express - Checkout Payment", "paid-member-subscriptions"); ?>
 <?php __("PayPal Recurring Payment", "paid-member-subscriptions"); ?>
 <?php __("PayPal Pro - Direct Payment", "paid-member-subscriptions"); ?>
+<?php __("PayPal Express - Trial Payment", "paid-member-subscriptions"); ?>
 <?php __("User returned back to website from <strong>PayPal</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Payment confirmation form submitted by user.", "paid-member-subscriptions"); ?>
 <?php __("PayPal couldn't generate the token. <strong>Error %s</strong>: %s", "paid-member-subscriptions"); ?>
@@ -1188,6 +1189,7 @@
 <?php __("More info:", "paid-member-subscriptions"); ?>
 <?php __("Subscription setup successfully with PayPal.", "paid-member-subscriptions"); ?>
 <?php __("PayPal Standard - Subscription Payment", "paid-member-subscriptions"); ?>
+<?php __("PayPal Standard - Trial Payment", "paid-member-subscriptions"); ?>
 <?php __("PayPal API credentials are missing or are incomplete", "paid-member-subscriptions"); ?>
 <?php __("Payment profile ID is empty, nothing to cancel.", "paid-member-subscriptions"); ?>
 <?php __("Stripe Authentication Email", "paid-member-subscriptions"); ?>
@@ -1559,7 +1561,9 @@
 <?php __("Select your currency. Please note that some payment gateways can have currency restrictions.", "paid-member-subscriptions"); ?>
 <?php __("Currency Position", "paid-member-subscriptions"); ?>
 <?php __("Before", "paid-member-subscriptions"); ?>
+<?php __("Before with space", "paid-member-subscriptions"); ?>
 <?php __("After", "paid-member-subscriptions"); ?>
+<?php __("After with space", "paid-member-subscriptions"); ?>
 <?php __("Select whether the currency symbol should appear before the price or after the price.", "paid-member-subscriptions"); ?>
 <?php __("Price Display Format", "paid-member-subscriptions"); ?>
 <?php __("Select how prices should be displayed.", "paid-member-subscriptions"); ?>
@@ -1776,6 +1780,9 @@
 <?php __("Recurring", "paid-member-subscriptions"); ?>
 <?php __("For first %d %s", "paid-member-subscriptions"); ?>
 <?php __("For first %d %ss", "paid-member-subscriptions"); ?>
+<?php __("For %d %s", "paid-member-subscriptions"); ?>
+<?php __("For %d %ss", "paid-member-subscriptions"); ?>
+<?php __("For the first year", "paid-member-subscriptions"); ?>
 <?php __("Once every %d %s", "paid-member-subscriptions"); ?>
 <?php __("Once every %d %ss", "paid-member-subscriptions"); ?>
 <?php __("Once every year", "paid-member-subscriptions"); ?>
@@ -1875,7 +1882,7 @@
 <?php __("Set the subscription duration. Leave 0 for unlimited.", "paid-member-subscriptions"); ?>
 <?php __("Amount you want to charge people who join this plan. Leave 0 if you want this plan to be free.", "paid-member-subscriptions"); ?>
 <?php __("Sign-up Fee", "paid-member-subscriptions"); ?>
-<?php __('This feature is available only with the Manual, %1$sStripe%2$s or %3$sPayPal Express with Reference Transactions%4$s gateways.', 'paid-member-subscriptions' ); ?>
+<?php __('This feature is available only with the Manual, %1$sStripe%2$s, %3$sPayPal Express%4$s gateways or %5$sRecurring Payments for PayPal Standard%6$s add-on.', 'paid-member-subscriptions' ); ?>
 <?php __("Amount you want to charge people upfront when subscribing to this plan.", "paid-member-subscriptions"); ?>
 <?php __("The free trial represents the amount of time before charging the first recurring payment. The sign-up fee applies regardless of the free trial.", "paid-member-subscriptions"); ?>
 <?php __("Settings default", "paid-member-subscriptions"); ?>
