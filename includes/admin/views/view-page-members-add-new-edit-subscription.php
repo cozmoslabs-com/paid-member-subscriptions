@@ -350,7 +350,7 @@ if( ! empty( $_POST ) ) {
 											<?php if( !apply_filters( 'pms_edit_subscription_edit_payment_profile_id', false ) ) : ?>
 												<span class="readonly medium"><strong><?php echo esc_html( $form_data['payment_profile_id'] ); ?></strong></span>
 											<?php else : ?>
-												<input id="pms-subscription-payment-profile-id" name="payment_profile_id" type="text" value="<?php echo !empty( $form_data['payment_profile_id'] ) ? $form_data['payment_profile_id'] : '' ?>" />
+												<input id="pms-subscription-payment-profile-id" name="payment_profile_id" type="text" value="<?php echo !empty( $form_data['payment_profile_id'] ) ? esc_attr( $form_data['payment_profile_id'] ) : '' ?>" />
 											<?php endif; ?>
 
 											<p class="description"><?php esc_html_e( 'The subscription payment schedule is handled by the payment gateway.', 'paid-member-subscriptions' ); ?></p>

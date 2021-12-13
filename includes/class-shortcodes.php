@@ -90,8 +90,15 @@ Class PMS_Shortcodes {
 
             $plan = pms_get_subscription_plan( absint( sanitize_text_field( $_GET['subscription_plan'] ) ) );
 
-            if ( $plan->is_valid() && $plan->is_active() )
+            if ( $plan->is_valid() && $plan->is_active() ){
+
                 $atts['subscription_plans'] = array( $plan->id );
+
+                // user needs to not be subscribed to another plan from the same tier
+                if( is_user_logged_in() && pms_get_current_subscription_from_tier( get_current_user_id(), $plan->id ) )
+                    $atts['subscription_plans'] = '';
+
+            }
         }
 
         /*
@@ -737,42 +744,10 @@ Class PMS_Shortcodes {
 
                 if( $args['display_to'] == 'not_subscribed' ) {
 
-                    // when negating we need to take into consideration the MSPU add-on
-                    if( defined( 'PMS_IN_MSU_VERSION' ) ){
-
-                        $user_id      = pms_get_current_user_id();
-                        $member       = pms_get_member( $user_id );
-                        $show_content = false;
-
-                        foreach( $subscription_plans as $subscription_plan ){
-
-                            // If user is not a member of the target plan and doesn't have another subscription from the same tier
-                            if( !pms_is_member_of_plan( $subscription_plans ) && !pms_get_current_subscription_from_tier( $user_id, $subscription_plan ) ) {
-
-                                if( $member->get_subscriptions_count() >= 0 && $member->get_subscriptions_count() < pms_in_get_subscription_plan_groups_count() )
-                                    $show_content = true;
-                                else
-                                    $show_content = false;
-
-                            } else
-                                $show_content = false;
-
-                        }
-
-                        if( $show_content === false )
-                            return do_shortcode( $content );
-                        else
-                            return $message;
-
-                    // else make sure the user is not subscribed to any other plan before showing the content
-                    } else {
-
-                        if( !pms_is_member() && !pms_is_member_of_plan( $subscription_plans ) )
-                            return do_shortcode( $content );
-                        else
-                            return $message;
-
-                    }
+                    if( !pms_is_member_of_plan( $subscription_plans ) )
+                        return do_shortcode( $content );
+                    else
+                        return $message;
 
                 } else {
 

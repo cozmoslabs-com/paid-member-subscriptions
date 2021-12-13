@@ -70,6 +70,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
             pms_add_member_subscription_log( $subscription->id, 'subscription_activated' );
 
         }
+
         if( $this->recurring ){
 
             $billing_next_payment = !empty( $this->subscription_data['trial_end'] )?  $this->subscription_data['trial_end'] : $this->subscription_data['expiration_date'];
@@ -258,6 +259,8 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
                 pms_add_member_subscription_log( $member_subscription->id, 'admin_subscription_activated_payments' );
 
+                return;
+
             }
 
         }
@@ -287,12 +290,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
             $old_subscription->update( $subscription_data );
 
-            $context = 'change';
-
-            if( $form_location == 'upgrade_subscription' )
-                $context = 'upgrade';
-            elseif( $form_location == 'downgrade_subscription' )
-                $context = 'downgrade';
+            $context = pms_get_change_subscription_plan_context( $old_plan_id, $subscription_plan->id );
 
             pms_add_member_subscription_log( $old_subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $old_plan_id, 'new_plan' => $subscription_plan->id ) );
 

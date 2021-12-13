@@ -80,7 +80,7 @@ pms_output_subscription_plans_filter( 'remove' );
 
     <?php endif; ?>
 
-    <input type="hidden" name="pms_current_subscription" value="<?php echo isset( $_GET['subscription_id'] ) ? esc_attr( $_GET['subscription_id'] ) : ''; ?>" />
+    <input type="hidden" name="pms_current_subscription" value="<?php echo isset( $_GET['subscription_id'] ) ? esc_attr( $_GET['subscription_id'] ) : ''; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized ?>" />
     <input type="hidden" name="pmstkn" value="<?php echo esc_attr( wp_create_nonce( 'pms_change_subscription', 'pmstkn' ) ); ?>" />
     <input type="hidden" name="form_action" value="<?php echo esc_attr( wp_create_nonce( 'pms_change_subscription', 'pmstkn' ) ); ?>" />
 

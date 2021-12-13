@@ -9,8 +9,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
 
-<div id="gdpr-general">
+<?php $active_sub_tab = ( ! empty( $_GET['nav_sub_tab'] ) ? sanitize_text_field( $_GET['nav_sub_tab'] ) : 'misc_gdpr' ); ?>
 
+<!-- Sub-tab navigation -->
+<ul class="pms-nav-sub-tab-wrapper subsubsub">
+    <li><a data-sub-tab-slug="misc_gdpr"  href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_gdpr' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_gdpr' ? 'current' : '' ) ?>"><?php esc_html_e( 'GDPR', 'paid-member-subscriptions' ); ?></a> | </li>
+    <li><a data-sub-tab-slug="misc_others" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_others' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_others' ? 'current' : '' ) ?>"><?php esc_html_e( 'Others', 'paid-member-subscriptions' ); ?></a> | </li>
+    <li><a data-sub-tab-slug="misc_recaptcha" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_recaptcha' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_recaptcha' ? 'current' : '' ) ?>"><?php esc_html_e( 'reCaptcha', 'paid-member-subscriptions' ); ?></a></li>
+</ul>
+
+<!-- Divider -->
+<hr style="margin-top: 9px;" />
+
+<!-- GDPR Sub Tab -->
+<div data-sub-tab-slug="misc_gdpr" class="pms-sub-tab pms-sub-tab-gdpr <?php echo ( $active_sub_tab == 'misc_gdpr' ? 'tab-active' : '' ); ?>">
     <h3><?php esc_html_e( 'GDPR', 'paid-member-subscriptions' ); ?></h3>
 
     <div class="pms-form-field-wrapper">
@@ -40,7 +52,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <p class="description"><?php esc_html_e( 'Select whether to show a GDPR Delete button on our forms.', 'paid-member-subscriptions' ); ?></p>
     </div>
+</div>
 
+
+<!-- Others Sub Tab -->
+<div data-sub-tab-slug="misc_others" class="pms-sub-tab pms-sub-tab-others <?php echo ( $active_sub_tab == 'misc_others' ? 'tab-active' : '' ); ?>">
     <h3><?php esc_html_e( 'Others', 'paid-member-subscriptions' ); ?></h3>
 
     <div class="pms-form-field-wrapper">
@@ -94,7 +110,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <p class="description"><?php echo wp_kses_post( __( 'Enable the <strong>Labels Edit</strong> functionality in order to change any string that is shown by the plugin.', 'paid-member-subscriptions' ) ); ?></p>
     </div>
+</div>
 
+
+
+
+
+
+<!-- reCaptcha Sub Tab -->
+<div data-sub-tab-slug="misc_recaptcha" class="pms-sub-tab pms-sub-tab-recaptcha <?php echo ( $active_sub_tab == 'misc_recaptcha' ? 'tab-active' : '' ); ?>">
     <?php do_action( $this->menu_slug . '_misc_after_content', $this->options ); ?>
-
 </div>

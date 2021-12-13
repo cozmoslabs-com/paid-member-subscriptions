@@ -413,6 +413,14 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
             else
                 echo wp_kses_post( apply_filters( 'pms_list_table_subscription_plans_column_price_output', pms_format_price( $subscription_plan->price, pms_get_active_currency() ) . $duration, $subscription_plan->id ) );
 
+            if( $subscription_plan->type == 'group' ){
+
+                $seats = get_post_meta( $subscription_plan->id, 'pms_subscription_plan_seats', true );
+
+                echo ' ' . sprintf( esc_attr( _n( 'for %d seat', 'for %d seats', $seats, 'paid-member-subscriptions' ) ), esc_html( $seats ) );
+
+            }
+
         }
 
         // Information shown in the sign-up fee column

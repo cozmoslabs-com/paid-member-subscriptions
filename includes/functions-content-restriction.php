@@ -17,6 +17,9 @@ function pms_is_post_restricted( $post_id = null ) {
     if( is_array( $post_id ) && empty( $post_id ) )
         $post_id = null;
 
+    if( empty( $post_id ) )
+        return false;
+
     global $post, $pms_show_content, $pms_is_post_restricted_arr;
 
     /**
@@ -195,6 +198,10 @@ function pms_get_restricted_post_message( $post_id = 0 ) {
 function pms_restricted_post_redirect() {
 
     if( ! is_singular() )
+        return;
+
+    // don't redirect if an IPN request is made (useful for restricted front pages)
+    if( isset( $_GET['pay_gate_listener'] ) )
         return;
 
     global $post;

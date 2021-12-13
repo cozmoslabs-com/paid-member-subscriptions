@@ -877,6 +877,8 @@
 <?php __("Free Trial", "paid-member-subscriptions"); ?>
 <?php __("Move Subscription Plan Up", "paid-member-subscriptions"); ?>
 <?php __("Move Subscription Plan Down", "paid-member-subscriptions"); ?>
+<?php __("for %d seat", "paid-member-subscriptions"); ?>
+<?php __("for %d seats", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Subscription Plan?", "paid-member-subscriptions"); ?>
 <?php __("Delete Plan", "paid-member-subscriptions"); ?>
 <?php __("a downgrade", "paid-member-subscriptions"); ?>
@@ -1533,6 +1535,8 @@
 <?php __("Default Profile Builder", "paid-member-subscriptions"); ?>
 <?php __("<b>Profile Builder</b> is enabled. <b>You can replace the edit profile in the [pms-account] page</b> with the Profile Builder alternative.", "paid-member-subscriptions"); ?>
 <?php __("GDPR", "paid-member-subscriptions"); ?>
+<?php __("Others", "paid-member-subscriptions"); ?>
+<?php __("reCaptcha", "paid-member-subscriptions"); ?>
 <?php __("GDPR checkbox on Forms", "paid-member-subscriptions"); ?>
 <?php __("Disabled", "paid-member-subscriptions"); ?>
 <?php __("Enabled", "paid-member-subscriptions"); ?>
@@ -1542,7 +1546,6 @@
 <?php __("Text for the GDPR checkbox. You can use {{privacy_policy}} to generate a link for the Privacy policy page.", "paid-member-subscriptions"); ?>
 <?php __("GDPR Delete Button on Forms", "paid-member-subscriptions"); ?>
 <?php __("Select whether to show a GDPR Delete button on our forms.", "paid-member-subscriptions"); ?>
-<?php __("Others", "paid-member-subscriptions"); ?>
 <?php __("Usage Tracking", "paid-member-subscriptions"); ?>
 <?php __("Allow Paid Member Subscriptions to anonymously track the plugin's usage. Data provided by this tracking helps us improve the plugin.<br> No sensitive data is shared. %sLearn More%s", "paid-member-subscriptions"); ?>
 <?php __("Admin Bar", "paid-member-subscriptions"); ?>
@@ -1778,13 +1781,14 @@
 <?php __("The provided PayPal Billing Agreement ID is not valid.", "paid-member-subscriptions"); ?>
 <?php __("Payment confirmation", "paid-member-subscriptions"); ?>
 <?php __("Recurring", "paid-member-subscriptions"); ?>
-<?php __("For first %d %s", "paid-member-subscriptions"); ?>
-<?php __("For first %d %ss", "paid-member-subscriptions"); ?>
-<?php __("For %d %s", "paid-member-subscriptions"); ?>
-<?php __("For %d %ss", "paid-member-subscriptions"); ?>
+<?php __('For first %1$d %2$s, "paid-member-subscriptions"); ?>
+<?php __(For first %1$d %2$ss', 'paid-member-subscriptions' ); ?>
+<?php __('For %1$d %2$s, "paid-member-subscriptions"); ?>
+<?php __(For %1$d %2$ss', 'paid-member-subscriptions' ); ?>
 <?php __("For the first year", "paid-member-subscriptions"); ?>
-<?php __("Once every %d %s", "paid-member-subscriptions"); ?>
-<?php __("Once every %d %ss", "paid-member-subscriptions"); ?>
+<?php __("Until %s", "paid-member-subscriptions"); ?>
+<?php __('Once every %1$d %2$s, "paid-member-subscriptions"); ?>
+<?php __(Once every %1$d %2$ss', 'paid-member-subscriptions' ); ?>
 <?php __("Once every year", "paid-member-subscriptions"); ?>
 <?php __("Confirm payment", "paid-member-subscriptions"); ?>
 <?php __("Test Publishable Key", "paid-member-subscriptions"); ?>

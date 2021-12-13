@@ -1814,7 +1814,7 @@ Class PMS_Form_Handler {
          */
         } else {
 
-            if( isset( $_POST['current_subscription'] ) ){
+            if( isset( $_POST['pms_current_subscription'] ) ){
 
                 $subscription = pms_get_member_subscription( absint( $_POST['pms_current_subscription'] ) );
 

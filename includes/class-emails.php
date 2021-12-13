@@ -192,10 +192,10 @@ Class PMS_Emails {
         $subscription_plan_id = ( isset( $user_data['subscriptions'][0] ) ? $user_data['subscriptions'][0] : 0 );
 
         if ( isset( $settings[ 'register_is_enabled' ] ) )
-            PMS_Emails::mail( 'user', 'register', $user_data['user_id'] );
+            PMS_Emails::mail( 'user', 'register', $user_data['user_id'], $subscription_plan_id );
 
         if ( isset( $settings[ 'register_admin_is_enabled' ] ) )
-            PMS_Emails::mail( 'admin', 'register', $user_data['user_id'] );
+            PMS_Emails::mail( 'admin', 'register', $user_data['user_id'], $subscription_plan_id );
 
     }
 
@@ -306,6 +306,13 @@ Class PMS_Emails {
             $email_content = $settings[$action . '_sub' . $settings_sufix];
         else
             $email_content = $email_default_content[$action];
+
+        // for the register email, the subscription doesn't exist yet, the provided $subscription_id is a plan id actually
+        // set it in the extra user_info array and make it available for tags to use (e.g. subscription name)
+        if( $action == 'register' ){
+            $user_info->subscription_plan_id = $subscription_id;
+            $subscription_id = 0;
+        }
 
         $email_subject = PMS_Merge_Tags::process_merge_tags( $email_subject, $user_info, $subscription_id, $payment_id, $action );
         $email_content = PMS_Merge_Tags::process_merge_tags( $email_content, $user_info, $subscription_id, $payment_id, $action );

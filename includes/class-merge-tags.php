@@ -91,7 +91,14 @@ Class PMS_Merge_Tags{
      */
     function pms_tag_subscription_name( $value, $user_info, $subscription_id ) {
 
-        if( !empty( $subscription_id ) ){
+        if( isset( $user_info->subscription_plan_id ) ){
+
+            $plan = pms_get_subscription_plan( $user_info->subscription_plan_id );
+
+            if( !empty( $plan->name ) )
+                return $plan->name;
+
+        } else if( !empty( $subscription_id ) ){
             $subscription = pms_get_member_subscription( $subscription_id );
 
             if( !empty( $subscription->subscription_plan_id ) ){

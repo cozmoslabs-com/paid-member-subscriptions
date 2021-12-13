@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 5.8.1
-Stable tag: 2.5.6
+Stable tag: 2.5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,17 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.5.7 =
+* Fix: An issue with manual gateway renewal
+* Fix: A notice coming from the manual payment gateway
+* Fix: An issue with the pms-restrict shortcode not working correctly when negating a subscription
+* Fix: Issue with single plan url parameter sometimes displaying subscriptions that couldn't be purchased
+* Fix: A notice coming form the content restriction functionality in some cases
+* Misc: Ignore content restriction redirect if IPN parameters are in the URL
+* Misc: Display Expiration Date for Recurring Subscriptions when hovering over the users subscriptions on the Members List page
+* Misc: Add support for the subscription name tag in the Register email
+* Misc: Transformed the Settings -> Misc page into a tabbed interface
+
 = 2.5.6 =
 * Feature: added option to display prices with a space between the currency and the amount. Choose your preferred display from Settings -> Payments -> Currency Position
 * Fix: compatibility issue with PB conditional logic where if more than one subscription plans field was in the form, the one showing didn't always have a default plan selected
