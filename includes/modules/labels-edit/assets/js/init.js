@@ -1,11 +1,15 @@
+/*
+ * JavaScript for Labels Edit Submenu Page
+ *
+ */
 jQuery( document ).ready( function() {
     pmsle_chosen();
-    pmsle_select_option();
     pmsle_textarea_option();
+    pmsle_edit();
 } );
 
 function pmsle_chosen() {
-    jQuery( ".chosen-select, .mb-select" ).chosen( {
+    jQuery( ".pmsle-label-select" ).chosen( {
         disable_search_threshold : 5,
         no_results_text          : "Nothing found!",
         width                    : "80%",
@@ -13,59 +17,50 @@ function pmsle_chosen() {
     } );
 }
 
-function pmsle_select_option() {
-    jQuery( document ).on( 'change', '#pmsle-label', function() {
-        pmsle_description( jQuery( this ) );
-    } );
-}
-
-function pmsle_description( $this ) {
-    if( $this.val() == "" ) {
-        $this.siblings( '.description' ).text( "Here you will see the default label so you can copy it." );
-    } else {
-        $this.siblings( '.description' ).text( $this.val() );
-    }
-}
-
 function pmsle_textarea_option() {
-    jQuery( document ).on( 'change', '.wck-add-form #pmsle-label', function() {
+    jQuery( document ).on( 'change', '.pmsle-label-select', function() {
         pmsle_textarea( jQuery( this ) );
     } );
 }
 
 function pmsle_textarea( $this ) {
-    jQuery( '.wck-add-form .mb-textarea' ).text( $this.val() );
+    jQuery( '#pmsle-newlabel-textarea' ).text( $this.val() );
 }
 
-function pmsle_delete_all_fields(event, delete_all_button_id, nonce) {
-    event.preventDefault();
-    $deleteButton = jQuery('#' + delete_all_button_id);
+function pmsle_decode_html(str) {
+    var map =
+        {
+            '&amp;': '&',
+            '&lt;': '<',
+            '&gt;': '>',
+            '&quot;': '"',
+            '&#039;': "'"
+        };
 
-    var response = confirm( "Are you sure you want to delete all items?" );
+    return str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, function (m) {
+        return map[m];
 
-    if( response == true ) {
-        $tableParent = $deleteButton.parents('table');
+    });
+}
 
-        var meta = $tableParent.attr('id').replace('container_', '');
-        var post_id = parseInt( $tableParent.attr('post') );
+function pmsle_edit(){
+    jQuery( jQuery( 'td[id^="pmsle-edit-item-"]' ) ).on( 'click', function() {
 
-        $tableParent.parent().css({'opacity':'0.4', 'position':'relative'}).append('<div id="mb-ajax-loading"></div>');
+        var index = this.id.split('-');
+        index = index[index.length - 1];
 
-        jQuery.post( ajaxurl, { action: "pmsle_delete_all_fields", meta: meta, id: post_id, _ajax_nonce: nonce }, function(response) {
+        var label = jQuery( '#pmsle-label-' + index ).html();
+        var newlabel = jQuery( '#pmsle-newlabel-' + index ).html();
 
-            /* refresh the list */
-            jQuery.post( wppbWckAjaxurl, { action: "wck_refresh_list"+meta, meta: meta, id: post_id}, function(response) {
-                jQuery('#container_'+meta).replaceWith(response);
-                $tableParent = jQuery('#container_'+meta);
+        var decoded_label = pmsle_decode_html( label );
+        var decoded_newlabel = pmsle_decode_html( newlabel );
 
-                $tableParent.find('tbody td').css('width', function(){ return jQuery(this).width() });
+        jQuery( '.pmsle-label-select' ).val( decoded_label ).trigger('chosen:updated');
+        jQuery( '#pmsle-newlabel-textarea' ).text( decoded_newlabel );
 
-                mb_sortable_elements();
-                $tableParent.parent().css('opacity','1');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                jQuery('#mb-ajax-loading').remove();
-            });
+        jQuery( '#pmsle-submit' ).val( pmsle_update_button_text.text );
 
-        });
-    }
+    });
 }

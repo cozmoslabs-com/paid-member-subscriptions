@@ -65,6 +65,9 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
         add_filter( 'manage_' . $screen->id . ' _columns' , array( $this , 'manage_columns' ) );
 
+        // Register custom bulk actions
+        add_filter( 'bulk_actions-' . $screen->id, array( $this, 'register_bulk_actions' ) );
+
         //Set items per page
         $items_per_page = get_user_meta( get_current_user_id(), 'pms_payments_per_page', true );
 
@@ -86,6 +89,22 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
     }
 
+    /*
+     * Register custom bulk actions
+     *
+     * @param array $actions actions.
+     *
+     * @return array
+     *
+     */
+    function register_bulk_actions( $actions ) {
+
+        if( !empty( $_GET['page'] == 'pms-payments-page' ) && empty( $_GET['subpage'] ) )
+            $actions['pms_bulk_delete_payments'] = esc_html__( 'Delete Payments', 'paid-member-subscriptions' );
+
+        return $actions;
+    }
+
     /**
      * Overwrites the parent class.
      * Define the columns for the payments
@@ -96,6 +115,7 @@ Class PMS_Payments_List_Table extends WP_List_Table {
     public function get_columns() {
 
         $columns = array(
+            'cb'             => '<input type="checkbox" />',
             'id'             => esc_html__( 'ID', 'paid-member-subscriptions' ),
             'username'       => esc_html__( 'User', 'paid-member-subscriptions' ),
             'subscriptions'  => esc_html__( 'Subscription', 'paid-member-subscriptions' ),
@@ -144,6 +164,27 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
     }
 
+    /*
+     * Overwrite parent display tablenav to avoid WP's default nonce for bulk actions
+     *
+     * @param string @which     - which side of the table ( top or bottom )
+     *
+     */
+    protected function display_tablenav( $which ) {
+
+        echo '<div class="tablenav ' . esc_attr( $which ) . '">';
+
+        $this->bulk_actions( $which );
+        wp_nonce_field( 'pms_payment_nonce' );
+
+        $this->extra_tablenav( $which );
+        if ( $which == 'bottom' )
+            $this->pagination( $which );
+
+        echo '<br class="clear" />';
+        echo '</div>';
+
+    }
 
     /**
      * Sets the table data
@@ -313,6 +354,24 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
         return !empty( $item[ $column_name ] ) ? $item[ $column_name ] : '-';
 
+    }
+
+
+    /**
+     * Handles the checkbox column output.
+     *
+     * @since 4.3.0
+     *
+     * @param $item The current item.
+     */
+    function column_cb( $item ) {
+        if( isset( $item[ 'id' ] ) && !empty( $item[ 'id' ] ) ){
+            $payment_id = $item[ 'id' ];
+            ?>
+            <label class="screen-reader-text" for="cb-select-<?php echo esc_attr( $payment_id ); ?>"></label>
+            <input type="checkbox" name="payments[]" id="cb-select-<?php echo esc_attr( $payment_id ); ?>" value="<?php echo esc_attr( $payment_id ); ?>" />
+            <?php
+        }
     }
 
 

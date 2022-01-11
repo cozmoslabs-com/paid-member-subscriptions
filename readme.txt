@@ -3,8 +3,8 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
-Tested up to: 5.8.1
-Stable tag: 2.5.7
+Tested up to: 5.8.3
+Stable tag: 2.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.5.8 =
+* Feature: Added option to Bulk Delete Payments
+* Misc: Fix a typo in emails class
+* Misc: For Multisite installs, the serial number can now be added on a separate page in the network admin
+* Misc: Add First and Last Names next to username on the Members List page
+* Misc: Remove WCK API form Labels Edit functionality
+
 = 2.5.7 =
 * Fix: An issue with manual gateway renewal
 * Fix: A notice coming from the manual payment gateway

@@ -119,6 +119,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
             'cb'                => '<input type="checkbox" />',
             'user_id'           => esc_html__( 'User ID', 'paid-member-subscriptions' ),
             'username'          => esc_html__( 'Username', 'paid-member-subscriptions' ),
+            'name'              => esc_html__( 'Name', 'paid-member-subscriptions' ),
             'email'             => esc_html__( 'E-mail', 'paid-member-subscriptions' ),
             'subscriptions'     => esc_html__( 'Subscribed to', 'paid-member-subscriptions' )
         );
@@ -375,9 +376,13 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
             $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $member->user_id, 'include_abandoned' => true ) );
 
+            $user_meta = get_user_meta( absint( $member->user_id ) );
+            $member_name = $user_meta['first_name'][0] . ' ' . $user_meta['last_name'][0];
+
             $data[] = apply_filters( 'pms_members_list_table_entry_data', array(
                 'user_id'           => $member->user_id,
                 'username'          => '<strong><a href="' . add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $member->user_id ) ) . '">' . esc_attr( $member->username ) . '</a></strong>',
+                'name'              => $member_name,
                 'email'             => $member->email,
                 'subscriptions'     => $member_subscriptions
             ), $member );

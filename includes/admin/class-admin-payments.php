@@ -97,11 +97,46 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
             return;
 
         // Get current actions
-        $action = !empty( $_REQUEST['pms-action'] ) ? sanitize_text_field( $_REQUEST['pms-action'] ) : '';
+        $action = !empty( $_REQUEST['pms-action'] ) ? sanitize_text_field( $_REQUEST['pms-action'] ) : ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] != '-1' ? sanitize_text_field( $_REQUEST['action'] ) : ( isset( $_REQUEST['action2'] ) ? sanitize_text_field( $_REQUEST['action2'] ) : '' ) );
 
         if( empty($action) )
             return;
 
+        // Register script to display confirmation message in case of bulk delete
+        wp_register_script( 'pms-payments-bulk-actions-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-payments-page.js', array('jquery'), PMS_VERSION );
+        $confirmation_message = array(
+            'message'   => __( 'Are you sure you want to delete these Payments? \nThis action is irreversible.', 'paid-member-subscriptions' )
+        );
+        wp_localize_script( 'pms-payments-bulk-actions-script', 'pms_delete_payments_confirmation_message', $confirmation_message );
+        wp_enqueue_script( 'pms-payments-bulk-actions-script' );
+
+        // Handle bulk delete payments
+        if( $action == 'pms_bulk_delete_payments' ) {
+
+            if( isset( $_REQUEST[ 'payments' ] ) && !empty( $_REQUEST[ 'payments' ] ) ){
+
+                $deleted_payments_count = 0;
+                $payment_ids            = array_map( 'sanitize_text_field', $_REQUEST[ 'payments' ] );
+
+                foreach( $payment_ids as $id ){
+
+                    $payment = pms_get_payment( (int)$id );
+
+                    if( !is_null( $payment ) ){
+                        $deleted = $payment->remove();
+
+                        if( $deleted ){
+                            $deleted_payments_count++;
+                        }
+                    }
+                }
+
+                if( $deleted_payments_count != 0 )
+                    $this->add_admin_notice( sprintf( _n( '%d Payment successfully deleted.', '%d Payments successfully deleted.', $deleted_payments_count, 'paid-member-subscriptions' ), $deleted_payments_count ), 'updated' );
+
+            }
+
+        }
 
         // Deleting a payment
         if( $action == 'delete_payment' ) {

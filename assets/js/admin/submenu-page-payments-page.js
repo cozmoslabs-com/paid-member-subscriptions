@@ -167,4 +167,21 @@ jQuery( function($) {
     $(document).on( 'click', '.pms-modal__close', function() {
         $( '.pms-modal' ).hide()
     });
+
+    // Display confirmation prompt on bulk delete payments
+    $(document).off( 'click', '#doaction' ).on( 'click', '#doaction', function(e){
+        message = pms_delete_payments_confirmation_message.message.split("\\n").join("\n");
+        if ( $('#bulk-action-selector-top').val() == 'pms_bulk_delete_payments' || $('#bulk-action-selector-bottom').val() == 'pms_bulk_delete_payments' ){
+            return confirm(message);
+        }
+
+    });
+
+    $(document).off( 'click', '#doaction2' ).on( 'click', '#doaction2', function(e){
+        message = pms_delete_payments_confirmation_message.message.split("\\n").join("\n");
+        if ( $('#bulk-action-selector-top').val() == 'pms_bulk_delete_payments' || $('#bulk-action-selector-bottom').val() == 'pms_bulk_delete_payments' ){
+            return confirm(message);
+        }
+
+    });
 });

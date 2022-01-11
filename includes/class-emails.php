@@ -96,7 +96,7 @@ Class PMS_Emails {
         }
 
         // Grab the latest payment done for this subscription
-        $payments = pms_get_payments( array( 'user_id' => $subscription->user_id, 'subscripton_plan_id' => $subscription->subscription_plan_id, 'number' => 1 ) );
+        $payments = pms_get_payments( array( 'user_id' => $subscription->user_id, 'subscription_plan_id' => $subscription->subscription_plan_id, 'number' => 1 ) );
 
         if( isset( $payments[0] ) && !empty( $payments[0]->id ) )
             $payment_id = $payments[0]->id;
@@ -156,7 +156,7 @@ Class PMS_Emails {
         $settings     = get_option( 'pms_emails_settings', array() );
 
         // Grab the latest payment done for this subscription
-        $payments = pms_get_payments( array( 'user_id' => $subscription->user_id, 'subscripton_plan_id' => $subscription->subscription_plan_id, 'number' => 1 ) );
+        $payments = pms_get_payments( array( 'user_id' => $subscription->user_id, 'subscription_plan_id' => $subscription->subscription_plan_id, 'number' => 1 ) );
 
         if( isset( $payments[0] ) && !empty( $payments[0]->id ) )
             $payment_id = $payments[0]->id;

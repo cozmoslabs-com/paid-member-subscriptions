@@ -11,39 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <div id="pms-addons-page" class="wrap">
 
-    <h1><?php esc_html_e( 'Activate your licence', 'paid-member-subscriptions' ); ?></h1>
-
-    <div class="pms-serial-wrap">
-        <form method="post" action="options.php">
-
-            <?php
-            $pms_serial_status      = pms_get_serial_number_status();
-            $pms_serial_number      = pms_get_serial_number();
-            ?>
-
-            <?php settings_fields( 'pms_serial_number' ); ?>
-
-            <label for="pms_serial_number"><?php esc_html_e( 'Serial number', 'paid-member-subscriptions' ); ?></label>
-            <div class="pms-add-on-serial-number-wrapper <?php PMS_Submenu_Page_Addons::add_ons_output_styling_class( $pms_serial_status ); ?>">
-                <input type="<?php echo ( ( !empty( $pms_serial_status ) && $pms_serial_status == 'notFound' ) || !$pms_serial_number ? 'text' : 'password' ); ?>" name="pms_serial_number" class="<?php PMS_Submenu_Page_Addons::add_ons_output_styling_class( $pms_serial_status ); ?>" id="pms_serial_number" value="<?php echo ( !empty( $pms_serial_number ) ? esc_attr( pms_get_serial_number() ) : '' ); ?>">                <span class="status-dot"></span>
-            </div>
-
-            <?php submit_button( esc_html__( 'Save Changes', 'paid-member-subscriptions' ) ); ?>
-
-            <div class="pms-serial-wrap__status <?php PMS_Submenu_Page_Addons::add_ons_output_styling_class( $pms_serial_status ); ?>">
-
-                <?php
-                PMS_Submenu_Page_Addons::add_ons_output_serial_number_status_message();
-                ?>
-            </div>
-        </form>
-
-        <p>
-            <?php esc_html_e( 'The serial number is used to access the premium plugin versions, any updates made to them and support.', 'paid-member-subscriptions' ); ?>
-        </p>
-
-    </div>
-
     <?php
     //initialize the object
     $pms_addons_listing = new PMS_Addons_List_Table();

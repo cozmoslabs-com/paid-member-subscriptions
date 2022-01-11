@@ -1,49 +1,101 @@
-#pmsle-id .mb-right-column{
-    overflow: visible;
+.pmsle-postbox-header{
+    border-bottom: 1px solid #ddd;
 }
 
-#pmsle-id .mb-list-entry-fields li{
-    overflow: visible;
+.field-label{
+    max-width:200px;
+    float:left;
+    min-height:30px;
+    font-weight:bold;
+    padding-right:10px;
+    width: 84px;
 }
 
-#pmsle-id .description {
+#pmsle-newlabel-textarea{
+    width: 80%;
+    height: 100px;
+    border-radius: 4px;
+}
+
+#pmsle{
+    padding: 10px 0;
+}
+
+#pmsle .list-entry-field{
+    margin-bottom: 15px;
+}
+
+#pmsle .list-entry-field option{
+    margin-bottom: 0;
+}
+
+#pmsle-id .description{
     overflow: hidden;
     max-width: 80%;
     padding-top: 5px;
     font-style: normal;
 }
 
-#pmsle-id .mb-textarea {
-    width: 80%;
-    max-width: 80%;
-    height: 100px;
+#pmsle-table{
+    margin-top: 20px;
 }
 
-#container_pmsle thead .wppb-delete-all-fields {
-    color: #333;
-    text-decoration: underline;
+#pmsle-table td{
+    vertical-align: middle;
 }
 
-#container_pmsle tbody .wck-delete {
-    padding: 8px 16px;
+#pmsle-table thead tr th{
+    border-right: 1px solid #E1E1E1;
 }
 
-#pmsle-id-side-impexp hr {
-    display: block;
-    position: relative;
-    padding: 0;
-    margin: 8px auto;
-    height: 0;
-    width: 100%;
-    max-height: 0;
-    font-size: 1px;
-    line-height: 0;
-    clear: both;
-    border: none;
-    border-top: 1px solid #d4d4d4;
-    border-bottom: 1px solid #eeeeee;
+#pmsle-table tr th:last-child {
+    border-right: 0 none;
 }
 
-#pmsle-upload {
-    width: 100%;
+#pmsle-table tr td{
+    border-right: 1px solid #EDEDED;
+    border-bottom: 1px solid #EDEDED;
+    padding: 8px;
+}
+
+#pmsle-table tr:last-child td{
+    border-bottom: 0 none;
+}
+
+#pmsle-table tr td:last-child{
+    border-right: 0 none;
+}
+
+
+.pmsle-table-number, .pmsle-table-edit, .pmsle-table-delete{
+    text-align: center !important;
+    width: 50px;
+}
+
+.pmsle-table-delete{
+    width: 65px;
+}
+
+.pmsle-table-delete a{
+    color: #BC0B0B;
+    cursor: pointer;
+}
+
+#pmsle-delete-all-fields{
+    text-decoration-line: underline;
+    color: #32373c;
+    text-decoration-color: #32373c;
+}
+
+#pmsle-table li strong{
+    display: inline-block;
+    padding-right: 5px;
+    width: 88px;
+}
+
+#pmsle-table li pre{
+    display: inline;
+    vertical-align: top;
+    margin: 0;
+    white-space: pre-wrap;
 }

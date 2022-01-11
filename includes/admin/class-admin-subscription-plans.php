@@ -403,7 +403,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
             }
             if( $subscription_plan->is_fixed_period_membership() ){
 
-                $duration = '<span class="pms-divider"> until </span>' . date( get_option( 'date_format' ), strtotime( $subscription_plan->get_expiration_date() ) );
+                $duration = '<span class="pms-divider">' . ' ' . esc_html__( 'until', 'paid-member-subscriptions' ) . ' ' . '</span>' . esc_html( date_i18n( get_option( 'date_format' ), strtotime( $subscription_plan->get_expiration_date() ) ) );
 
             }
 

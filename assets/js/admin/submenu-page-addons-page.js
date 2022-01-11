@@ -20,41 +20,6 @@ jQuery(function(){
         }
     });
 
-    /* show save serial button */
-    jQuery('.pms-add-on-serial-number, .button.save-serial').on( 'focus', function(){
-        jQuery(this).next('a').css('opacity', 1);
-    });
-
-    jQuery('.pms-add-on-serial-number, .button.save-serial').on( 'blur', function(){
-        jQuery(this).next('a').css('opacity', 0);
-    });
-
-    /* save serial ajax */
-    jQuery( '.button.save-serial').on( 'click', function(e){
-        e.preventDefault();
-        input = jQuery(this).siblings('input');
-        var pms_add_on_slug = input.attr('data-slug');
-        var pms_add_on_unique_name = input.attr('data-unique-name');
-        var pms_serial_value = input.attr('value');
-        jQuery.post( ajaxurl, { action: 'pms_add_on_save_serial', pms_add_on_slug: pms_add_on_slug, pms_add_on_unique_name:pms_add_on_unique_name, pms_serial_value: pms_serial_value }, function( response ) {
-
-            if( response != 'found' ){
-                input.removeClass( 'pms-found' );
-                input.addClass( 'pms-error' );
-
-                input.parent().removeClass( 'pms-found' );
-                input.parent().addClass( 'pms-error' );
-            }
-            else{
-                input.removeClass( 'pms-error' );
-                input.addClass( 'pms-found' );
-
-                input.parent().removeClass( 'pms-error' );
-                input.parent().addClass( 'pms-found' );
-            }
-        });
-    });
-
     /*
      * Make deactivate button from Add-On is Active message button
      */

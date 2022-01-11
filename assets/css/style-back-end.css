@@ -480,7 +480,7 @@
 }
 
 .wp-list-table.members .column-subscriptions {
-    width: 40%;
+    width: 30%;
 }
 
 
@@ -1438,65 +1438,6 @@ body.post-type-pms-subscription #delete-action {
     opacity: 0.8;
 }
 
-.pms-add-on .pms-add-on-serial-number {
-    position: relative;
-    line-height: 28px;
-    width: 100%;
-    padding: 3px 8px;
-}
-
-
-.pms-add-on-serial-number-wrapper {
-    position: relative;
-    margin-top: 11px;
-}
-
-.pms-add-on-serial-number-wrapper .status-dot {
-    display: none;
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    top: 12px;
-    left: 10px;
-    border: 3px solid;
-}
-
-.pms-serial-wrap .pms-add-on-serial-number-wrapper {
-    margin-top: 0;
-}
-
-.pms-serial-wrap .pms-add-on-serial-number-wrapper .status-dot {
-    top: 7px;
-}
-
-.pms-add-on-serial-number-wrapper.pms-error .pms-add-on-serial-number,
-.pms-add-on-serial-number-wrapper.pms-found .pms-add-on-serial-number {
-    padding-left: 30px;
-}
-
-.pms-add-on-serial-number-wrapper.pms-error .status-dot {
-    display: block;
-    border-color: #dd3d36;
-}
-
-.pms-add-on-serial-number-wrapper.pms-found .status-dot {
-    display: block;
-    border-color: #27ae60;
-}
-
-.pms-add-on-serial-number-wrapper:hover .save-serial {
-    opacity: 1 !important;
-}
-
-.pms-add-on .button.save-serial{
-    position: absolute;
-    top: 5px;
-    right: 4px;
-    box-shadow: none;
-    transition: opacity 0.15s ease-in-out;
-}
-
 .pms-add-on-compatible span {
     line-height: 28px;
 }
@@ -1560,6 +1501,60 @@ body.post-type-pms-subscription #delete-action {
     float: right;
     margin-right: 0;
 }
+
+/**************************************************/
+/* Register Version Page
+/**************************************************/
+.pms-register-version-serial-number-wrapper {
+    position: relative;
+    margin-top: 11px;
+}
+
+.pms-register-version-serial-number-wrapper .status-dot {
+    display: none;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    top: 12px;
+    left: 10px;
+    border: 3px solid;
+}
+
+.pms-serial-wrap .pms-register-version-serial-number-wrapper {
+    margin-top: 0;
+}
+
+.pms-serial-wrap .pms-register-version-serial-number-wrapper .status-dot {
+    top: 7px;
+}
+
+.pms-register-version-serial-number-wrapper.pms-error .pms-register-version-serial-number,
+.pms-register-version-serial-number-wrapper.pms-found .pms-register-version-serial-number {
+    padding-left: 30px;
+}
+
+.pms-register-version-serial-number-wrapper.pms-error .status-dot {
+    display: block;
+    border-color: #dd3d36;
+}
+
+.pms-register-version-serial-number-wrapper.pms-found .status-dot {
+    display: block;
+    border-color: #27ae60;
+}
+
+.pms-register-version-serial-number-wrapper:hover .save-serial {
+    opacity: 1 !important;
+}
+
+/*.pms-add-on .button.save-serial{
+    position: absolute;
+    top: 5px;
+    right: 4px;
+    box-shadow: none;
+    transition: opacity 0.15s ease-in-out;
+}*/
 
 .pms-serial-wrap {
     margin-top: 16px;

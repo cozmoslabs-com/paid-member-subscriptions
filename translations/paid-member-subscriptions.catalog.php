@@ -117,7 +117,7 @@
 <?php __("abandoned", "paid-member-subscriptions"); ?>
 <?php __("Free", "paid-member-subscriptions"); ?>
 <?php __("unlimited", "paid-member-subscriptions"); ?>
-<?php __("until", "paid-member-subscriptions"); ?>
+<?php __("until %s", "paid-member-subscriptions"); ?>
 <?php __("The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired.", "paid-member-subscriptions"); ?>
 <?php __("Help us improve Paid Member Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Allow Paid Member Subscriptions to anonymously track the plugin's usage. Data provided by this tracking helps us improve the plugin.<br>", "paid-member-subscriptions"); ?>
@@ -632,6 +632,7 @@
 <?php __("%s Months", "paid-member-subscriptions"); ?>
 <?php __("%s Year", "paid-member-subscriptions"); ?>
 <?php __("%s Years", "paid-member-subscriptions"); ?>
+<?php __("until", "paid-member-subscriptions"); ?>
 <?php __("day", "paid-member-subscriptions"); ?>
 <?php __("week", "paid-member-subscriptions"); ?>
 <?php __("month", "paid-member-subscriptions"); ?>
@@ -723,13 +724,6 @@
 <?php __("Add a password recovery form using [pms-recover-password]", "paid-member-subscriptions"); ?>
 <?php __("After recovery redirect URL", "paid-member-subscriptions"); ?>
 <?php __('Enter the URL where users should be redirected after a sucessful password reset. %1$sRead more%2$s', 'paid-member-subscriptions' ); ?>
-<?php __("Couldn't contact our server. Please try again later.", "paid-member-subscriptions"); ?>
-<?php __("The serial number you entered is invalid. Need a licence ? <a href=\"%s\">Click here</a> to purchase one.", "paid-member-subscriptions"); ?>
-<?php __("Your licence is valid but it will expire soon. <a href=\"%s\">Click here</a> to renew.", "paid-member-subscriptions"); ?>
-<?php __("Your licence is valid but will expire on %s. <a href=\"%s\">Click here</a> to renew.", "paid-member-subscriptions"); ?>
-<?php __("Your serial number has expired. <a href=\"%s\">Click here</a> to renew.", "paid-member-subscriptions"); ?>
-<?php __("Your serial number has been successfully validated.", "paid-member-subscriptions"); ?>
-<?php __("Need a licence ? <a href=\"%s\">Click here</a> to purchase one.", "paid-member-subscriptions"); ?>
 <?php __("Add-ons", "paid-member-subscriptions"); ?>
 <?php __("Basic Information", "paid-member-subscriptions"); ?>
 <?php __("Export location or file not writable", "paid-member-subscriptions"); ?>
@@ -764,6 +758,7 @@
 <?php __("Subscription Plan Not Found - ID: %s", "paid-member-subscriptions"); ?>
 <?php __("No users found", "paid-member-subscriptions"); ?>
 <?php __("Delete Subscriptions", "paid-member-subscriptions"); ?>
+<?php __("Name", "paid-member-subscriptions"); ?>
 <?php __("Subscribed to", "paid-member-subscriptions"); ?>
 <?php __("Abandoned subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Edit Member", "paid-member-subscriptions"); ?>
@@ -820,6 +815,7 @@
 <?php __("Subscription canceled by gateway.", "paid-member-subscriptions"); ?>
 <?php __("Payment gateway was changed from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Members", "paid-member-subscriptions"); ?>
+<?php __("Delete Payments", "paid-member-subscriptions"); ?>
 <?php __("ID", "paid-member-subscriptions"); ?>
 <?php __("User", "paid-member-subscriptions"); ?>
 <?php __("Date / Time", "paid-member-subscriptions"); ?>
@@ -844,11 +840,28 @@
 <?php __("Response", "paid-member-subscriptions"); ?>
 <?php __("Old data", "paid-member-subscriptions"); ?>
 <?php __("Payment successfully added. The subscription was also added or updated for the selected user.", "paid-member-subscriptions"); ?>
+<?php __("Are you sure you want to delete these Payments? \nThis action is irreversible.", "paid-member-subscriptions"); ?>
+<?php __("%d Payment successfully deleted.", "paid-member-subscriptions"); ?>
+<?php __("%d Payments successfully deleted.", "paid-member-subscriptions"); ?>
 <?php __("Payment successfully deleted.", "paid-member-subscriptions"); ?>
 <?php __("Payment successfully updated.", "paid-member-subscriptions"); ?>
 <?php __("Payment successfully completed.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a date for the payment.", "paid-member-subscriptions"); ?>
 <?php __("This user already has a subscription (%s) from the same group with the one you selected. Select it or remove it to be able to complete this payment.", "paid-member-subscriptions"); ?>
+<?php __("Register Your Version", "paid-member-subscriptions"); ?>
+<?php __("Register Version", "paid-member-subscriptions"); ?>
+<?php __("Paid Member Subscriptions Register", "paid-member-subscriptions"); ?>
+<?php __("Register your version of %s", "paid-member-subscriptions"); ?>
+<?php __("Serial number", "paid-member-subscriptions"); ?>
+<?php __("Save Changes", "paid-member-subscriptions"); ?>
+<?php __("The serial number is used to access the premium plugin versions, any updates made to them and support.", "paid-member-subscriptions"); ?>
+<?php __("Couldn't contact our server. Please try again later.", "paid-member-subscriptions"); ?>
+<?php __("The serial number you entered is invalid. Need a licence ? <a href=\"%s\">Click here</a> to purchase one.", "paid-member-subscriptions"); ?>
+<?php __("Your licence is valid but it will expire soon. <a href=\"%s\">Click here</a> to renew.", "paid-member-subscriptions"); ?>
+<?php __("Your licence is valid but will expire on %s. <a href=\"%s\">Click here</a> to renew.", "paid-member-subscriptions"); ?>
+<?php __("Your serial number has expired. <a href=\"%s\">Click here</a> to renew.", "paid-member-subscriptions"); ?>
+<?php __("Your serial number has been successfully validated.", "paid-member-subscriptions"); ?>
+<?php __("Need a licence ? <a href=\"%s\">Click here</a> to purchase one.", "paid-member-subscriptions"); ?>
 <?php __("Current month", "paid-member-subscriptions"); ?>
 <?php __("Summary", "paid-member-subscriptions"); ?>
 <?php __("Total earnings for the selected period: ", "paid-member-subscriptions"); ?>
@@ -962,7 +975,6 @@
 <?php __("%s months", "paid-member-subscriptions"); ?>
 <?php __("%s year", "paid-member-subscriptions"); ?>
 <?php __("%s years", "paid-member-subscriptions"); ?>
-<?php __("until %s", "paid-member-subscriptions"); ?>
 <?php __("Discount successfully applied! ", "paid-member-subscriptions"); ?>
 <?php __("Amount to be charged is %s.", "paid-member-subscriptions"); ?>
 <?php __('Amount to be charged now is %1$s, then after %2$s %3$s.', 'paid-member-subscriptions' ); ?>
@@ -999,6 +1011,8 @@
 <?php __("Select discount code status.", "paid-member-subscriptions"); ?>
 <?php __("Recurring Payments", "paid-member-subscriptions"); ?>
 <?php __("Apply discount to all future recurring payments (not just the first one).", "paid-member-subscriptions"); ?>
+<?php __("New Users Only", "paid-member-subscriptions"); ?>
+<?php __("Apply discount only for new users.", "paid-member-subscriptions"); ?>
 <?php __("Active", "paid-member-subscriptions"); ?>
 <?php __("Inactive", "paid-member-subscriptions"); ?>
 <?php __("Send To", "paid-member-subscriptions"); ?>
@@ -1054,6 +1068,7 @@
 <?php __("Logged Out Users", "paid-member-subscriptions"); ?>
 <?php __("Everyone", "paid-member-subscriptions"); ?>
 <?php __("Non-Members", "paid-member-subscriptions"); ?>
+<?php __("Group Owner", "paid-member-subscriptions"); ?>
 <?php __("Limit logged in users to Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Retry Payment", "paid-member-subscriptions"); ?>
 <?php __("Cancel Subscription", "paid-member-subscriptions"); ?>
@@ -1307,10 +1322,6 @@
 <?php __("You do not have permission to export data.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Payments Summary", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plan Details", "paid-member-subscriptions"); ?>
-<?php __("Activate your licence", "paid-member-subscriptions"); ?>
-<?php __("Serial number", "paid-member-subscriptions"); ?>
-<?php __("Save Changes", "paid-member-subscriptions"); ?>
-<?php __("The serial number is used to access the premium plugin versions, any updates made to them and support.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Add-ons", "paid-member-subscriptions"); ?>
 <?php __('You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Basic Add-ons", "paid-member-subscriptions"); ?>
@@ -1619,23 +1630,32 @@
 <?php __("Instant Payment Notification (IPN) received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
-<?php __("Label to Edit", "paid-member-subscriptions"); ?>
-<?php __("New Label", "paid-member-subscriptions"); ?>
-<?php __("Edit Labels", "paid-member-subscriptions"); ?>
-<?php __("Rescan Lables", "paid-member-subscriptions"); ?>
-<?php __("Informations", "paid-member-subscriptions"); ?>
-<?php __("Import and Export Labels", "paid-member-subscriptions"); ?>
+<?php __("Label added successfully.", "paid-member-subscriptions"); ?>
+<?php __("You must select a label to edit!", "paid-member-subscriptions"); ?>
+<?php __("Label updated successfully.", "paid-member-subscriptions"); ?>
+<?php __("Label deleted successfully.", "paid-member-subscriptions"); ?>
+<?php __("All labels deleted successfully.", "paid-member-subscriptions"); ?>
+<?php __("Labels rescanned successfully.", "paid-member-subscriptions"); ?>
+<?php __("Label edited successfully.", "paid-member-subscriptions"); ?>
+<?php __("Update", "paid-member-subscriptions"); ?>
+<?php __("Label to Edit:", "paid-member-subscriptions"); ?>
+<?php __("Here you will see the default label so you can copy it.", "paid-member-subscriptions"); ?>
+<?php __("New Label:", "paid-member-subscriptions"); ?>
+<?php __("Add Entry", "paid-member-subscriptions"); ?>
+<?php __("#", "paid-member-subscriptions"); ?>
+<?php __("Labels", "paid-member-subscriptions"); ?>
+<?php __("Are you sure you want to delete all items?", "paid-member-subscriptions"); ?>
+<?php __("Delete all", "paid-member-subscriptions"); ?>
+<?php __("Delete this item?", "paid-member-subscriptions"); ?>
 <?php __("Import Labels from a .json file.", "paid-member-subscriptions"); ?>
 <?php __("Easily import the labels from another site.", "paid-member-subscriptions"); ?>
 <?php __("Import", "paid-member-subscriptions"); ?>
 <?php __("This will overwrite all your old edited labels! \n\rAre you sure you want to continue?", "paid-member-subscriptions"); ?>
 <?php __("Export Labels as a .json file.", "paid-member-subscriptions"); ?>
 <?php __("Easily import the labels into another site.", "paid-member-subscriptions"); ?>
-<?php __("You must select a label to edit!", "paid-member-subscriptions"); ?>
-<?php __("Labels", "paid-member-subscriptions"); ?>
-<?php __("Delete all", "paid-member-subscriptions"); ?>
-<?php __(" labels scanned.", "paid-member-subscriptions"); ?>
 <?php __("No labels edited, nothing to export!", "paid-member-subscriptions"); ?>
+<?php __("Please select a .json file to import!", "paid-member-subscriptions"); ?>
+<?php __("Labels imported successfully.", "paid-member-subscriptions"); ?>
 <?php __("Downgrade %s to:", "paid-member-subscriptions"); ?>
 <?php __('Downgrade %1$s to %2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Change %s to:", "paid-member-subscriptions"); ?>
@@ -1689,7 +1709,6 @@
 <?php __("Check this box for allowing the plan to be renewed each year.", "paid-member-subscriptions"); ?>
 <?php __("Select the subscription plan for which this content dripping set should apply.", "paid-member-subscriptions"); ?>
 <?php __("Select content dripping set status.", "paid-member-subscriptions"); ?>
-<?php __("Name", "paid-member-subscriptions"); ?>
 <?php __("Seats", "paid-member-subscriptions"); ?>
 <?php __("%d%s on %s", "paid-member-subscriptions"); ?>
 <?php __("Email", "paid-member-subscriptions"); ?>
@@ -1924,7 +1943,6 @@
 <?php __("PayPal Express Checkout payments using credit cards or customer accounts handled by PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Additional <strong>Payment Gateways</strong> and <strong>Recurring Subscriptions</strong> are available with a Pro licence of Paid Member Subscriptions.", "paid-member-subscriptions"); ?>
 <?php __("Uploaded file is not valid json!", "paid-member-subscriptions"); ?>
-<?php __("Please select a .json file to import!", "paid-member-subscriptions"); ?>
 <?php __("Import successfully!", "paid-member-subscriptions"); ?>
 <?php __("Page will refresh in 3 seconds...", "paid-member-subscriptions"); ?>
 <?php __("Please complete the reCaptcha.", "paid-member-subscriptions"); ?>
@@ -1942,6 +1960,10 @@
 <?php __("Membership Discounts", "paid-member-subscriptions"); ?>
 <?php __("Discount for", "paid-member-subscriptions"); ?>
 <?php __("Product Discounts", "paid-member-subscriptions"); ?>
+<?php __("Edit Labels", "paid-member-subscriptions"); ?>
+<?php __("Rescan Labels", "paid-member-subscriptions"); ?>
+<?php __("Information", "paid-member-subscriptions"); ?>
+<?php __("Import and Export Labels", "paid-member-subscriptions"); ?>
 <?php __("Register Form", "paid-member-subscriptions"); ?>
 <?php __("Login Form", "paid-member-subscriptions"); ?>
 <?php __("Reset Password Form", "paid-member-subscriptions"); ?>
