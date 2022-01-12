@@ -16,16 +16,16 @@ class PMS_Register_Version{
         add_action( 'admin_init', array( $this, 'pms_serial_register_settings' ) );
     }
 
-    public function pms_register_your_version_submenu_page()
-    {
-        if( PAID_MEMBER_SUBSCRIPTIONS != 'Paid Member Subscriptions Free' )
-            add_submenu_page( 'paid-member-subscriptions', __( 'Register Your Version', 'paid-member-subscriptions' ), __( 'Register Version', 'paid-member-subscriptions' ), 'manage_options', 'paid-member-subscriptions-register', array( $this, 'pms_register_your_version_content' ) );
+    public function pms_register_your_version_submenu_page(){
+
+        add_submenu_page( 'paid-member-subscriptions', __( 'Register Your Version', 'paid-member-subscriptions' ), __( 'Register Version', 'paid-member-subscriptions' ), 'manage_options', 'paid-member-subscriptions-register', array( $this, 'pms_register_your_version_content' ) );
+
     }
 
-    public function pms_multisite_register_your_version_page()
-    {
-        if( PAID_MEMBER_SUBSCRIPTIONS != 'Paid Member Subscriptions Free' )
-            add_menu_page( __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), 'manage_options', 'paid-member-subscriptions-register', array( $this, 'pms_register_your_version_content' ), PMS_PLUGIN_DIR_URL . 'assets/images/pms-menu-icon.png' );
+    public function pms_multisite_register_your_version_page(){
+
+        add_menu_page( __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), 'manage_options', 'paid-member-subscriptions-register', array( $this, 'pms_register_your_version_content' ), PMS_PLUGIN_DIR_URL . 'assets/images/pms-menu-icon.png' );
+        
     }
 
     public function pms_serial_register_settings() {
@@ -44,11 +44,7 @@ class PMS_Register_Version{
         ?>
         <div class="wrap pms-wrap">
             <?php
-            if ( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Pro' ){
-                $this->pms_serial_form( 'pro', 'Paid Member Subscriptions - Pro' );
-            }elseif ( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Basic' ){
-                $this->pms_serial_form( 'basic', 'Paid Member Subscriptions - Basic' );
-            }
+                $this->pms_serial_form();
             ?>
 
         </div>
@@ -60,10 +56,10 @@ class PMS_Register_Version{
      *
      * @return void
      */
-    private function pms_serial_form($version, $fullname){
+    private function pms_serial_form(){
         ?>
         <div id="pms-register-version-page" class="wrap">
-            <h2><?php printf( esc_html__( "Register your version of %s", 'paid-member-subscriptions' ), esc_html( $fullname ) ); ?></h2>
+            <h2><?php esc_html_e( "Register your version of Paid Member Subscriptions", 'paid-member-subscriptions' ); ?></h2>
 
             <div class="pms-serial-wrap">
                 <form method="post" action="<?php echo esc_url( get_admin_url( 1, 'options.php' ) ) ?>">

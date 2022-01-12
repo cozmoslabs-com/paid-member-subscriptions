@@ -3408,59 +3408,59 @@ msgstr ""
 msgid "This user already has a subscription (%s) from the same group with the one you selected. Select it or remove it to be able to complete this payment."
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:22
+#: includes/admin/class-admin-register-version.php:21
 msgid "Register Your Version"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:22
+#: includes/admin/class-admin-register-version.php:21
 msgid "Register Version"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:28, includes/admin/class-admin-register-version.php:28
+#: includes/admin/class-admin-register-version.php:27, includes/admin/class-admin-register-version.php:27
 msgid "Paid Member Subscriptions Register"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:66
-msgid "Register your version of %s"
+#: includes/admin/class-admin-register-version.php:62
+msgid "Register your version of Paid Member Subscriptions"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:78
+#: includes/admin/class-admin-register-version.php:74
 msgid "Serial number"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:85
+#: includes/admin/class-admin-register-version.php:81
 msgid "Save Changes"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:96
+#: includes/admin/class-admin-register-version.php:92
 msgid "The serial number is used to access the premium plugin versions, any updates made to them and support."
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:197
+#: includes/admin/class-admin-register-version.php:193
 msgid "Couldn't contact our server. Please try again later."
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:195
+#: includes/admin/class-admin-register-version.php:191
 msgid "The serial number you entered is invalid. Need a licence ? <a href=\"%s\">Click here</a> to purchase one."
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:192
+#: includes/admin/class-admin-register-version.php:188
 msgid "Your licence is valid but it will expire soon. <a href=\"%s\">Click here</a> to renew."
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:190
+#: includes/admin/class-admin-register-version.php:186
 msgid "Your licence is valid but will expire on %s. <a href=\"%s\">Click here</a> to renew."
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:185
+#: includes/admin/class-admin-register-version.php:181
 msgid "Your serial number has expired. <a href=\"%s\">Click here</a> to renew."
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:183
+#: includes/admin/class-admin-register-version.php:179
 msgid "Your serial number has been successfully validated."
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:181
+#: includes/admin/class-admin-register-version.php:177
 msgid "Need a licence ? <a href=\"%s\">Click here</a> to purchase one."
 msgstr ""
 

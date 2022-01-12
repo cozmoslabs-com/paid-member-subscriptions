@@ -851,7 +851,7 @@
 <?php __("Register Your Version", "paid-member-subscriptions"); ?>
 <?php __("Register Version", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Register", "paid-member-subscriptions"); ?>
-<?php __("Register your version of %s", "paid-member-subscriptions"); ?>
+<?php __("Register your version of Paid Member Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Serial number", "paid-member-subscriptions"); ?>
 <?php __("Save Changes", "paid-member-subscriptions"); ?>
 <?php __("The serial number is used to access the premium plugin versions, any updates made to them and support.", "paid-member-subscriptions"); ?>
