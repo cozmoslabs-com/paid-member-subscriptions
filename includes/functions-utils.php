@@ -321,8 +321,8 @@ function pms_get_serial_number() {
  */
 function pms_get_serial_number_status() {
 
-    if ( class_exists( 'PMS_Submenu_Page_Addons' ) && !get_option( 'pms_serial_number_status') && $serial = pms_get_serial_number() )
-        PMS_Submenu_Page_Addons::add_on_check_serial_number( $serial, 'pms', true );
+    if ( class_exists( 'PMS_Register_Version' ) && !get_option( 'pms_serial_number_status') && $serial = pms_get_serial_number() )
+        PMS_Register_Version::pms_register_version_check_serial_number( $serial, 'pms', true );
 
     return get_option( 'pms_serial_number_status' );
 

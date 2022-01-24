@@ -77,7 +77,14 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
             $subscription = pms_get_current_subscription_from_tier( $this->user_id, $this->subscription_data['subscription_plan_id'] );
 
-            $subscription->update( array( 'billing_next_payment' => $billing_next_payment, 'billing_duration' => $this->subscription_plan->duration, 'billing_duration_unit' => $this->subscription_plan->duration_unit, 'billing_amount' => $this->amount ) );
+            $subscription_data = array(
+                'billing_next_payment'  => $billing_next_payment,
+                'billing_duration'      => $this->subscription_plan->is_fixed_period_membership() ? '1' : $this->subscription_plan->duration,
+                'billing_duration_unit' => $this->subscription_plan->is_fixed_period_membership() ? 'year' : $this->subscription_plan->duration_unit,
+                'billing_amount'        => $this->amount,
+            );
+
+            $subscription->update( $subscription_data );
 
         }
 

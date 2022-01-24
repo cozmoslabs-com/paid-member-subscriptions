@@ -305,22 +305,29 @@ jQuery( function($) {
 
 
         /**
-         * Disable the payment button when clicking on it so that only one request
-         * is sent to the server
+         * Disable the form submit button when the form is submitted
          *
          */
-        jQuery( document ).on( 'click', pms_payment_buttons, function(e) {
+        jQuery( document ).on( 'submit', '.pms-form', function(e) {
 
-            if( $(this).hasClass('pms-submit-disabled') )
-                return false;
+            var target_button = jQuery( 'input[type="submit"], button[type="submit"]', jQuery(this) ).not('#pms-apply-discount').not('input[name="pms_redirect_back"]')[0]
 
-            $(this).data( 'original-value', $(this).val() );
+            if ( $(target_button).hasClass('pms-submit-disabled') )
+                return false
+
+            $(target_button).data('original-value', $(target_button).val() )
 
             // Replace the button text with the placeholder
-            if( pms_payment_button_loading_placeholder_text.length > 0 )
-                $(this).addClass( 'pms-submit-disabled' ).val( pms_payment_button_loading_placeholder_text );
+            if( pms_payment_button_loading_placeholder_text.length > 0 ){
+                
+                $(target_button).addClass( 'pms-submit-disabled' ).val( pms_payment_button_loading_placeholder_text )
 
-        });
+                if ( $(target_button).is('button') )
+                    $(target_button).text( pms_payment_button_loading_placeholder_text )
+
+            }
+
+        })
 
 
         /**
@@ -437,28 +444,42 @@ jQuery( function($) {
         /**
          * On the Change Subscription form change the button name based on which plans group the user clicks
          */
-        $( '#pms-change-subscription-form .pms-upgrade__group--upgrade .pms-subscription-plan input' ).on( 'click', function(){
+        if ( $('#pms-change-subscription-form').length > 0 ) {
 
-            $( '#pms-change-subscription-form input[name="pms_change_subscription"]' ).val( $( '#pms-change-subscription-form input[name="pms_button_name_upgrade"]' ).val() )
-            $( '#pms-change-subscription-form input[name="form_action"]' ).val( $( '#pms-change-subscription-form input[data-name="upgrade_subscription"]' ).val() )
+            if ($pms_checked_subscription.closest('.pms-upgrade__group').hasClass('pms-upgrade__group--upgrade')) {
 
-        })
+                $('#pms-change-subscription-form input[name="pms_change_subscription"]').val($('#pms-change-subscription-form input[name="pms_button_name_upgrade"]').val())
+                $('#pms-change-subscription-form input[name="form_action"]').val($('#pms-change-subscription-form input[data-name="upgrade_subscription"]').val())
 
-        $( '#pms-change-subscription-form .pms-upgrade__group--downgrade .pms-subscription-plan input' ).on( 'click', function(){
+            } else if ($pms_checked_subscription.closest('.pms-upgrade__group').hasClass('pms-upgrade__group--downgrade')) {
 
-            $( '#pms-change-subscription-form input[name="pms_change_subscription"]' ).val( $( '#pms-change-subscription-form input[name="pms_button_name_downgrade"]' ).val() )
-            $( '#pms-change-subscription-form input[name="form_action"]' ).val( $( '#pms-change-subscription-form input[data-name="downgrade_subscription"]' ).val() )
+                $('#pms-change-subscription-form input[name="pms_change_subscription"]').val($('#pms-change-subscription-form input[name="pms_button_name_downgrade"]').val())
+                $('#pms-change-subscription-form input[name="form_action"]').val($('#pms-change-subscription-form input[data-name="downgrade_subscription"]').val())
 
+            }
 
-        })
+            $('#pms-change-subscription-form .pms-upgrade__group--upgrade .pms-subscription-plan input').on('click', function () {
 
-        $( '#pms-change-subscription-form .pms-upgrade__group--change .pms-subscription-plan input' ).on( 'click', function(){
+                $('#pms-change-subscription-form input[name="pms_change_subscription"]').val($('#pms-change-subscription-form input[name="pms_button_name_upgrade"]').val())
+                $('#pms-change-subscription-form input[name="form_action"]').val($('#pms-change-subscription-form input[data-name="upgrade_subscription"]').val())
 
-            $( '#pms-change-subscription-form input[name="pms_change_subscription"]' ).val( $( '#pms-change-subscription-form input[name="pms_button_name_change"]' ).val() )
-            $( '#pms-change-subscription-form input[name="form_action"]' ).val( '' )
+            })
 
+            $('#pms-change-subscription-form .pms-upgrade__group--downgrade .pms-subscription-plan input').on('click', function () {
 
-        })
+                $('#pms-change-subscription-form input[name="pms_change_subscription"]').val($('#pms-change-subscription-form input[name="pms_button_name_downgrade"]').val())
+                $('#pms-change-subscription-form input[name="form_action"]').val($('#pms-change-subscription-form input[data-name="downgrade_subscription"]').val())
+
+            })
+
+            $('#pms-change-subscription-form .pms-upgrade__group--change .pms-subscription-plan input').on('click', function () {
+
+                $('#pms-change-subscription-form input[name="pms_change_subscription"]').val($('#pms-change-subscription-form input[name="pms_button_name_change"]').val())
+                $('#pms-change-subscription-form input[name="form_action"]').val('')
+
+            })
+
+        }
 
     });
 
@@ -581,8 +602,13 @@ jQuery( function($) {
     function pms_reset_submit_button( target ) {
 
         setTimeout( function() {
+
             target.attr( 'disabled', false ).removeClass( 'pms-submit-disabled' ).val( target.data( 'original-value' ) ).blur();
-        }, 1 );
+
+            if( $( target ).is( 'button' ) )
+                $( target ).text( target.data('original-value') )
+
+        }, 1 )
 
     }
 

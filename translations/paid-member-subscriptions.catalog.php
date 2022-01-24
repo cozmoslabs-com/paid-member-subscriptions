@@ -1569,6 +1569,10 @@
 <?php __("Enable honeypot field to prevent spambot attacks", "paid-member-subscriptions"); ?>
 <?php __("By checking this option, the honeypot field will be added to the PMS Registration form.", "paid-member-subscriptions"); ?>
 <?php __("Enable the <strong>Labels Edit</strong> functionality in order to change any string that is shown by the plugin.", "paid-member-subscriptions"); ?>
+<?php __("Modify renew button output time", "paid-member-subscriptions"); ?>
+<?php __("Insert how many days before the subscription expires, should the renewal button be displayed inside the [pms-account] shortcode.", "paid-member-subscriptions"); ?>
+<?php __("Redirect after a manual payment", "paid-member-subscriptions"); ?>
+<?php __("Insert an URL to redirect the user after a manual payment is made. ( e.g. %s )", "paid-member-subscriptions"); ?>
 <?php __("Test Mode", "paid-member-subscriptions"); ?>
 <?php __("By checking this option you will be able to use Paid Member Subscriptions only with test accounts from your payment processors. <a href=\"%s\">More Details</a>", "paid-member-subscriptions"); ?>
 <?php __("Currency", "paid-member-subscriptions"); ?>
@@ -1630,6 +1634,7 @@
 <?php __("Instant Payment Notification (IPN) received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Update", "paid-member-subscriptions"); ?>
 <?php __("Label added successfully.", "paid-member-subscriptions"); ?>
 <?php __("You must select a label to edit!", "paid-member-subscriptions"); ?>
 <?php __("Label updated successfully.", "paid-member-subscriptions"); ?>
@@ -1637,7 +1642,6 @@
 <?php __("All labels deleted successfully.", "paid-member-subscriptions"); ?>
 <?php __("Labels rescanned successfully.", "paid-member-subscriptions"); ?>
 <?php __("Label edited successfully.", "paid-member-subscriptions"); ?>
-<?php __("Update", "paid-member-subscriptions"); ?>
 <?php __("Label to Edit:", "paid-member-subscriptions"); ?>
 <?php __("Here you will see the default label so you can copy it.", "paid-member-subscriptions"); ?>
 <?php __("New Label:", "paid-member-subscriptions"); ?>

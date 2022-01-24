@@ -203,7 +203,7 @@ if ( ! class_exists( 'pms_PluginUpdateChecker' ) ):
             $parts = parse_url( $this->metadataUrl );
             parse_str($parts['query'], $query);
 
-            PMS_Submenu_Page_Addons::add_on_check_serial_number( $query['localSerialNumber'], 'pms' );
+            PMS_Register_Version::pms_register_version_check_serial_number( $query['localSerialNumber'], 'pms' );
 
             return PMSPluginUpdate::fromPluginInfo( $pluginInfo );
         }

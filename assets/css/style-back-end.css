@@ -1244,6 +1244,15 @@ body.post-type-pms-subscription #delete-action {
     float: none;
 }
 
+.subsubsub-sub-tab:after {
+    content: "|";
+    padding-left: 3px;
+}
+
+.subsubsub-sub-tab:last-of-type:after {
+    display: none;
+}
+
 .pms-sub-tab {
     display: none;
 }

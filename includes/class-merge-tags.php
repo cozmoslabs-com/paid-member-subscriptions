@@ -198,23 +198,21 @@ Class PMS_Merge_Tags{
     public function pms_tag_subscription_price( $value, $user_info, $subscription_id, $payment_id ){
 
         if( !empty( $payment_id ) ){
+
             $payment = pms_get_payment( $payment_id );
 
             if( !empty( $payment->id ) ){
 
-                $currency = pms_get_active_currency();
-                $settings = get_option( 'pms_payments_settings', false );
+                $currency = apply_filters( 'pms_merge_tag_subscription_price_currency', pms_get_active_currency(), $payment );
 
-
-                $price = ( $payment->amount == 0 ) ? __( 'Free', 'paid-member-subscriptions' ) : $payment->amount;
-
-
-                if( !empty( $settings ) && isset( $settings['currency_position'] ) && $settings['currency_position'] == 'before' )
-                    return $currency . ' ' . $price;
-                else
-                    return $price . ' ' . $currency;
+                return pms_format_price( $payment->amount, $currency );
 
             }
+            
+        } else {
+
+            return __( 'Free', 'paid-member-subscriptions' );
+
         }
 
     }

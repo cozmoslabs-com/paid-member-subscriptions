@@ -601,20 +601,24 @@ function pms_cron_process_member_subscriptions_payments() {
             // If there is an automatically recurring manual payment
             else if( isset( $payment_gateway->payment_gateway ) && $payment_gateway->payment_gateway == 'manual' ){
 
+                if( $subscription_plan->is_fixed_period_membership() ){
+                    $expiration_date = date( 'Y-m-d H:i:s', strtotime( "+ 1 year", strtotime( $subscription->expiration_date ) ) );
+                }
+                else{
+                    $expiration_date = date( 'Y-m-d H:i:s', strtotime( "+" . $subscription->billing_duration . " " . $subscription->billing_duration_unit, strtotime( $subscription->billing_next_payment ) ) );
+                }
+
+                if( !empty( $subscription->trial_end ) ){
+                    $expiration_date = date( 'Y-m-d H:i:s', strtotime( $subscription->expiration_date ) );
+                }
+
                 $subscription_data = array(
                     'status'               => 'pending',
-                    'expiration_date'      => date( 'Y-m-d H:i:s', strtotime( "+" . $subscription->billing_duration . " " . $subscription->billing_duration_unit, strtotime( $subscription->billing_next_payment ) ) ),
-                    'billing_last_payment' => date( 'Y-m-d H:i:s' )
+                    'expiration_date'      => $expiration_date,
+                    'billing_last_payment' => date( 'Y-m-d H:i:s' ),
+                    'billing_next_payment' => ( !empty( $subscription->billing_duration ) ) ? $expiration_date : null,
                 );
 
-                // Set the next billing date
-                if( ! empty( $subscription->billing_duration ) ) {
-
-                    $next_payment = date( 'Y-m-d H:i:s', strtotime( "+" . $subscription->billing_duration . " " . $subscription->billing_duration_unit, strtotime( $subscription->billing_next_payment ) ) );
-
-                    $subscription_data['billing_next_payment'] = $next_payment;
-
-                }
             }
 
         }

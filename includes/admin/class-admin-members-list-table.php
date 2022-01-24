@@ -212,7 +212,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
         echo '<div class="tablenav ' . esc_attr( $which ) . '">';
 
             $this->bulk_actions( $which );
-            wp_nonce_field( 'pms_bulk_delete_subscription_nonce' );
+            wp_nonce_field( 'pms_bulk_delete_subscription_nonce', '_wpnonce', false );
 
             $this->extra_tablenav( $which );
             if ( $which == 'bottom' )

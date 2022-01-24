@@ -1027,29 +1027,32 @@ Class PMS_Form_Handler {
      * @return string
      *
      */
-    public static function get_request_form_location() {
+    public static function get_request_form_location( $nonce_name = 'pmstkn' ) {
 
         $location = '';
 
-        if( !isset( $_REQUEST['pmstkn'] ) )
+        if( !isset( $_REQUEST[ $nonce_name ] ) )
+
             $location = '';
 
         else {
 
+            $nonce = sanitize_text_field( $_REQUEST[ $nonce_name ] );
+
             // Register form
-            if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_register_form_nonce') )
+            if( wp_verify_nonce( $nonce, 'pms_register_form_nonce') )
                 $location = 'register';
 
             // Cancel subscription
-            if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_edit_profile_form_nonce' ) )
+            if( wp_verify_nonce( $nonce, 'pms_edit_profile_form_nonce' ) )
                 $location = 'edit_profile';
 
             // Add new subscription
-            if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_new_subscription_form_nonce' ) )
+            if( wp_verify_nonce( $nonce, 'pms_new_subscription_form_nonce' ) )
                 $location = 'new_subscription';
 
             // Change subscription
-            if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_change_subscription' ) ){
+            if( wp_verify_nonce( $nonce, 'pms_change_subscription' ) ){
                 $location = 'change_subscription';
 
                 if( isset( $_REQUEST['form_action'] ) ){
@@ -1064,19 +1067,19 @@ Class PMS_Form_Handler {
             }
 
             // Upgrade subscription
-            if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_upgrade_subscription' ) )
+            if( wp_verify_nonce( $nonce, 'pms_upgrade_subscription' ) )
                 $location = 'upgrade_subscription';
 
             // Renew subscription
-            if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_renew_subscription' ) )
+            if( wp_verify_nonce( $nonce, 'pms_renew_subscription' ) )
                 $location = 'renew_subscription';
 
             // Cancel subscription
-            if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_cancel_subscription' ) )
+            if( wp_verify_nonce( $nonce, 'pms_cancel_subscription' ) )
                 $location = 'cancel_subscription';
 
             // Retry subscription payment
-            if( wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_retry_payment_subscription' ) )
+            if( wp_verify_nonce( $nonce, 'pms_retry_payment_subscription' ) )
                 $location = 'retry_payment';
 
 
@@ -1086,7 +1089,7 @@ Class PMS_Form_Handler {
              *
              * @since 2.0.5
              */
-            if( function_exists( 'wp_doing_ajax') && wp_doing_ajax() && $_REQUEST['pmstkn'] === 'pb_form' )
+            if( function_exists( 'wp_doing_ajax') && wp_doing_ajax() && isset( $_REQUEST['pmstkn'] ) && $_REQUEST['pmstkn'] === 'pb_form' )
                 $location = 'register';
 
         }

@@ -109,22 +109,22 @@ class PMS_Register_Version{
 
 
     //the function to check the validity of the serial number and save a variable in the DB; purely visual
-    private function pms_register_version_check_serial_number( $serial, $add_on_slug, $resetCron = false ){
+    public static function pms_register_version_check_serial_number( $serial, $add_on_slug, $resetCron = false ){
 
         $remote_url = 'http://updatemetadata.cozmoslabs.com/checkserial/?serialNumberSent='.$serial;
 
         $remote_response = wp_remote_get( $remote_url );
 
-        $response = $this->pms_register_version_update_serial_status( $remote_response, $add_on_slug );
+        $response = PMS_Register_Version::pms_register_version_update_serial_status( $remote_response, $add_on_slug );
 
         if( $resetCron === true )
-            $this->pms_register_version_clear_cron_hooks();
+            PMS_Register_Version::pms_register_version_clear_cron_hooks();
 
         return $response;
     }
 
 
-    private function pms_register_version_clear_cron_hooks() {
+    public static function pms_register_version_clear_cron_hooks() {
 
         $add_ons = PMS_Submenu_Page_Addons::add_ons_get_remote_content();
 
@@ -137,7 +137,7 @@ class PMS_Register_Version{
 
 
     /* function to update the serial number status */
-    private function pms_register_version_update_serial_status( $response, $add_on_slug ) {
+    public static function pms_register_version_update_serial_status( $response, $add_on_slug ) {
         if ( $add_on_slug != 'pms' ) {
             $serial_status = 'pms_add_on_'.$add_on_slug.'_serial_status';
             $serial_number = 'pms_add_on_'. $add_on_slug .'_serial_number';

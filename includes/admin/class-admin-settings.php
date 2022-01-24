@@ -30,6 +30,8 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
         add_action( 'pms_submenu_page_enqueue_admin_scripts_' . $this->menu_slug, array( $this, 'admin_scripts' ) );
 
+        $this->setup_functions();
+
     }
 
 
@@ -158,18 +160,29 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
             if ( $option_page == 'pms_misc_settings' ) {
 
-                if (isset($options['gdpr_checkbox']))
-                    $options['gdpr_checkbox'] = sanitize_text_field($options['gdpr_checkbox']);
+                if (isset($options['gdpr']['gdpr_checkbox']))
+                    $options['gdpr']['gdpr_checkbox'] = sanitize_text_field($options['gdpr']['gdpr_checkbox']);
 
-                if (isset($options['gdpr_checkbox_text'])){
-                    $options['gdpr_checkbox_text'] = sanitize_text_field($options['gdpr_checkbox_text']);
+                if (isset($options['gdpr']['gdpr_checkbox_text'])){
+                    $options['gdpr']['gdpr_checkbox_text'] = sanitize_text_field($options['gdpr']['gdpr_checkbox_text']);
 
-                    if( function_exists() )
-                        icl_register_string('plugin paid-member-subscriptions', 'gdpr_checkbox_text' , $options['gdpr_checkbox_text'] );
+                    if( function_exists('icl_register_string') )
+                        icl_register_string('plugin paid-member-subscriptions', 'gdpr_checkbox_text' , $options['gdpr']['gdpr_checkbox_text'] );
                 }
 
-                if (isset($options['gdpr_delete']))
-                    $options['gdpr_delete'] = sanitize_text_field($options['gdpr_delete']);
+                if (isset($options['gdpr']['gdpr_delete']))
+                    $options['gdpr']['gdpr_delete'] = sanitize_text_field($options['gdpr']['gdpr_delete']);
+
+                if ( isset( $options['payments']['payment_renew_button_delay'] ) && filter_var($options['payments']['payment_renew_button_delay'], FILTER_VALIDATE_INT) === false ) {
+                    unset( $options['payments']['payment_renew_button_delay'] );
+                }
+
+                if ( isset( $options['payments']['redirect_after_manual_payment'] ) && filter_var($options['payments']['redirect_after_manual_payment'], FILTER_VALIDATE_URL) === false ) {
+                    unset( $options['payments']['redirect_after_manual_payment'] );
+                }
+
+
+
 
             }
         }
@@ -230,6 +243,35 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
         if( !$found_chosen ) {
             wp_enqueue_script( 'pms-chosen', PMS_PLUGIN_DIR_URL . 'assets/libs/chosen/chosen.jquery.min.js', array( 'jquery' ), PMS_VERSION );
             wp_enqueue_style( 'pms-chosen', PMS_PLUGIN_DIR_URL . 'assets/libs/chosen/chosen.css', array(), PMS_VERSION );
+        }
+
+    }
+
+    private function setup_functions() {
+
+        $advanced_settings_dir = plugin_dir_path( __FILE__ );
+        $misc_settings = get_option( 'pms_misc_settings', array() );
+        $advanced_settings_keys = array( 'payment_renew_button_delay' , 'redirect_after_manual_payment' );
+
+        foreach ( $misc_settings as $misc_key => $misc_value ) {
+
+            if ( is_array( $misc_value )) {
+                foreach ( $misc_value as $key => $value ) {
+                    if ( !empty( $value ) && in_array( $key, $advanced_settings_keys )) {
+                        $path = 'advanced-settings/' . $key . '.php';
+                        if ( file_exists( $advanced_settings_dir . $path ) )
+                            include_once $path;
+                    }
+                }
+            }
+            else {
+                if ( !empty( $misc_value ) && in_array( $misc_key, $advanced_settings_keys )) {
+                    $path = 'advanced-settings/' . $misc_key . '.php';
+                    if ( file_exists( $advanced_settings_dir . $path ) )
+                        include_once $path;
+                }
+            }
+
         }
 
     }

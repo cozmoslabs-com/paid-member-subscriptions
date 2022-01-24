@@ -65,10 +65,6 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
      */
     public function admin_scripts() {
 
-        wp_enqueue_script( 'pmsle_init', PMS_LABELSEDIT_PLUGIN_DIR_URL . 'assets/js/init.js', array( 'jquery' ), PMS_VERSION );
-        wp_enqueue_style( 'pmsle_css', PMS_LABELSEDIT_PLUGIN_DIR_URL . 'assets/css/style.css', array(), PMS_VERSION );
-        wp_enqueue_style( 'jquery-style', PMS_PLUGIN_DIR_URL . 'assets/css/admin/jquery-ui.min.css', array(), PMS_VERSION );
-
         global $wp_scripts;
 
         // Try to detect if chosen has already been loaded
@@ -86,6 +82,13 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
 
         wp_enqueue_script( 'jquery-ui-sortable' );
 
+        wp_register_script( 'pmsle_init', PMS_LABELSEDIT_PLUGIN_DIR_URL . 'assets/js/init.js', array( 'jquery', 'pms-chosen' ), PMS_VERSION );
+        wp_enqueue_style( 'pmsle_css', PMS_LABELSEDIT_PLUGIN_DIR_URL . 'assets/css/style.css', array(), PMS_VERSION );
+        wp_enqueue_style( 'jquery-style', PMS_PLUGIN_DIR_URL . 'assets/css/admin/jquery-ui.min.css', array(), PMS_VERSION );
+        
+
+        wp_localize_script( 'pmsle_init', 'pmsle_update_button_text', array( 'text' => esc_html__( 'Update', 'paid-member-subscriptions' ) ) );
+        wp_enqueue_script( 'pmsle_init' );
     }
 
     /**
@@ -121,14 +124,6 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
         // These processes should be handled only by an admin
         if( !current_user_can( 'manage_options') )
             return;
-
-        // Register script to display text on Update button
-        wp_register_script( 'pmsle-update-button-text-script', PMS_LABELSEDIT_PLUGIN_DIR_URL . 'assets/js/init.js', array('jquery'), PMS_VERSION );
-        $update_button_text = array(
-            'text'   => esc_html__( 'Update', 'paid-member-subscriptions' )
-        );
-        wp_localize_script( 'pmsle-update-button-text-script', 'pmsle_update_button_text', $update_button_text );
-        wp_enqueue_script( 'pmsle-update-button-text-script' );
 
         /*
          *  Handle add new label

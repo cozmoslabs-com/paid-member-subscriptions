@@ -13,9 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <!-- Sub-tab navigation -->
 <ul class="pms-nav-sub-tab-wrapper subsubsub">
-    <li><a data-sub-tab-slug="misc_gdpr"  href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_gdpr' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_gdpr' ? 'current' : '' ) ?>"><?php esc_html_e( 'GDPR', 'paid-member-subscriptions' ); ?></a> | </li>
-    <li><a data-sub-tab-slug="misc_others" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_others' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_others' ? 'current' : '' ) ?>"><?php esc_html_e( 'Others', 'paid-member-subscriptions' ); ?></a> | </li>
-    <li><a data-sub-tab-slug="misc_recaptcha" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_recaptcha' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_recaptcha' ? 'current' : '' ) ?>"><?php esc_html_e( 'reCaptcha', 'paid-member-subscriptions' ); ?></a></li>
+    <li class="subsubsub-sub-tab"><a data-sub-tab-slug="misc_gdpr"  href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_gdpr' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_gdpr' ? 'current' : '' ) ?>"><?php esc_html_e( 'GDPR', 'paid-member-subscriptions' ); ?></a></li>
+    <li class="subsubsub-sub-tab"><a data-sub-tab-slug="misc_others" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_others' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_others' ? 'current' : '' ) ?>"><?php esc_html_e( 'Others', 'paid-member-subscriptions' ); ?></a></li>
+    <li class="subsubsub-sub-tab"><a data-sub-tab-slug="misc_recaptcha" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_recaptcha' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_recaptcha' ? 'current' : '' ) ?>"><?php esc_html_e( 'reCaptcha', 'paid-member-subscriptions' ); ?></a></li>
+    <li class="subsubsub-sub-tab"><a data-sub-tab-slug="misc_payments" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_payments' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_payments' ? 'current' : '' ) ?>"><?php esc_html_e( 'Payments', 'paid-member-subscriptions' ); ?></a></li>
+
+    <?php do_action( $this->menu_slug . '_misc_sub_tab_navigation_items', $this->options ); ?>
+
 </ul>
 
 <!-- Divider -->
@@ -52,6 +56,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <p class="description"><?php esc_html_e( 'Select whether to show a GDPR Delete button on our forms.', 'paid-member-subscriptions' ); ?></p>
     </div>
+
+    <?php do_action( $this->menu_slug . '_misc_after_gdpr_tab_content', $this->options ); ?>
+
 </div>
 
 
@@ -110,14 +117,35 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <p class="description"><?php echo wp_kses_post( __( 'Enable the <strong>Labels Edit</strong> functionality in order to change any string that is shown by the plugin.', 'paid-member-subscriptions' ) ); ?></p>
     </div>
+
+    <?php do_action( $this->menu_slug . '_misc_after_others_tab_content', $this->options ); ?>
+
 </div>
-
-
-
-
 
 
 <!-- reCaptcha Sub Tab -->
 <div data-sub-tab-slug="misc_recaptcha" class="pms-sub-tab pms-sub-tab-recaptcha <?php echo ( $active_sub_tab == 'misc_recaptcha' ? 'tab-active' : '' ); ?>">
-    <?php do_action( $this->menu_slug . '_misc_after_content', $this->options ); ?>
+    <?php do_action( $this->menu_slug . '_misc_after_recaptcha_tab_content', $this->options ); ?>
 </div>
+
+
+<!-- Payments Sub Tab -->
+<div data-sub-tab-slug="misc_payments" class="pms-sub-tab pms-sub-tab-payments <?php echo ( $active_sub_tab == 'misc_payments' ? 'tab-active' : '' ); ?>">
+
+    <div class="pms-form-field-wrapper">
+        <label class="pms-form-field-label" for="payment-renew-button-delay"><?php esc_html_e( 'Modify renew button output time', 'paid-member-subscriptions' ) ?></label>
+        <input type="text" id="payment-renew-button-delay" class="widefat" name="pms_misc_settings[payments][payment_renew_button_delay]" value="<?php echo ( isset($this->options['payments']['payment_renew_button_delay']) ? esc_attr( $this->options['payments']['payment_renew_button_delay'] ) : '15' ); ?>">
+        <p class="description"><?php esc_html_e( 'Insert how many days before the subscription expires, should the renewal button be displayed inside the [pms-account] shortcode.', 'paid-member-subscriptions' ); ?></p>
+    </div>
+
+    <div class="pms-form-field-wrapper">
+        <label class="pms-form-field-label" for="redirect-after-manual-payment"><?php esc_html_e( 'Redirect after a manual payment', 'paid-member-subscriptions' ) ?></label>
+        <input type="text" id="redirect-after-manual-payment" class="widefat" name="pms_misc_settings[payments][redirect_after_manual_payment]" value="<?php echo ( isset($this->options['payments']['redirect_after_manual_payment']) ? esc_url( $this->options['payments']['redirect_after_manual_payment'] ) : '' ); ?>">
+        <p class="description"><?php echo sprintf( esc_html__( 'Insert an URL to redirect the user after a manual payment is made. ( e.g. %s )', 'paid-member-subscriptions' ), esc_url( home_url( '/manual-payment-details' )) );  ?></p>
+    </div>
+
+    <?php do_action( $this->menu_slug . '_misc_after_payments_tab_content', $this->options ); ?>
+</div>
+
+
+<?php do_action( $this->menu_slug . '_misc_after_subtabs', $this->options ); ?>

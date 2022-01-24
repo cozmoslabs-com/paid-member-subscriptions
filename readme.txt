@@ -3,8 +3,8 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
-Tested up to: 5.8.3
-Stable tag: 2.5.9
+Tested up to: 5.9
+Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,17 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.6.0 =
+* Feature: added new Payments tab under Settings -> Misc with 2 new options: Renew button output time and Redirect after manual payments
+* Fix: an issue with the update class
+* Fix: issue with Members page generating a too big query string when searching, filtering multiple times
+* Fix: issue with Retry payment action showing for inactive expired plans
+* Fix: JS error showing in the console for admins from the Labels Edit functionality
+* Fix: Payments table issues where you could break the date of any payment in some scenarios
+* Fix: Subscription Price tag is now respecting the currency format settings
+* Fix: Subscription Price tag is now outputting `Free` instead of nothing for free plans
+* Misc: added compatibility for button instead of input as the submit form button for the processing states
+
 = 2.5.9 =
 * Fix: warning caused by an undefined constant
 

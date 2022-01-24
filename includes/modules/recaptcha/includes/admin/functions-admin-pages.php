@@ -59,4 +59,4 @@ function pms_recaptcha_settings_tab( $options ) {
 
     echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
-add_action( 'pms-settings-page_misc_after_content', 'pms_recaptcha_settings_tab' );
+add_action( 'pms-settings-page_misc_after_recaptcha_tab_content', 'pms_recaptcha_settings_tab' );
