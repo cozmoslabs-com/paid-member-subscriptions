@@ -73,4 +73,13 @@ jQuery( function($) {
 
     });
 
+    /** Remove success message when showing validation errors */
+    if ( $( '#pms-plan-metabox-errors' ).length > 0 ){
+        
+        if( $( '.updated.notice-success' ).length > 0 )
+            $( '.updated.notice-success' ).remove()
+
+        $('#pms-plan-metabox-errors').insertBefore( '.wp-header-end' )
+    }
+
 });

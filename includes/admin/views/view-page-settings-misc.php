@@ -27,7 +27,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <!-- GDPR Sub Tab -->
 <div data-sub-tab-slug="misc_gdpr" class="pms-sub-tab pms-sub-tab-gdpr <?php echo ( $active_sub_tab == 'misc_gdpr' ? 'tab-active' : '' ); ?>">
-    <h3><?php esc_html_e( 'GDPR', 'paid-member-subscriptions' ); ?></h3>
 
     <div class="pms-form-field-wrapper">
         <label class="pms-form-field-label" for="gdpr-checkbox"><?php esc_html_e( 'GDPR checkbox on Forms', 'paid-member-subscriptions' ) ?></label>
@@ -64,7 +63,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <!-- Others Sub Tab -->
 <div data-sub-tab-slug="misc_others" class="pms-sub-tab pms-sub-tab-others <?php echo ( $active_sub_tab == 'misc_others' ? 'tab-active' : '' ); ?>">
-    <h3><?php esc_html_e( 'Others', 'paid-member-subscriptions' ); ?></h3>
 
     <div class="pms-form-field-wrapper">
         <label class="pms-form-field-label" for="allow-usage-tracking"><?php esc_html_e( 'Usage Tracking' , 'paid-member-subscriptions' ) ?></label>

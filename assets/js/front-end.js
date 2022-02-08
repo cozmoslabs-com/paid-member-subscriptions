@@ -308,26 +308,31 @@ jQuery( function($) {
          * Disable the form submit button when the form is submitted
          *
          */
-        jQuery( document ).on( 'submit', '.pms-form', function(e) {
+        jQuery(document).on( 'submit', '.pms-form', disable_form_submit_button )
+
+        if( jQuery( '.wppb-register-user' ).length > 0 && jQuery( '.wppb-register-user .wppb-subscription-plans' ).length > 0 )
+            jQuery(document).on('submit', '.wppb-register-user', disable_form_submit_button)
+
+        function disable_form_submit_button( e ){
 
             var target_button = jQuery( 'input[type="submit"], button[type="submit"]', jQuery(this) ).not('#pms-apply-discount').not('input[name="pms_redirect_back"]')[0]
 
             if ( $(target_button).hasClass('pms-submit-disabled') )
                 return false
 
-            $(target_button).data('original-value', $(target_button).val() )
+            $(target_button).data('original-value', $(target_button).val())
 
             // Replace the button text with the placeholder
-            if( pms_payment_button_loading_placeholder_text.length > 0 ){
-                
-                $(target_button).addClass( 'pms-submit-disabled' ).val( pms_payment_button_loading_placeholder_text )
+            if (pms_payment_button_loading_placeholder_text.length > 0) {
 
-                if ( $(target_button).is('button') )
-                    $(target_button).text( pms_payment_button_loading_placeholder_text )
+                $(target_button).addClass('pms-submit-disabled').val(pms_payment_button_loading_placeholder_text)
+
+                if ($(target_button).is('button'))
+                    $(target_button).text(pms_payment_button_loading_placeholder_text)
 
             }
 
-        })
+        }
 
 
         /**
@@ -379,33 +384,60 @@ jQuery( function($) {
             // PB Form Fields interface will have a default values selected, but we have no idea which field is displayed
             // so we need to make sure the visible one has it's default plan selected
             pmsHandleDefaultWPPBFormSelectedPlanOnLoad()
+            pmsHandleGatewaysDisplayRemove()
 
             $(document).on( "wppbRemoveRequiredAttributeEvent", pmsHandleGatewaysDisplayRemove )
 
-            function pmsHandleGatewaysDisplayRemove(event) {
+            function pmsHandleGatewaysDisplayRemove( event = '' ) {
 
                 if( $( '#pms-paygates-wrapper' ).is( ':hidden' ) )
                     return
 
-                var element = event.target
+                if( event != '' ){
+                    var element = event.target
 
-                if( typeof $(element).attr('conditional-name') == 'undefined' || $(element).attr('conditional-name') != 'subscription_plans' )
-                    return
+                    if ( typeof $(element).attr('conditional-name') == 'undefined' || $(element).attr('conditional-name') != 'subscription_plans' )
+                        return
+                }
 
                 var visible_plans = false
 
                 $('.wppb-subscription-plans').each( function( index, item ){
-                    if( $( item ).is( ':visible' ) )
-                        visible_plans = true
+  
+                    if( $( item ).is( ':visible' ) ){
+
+                        var only_free_plans = true
+
+                        $( '.pms-subscription-plan input[name="subscription_plans"]', $( item ) ).each( function( index, item ){
+
+                            if( $( item ).data('price') && $( item ).data('price') > 0 ){
+                                only_free_plans = false
+                                return false
+                            }
+
+                        })
+
+                        if( only_free_plans )
+                            visible_plans = false
+                        else
+                            visible_plans = true
+
+                        return false
+                    }
+
                 })
 
                 if( visible_plans === false ){
-                    $('#pms-paygates-wrapper').hide();
-                    $( paygate_selector ).attr( 'disabled', true );
-                    $( paygate_selector ).closest( 'label' ).hide();
+                    $('#pms-paygates-wrapper').hide()
+                    $( paygate_selector ).attr( 'disabled', true )
+                    $( paygate_selector ).closest( 'label' ).hide()
 
-                    $('.pms-credit-card-information').hide();
-                    $('.pms-billing-details').hide();
+                    $('.pms-credit-card-information').hide()
+                    $('.pms-billing-details').hide()
+
+                    $('.pms-price-breakdown__holder').hide()
+                } else {
+                    pmsHandleDefaultWPPBFormSelectedPlanOnLoad()
                 }
 
             }

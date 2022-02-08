@@ -34,7 +34,7 @@ add_filter( 'pms_request_form_location', 'pms_pb_change_request_form_location', 
  * @return string
  *
  */
-function pms_pb_add_form_extra_fields( $output = '' , $settings, $form_location ) {
+function pms_pb_add_form_extra_fields( $output = '' , $settings = '', $form_location = '' ) {
 
     if( $form_location == 'wppb_register' ){
         ob_start();
@@ -249,3 +249,23 @@ function pms_pb_output_payment_gateways( $content, $form_id, $form_type ){
 
 }
 add_filter( 'wppb_output_after_last_form_field', 'pms_pb_output_payment_gateways', 99, 3 );
+
+function pms_pb_add_hidden_submit_button_loading_placeholder_text( $content, $form_id, $form_type ){
+
+    if( $form_type != 'register' )
+        return $content;
+
+    ob_start();
+
+    // Call the extra form fields adder
+    pms_add_hidden_submit_button_loading_placeholder_text();
+
+    $submit_button_loading_placeholder_text = ob_get_contents();
+    ob_end_clean();
+
+    $content = $content . $submit_button_loading_placeholder_text;
+
+    return $content;
+
+}
+add_filter( 'wppb_output_after_last_form_field', 'pms_pb_add_hidden_submit_button_loading_placeholder_text', 100, 3 );

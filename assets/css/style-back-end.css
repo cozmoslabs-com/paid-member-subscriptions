@@ -1253,6 +1253,10 @@ body.post-type-pms-subscription #delete-action {
     display: none;
 }
 
+#pms-settings-recaptcha {
+    margin-top: 0;
+}
+
 .pms-sub-tab {
     display: none;
 }
@@ -1883,4 +1887,8 @@ body.post-type-pms-subscription #delete-action {
 #pms_usage_tracking .button-primary {
     margin-top: 12px;
     margin-right: 4px;
+}
+
+#pms-plan-metabox-errors {
+    margin-left: 0px;
 }

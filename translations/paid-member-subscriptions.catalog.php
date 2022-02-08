@@ -657,6 +657,7 @@
 <?php __("Applying discount code. Please wait...", "paid-member-subscriptions"); ?>
 <?php __("Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this member ?", "paid-member-subscriptions"); ?>
+<?php __("Please enter a credit card number.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Tax Rate?", "paid-member-subscriptions"); ?>
 <?php __("TAX", "paid-member-subscriptions"); ?>
 <?php __("Validated successfully.", "paid-member-subscriptions"); ?>
@@ -1708,7 +1709,7 @@
 <?php __("Select the email reminder status.", "paid-member-subscriptions"); ?>
 <?php __("Fixed Membership", "paid-member-subscriptions"); ?>
 <?php __("Check this box for enabling fixed period memberships.", "paid-member-subscriptions"); ?>
-<?php __("Set the subscription expiration date.", "paid-member-subscriptions"); ?>
+<?php __("Set the Expiration Date. A subsequent date change will only affect new users.", "paid-member-subscriptions"); ?>
 <?php __("Allow plan to be renewed", "paid-member-subscriptions"); ?>
 <?php __("Check this box for allowing the plan to be renewed each year.", "paid-member-subscriptions"); ?>
 <?php __("Select the subscription plan for which this content dripping set should apply.", "paid-member-subscriptions"); ?>
@@ -1974,7 +1975,6 @@
 <?php __("Default WordPress Register Form", "paid-member-subscriptions"); ?>
 <?php __("Default WordPress Login Form", "paid-member-subscriptions"); ?>
 <?php __("Default WordPress Reset Password Form", "paid-member-subscriptions"); ?>
-<?php __("reCAPTCHA V2", "paid-member-subscriptions"); ?>
 <?php __("Site Key", "paid-member-subscriptions"); ?>
 <?php __('The site key from %1$sGoogle%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Secret Key", "paid-member-subscriptions"); ?>

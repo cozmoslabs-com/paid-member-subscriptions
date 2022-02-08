@@ -24,9 +24,6 @@ function pms_recaptcha_settings_tab( $options ) {
     ?>
 
     <div id="pms-settings-recaptcha" class="pms-tab tab-active">
-
-        <h3><?php esc_html_e( 'reCAPTCHA V2', 'paid-member-subscriptions' ); ?></h3>
-
         <div class="pms-form-field-wrapper">
             <label class="pms-form-field-label" for="recaptcha-site-key"><?php esc_html_e( 'Site Key', 'paid-member-subscriptions' ) ?></label>
             <input id="recaptcha-site-key" type="text" class="widefat" name="pms_misc_settings[recaptcha][site_key]" value="<?php echo ( !empty( $options['recaptcha']['site_key'] ) ? esc_attr( $options['recaptcha']['site_key'] ) : '' ) ?>" />

@@ -16,7 +16,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      * @var string
      *
      */
-    private $start_date;
+    public $start_date;
 
 
     /*
@@ -25,7 +25,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      * @var string
      *
      */
-    private $end_date;
+    public $end_date;
 
 
     /*
@@ -34,7 +34,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      * @var array
      *
      */
-    private $queried_payments = array();
+    public $queried_payments = array();
 
 
     /*
@@ -43,7 +43,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      * @var array
      *
      */
-    private $results = array();
+    public $results = array();
 
 
     /*

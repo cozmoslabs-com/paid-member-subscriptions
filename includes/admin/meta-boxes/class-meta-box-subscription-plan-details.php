@@ -20,6 +20,8 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
         // save_meta_box method
         add_action( 'pms_save_meta_box_' . $this->post_type, array( $this, 'save_data' ) );
 
+        add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+
     }
 
 
@@ -35,6 +37,31 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
 
     }
 
+
+    function admin_notices() {
+
+        if ( ! ( $errors = get_transient( 'pms_plan_metabox_errors' ) ) )
+            return;
+
+        $displayed_errors = array();
+        $message          = '<div id="pms-plan-metabox-errors" class="error below-h2"><ul>';
+
+        foreach ( $errors as $error ){
+            if( !in_array( $error['code'], $displayed_errors ) ){
+                $message .= '<li>' . esc_html( $error['message'] ) . '</li>';
+                $displayed_errors[] = $error['code'];
+            }
+        }
+
+        $message .= '</ul></div>';
+
+        echo $message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+        delete_transient( 'pms_plan_metabox_errors' );
+
+        remove_action( 'admin_notices', array( $this, 'admin_notices' ) );
+
+    }
 
     /*
      * Method to validate the data and save it for this meta-box
@@ -83,7 +110,7 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
 
             $subscription_plan_price = sanitize_text_field( $_POST['pms_subscription_plan_price'] );
 
-            if( !is_numeric( $subscription_plan_price ) )
+            if( !is_numeric( $subscription_plan_price ) || !( $subscription_plan_price >= 0 ) )
                 $subscription_plan_price = 0;
 
             update_post_meta( $post_id, 'pms_subscription_plan_price', (float)$subscription_plan_price );
@@ -96,7 +123,7 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
 
             $subscription_plan_sign_up_fee = sanitize_text_field( $_POST['pms_subscription_plan_sign_up_fee'] );
 
-            if( !is_numeric( $subscription_plan_sign_up_fee ) )
+            if( !is_numeric( $subscription_plan_sign_up_fee ) || !( $subscription_plan_sign_up_fee >= 0 ) )
                 $subscription_plan_sign_up_fee = 0;
 
             update_post_meta( $post_id, 'pms_subscription_plan_sign_up_fee', (float)$subscription_plan_sign_up_fee );
@@ -105,19 +132,9 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
 
 
         // Update subscription plan free trial duration meta data
-        if( isset( $_POST['pms_subscription_plan_trial_duration'] ) ) {
+        if( isset( $_POST['pms_subscription_plan_trial_duration'] ) && isset( $_POST['pms_subscription_plan_trial_duration_unit'] ) ) {
 
-            $subscription_plan_trial_duration = sanitize_text_field( $_POST['pms_subscription_plan_trial_duration'] );
-
-            // Check to see if entered value is a whole number, if not set the value to 0 (zero)
-            if( ( !ctype_digit( $subscription_plan_trial_duration ) ) || ( (int)$subscription_plan_trial_duration === 0 && strlen( $subscription_plan_trial_duration ) > 1 ) )
-                $subscription_plan_trial_duration = 0;
-
-            update_post_meta( $post_id, 'pms_subscription_plan_trial_duration', absint( $subscription_plan_trial_duration ) );
-        }
-
-        if( isset( $_POST['pms_subscription_plan_trial_duration_unit'] ) ){
-
+            // setup trial duration unit to be updated
             $trial_duration_units = array( 'day', 'week', 'month', 'year' );
 
             if( in_array( $_POST['pms_subscription_plan_trial_duration_unit'], $trial_duration_units ) )
@@ -125,7 +142,30 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
             else
                 $trial_duration_unit = 'day';
 
-            update_post_meta( $post_id, 'pms_subscription_plan_trial_duration_unit', $trial_duration_unit );
+            $subscription_plan_trial_duration = sanitize_text_field( $_POST['pms_subscription_plan_trial_duration'] );
+
+            // Check to see if entered value is a whole number, if not set the value to 0 (zero)
+            if( ( !ctype_digit( $subscription_plan_trial_duration ) ) || ( (int)$subscription_plan_trial_duration === 0 && strlen( $subscription_plan_trial_duration ) > 1 ) )
+                $subscription_plan_trial_duration = 0;
+
+            /**
+             * Limit the maximum duration that can be set based on the duration unit that is selected
+             * D = 90, W = 52, M = 24, Y = 5
+             */
+            if( $trial_duration_unit == 'day' && $subscription_plan_trial_duration > 90 )
+                add_settings_error( 'pms-plans-metabox', 'pms-plans-metabox-trial-days-error', 'Trial duration for the selected unit (day) can be set to a maximum of 90.', 'error' );
+            else if( $trial_duration_unit == 'week' && $subscription_plan_trial_duration > 52 )
+                add_settings_error( 'pms-plans-metabox', 'pms-plans-metabox-trial-week-error', 'Trial duration for the selected unit (week) can be set to a maximum of 52.', 'error' );
+            else if( $trial_duration_unit == 'month' && $subscription_plan_trial_duration > 24 )
+                add_settings_error( 'pms-plans-metabox', 'pms-plans-metabox-trial-month-error', 'Trial duration for the selected unit (month) can be set to a maximum of 24.', 'error' );
+            else if( $trial_duration_unit == 'year' && $subscription_plan_trial_duration > 5 )
+                add_settings_error( 'pms-plans-metabox', 'pms-plans-metabox-trial-year-error', 'Trial duration for the selected unit (year) can be set to a maximum of 5.', 'error' );
+            else {
+
+                update_post_meta( $post_id, 'pms_subscription_plan_trial_duration', absint( $subscription_plan_trial_duration ) );
+                update_post_meta( $post_id, 'pms_subscription_plan_trial_duration_unit', $trial_duration_unit );
+
+            }
 
         }
 
@@ -205,6 +245,8 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
             update_post_meta( $post_id, 'pms_subscription_plan_user_role', $new_role );
 
         }
+
+        set_transient( 'pms_plan_metabox_errors', get_settings_errors(), 60 );
 
     }
 

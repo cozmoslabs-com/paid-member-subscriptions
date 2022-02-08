@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 5.9
-Stable tag: 2.6.0
+Stable tag: 2.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.6.1 =
+* Fix: issue with Profile Builder conditional logic when interacting with a single plan field
+* Fix: a notice with PHP 8
+* Misc: add submit button customizations for Profile Builder when the button gets disabled
+* Misc: removed subtab titles from the Misc settings page
+* Misc: improve back-end validation when saving prices or sign up fees for plans
+* Misc: added a limit for different duration units when defining a free trial
+* Misc: don't allow admins to change the expiration date of a subscription if the relevant plan is fixed period with renewals enabled
+
 = 2.6.0 =
 * Feature: added new Payments tab under Settings -> Misc with 2 new options: Renew button output time and Redirect after manual payments
 * Fix: an issue with the update class

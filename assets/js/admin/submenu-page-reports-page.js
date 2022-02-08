@@ -4,6 +4,9 @@
  */
 jQuery( function($) {
 
+    if ( !( $('#payment-report-chart').length > 0 ) )
+        return
+
     var ctx = $('#payment-report-chart');
 
 

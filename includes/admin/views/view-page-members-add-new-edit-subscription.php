@@ -251,15 +251,26 @@ if( ! empty( $_POST ) ) {
 									</div>
 
                                     <?php
-                                        $settings = get_option( 'pms_payments_settings' );
+                                        $settings             = get_option( 'pms_payments_settings' );
+                                        $hide_expiration_date = false;
 
-                                        if( isset( $member_subscription ) && $member_subscription->is_auto_renewing() ){
-                                            if( ( $member_subscription->payment_gateway == 'stripe_intents' || ( $member_subscription->payment_gateway == 'paypal_express' && !empty( $settings['gateways']['paypal']['reference_transactions'] ) ) ) ){
-                                                $hide_expiration_date = true;
-                                            }
-                                        }
+										if( isset( $member_subscription ) ) {
 
-                                        if( !isset( $hide_expiration_date ) ) :
+											$plan = pms_get_subscription_plan( $member_subscription->subscription_plan_id );
+
+											if( $member_subscription->is_auto_renewing() ){
+
+												if( ( $member_subscription->payment_gateway == 'stripe_intents' || ( $member_subscription->payment_gateway == 'paypal_express' && !empty( $settings['gateways']['paypal']['reference_transactions'] ) ) ) )
+													$hide_expiration_date = true;
+												elseif ( $plan->is_fixed_period_membership() && $plan->fixed_period_renewal_allowed() )
+													$hide_expiration_date = true;
+												
+											} elseif ( $plan->is_fixed_period_membership() && $plan->fixed_period_renewal_allowed() )
+												$hide_expiration_date = true;
+
+										}    
+
+                                        if( !$hide_expiration_date ) :
                                     ?>
                                             <!-- Expiration Date -->
                                             <div class="pms-meta-box-field-wrapper">
