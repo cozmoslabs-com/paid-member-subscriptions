@@ -913,7 +913,7 @@ Class PMS_Form_Handler {
      */
     public static function validate_login_form( $redirect_to, $request, $user ) {
 
-        if( isset( $_POST['pms_login'] ) && $_POST['pms_login'] == 1 && !empty( $_POST['pms_redirect'] ) ) {
+        if( isset( $_POST['pms_login_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_POST['pms_login_nonce'] ), 'pms_login_form_nonce' ) && isset( $_POST['pms_login'] ) && $_POST['pms_login'] == 1 && !empty( $_POST['pms_redirect'] ) ) {
 
             if( is_wp_error($user) ) {
 
@@ -1183,7 +1183,8 @@ Class PMS_Form_Handler {
      *
      */
     public static function login_form() {
-        if( !isset($_REQUEST['pms_login']) )
+
+        if( !isset( $_REQUEST['pms_login'] ) || !isset( $_POST['pms_login_nonce'] ) || !wp_verify_nonce( sanitize_text_field( $_POST['pms_login_nonce'] ), 'pms_login_form_nonce' ) )
             return;
 
         do_action( 'login_init' );
@@ -1242,11 +1243,11 @@ Class PMS_Form_Handler {
             }
             wp_safe_redirect($redirect_to);
             exit();
-        }
-        else{
+        } else {
             wp_safe_redirect($redirect_to);
             exit();
         }
+
     }
 
 

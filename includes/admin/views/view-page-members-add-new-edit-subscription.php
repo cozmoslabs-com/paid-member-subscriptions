@@ -310,6 +310,12 @@ if( ! empty( $_POST ) ) {
 									</div>
 									<?php endif; ?>
 
+                                    <!-- Group Name and Description -->
+                                    <?php
+                                    if( $subpage == 'add_subscription' && $first_subscription )
+                                        echo esc_html( do_action('pms_admin_new_subscription_after_form_fields') );
+                                    ?>
+
 								</div>
 
 							</div>

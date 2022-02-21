@@ -206,8 +206,11 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
          *  Handle rescan labels
          */
         if( ! empty( $_POST['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( $_POST['_wpnonce'] ), 'pmsle_rescan_nonce' ) ) {
-            $this->rescan_labels();
-            wp_redirect( add_query_arg( array( 'page' => 'pms-labels-edit', 'message' => '6', 'updated' => '1' ), admin_url( 'admin.php' ) ) );
+            if( isset( $_POST['pmsle_rescan'] ) ){
+                $this->scan_labels();
+
+                wp_redirect( add_query_arg( array( 'page' => 'pms-labels-edit', 'message' => '6', 'updated' => '1' ), admin_url( 'admin.php' ) ) );
+            }
         }
 
         /*
@@ -382,7 +385,7 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
     <?php
     }
 
-    public function scan_labels() {
+    private function scan_labels() {
         include_once PMS_IN_LABELSEDIT_PLUGIN_DIR_PATH . 'includes/potx.php';
 
         global $pms_countries;
@@ -405,12 +408,7 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
         return str_replace( PMS_PLUGIN_DIR_PATH, '', $path );
     }
 
-    public function rescan_labels() {
-        if( isset( $_POST['pmsle_rescan'] ) )
-            $this->scan_labels();
-    }
-
-    public function export() {
+    private function export() {
         if( isset( $_POST['pmsle-export'] ) ) {
             include PMS_IN_LABELSEDIT_PLUGIN_DIR_PATH . 'includes/class-pmsle-export.php';
 
@@ -430,7 +428,7 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
         }
     }
 
-    public function import() {
+    private function import() {
         if( isset( $_POST['pmsle-import'] ) ) {
             include PMS_IN_LABELSEDIT_PLUGIN_DIR_PATH . 'includes/class-pmsle-import.php';
 

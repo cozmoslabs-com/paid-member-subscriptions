@@ -20,7 +20,7 @@ class PMSLE_IN_Import {
 	 *
 	 * @param string  $json_content  imported json.
 	 */
-	public function json_to_db( $json_content ) {
+	private function json_to_db( $json_content ) {
 		/* decode and put json to array */
 		$imported_array_from_json = json_decode( $json_content, true );
 		if ( $imported_array_from_json !== NULL ) {
@@ -39,7 +39,7 @@ class PMSLE_IN_Import {
 
 	/* upload json file function */
 	public function upload_json_file() {
-		if( isset( $_POST['pmsle-import'] ) ) {
+		if( isset( $_POST['pmsle-import'] ) && ! empty( $_POST['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( $_POST['_wpnonce'] ), 'pmsle_import_nonce' ) ) {
 			if( ! empty( $_FILES['pmsle-upload']['tmp_name'] ) ) {
 				$json_content = file_get_contents( $_FILES['pmsle-upload']['tmp_name'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$this->json_to_db( $json_content );

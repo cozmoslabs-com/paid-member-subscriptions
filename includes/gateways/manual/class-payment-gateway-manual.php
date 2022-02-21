@@ -27,11 +27,10 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
     public function init() {
 
-        $this->supports = array(
+        $this->supports = apply_filters( 'pms_gateway_manual_supports', array(
             'subscription_sign_up_fee',
             'subscription_free_trial',
-            'recurring_payments'
-        );
+        ) );
 
         // Add custom user messages for this gateway
         add_filter( 'pms_message_gateway_payment_action', array( $this, 'success_messages' ), 10, 4 );

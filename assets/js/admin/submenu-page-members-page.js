@@ -147,6 +147,17 @@ jQuery( function($) {
         // Disable the datepicker
         $expirationDateInput.attr( 'disabled', true );
 
+        // Show/Hide Group Name and Description Fields
+        $.post( ajaxurl, { action: 'determine_subscription_type', subscription_plan_id: $subscriptionPlanSelect.val() }, function( response ) {
+            if( response == 'group' ) {
+                jQuery('.pms-group-memberships-field').show()
+                jQuery('#pms_group_name').attr('required', true)
+            } else {
+                jQuery('.pms-group-memberships-field').hide()
+                jQuery('#pms_group_name').attr('required', false)
+            }
+        });
+
         // Get the expiration date and set it the expiration date field
         $.post( ajaxurl, { action: 'populate_expiration_date', subscription_plan_id: $subscriptionPlanSelect.val() }, function( response ) {
 
@@ -355,13 +366,14 @@ jQuery( function($) {
     // Add log entry manually
     $(document).on( 'click', '#pms_add_log_entry', function(e) {
         e.preventDefault()
+        e.stopImmediatePropagation();
         pms_add_log_entry()
     });
 
     $(document).on('keypress', 'input', function (e) {
         if (e.which == 13 && document.activeElement && document.activeElement.name == 'pms_admin_log' ) {
             e.preventDefault();
-
+            e.stopImmediatePropagation();
             pms_add_log_entry()
         }
     });
@@ -372,6 +384,7 @@ jQuery( function($) {
 
         if( subscription_id && log ){
             jQuery('#pms_add_log_entry').pms_addSpinner( 200 )
+            jQuery('#pms_add_log_entry').attr( 'disabled', true )
 
             $.post( ajaxurl, {
                 action: 'add_log_entry',
@@ -383,9 +396,11 @@ jQuery( function($) {
                     if( response.status && response.status == 'success' )
                         jQuery('#pms-member-subscription-logs .pms-logs-holder' ).html( response.data )
 
-                    jQuery('#pms-member-subscription-logs input[name="pms_admin_log"]').val('')
+                jQuery('#pms-member-subscription-logs input[name="pms_admin_log"]').val('')
 
-                    jQuery('#pms_add_log_entry').pms_removeSpinner( 200 )
+                jQuery('#pms_add_log_entry').attr( 'disabled', false )
+
+                jQuery('#pms_add_log_entry').pms_removeSpinner( 200 )
 
             })
         }

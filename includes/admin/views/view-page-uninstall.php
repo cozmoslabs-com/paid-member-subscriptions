@@ -60,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 				<input type="submit" disabled name="pms-confirm-uninstall-submit" class="button button-primary" value="<?php echo esc_html__( 'Uninstall', 'paid-member-subscriptions' ); ?>" />
 				<a id="pms-confirm-uninstall-cancel" class="button" href="#"><?php echo esc_html__( 'Cancel', 'paid-member-subscriptions' ); ?></a>
 			</div>
-		<form>
+		</form>
 	</div>
 
 </div>

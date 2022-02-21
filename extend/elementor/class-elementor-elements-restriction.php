@@ -134,27 +134,32 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 			)
 		);
 
+		do_action( 'pms_elementor_add_controls', $element );
+
 	}
 
 	// Verifies is element is hidden
 	public function is_hidden( $element ) {
+
 		$settings = $element->get_settings();
+		$hidden   = false;
 
 		if( !empty( $settings['pms_restriction_subscription_plans'] ) && is_user_logged_in() ) {
 
 			if( pms_is_member_of_plan( $settings['pms_restriction_subscription_plans'] ) || current_user_can( 'manage_options' ) )
-				return false;
+				$hidden = false;
 			else
-				return true;
+				$hidden = true;
 
 		} else if ( !is_user_logged_in() && (
 					( $settings['pms_restriction_loggedin_users'] == 'yes' ) || ( !empty( $settings['pms_restriction_subscription_plans'] ) )
 				) ) {
 
-			return true;
+			$hidden = true;
 		}
 
-		return false;
+		return apply_filters( 'pms_elementor_elements_restriction_element_is_hidden', $hidden, $element, $settings );
+
 	}
 
 	// Retrieves custom element message or the default message from PMS settings

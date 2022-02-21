@@ -144,8 +144,13 @@ function pms_get_members( $args = array(), $count = false ) {
     // Add search query
     if( ! empty( $args['search'] ) ) {
         $search_term       = sanitize_text_field( $args['search'] );
-        $query_inner_join .= "LEFT JOIN (SELECT usermeta.user_id, GROUP_CONCAT(usermeta.meta_value SEPARATOR ' ') AS fullname FROM {$wpdb->usermeta} usermeta WHERE usermeta.meta_key IN ('first_name', 'last_name') GROUP BY usermeta.user_id) fullname_table ON fullname_table.user_id = users.ID ";
-        $query_where       = $query_where . " AND  " . "  (users.user_email LIKE '%%%s%%' OR users.user_nicename LIKE '%%%s%%' OR usermeta.meta_value LIKE '%%%s%%' OR fullname_table.fullname LIKE '%%%s%%')  ". " ";
+
+        if( apply_filters( 'pms_members_list_search_query_fullname', true ) ){
+            $query_inner_join .= "LEFT JOIN (SELECT usermeta.user_id, GROUP_CONCAT(usermeta.meta_value SEPARATOR ' ') AS fullname FROM {$wpdb->usermeta} usermeta WHERE usermeta.meta_key IN ('first_name', 'last_name') GROUP BY usermeta.user_id) fullname_table ON fullname_table.user_id = users.ID ";
+            $query_where       = $query_where . " AND  " . "  (users.user_email LIKE '%%%s%%' OR users.user_nicename LIKE '%%%s%%' OR usermeta.meta_value LIKE '%%%s%%' OR fullname_table.fullname LIKE '%%%s%%')  ". " ";
+        } else {
+            $query_where       = $query_where . " AND  " . "  (users.user_email LIKE '%%%s%%' OR users.user_nicename LIKE '%%%s%%' OR usermeta.meta_value LIKE '%%%s%%')  ". " ";
+        }
     }
 
     $query_oder_by = "ORDER BY users." . sanitize_text_field( $args['orderby'] ) . ' ';

@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 5.9
-Stable tag: 2.6.1
+Stable tag: 2.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.6.2 =
+* Fix: issue with membership -> add log button duplicating entries if the button is clicked multiple times
+* Misc: better nonce validation for Labels Edit requests
+* Misc: added some filters for the Elementor content restriction functionality
+* Misc: added a filter to disable full name search for members: pms_members_list_search_query_fullname
+
 = 2.6.1 =
 * Fix: issue with Profile Builder conditional logic when interacting with a single plan field
 * Fix: a notice with PHP 8

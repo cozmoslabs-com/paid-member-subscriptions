@@ -528,6 +528,7 @@ Class PMS_Shortcodes {
                 <p class="login-submit">
                     <input type="submit" name="wp-submit" id="<?php echo esc_attr( $args['id_submit'] ); ?>" class="button button-primary" value="<?php echo esc_attr( $args['label_log_in'] ); ?>" />
                     <input type="hidden" name="redirect_to" value="<?php echo esc_url( $args['redirect'] ); ?>" />
+                    <input type="hidden" name="pms_login_nonce" value="<?php echo esc_attr( wp_create_nonce( 'pms_login_form_nonce' ) ) ?>" />
                 </p>
 
                 <p class="login-extra">

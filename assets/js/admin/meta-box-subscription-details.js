@@ -6,7 +6,9 @@
 jQuery( function($) {
 
     $(document).ready( function(){
-        $('.datepicker').datepicker();
+        $('.datepicker').datepicker({
+            dateFormat: 'mm/dd/yy',
+        })
         pms_handle_fixed_membership_display();
     });
 
