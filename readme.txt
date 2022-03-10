@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 5.9
-Stable tag: 2.6.2
+Stable tag: 2.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,6 +107,7 @@ Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslab
 
 **Pro Add-ons** (available in the [PRO version](http://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) only)
 
+* [Pro Rate](https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription
 * [Tax & EU VAT](https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - collect tax or vat from your users depending on their location, with full control over tax rates and who to charge
 * [Group Memberships](https://www.cozmoslabs.com/add-ons/group-memberships/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - sell group subscriptions to your users
 * [Recurring Payments for PayPal Standard](https://www.cozmoslabs.com/add-ons/recurring-payments-paypal-standard/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept recurring payments from your members through PayPal Standard
@@ -194,6 +195,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.6.3 =
+* Compatibility with new Pro-rate pro version functionality
+* Fix: reset pending update when serial number is saved
+* Fix: subscription still showing as recurring when going from PayPal Standard Recurring to Non-Recurring
+* Fix: issue with non fixed period plans complaining about an empty fixed expiration date
+* Misc: added more details in the Setup Wizard about the Redirect Default WordPress pages option
+
 = 2.6.2 =
 * Fix: issue with membership -> add log button duplicating entries if the button is clicked multiple times
 * Misc: better nonce validation for Labels Edit requests

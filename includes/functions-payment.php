@@ -744,3 +744,25 @@ function pms_get_subscription_payments_retry_count( $subscription_id ){
     return (int)$retry_count;
 
 }
+
+/**
+ * 
+ */
+function pms_get_payments_by_subscription_id( $subscription_id, $count = 0 ){
+
+    global $wpdb;
+
+    // Maybe this should join the main payments table and also match the subscription plan id ? Not really necessary
+    $query = "SELECT payment_id FROM {$wpdb->prefix}pms_paymentmeta WHERE meta_key = %s AND meta_value = %d ORDER BY `payment_id` DESC";
+
+    if( $count != 0 )
+        $query .= " LIMIT " . $count;
+    
+    $result = $wpdb->get_results( $wpdb->prepare( $query, 'subscription_id', $subscription_id ), 'ARRAY_A' );
+
+    if( !empty( $result ) )
+        return $result;
+
+    return false;
+
+}

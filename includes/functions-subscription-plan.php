@@ -315,7 +315,7 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
                 if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation', 'wppb_register', 'change_subscription' ) ) ) {
 
                     // Output subscription plan trial
-                    $subscription_plan_output .= '<span class="pms-subscription-plan-trial">' . pms_get_output_subscription_plan_trial( $subscription_plan ) . '</span>';
+                    $subscription_plan_output .= '<span class="pms-subscription-plan-trial">' . pms_get_output_subscription_plan_trial( $subscription_plan, $form_location ) . '</span>';
 
                     //if( $form_location != 'upgrade_subscription' ){
 
@@ -365,17 +365,17 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
 
                         // Output subscription plan radio button and label
                         $subscription_plan_output .= '<label>';
-                        $subscription_plan_output .= '<input type="radio" name="subscription_plans" ' . pms_get_subscription_plan_input_data_attrs( $subscription_plan ) . ' value="' . esc_attr( $subscription_plan->id ) . '" ' .  checked( $default_checked, $subscription_plan->id, false ) . ( $default_checked == $subscription_plan->id ? 'data-default-selected="true"' : 'data-default-checked="false"' ) . ' />';
+                        $subscription_plan_output .= '<input type="radio" name="subscription_plans" ' . pms_get_subscription_plan_input_data_attrs( $subscription_plan, $form_location ) . ' value="' . esc_attr( $subscription_plan->id ) . '" ' .  checked( $default_checked, $subscription_plan->id, false ) . ( $default_checked == $subscription_plan->id ? 'data-default-selected="true"' : 'data-default-checked="false"' ) . ' />';
 
                             $subscription_plan_output .= '<span class="pms-subscription-plan-name">' . apply_filters( 'pms_output_subscription_plan_name', esc_html( $subscription_plan->name ), $subscription_plan ) . '</span>';
 
                             // Output subscription plan price
-                            $subscription_plan_output .= '<span class="pms-subscription-plan-price">' . pms_get_output_subscription_plan_price( $subscription_plan ) . '</span>';
+                            $subscription_plan_output .= '<span class="pms-subscription-plan-price">' . pms_get_output_subscription_plan_price( $subscription_plan, $form_location ) . '</span>';
 
                             if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation', 'wppb_register', 'change_subscription' ) ) ) {
 
                                 // Output subscription plan trial
-                                $subscription_plan_output .= '<span class="pms-subscription-plan-trial">' . pms_get_output_subscription_plan_trial( $subscription_plan ) . '</span>';
+                                $subscription_plan_output .= '<span class="pms-subscription-plan-trial">' . pms_get_output_subscription_plan_trial( $subscription_plan, $form_location ) . '</span>';
 
                                 //if( $form_location != 'upgrade_subscription' ){
 
@@ -423,7 +423,7 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
  * @return string
  *
  */
-function pms_get_output_subscription_plan_price( $subscription_plan = null ) {
+function pms_get_output_subscription_plan_price( $subscription_plan = null, $form_location = '' ) {
 
     if( is_null( $subscription_plan ) )
         return '';
@@ -431,30 +431,43 @@ function pms_get_output_subscription_plan_price( $subscription_plan = null ) {
     if( ! is_object( $subscription_plan ) )
         return '';
 
-
     // Handle the subscription plan price
     if( $subscription_plan->price == 0 )
         $price_output = '<span class="pms-subscription-plan-price-value">' . __( 'Free', 'paid-member-subscriptions' ) . '</span>';
-    else {
+    else
         $price_output = pms_format_price( $subscription_plan->price, pms_get_active_currency(), array( 'before_price' => '<span class="pms-subscription-plan-price-value">', 'after_price' => '</span>', 'before_currency' => '<span class="pms-subscription-plan-currency">', 'after_currency' => '</span>' ) );
-    }
 
-    $price_output = apply_filters( 'pms_subscription_plan_output_price', '<span class="pms-divider"> - </span>' . $price_output, $subscription_plan );
+    $price_output = apply_filters( 'pms_subscription_plan_output_price', '<span class="pms-divider"> - </span>' . $price_output, $subscription_plan, $form_location );
 
-    // Handle the subscription plan duration
+    $duration_output = apply_filters( 'pms_subscription_plan_output_duration', pms_get_output_subscription_plan_duration( $subscription_plan, $form_location ), $subscription_plan, $form_location );
+
+    // Return output
+    return $price_output . $duration_output;
+
+}
+
+
+function pms_get_output_subscription_plan_duration( $subscription_plan = null, $form_location = '' ) {
+    
+    if( is_null( $subscription_plan ) )
+        return '';
+
+    if( ! is_object( $subscription_plan ) )
+        return '';
+    
+    $duration_output = '';
+
     if( $subscription_plan->is_fixed_period_membership() ){
-        if( $subscription_plan->fixed_expiration_date != '' ){
+        if( $subscription_plan->fixed_expiration_date != '' )
             $duration_output = '<span class="pms-divider">' . ' ' . esc_html__( 'until', 'paid-member-subscriptions' ) . ' ' . '</span>' . esc_html( date_i18n( get_option( 'date_format' ), strtotime( $subscription_plan->get_expiration_date() ) ) );
-        }
-        else{
+        else
             $duration_output = '';
-        }
-    }
-    else{
+    } else {
         if( $subscription_plan->duration == 0 )
             $duration_output = apply_filters( 'pms_subscription_plan_output_duration_unlimited', '', $subscription_plan );
         else {
             $duration = '';
+
             switch ($subscription_plan->duration_unit) {
                 case 'day':
                     $duration = sprintf( _n( '%s Day', '%s Days', $subscription_plan->duration, 'paid-member-subscriptions' ), $subscription_plan->duration );
@@ -470,15 +483,12 @@ function pms_get_output_subscription_plan_price( $subscription_plan = null ) {
                     break;
             }
 
-            $duration_output = apply_filters('pms_subscription_plan_output_duration_limited', '<span class="pms-divider"> / </span>' . $duration, $subscription_plan);
+            $duration_output = apply_filters('pms_subscription_plan_output_duration_limited', '<span class="pms-divider"> / </span>' . $duration, $subscription_plan );
         }
-
-        $duration_output = apply_filters( 'pms_subscription_plan_output_duration', $duration_output, $subscription_plan );
 
     }
 
-    // Return output
-    return $price_output . $duration_output;
+    return $duration_output;
 
 }
 
@@ -491,7 +501,7 @@ function pms_get_output_subscription_plan_price( $subscription_plan = null ) {
  * @return string
  *
  */
-function pms_get_output_subscription_plan_trial( $subscription_plan = null ) {
+function pms_get_output_subscription_plan_trial( $subscription_plan = null, $form_location = '' ) {
 
     if( is_null( $subscription_plan ) )
         return '';
@@ -556,7 +566,7 @@ function pms_get_output_subscription_plan_trial( $subscription_plan = null ) {
      * @param PMS_Subscription_Plan $subscription_plan
      *
      */
-    $trial_output = apply_filters( 'pms_subscription_plan_output_trial', $trial_output, $subscription_plan );
+    $trial_output = apply_filters( 'pms_subscription_plan_output_trial', $trial_output, $subscription_plan, $form_location );
 
     // Return output
     return $trial_output;
@@ -683,7 +693,7 @@ if( ! function_exists( 'pms_renewal_option_field' ) ) {
  * @return string
  *
  */
-function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null ) {
+function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null, $form_location = '' ) {
 
     if( is_null( $subscription_plan ) )
         return '';
@@ -701,12 +711,20 @@ function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null )
 
     // Sign Up Fee extra attribute
     if( pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_sign_up_fee' ) ) {
-        $subscription_plan_input_data_arr['sign_up_fee'] = $subscription_plan->sign_up_fee;
+
+        // These should not be added for every form location, only where sign-up fees are applied
+        if( empty( $form_location ) || in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription' ) ) )
+            $subscription_plan_input_data_arr['sign_up_fee'] = $subscription_plan->sign_up_fee;
+
     }
 
     // Trial extra attribute
     if( pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_free_trial' ) ) {
-        $subscription_plan_input_data_arr['trial'] = ( ! empty( $subscription_plan->trial_duration ) ? '1' : '0' );
+
+        // These should not be added for every form location, only where sign-up fees are applied
+        if( empty( $form_location ) || in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'upgrade_subscription' ) ) )
+            $subscription_plan_input_data_arr['trial'] = ( ! empty( $subscription_plan->trial_duration ) ? '1' : '0' );
+
     }
 
     // Recurring extra attribute
@@ -722,7 +740,7 @@ function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null )
      * @param int   $subscription_plan->id
      *
      */
-    $subscription_plan_input_data_arr = apply_filters( 'pms_get_subscription_plan_input_data_attrs', $subscription_plan_input_data_arr, $subscription_plan->id );
+    $subscription_plan_input_data_arr = apply_filters( 'pms_get_subscription_plan_input_data_attrs', $subscription_plan_input_data_arr, $subscription_plan->id, $form_location );
 
 
     // Concatenate the data attributes into a string

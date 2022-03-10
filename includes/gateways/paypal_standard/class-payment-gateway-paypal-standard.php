@@ -219,9 +219,10 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
                         // Update subscription
                         $member_subscription->update( array(
-                            'expiration_date'       => $member_subscription_expiration_date,
-                            'status'                => 'active',
-                            'payment_gateway'       => 'paypal_standard',
+                            'expiration_date'    => $member_subscription_expiration_date,
+                            'status'             => 'active',
+                            'payment_gateway'    => 'paypal_standard',
+                            'payment_profile_id' => '',
                             // reset custom schedule
                             'billing_amount'        => '',
                             'billing_duration'      => '',
@@ -251,12 +252,13 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
                          $new_subscription_plan = pms_get_subscription_plan( $payment_data['subscription_id'] );
 
                          $subscription_data = array(
-                             'user_id'               => $payment_data['user_id'],
-                             'subscription_plan_id'  => $new_subscription_plan->id,
-                             'start_date'            => date( 'Y-m-d H:i:s' ),
-                             'expiration_date'       => $new_subscription_plan->get_expiration_date(),
-                             'status'                => 'active',
-                             'payment_gateway'       => 'paypal_standard',
+                             'user_id'              => $payment_data['user_id'],
+                             'subscription_plan_id' => $new_subscription_plan->id,
+                             'start_date'           => date( 'Y-m-d H:i:s' ),
+                             'expiration_date'      => $new_subscription_plan->get_expiration_date(),
+                             'status'               => 'active',
+                             'payment_gateway'      => 'paypal_standard',
+                             'payment_profile_id'   => '',
                              // reset custom schedule
                              'billing_amount'        => '',
                              'billing_duration'      => '',
@@ -270,7 +272,7 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
                          pms_add_member_subscription_log( $current_subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $old_plan_id, 'new_plan' => $new_subscription_plan->id ) );
 
-                         do_action( 'pms_paypal_web_accept_after_upgrade_subscription', $member_subscription_plan->id, $payment_data, $post_data );
+                         do_action( 'pms_paypal_web_accept_after_upgrade_subscription', $new_subscription_plan->id, $payment_data, $post_data );
 
                          pms_delete_member_subscription_meta( $current_subscription->id, 'pms_retry_payment' );
 

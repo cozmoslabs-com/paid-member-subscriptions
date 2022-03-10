@@ -4,20 +4,29 @@
  */
 
 // Paid Member Subscription submit buttons
-var pms_payment_buttons;
+var pms_payment_buttons
 
 // Field wrappers
-var $pms_auto_renew_field;
+var $pms_auto_renew_field
 
 // Checked Subscription
-var $pms_checked_subscription;
-var $pms_checked_paygate;
+var $pms_checked_subscription
+var $pms_checked_paygate
 
 // Unavailable gateways message
-var $pms_gateways_not_available;
+var $pms_gateways_not_available
 
 // Text placeholder for the payment buttons while processing
-var pms_payment_button_loading_placeholder_text;
+var pms_payment_button_loading_placeholder_text
+
+// Form object
+var $pms_form
+
+// WPPB Email Confirmation
+var is_pb_email_confirmation_on
+
+// Billing Fields
+var $pms_section_billing_details
 
 /**
  * Core plugin
@@ -71,34 +80,37 @@ jQuery( function($) {
     }
 
     // Paid Member Subscriptions submit buttons
-    pms_payment_buttons  = 'input[name=pms_register], ';
-    pms_payment_buttons += 'input[name=pms_new_subscription], ';
-    pms_payment_buttons += 'input[name=pms_change_subscription], ';
-    pms_payment_buttons += 'input[name=pms_upgrade_subscription], ';
-    pms_payment_buttons += 'input[name=pms_renew_subscription], ';
-    pms_payment_buttons += 'input[name=pms_confirm_retry_payment_subscription], ';
-    pms_payment_buttons += '#pms-paypal-express-confirmation-form input[type="submit"], ';
+    pms_payment_buttons  = 'input[name=pms_register], '
+    pms_payment_buttons += 'input[name=pms_new_subscription], '
+    pms_payment_buttons += 'input[name=pms_change_subscription], '
+    pms_payment_buttons += 'input[name=pms_upgrade_subscription], '
+    pms_payment_buttons += 'input[name=pms_renew_subscription], '
+    pms_payment_buttons += 'input[name=pms_confirm_retry_payment_subscription], '
+    pms_payment_buttons += '#pms-paypal-express-confirmation-form input[type="submit"], '
 
     // Profile Builder submit buttons
-    pms_payment_buttons += '.wppb-register-user input[name=register]';
+    pms_payment_buttons += '.wppb-register-user input[name=register]'
 
     // Subscription pland ans payment gateway selectors
-    var subscription_plan_selector = 'input[name=subscription_plans]';
-    var paygate_selector           = 'input.pms_pay_gate';
+    var subscription_plan_selector = 'input[name=subscription_plans]'
+    var paygate_selector           = 'input.pms_pay_gate'
 
-    var settings_recurring = $('input[name="pms_default_recurring"]').val();
+    var settings_recurring = $('input[name="pms_default_recurring"]').val()
+    
+    $pms_section_billing_details = $('.pms-section-billing-details')
+    is_pb_email_confirmation_on  = $pms_section_billing_details.siblings('.pms-email-confirmation-payment-message').length > 0 ? true : false
 
     // Field wrappers
-    $pms_auto_renew_field = jQuery( '.pms-subscription-plan-auto-renew' );
+    $pms_auto_renew_field = jQuery( '.pms-subscription-plan-auto-renew' )
 
     // Checked Subscription
-    $pms_checked_subscription = jQuery( subscription_plan_selector + '[type=radio]' ).length > 0 ? jQuery( subscription_plan_selector + '[type=radio]:checked' ) : jQuery( subscription_plan_selector + '[type=hidden]' );
-    $pms_checked_paygate      = jQuery( paygate_selector + '[type=radio]' ).length > 0 ? jQuery( paygate_selector + '[type=radio]:checked' ) : jQuery( paygate_selector + '[type=hidden]' );
+    $pms_checked_subscription = jQuery( subscription_plan_selector + '[type=radio]' ).length > 0 ? jQuery( subscription_plan_selector + '[type=radio]:checked' ) : jQuery( subscription_plan_selector + '[type=hidden]' )
+    $pms_checked_paygate      = jQuery( paygate_selector + '[type=radio]' ).length > 0 ? jQuery( paygate_selector + '[type=radio]:checked' ) : jQuery( paygate_selector + '[type=hidden]' )
 
     // Unavailable gateways message
-    $pms_gateways_not_available = jQuery( '#pms-gateways-not-available' );
+    $pms_gateways_not_available = jQuery( '#pms-gateways-not-available' )
 
-    pms_payment_button_loading_placeholder_text = $('#pms-submit-button-loading-placeholder-text').text();
+    pms_payment_button_loading_placeholder_text = $('#pms-submit-button-loading-placeholder-text').text()
 
     /*
      * Hide "automatically renew subscription" checkbox for manual payment gateway
@@ -107,30 +119,95 @@ jQuery( function($) {
     jQuery(document).ready( function() {
 
         /**
+         * Set checked payment gateway when clicking on a payment gateway radio
+         *
+         */
+        $( document ).on( 'click', paygate_selector, function() {
+
+            if( $(this).is(':checked') )
+                $pms_checked_paygate = $(this)
+
+            // Show / hide the credit card details
+            if( $pms_checked_paygate.data('type') == 'credit_card' ) {
+
+                $('.pms-credit-card-information').show()
+                $('.pms-billing-details').show()
+
+            } else {
+
+                $('.pms-credit-card-information').hide()
+                $('.pms-billing-details').hide()
+
+            }
+
+            // Show billing fields
+            handle_billing_fields_display()
+
+        })
+
+
+        /**
+         * Handle auto-renew checkbox and payment gateways display when clicking on a subscription plan
+         *
+         */
+        $( document ).on( 'click', subscription_plan_selector + '[type=radio], ' + subscription_plan_selector + '[type="hidden"]', function() {
+
+            if( $(this).is(':checked') )
+                $pms_checked_subscription = $(this)
+
+            if( typeof $pms_form == 'undefined' )
+                $pms_form = $(this).closest('form')
+
+            handle_auto_renew_field_display()
+            handle_payment_gateways_display()
+
+            // Show billing fields
+            handle_billing_fields_display()
+
+        })
+
+        /**
          * Handle the auto renew checkbox field display in the page
          *
          */
         function handle_auto_renew_field_display() {
 
-            if( $pms_checked_subscription.data('recurring') == 1 && $pms_checked_paygate.data('recurring') != 'undefined' )
-                $pms_auto_renew_field.show();
+            if ( $pms_checked_subscription.data('recurring') == 1 && $pms_checked_paygate.data('recurring') != 'undefined' )
+                $pms_auto_renew_field.show()
             else
-                $pms_auto_renew_field.hide();
+                $pms_auto_renew_field.hide()
 
 
-            if( $pms_checked_subscription.data('recurring') == 0 ) {
+            if ($pms_checked_subscription.data('recurring') == 0) {
 
-                if( settings_recurring == 1 )
-                    $pms_auto_renew_field.show();
+                if (settings_recurring == 1)
+                    $pms_auto_renew_field.show()
 
             }
 
-            if( ( $pms_checked_subscription.data('fixed_membership') == 'on' && $pms_checked_subscription.data('allow_renew') != 'on' ) || $pms_checked_subscription.data('recurring') == 2 || $pms_checked_subscription.data('recurring') == 3 ) {
-                $pms_auto_renew_field.hide();
+            if ( ( $pms_checked_subscription.data('fixed_membership') == 'on' && $pms_checked_subscription.data('allow_renew') != 'on' ) || $pms_checked_subscription.data('recurring') == 2 || $pms_checked_subscription.data('recurring') == 3 ) {
+                $pms_auto_renew_field.hide()
             }
 
             if ( ( $pms_checked_subscription.data('fixed_membership') != 'on' && $pms_checked_subscription.data('duration') == 0 ) || $pms_checked_subscription.data('price') == 0 ) {
-                $pms_auto_renew_field.hide();
+
+                if ( typeof $pms_checked_subscription.data('discountedPrice') == 'undefined' )
+                    $pms_auto_renew_field.hide()
+                else if ( typeof $pms_checked_subscription.data('isFullDiscount') != 'undefined' && $pms_checked_subscription.data('isFullDiscount') == true && $pms_checked_subscription.data('discountRecurringPayments') == 1 )
+                    $pms_auto_renew_field.hide()
+
+            }
+
+            // show auto-renew checkbox for pro-rated plans that recur
+            if ( $pms_checked_subscription.data('recurring') != 'undefined' && $pms_checked_subscription.data('recurring') != 3 && $pms_checked_subscription.data('recurring') != 2 ) {
+                
+                if ( $pms_checked_subscription.data('fixed_membership') != 'on' || ( $pms_checked_subscription.data('fixed_membership') == 'on' && $pms_checked_subscription.data('allow_renew') == 'on' ) ){
+
+                    if (typeof $pms_checked_subscription.data('prorated_discount') != 'undefined' && $pms_checked_subscription.data('prorated_discount') > 0)
+                        $pms_auto_renew_field.show()
+
+                }
+
             }
 
         }
@@ -143,53 +220,53 @@ jQuery( function($) {
         function handle_payment_gateways_display() {
 
             // Before anything we display all gateways
-            $('#pms-paygates-wrapper').show();
-            $( paygate_selector ).removeAttr( 'disabled' );
-            $( paygate_selector ).closest( 'label' ).show();
+            $('#pms-paygates-wrapper').show()
+            $(paygate_selector).removeAttr('disabled')
+            $(paygate_selector).closest('label').show()
 
 
             // Support for "trial"
-            if( $pms_checked_subscription.data('trial') && $pms_checked_subscription.data('trial') != 0 ) {
-                $( paygate_selector + ':not([data-trial])' ).attr( 'disabled', true );
-                $( paygate_selector + ':not([data-trial])' ).closest('label').hide();
+            if ( $.pms_plan_has_trial() ) {
+                $(paygate_selector + ':not([data-trial])').attr('disabled', true);
+                $(paygate_selector + ':not([data-trial])').closest('label').hide();
 
             }
 
 
             // Support for "sign_up_fee"
-            if( $pms_checked_subscription.data('sign_up_fee') && $pms_checked_subscription.data('sign_up_fee') != 0 ) {
+            if ( $.pms_plan_has_signup_fee() ) {
 
-                $( paygate_selector + ':not([data-sign_up_fee])' ).attr( 'disabled', true );
-                $( paygate_selector + ':not([data-sign_up_fee])' ).closest('label').hide();
+                $(paygate_selector + ':not([data-sign_up_fee])').attr('disabled', true);
+                $(paygate_selector + ':not([data-sign_up_fee])').closest('label').hide();
 
             }
 
 
             // Support for "recurring"
-            if( $pms_checked_subscription.data('recurring') == 2 ) {
+            if ($pms_checked_subscription.data('recurring') == 2) {
 
-                $( paygate_selector + ':not([data-recurring])' ).attr( 'disabled', true );
-                $( paygate_selector + ':not([data-recurring])' ).closest('label').hide();
+                $(paygate_selector + ':not([data-recurring])').attr('disabled', true);
+                $(paygate_selector + ':not([data-recurring])').closest('label').hide();
 
 
-            } else if( $pms_checked_subscription.data('recurring') == 1 ) {
+            } else if ($pms_checked_subscription.data('recurring') == 1) {
 
-                if( $pms_auto_renew_field.find('input[type=checkbox]').is(':checked') ) {
-                    $( paygate_selector + ':not([data-recurring])' ).attr( 'disabled', true );
-                    $( paygate_selector + ':not([data-recurring])' ).closest('label').hide();
+                if ($pms_auto_renew_field.find('input[type=checkbox]').is(':checked')) {
+                    $(paygate_selector + ':not([data-recurring])').attr('disabled', true);
+                    $(paygate_selector + ':not([data-recurring])').closest('label').hide();
                 }
 
-            } else if( ! $pms_checked_subscription.data('recurring') ) {
+            } else if (!$pms_checked_subscription.data('recurring')) {
 
-                if( settings_recurring == 1 ) {
-                    if( $pms_auto_renew_field.find('input[type=checkbox]').is(':checked') ) {
-                        $( paygate_selector + ':not([data-recurring])' ).attr( 'disabled', true );
-                        $( paygate_selector + ':not([data-recurring])' ).closest('label').hide();
+                if (settings_recurring == 1) {
+                    if ($pms_auto_renew_field.find('input[type=checkbox]').is(':checked')) {
+                        $(paygate_selector + ':not([data-recurring])').attr('disabled', true);
+                        $(paygate_selector + ':not([data-recurring])').closest('label').hide();
                     }
-                } else if( settings_recurring == 2 ) {
+                } else if (settings_recurring == 2) {
 
-                    $( paygate_selector + ':not([data-recurring])' ).attr( 'disabled', true );
-                    $( paygate_selector + ':not([data-recurring])' ).closest('label').hide();
+                    $(paygate_selector + ':not([data-recurring])').attr('disabled', true);
+                    $(paygate_selector + ':not([data-recurring])').closest('label').hide();
 
                 }
 
@@ -197,18 +274,18 @@ jQuery( function($) {
 
 
             // Select the first first available payment gateway by default after hiding the gateways
-            if( $( paygate_selector + ':not([disabled]):checked' ).length == 0 )
-                $( paygate_selector + ':not([disabled])' ).first().trigger('click');
+            if ($(paygate_selector + ':not([disabled]):checked').length == 0)
+                $(paygate_selector + ':not([disabled])').first().trigger('click');
 
 
 
-            if( $( paygate_selector ).length > 0 ) {
+            if ($(paygate_selector).length > 0) {
 
                 /**
                  * Handle case where no payment gateways are available
                  *
                  */
-                if( $( paygate_selector + ':not([disabled])' ).length == 0 ) {
+                if ($(paygate_selector + ':not([disabled])').length == 0) {
 
                     // Display the "no payment gateways are available" message
                     $pms_gateways_not_available.show();
@@ -218,31 +295,31 @@ jQuery( function($) {
                     $('.pms-billing-details').hide();
 
                     // Disable submit button
-                    if( $pms_checked_subscription.data( 'price' ) != 0 ) {
+                    if ($pms_checked_subscription.data('price') != 0) {
 
-                        if( $pms_checked_subscription.length != 0 )
-                            $( pms_payment_buttons ).attr( 'disabled', true ).addClass( 'pms-submit-disabled' );
+                        if ($pms_checked_subscription.length != 0)
+                            $(pms_payment_buttons).attr('disabled', true).addClass('pms-submit-disabled');
 
                     }
 
-                /**
-                 * Handle case where payment gateways are available for selection
-                 *
-                 */
+                    /**
+                     * Handle case where payment gateways are available for selection
+                     *
+                     */
                 } else {
 
                     // Hide the "no payment gateways are available" message
                     $pms_gateways_not_available.hide();
 
                     // Show credit card fields if the selected payment gateway supports credit cards
-                    if( $( paygate_selector + ':not([disabled]):checked[data-type="credit_card"]' ).length > 0 ) {
+                    if ($(paygate_selector + ':not([disabled]):checked[data-type="credit_card"]').length > 0) {
                         $('.pms-credit-card-information').show();
                         $('.pms-billing-details').show();
                     }
 
                     // Enable submit button
-                    if( $pms_checked_subscription.length != 0 )
-                        $( pms_payment_buttons ).attr( 'disabled', false ).removeClass( 'pms-submit-disabled' );
+                    if ($pms_checked_subscription.length != 0)
+                        $(pms_payment_buttons).attr('disabled', false).removeClass('pms-submit-disabled');
 
                 }
 
@@ -250,58 +327,69 @@ jQuery( function($) {
 
 
             // Hide credit card fields if it's a free plan
-            if( $pms_checked_subscription.data( 'price' ) == 0 && ( typeof $pms_checked_subscription.data('sign_up_fee') == 'undefined' || $pms_checked_subscription.data('sign_up_fee') == 0 ) ) {
+            if ( $pms_checked_subscription.data('price') == 0 && !$.pms_plan_has_signup_fee() ) {
 
-                $('#pms-paygates-wrapper').hide();
-                $( paygate_selector ).attr( 'disabled', true );
-                $( paygate_selector ).closest( 'label' ).hide();
+                if ( $.pms_plan_is_prorated() ){
 
-                $('.pms-credit-card-information').hide();
-                $('.pms-billing-details').hide();
+                    if ( $.pms_checkout_is_recurring() ){
+                        
+                        if( typeof $pms_form != 'undefined' )
+                            $.pms_show_payment_fields( $pms_form )
+
+                        return
+                    }
+
+                }
+
+                $('#pms-paygates-wrapper').hide()
+                $(paygate_selector).attr('disabled', true)
+                $(paygate_selector).closest('label').hide()
+
+                $('.pms-credit-card-information').hide()
+                $('.pms-billing-details').hide()
 
             }
 
         }
 
-
         /**
-         * Set checked payment gateway when clicking on a payment gateway radio
+         * Handle the display of recurring period information for subscription plans
+         * e.g. pro-rate scenario with free time for a subscription that needs to recur
          *
          */
-        jQuery( document ).on( 'click', paygate_selector, function() {
+        function handle_plan_recurring_duration_display() {
 
-            if( jQuery(this).is(':checked') )
-                $pms_checked_paygate = jQuery(this);
+            if ( !( $( '#pms-change-subscription-form' ).length > 0 ) )
+                return
+            
+            $( 'input[name="subscription_plans"]' ).each( function( index, plan ){
+                
+                // don't do anything for plans that do not recur or if they don't have a prorated discount
+                if ( $(plan).data('recurring') == 3 || ( typeof $(plan).data('prorated_discount') == 'undefined' || $(plan).data('prorated_discount') == 0 ) )
+                    return
 
-            // Show / hide the credit card details
-            if( $pms_checked_paygate.data('type') == 'credit_card' ) {
+                // show recurring data for plans that always recur
+                if ( ( $(plan).data('recurring') == 2 || settings_recurring == 2 || $('input[name="pms_recurring"]', $pms_auto_renew_field).prop('checked') ) && $( '.pms-subscription-plan-price__recurring', $(plan).parent() ) )
+                    $( '.pms-subscription-plan-price__recurring', $(plan).parent() ).show()
+                else
+                    $( '.pms-subscription-plan-price__recurring', $(plan).parent() ).hide()
+                
+            })
 
-                $('.pms-credit-card-information').show();
-                $('.pms-billing-details').show();
-
-            } else {
-
-                $('.pms-credit-card-information').hide();
-                $('.pms-billing-details').hide();
-
-            }
-
-        });
-
+        }
 
         /**
-         * Handle auto-renew checkbox and payment gateways display when clicking on a subscription plan
-         *
+         * Show billing fields if necessary
          */
-        jQuery( document ).on( 'click', subscription_plan_selector + '[type=radio], ' + subscription_plan_selector + '[type="hidden"]', function() {
+        function handle_billing_fields_display(){
 
-            if( jQuery(this).is(':checked') )
-                $pms_checked_subscription = jQuery(this);
+            if( !( $pms_section_billing_details.length > 0 ) )
+                return
 
-            handle_auto_renew_field_display();
-            handle_payment_gateways_display();
+            if ( $pms_checked_subscription.length > 0 && !is_pb_email_confirmation_on && $pms_checked_subscription.data('price') != 0 )
+                $pms_section_billing_details.show()
 
-        });
+        }
 
 
         /**
@@ -343,8 +431,9 @@ jQuery( function($) {
          */
         $pms_auto_renew_field.click( function() {
 
-            handle_auto_renew_field_display();
-            handle_payment_gateways_display();
+            handle_auto_renew_field_display()
+            handle_payment_gateways_display()
+            handle_plan_recurring_duration_display()
 
         });
 
@@ -354,8 +443,9 @@ jQuery( function($) {
          * the rest of the checkout interfacte changes
          *
          */
-        handle_auto_renew_field_display();
-        handle_payment_gateways_display();
+        handle_auto_renew_field_display()
+        handle_payment_gateways_display()
+        handle_plan_recurring_duration_display()
 
         /**
          * Show the paygates inner wrapper
@@ -368,8 +458,9 @@ jQuery( function($) {
          */
         jQuery(document).on('elementor/popup/show', function () {
 
-            handle_auto_renew_field_display();
-            handle_payment_gateways_display();
+            handle_auto_renew_field_display()
+            handle_payment_gateways_display()
+            handle_plan_recurring_duration_display()
 
             $('#pms-paygates-inner').css('visibility', 'visible');
 
@@ -476,14 +567,14 @@ jQuery( function($) {
         /**
          * On the Change Subscription form change the button name based on which plans group the user clicks
          */
-        if ( $('#pms-change-subscription-form').length > 0 ) {
+        if( $('#pms-change-subscription-form').length > 0 ){
 
-            if ($pms_checked_subscription.closest('.pms-upgrade__group').hasClass('pms-upgrade__group--upgrade')) {
-
+            if ( $pms_checked_subscription.closest('.pms-upgrade__group').hasClass('pms-upgrade__group--upgrade') ){
+                
                 $('#pms-change-subscription-form input[name="pms_change_subscription"]').val($('#pms-change-subscription-form input[name="pms_button_name_upgrade"]').val())
                 $('#pms-change-subscription-form input[name="form_action"]').val($('#pms-change-subscription-form input[data-name="upgrade_subscription"]').val())
 
-            } else if ($pms_checked_subscription.closest('.pms-upgrade__group').hasClass('pms-upgrade__group--downgrade')) {
+            } else if ( $pms_checked_subscription.closest('.pms-upgrade__group').hasClass('pms-upgrade__group--downgrade') ){ 
 
                 $('#pms-change-subscription-form input[name="pms_change_subscription"]').val($('#pms-change-subscription-form input[name="pms_button_name_downgrade"]').val())
                 $('#pms-change-subscription-form input[name="form_action"]').val($('#pms-change-subscription-form input[data-name="downgrade_subscription"]').val())
@@ -513,7 +604,7 @@ jQuery( function($) {
 
         }
 
-    });
+    })
 
 
     /*
@@ -535,7 +626,7 @@ jQuery( function($) {
         else
             $field_wrapper.append('<div class="pms_field-errors-wrapper pms-is-js">' + error + '</div>');
 
-    };
+    }
 
     $.pms_add_general_error = function( error ){
         if( error == '' || error == 'undefined' )
@@ -561,7 +652,133 @@ jQuery( function($) {
 
         $('.pms_field-errors-wrapper.pms-is-js').remove();
 
-    };
+    }
+    
+    /**
+     * Check if a plan has trial enabled
+     */
+    $.pms_plan_has_trial = function( element = null ) {
+
+        if( element == null )
+            element = $pms_checked_subscription
+
+        if (typeof element.data('trial') == 'undefined' || element.data('trial') == '0' )
+            return false
+
+        return true
+
+    }
+    
+    /**
+     * Check if a plan has sign-up fee enabled
+     */
+    $.pms_plan_has_signup_fee = function( element = null ) {
+
+        if( element == null )
+            element = $pms_checked_subscription
+
+        if( typeof element.data('sign_up_fee') == 'undefined' || element.data('sign_up_fee') == '0' )
+            return false
+
+        return true
+
+    }
+
+    /**
+     * Check if a plan is prorated
+     */
+    $.pms_plan_is_prorated = function( element = null ) {
+
+        if ( !( $('#pms-change-subscription-form').length > 0 ) )
+            return false
+
+        if( element == null )
+            element = $pms_checked_subscription
+
+        if ( typeof element.data('prorated_discount') != 'undefined' && element.data('prorated_discount') > 0 )
+            return true
+
+        return false
+
+    }
+
+    /**
+     * Checks if a given/selected plan plus the current form state create a recurring checkout
+     */
+    $.pms_checkout_is_recurring = function( element = null ) {
+
+        if( element == null )
+            element = $pms_checked_subscription
+
+        if ( ( settings_recurring == '2' || $('input[name="pms_recurring"]', $pms_auto_renew_field).prop('checked') || element.data('recurring') == 2 ) && element.data('recurring') != 3 )
+            return true
+
+        return false
+
+    }
+
+    /**
+     * Function to hide payment fields
+     * 
+     */
+    $.pms_hide_payment_fields = function( form ) {
+
+        if( typeof form == 'undefined' )
+            return
+
+        if ( typeof form.pms_paygates_wrapper == 'undefined' )
+            form.pms_paygates_wrapper = form.find('#pms-paygates-wrapper').clone()
+
+        form.find('#pms-paygates-wrapper').replaceWith('<span id="pms-paygates-wrapper">')
+
+        form.find('.pms-credit-card-information').hide()
+
+        if ( typeof form.pms_billing_details == 'undefined' ) {
+
+            if ( typeof PMS_ChosenStrings !== 'undefined' && $.fn.chosen != undefined ) {
+                form.find('#pms_billing_country').chosen('destroy')
+                form.find('#pms_billing_state').chosen('destroy')
+            }
+
+            form.pms_billing_details = form.find('.pms-billing-details').clone()
+
+        }
+
+        form.find('.pms-billing-details').replaceWith('<span class="pms-billing-details">')
+
+    }
+
+    /**
+     * Function to show payment fields
+     * 
+     */
+    $.pms_show_payment_fields = function( form ) {
+
+        if( typeof form == 'undefined' )
+            return
+
+        if ( typeof form.pms_paygates_wrapper != 'undefined' )
+            form.find('#pms-paygates-wrapper').replaceWith( form.pms_paygates_wrapper )
+
+        if ( typeof $pms_checked_paygate != 'unedfined' && $pms_checked_paygate.data('type') == 'credit_card' )
+            form.find('.pms-credit-card-information').show()
+
+        if ( typeof form.pms_billing_details != 'undefined' ) {
+
+            form.find('.pms-billing-details').replaceWith(form.pms_billing_details)
+
+            if ( typeof PMS_ChosenStrings !== 'undefined' && $.fn.chosen != undefined ) {
+
+                form.find('#pms_billing_country').chosen(PMS_ChosenStrings)
+
+                if ( $('#pms_billing_state option').length > 0 )
+                    form.find('#pms_billing_state').chosen(PMS_ChosenStrings)
+
+            }
+
+        }
+
+    }
 
     /*
     * GDPR Delete button
@@ -576,9 +793,9 @@ jQuery( function($) {
         else{
             alert( pmsGdpr.delete_error_text );
         }
-    });
+    })
 
-});
+})
 
 
 /*
@@ -597,39 +814,38 @@ jQuery( function($) {
         if ( $('.pms-subscription-plan input[type=radio][data-price="0"]').is(':checked') || $('.pms-subscription-plan input[type=hidden]').attr( 'data-price' ) == '0' ||
             $('.pms-subscription-plan input[type=radio]').prop('checked') == false ) {
 
-            $('.pms-email-confirmation-payment-message').hide();
+            $('.pms-email-confirmation-payment-message').hide()
         }
 
         if( $('.pms-subscription-plan input[type=radio]').length > 0 ) {
 
-            var has_paid_subscription = false;
+            var has_paid_subscription = false
 
             $('.pms-subscription-plan input[type=radio]').each( function() {
                 if( $(this).data('price') != 0 )
-                    has_paid_subscription = true;
-            });
+                    has_paid_subscription = true
+            })
 
             if( !has_paid_subscription )
-                $('.pms-email-confirmation-payment-message').hide();
+                $('.pms-email-confirmation-payment-message').hide()
 
         }
 
         // Handle clicking on the subscription plans
         $('.pms-subscription-plan input[type=radio]').click(function(){
 
-            if ($('.pms-subscription-plan input[type=radio][data-price="0"]').is(':checked')) {
-                $('.pms-email-confirmation-payment-message').hide();
+            if ( $('.pms-subscription-plan input[type=radio][data-price="0"]').is(':checked') ) {
+                $('.pms-email-confirmation-payment-message').hide()
+            } else {
+                $('.pms-email-confirmation-payment-message').show()
             }
-            else {
-                $('.pms-email-confirmation-payment-message').show();
-            }
-        });
+        })
 
         $('.wppb-edit-user input[required]').on('invalid', function(e){
             pms_reset_submit_button( $('.wppb-edit-user .wppb-subscription-plans input[type="submit"]').first() )
-        });
+        })
 
-    });
+    })
 
     function pms_reset_submit_button( target ) {
 
@@ -644,7 +860,7 @@ jQuery( function($) {
 
     }
 
-});
+})
 
 
 /**
@@ -654,6 +870,7 @@ jQuery( function($) {
 
     $(document).ready( function() {
 
+        // States field
         if( typeof PMS_States == 'undefined' || !PMS_States )
             return
 
@@ -672,7 +889,31 @@ jQuery( function($) {
                 $('#pms_billing_state').chosen( PMS_ChosenStrings )
         }
 
-    });
+        // Autocomplete email address
+        $('input[name=pms_billing_email]').each(function () {
+
+            if ( $(this).val() != '' )
+                $(this).addClass('pms-has-value')
+
+        })
+
+    })
+
+    /**
+     * Fill in billing email address when typing the email address
+     *
+     */
+    $(document).on('keyup', '#pms_user_email, .wppb-form-field input[name=email]', function () {
+
+        if ( $(this).closest('form').find('[name=pms_billing_email]').length == 0 )
+            return false
+
+        if ( $(this).closest('form').find('[name=pms_billing_email]').hasClass('pms-has-value') )
+            return false
+
+        $(this).closest('form').find('[name=pms_billing_email]').val( $(this).val() )
+
+    })
 
     function pms_handle_billing_state_field_display(){
 
@@ -688,7 +929,7 @@ jQuery( function($) {
 
             for( var key in PMS_States[country] ){
                 if( PMS_States[country].hasOwnProperty(key) )
-                    $('.pms-billing-state__select').append('<option value="'+ key +'">'+ PMS_States[country][key] +'</option>');
+                    $('.pms-billing-state__select').append('<option value="'+ key +'">'+ PMS_States[country][key] +'</option>')
             }
 
             var prevValue = $('.pms-billing-state__input').val()
@@ -714,4 +955,4 @@ jQuery( function($) {
 
     }
 
-});
+})

@@ -358,9 +358,9 @@ Class PMS_Form_Handler {
             $payment_gateway = pms_get_payment_gateway( $pay_gate );
 
         // Get subscription plan
-        if( !empty($_POST['subscription_plans']) ) {
+        if( !empty( $_POST['subscription_plans'] ) ) {
             $subscription_plan = pms_get_subscription_plan(absint( $_POST['subscription_plans'] ));
-        }else{
+        } else {
             pms_errors()->add( 'subscription_plan', __( 'There was no subscription plan selected.', 'paid-member-subscriptions' ) );
             return false;
         }
@@ -394,10 +394,14 @@ Class PMS_Form_Handler {
              */
             } else {
 
-                if( ! empty( $subscription_plan->price ) ) {
+                if( apply_filters( 'pms_validate_payment_gateway_no_gateway_logged_in', false, $subscription_plan, $form_location ) === false ){
 
-                    pms_errors()->add( 'payment_gateway', __( 'There is no payment gateway available to complete the checkout process.', 'paid-member-subscriptions' ) );
-                    return false;
+                    if( ! empty( $subscription_plan->price ) ) {
+
+                        pms_errors()->add( 'payment_gateway', __( 'There is no payment gateway available to complete the checkout process.', 'paid-member-subscriptions' ) );
+                        return false;
+
+                    }
 
                 }
 
@@ -1745,10 +1749,8 @@ Class PMS_Form_Handler {
 
         }
 
-        /**
-         * Can be used to not apply the trial to the subscription and take payment immediately
-         */
-        $has_trial = apply_filters( 'pms_checkout_has_trial', $has_trial, $user_data, $subscription_plan, $form_location );
+        // Filter checkout trial status
+        $has_trial = apply_filters( 'pms_checkout_has_trial', $has_trial, $user_data, $subscription_plan, $form_location, $pay_gate, $is_recurring );
 
         // Cache the checkout details
         $checkout_data = array(
@@ -1839,9 +1841,7 @@ Class PMS_Form_Handler {
 
             }
  
-
         }
-
 
         /**
          * Calculate amount to be paid on the initial payment
@@ -1958,7 +1958,7 @@ Class PMS_Form_Handler {
              * Allow for empty amounts to be introduced for PayPal subscriptions, as it is the amount considered for the trial period
              *
              */
-            if( ! empty( $payment_data['amount'] ) || $pay_gate == 'paypal_standard' || ( empty( $payment_data['amount'] ) && $pay_gate == 'paypal_express' && $has_trial ) ) {
+            if( ! empty( $payment_data['amount'] ) || ( in_array( $pay_gate, array( 'paypal_standard', 'paypal_express' ) ) && $has_trial ) ) {
 
                 $payment = new PMS_Payment();
                 $payment->insert( $payment_data );
@@ -2191,7 +2191,7 @@ Class PMS_Form_Handler {
         }
 
         /**
-         * Action that fires after the checkout process is finished
+         * Action that fires after the checkout process is finished (only for PSP subscriptions)
          *
          * @param object $subscription
          * @param string $form_location
@@ -2239,7 +2239,7 @@ Class PMS_Form_Handler {
 
             }
 
-            $has_trial = apply_filters( 'pms_checkout_has_trial', $has_trial, array( 'user_id' => $user_id ), $subscription_plan, $form_location );
+            $has_trial = apply_filters( 'pms_checkout_has_trial', $has_trial, array( 'user_id' => $user_id ), $subscription_plan, $form_location, $pay_gate, $is_recurring );
 
         }
 

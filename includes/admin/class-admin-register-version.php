@@ -126,12 +126,10 @@ class PMS_Register_Version{
 
     public static function pms_register_version_clear_cron_hooks() {
 
-        $add_ons = PMS_Submenu_Page_Addons::add_ons_get_remote_content();
+        $versions = array( 'basic', 'pro', 'unlimited' );
 
-        if( is_array( $add_ons ) && !empty( $add_ons[0] ) ){
-            foreach( $add_ons as $add_on )
-                wp_clear_scheduled_hook( 'check_plugin_updates-' . $add_on['slug'] );
-        }
+        foreach( $versions as $version )
+            wp_clear_scheduled_hook( 'check_plugin_updates-paid-member-subscriptions-' . $version . '-update' );
 
     }
 

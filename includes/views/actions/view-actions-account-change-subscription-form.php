@@ -65,6 +65,8 @@ pms_output_subscription_plans_filter( 'remove' );
 
     <?php endif; ?>
 
+    <?php do_action( 'pms_change_subscription_form_after_downgrade_group', $current_subscription, $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others ); ?>
+
     <?php
     pms_output_subscription_plans_filter( 'add' );
 

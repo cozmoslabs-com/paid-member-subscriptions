@@ -322,6 +322,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             <p><?php esc_html_e( 'Collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.', 'paid-member-subscriptions' ); ?></p>
         </div>
+        <div>
+            <a href="https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <h4 class="pms-add-on-name"><?php esc_html_e( 'Pro Rate', 'paid-member-subscriptions' ); ?></h4>
+            </a>
+
+            <a href="https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-pro-rate.png" alt="Pro Rate" class="pms-addon-image" />
+            </a>
+
+            <p><?php esc_html_e( 'Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription.', 'paid-member-subscriptions' ); ?></p>
+        </div>
     </div>
     <div class="pms-row">
         <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-pro-btn&utm_campaign=PMSFree" class="button-primary pms-cta"><?php esc_html_e( 'Get Pro Add-ons', 'paid-member-subscriptions' ); ?></a></p>

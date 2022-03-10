@@ -333,7 +333,7 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
             $payment = pms_get_payment( $payment_id );
 
-            if( empty( $payment->id ) )
+            if( empty( $payment->id ) || $payment->status != 'pending' )
                 return;
 
             if( $payment->update( array( 'status' => 'completed' ) ) )

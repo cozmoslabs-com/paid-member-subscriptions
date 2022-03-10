@@ -622,7 +622,7 @@
 <?php __("Subscription Downgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Retry Payment", "paid-member-subscriptions"); ?>
 <?php __("If you have issues with the styling of the submit button on <strong>Paid Member Subscriptions</strong> forms, <a href=\"%s\" target=\"_blank\">click here</a> for more info.", "paid-member-subscriptions"); ?>
-<?php __("Check out the new <strong>Tax & EU VAT</strong> add-on which helps you collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.", "paid-member-subscriptions"); ?>
+<?php __("Check out the new <strong>Pro-rate</strong> add-on which allows your users to benefit from a discount based on their remaining subscription time when upgrading or downgrading their subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("More Details", "paid-member-subscriptions"); ?>
 <?php __("%s Day", "paid-member-subscriptions"); ?>
 <?php __("%s Days", "paid-member-subscriptions"); ?>
@@ -1210,6 +1210,14 @@
 <?php __("PayPal Standard - Trial Payment", "paid-member-subscriptions"); ?>
 <?php __("PayPal API credentials are missing or are incomplete", "paid-member-subscriptions"); ?>
 <?php __("Payment profile ID is empty, nothing to cancel.", "paid-member-subscriptions"); ?>
+<?php __("%s days for free", "paid-member-subscriptions"); ?>
+<?php __("then %s every year", "paid-member-subscriptions"); ?>
+<?php __("then %s %s", "paid-member-subscriptions"); ?>
+<?php __("Subscription Upgrades and Downgrades are pro-rated. The prices above include a discount of %s.", "paid-member-subscriptions"); ?>
+<?php __('Amount to be charged after the free period is %1$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Pro-ration is enabled for this purchase. The user will receive %s days for free, based on his remaining subscription time.", "paid-member-subscriptions"); ?>
+<?php __("Pro-ration is enabled for this purchase. The user will receive the first fixed period form the subscription for free.", "paid-member-subscriptions"); ?>
+<?php __("A discount of %s was applied to this payment from the pro-rate functionality.", "paid-member-subscriptions"); ?>
 <?php __("Stripe Authentication Email", "paid-member-subscriptions"); ?>
 <?php __("Payment Authentication required on {{site_name}}", "paid-member-subscriptions"); ?>
 <?php __("<p>Hello {{display_name}},</p> <p>Payment Authentication is required in order to confirm the payment of <strong>{{subscription_price}}</strong> for the <strong>{{subscription_name}}</strong> subscription on <strong>{{site_name}}</strong>.</p> <p>Click on the following link in order to authenticate the payment: {{stripe_auth_link}}</p>", "paid-member-subscriptions"); ?>
@@ -1339,6 +1347,8 @@
 <?php __("Let subscribers pay what they want by offering a variable pricing option when they purchase a membership plan.", "paid-member-subscriptions"); ?>
 <?php __("Pro Add-ons", "paid-member-subscriptions"); ?>
 <?php __("These addons extend Paid Member Subscriptions and are available in the Pro and Unlimited plans.", "paid-member-subscriptions"); ?>
+<?php __("Pro-Rate", "paid-member-subscriptions"); ?>
+<?php __("Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription.", "paid-member-subscriptions"); ?>
 <?php __("Content Dripping", "paid-member-subscriptions"); ?>
 <?php __("Create schedules for your content, making posts or categories available for your members only after a certain time has passed since they signed up for a subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Group Memberships", "paid-member-subscriptions"); ?>
@@ -1409,6 +1419,7 @@
 <?php __("This add-on allows you and your members to download PDF invoices for each payment that has been completed.", "paid-member-subscriptions"); ?>
 <?php __("Sell group subscriptions that contain multiple member seats but are managed and purchased by a single account.", "paid-member-subscriptions"); ?>
 <?php __("Collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.", "paid-member-subscriptions"); ?>
+<?php __("Pro Rate", "paid-member-subscriptions"); ?>
 <?php __("Get Pro Add-ons", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions comes with an <a href=\"%s\">extensive documentation</a> to assist you.", "paid-member-subscriptions"); ?>
 <?php __("Export", "paid-member-subscriptions"); ?>
@@ -1708,10 +1719,10 @@
 <?php __("Select the subscription(s) to which this email reminder should be sent.", "paid-member-subscriptions"); ?>
 <?php __("Select the email reminder status.", "paid-member-subscriptions"); ?>
 <?php __("Fixed Membership", "paid-member-subscriptions"); ?>
-<?php __("Check this box for enabling fixed period memberships.", "paid-member-subscriptions"); ?>
+<?php __("Check this box to enable fixed period memberships.", "paid-member-subscriptions"); ?>
 <?php __("Set the Expiration Date. A subsequent date change will only affect new users.", "paid-member-subscriptions"); ?>
 <?php __("Allow plan to be renewed", "paid-member-subscriptions"); ?>
-<?php __("Check this box for allowing the plan to be renewed each year.", "paid-member-subscriptions"); ?>
+<?php __("Allow fixed period plan to be renewed each year.", "paid-member-subscriptions"); ?>
 <?php __("Select the subscription plan for which this content dripping set should apply.", "paid-member-subscriptions"); ?>
 <?php __("Select content dripping set status.", "paid-member-subscriptions"); ?>
 <?php __("Seats", "paid-member-subscriptions"); ?>
@@ -1928,6 +1939,7 @@
 <?php __("Prevent users from being logged in with the same account from multiple places at the same time ?", "paid-member-subscriptions"); ?>
 <?php __("Would you like to redirect the default WordPress pages for register, login and password reset ?", "paid-member-subscriptions"); ?>
 <?php __("The pages will be redirected to their front-end counterparts created automatically above. Can be activated later from settings.", "paid-member-subscriptions"); ?>
+<?php __('%1$s WARNING: %2$s If you enable this option you must log in via the Front-End Login Form as Admin.', 'paid-member-subscriptions' ); ?>
 <?php __("Continue", "paid-member-subscriptions"); ?>
 <?php __("Next Step", "paid-member-subscriptions"); ?>
 <?php __("Create Subscription Plans", "paid-member-subscriptions"); ?>

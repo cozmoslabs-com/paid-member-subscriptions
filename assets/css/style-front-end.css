@@ -347,6 +347,8 @@ form.pms-form ul.pms-form-fields-wrapper {
 }
 
 .pms-subscription-plan-auto-renew label {
+    display: flex;
+    align-items: center;
     cursor: pointer;
 }
 
@@ -480,4 +482,22 @@ ul.pms-field-section {
 #pms-upgrade-subscription-form .pms-upgrade__message, #pms-change-subscription-form .pms-upgrade__message {
     margin-bottom: 1.2em;
     font-size: 115%;
+}
+
+.pms-upgrade__group--upgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee, .pms-upgrade__group--downgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee {
+    display: none;
+}
+
+.pms-subscription-plan-price__recurring {
+    display: none;
+}
+
+/* .pms-subscription-plan-price__recurring .pms-divider:first-child {
+    display: none;
+} */
+
+.pms-prorate-frontend-message {
+    margin-bottom: 1.345em;
+    font-size: 90%;
+    font-style: italic;
 }

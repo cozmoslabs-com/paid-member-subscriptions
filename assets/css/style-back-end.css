@@ -196,7 +196,25 @@
     overflow:hidden;
 }
 
-.pms-4-col > div {
+@media screen and ( min-width: 768px ) {
+    .pms-4-col {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .pms-4-col > div {
+        flex-basis: calc( 100% / 4 - 12px );
+        margin-right: 16px;
+    }
+
+    .pms-4-col > div:nth-child(4n) {
+        margin-right: 0;
+    } 
+}
+/* .pms-4-col {
+
+} */
+/* .pms-4-col > div {
     float:left;
     width: 23%;
     margin-right: 2%;
@@ -206,7 +224,7 @@
     .pms-4-col > div {
         width: 48%;
     }
-}
+} */
 
 .pms-3-col > div {
     float:left;

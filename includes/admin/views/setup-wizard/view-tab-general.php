@@ -45,6 +45,7 @@
         </div>
     </div>
     <p class="description"><?php esc_html_e( 'The pages will be redirected to their front-end counterparts created automatically above. Can be activated later from settings.', 'paid-member-subscriptions' ); ?></p>
+    <p class="description"><?php echo sprintf(__('%1$s WARNING: %2$s If you enable this option you must log in via the Front-End Login Form as Admin.', 'paid-member-subscriptions' ), '<b>', '</b>'); ?></p>
 
     <div class="pms-setup-form-button">
         <input type="submit" class="button primary button-primary button-hero" value="<?php esc_html_e( 'Continue', 'paid-member-subscriptions' ); ?>" />

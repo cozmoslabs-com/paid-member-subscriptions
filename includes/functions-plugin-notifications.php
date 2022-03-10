@@ -91,19 +91,11 @@ function pms_add_plugin_notification( $notification_id = '', $notification_messa
  */
 function pms_add_plugin_notification_new_add_on() {
 
-	// $notification_id = 'pms_new_add_on_group_memberships';
-	// $message = '<img style="float: left; margin: 10px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/pms-add-on-group-memberships.png" />';
-	// $message .= '<p style="margin-top: 16px;">' . __( 'Check out the new <strong>Group Memberships</strong> add-on which allows you to sell subscriptions to groups of users managed by a single one (for a company, family etc.)', 'paid-member-subscriptions' ) . '</p>';
-	// $message .= '<p><a href="https://www.cozmoslabs.com/add-ons/group-memberships/?utm_source=wp-backend&utm_medium=addon-notification&utm_campaign=PMSFree" class="button-primary">' . __( 'More information', 'paid-member-subscriptions' ) . '</a></p>';
-	// $message .= '<a href="' . add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . __( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
-	//
-	// pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );
-
-	$notification_id = 'pms_new_add_on_tax';
-	$message = '<img style="float: left; margin: 10px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/pms-add-on-tax.png" />';
-	$message .= '<p style="margin-top: 16px;">' . __( 'Check out the new <strong>Tax & EU VAT</strong> add-on which helps you collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.', 'paid-member-subscriptions' ) . '</p>';
-	$message .= '<p><a href="https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wp-backend&utm_medium=addon-notification&utm_campaign=PMSFree" class="button-primary">' . __( 'More Details', 'paid-member-subscriptions' ) . '</a></p>';
-	$message .= '<a href="' . add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . __( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
+	$notification_id = 'pms_new_add_on_pro_rate';
+	$message = '<img style="float: left; margin: 10px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/pms-add-on-pro-rate-banner_icon.png" />';
+	$message .= '<p style="margin-top: 16px;">' . wp_kses_post( __( 'Check out the new <strong>Pro-rate</strong> add-on which allows your users to benefit from a discount based on their remaining subscription time when upgrading or downgrading their subscription plan.', 'paid-member-subscriptions' ) ) . '</p>';
+	$message .= '<p><a href="https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=wp-backend&utm_medium=addon-notification&utm_campaign=PMSFree" class="button-primary">' . esc_html__( 'More Details', 'paid-member-subscriptions' ) . '</a></p>';
+	$message .= '<a href="' . esc_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
 
 	pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );
 
