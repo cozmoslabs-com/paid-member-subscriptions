@@ -317,11 +317,12 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
                     // Output subscription plan trial
                     $subscription_plan_output .= '<span class="pms-subscription-plan-trial">' . pms_get_output_subscription_plan_trial( $subscription_plan, $form_location ) . '</span>';
 
-                    //if( $form_location != 'upgrade_subscription' ){
+                }
 
-                        // Output subscription plan sign-up
-                        $subscription_plan_output .= '<span class="pms-subscription-plan-sign-up-fee">' . pms_get_output_subscription_plan_sign_up_fee( $subscription_plan ) . '</span>';
-                    //}
+                if( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) ) {
+
+                    // Output subscription plan sign-up
+                    $subscription_plan_output .= '<span class="pms-subscription-plan-sign-up-fee">' . pms_get_output_subscription_plan_sign_up_fee( $subscription_plan ) . '</span>';
 
                 }
 
@@ -372,16 +373,18 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
                             // Output subscription plan price
                             $subscription_plan_output .= '<span class="pms-subscription-plan-price">' . pms_get_output_subscription_plan_price( $subscription_plan, $form_location ) . '</span>';
 
-                            if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation', 'wppb_register', 'change_subscription' ) ) ) {
+                            if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation', 'wppb_register', 'change_subscription', 'downgrade_subscription' ) ) ) {
 
                                 // Output subscription plan trial
                                 $subscription_plan_output .= '<span class="pms-subscription-plan-trial">' . pms_get_output_subscription_plan_trial( $subscription_plan, $form_location ) . '</span>';
 
-                                //if( $form_location != 'upgrade_subscription' ){
+                            }
 
-                                    // Output subscription plan sign-up
-                                    $subscription_plan_output .= '<span class="pms-subscription-plan-sign-up-fee">' . pms_get_output_subscription_plan_sign_up_fee( $subscription_plan ) . '</span>';
-                                //}
+                            if( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) ) {
+
+                                // Output subscription plan sign-up
+                                $subscription_plan_output .= '<span class="pms-subscription-plan-sign-up-fee">' . pms_get_output_subscription_plan_sign_up_fee( $subscription_plan ) . '</span>';
+
                             }
 
                         $subscription_plan_output .= '</label>';
@@ -713,7 +716,7 @@ function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null, 
     if( pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_sign_up_fee' ) ) {
 
         // These should not be added for every form location, only where sign-up fees are applied
-        if( empty( $form_location ) || in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription' ) ) )
+        if( empty( $form_location ) || in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) )
             $subscription_plan_input_data_arr['sign_up_fee'] = $subscription_plan->sign_up_fee;
 
     }

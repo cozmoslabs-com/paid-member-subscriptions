@@ -132,11 +132,58 @@ function pms_redirect_default_wp_pages(){
 
 }
 
+/**
+ * Redirect users from accessing dashboard
+ */
+function pms_restrict_dashboard_access() {
+
+    if( is_admin() || in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) ) ) {
+
+        if( defined( 'DOING_AJAX' ) || ( ( isset( $_GET['action'] ) && $_GET['action'] == 'logout' ) && isset( $_GET['redirect_to'] ) ) ) {
+            //let wp log out the user or pass ajax calls
+        } elseif( is_user_logged_in() ) {
+
+            $settings     = get_option( 'pms_general_settings' );
+            $account_page = ( isset( $settings['account_page'] ) && $settings['account_page'] != -1 ) ? get_permalink( $settings['account_page'])  : false;
+
+            $target_capabilities = array( 'edit_posts', 'manage_woocommerce', 'view_admin_dashboard', 'pms_edit_capability' );
+
+            $has_capability = false;
+            $redirect_user  = false;
+
+            foreach( $target_capabilities as $capability ){
+                if( current_user_can( $capability ) ){
+                    $has_capability = true;
+                    break;
+                }
+            }
+
+            if( !$has_capability )
+                $redirect_user = true;
+
+            if( apply_filters( 'pms_enable_dashboard_redirect', $redirect_user ) ){
+                wp_redirect( $account_page );
+
+                exit;
+            }
+
+        }
+
+    }
+
+}
+
 // make sure "Redirect Default WordPress Pages" option is checked
 $pms_settings = get_option( 'pms_general_settings' );
 
-if ( isset( $pms_settings['redirect_default_wp'] ) && !empty( $pms_settings['redirect_default_wp'] ) )
+if ( isset( $pms_settings['redirect_default_wp'] ) && !empty( $pms_settings['redirect_default_wp'] ) ){
     add_action( 'init', 'pms_redirect_default_wp_pages' );
+
+    if( isset( $pms_settings['account_page'] ) && $pms_settings['account_page'] != -1 ){
+        add_action( 'admin_init', 'pms_restrict_dashboard_access', 99 );
+        add_filter( 'show_admin_bar', 'pms_remove_admin_bar' );
+    }
+}
 
 
 /* GDPR Delete user */

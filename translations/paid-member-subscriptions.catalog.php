@@ -1581,10 +1581,15 @@
 <?php __("Enable honeypot field to prevent spambot attacks", "paid-member-subscriptions"); ?>
 <?php __("By checking this option, the honeypot field will be added to the PMS Registration form.", "paid-member-subscriptions"); ?>
 <?php __("Enable the <strong>Labels Edit</strong> functionality in order to change any string that is shown by the plugin.", "paid-member-subscriptions"); ?>
+<?php __("Dashboard redirect", "paid-member-subscriptions"); ?>
+<?php __("Disable dashboard redirect", "paid-member-subscriptions"); ?>
+<?php __("By default, regular users cannot access the admin dashboard. This option disables that redirect.", "paid-member-subscriptions"); ?>
 <?php __("Modify renew button output time", "paid-member-subscriptions"); ?>
 <?php __("Insert how many days before the subscription expires, should the renewal button be displayed inside the [pms-account] shortcode.", "paid-member-subscriptions"); ?>
 <?php __("Redirect after a manual payment", "paid-member-subscriptions"); ?>
 <?php __("Insert an URL to redirect the user after a manual payment is made. ( e.g. %s )", "paid-member-subscriptions"); ?>
+<?php __("Apply sign-up fees to Upgrades and Downgrades", "paid-member-subscriptions"); ?>
+<?php __("Charge users sign-up fees for Subscription Upgrades and Downgrades.", "paid-member-subscriptions"); ?>
 <?php __("Test Mode", "paid-member-subscriptions"); ?>
 <?php __("By checking this option you will be able to use Paid Member Subscriptions only with test accounts from your payment processors. <a href=\"%s\">More Details</a>", "paid-member-subscriptions"); ?>
 <?php __("Currency", "paid-member-subscriptions"); ?>

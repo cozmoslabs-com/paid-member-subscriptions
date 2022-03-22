@@ -249,9 +249,9 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
     private function setup_functions() {
 
-        $advanced_settings_dir = plugin_dir_path( __FILE__ );
-        $misc_settings = get_option( 'pms_misc_settings', array() );
-        $advanced_settings_keys = array( 'payment_renew_button_delay' , 'redirect_after_manual_payment' );
+        $advanced_settings_dir  = plugin_dir_path( __FILE__ );
+        $misc_settings          = get_option( 'pms_misc_settings', array() );
+        $advanced_settings_keys = array( 'payment_renew_button_delay' , 'redirect_after_manual_payment', 'upgrade_downgrade_sign_up_fee', 'disable-dashboard-redirect' );
 
         foreach ( $misc_settings as $misc_key => $misc_value ) {
 

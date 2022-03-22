@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 5.9
-Stable tag: 2.6.3
+Stable tag: 2.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -195,6 +195,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.6.4 =
+* Misc: Added option to apply sign-up fee to upgrades and downgrades
+* Misc: Restrict dashboard access when `Redirect Default WordPress Pages` option is enabled. The redirect can be disabled separately from Settings -> Misc -> Others
+* Misc: Added filter after pms-account subscription actions: pms_subscriptions_table_after_actions
+* Misc: Filter plans displayed on the Change Subscription form
+
 = 2.6.3 =
 * Compatibility with new Pro-rate pro version functionality
 * Fix: reset pending update when serial number is saved

@@ -116,6 +116,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <p class="description"><?php echo wp_kses_post( __( 'Enable the <strong>Labels Edit</strong> functionality in order to change any string that is shown by the plugin.', 'paid-member-subscriptions' ) ); ?></p>
     </div>
 
+    <div class="pms-form-field-wrapper">
+        <label class="pms-form-field-label" for="disable-dashboard-redirect"><?php esc_html_e( 'Dashboard redirect' , 'paid-member-subscriptions' ) ?></label>
+
+        <p class="description">
+            <input type="checkbox" id="disable-dashboard-redirect" name="pms_misc_settings[disable-dashboard-redirect]" value="1" <?php echo ( isset( $this->options['disable-dashboard-redirect'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Disable dashboard redirect', 'paid-member-subscriptions' ); ?>
+        </p>
+        <p class="description">
+            <?php esc_html_e( 'By default, regular users cannot access the admin dashboard. This option disables that redirect.', 'paid-member-subscriptions' ); ?>
+        </p>
+    </div>
+
     <?php do_action( $this->menu_slug . '_misc_after_others_tab_content', $this->options ); ?>
 
 </div>
@@ -140,6 +151,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <label class="pms-form-field-label" for="redirect-after-manual-payment"><?php esc_html_e( 'Redirect after a manual payment', 'paid-member-subscriptions' ) ?></label>
         <input type="text" id="redirect-after-manual-payment" class="widefat" name="pms_misc_settings[payments][redirect_after_manual_payment]" value="<?php echo ( isset($this->options['payments']['redirect_after_manual_payment']) ? esc_url( $this->options['payments']['redirect_after_manual_payment'] ) : '' ); ?>">
         <p class="description"><?php echo sprintf( esc_html__( 'Insert an URL to redirect the user after a manual payment is made. ( e.g. %s )', 'paid-member-subscriptions' ), esc_url( home_url( '/manual-payment-details' )) );  ?></p>
+    </div>
+
+    <div class="pms-form-field-wrapper">
+        <label class="pms-form-field-label" for="upgrade-downgrade-sign-up-fee"><?php esc_html_e( 'Apply sign-up fees to Upgrades and Downgrades' , 'paid-member-subscriptions' ) ?></label>
+
+        <p class="description"><input type="checkbox" id="upgrade-downgrade-sign-up-fee" name="pms_misc_settings[payments][upgrade_downgrade_sign_up_fee]" value="1" <?php echo ( isset( $this->options['payments']['upgrade_downgrade_sign_up_fee'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Charge users sign-up fees for Subscription Upgrades and Downgrades.', 'paid-member-subscriptions' ); ?></p>
     </div>
 
     <?php do_action( $this->menu_slug . '_misc_after_payments_tab_content', $this->options ); ?>

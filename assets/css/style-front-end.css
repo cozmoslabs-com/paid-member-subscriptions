@@ -484,9 +484,9 @@ ul.pms-field-section {
     font-size: 115%;
 }
 
-.pms-upgrade__group--upgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee, .pms-upgrade__group--downgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee {
+/* .pms-upgrade__group--upgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee, .pms-upgrade__group--downgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee {
     display: none;
-}
+} */
 
 .pms-subscription-plan-price__recurring {
     display: none;

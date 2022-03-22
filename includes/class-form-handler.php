@@ -1849,14 +1849,14 @@ Class PMS_Form_Handler {
          */
         if( $has_trial ) {
 
-            if( ! is_null( $payment_gateway ) && $payment_gateway->supports( 'subscription_sign_up_fee' ) && in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription' ), $form_location, $subscription ) ) )
+            if( ! is_null( $payment_gateway ) && $payment_gateway->supports( 'subscription_sign_up_fee' ) && in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ), $form_location, $subscription ) ) )
                 $amount = $subscription_plan->sign_up_fee;
             else
                 $amount = 0;
 
         } else {
 
-            if( ! is_null( $payment_gateway ) && $payment_gateway->supports( 'subscription_sign_up_fee' ) && in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription' ), $form_location, $subscription ) ) )
+            if( ! is_null( $payment_gateway ) && $payment_gateway->supports( 'subscription_sign_up_fee' ) && in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ), $form_location, $subscription ) ) )
                 $amount =  $subscription_plan->price + $subscription_plan->sign_up_fee;
             else
                 $amount =  $subscription_plan->price;

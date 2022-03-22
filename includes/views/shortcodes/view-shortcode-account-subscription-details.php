@@ -66,7 +66,7 @@ foreach( $subscriptions as $subscription ) :
             <?php if( ! empty( $subscription->billing_next_payment ) && $subscription->status == 'active' ): ?>
             <tr>
                 <td><?php esc_html_e( 'Next Payment', 'paid-member-subscriptions' ); ?></td>
-				<td><?php echo wp_kses_post( sprintf( _x( '%s on %s', '[amount] on [date]', 'paid-member-subscriptions' ), pms_format_price( $subscription->billing_amount, pms_get_active_currency() ), ucfirst( date_i18n( get_option('date_format'), strtotime( $subscription->billing_next_payment ) ) ) ) ); ?></td>
+				<td><?php echo wp_kses_post( sprintf( _x( '%s on %s', '[amount] on [date]', 'paid-member-subscriptions' ), pms_format_price( $subscription->billing_amount, apply_filters( 'pms_account_next_payment_date_currency', pms_get_active_currency(), $subscription ) ), ucfirst( date_i18n( get_option('date_format'), strtotime( $subscription->billing_next_payment ) ) ) ) ); ?></td>
             </tr>
             <?php endif; ?>
 
@@ -138,6 +138,9 @@ foreach( $subscriptions as $subscription ) :
                         echo wp_kses_post( apply_filters( 'pms_output_subscription_plan_action_abandon', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__abandon" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'abandon_subscription', 'subscription_id' => $subscription->id  ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '" title="'. __( 'Cancels recurring payments and then removes the subscription from your account immediately.', 'paid-member-subscriptions' ) .'">' . __( 'Abandon', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id ) );
 
                     ?>
+
+                    <?php do_action( 'pms_subscriptions_table_after_actions', $subscription, $subscription_plan, $member ); ?>
+
                 </td>
             </tr>
 

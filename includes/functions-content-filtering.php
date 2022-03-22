@@ -474,6 +474,10 @@ function pms_member_change_subscription( $content ){
     } else
         $subscription_plan_others = array();
 
+    $subscription_plan_upgrades   = apply_filters( 'pms_member_change_subscription_upgrade_plans', $subscription_plan_upgrades );
+    $subscription_plan_downgrades = apply_filters( 'pms_member_change_subscription_downgrade_plans', $subscription_plan_downgrades );
+    $subscription_plan_others     = apply_filters( 'pms_member_change_subscription_other_plans', $subscription_plan_others );
+
     ob_start();
 
         include 'views/actions/view-actions-account-change-subscription-form.php';
