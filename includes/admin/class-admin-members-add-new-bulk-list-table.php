@@ -45,6 +45,8 @@ Class PMS_Members_Add_New_Bulk_List_Table extends WP_List_Table {
      */
     public function __construct() {
 
+        add_filter( 'pms_filter_users_table_data', array( $this, 'pms_filter_users' ));
+
         parent::__construct( array(
             'singular'  => 'member-add-new-bulk',
             'plural'    => 'members-add-new-bulk',
@@ -228,6 +230,8 @@ Class PMS_Members_Add_New_Bulk_List_Table extends WP_List_Table {
             );
         }
 
+        $data = apply_filters( 'pms_filter_users_table_data', $data );
+
         $this->data = $data;
 
     }
@@ -391,6 +395,25 @@ Class PMS_Members_Add_New_Bulk_List_Table extends WP_List_Table {
 
         return $output;
 
+    }
+
+
+    /*
+     * Return filtered users list if any filtering options are present
+     *
+     */
+    public function pms_filter_users( $data ) {
+
+        if ( !empty( $_POST['pms-filter-user-role'] )) {
+
+            foreach ( $data as $key => $args ) {
+                if ( $args['role'] != sanitize_text_field( $_POST['pms-filter-user-role'] ))
+                    unset( $data[$key] );
+            }
+
+        }
+
+        return $data;
     }
 
 

@@ -37,49 +37,49 @@ msgstr ""
 msgid "This Paid Member Subscriptions add-on has been migrated to the main plugin and is no longer used. You can delete it."
 msgstr ""
 
-#: index.php:247
+#: index.php:257
 msgid "You must be logged in to view this content."
 msgstr ""
 
-#: index.php:250
+#: index.php:260
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:883, index.php:883, includes/functions-user.php:233, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:17, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
+#: index.php:904, index.php:904, includes/functions-user.php:233, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:17, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
 msgid "Paid Member Subscriptions"
 msgstr ""
 
-#: index.php:902, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
+#: index.php:923, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
 msgid "Uninstall"
 msgstr ""
 
-#: index.php:904, includes/admin/class-admin-settings.php:282, includes/admin/class-admin-settings.php:282, includes/admin/class-admin-setup-wizard.php:47, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:115, includes/admin/views/setup-wizard/view-tab-general.php:20, includes/admin/views/setup-wizard/view-tab-next.php:44
+#: index.php:925, includes/admin/class-admin-settings.php:282, includes/admin/class-admin-settings.php:282, includes/admin/class-admin-setup-wizard.php:47, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:115, includes/admin/views/setup-wizard/view-tab-general.php:20, includes/admin/views/setup-wizard/view-tab-next.php:44
 msgid "Settings"
 msgstr ""
 
-#: index.php:906
+#: index.php:927
 msgid "Docs"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:955
+#: index.php:976
 msgid "Type %s to confirm deleting your account and all data associated with it:"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:957
+#: index.php:978
 msgid "You did not type %s. Try again!"
 msgstr ""
 
-#: index.php:973
+#: index.php:994
 msgid "Select an option"
 msgstr ""
 
-#: index.php:974
+#: index.php:995
 msgid "No results match"
 msgstr ""
 
-#: index.php:993, index.php:993
+#: index.php:1014, index.php:1014
 msgid "Get Support"
 msgstr ""
 
@@ -363,7 +363,7 @@ msgstr ""
 msgid "Please select a subscription plan."
 msgstr ""
 
-#: includes/class-form-handler.php:307, includes/admin/class-admin-members.php:792, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:102, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:302
+#: includes/class-form-handler.php:307, includes/admin/class-admin-members.php:810, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:102, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:302
 msgid "Something went wrong."
 msgstr ""
 
@@ -640,7 +640,7 @@ msgstr ""
 msgid "You are already logged in."
 msgstr ""
 
-#: includes/deprecated-functions.php:22, includes/functions-member-subscriptions.php:239, extend/woocommerce/woocommerce-integration.php:130, includes/admin/class-admin-members-add-new-bulk-list-table.php:161, includes/admin/class-admin-subscription-plans.php:378, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:248, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:136, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:211, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:258, includes/admin/views/view-page-export.php:51, includes/admin/views/view-page-members-add-new-edit-subscription.php:451, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:130, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:31, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:151, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:44, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:122, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php:125
+#: includes/deprecated-functions.php:22, includes/functions-member-subscriptions.php:239, extend/woocommerce/woocommerce-integration.php:130, includes/admin/class-admin-members-add-new-bulk-list-table.php:163, includes/admin/class-admin-subscription-plans.php:378, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:248, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:136, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:211, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:258, includes/admin/views/view-page-export.php:51, includes/admin/views/view-page-members-add-new-edit-subscription.php:451, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:130, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:31, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:151, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:44, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:122, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php:125
 msgid "Active"
 msgstr ""
 
@@ -648,99 +648,99 @@ msgstr ""
 msgid "Canceled"
 msgstr ""
 
-#: includes/deprecated-functions.php:24, includes/functions-member-subscriptions.php:241, includes/admin/class-admin-members-add-new-bulk-list-table.php:163, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:250, includes/admin/views/view-page-export.php:53
+#: includes/deprecated-functions.php:24, includes/functions-member-subscriptions.php:241, includes/admin/class-admin-members-add-new-bulk-list-table.php:165, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:250, includes/admin/views/view-page-export.php:53
 msgid "Expired"
 msgstr ""
 
-#: includes/deprecated-functions.php:25, includes/functions-member-subscriptions.php:242, includes/functions-payment.php:363, includes/admin/class-admin-members-add-new-bulk-list-table.php:162, includes/admin/views/view-page-export.php:54, includes/admin/views/view-page-export.php:147
+#: includes/deprecated-functions.php:25, includes/functions-member-subscriptions.php:242, includes/functions-payment.php:363, includes/admin/class-admin-members-add-new-bulk-list-table.php:164, includes/admin/views/view-page-export.php:54, includes/admin/views/view-page-export.php:147
 msgid "Pending"
 msgstr ""
 
-#: includes/functions-content-filtering.php:236
+#: includes/functions-content-filtering.php:241
 msgid "&hellip;"
 msgstr ""
 
-#: includes/functions-content-filtering.php:281
+#: includes/functions-content-filtering.php:286
 msgid "Something went wrong while trying to process the payment."
 msgstr ""
 
-#: includes/functions-content-filtering.php:330, add-ons-pro/stripe/includes/functions-filters.php:163
+#: includes/functions-content-filtering.php:335, add-ons-pro/stripe/includes/functions-filters.php:163
 msgid "Please try again."
 msgstr ""
 
-#: includes/functions-content-filtering.php:328
+#: includes/functions-content-filtering.php:333
 msgid "Please %sclick here%s to try again."
 msgstr ""
 
-#: includes/functions-content-filtering.php:319
+#: includes/functions-content-filtering.php:324
 msgid "You were logged in, please try again."
 msgstr ""
 
-#: includes/functions-content-filtering.php:316
+#: includes/functions-content-filtering.php:321
 msgid "You were logged in, please %sclick here%s to try again."
 msgstr ""
 
-#: includes/functions-content-filtering.php:304
+#: includes/functions-content-filtering.php:309
 msgid "Your account has been created, so please %slog in%s and retry the payment."
 msgstr ""
 
-#: includes/functions-content-filtering.php:392, includes/views/actions/view-actions-account-change-subscription-form.php:36
+#: includes/functions-content-filtering.php:397, includes/views/actions/view-actions-account-change-subscription-form.php:36
 msgid "Upgrade %s to:"
 msgstr ""
 
-#: includes/functions-content-filtering.php:390, includes/views/actions/view-actions-account-change-subscription-form.php:34
+#: includes/functions-content-filtering.php:395, includes/views/actions/view-actions-account-change-subscription-form.php:34
 msgid "Upgrade %1$s to %2$s"
 msgstr ""
 
-#: includes/functions-content-filtering.php:410, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:285, includes/views/actions/view-actions-account-change-subscription-form.php:95
+#: includes/functions-content-filtering.php:415, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:285, includes/views/actions/view-actions-account-change-subscription-form.php:95
 msgid "Upgrade Subscription"
 msgstr ""
 
-#: includes/functions-content-filtering.php:411, includes/functions-content-filtering.php:585, includes/functions-content-filtering.php:638, includes/functions-content-filtering.php:688, includes/functions-content-filtering.php:762, includes/views/actions/view-actions-account-change-subscription-form.php:100
+#: includes/functions-content-filtering.php:416, includes/functions-content-filtering.php:590, includes/functions-content-filtering.php:643, includes/functions-content-filtering.php:693, includes/functions-content-filtering.php:767, includes/views/actions/view-actions-account-change-subscription-form.php:100
 msgid "Go back"
 msgstr ""
 
-#: includes/functions-content-filtering.php:548, includes/admin/class-admin-member-subscription-list-table.php:273, includes/admin/class-admin-members-list-table.php:512, includes/views/shortcodes/view-shortcode-account-subscription-details.php:53, includes/views/shortcodes/view-shortcode-account.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:64
+#: includes/functions-content-filtering.php:553, includes/admin/class-admin-member-subscription-list-table.php:273, includes/admin/class-admin-members-list-table.php:512, includes/views/shortcodes/view-shortcode-account-subscription-details.php:53, includes/views/shortcodes/view-shortcode-account.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:64
 msgid "Unlimited"
 msgstr ""
 
-#: includes/functions-content-filtering.php:564
+#: includes/functions-content-filtering.php:569
 msgid "Renew %s subscription. The subscription will be active until %s"
 msgstr ""
 
-#: includes/functions-content-filtering.php:584, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:284
+#: includes/functions-content-filtering.php:589, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:284
 msgid "Renew Subscription"
 msgstr ""
 
-#: includes/functions-content-filtering.php:628
+#: includes/functions-content-filtering.php:633
 msgid "Are you sure you want to cancel your %s subscription? No further payments will be made for this subscription and it will expire."
 msgstr ""
 
-#: includes/functions-content-filtering.php:637
+#: includes/functions-content-filtering.php:642
 msgid "Confirm"
 msgstr ""
 
-#: includes/functions-content-filtering.php:678
+#: includes/functions-content-filtering.php:683
 msgid "Are you sure you want to abandon your %s subscription? This subscription will be removed completely from your account."
 msgstr ""
 
-#: includes/functions-content-filtering.php:687, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:282
+#: includes/functions-content-filtering.php:692, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:282
 msgid "Abandon Subscription"
 msgstr ""
 
-#: includes/functions-content-filtering.php:743
+#: includes/functions-content-filtering.php:748
 msgid "Your %s subscription is still pending. Do you wish to retry the payment?"
 msgstr ""
 
-#: includes/functions-content-filtering.php:761, includes/views/shortcodes/view-shortcode-account-subscription-details.php:129, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:136
+#: includes/functions-content-filtering.php:766, includes/views/shortcodes/view-shortcode-account-subscription-details.php:129, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:136
 msgid "Retry payment"
 msgstr ""
 
-#: includes/functions-content-filtering.php:820
+#: includes/functions-content-filtering.php:825
 msgid "You must be logged in to view the comments."
 msgstr ""
 
-#: includes/functions-content-filtering.php:818
+#: includes/functions-content-filtering.php:823
 msgid "Comments are restricted for your membership level."
 msgstr ""
 
@@ -2368,7 +2368,7 @@ msgstr ""
 msgid "United Arab Emirates"
 msgstr ""
 
-#: includes/functions-core.php:916, add-ons-pro/tax/includes/functions.php:128
+#: includes/functions-core.php:916
 msgid "United Kingdom"
 msgstr ""
 
@@ -2805,7 +2805,7 @@ msgstr ""
 msgid "There are no discounts yet. Click below to add one."
 msgstr ""
 
-#: extend/woocommerce/woocommerce-integration.php:133, extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:13, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php:85
+#: extend/woocommerce/woocommerce-integration.php:133, extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:16, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php:85
 msgid "Products"
 msgstr ""
 
@@ -2835,6 +2835,30 @@ msgstr ""
 
 #: extend/woocommerce/woocommerce-integration.php:140
 msgid "Are you sure you want to remove this discount?"
+msgstr ""
+
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:19, extend/woocommerce/woocommerce-product-membership-subscriptions.php:54, includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1083, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:503, includes/admin/views/view-page-members-add-new-edit-subscription.php:187, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
+msgid "Subscription Plan"
+msgstr ""
+
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:36, includes/admin/views/view-page-settings-content_restriction.php:149, add-ons-pro/tax/includes/views/view-settings-tab-tax.php:54
+msgid "None"
+msgstr ""
+
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:48
+msgid "Please select a Subscription Plan you want to associate with this product:"
+msgstr ""
+
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:63
+msgid "For this Subscription Plan association to work properly we need the following WooCommerce settings to be met:"
+msgstr ""
+
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:65
+msgid "Allow customers to place orders without an account must be %1$sDISABLED%2$s"
+msgstr ""
+
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:66
+msgid "Allow customers to create an account during checkout must be %1$sENABLED%2$s"
 msgstr ""
 
 #: extend/wpbakery/class-wpbakery.php:19, extend/siteorigin/widgets/pms-register/pms-register.php:15
@@ -2970,10 +2994,6 @@ msgstr ""
 msgid "No payments found"
 msgstr ""
 
-#: includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1083, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:503, includes/admin/views/view-page-members-add-new-edit-subscription.php:187, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
-msgid "Subscription Plan"
-msgstr ""
-
 #: includes/admin/class-admin-member-subscription-list-table.php:69, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:123, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:111, includes/admin/views/view-page-export.php:157, includes/admin/views/view-page-members-add-new-edit-subscription.php:247, includes/views/shortcodes/view-shortcode-account-subscription-details.php:45, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:51, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:56
 msgid "Start Date"
 msgstr ""
@@ -3002,55 +3022,55 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:81, includes/admin/class-admin-members-list-table.php:120
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:83, includes/admin/class-admin-members-list-table.php:120
 msgid "User ID"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:82, includes/admin/class-admin-members-list-table.php:121, includes/admin/views/view-page-members-add-new-edit-subscription.php:144, includes/admin/views/view-page-members-edit.php:24, includes/admin/views/view-page-payments-add-new-edit.php:64, includes/admin/views/view-page-payments-add-new-edit.php:84
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:84, includes/admin/class-admin-members-list-table.php:121, includes/admin/views/view-page-members-add-new-edit-subscription.php:144, includes/admin/views/view-page-members-edit.php:24, includes/admin/views/view-page-payments-add-new-edit.php:64, includes/admin/views/view-page-payments-add-new-edit.php:84
 msgid "Username"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:83, includes/admin/class-admin-members-list-table.php:123
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:85, includes/admin/class-admin-members-list-table.php:123
 msgid "E-mail"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:84
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:86
 msgid "Role"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:149
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:151
 msgid "Select Subscription Plan..."
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:158
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:160
 msgid "Select Subscription Status"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:160
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:162
 msgid "Select Subscription Status..."
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:167, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:124, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:122, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:145, includes/admin/views/view-page-members-add-new-edit-subscription.php:278, includes/views/shortcodes/view-shortcode-account-subscription-details.php:52, add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:40, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:63
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:169, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:124, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:122, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:145, includes/admin/views/view-page-members-add-new-edit-subscription.php:278, includes/views/shortcodes/view-shortcode-account-subscription-details.php:52, add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:40, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:63
 msgid "Expiration Date"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:169
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:171
 msgid "Assign"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:219
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:221
 msgid "Select %s"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:348
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:352
 msgid "Edit User"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:376, includes/admin/class-admin-members-list-table.php:504
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:380, includes/admin/class-admin-members-list-table.php:504
 msgid "Subscription Plan Not Found - ID: %s"
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:403
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:426
 msgid "No users found"
 msgstr ""
 
@@ -3278,7 +3298,31 @@ msgstr ""
 msgid "Payment gateway was changed from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:860, includes/admin/class-admin-members.php:860, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:66, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:13, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
+#: includes/admin/class-admin-members.php:792
+msgid "Subscription <strong>activated</strong> successfully by WooCommerce [Order #%s] until <strong>%s</strong>"
+msgstr ""
+
+#: includes/admin/class-admin-members.php:795
+msgid "Subscription <strong>canceled</strong> by canceling WooCommerce <strong>Subscription #%s</strong>. "
+msgstr ""
+
+#: includes/admin/class-admin-members.php:798
+msgid "<strong>Status</strong> changed from <strong>%s</strong> to <strong>%s</strong> by WooCommerce [Order #%s]."
+msgstr ""
+
+#: includes/admin/class-admin-members.php:801
+msgid "<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s]."
+msgstr ""
+
+#: includes/admin/class-admin-members.php:804
+msgid "<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s]."
+msgstr ""
+
+#: includes/admin/class-admin-members.php:807
+msgid "Subscription initiated by WooCommerce [Order #%s]"
+msgstr ""
+
+#: includes/admin/class-admin-members.php:878, includes/admin/class-admin-members.php:878, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:66, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:13, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
 msgid "Members"
 msgstr ""
 
@@ -5254,36 +5298,52 @@ msgstr ""
 msgid "Select who can purchase this product."
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:16
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:19
 msgid "Allow cumulative discounts"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:19
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:22
 msgid "By checking this option we will cumulate all discounts that apply to a specific product. <strong> By default we're applying only the highest discount. </strong>"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:24
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:27
 msgid "Exclude products on sale "
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:27
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:30
 msgid "Do not apply any member discounts to products that are currently on sale."
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:37
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:40
 msgid "Product Messages"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:40
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:43
 msgid "Product Discounted - Membership Required"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:41
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:44
 msgid "Want a discount? Become a member, sign up for a subscription plan."
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:42
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:45
 msgid "Message displayed to non-members if the product has a membership discount. Displays below add to cart buttons. Leave blank to disable."
+msgstr ""
+
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:54
+msgid "Product Memberships"
+msgstr ""
+
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:57
+msgid "Activate product subscriptions"
+msgstr ""
+
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:60, includes/admin/views/view-page-settings-payments.php:129, includes/admin/views/view-page-settings-payments.php:144, includes/admin/views/view-page-settings-payments.php:156
+msgid "Enable"
+msgstr ""
+
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:63
+msgid "By checking this option we will activate the <strong>Subscription Plan</strong> Tab. <br> To link a Subscription Plan to a Product go to: <strong>Administration Panel</strong> --> <strong>Products.</strong><br><strong>Edit</strong> an existing product or click on <strong>Add New</strong> to add a new product.<br>After you are redirected to your product options, scroll down to <strong>Product data</strong> Section and click on <strong>Subscription Plan</strong> Tab."
 msgstr ""
 
 #: includes/admin/export/class-batch-export.php:132, includes/admin/export/class-export.php:172
@@ -5738,6 +5798,18 @@ msgstr ""
 msgid "Bulk Add Subscription Plans to Users"
 msgstr ""
 
+#: includes/admin/views/view-page-members-add-new-bulk.php:44, includes/admin/views/view-page-members-list-table.php:45
+msgid "Filter by"
+msgstr ""
+
+#: includes/admin/views/view-page-members-add-new-bulk.php:64
+msgid "User Role..."
+msgstr ""
+
+#: includes/admin/views/view-page-members-add-new-bulk.php:80, includes/admin/views/view-page-members-list-table.php:131, includes/admin/views/view-page-reports.php:31
+msgid "Filter"
+msgstr ""
+
 #: includes/admin/views/view-page-members-add-new-edit-subscription.php:58
 msgid "Add Member Subscription"
 msgstr ""
@@ -5850,10 +5922,6 @@ msgstr ""
 msgid "Search Members"
 msgstr ""
 
-#: includes/admin/views/view-page-members-list-table.php:45
-msgid "Filter by"
-msgstr ""
-
 #: includes/admin/views/view-page-members-list-table.php:63
 msgid "Subscription Plan..."
 msgstr ""
@@ -5908,10 +5976,6 @@ msgstr ""
 
 #: includes/admin/views/view-page-members-list-table.php:115
 msgid "This Month"
-msgstr ""
-
-#: includes/admin/views/view-page-members-list-table.php:131, includes/admin/views/view-page-reports.php:31
-msgid "Filter"
 msgstr ""
 
 #: includes/admin/views/view-page-payments-add-new-edit.php:46
@@ -6040,10 +6104,6 @@ msgstr ""
 
 #: includes/admin/views/view-page-settings-content_restriction.php:144
 msgid "Restricted Posts Preview"
-msgstr ""
-
-#: includes/admin/views/view-page-settings-content_restriction.php:149, add-ons-pro/tax/includes/views/view-settings-tab-tax.php:54
-msgid "None"
 msgstr ""
 
 #: includes/admin/views/view-page-settings-content_restriction.php:156
@@ -6412,10 +6472,6 @@ msgstr ""
 
 #: includes/admin/views/view-page-settings-payments.php:126
 msgid "Retry Payments"
-msgstr ""
-
-#: includes/admin/views/view-page-settings-payments.php:129, includes/admin/views/view-page-settings-payments.php:144, includes/admin/views/view-page-settings-payments.php:156
-msgid "Enable"
 msgstr ""
 
 #: includes/admin/views/view-page-settings-payments.php:132

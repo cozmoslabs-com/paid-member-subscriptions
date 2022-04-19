@@ -4,9 +4,12 @@
  */
 ?>
 
-<div id="pms-settings-woocommerce" class="pms-tab <?php echo ( $active_tab === 'woocommerce' ? 'tab-active' : '' ); ?>">
+<div id="pms-settings-woocommerce" class="pms-tab <?php echo ( isset( $active_tab ) && $active_tab === 'woocommerce' ? 'tab-active' : '' ); ?>">
 
-    <?php do_action( 'pms-settings-page_tab_woocommerce_before_content', $options ); ?>
+    <?php
+    if ( isset( $options ))
+        do_action( 'pms-settings-page_tab_woocommerce_before_content', $options );
+    ?>
 
     <div id="woocommerce-products">
 
@@ -43,6 +46,23 @@
         </div>
 
         <?php do_action( 'pms-settings-page_woocommerce_product_messages_after_content', $options ); ?>
+
+    </div>
+
+    <div id="woocommerce-products">
+
+        <h3><?php esc_html_e( 'Product Memberships', 'paid-member-subscriptions' ); ?></h3>
+
+        <div class="pms-form-field-wrapper">
+            <label class="pms-form-field-label" for="woocommerce-product-subscriptions"><?php esc_html_e( 'Activate product subscriptions', 'paid-member-subscriptions' ) ?></label>
+
+            <p class="description"><input type="checkbox" id="woocommerce-product-subscriptions" name="pms_woocommerce_settings[woo_product_subscriptions]" value="yes" <?php echo ( isset( $options['woo_product_subscriptions'] ) ? checked($options['woo_product_subscriptions'], 'yes', false) : '' ); ?> />
+                <?php echo wp_kses_post( __( 'Enable', 'paid-member-subscriptions' ) ); ?>
+            </p>
+            <p class="description">
+                <?php echo wp_kses_post( __( 'By checking this option we will activate the <strong>Subscription Plan</strong> Tab. <br> To link a Subscription Plan to a Product go to: <strong>Administration Panel</strong> --> <strong>Products.</strong><br><strong>Edit</strong> an existing product or click on <strong>Add New</strong> to add a new product.<br>After you are redirected to your product options, scroll down to <strong>Product data</strong> Section and click on <strong>Subscription Plan</strong> Tab.', 'paid-member-subscriptions' ) ); ?>
+            </p>
+        </div>
 
     </div>
 

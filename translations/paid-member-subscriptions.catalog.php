@@ -705,6 +705,12 @@
 <?php __("Choose...", "paid-member-subscriptions"); ?>
 <?php __("Remove this discount", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this discount?", "paid-member-subscriptions"); ?>
+<?php __("Subscription Plan", "paid-member-subscriptions"); ?>
+<?php __("None", "paid-member-subscriptions"); ?>
+<?php __("Please select a Subscription Plan you want to associate with this product:", "paid-member-subscriptions"); ?>
+<?php __("For this Subscription Plan association to work properly we need the following WooCommerce settings to be met:", "paid-member-subscriptions"); ?>
+<?php __('Allow customers to place orders without an account must be %1$sDISABLED%2$s', 'paid-member-subscriptions' ); ?>
+<?php __('Allow customers to create an account during checkout must be %1$sENABLED%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("PMS Register", "paid-member-subscriptions"); ?>
 <?php __("Insert the [pms-register] shortcode", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plans", "paid-member-subscriptions"); ?>
@@ -737,7 +743,6 @@
 <?php __("Actions", "paid-member-subscriptions"); ?>
 <?php __("View Details", "paid-member-subscriptions"); ?>
 <?php __("No payments found", "paid-member-subscriptions"); ?>
-<?php __("Subscription Plan", "paid-member-subscriptions"); ?>
 <?php __("Start Date", "paid-member-subscriptions"); ?>
 <?php __("Expiration date", "paid-member-subscriptions"); ?>
 <?php __("Auto-renewing", "paid-member-subscriptions"); ?>
@@ -815,6 +820,12 @@
 <?php __("Subscription canceled because user was deleted by <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription canceled by gateway.", "paid-member-subscriptions"); ?>
 <?php __("Payment gateway was changed from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __("Subscription <strong>activated</strong> successfully by WooCommerce [Order #%s] until <strong>%s</strong>", "paid-member-subscriptions"); ?>
+<?php __("Subscription <strong>canceled</strong> by canceling WooCommerce <strong>Subscription #%s</strong>. ", "paid-member-subscriptions"); ?>
+<?php __("<strong>Status</strong> changed from <strong>%s</strong> to <strong>%s</strong> by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
+<?php __("<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
+<?php __("<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s].", "paid-member-subscriptions"); ?>
+<?php __("Subscription initiated by WooCommerce [Order #%s]", "paid-member-subscriptions"); ?>
 <?php __("Members", "paid-member-subscriptions"); ?>
 <?php __("Delete Payments", "paid-member-subscriptions"); ?>
 <?php __("ID", "paid-member-subscriptions"); ?>
@@ -1328,6 +1339,10 @@
 <?php __("Product Discounted - Membership Required", "paid-member-subscriptions"); ?>
 <?php __("Want a discount? Become a member, sign up for a subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Message displayed to non-members if the product has a membership discount. Displays below add to cart buttons. Leave blank to disable.", "paid-member-subscriptions"); ?>
+<?php __("Product Memberships", "paid-member-subscriptions"); ?>
+<?php __("Activate product subscriptions", "paid-member-subscriptions"); ?>
+<?php __("Enable", "paid-member-subscriptions"); ?>
+<?php __("By checking this option we will activate the <strong>Subscription Plan</strong> Tab. <br> To link a Subscription Plan to a Product go to: <strong>Administration Panel</strong> --> <strong>Products.</strong><br><strong>Edit</strong> an existing product or click on <strong>Add New</strong> to add a new product.<br>After you are redirected to your product options, scroll down to <strong>Product data</strong> Section and click on <strong>Subscription Plan</strong> Tab.", "paid-member-subscriptions"); ?>
 <?php __("You do not have permission to export data.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Payments Summary", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plan Details", "paid-member-subscriptions"); ?>
@@ -1441,6 +1456,9 @@
 <?php __("End Date", "paid-member-subscriptions"); ?>
 <?php __("Leave dates empty for an export of all payments.", "paid-member-subscriptions"); ?>
 <?php __("Bulk Add Subscription Plans to Users", "paid-member-subscriptions"); ?>
+<?php __("Filter by", "paid-member-subscriptions"); ?>
+<?php __("User Role...", "paid-member-subscriptions"); ?>
+<?php __("Filter", "paid-member-subscriptions"); ?>
 <?php __("Add Member Subscription", "paid-member-subscriptions"); ?>
 <?php __("Edit Member Subscription", "paid-member-subscriptions"); ?>
 <?php __("Add Subscription", "paid-member-subscriptions"); ?>
@@ -1469,7 +1487,6 @@
 <?php __("Recent Payments", "paid-member-subscriptions"); ?>
 <?php __("Bulk Add New", "paid-member-subscriptions"); ?>
 <?php __("Search Members", "paid-member-subscriptions"); ?>
-<?php __("Filter by", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plan...", "paid-member-subscriptions"); ?>
 <?php __("Payment Gateway...", "paid-member-subscriptions"); ?>
 <?php __("Start Date...", "paid-member-subscriptions"); ?>
@@ -1484,7 +1501,6 @@
 <?php __("Tomorrow", "paid-member-subscriptions"); ?>
 <?php __("This Week", "paid-member-subscriptions"); ?>
 <?php __("This Month", "paid-member-subscriptions"); ?>
-<?php __("Filter", "paid-member-subscriptions"); ?>
 <?php __("Payment #%s", "paid-member-subscriptions"); ?>
 <?php __("Add New Payment", "paid-member-subscriptions"); ?>
 <?php __("Enter the username you wish to associate a payment with. You can create a new user <a href=\"%s\">here</a>.", "paid-member-subscriptions"); ?>
@@ -1517,7 +1533,6 @@
 <?php __("Restrict everything", "paid-member-subscriptions"); ?>
 <?php __("Restrict comments if they are enabled.", "paid-member-subscriptions"); ?>
 <?php __("Restricted Posts Preview", "paid-member-subscriptions"); ?>
-<?php __("None", "paid-member-subscriptions"); ?>
 <?php __("Show the first %s words of the post's content", "paid-member-subscriptions"); ?>
 <?php __("Show the content before the \"more\" tag", "paid-member-subscriptions"); ?>
 <?php __("Show a portion of the restricted post to logged-out users or users that are not subscribed to a plan.", "paid-member-subscriptions"); ?>
@@ -1610,7 +1625,6 @@
 <?php __("Never renew automatically", "paid-member-subscriptions"); ?>
 <?php __("Select renewal type. You can either allow the customer to opt in or force automatic renewal.", "paid-member-subscriptions"); ?>
 <?php __("Retry Payments", "paid-member-subscriptions"); ?>
-<?php __("Enable", "paid-member-subscriptions"); ?>
 <?php __("By checking this option, if a payment fails, the plugin will try to charge the user again after %s days for a maximum of %s retries.", "paid-member-subscriptions"); ?>
 <?php __("This is valid for the Stripe and PayPal Express with Reference Transactions payment gateways. For PayPal Subscriptions, this is happening by default.", "paid-member-subscriptions"); ?>
 <?php __("Allow Subscription Downgrades", "paid-member-subscriptions"); ?>

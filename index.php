@@ -3,13 +3,15 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.6.4
+ * Version: 2.6.5
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 6.2
+ * WC tested up to: 6.4
+ * Elementor tested up to: 3.6.1
+ * Elementor Pro tested up to: 3.6.4
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -36,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.6.4' );
+        define( 'PMS_VERSION', '2.6.5' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -239,6 +241,14 @@ Class Paid_Member_Subscriptions {
             $settings['allow-change'] = '1';
 
         update_option( 'pms_payments_settings', $settings );
+
+        //WooCommerce Integration
+        $settings = get_option( 'pms_woocommerce_settings', array() );
+
+        if( !isset( $settings['woo_product_subscriptions'] ) )
+            $settings['woo_product_subscriptions'] = 'yes';
+
+        update_option( 'pms_woocommerce_settings', $settings );
 
         // Messages
         $settings = get_option( 'pms_content_restriction_settings', array() );
@@ -520,6 +530,16 @@ Class Paid_Member_Subscriptions {
             if ( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/woocommerce-integration.php' ) && $enable_woo_integration )
                 include_once PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/woocommerce-integration.php';
 
+
+            /**
+             * WooCommerce Product Membership Subscription
+             *
+             */
+            $woo_settings = get_option( 'pms_woocommerce_settings' );
+
+            if ( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/woocommerce-product-membership-subscriptions.php' ) && isset( $woo_settings['woo_product_subscriptions'] ) && $woo_settings['woo_product_subscriptions'] == 'yes' )
+                include_once PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/woocommerce-product-membership-subscriptions.php';
+
         }
 
         /*
@@ -762,7 +782,7 @@ Class Paid_Member_Subscriptions {
         $charset_collate = $wpdb->get_charset_collate();
 
         $sql_query = "CREATE TABLE {$wpdb->prefix}{$this->prefix}member_subscriptions (
-          id bigint(20) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+          id bigint(20) AUTO_INCREMENT NOT NULL,
           user_id bigint(20) NOT NULL,
           subscription_plan_id bigint(20) NOT NULL,
           start_date datetime DEFAULT NULL,
@@ -777,6 +797,7 @@ Class Paid_Member_Subscriptions {
           billing_next_payment datetime DEFAULT NULL,
           billing_last_payment datetime DEFAULT NULL,
           trial_end datetime DEFAULT NULL,
+          PRIMARY KEY  (id),
           KEY user_id (user_id),
           KEY subscription_plan_id (subscription_plan_id)
         ) {$charset_collate};

@@ -565,6 +565,10 @@
     text-align: right;
 }
 
+#pms-form-add-new-member-bulk #post-body-content .tablenav.top .tablenav-pages {
+    display: none;
+}
+
 /**************************************************/
 /* Tables styling: Payments list
 /**************************************************/
@@ -1226,6 +1230,10 @@ body.post-type-pms-subscription #delete-action {
 
 #pms_add_member_bulk_subscription_plan {
     min-width: 250px;
+}
+
+#pms_add_member_bulk_subscription_status {
+    margin-right: 10px;
 }
 
 #pms-form-add-new-member-bulk .column-user_id {

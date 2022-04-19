@@ -39,10 +39,15 @@ function pms_filter_content( $content, $post = null ) {
     // Get subscription plans that have access to this post
     $user_status             = get_post_meta( $post->ID, 'pms-content-restrict-user-status', true );
     $post_subscription_plans = get_post_meta( $post->ID, 'pms-content-restrict-subscription-plan' );
+    $all_subscription_plans  = get_post_meta( $post->ID, 'pms-content-restrict-all-subscription-plans', true );
 
-    if ( !empty( $post_subscription_plans ) && is_user_logged_in() ) {
+    if ( ( !empty( $post_subscription_plans ) || !empty( $all_subscription_plans ) ) && is_user_logged_in() ) {
 
-        if ( pms_is_member( $user_ID, $post_subscription_plans ) ) {
+        if( $all_subscription_plans == 'all' && pms_is_member() ){
+            $pms_show_content = true;
+
+            return $content;
+        } elseif ( pms_is_member( $user_ID, $post_subscription_plans ) ) {
             $pms_show_content = true;
 
             return $content;
