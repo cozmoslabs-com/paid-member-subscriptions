@@ -57,10 +57,13 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
      */
     public function process_sign_up() {
 
+        $subscription = pms_get_current_subscription_from_tier( $this->user_id, $this->subscription_data['subscription_plan_id'] );
+
+        if( empty( $subscription ) && isset( $_POST['pms_current_subscription'] ) )
+            $subscription = pms_get_member_subscription( absint( $_POST['pms_current_subscription'] ) );
+        
         // Activate subscription if plan has a free trial
         if( !empty( $this->subscription_data['trial_end'] ) ){
-
-            $subscription = pms_get_current_subscription_from_tier( $this->user_id, $this->subscription_data['subscription_plan_id'] );
 
             $subscription->update( array( 'status' => 'active', 'billing_next_payment' => $this->subscription_data['trial_end'], 'billing_amount' => $this->subscription_plan->price ) );
 
@@ -72,15 +75,13 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
         if( $this->recurring ){
 
-            $billing_next_payment = !empty( $this->subscription_data['trial_end'] )?  $this->subscription_data['trial_end'] : $this->subscription_data['expiration_date'];
-
-            $subscription = pms_get_current_subscription_from_tier( $this->user_id, $this->subscription_data['subscription_plan_id'] );
+            $billing_next_payment = !empty( $this->subscription_data['trial_end'] ) ?  $this->subscription_data['trial_end'] : $this->subscription_data['expiration_date'];
 
             $subscription_data = array(
                 'billing_next_payment'  => $billing_next_payment,
                 'billing_duration'      => $this->subscription_plan->is_fixed_period_membership() ? '1' : $this->subscription_plan->duration,
                 'billing_duration_unit' => $this->subscription_plan->is_fixed_period_membership() ? 'year' : $this->subscription_plan->duration_unit,
-                'billing_amount'        => $this->amount,
+                'billing_amount'        => $this->subscription_data['billing_amount'],
             );
 
             $subscription->update( $subscription_data );
@@ -287,12 +288,15 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
                 'expiration_date'      => $subscription_plan->get_expiration_date(),
                 'status'               => 'active',
                 'payment_gateway'      => $this->payment_gateway,
-                // reset custom schedule
-                'billing_amount'        => '',
-                'billing_duration'      => '',
-                'billing_duration_unit' => '',
-                'billing_next_payment'  => ''
             );
+            
+            // reset custom schedule
+            if( $old_subscription->payment_gateway != 'manual' ){
+                $subscription_data['billing_amount'] = '';
+                $subscription_data['billing_duration'] = '';
+                $subscription_data['billing_duration_unit'] = '';
+                $subscription_data['billing_next_payment'] = '';
+            }
 
             $old_subscription->update( $subscription_data );
 

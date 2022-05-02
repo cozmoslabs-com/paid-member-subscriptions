@@ -6554,31 +6554,31 @@ msgstr ""
 msgid "To confirm the Uninstall process please type the word <strong>REMOVE</strong> in the field below and then click the Uninstall button."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:149
+#: includes/gateways/manual/class-payment-gateway-manual.php:150
 msgid "Thank you for upgrading. The changes will take effect after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:153
+#: includes/gateways/manual/class-payment-gateway-manual.php:154
 msgid "Thank you for downgrading. The changes will take effect after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:157
+#: includes/gateways/manual/class-payment-gateway-manual.php:158
 msgid "Thank you for choosing another plan. The changes will take effect after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:161
+#: includes/gateways/manual/class-payment-gateway-manual.php:162
 msgid "Thank you for renewing. The changes will take effect after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:165
+#: includes/gateways/manual/class-payment-gateway-manual.php:166
 msgid "Thank you for subscribing. The subscription will be activated after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:169
+#: includes/gateways/manual/class-payment-gateway-manual.php:170
 msgid "The subscription will be activated after the payment is received."
 msgstr ""
 
-#: includes/gateways/manual/class-payment-gateway-manual.php:362
+#: includes/gateways/manual/class-payment-gateway-manual.php:366
 msgid "Complete Payment"
 msgstr ""
 
