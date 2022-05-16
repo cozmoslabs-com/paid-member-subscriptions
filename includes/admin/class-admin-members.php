@@ -803,6 +803,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'woocommerce_product_subscription_expiration_renewal':
                 $message = sprintf( __( '<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s].', 'paid-member-subscriptions' ), $log['data']['new_expire_date'], $log['data']['order_id'] );
                 break;
+            case 'woocommerce_product_subscription_next_payment_update':
+                $message = sprintf( __( 'Next <strong>Scheduled Payment date</strong> updated to <strong>%s</strong> by the recurring payment process', 'paid-member-subscriptions' ), $log['data']['new_payment_date'] );
+                break;
             case 'woocommerce_new_product_subscription':
                 $message = sprintf( __( 'Subscription initiated by WooCommerce [Order #%s]', 'paid-member-subscriptions' ), $log['data']['order_id'] );
                 break;

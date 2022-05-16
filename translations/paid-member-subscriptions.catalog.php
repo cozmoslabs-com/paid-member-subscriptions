@@ -49,12 +49,14 @@
 <?php __("Cancel and Abandon Subscription Email", "paid-member-subscriptions"); ?>
 <?php __("Expired Subscription Email", "paid-member-subscriptions"); ?>
 <?php __("Failed Payment Email", "paid-member-subscriptions"); ?>
+<?php __("Pending Manual Payment Email", "paid-member-subscriptions"); ?>
 <?php __("Renew Subscription Email", "paid-member-subscriptions"); ?>
 <?php __("You have a new account", "paid-member-subscriptions"); ?>
 <?php __("Your Subscription is now active", "paid-member-subscriptions"); ?>
 <?php __("Your Subscription has been canceled", "paid-member-subscriptions"); ?>
 <?php __("Your Subscription has expired", "paid-member-subscriptions"); ?>
 <?php __("Your latest payment has failed", "paid-member-subscriptions"); ?>
+<?php __("Pending manual payment", "paid-member-subscriptions"); ?>
 <?php __("Your Subscription was renewed", "paid-member-subscriptions"); ?>
 <?php __("A New User has registered to your website", "paid-member-subscriptions"); ?>
 <?php __("A Member Subscription is now active", "paid-member-subscriptions"); ?>
@@ -66,12 +68,14 @@
 <?php __("Hello {{display_name}}, The \"{{subscription_name}}\" plan has been canceled.", "paid-member-subscriptions"); ?>
 <?php __("Hello {{display_name}}, The \"{{subscription_name}}\" plan has expired.", "paid-member-subscriptions"); ?>
 <?php __("Your latest payment for the \"{{subscription_name}}\" plan has failed. You can go to the <a href=\"{{account_page_url}}\">account page</a> and login in order to try again.<br><br>{{automatic_retry_message}}", "paid-member-subscriptions"); ?>
+<?php __("Hello {{display_name}}!<br>We received your order for \"{{subscription_name}}\" plan.<br>You can make the payment using the following bank details:", "paid-member-subscriptions"); ?>
 <?php __("Hello {{display_name}}, The \"{{subscription_name}}\" plan has been renewed.", "paid-member-subscriptions"); ?>
 <?php __("{{display_name}} has just created an account!", "paid-member-subscriptions"); ?>
 <?php __("The \"{{subscription_name}}\" plan has been successfully activated for user {{display_name}}.", "paid-member-subscriptions"); ?>
 <?php __("The \"{{subscription_name}}\" plan has been canceled for user {{display_name}}.", "paid-member-subscriptions"); ?>
 <?php __("The \"{{subscription_name}}\" plan has expired for user {{display_name}}.", "paid-member-subscriptions"); ?>
 <?php __("The \"{{subscription_name}}\" plan was renewed for user {{display_name}}.", "paid-member-subscriptions"); ?>
+<?php __("{{display_name}} has just placed an order for \"{{subscription_name}}\" plan.<br><strong>Manual Payment</strong> option was used and the status is <strong>Pending</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a username.", "paid-member-subscriptions"); ?>
 <?php __("This username is already taken. Please choose another one.", "paid-member-subscriptions"); ?>
 <?php __("This username is already taken. Please choose another one or login %shere%s.", "paid-member-subscriptions"); ?>
@@ -825,6 +829,7 @@
 <?php __("<strong>Status</strong> changed from <strong>%s</strong> to <strong>%s</strong> by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
 <?php __("<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
 <?php __("<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s].", "paid-member-subscriptions"); ?>
+<?php __("Next <strong>Scheduled Payment date</strong> updated to <strong>%s</strong> by the recurring payment process", "paid-member-subscriptions"); ?>
 <?php __("Subscription initiated by WooCommerce [Order #%s]", "paid-member-subscriptions"); ?>
 <?php __("Members", "paid-member-subscriptions"); ?>
 <?php __("Delete Payments", "paid-member-subscriptions"); ?>
@@ -1418,6 +1423,7 @@
 <?php __("Offer Membership Discounts", "paid-member-subscriptions"); ?>
 <?php __("Offer product discounts to members based on their active subscription. Set discounts globally per subscription plan, or individually per product.", "paid-member-subscriptions"); ?>
 <?php __("Make use of the extra flexibility by setting custom restriction messages per product, excluding products on sale from membership discounts, allowing cumulative discounts & more. ", "paid-member-subscriptions"); ?>
+<?php __("You can associate Subscription Plans with Products in order to sell them through WooCommerce.", "paid-member-subscriptions"); ?>
 <?php __("Featured Add-ons", "paid-member-subscriptions"); ?>
 <?php __("Get more functionality by using dedicated Add-ons and tailor Paid Member Subscriptions to your project needs.", "paid-member-subscriptions"); ?>
 <?php __("These addons extend your WordPress Membership Plugin and are available with the <a href=\"%s\">Hobbyist and PRO</a> versions.", "paid-member-subscriptions"); ?>

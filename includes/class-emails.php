@@ -63,6 +63,10 @@ Class PMS_Emails {
                 $action = 'activate';
                 break;
 
+            case 'pending':
+                $action = 'pending_manual_payment';
+                break;
+
             case 'abandoned':
             case 'canceled':
                 $action = 'cancel';
@@ -102,6 +106,10 @@ Class PMS_Emails {
             $payment_id = $payments[0]->id;
         else
             $payment_id = 0;
+
+        // send the pending manual payment email only if the payment gateway is manual
+        if ( $action == 'pending_manual_payment' && $subscription_data['payment_gateway'] != 'manual' )
+            return;
 
         /**
          * Send the email to the user
@@ -357,7 +365,7 @@ Class PMS_Emails {
      */
     static function get_email_actions() {
 
-        $email_actions = array( 'register', 'activate', 'cancel', 'expired' );
+        $email_actions = array( 'register', 'activate', 'cancel', 'expired', 'pending_manual_payment' );
 
         return apply_filters( 'pms_email_actions', $email_actions );
 
@@ -389,12 +397,13 @@ Class PMS_Emails {
     static function get_email_headings() {
 
         $email_headings = array(
-            'register'       => __( 'Register Email', 'paid-member-subscriptions' ),
-            'activate'       => __( 'Activate Subscription Email', 'paid-member-subscriptions' ),
-            'cancel'         => __( 'Cancel and Abandon Subscription Email', 'paid-member-subscriptions' ),
-            'expired'        => __( 'Expired Subscription Email', 'paid-member-subscriptions' ),
-            'payment_failed' => __( 'Failed Payment Email', 'paid-member-subscriptions' ),
-            'renew'          => __( 'Renew Subscription Email', 'paid-member-subscriptions' )
+            'register'               => __( 'Register Email', 'paid-member-subscriptions' ),
+            'activate'               => __( 'Activate Subscription Email', 'paid-member-subscriptions' ),
+            'cancel'                 => __( 'Cancel and Abandon Subscription Email', 'paid-member-subscriptions' ),
+            'expired'                => __( 'Expired Subscription Email', 'paid-member-subscriptions' ),
+            'payment_failed'         => __( 'Failed Payment Email', 'paid-member-subscriptions' ),
+            'pending_manual_payment' => __( 'Pending Manual Payment Email', 'paid-member-subscriptions' ),
+            'renew'                  => __( 'Renew Subscription Email', 'paid-member-subscriptions' )
         );
 
         return apply_filters( 'pms_email_headings', $email_headings );
@@ -416,12 +425,13 @@ Class PMS_Emails {
         if( empty( $send_to ) || $send_to == 'user' ) {
 
             $email_subjects = array(
-                'register'       => __( 'You have a new account', 'paid-member-subscriptions' ),
-                'activate'       => __( 'Your Subscription is now active', 'paid-member-subscriptions' ),
-                'cancel'         => __( 'Your Subscription has been canceled', 'paid-member-subscriptions' ),
-                'expired'        => __( 'Your Subscription has expired', 'paid-member-subscriptions' ),
-                'payment_failed' => __( 'Your latest payment has failed', 'paid-member-subscriptions' ),
-                'renew'          => __( 'Your Subscription was renewed', 'paid-member-subscriptions' ),
+                'register'               => __( 'You have a new account', 'paid-member-subscriptions' ),
+                'activate'               => __( 'Your Subscription is now active', 'paid-member-subscriptions' ),
+                'cancel'                 => __( 'Your Subscription has been canceled', 'paid-member-subscriptions' ),
+                'expired'                => __( 'Your Subscription has expired', 'paid-member-subscriptions' ),
+                'payment_failed'         => __( 'Your latest payment has failed', 'paid-member-subscriptions' ),
+                'pending_manual_payment' => __( 'Pending manual payment', 'paid-member-subscriptions' ),
+                'renew'                  => __( 'Your Subscription was renewed', 'paid-member-subscriptions' ),
             );
 
         }
@@ -430,11 +440,12 @@ Class PMS_Emails {
         if( $send_to == 'admin' ) {
 
             $email_subjects = array(
-                'register'       => __( 'A New User has registered to your website', 'paid-member-subscriptions' ),
-                'activate'       => __( 'A Member Subscription is now active', 'paid-member-subscriptions' ),
-                'cancel'         => __( 'A Member Subscription has been canceled', 'paid-member-subscriptions' ),
-                'expired'        => __( 'A Member Subscription has expired', 'paid-member-subscriptions' ),
-                'renew'          => __( 'A Member Subscription was renewed', 'paid-member-subscriptions' ),
+                'register'               => __( 'A New User has registered to your website', 'paid-member-subscriptions' ),
+                'activate'               => __( 'A Member Subscription is now active', 'paid-member-subscriptions' ),
+                'cancel'                 => __( 'A Member Subscription has been canceled', 'paid-member-subscriptions' ),
+                'expired'                => __( 'A Member Subscription has expired', 'paid-member-subscriptions' ),
+                'renew'                  => __( 'A Member Subscription was renewed', 'paid-member-subscriptions' ),
+                'pending_manual_payment' => __( 'Pending manual payment', 'paid-member-subscriptions' ),
             );
 
         }
@@ -458,12 +469,13 @@ Class PMS_Emails {
         if( empty( $send_to ) || $send_to == 'user' ) {
 
             $email_content = array(
-                'register'       => __( 'Congratulations {{display_name}}! You have successfully created an account!', 'paid-member-subscriptions' ),
-                'activate'       => __( 'Congratulations {{display_name}}! The "{{subscription_name}}" plan has been successfully activated.', 'paid-member-subscriptions' ),
-                'cancel'         => __( 'Hello {{display_name}}, The "{{subscription_name}}" plan has been canceled.', 'paid-member-subscriptions' ),
-                'expired'        => __( 'Hello {{display_name}}, The "{{subscription_name}}" plan has expired.', 'paid-member-subscriptions' ),
-                'payment_failed' => __( 'Your latest payment for the "{{subscription_name}}" plan has failed. You can go to the <a href="{{account_page_url}}">account page</a> and login in order to try again.<br><br>{{automatic_retry_message}}', 'paid-member-subscriptions' ),
-                'renew'          => __( 'Hello {{display_name}}, The "{{subscription_name}}" plan has been renewed.', 'paid-member-subscriptions' ),
+                'register'               => __( 'Congratulations {{display_name}}! You have successfully created an account!', 'paid-member-subscriptions' ),
+                'activate'               => __( 'Congratulations {{display_name}}! The "{{subscription_name}}" plan has been successfully activated.', 'paid-member-subscriptions' ),
+                'cancel'                 => __( 'Hello {{display_name}}, The "{{subscription_name}}" plan has been canceled.', 'paid-member-subscriptions' ),
+                'expired'                => __( 'Hello {{display_name}}, The "{{subscription_name}}" plan has expired.', 'paid-member-subscriptions' ),
+                'payment_failed'         => __( 'Your latest payment for the "{{subscription_name}}" plan has failed. You can go to the <a href="{{account_page_url}}">account page</a> and login in order to try again.<br><br>{{automatic_retry_message}}', 'paid-member-subscriptions' ),
+                'pending_manual_payment' => __( 'Hello {{display_name}}!<br>We received your order for "{{subscription_name}}" plan.<br>You can make the payment using the following bank details:', 'paid-member-subscriptions' ),
+                'renew'                  => __( 'Hello {{display_name}}, The "{{subscription_name}}" plan has been renewed.', 'paid-member-subscriptions' ),
             );
 
         }
@@ -472,11 +484,12 @@ Class PMS_Emails {
         if( $send_to == 'admin' ) {
 
             $email_content = array(
-                'register' => __( '{{display_name}} has just created an account!', 'paid-member-subscriptions' ),
-                'activate' => __( 'The "{{subscription_name}}" plan has been successfully activated for user {{display_name}}.', 'paid-member-subscriptions' ),
-                'cancel'   => __( 'The "{{subscription_name}}" plan has been canceled for user {{display_name}}.', 'paid-member-subscriptions' ),
-                'expired'  => __( 'The "{{subscription_name}}" plan has expired for user {{display_name}}.', 'paid-member-subscriptions' ),
-                'renew'    => __( 'The "{{subscription_name}}" plan was renewed for user {{display_name}}.', 'paid-member-subscriptions' ),
+                'register'               => __( '{{display_name}} has just created an account!', 'paid-member-subscriptions' ),
+                'activate'               => __( 'The "{{subscription_name}}" plan has been successfully activated for user {{display_name}}.', 'paid-member-subscriptions' ),
+                'cancel'                 => __( 'The "{{subscription_name}}" plan has been canceled for user {{display_name}}.', 'paid-member-subscriptions' ),
+                'expired'                => __( 'The "{{subscription_name}}" plan has expired for user {{display_name}}.', 'paid-member-subscriptions' ),
+                'renew'                  => __( 'The "{{subscription_name}}" plan was renewed for user {{display_name}}.', 'paid-member-subscriptions' ),
+                'pending_manual_payment' => __( '{{display_name}} has just placed an order for "{{subscription_name}}" plan.<br><strong>Manual Payment</strong> option was used and the status is <strong>Pending</strong>.', 'paid-member-subscriptions' ),
             );
 
         }

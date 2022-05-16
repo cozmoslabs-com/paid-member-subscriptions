@@ -188,10 +188,15 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
 
     if ( is_object( $subscription_plan ) && !empty( $user_id ) ) {
 
-        $subscription_status = pms_woo_set_subscription_status( $order_status, $product_type, $existing_subscription['0']->status );
+        if ( isset( $existing_subscription['0'] ))
+            $existing_subscription_status = $existing_subscription['0']->status;
+        else $existing_subscription_status = '';
+
+        $subscription_status = pms_woo_set_subscription_status( $order_status, $product_type, $existing_subscription_status );
 
         if( isset( $existing_subscription['0'] )) {
             $subscription_expiration_date = $existing_subscription['0']->expiration_date;
+            $subscription_next_payment_date = $existing_subscription['0']->billing_next_payment;
 
             if ( $order_status == 'completed' ) {
 
@@ -202,9 +207,16 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
 
                 elseif ( $existing_subscription['0']->status == 'active' || $existing_subscription['0']->status == 'canceled' ) {  //   extend expiration date (new order placed for already subscribed-to Subscription Plan with active or canceled status )
 
-                    $old_expiration_timestamp = strtotime($existing_subscription['0']->expiration_date);
-                    $new_expiration_timestamp = strtotime("+" . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit, $old_expiration_timestamp);
-                    $subscription_expiration_date = date('Y-m-d H:i:s', $new_expiration_timestamp);
+                    if ( !empty( $subscription_next_payment_date )) {
+                        $old_next_payment_date = strtotime($existing_subscription['0']->billing_next_payment);
+                        $new_next_payment_date = strtotime("+" . $existing_subscription['0']->billing_duration . " " . $existing_subscription['0']->billing_duration_unit, $old_next_payment_date);
+                        $subscription_next_payment_date = date('Y-m-d H:i:s', $new_next_payment_date);
+                    }
+                    else {
+                        $old_expiration_timestamp = strtotime($existing_subscription['0']->expiration_date);
+                        $new_expiration_timestamp = strtotime("+" . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit, $old_expiration_timestamp);
+                        $subscription_expiration_date = date('Y-m-d H:i:s', $new_expiration_timestamp);
+                    }
 
                     if ( $existing_subscription['0']->status == 'active' )   // if subscription already Active don't update status
                         $subscription_status = $existing_subscription['0']->status;
@@ -214,6 +226,7 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
                 $subscription_data = array(
                     'id' => $existing_subscription['0']->id,
                     'expiration_date' => $subscription_expiration_date,
+                    'billing_next_payment' => $subscription_next_payment_date,
                     'status' => $subscription_status
                 );
 
@@ -286,10 +299,13 @@ function pms_woo_update_member_subscription( $subscription_data, $subscription_r
                     }
                     else pms_add_member_subscription_log( $subscription_data['id'], 'woocommerce_product_subscription_status_update', array( 'old_status' => $existing_sub->status, 'new_status' => $subscription_data['status'], 'order_id' => $order_id ));
                 }
-                elseif ( $existing_sub->expiration_date != $subscription_data['expiration_date'] )
+                elseif ( $existing_sub->expiration_date != $subscription_data['expiration_date'] ) {
                     if ( $subscription_renewal )
                         pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_expiration_renewal', array('new_expire_date' => $subscription_data['expiration_date'], 'order_id' => $order_id));
                     else pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_expiration_update', array('new_expire_date' => $subscription_data['expiration_date'], 'order_id' => $order_id));
+                }
+                elseif ( $existing_sub->billing_next_payment != $subscription_data['billing_next_payment'] )
+                    pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_next_payment_update', array('new_payment_date' => $subscription_data['billing_next_payment']));
             }
         }
     }

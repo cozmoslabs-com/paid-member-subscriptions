@@ -381,7 +381,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
             $data[] = apply_filters( 'pms_members_list_table_entry_data', array(
                 'user_id'           => $member->user_id,
-                'username'          => '<strong><a href="' . add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $member->user_id ) ) . '">' . esc_attr( $member->username ) . '</a></strong>',
+                'username'          => '<strong><a href="' . add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $member->user_id ), admin_url( 'admin.php?page=pms-members-page' ) ) . '">' . esc_attr( $member->username ) . '</a></strong>',
                 'name'              => $member_name,
                 'email'             => $member->email,
                 'subscriptions'     => $member_subscriptions
@@ -459,7 +459,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
         $actions = array();
 
         // Add an edit user action for each member
-        $actions['edit'] = '<a href="' . add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $item['user_id'] ) ) . '">' . esc_html__( 'Edit Member', 'paid-member-subscriptions' ) . '</a>';
+        $actions['edit'] = '<a href="' . add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $item['user_id'] ), admin_url( 'admin.php?page=pms-members-page' ) ) . '">' . esc_html__( 'Edit Member', 'paid-member-subscriptions' ) . '</a>';
 
         // Return value saved for username and also the row actions
         return $item['username'] . $this->row_actions( apply_filters( 'pms_members_list_username_actions', $actions, $item ) );

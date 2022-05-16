@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 5.9
-Stable tag: 2.6.6
+Stable tag: 2.6.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -195,6 +195,11 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.6.7 =
+* Feature: Added a Pending Manual Payment email that can be enabled for both the user and admin
+* Fix: Better PSP compatibility for WooCommerce Memberships
+* Misc: Improve speed in certain cases after searching and clicking on a member
+
 = 2.6.6 =
 * Fix: Issue with Manual recurring payments not working when the user was attempting to change his subscription plan
 * Fix: Billing Fields initial display with certain gateway combinations

@@ -115,6 +115,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <h3><?php esc_html_e( 'Settings', 'paid-member-subscriptions' ); ?></h3>
                     <p><?php esc_html_e( 'Make use of the extra flexibility by setting custom restriction messages per product, excluding products on sale from membership discounts, allowing cumulative discounts & more. ', 'paid-member-subscriptions' ); ?></p>
                 </div>
+                <div>
+                    <h3><?php esc_html_e( 'Product Memberships', 'paid-member-subscriptions' ); ?></h3>
+                    <p><?php esc_html_e( 'You can associate Subscription Plans with Products in order to sell them through WooCommerce.', 'paid-member-subscriptions' ); ?></p>
+                </div>
             </div>
         </div>
 
