@@ -135,7 +135,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <br />
     <div>
         <h3><?php esc_html_e( 'Basic Add-ons', 'paid-member-subscriptions' );?></h3>
-        <p><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">Hobbyist and PRO</a> versions.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-link&utm_campaign=PMSFree' ); ?></p>
+        <p><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">Basic and PRO</a> versions.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-link&utm_campaign=PMSFree' ); ?></p>
     </div>
     <div class="pms-row pms-4-col pms-addons">
         <div>

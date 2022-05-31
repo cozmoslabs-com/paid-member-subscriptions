@@ -17,6 +17,10 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 		add_action('elementor/frontend/section/should_render', array( $this, 'section_render' ), 10, 2 );
 		add_action('elementor/frontend/section/after_render', array( $this, 'section_custom_messages' ), 10, 2 );
 
+        // Filter container display & add custom messages
+        add_action( 'elementor/frontend/container/should_render', array( $this, 'section_render' ), 10, 2 );
+        add_action( 'elementor/frontend/container/after_render', array( $this, 'section_custom_messages' ), 10, 2 );
+
 		// Filter elementor the_content hook
 		add_action( 'elementor/frontend/the_content', array( $this, 'filter_elementor_templates' ), 20 );
 	}

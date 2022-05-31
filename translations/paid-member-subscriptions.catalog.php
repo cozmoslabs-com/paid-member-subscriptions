@@ -1318,6 +1318,10 @@
 <?php __("Login", "paid-member-subscriptions"); ?>
 <?php __("Redirects", "paid-member-subscriptions"); ?>
 <?php __("After login", "paid-member-subscriptions"); ?>
+<?php __("Product Restricted Message", "paid-member-subscriptions"); ?>
+<?php __("Restricted Message", "paid-member-subscriptions"); ?>
+<?php __("Message for restricted product purchase", "paid-member-subscriptions"); ?>
+<?php __('This message will be displayed when the product purchase is restricted and the <strong>Add to Cart</strong> button is hidden.<br><br>If you leave this <strong>empty</strong>, the %1$sCustom Message%3$s for restricted product purchase will be displayed.<br><br>If Custom Messages are <strong>disabled</strong> or <strong>empty</strong>, the %2$sDefault Message%3$s for restricted product purchase will be displayed.', 'paid-member-subscriptions' ); ?>
 <?php __("Recover Password", "paid-member-subscriptions"); ?>
 <?php __("After recovery", "paid-member-subscriptions"); ?>
 <?php __("Selected Plan", "paid-member-subscriptions"); ?>
@@ -1426,7 +1430,7 @@
 <?php __("You can associate Subscription Plans with Products in order to sell them through WooCommerce.", "paid-member-subscriptions"); ?>
 <?php __("Featured Add-ons", "paid-member-subscriptions"); ?>
 <?php __("Get more functionality by using dedicated Add-ons and tailor Paid Member Subscriptions to your project needs.", "paid-member-subscriptions"); ?>
-<?php __("These addons extend your WordPress Membership Plugin and are available with the <a href=\"%s\">Hobbyist and PRO</a> versions.", "paid-member-subscriptions"); ?>
+<?php __("These addons extend your WordPress Membership Plugin and are available with the <a href=\"%s\">Basic and PRO</a> versions.", "paid-member-subscriptions"); ?>
 <?php __("Integrate Paid Member Subscriptions with the popular forums plugin, bbPress.", "paid-member-subscriptions"); ?>
 <?php __("The Fixed Period Membership Add-On allows your Subscriptions to end at a specific date.", "paid-member-subscriptions"); ?>
 <?php __("Labels Edit", "paid-member-subscriptions"); ?>

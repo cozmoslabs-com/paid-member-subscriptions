@@ -15,6 +15,10 @@ class PMS_Elementor {
         array(
             'element' => 'section',
             'action'  => 'section_advanced',
+        ),
+        array(
+            'element' => 'container',
+            'action'  => 'section_layout',
         )
     );
     public $section_name = 'pms_section_visibility_settings';
@@ -60,6 +64,7 @@ class PMS_Elementor {
 		require_once( __DIR__ . '/widgets/class-widget-login.php' );
 		require_once( __DIR__ . '/widgets/class-widget-recover-password.php' );
 		require_once( __DIR__ . '/widgets/class-widget-register.php' );
+		require_once( __DIR__ . '/widgets/class-widget-product-purchase-restricted-message.php' );
 	}
 
 	/**
@@ -72,6 +77,7 @@ class PMS_Elementor {
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Login_Widget() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Recover_Password_Widget() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Register_Widget() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Product_Purchase_Restricted_Message_Widget() );
 	}
 
     private function register_sections() {

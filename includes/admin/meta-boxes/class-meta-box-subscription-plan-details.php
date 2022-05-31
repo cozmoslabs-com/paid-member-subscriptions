@@ -79,18 +79,7 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
         if( isset( $_POST['pms_subscription_plan_description'] ) )
             update_post_meta( $post_id, 'pms_subscription_plan_description', wp_kses_post( $_POST['pms_subscription_plan_description'] ) );
 
-        // Update subscription plan duration meta data
-        if( isset( $_POST['pms_subscription_plan_duration'] ) ) {
-
-            $subscription_plan_duration = sanitize_text_field( $_POST['pms_subscription_plan_duration'] );
-
-            // Check to see if entered value is a whole number, if not set the value to 0 (zero)
-            if( ( !ctype_digit( $subscription_plan_duration ) ) || ( (int)$subscription_plan_duration === 0 && strlen( $subscription_plan_duration ) > 1 ) )
-                $subscription_plan_duration = 0;
-
-            update_post_meta( $post_id, 'pms_subscription_plan_duration', absint( $subscription_plan_duration ) );
-        }
-
+        
         if( isset( $_POST['pms_subscription_plan_duration_unit'] ) ){
 
             $duration_units = array( 'day', 'week', 'month', 'year' );
@@ -104,6 +93,36 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
 
         }
 
+        // Update subscription plan duration meta data
+        if( isset( $_POST['pms_subscription_plan_duration'] ) ) {
+
+            $subscription_plan_duration = sanitize_text_field( $_POST['pms_subscription_plan_duration'] );
+
+            // Check to see if entered value is a whole number, if not set the value to 0 (zero)
+            if( ( !ctype_digit( $subscription_plan_duration ) ) || ( (int)$subscription_plan_duration === 0 && strlen( $subscription_plan_duration ) > 1 ) )
+                $subscription_plan_duration = 0;
+
+            /**
+             * Limit the maximum duration that can be set based on the duration unit that is selected
+             * D = 90, W = 52, M = 24, Y = 5
+             */
+            if( !empty( $duration_unit ) ){
+                if( $duration_unit == 'day' && $subscription_plan_duration > 90 )
+                    add_settings_error( 'pms-plans-metabox', 'pms-plans-metabox-duration-days-error', 'Duration for the selected unit (day) can be set to a maximum of 90.', 'error' );
+                else if( $duration_unit == 'week' && $subscription_plan_duration > 52 )
+                    add_settings_error( 'pms-plans-metabox', 'pms-plans-metabox-duration-week-error', 'Duration for the selected unit (week) can be set to a maximum of 52.', 'error' );
+                else if( $duration_unit == 'month' && $subscription_plan_duration > 24 )
+                    add_settings_error( 'pms-plans-metabox', 'pms-plans-metabox-duration-month-error', 'Duration for the selected unit (month) can be set to a maximum of 24.', 'error' );
+                else if( $duration_unit == 'year' && $subscription_plan_duration > 5 )
+                    add_settings_error( 'pms-plans-metabox', 'pms-plans-metabox-duration-year-error', 'Duration for the selected unit (year) can be set to a maximum of 5.', 'error' );
+                else {
+
+                    update_post_meta( $post_id, 'pms_subscription_plan_duration', absint( $subscription_plan_duration ) );
+
+                }
+            }
+            
+        }
 
         // Update price post meta
         if( isset( $_POST['pms_subscription_plan_price'] ) ) {

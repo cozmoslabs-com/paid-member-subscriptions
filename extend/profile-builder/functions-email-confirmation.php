@@ -43,6 +43,12 @@ function pms_pb_email_confirmation_payment_form( $message ) {
     if( empty( $activation_key ) )
         return $message;
 
+    // if PB autologin is enabled, don't show the form until the user is logged in
+    $wppb_general_settings = get_option( 'wppb_general_settings' );
+
+    if( ( strcasecmp( $wppb_general_settings['automaticallyLogIn'], 'Yes' ) == 0 || strcasecmp( apply_filters( 'wppb_automatically_login_after_register', 'No' ), 'Yes' ) == 0 ) && !is_user_logged_in() )
+        return $message;
+
     // Get cached user meta-data
     $signup_data = wppb_get_signup_data( $activation_key );
 
@@ -366,3 +372,27 @@ function pms_assign_subscription_on_manual_user_activation( $user_id, $password,
     $subscription->insert( $subscription_data );
 }
 add_action( 'wppb_activate_user', 'pms_assign_subscription_on_manual_user_activation', 20, 3 );
+
+add_filter( 'wppb_login_after_reg_redirect_url', 'pms_pb_ec_autologin_url' );
+function pms_pb_ec_autologin_url( $redirect_url ){
+
+    if( isset( $_GET['activation_key'] ) ){
+
+        $activation_key = sanitize_text_field( $_GET['activation_key'] );
+
+        // Get cached user meta-data
+        $signup_data = wppb_get_signup_data( $activation_key );
+
+        if( is_null( $signup_data ) )
+            return $redirect_url;
+
+        if( empty( $signup_data->meta['subscription_plans'] ) )
+            return $redirect_url;
+
+        $redirect_url = add_query_arg( 'activation_key', $activation_key, $redirect_url );
+
+    }
+
+    return $redirect_url;
+
+}

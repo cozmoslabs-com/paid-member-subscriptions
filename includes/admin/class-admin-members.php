@@ -179,6 +179,12 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             if( isset( $_POST['expiration_date'] ) )
                 $_POST['expiration_date'] = sanitize_text_field( $_POST['expiration_date'] ) . ' 23:59:59';
 
+
+            // When an admin cancels a PSP subscription, the expiration date needs to be set
+            if( isset( $_POST['status'] ) && in_array( $_POST['status'], array( 'expired', 'canceled' ) ) && $_POST['status'] != $member_subscription->status ){
+                $_POST['expiration_date'] = $member_subscription->billing_next_payment;
+            }
+
             $updated = $member_subscription->update( $_POST );
 
             if( $updated ) {

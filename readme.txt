@@ -3,8 +3,8 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
-Tested up to: 5.9
-Stable tag: 2.6.7
+Tested up to: 6.0
+Stable tag: 2.6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -195,6 +195,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.6.8 =
+* Elementor Integration: added Content Restriction compatibility with the new Elementor containers feature
+* Elementor Integration: added an extra widget 'Product Restricted Message` which can be used to show the restriction message when the WooCommerce Single Product page is built using Elementor
+* Fix: issue with PSP subscription not being canceled correctly when admin was doing it from the back-end
+* Fix: issue with the subscribe form not showing after a Profile Builder Email Confirmation if the PB Automatically Login feature was activated
+* Misc: limit Subscription Plans duration value based on PayPal restrictions
+
 = 2.6.7 =
 * Feature: Added a Pending Manual Payment email that can be enabled for both the user and admin
 * Fix: Better PSP compatibility for WooCommerce Memberships
