@@ -12,11 +12,11 @@ Free WordPress membership plugin that lets you create subscription plans, accept
 
 == Description ==
 
-**[Paid Member Subscriptions](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) is a robust WordPress membership plugin that's a joy to setup and use.**
+**[Paid Member Subscriptions](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) is a robust WordPress membership plugin that's a joy to set up and use.**
 
 It offers a complete membership solution, allowing you to accept member payments, manage members, create subscription plans and restrict access to premium content.
 
-Integrates with [WooCommerce](https://www.cozmoslabs.com/94386-restrict-woocommerce-product-purchase-shop-page-non-members/), allowing you to restrict product viewing and purchasing to members-only as well as offer special discounted product price based on subscription plans.
+Integrates with [WooCommerce](https://www.cozmoslabs.com/94386-restrict-woocommerce-product-purchase-shop-page-non-members/), allowing you to restrict product viewing and purchasing to members-only as well, offer special discounted product price based on subscription plans as well as allow your customers to purchase subscription plans through the WooCommerce Checkout.
 You can also use it to setup an [Elementor membership site](https://www.cozmoslabs.com/156382-elementor-membership-site-with-paid-member-subscriptions/) fast and easy.
 
 To start simply create a new page and give it an intuitive name(e.g. Member Registration) and add the following shortcode: [pms-register].
@@ -80,6 +80,7 @@ Paid Member Subscriptions integrates beautifully with [WooCommerce](https://www.
 * **Create a Members-only Store** - [restrict access](https://www.cozmoslabs.com/94386-restrict-woocommerce-product-purchase-shop-page-non-members/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to the Shop page to members-only
 * **Restrict Product Viewing and Purchasing** - control who can see or purchase a WooCommerce product based on logged in status and subscription plan. Easily create members-only products.
 * **Offer discounted product prices to members** - offer special product prices to members based on their active subscription. Set membership discounts per product or subscription plan.
+* **Sell subscription plans as products** - associate products with Subscription Plans to offer customers a membership with a product purchase or allow customers to purchase Paid Member Subscriptions plans using the WooCommerce Checkout
 
 = Others =
 * GDPR
