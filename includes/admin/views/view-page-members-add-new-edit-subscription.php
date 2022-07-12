@@ -270,7 +270,7 @@ if( ! empty( $_POST ) ) {
 
 										}    
 
-                                        if( !$hide_expiration_date ) :
+                                        if( !apply_filters( 'pms_view_add_new_edit_subscription_hide_expiration_date', $hide_expiration_date, $member_subscription ) ) :
                                     ?>
                                             <!-- Expiration Date -->
                                             <div class="pms-meta-box-field-wrapper">

@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.0
-Stable tag: 2.6.8
+Stable tag: 2.6.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,19 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.6.9 =
+* Fix: issue with sign-up fees and trials not working correctly on the Profile Builder form
+* Fix: a notice that was coming from Payment Logs in some cases
+* Fix: small compatibility tweak for PHP 8.1
+* Fix: issue with WooCommerce auto-renewals not reactivating an expired PMS subscription in some cases
+* Fix: upgrade/downgrade plans issue when WooCommerce Checkout is used for payments
+* Fix: issue with manual pending payment email
+* Fix: notice appearing in some cases from the WooCommerce Memberships functionality
+* Misc: added a filter to force the display of the back-end subscription expiration date: pms_view_add_new_edit_subscription_hide_expiration_date
+* Misc: added a filter to increase the delay when expiring subscriptions: pms_check_expired_subscriptions_delay
+* Misc: compatibility for the update credit card details functionality from Stripe
+* Misc: added support for the membership discount message in Product Messages Widget for Elementor
+
 = 2.6.8 =
 * Elementor Integration: added Content Restriction compatibility with the new Elementor containers feature
 * Elementor Integration: added an extra widget 'Product Restricted Message` which can be used to show the restriction message when the WooCommerce Single Product page is built using Elementor

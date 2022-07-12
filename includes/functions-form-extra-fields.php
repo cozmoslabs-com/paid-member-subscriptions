@@ -41,6 +41,19 @@ function pms_add_form_extra_fields() {
             break;
         case 'pms_change_subscription_form_bottom' :
             $form_name = 'change_subscription';
+			break;
+        case 'pms_update_payment_method_form_bottom' :
+
+			// per gateway form location for the update payment method form
+			$form_name = 'update_payment_method';
+
+			if( isset( $_GET['pms-action'] ) && $_GET['pms-action'] == 'update_payment_method' && !empty( $_GET['subscription_id'] ) ){
+				$member_subscription = pms_get_member_subscription( absint( $_GET['subscription_id'] ) );
+
+				if( !empty( $member_subscription->payment_gateway ) )
+					$form_name = 'update_payment_method_' . $member_subscription->payment_gateway;
+			}
+
             break;
     }
 
@@ -111,6 +124,7 @@ add_action( 'pms_renew_subscription_form_bottom', 'pms_add_form_extra_fields', 5
 add_action( 'pms_retry_payment_form_bottom', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_edit_profile_form_after_fields', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_change_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_update_payment_method_form_bottom', 'pms_add_form_extra_fields', 50 );
 
 
 /**

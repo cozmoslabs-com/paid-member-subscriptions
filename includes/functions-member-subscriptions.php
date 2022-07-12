@@ -363,6 +363,30 @@ function pms_add_member_subscription_log( $member_subscription_id, $type, $data 
 }
 
 /**
+ * Retrieves the extra information like payment method type, last 4, expiration date when they are available
+ * 
+ * @param int    $member_subscription_id
+ */
+function pms_get_member_subscription_payment_method_details( $member_subscription_id ){
+
+    if( empty( $member_subscription_id ) )
+        return array();
+
+    $data    = array();
+    $targets = array( 'pms_payment_method_number', 'pms_payment_method_type', 'pms_payment_method_expiration_month', 'pms_payment_method_expiration_year' );
+
+    foreach( $targets as $target ){
+        $value = pms_get_member_subscription_meta( $member_subscription_id, $target, true );
+
+        if( !empty( $value ) )
+            $data[ $target ] = $value;
+    }
+
+    return $data;
+
+}
+
+/**
  * Cancels all member subscriptions for a user when the user is deleted
  *
  * @param int $user_id
@@ -414,7 +438,15 @@ function pms_member_check_expired_subscriptions() {
 
     global $wpdb;
 
-    $subscriptions = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}pms_member_subscriptions WHERE ( status = 'active' OR status = 'canceled' ) AND expiration_date > '0000-00-00 00:00:00' AND expiration_date < DATE_SUB( NOW(), INTERVAL 12 HOUR )", ARRAY_A );
+    /**
+     * This filter can be used to modify the delay when subscriptions are expired
+     * The value is a MySQL Interval
+     * 
+     * @since 2.6.9
+     */
+    $delay = apply_filters( 'pms_check_expired_subscriptions_delay', 'INTERVAL 12 HOUR' );
+
+    $subscriptions = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}pms_member_subscriptions WHERE ( status = 'active' OR status = 'canceled' ) AND expiration_date > '0000-00-00 00:00:00' AND expiration_date < DATE_SUB( NOW(), {$delay} )", ARRAY_A );
 
     if( empty( $subscriptions ) )
         return;

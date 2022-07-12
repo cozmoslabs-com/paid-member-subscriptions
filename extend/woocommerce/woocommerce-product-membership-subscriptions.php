@@ -177,6 +177,61 @@ function pms_woo_is_manual_order_update( $existing_subscription_id, $order_key )
 }
 
 
+// Check if the new Subscription Plan is an Upgrade or a Downgrade and set the new data
+function pms_get_subscription_replacement_data( $user_id, $new_subscription_plan_id, $new_subscription_status ) {
+
+    $existing_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $user_id ) );
+
+    if ( empty( $existing_subscriptions ) )
+        return ;
+
+    $new_subscription = pms_get_subscription_plan( $new_subscription_plan_id );
+    $upgrades = array_map( function( $plan ) { return $plan->id; }, pms_get_subscription_plan_upgrades( $new_subscription_plan_id ) );
+    $downgrades = array_map( function( $plan ) { return $plan->id; }, pms_get_subscription_plan_downgrades( $new_subscription_plan_id ) );
+
+    if ( empty( $upgrades ) && empty( $downgrades ) ) {
+        return ;
+    }
+
+    $new_subscription_plan_name = $new_subscription->name;
+    $billing_next_payment = ( !empty( $new_subscription->billing_next_payment ) ) ? $new_subscription->billing_next_payment : '';
+    $replacement_data = array();
+
+    foreach ( $existing_subscriptions as $old_subscription ) {
+
+        if ( in_array( $old_subscription->subscription_plan_id, $upgrades ) ) {
+            $replacement_type = 'downgraded';
+            $existing_subscription_id = $old_subscription->id;
+        }
+        elseif ( in_array( $old_subscription->subscription_plan_id, $downgrades ) ) {
+            $replacement_type = 'upgraded';
+            $existing_subscription_id = $old_subscription->id;
+        }
+
+    }
+
+    if ( isset( $existing_subscription_id, $replacement_type ) ) {
+
+        $replacement_data = array(
+            'id' => $existing_subscription_id,
+            'subscription_plan_id' => $new_subscription_plan_id,
+            'start_date' => date( 'Y-m-d H:i:s' ),
+            'expiration_date' => $new_subscription->get_expiration_date(),
+            'trial_end' => pms_sanitize_date( $new_subscription->get_trial_expiration_date() ),
+            'billing_next_payment' => $billing_next_payment,
+            'status' => $new_subscription_status,
+            'payment_gateway' => 'WooCommerce',
+            'replacement_type' => $replacement_type,
+            'new_name' => $new_subscription_plan_name
+        );
+
+    }
+
+    return $replacement_data;
+
+}
+
+
 // Get the Subscription Data for the Product linked Subscription
 function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order_key, $product_type, $user_email ) {
 
@@ -194,6 +249,8 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
 
         $subscription_status = pms_woo_set_subscription_status( $order_status, $product_type, $existing_subscription_status );
 
+        $replacement_data = pms_get_subscription_replacement_data( $user_id, $subscription_plan_id, $subscription_status );
+
         if( isset( $existing_subscription['0'] )) {
             $subscription_expiration_date = $existing_subscription['0']->expiration_date;
             $subscription_next_payment_date = $existing_subscription['0']->billing_next_payment;
@@ -205,7 +262,7 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
                         $subscription_expiration_date = $subscription_plan->get_expiration_date();
                 }
 
-                elseif ( $existing_subscription['0']->status == 'active' || $existing_subscription['0']->status == 'canceled' ) {  //   extend expiration date (new order placed for already subscribed-to Subscription Plan with active or canceled status )
+                elseif ( $existing_subscription['0']->status == 'active' || $existing_subscription['0']->status == 'canceled' || $existing_subscription['0']->status == 'expired' ) {  //   extend expiration date (new order placed for already subscribed-to Subscription Plan with active, canceled or expired status )
 
                     if ( !empty( $subscription_next_payment_date )) {
                         $old_next_payment_date = strtotime($existing_subscription['0']->billing_next_payment);
@@ -232,6 +289,9 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
 
             }
 
+        }
+        elseif ( !empty( $replacement_data )) {
+            $subscription_data = $replacement_data;
         }
         else {
             $subscription_data = array(
@@ -299,6 +359,9 @@ function pms_woo_update_member_subscription( $subscription_data, $subscription_r
                     }
                     else pms_add_member_subscription_log( $subscription_data['id'], 'woocommerce_product_subscription_status_update', array( 'old_status' => $existing_sub->status, 'new_status' => $subscription_data['status'], 'order_id' => $order_id ));
                 }
+                elseif ( !empty( $subscription_data['replacement_type'] ) ) {
+                    pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_replacement', array('type' => $subscription_data['replacement_type'], 'new_name' => $subscription_data['new_name'], 'order_id' => $order_id));
+                }
                 elseif ( $existing_sub->expiration_date != $subscription_data['expiration_date'] ) {
                     if ( $subscription_renewal )
                         pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_expiration_renewal', array('new_expire_date' => $subscription_data['expiration_date'], 'order_id' => $order_id));
@@ -365,7 +428,7 @@ function pms_woo_handle_member_subscription( $order_id ) {
     foreach( $order_items as $item ) {
         $product_id = $item->get_product_id();
         $product = $item->get_product();
-        $product_type = $product->get_type();
+        $product_type = ( is_object( $product ) ) ? $product->get_type() : '';
         $subscription_plan_id = get_post_meta( $product_id, '_pms_woo_subscription_id', true );
         $current_subscription_from_tier = pms_get_current_subscription_from_tier( $user->data->ID ,  $subscription_plan_id );
 

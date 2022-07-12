@@ -86,6 +86,7 @@ jQuery( function($) {
     pms_payment_buttons += 'input[name=pms_upgrade_subscription], '
     pms_payment_buttons += 'input[name=pms_renew_subscription], '
     pms_payment_buttons += 'input[name=pms_confirm_retry_payment_subscription], '
+    pms_payment_buttons += 'input[name=pms_update_payment_method], '
     pms_payment_buttons += '#pms-paypal-express-confirmation-form input[type="submit"], '
 
     // Profile Builder submit buttons

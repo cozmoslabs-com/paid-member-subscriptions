@@ -553,6 +553,11 @@ function pms_member_renew_subscription( $content ) {
             $renew_expiration_date = __( "Unlimited", 'paid-member-subscriptions' );
     }
 
+    /**
+     * Filter the new Expiration Date that is displayed in the Renew Subscription form message
+     */
+    $renew_expiration_date = apply_filters( 'pms_renew_subscription_display_expiration_date', $renew_expiration_date, $subscription_plan, $member_subscription );
+
     // Output form
     $output = '<form id="pms-renew-subscription-form" action="" method="POST" class="pms-form">';
 
@@ -586,8 +591,8 @@ function pms_member_renew_subscription( $content ) {
         $output .= '<input type="hidden" name="pms_current_subscription" value="'. esc_attr( $member_subscription['id'] ) .'" />';
 
         // Output submit button
-        $output .= '<input type="submit" name="pms_renew_subscription" value="' . esc_attr( apply_filters( 'pms_renew_subscription_button_value', __( 'Renew Subscription', 'paid-member-subscriptions' ) ) ). '" />';
-        $output .= '<input type="submit" name="pms_redirect_back" value="' . esc_attr( apply_filters( 'pms_renew_subscription_go_back_button_value', __( 'Go back', 'paid-member-subscriptions' ) ) ) . '" />';
+        $output .= '<input type="submit" name="pms_renew_subscription" value="' . esc_attr( apply_filters( 'pms_renew_subscription_button_value', esc_html__( 'Renew Subscription', 'paid-member-subscriptions' ) ) ). '" />';
+        $output .= '<input type="submit" name="pms_redirect_back" value="' . esc_attr( apply_filters( 'pms_renew_subscription_go_back_button_value', esc_html__( 'Go back', 'paid-member-subscriptions' ) ) ) . '" />';
 
     $output .= '</form>';
 
@@ -639,8 +644,8 @@ function pms_member_cancel_subscription( $content ) {
         $output .= wp_nonce_field( 'pms_cancel_subscription', 'pmstkn' );
 
         // Output submit button
-        $output .= '<input type="submit" name="pms_confirm_cancel_subscription" value="' . esc_attr( apply_filters( 'pms_cancel_subscription_button_value', __( 'Confirm', 'paid-member-subscriptions' ) ) ) . '" />';
-        $output .= '<input type="submit" name="pms_redirect_back" value="' . esc_attr( apply_filters( 'pms_cancel_subscription_go_back_button_value', __( 'Go back', 'paid-member-subscriptions' ) ) ) . '" />';
+        $output .= '<input type="submit" name="pms_confirm_cancel_subscription" value="' . esc_attr( apply_filters( 'pms_cancel_subscription_button_value', esc_html__( 'Confirm', 'paid-member-subscriptions' ) ) ) . '" />';
+        $output .= '<input type="submit" name="pms_redirect_back" value="' . esc_attr( apply_filters( 'pms_cancel_subscription_go_back_button_value', esc_html__( 'Go back', 'paid-member-subscriptions' ) ) ) . '" />';
 
 
     $output .= '</form>';
@@ -689,8 +694,8 @@ function pms_member_abandon_subscription( $content ) {
     $output .= wp_nonce_field( 'pms_abandon_subscription', 'pmstkn' );
 
     // Output submit button
-    $output .= '<input type="submit" name="pms_confirm_abandon_subscription" value="' . esc_attr( apply_filters( 'pms_abandon_subscription_button_value', __( 'Abandon Subscription', 'paid-member-subscriptions' ) ) ). '" />';
-    $output .= '<input type="submit" name="pms_redirect_back" value="' . esc_attr( apply_filters( 'pms_abandon_subscription_go_back_button_value', __( 'Go back', 'paid-member-subscriptions' ) ) ) . '" />';
+    $output .= '<input type="submit" name="pms_confirm_abandon_subscription" value="' . esc_attr( apply_filters( 'pms_abandon_subscription_button_value', esc_html__( 'Abandon Subscription', 'paid-member-subscriptions' ) ) ). '" />';
+    $output .= '<input type="submit" name="pms_redirect_back" value="' . esc_attr( apply_filters( 'pms_abandon_subscription_go_back_button_value', esc_html__( 'Go back', 'paid-member-subscriptions' ) ) ) . '" />';
 
     $output .= '</form>';
 
@@ -698,6 +703,70 @@ function pms_member_abandon_subscription( $content ) {
 
 }
 add_filter( 'pms_account_shortcode_content', 'pms_member_abandon_subscription', 11 );
+
+
+/*
+ * Hijack the content when a member wants to abandon a subscription
+ *
+ */
+function pms_member_update_payment_method( $content ) {
+
+    // Verify nonce
+    if( ! isset( $_REQUEST['pmstkn'] ) || ! wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_update_payment_method' ) )
+        return $content;
+
+    if( ! isset( $_GET['pms-action'] ) || ( $_GET['pms-action'] != 'update_payment_method' ) || ! isset( $_GET['subscription_id'] ) )
+        return $content;
+
+    // Get member and the member's subscription
+    $member              = pms_get_member( get_current_user_id() );
+    $member_subscription = pms_get_member_subscription( absint( $_GET['subscription_id'] ) );
+
+    if( is_null( $member_subscription ) )
+        return $content;
+
+    if( ! in_array( $member_subscription->id, $member->get_subscription_ids() ) )
+        return $content;
+
+    if( !$member_subscription->is_auto_renewing() || !pms_payment_gateways_support( array( $member_subscription->payment_gateway ), 'update_payment_method' ) )
+        return $content;
+
+    // Get subscription plan
+    $subscription_plan = pms_get_subscription_plan( (int)$member_subscription->subscription_plan_id );
+
+    // Output form
+    $output = '<form id="pms-update-payment-method-form" action="" method="POST" class="pms-form">';
+
+        ob_start(); ?>
+
+        <?php pms_display_field_errors( pms_errors()->get_error_messages( 'update_payment_method' ) ); ?>
+
+        <p>
+            <?php printf( wp_kses_post( __( 'Update recurring payment details for the %s subscription that will renew on %s.', 'paid-member-subscriptions' ) ), '<strong>' . esc_html( $subscription_plan->name ) . '</strong>', '<strong>' . esc_html( date_i18n( get_option('date_format'), $member_subscription->billing_next_payment ) ) . '</strong>' ) ?>
+        </p>
+        <?php
+
+        do_action('pms_update_payment_method_form_bottom' );
+
+        $output .= ob_get_contents();
+        ob_end_clean();
+
+        // Hidden subscription id field
+        $output .= '<input type="hidden" name="subscription_id" value="' . esc_attr( $member_subscription->id ) . '" />';
+
+        // Output nonce field
+        $output .= wp_nonce_field( 'pms_update_payment_method', 'pmstkn' );
+
+        // Output submit button
+        $output .= '<input type="submit" name="pms_update_payment_method" value="' . esc_attr( apply_filters( 'pms_update_payment_method_button_value', esc_html__( 'Update payment method', 'paid-member-subscriptions' ) ) ). '" />';
+        $output .= '<input type="submit" name="pms_redirect_back" value="' . esc_attr( apply_filters( 'pms_update_payment_method_go_back_button_value', esc_html__( 'Go back', 'paid-member-subscriptions' ) ) ) . '" />';
+
+    $output .= '</form>';
+
+    return $output;
+
+}
+add_filter( 'pms_account_shortcode_content', 'pms_member_update_payment_method', 11 );
 
 
 /*

@@ -77,7 +77,7 @@ class PMS_Elementor {
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Login_Widget() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Recover_Password_Widget() );
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Register_Widget() );
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Product_Purchase_Restricted_Message_Widget() );
+		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Product_Messages_Widget() );
 	}
 
     private function register_sections() {

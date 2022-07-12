@@ -22,6 +22,7 @@ Class PMS_Form_Handler {
         add_action( 'init', array( __CLASS__, 'renew_subscription' ) );
         add_action( 'init', array( __CLASS__, 'cancel_subscription') );
         add_action( 'init', array( __CLASS__, 'abandon_subscription') );
+        add_action( 'init', array( __CLASS__, 'update_payment_method') );
         add_action( 'init', array( __CLASS__, 'retry_payment_subscription' ) );
         add_action( 'init', array( __CLASS__, 'recover_password_form') );
         add_action( 'init', array( __CLASS__, 'edit_profile' ) );
@@ -849,6 +850,45 @@ Class PMS_Form_Handler {
             }
 
         }
+
+        // Redirect to current page and remove all query arguments
+        if( isset( $_REQUEST['pms_redirect_back'] ) ) {
+            wp_redirect( esc_url( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
+            exit;
+        }
+
+    }
+
+    /*
+     * Handles manual user subscription abandon from account shortcode
+     */
+    public static function update_payment_method() {
+
+        // Verify nonce
+        if( ! isset( $_REQUEST['pmstkn'] ) || ! wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_update_payment_method' ) )
+            return;
+
+        // Just in case, do not let logged out users get here
+        if( ! is_user_logged_in() )
+            return;
+
+        if( empty( $_POST['subscription_id'] ) )
+            return;
+
+        // Get member and the member's subscription
+        $member              = pms_get_member( get_current_user_id() );
+        $member_subscription = pms_get_member_subscription( absint( $_POST['subscription_id'] ) );
+
+        if( is_null( $member_subscription ) )
+            return;
+
+        if( ! in_array( $member_subscription->id, $member->get_subscription_ids() ) )
+            return;
+
+        if( !$member_subscription->is_auto_renewing() || !pms_payment_gateways_support( array( $member_subscription->payment_gateway ), 'update_payment_method' ) )
+            return $content;
+
+        do_action( 'pms_update_payment_method_' . $member_subscription->payment_gateway, $member_subscription );
 
         // Redirect to current page and remove all query arguments
         if( isset( $_REQUEST['pms_redirect_back'] ) ) {
@@ -2141,6 +2181,11 @@ Class PMS_Form_Handler {
                             $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
                         }
                     }
+
+                    /**
+                     * Filter the new expiration date of a subscription that is processed through PSP
+                     */
+                    $expiration_date = apply_filters( 'pms_checkout_renew_subscription_expiration_date', $expiration_date, $subscription );
 
                     if( $is_recurring ) {
                         $subscription_data['billing_next_payment'] = $expiration_date;

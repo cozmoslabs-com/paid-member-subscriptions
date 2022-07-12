@@ -180,6 +180,8 @@
 <?php __("Confirm", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to abandon your %s subscription? This subscription will be removed completely from your account.", "paid-member-subscriptions"); ?>
 <?php __("Abandon Subscription", "paid-member-subscriptions"); ?>
+<?php __("Update recurring payment details for the %s subscription that will renew on %s.", "paid-member-subscriptions"); ?>
+<?php __("Update payment method", "paid-member-subscriptions"); ?>
 <?php __("Your %s subscription is still pending. Do you wish to retry the payment?", "paid-member-subscriptions"); ?>
 <?php __("Retry payment", "paid-member-subscriptions"); ?>
 <?php __("You must be logged in to view the comments.", "paid-member-subscriptions"); ?>
@@ -815,6 +817,7 @@
 <?php __("Subscription successfully changed from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription trial started until <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription trial ended.", "paid-member-subscriptions"); ?>
+<?php __("Payment method for the subscription updated by user.", "paid-member-subscriptions"); ?>
 <?php __("%s changed <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("%s changed <strong>%s</strong> from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription activated successfully (by admin, manual offline)", "paid-member-subscriptions"); ?>
@@ -828,6 +831,7 @@
 <?php __("Subscription <strong>canceled</strong> by canceling WooCommerce <strong>Subscription #%s</strong>. ", "paid-member-subscriptions"); ?>
 <?php __("<strong>Status</strong> changed from <strong>%s</strong> to <strong>%s</strong> by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
 <?php __("<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
+<?php __("Your <strong>Subscription Plan</strong> has been %s to <strong>%s</strong>  by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
 <?php __("<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s].", "paid-member-subscriptions"); ?>
 <?php __("Next <strong>Scheduled Payment date</strong> updated to <strong>%s</strong> by the recurring payment process", "paid-member-subscriptions"); ?>
 <?php __("Subscription initiated by WooCommerce [Order #%s]", "paid-member-subscriptions"); ?>
@@ -1248,6 +1252,7 @@
 <?php __("3D Secure authentication has failed.", "paid-member-subscriptions"); ?>
 <?php __("The user did not click on the confirmation link that was sent.", "paid-member-subscriptions"); ?>
 <?php __("User returned to the website for authentication.", "paid-member-subscriptions"); ?>
+<?php __("Payment method updated successfully.", "paid-member-subscriptions"); ?>
 <?php __("The selected gateway is not configured correctly: <strong>API credentials are missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
 <?php __('Your Stripe API settings are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Card - One Time", "paid-member-subscriptions"); ?>
@@ -1318,10 +1323,12 @@
 <?php __("Login", "paid-member-subscriptions"); ?>
 <?php __("Redirects", "paid-member-subscriptions"); ?>
 <?php __("After login", "paid-member-subscriptions"); ?>
-<?php __("Product Restricted Message", "paid-member-subscriptions"); ?>
-<?php __("Restricted Message", "paid-member-subscriptions"); ?>
+<?php __("Product Messages", "paid-member-subscriptions"); ?>
+<?php __("Restricted Product Message", "paid-member-subscriptions"); ?>
 <?php __("Message for restricted product purchase", "paid-member-subscriptions"); ?>
 <?php __('This message will be displayed when the product purchase is restricted and the <strong>Add to Cart</strong> button is hidden.<br><br>If you leave this <strong>empty</strong>, the %1$sCustom Message%3$s for restricted product purchase will be displayed.<br><br>If Custom Messages are <strong>disabled</strong> or <strong>empty</strong>, the %2$sDefault Message%3$s for restricted product purchase will be displayed.', 'paid-member-subscriptions' ); ?>
+<?php __("Membership Discount Message", "paid-member-subscriptions"); ?>
+<?php __('This message will be displayed to <strong>logged out</strong> or <strong>non-member</strong> users if a product has a Membership Discount.<br><br>If you leave this <strong>empty</strong>, the %1$sProduct Discounted - Membership Required Custom Message%2$s will be displayed.', 'paid-member-subscriptions' ); ?>
 <?php __("Recover Password", "paid-member-subscriptions"); ?>
 <?php __("After recovery", "paid-member-subscriptions"); ?>
 <?php __("Selected Plan", "paid-member-subscriptions"); ?>
@@ -1344,7 +1351,6 @@
 <?php __("By checking this option we will cumulate all discounts that apply to a specific product. <strong> By default we're applying only the highest discount. </strong>", "paid-member-subscriptions"); ?>
 <?php __("Exclude products on sale ", "paid-member-subscriptions"); ?>
 <?php __("Do not apply any member discounts to products that are currently on sale.", "paid-member-subscriptions"); ?>
-<?php __("Product Messages", "paid-member-subscriptions"); ?>
 <?php __("Product Discounted - Membership Required", "paid-member-subscriptions"); ?>
 <?php __("Want a discount? Become a member, sign up for a subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Message displayed to non-members if the product has a membership discount. Displays below add to cart buttons. Leave blank to disable.", "paid-member-subscriptions"); ?>
@@ -1709,6 +1715,9 @@
 <?php __("Trial", "paid-member-subscriptions"); ?>
 <?php __("Trial End Date", "paid-member-subscriptions"); ?>
 <?php __("%s on %s", "paid-member-subscriptions"); ?>
+<?php __("Payment Method", "paid-member-subscriptions"); ?>
+<?php __("Expires:", "paid-member-subscriptions"); ?>
+<?php __("Update the payment method attached to a recurring subscription.", "paid-member-subscriptions"); ?>
 <?php __("Change", "paid-member-subscriptions"); ?>
 <?php __("Upgrade", "paid-member-subscriptions"); ?>
 <?php __("Renew", "paid-member-subscriptions"); ?>
@@ -1994,7 +2003,11 @@
 <?php __("Please complete the reCaptcha.", "paid-member-subscriptions"); ?>
 <?php __("Could not validate the reCaptcha. Please complete it again.", "paid-member-subscriptions"); ?>
 <?php __("Click the BACK button on your browser, and try again.", "paid-member-subscriptions"); ?>
+<?php __("You can add up to %s more members.", "paid-member-subscriptions"); ?>
+<?php __("Click in the box above to select the users you want to add.", "paid-member-subscriptions"); ?>
+<?php __("Add Members", "paid-member-subscriptions"); ?>
 <?php __("Group Details", "paid-member-subscriptions"); ?>
+<?php __("Add New Members", "paid-member-subscriptions"); ?>
 <?php __("Discounts behaviour", "paid-member-subscriptions"); ?>
 <?php __("Best price", "paid-member-subscriptions"); ?>
 <?php __("Apply only discounts set below for this product", "paid-member-subscriptions"); ?>

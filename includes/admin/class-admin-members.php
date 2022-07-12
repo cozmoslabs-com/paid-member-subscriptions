@@ -756,6 +756,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'subscription_trial_end':
                 $message = __( 'Subscription trial ended.', 'paid-member-subscriptions' );
                 break;
+            case 'subscription_payment_method_updated':
+                $message = __( 'Payment method for the subscription updated by user.', 'paid-member-subscriptions' );
+                break;
             case 'admin_subscription_edit':
                 $admin_name = ucwords( $this->get_display_name( !empty( $log['data']['who'] ) ? $log['data']['who'] : '' ) );
 
@@ -805,6 +808,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                 break;
             case 'woocommerce_product_subscription_expiration_update':
                 $message = sprintf( __( '<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s].', 'paid-member-subscriptions' ), $log['data']['new_expire_date'], $log['data']['order_id'] );
+                break;
+            case 'woocommerce_product_subscription_replacement':
+                $message = sprintf( __( 'Your <strong>Subscription Plan</strong> has been %s to <strong>%s</strong>  by WooCommerce [Order #%s].', 'paid-member-subscriptions' ), $log['data']['type'], $log['data']['new_name'], $log['data']['order_id'] );
                 break;
             case 'woocommerce_product_subscription_expiration_renewal':
                 $message = sprintf( __( '<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s].', 'paid-member-subscriptions' ), $log['data']['new_expire_date'], $log['data']['order_id'] );

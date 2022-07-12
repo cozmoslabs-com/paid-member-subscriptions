@@ -108,7 +108,7 @@ Class PMS_Emails {
             $payment_id = 0;
 
         // send the pending manual payment email only if the payment gateway is manual
-        if ( $action == 'pending_manual_payment' && $subscription_data['payment_gateway'] != 'manual' )
+        if ( $action == 'pending_manual_payment' && ( !isset( $subscription_data['payment_gateway'] ) || $subscription_data['payment_gateway'] != 'manual' ) )
             return;
 
         /**

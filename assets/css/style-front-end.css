@@ -219,6 +219,21 @@ form.pms-form ul.pms-form-fields-wrapper {
     font-weight: bold;
 }
 
+.pms-account-subscription-details-table__payment-method__wrap {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.pms-account-subscription-details-table__payment-method__brand, .pms-account-subscription-details-table__payment-method__number {
+    margin-right: 8px;
+}
+
+.pms-account-subscription-details-table__payment-method__brand svg, .pms-account-subscription-details-table__payment-method__brand {
+    width: 32px;
+    height: 24px;
+}
+
 .pms-account-subscription-action-link {
     margin-right: 10px;
     cursor: pointer;
@@ -500,4 +515,12 @@ ul.pms-field-section {
     margin-bottom: 1.345em;
     font-size: 90%;
     font-style: italic;
+}
+
+#pms-update-payment-method-form #pms-credit-card-information {
+    margin-top: 24px;
+}
+
+#pms-update-payment-method-form .pms_field-errors-wrapper {
+    margin-bottom: 24px;
 }

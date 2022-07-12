@@ -212,7 +212,7 @@ Class PMS_Payments_Log_List_Table extends WP_List_Table {
                 else {
                     $user = get_userdata( $log['data']['user'] );
 
-                    if ( $user->has_cap( 'manage_options' ) )
+                    if ( $user instanceof WP_User && $user->has_cap( 'manage_options' ) )
                         $message .= ' by <strong>' . $this->get_display_name( $log['data']['user'] ) . '</strong>.';
                     else
                         $message .= '.';
@@ -227,7 +227,7 @@ Class PMS_Payments_Log_List_Table extends WP_List_Table {
                 else {
                     $user = get_userdata( $log['data']['user'] );
 
-                    if ( $user->has_cap( 'manage_options' ) )
+                    if ( $user instanceof WP_User && $user->has_cap( 'manage_options' ) )
                         $message .= ' by <strong>' . $this->get_display_name( $log['data']['user'] ) . '</strong>.';
                     else
                         $message .= '.';

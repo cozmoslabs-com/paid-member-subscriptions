@@ -60,7 +60,13 @@ function pms_sanitize_date( $date ) {
 function pms_get_current_page_url( $strip_query_args = false ) {
     $home_url = pms_get_absolute_home();
 
-    $home_path       = trim( parse_url( $home_url, PHP_URL_PATH ), '/' );
+    $parsed_url = parse_url( $home_url, PHP_URL_PATH );
+
+    if( !empty( $parsed_url ) )
+        $home_path = trim( $parsed_url, '/' );
+    else
+        $home_path = $parsed_url;
+
     $home_path_regex = sprintf( '|^%s|i', preg_quote( $home_path, '|' ) );
 
     if( isset( $_SERVER['REQUEST_URI'] ) )
