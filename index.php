@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.7.0
+ * Version: 2.7.1
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.7.0' );
+        define( 'PMS_VERSION', '2.7.1' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -49,29 +49,37 @@ Class Paid_Member_Subscriptions {
 
         if ( in_array( 'paid-member-subscriptions-pro/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-pro/index.php'] ) ){
             
-            define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Pro');
+            if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
+                define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Pro');
+
             define('PMS_PAID_PLUGIN_DIR', WP_PLUGIN_DIR . '/paid-member-subscriptions-pro' );
             define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-pro/' );
 
         } elseif ( in_array( 'paid-member-subscriptions-elite/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-elite/index.php'] ) ){
             
-            define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Elite');
+            if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
+                define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Elite');
+
             define('PMS_PAID_PLUGIN_DIR', WP_PLUGIN_DIR . '/paid-member-subscriptions-elite' );
             define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-elite/' );
 
         } elseif ( in_array( 'paid-member-subscriptions-unlimited/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-unlimited/index.php'] ) ){
             
-            define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Unlimited');
+            if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
+                define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Unlimited');
+
             define('PMS_PAID_PLUGIN_DIR', WP_PLUGIN_DIR . '/paid-member-subscriptions-unlimited' );
             define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-unlimited/' );
 
         } elseif ( in_array( 'paid-member-subscriptions-basic/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-basic/index.php'] ) ){
             
-            define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Basic');
+            if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
+                define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Basic');
+
             define('PMS_PAID_PLUGIN_DIR', WP_PLUGIN_DIR . '/paid-member-subscriptions-basic' );
             define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-basic/' );
 
-        } else
+        } else if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
             define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions');
 
         // The prefix of the plugin
@@ -204,20 +212,20 @@ Class Paid_Member_Subscriptions {
                 $plugin_data       = get_plugin_data( PMS_PAID_PLUGIN_DIR . '/index.php', false );
                 $plugin_version = ( $plugin_data && $plugin_data['Version'] ) ? $plugin_data['Version'] : '1.0.0' ;
 
-                if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Pro' )
+                if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Pro' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Pro' )
                     $cl_plugin_id = '51100';
-                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Basic' )
+                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Basic' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Basic' )
                     $cl_plugin_id = '60833';
-                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Elite' )
+                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Elite' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Elite' )
                     $cl_plugin_id = '416191'; // @TODO: needs to be updated
-                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Unlimited' )
+                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Unlimited' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Unlimited' )
                     $cl_plugin_id = '62920';
 
                 // setup the updater
                 $pms_edd_updater = new PMS_EDD_SL_Plugin_Updater( 'https://cozmoslabs.com', PMS_PAID_PLUGIN_DIR . '/index.php', array(
                         'version'   => $plugin_version,   // current version number
                         'license'   => $serial,         
-                        'item_name' => PAID_MEMBER_SUBSCRIPTIONS,      // name of this plugin
+                        'item_name' => str_replace( '- ', '', PAID_MEMBER_SUBSCRIPTIONS ),      // name of this plugin
                         'item_id'   => $cl_plugin_id,
                         'author'    => 'Cozmoslabs',         // author of this plugin
                         'beta'      => false
