@@ -472,7 +472,7 @@ jQuery( function($) {
         /**
          * WPPB Conditional Logic compatibility
          */
-        if( $( '.wppb-subscription-plans').length != 0 ){
+        if ( $('.wppb-register-user').length != 0 && $('.wppb-subscription-plans').length != 0 ) {
 
             // if there are 2 or more plans in the form, since they use the same meta name, only the LAST field from the
             // PB Form Fields interface will have a default values selected, but we have no idea which field is displayed
@@ -481,6 +481,7 @@ jQuery( function($) {
             pmsHandleGatewaysDisplayRemove()
 
             $(document).on( "wppbRemoveRequiredAttributeEvent", pmsHandleGatewaysDisplayRemove )
+            $(document).on( "wppbAddRequiredAttributeEvent", pmsHandleGatewaysDisplayShow )
 
             function pmsHandleGatewaysDisplayRemove( event = '' ) {
 
@@ -532,6 +533,64 @@ jQuery( function($) {
                     $('.pms-price-breakdown__holder').hide()
                 } else {
                     pmsHandleDefaultWPPBFormSelectedPlanOnLoad()
+                }
+
+            }
+
+            function pmsHandleGatewaysDisplayShow(event = '') {
+
+                if (event != '') {
+                    var element = event.target
+
+                    if (typeof $(element).attr('conditional-name') == 'undefined' || $(element).attr('conditional-name') != 'subscription_plans')
+                        return
+                }
+
+                var visible_plans = false
+
+                $('.wppb-subscription-plans').each(function (index, item) {
+
+                    if ($(item).is(':visible')) {
+
+                        var only_free_plans = true
+
+                        $('.pms-subscription-plan', $(item)).each(function (index, plan) {
+
+                            if ($('input', $(plan)).data('price') && $('input', $(plan)).data('price') > 0) {
+                                only_free_plans = false
+                                return false
+                            }
+
+                        })
+
+                        if (only_free_plans)
+                            visible_plans = false
+                        else
+                            visible_plans = true
+
+                        return false
+                    }
+
+                })
+
+                if (visible_plans === false) {
+                    $('#pms-paygates-wrapper').hide()
+                    $(paygate_selector).attr('disabled', true)
+                    $(paygate_selector).closest('label').hide()
+
+                    $('.pms-credit-card-information').hide()
+                    $('.pms-billing-details').hide()
+
+                    $('.pms-price-breakdown__holder').hide()
+                } else {
+                    $('#pms-paygates-wrapper').show()
+                    $(paygate_selector).removeAttr('disabled')
+                    $(paygate_selector).closest('label').show()
+
+                    $('.pms-credit-card-information').show()
+                    $('.pms-billing-details').show()
+
+                    $('.pms-price-breakdown__holder').show()
                 }
 
             }

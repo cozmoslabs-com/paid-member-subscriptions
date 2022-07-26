@@ -524,3 +524,13 @@ ul.pms-field-section {
 #pms-update-payment-method-form .pms_field-errors-wrapper {
     margin-bottom: 24px;
 }
+
+.pms-subscription-plan input.small {
+    width: 10% !important;
+    min-width: 80px;
+}
+
+.pms-field .pms_pwyw_pricing {
+    display: inline-block;
+    margin-left: 5px;
+}

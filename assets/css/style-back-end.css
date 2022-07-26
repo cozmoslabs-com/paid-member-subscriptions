@@ -856,6 +856,10 @@
     margin: 0 0 0 5px;
 }
 
+.pms-scripts-on-specific-pages .chosen-container {
+    width: 200px !important;
+}
+
 #pms-form-add-member-subscription,
 #pms-form-edit-member-subscription {
     max-width: 100%;
@@ -1616,27 +1620,22 @@ body.post-type-pms-subscription #delete-action {
 
 .pms-serial-wrap form input[type="text"], .pms-serial-wrap form input[type="password"] {
     width: 460px;
-    margin-right: 16px;
+    margin-right: 4px;
 }
 
-.pms-serial-wrap p.submit {
-    padding: 0;
-    margin: 0;
-    margin-right: 12px;
+.pms-serial-wrap__holder {
+    display: flex;
+    align-items: center;
 }
 
-.pms-serial-wrap .pms-serial-wrap__status {
-    align-self: center;
-    font-weight: bold;
-    font-size: 14px;
+.pms-active-license {
+    margin-right: 8px;
+    color: #008000;
 }
 
-.pms-serial-wrap .pms-serial-wrap__status.pms-found {
-    color: green;
-}
-
-.pms-serial-wrap .pms-serial-wrap__status.pms-error {
-    color: red;
+.pms-invalid-license {
+    margin-right: 8px;
+    color: #ca4a1f;
 }
 
 #pms_serial_number.pms-found, #pms_serial_number.pms-error {

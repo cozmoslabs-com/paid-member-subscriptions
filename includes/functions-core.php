@@ -1213,8 +1213,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
          if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
              $pms_expired_message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url(add_query_arg('pms_expired_licence_dismiss_notification', '0')) . "'>", "</a>");
              $pms_force_show = false;
-         }
-         else{
+         } else {
              $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
          }
 
@@ -1224,27 +1223,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
              '',
              '',
              $pms_force_show );
-    }
-    elseif ( strpos( $pms_serial_number_status, 'aboutToExpire' ) !== false ){
+    } else {
+        // Maybe add about to expire notice
+        $license_details = get_option( 'pms_license_details', false );
 
-        $about_to_expire_status = explode('#', $pms_serial_number_status);//format of about to expire status is like aboutToExpire#19 of April 2019
-        if( is_array( $about_to_expire_status ) ){
-            new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
-                sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support.  <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), $about_to_expire_status[1], esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) ).
-                sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url(add_query_arg('pms_about_to_expire_licence_dismiss_notification', '0')) . "'>", "</a>"), 
-                'notice-warning' );
-         }
+        if( !empty( $license_details ) && !empty( $license_details->expires ) ){
 
-    } else if( $pms_serial_number_status == 'found' && !pms_are_paid_versions_active() ){
+            if( strtotime( $license_details->expires ) < strtotime( '+14 days' ) ){
+                new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
+                    sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) ).
+                    sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url(add_query_arg('pms_about_to_expire_licence_dismiss_notification', '0')) . "'>", "</a>"), 
+                    'notice-warning' );
+            }
 
-        $pms_expired_message = sprintf( __( 'You have a valid <strong>Paid Member Subscriptions</strong> licence but we can\'t find any paid version of the plugin installed.<br> Please go to your <a href="%s" target="_blank">Cozmoslabs Account</a> page, download the premium version that you purchased and install it on your website.', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-paid-version-not-installed-notification' ) );
-        
-        $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
-
-        if( $pms_notifications_instance->is_plugin_page() ) {
-            new PMS_Add_General_Notices( 'pms_paid_version_not_installed', $pms_expired_message, 'error', '', '', true );
         }
-
     }
 
     /**

@@ -127,6 +127,34 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </p>
     </div>
 
+    <h3><?php esc_html_e( 'Scripts', 'paid-member-subscriptions' ); ?></h3>
+
+    <div class="pms-form-field-wrapper">
+        <label class="pms-form-field-label" for="scripts-on-specific-pages"><?php esc_html_e( 'Load Scripts only on specific pages' , 'paid-member-subscriptions' ) ?></label>
+
+        <p class="description">
+            <input type="checkbox" id="scripts-on-specific-pages" name="pms_misc_settings[scripts-on-specific-pages-enabled]" value="1" <?php echo ( isset( $this->options['scripts-on-specific-pages-enabled'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Enable', 'paid-member-subscriptions' ); ?>
+        </p>
+        <p class="description">
+            <?php esc_html_e( 'Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance.', 'paid-member-subscriptions' ); ?>
+        </p>
+    </div>
+
+    <div class="pms-form-field-wrapper pms-scripts-on-specific-pages" style="<?php echo !isset( $this->options['scripts-on-specific-pages-enabled'] ) ? 'display:none' : '' ?>">
+        <select class="pms-chosen" name="pms_misc_settings[scripts-on-specific-pages][]" multiple style="width:200px" data-placeholder="<?php esc_html_e( 'Select pages', 'paid-member-subscriptions' ) ?>">
+            <?php
+            foreach( get_pages() as $page )
+                echo '<option value="' . esc_attr( $page->ID ) . '"' . ( !empty( $this->options['scripts-on-specific-pages'] ) && in_array( $page->ID, $this->options['scripts-on-specific-pages'] ) ? ' selected' : '') . '>' . esc_html( $page->post_title ) . ' ( ID: ' . esc_attr( $page->ID ) . ')' . '</option>';
+            ?>
+        </select>
+
+        <p class="description">
+            <?php esc_html_e( 'Select the pages where scripts should be loaded. You must select every page that contains a shortcode from Paid Member Subscriptions.', 'paid-member-subscriptions' ); ?>
+        </p>
+    </div>
+
+
+
     <?php do_action( $this->menu_slug . '_misc_after_others_tab_content', $this->options ); ?>
 
 </div>

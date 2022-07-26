@@ -79,6 +79,13 @@ jQuery( function($) {
 
         });
 
+        $('#scripts-on-specific-pages').on('change', function(){
+            if ($(this).is(':checked') )
+                $('.pms-scripts-on-specific-pages').show()
+            else
+                $('.pms-scripts-on-specific-pages').hide()
+        })
+
     });
 
 

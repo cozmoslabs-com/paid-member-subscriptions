@@ -37,49 +37,57 @@ msgstr ""
 msgid "This Paid Member Subscriptions add-on has been migrated to the main plugin and is no longer used. You can delete it."
 msgstr ""
 
-#: index.php:257
+#: index.php:244
+msgid "To enable updates, your licence needs to be renewed. Please go to the <a href=\"%s\" target=\"_blank\">Cozmoslabs Account</a> page and login to renew."
+msgstr ""
+
+#: index.php:237
+msgid "To enable updates, please enter your serial number on the <a href=\"%s\">Add-ons</a> page. If you don't have a serial number, please see <a href=\"%s\" target=\"_blank\">details & pricing</a>."
+msgstr ""
+
+#: index.php:351
 msgid "You must be logged in to view this content."
 msgstr ""
 
-#: index.php:260
+#: index.php:354
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:906, index.php:906, includes/functions-user.php:233, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:17, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
+#: index.php:1000, index.php:1000, includes/functions-user.php:233, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:17, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
 msgid "Paid Member Subscriptions"
 msgstr ""
 
-#: index.php:925, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
+#: index.php:1019, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
 msgid "Uninstall"
 msgstr ""
 
-#: index.php:927, includes/admin/class-admin-settings.php:282, includes/admin/class-admin-settings.php:282, includes/admin/class-admin-setup-wizard.php:47, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:115, includes/admin/views/setup-wizard/view-tab-general.php:20, includes/admin/views/setup-wizard/view-tab-next.php:44
+#: index.php:1021, includes/admin/class-admin-settings.php:282, includes/admin/class-admin-settings.php:282, includes/admin/class-admin-setup-wizard.php:47, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:115, includes/admin/views/setup-wizard/view-tab-general.php:20, includes/admin/views/setup-wizard/view-tab-next.php:44
 msgid "Settings"
 msgstr ""
 
-#: index.php:929
+#: index.php:1023
 msgid "Docs"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:978
+#: index.php:1075
 msgid "Type %s to confirm deleting your account and all data associated with it:"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:980
+#: index.php:1077
 msgid "You did not type %s. Try again!"
 msgstr ""
 
-#: index.php:996
+#: index.php:1093
 msgid "Select an option"
 msgstr ""
 
-#: index.php:997
+#: index.php:1094
 msgid "No results match"
 msgstr ""
 
-#: index.php:1016, index.php:1016
+#: index.php:1113, index.php:1113
 msgid "Get Support"
 msgstr ""
 
@@ -2456,7 +2464,7 @@ msgstr ""
 msgid "In order to restore it, you need to put the plugin into <strong>Test Mode</strong>."
 msgstr ""
 
-#: includes/functions-core.php:1168, includes/functions-core.php:1195, includes/functions-core.php:1234, includes/functions-core.php:1214, includes/functions-core.php:1284, includes/functions-plugin-compatibilities.php:101, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:275, add-ons-pro/group-memberships/includes/functions.php:295
+#: includes/functions-core.php:1168, includes/functions-core.php:1195, includes/functions-core.php:1235, includes/functions-core.php:1214, includes/functions-core.php:1276, includes/functions-plugin-compatibilities.php:101, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:275, add-ons-pro/group-memberships/includes/functions.php:295
 msgid " %1$sDismiss%2$s"
 msgstr ""
 
@@ -2464,19 +2472,15 @@ msgstr ""
 msgid "Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate."
 msgstr ""
 
-#: includes/functions-core.php:1240
-msgid "You have a valid <strong>Paid Member Subscriptions</strong> licence but we can't find any paid version of the plugin installed.<br> Please go to your <a href=\"%s\" target=\"_blank\">Cozmoslabs Account</a> page, download the premium version that you purchased and install it on your website."
-msgstr ""
-
-#: includes/functions-core.php:1233
-msgid "Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support.  <a class=\"button-primary\" href=\"%s\">Renew now</a>"
+#: includes/functions-core.php:1234
+msgid "Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>"
 msgstr ""
 
 #: includes/functions-core.php:1209
 msgid "Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>"
 msgstr ""
 
-#: includes/functions-core.php:1282
+#: includes/functions-core.php:1274
 msgid "<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\"%1$s\" target=\"_blank\">have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\"%2$s\" target=\"_blank\">account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>"
 msgstr ""
 
@@ -2644,19 +2648,19 @@ msgstr ""
 msgid "bbPress needs to be installed and activated for Paid Member Subscriptions - bbPress Add-on to work as expected!"
 msgstr ""
 
-#: add-ons-basic/discount-codes/index.php:160
+#: add-ons-basic/discount-codes/index.php:163
 msgid "Discount Code: "
 msgstr ""
 
-#: add-ons-basic/discount-codes/index.php:161
+#: add-ons-basic/discount-codes/index.php:164
 msgid "Enter discount"
 msgstr ""
 
-#: add-ons-basic/discount-codes/index.php:162
+#: add-ons-basic/discount-codes/index.php:165
 msgid "Apply"
 msgstr ""
 
-#: add-ons-basic/discount-codes/index.php:172
+#: add-ons-basic/discount-codes/index.php:175
 msgid "Applying discount code. Please wait..."
 msgstr ""
 
@@ -2664,11 +2668,11 @@ msgstr ""
 msgid "Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version."
 msgstr ""
 
-#: add-ons-pro/group-memberships/index.php:119, add-ons-pro/group-memberships/index.php:138
+#: add-ons-pro/group-memberships/index.php:119, add-ons-pro/group-memberships/index.php:141
 msgid "Are you sure you want to remove this member ?"
 msgstr ""
 
-#: add-ons-pro/stripe/index.php:117
+#: add-ons-pro/stripe/index.php:120
 msgid "Please enter a credit card number."
 msgstr ""
 
@@ -2676,27 +2680,27 @@ msgstr ""
 msgid "Are you sure you want to delete this Tax Rate?"
 msgstr ""
 
-#: add-ons-pro/tax/index.php:120
+#: add-ons-pro/tax/index.php:123
 msgid "TAX"
 msgstr ""
 
-#: add-ons-pro/tax/index.php:128
+#: add-ons-pro/tax/index.php:131
 msgid "Validated successfully."
 msgstr ""
 
-#: add-ons-pro/tax/index.php:129
+#: add-ons-pro/tax/index.php:132
 msgid "Validated successfully. VAT is applied because you are from the same country as the merchant."
 msgstr ""
 
-#: add-ons-pro/tax/index.php:130
+#: add-ons-pro/tax/index.php:133
 msgid "Provided VAT Number is invalid."
 msgstr ""
 
-#: add-ons-pro/tax/index.php:131
+#: add-ons-pro/tax/index.php:134
 msgid "Your VAT Number is too short."
 msgstr ""
 
-#: add-ons-pro/tax/index.php:133, add-ons-pro/tax/includes/class-tax.php:261
+#: add-ons-pro/tax/index.php:136, add-ons-pro/tax/includes/class-tax.php:261
 msgid "VAT"
 msgstr ""
 
@@ -2994,7 +2998,7 @@ msgstr ""
 msgid "Nonce verification failed"
 msgstr ""
 
-#: includes/admin/class-admin-export.php:119, includes/admin/export/class-batch-export.php:132, includes/admin/export/class-export.php:172
+#: includes/admin/class-admin-export.php:119, includes/admin/class-edd-sl-plugin-updater.php:416, includes/admin/export/class-batch-export.php:132, includes/admin/export/class-export.php:172
 msgid "Error"
 msgstr ""
 
@@ -3492,60 +3496,44 @@ msgstr ""
 msgid "This user already has a subscription (%s) from the same group with the one you selected. Select it or remove it to be able to complete this payment."
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:21
+#: includes/admin/class-admin-register-version.php:18
 msgid "Register Your Version"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:21
+#: includes/admin/class-admin-register-version.php:18
 msgid "Register Version"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:27, includes/admin/class-admin-register-version.php:27
+#: includes/admin/class-admin-register-version.php:24, includes/admin/class-admin-register-version.php:24
 msgid "Paid Member Subscriptions Register"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:62
+#: includes/admin/class-admin-register-version.php:54
 msgid "Register your version of Paid Member Subscriptions"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:74
-msgid "Serial number"
+#: includes/admin/class-admin-register-version.php:60
+msgid "License key"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:81
-msgid "Save Changes"
+#: includes/admin/class-admin-register-version.php:77
+msgid "Activate License"
 msgstr ""
 
-#: includes/admin/class-admin-register-version.php:92
+#: includes/admin/class-admin-register-version.php:68
+msgid "Deactivate License"
+msgstr ""
+
+#: includes/admin/class-admin-register-version.php:73
+msgid "Your license is invalid"
+msgstr ""
+
+#: includes/admin/class-admin-register-version.php:71
+msgid "Active on this site"
+msgstr ""
+
+#: includes/admin/class-admin-register-version.php:85
 msgid "The serial number is used to access the premium plugin versions, any updates made to them and support."
-msgstr ""
-
-#: includes/admin/class-admin-register-version.php:191
-msgid "Couldn't contact our server. Please try again later."
-msgstr ""
-
-#: includes/admin/class-admin-register-version.php:189
-msgid "The serial number you entered is invalid. Need a licence ? <a href=\"%s\">Click here</a> to purchase one."
-msgstr ""
-
-#: includes/admin/class-admin-register-version.php:186
-msgid "Your licence is valid but it will expire soon. <a href=\"%s\">Click here</a> to renew."
-msgstr ""
-
-#: includes/admin/class-admin-register-version.php:184
-msgid "Your licence is valid but will expire on %s. <a href=\"%s\">Click here</a> to renew."
-msgstr ""
-
-#: includes/admin/class-admin-register-version.php:179
-msgid "Your serial number has expired. <a href=\"%s\">Click here</a> to renew."
-msgstr ""
-
-#: includes/admin/class-admin-register-version.php:177
-msgid "Your serial number has been successfully validated."
-msgstr ""
-
-#: includes/admin/class-admin-register-version.php:175
-msgid "Need a licence ? <a href=\"%s\">Click here</a> to purchase one."
 msgstr ""
 
 #: includes/admin/class-admin-reports.php:211
@@ -3765,6 +3753,50 @@ msgid "%d subscription plan has been successfully deactivated"
 msgid_plural "%d subscription plans have been successfully deactivated"
 msgstr[0] ""
 msgstr[1] ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:222
+msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:214
+msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:416
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:681
+msgid "Your license key expired on %s."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:686
+msgid "Your license key has been disabled."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:689
+msgid "Invalid license."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:693
+msgid "Your license is not active for this URL."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:696
+msgid "This appears to be an invalid license key for %s."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:699
+msgid "Your license key has reached its activation limit."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:702, includes/admin/class-edd-sl-plugin-updater.php:670, includes/admin/class-edd-sl-plugin-updater.php:812
+msgid "An error occurred, please try again."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:732
+msgid "You have successfully activated your license."
+msgstr ""
 
 #: includes/admin/functions-admin.php:80
 msgid "Completed successfully."
@@ -5398,7 +5430,7 @@ msgstr ""
 msgid "Activate product subscriptions"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:60, includes/admin/views/view-page-settings-payments.php:129, includes/admin/views/view-page-settings-payments.php:144, includes/admin/views/view-page-settings-payments.php:156
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:60, includes/admin/views/view-page-settings-misc.php:136, includes/admin/views/view-page-settings-payments.php:129, includes/admin/views/view-page-settings-payments.php:144, includes/admin/views/view-page-settings-payments.php:156
 msgid "Enable"
 msgstr ""
 
@@ -6434,27 +6466,47 @@ msgstr ""
 msgid "By default, regular users cannot access the admin dashboard. This option disables that redirect."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:145
+#: includes/admin/views/view-page-settings-misc.php:130
+msgid "Scripts"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:133
+msgid "Load Scripts only on specific pages"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:139
+msgid "Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance."
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:144
+msgid "Select pages"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:152
+msgid "Select the pages where scripts should be loaded. You must select every page that contains a shortcode from Paid Member Subscriptions."
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:173
 msgid "Modify renew button output time"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:147
+#: includes/admin/views/view-page-settings-misc.php:175
 msgid "Insert how many days before the subscription expires, should the renewal button be displayed inside the [pms-account] shortcode."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:151
+#: includes/admin/views/view-page-settings-misc.php:179
 msgid "Redirect after a manual payment"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:153
+#: includes/admin/views/view-page-settings-misc.php:181
 msgid "Insert an URL to redirect the user after a manual payment is made. ( e.g. %s )"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:157
+#: includes/admin/views/view-page-settings-misc.php:185
 msgid "Apply sign-up fees to Upgrades and Downgrades"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:159
+#: includes/admin/views/view-page-settings-misc.php:187
 msgid "Charge users sign-up fees for Subscription Upgrades and Downgrades."
 msgstr ""
 

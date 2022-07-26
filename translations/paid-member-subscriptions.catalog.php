@@ -5,6 +5,8 @@
 <?php __("Please install and activate the Paid Member Subscriptions plugin", "paid-member-subscriptions"); ?>
 <?php __("Install & Activate", "paid-member-subscriptions"); ?>
 <?php __("This Paid Member Subscriptions add-on has been migrated to the main plugin and is no longer used. You can delete it.", "paid-member-subscriptions"); ?>
+<?php __("To enable updates, your licence needs to be renewed. Please go to the <a href=\"%s\" target=\"_blank\">Cozmoslabs Account</a> page and login to renew.", "paid-member-subscriptions"); ?>
+<?php __("To enable updates, please enter your serial number on the <a href=\"%s\">Add-ons</a> page. If you don't have a serial number, please see <a href=\"%s\" target=\"_blank\">details & pricing</a>.", "paid-member-subscriptions"); ?>
 <?php __("You must be logged in to view this content.", "paid-member-subscriptions"); ?>
 <?php __("This content is restricted for your membership level.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions", "paid-member-subscriptions"); ?>
@@ -610,8 +612,7 @@
 <?php __("In order to restore it, you need to put the plugin into <strong>Test Mode</strong>.", "paid-member-subscriptions"); ?>
 <?php __(' %1$sDismiss%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate.", "paid-member-subscriptions"); ?>
-<?php __("You have a valid <strong>Paid Member Subscriptions</strong> licence but we can't find any paid version of the plugin installed.<br> Please go to your <a href=\"%s\" target=\"_blank\">Cozmoslabs Account</a> page, download the premium version that you purchased and install it on your website.", "paid-member-subscriptions"); ?>
-<?php __("Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support.  <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
+<?php __("Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
 <?php __('<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
@@ -873,16 +874,12 @@
 <?php __("Register Version", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Register", "paid-member-subscriptions"); ?>
 <?php __("Register your version of Paid Member Subscriptions", "paid-member-subscriptions"); ?>
-<?php __("Serial number", "paid-member-subscriptions"); ?>
-<?php __("Save Changes", "paid-member-subscriptions"); ?>
+<?php __("License key", "paid-member-subscriptions"); ?>
+<?php __("Activate License", "paid-member-subscriptions"); ?>
+<?php __("Deactivate License", "paid-member-subscriptions"); ?>
+<?php __("Your license is invalid", "paid-member-subscriptions"); ?>
+<?php __("Active on this site", "paid-member-subscriptions"); ?>
 <?php __("The serial number is used to access the premium plugin versions, any updates made to them and support.", "paid-member-subscriptions"); ?>
-<?php __("Couldn't contact our server. Please try again later.", "paid-member-subscriptions"); ?>
-<?php __("The serial number you entered is invalid. Need a licence ? <a href=\"%s\">Click here</a> to purchase one.", "paid-member-subscriptions"); ?>
-<?php __("Your licence is valid but it will expire soon. <a href=\"%s\">Click here</a> to renew.", "paid-member-subscriptions"); ?>
-<?php __("Your licence is valid but will expire on %s. <a href=\"%s\">Click here</a> to renew.", "paid-member-subscriptions"); ?>
-<?php __("Your serial number has expired. <a href=\"%s\">Click here</a> to renew.", "paid-member-subscriptions"); ?>
-<?php __("Your serial number has been successfully validated.", "paid-member-subscriptions"); ?>
-<?php __("Need a licence ? <a href=\"%s\">Click here</a> to purchase one.", "paid-member-subscriptions"); ?>
 <?php __("Current month", "paid-member-subscriptions"); ?>
 <?php __("Summary", "paid-member-subscriptions"); ?>
 <?php __("Total earnings for the selected period: ", "paid-member-subscriptions"); ?>
@@ -942,6 +939,17 @@
 <?php __("%d subscription plans have been successfully activated", "paid-member-subscriptions"); ?>
 <?php __("%d subscription plan has been successfully deactivated", "paid-member-subscriptions"); ?>
 <?php __("%d subscription plans have been successfully deactivated", "paid-member-subscriptions"); ?>
+<?php __('There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'paid-member-subscriptions' ); ?>
+<?php __('There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __("You do not have permission to install plugin updates", "paid-member-subscriptions"); ?>
+<?php __("Your license key expired on %s.", "paid-member-subscriptions"); ?>
+<?php __("Your license key has been disabled.", "paid-member-subscriptions"); ?>
+<?php __("Invalid license.", "paid-member-subscriptions"); ?>
+<?php __("Your license is not active for this URL.", "paid-member-subscriptions"); ?>
+<?php __("This appears to be an invalid license key for %s.", "paid-member-subscriptions"); ?>
+<?php __("Your license key has reached its activation limit.", "paid-member-subscriptions"); ?>
+<?php __("An error occurred, please try again.", "paid-member-subscriptions"); ?>
+<?php __("You have successfully activated your license.", "paid-member-subscriptions"); ?>
 <?php __("Completed successfully.", "paid-member-subscriptions"); ?>
 <?php __("Manual/Offline", "paid-member-subscriptions"); ?>
 <?php __("PayPal", "paid-member-subscriptions"); ?>
@@ -1615,6 +1623,11 @@
 <?php __("Dashboard redirect", "paid-member-subscriptions"); ?>
 <?php __("Disable dashboard redirect", "paid-member-subscriptions"); ?>
 <?php __("By default, regular users cannot access the admin dashboard. This option disables that redirect.", "paid-member-subscriptions"); ?>
+<?php __("Scripts", "paid-member-subscriptions"); ?>
+<?php __("Load Scripts only on specific pages", "paid-member-subscriptions"); ?>
+<?php __("Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance.", "paid-member-subscriptions"); ?>
+<?php __("Select pages", "paid-member-subscriptions"); ?>
+<?php __("Select the pages where scripts should be loaded. You must select every page that contains a shortcode from Paid Member Subscriptions.", "paid-member-subscriptions"); ?>
 <?php __("Modify renew button output time", "paid-member-subscriptions"); ?>
 <?php __("Insert how many days before the subscription expires, should the renewal button be displayed inside the [pms-account] shortcode.", "paid-member-subscriptions"); ?>
 <?php __("Redirect after a manual payment", "paid-member-subscriptions"); ?>

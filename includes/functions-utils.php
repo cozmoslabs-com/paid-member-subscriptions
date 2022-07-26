@@ -320,17 +320,14 @@ function pms_get_serial_number() {
 }
 
 /**
- * Retrieves the status of the serial number. If not available, it will try to generate it.
+ * Retrieves the status of the serial number.
  *
  * @since 1.7.8
  * @return string Serial number status
  */
 function pms_get_serial_number_status() {
 
-    if ( class_exists( 'PMS_Register_Version' ) && !get_option( 'pms_serial_number_status') && $serial = pms_get_serial_number() )
-        PMS_Register_Version::pms_register_version_check_serial_number( $serial, 'pms', true );
-
-    return get_option( 'pms_serial_number_status' );
+    return get_option( 'pms_license_status' );
 
 }
 
@@ -338,41 +335,28 @@ function pms_get_serial_number_status() {
  * Retrives the current Paid Member Subscriptions version
  *
  * @since 1.7.8
- * @return string  Either free, hobbyist or pro
+ * @return string  Free, basic, pro, unlimited, elite
  */
 function pms_get_product_version() {
 
-    if ( !( $serial = pms_get_serial_number() ) ) return 'free';
+    $version = 'free';
 
-    $serial = explode( '-', $serial );
+    $active_plugins         = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
+    $active_network_plugins = get_site_option('active_sitewide_plugins');
 
-    if ( empty( $serial[0] ) ) return 'free';
+    if ( in_array( 'paid-member-subscriptions-pro/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-pro/index.php'] ) )
+        $version = 'pro';
+    elseif( in_array( 'paid-member-subscriptions-unlimited/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-unlimited/index.php'] ) )
+        $version = 'unlimited';
+    elseif( in_array( 'paid-member-subscriptions-elite/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-elite/index.php'] ) )
+        $version = 'elite';
+    elseif( in_array( 'paid-member-subscriptions-basic/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-basic/index.php'] ) )
+        $version = 'basic';
+    elseif( in_array( 'paid-member-subscriptions-dev/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-dev/index.php'] ) )
+        $version = 'dev';
 
-    if ( $serial[0] == 'CLPMSB' || $serial[0] == 'CLPMSL' )
-        return 'pro';
-    else if ( $serial[0] == 'CLPMSH' )
-        return 'hobbyist';
+    return $version;
 
-    return 'free';
-}
-
-/**
- * Verifies if any paid add-on is active on the current website
- *
- * @return boolean
- */
-function pms_is_addon_active(){
-    foreach( PMS_Submenu_Page_Addons::add_ons_get_remote_content() as $add_on ){
-        if( $add_on['type'] != 'paid' )
-            continue;
-
-        $path = 'pms-add-on-' . $add_on['slug'] . '/index.php';
-
-        if( is_plugin_active( $path ) )
-            return true;
-    }
-
-    return false;
 }
 
 /*
@@ -436,6 +420,9 @@ function pms_get_gdpr_settings(){
 
 }
 
+/**
+ * Simple query to count users
+ */
 function pms_count_users(){
 
     global $wpdb;
@@ -446,6 +433,9 @@ function pms_count_users(){
 
 }
 
+/**
+ * WPML translation support
+ */
 function pms_icl_t( $context, $name, $value ){
 
 	if( function_exists( 'icl_t' ) )
@@ -455,6 +445,9 @@ function pms_icl_t( $context, $name, $value ){
 
 }
 
+/**
+ * Verifies if a paid version of the plugin is active
+ */
 function pms_are_paid_versions_active(){
 
     $slugs = array(
@@ -474,5 +467,52 @@ function pms_are_paid_versions_active(){
     }
 
     return $active;
+
+}
+
+/**
+ * Figure out if we should load front-end scripts or not on the current page request
+ */
+function pms_should_load_scripts(){
+
+    if( is_admin() )
+        return true;
+
+    $settings = get_option( 'pms_misc_settings', false );
+
+    if( empty( $settings ) )
+        return true;
+    
+    if( !isset( $settings['scripts-on-specific-pages-enabled'] ) || $settings['scripts-on-specific-pages-enabled'] != '1' )
+        return true;
+
+    // Load scripts on the Membership pages selected under general settings
+    $general_settings = get_option( 'pms_general_settings', false );
+
+    if( !empty( $general_settings ) ){
+
+        $pages = array();
+
+        if( isset( $general_settings['login_page'] ) && $general_settings['login_page'] != '-1' )
+            $pages[] = $general_settings['login_page'];
+        if( isset( $general_settings['register_page'] ) && $general_settings['register_page'] != '-1' )
+            $pages[] = $general_settings['register_page'];
+        if( isset( $general_settings['account_page'] ) && $general_settings['account_page'] != '-1' )
+            $pages[] = $general_settings['account_page'];
+        if( isset( $general_settings['lost_password_page'] ) && $general_settings['lost_password_page'] != '-1' )
+            $pages[] = $general_settings['lost_password_page'];
+
+        if( in_array( get_the_ID(), $pages ) )
+            return true;
+
+    }
+
+    if( !isset( $settings['scripts-on-specific-pages'] ) || empty( $settings['scripts-on-specific-pages'] ) )
+        return true;
+    
+    if( in_array( get_the_ID(), $settings['scripts-on-specific-pages'] ) )
+        return true;
+
+    return false;
 
 }
