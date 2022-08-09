@@ -91,22 +91,17 @@ Class PMS_Merge_Tags{
      */
     function pms_tag_subscription_name( $value, $user_info, $subscription_id ) {
 
-        if( isset( $user_info->subscription_plan_id ) ){
+        $subscription_plan = isset( $user_info->subscription_plan_id ) ? pms_get_subscription_plan( $user_info->subscription_plan_id ) : '';
 
-            $plan = pms_get_subscription_plan( $user_info->subscription_plan_id );
-
-            if( !empty( $plan->name ) )
-                return $plan->name;
-
-        } else if( !empty( $subscription_id ) ){
+        if( !empty( $subscription_id ) ){
             $subscription = pms_get_member_subscription( $subscription_id );
 
-            if( !empty( $subscription->subscription_plan_id ) ){
-                $plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
-
-                return $plan->name;
-            }
+            if( !empty( $subscription->subscription_plan_id ) )
+                $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
         }
+
+        if( !empty( $plan->name ) )
+            return $plan->name;
 
         return '';
 
@@ -197,21 +192,45 @@ Class PMS_Merge_Tags{
      */
     public function pms_tag_subscription_price( $value, $user_info, $subscription_id, $payment_id ){
 
+        $amount = false;
+
         if( !empty( $payment_id ) ){
 
             $payment = pms_get_payment( $payment_id );
 
-            if( !empty( $payment->id ) ){
-
-                $currency = apply_filters( 'pms_merge_tag_subscription_price_currency', pms_get_active_currency(), $payment );
-
-                return pms_format_price( $payment->amount, $currency );
-
-            }
+            if( !empty( $payment->id ) )
+                $amount = $payment->amount;
             
-        } else {
+        } else if( !empty( $user_info->ID ) ){
+
+            $payments = pms_get_payments( array( 'user_id' => $user_info->ID ) );
+
+            // If the website is doing cron we don't want the price of the last payment
+            if ( empty( $payments ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
+
+                $subscription = pms_get_member_subscription( $subscription_id );
+                $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+
+                if ( !empty( $_POST['discount_code'] ) && !empty( $subscription_plan->price ) )
+                    $amount = pms_calculate_discounted_amount( $subscription_plan->price, pms_get_discount_by_code( sanitize_text_field( $_POST['discount_code'] ) ) );
+                else
+                    $amount = $subscription_plan->price;
+
+            } else
+                $amount = $payments[0]->amount;
+
+        }
+        
+        
+        if( $amount === false ){
 
             return __( 'Free', 'paid-member-subscriptions' );
+
+        } else {
+
+            $currency = apply_filters( 'pms_merge_tag_subscription_price_currency', pms_get_active_currency(), $subscription_id );
+
+            return pms_format_price( $amount, $currency );
 
         }
 

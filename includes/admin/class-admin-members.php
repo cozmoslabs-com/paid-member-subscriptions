@@ -185,6 +185,10 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                 $_POST['expiration_date'] = $member_subscription->billing_next_payment;
             }
 
+            // When a subscription is canceled, disable the retry payment functionality
+            if( isset( $_POST['status'] ) && $_POST['status'] == 'canceled' )
+                pms_update_member_subscription_meta( $member_subscription->id, 'pms_retry_payment', 'inactive' );
+
             $updated = $member_subscription->update( $_POST );
 
             if( $updated ) {

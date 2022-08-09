@@ -629,8 +629,8 @@
 <?php __("Subscription Downgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Retry Payment", "paid-member-subscriptions"); ?>
 <?php __("If you have issues with the styling of the submit button on <strong>Paid Member Subscriptions</strong> forms, <a href=\"%s\" target=\"_blank\">click here</a> for more info.", "paid-member-subscriptions"); ?>
-<?php __("Check out the new <strong>Pro-rate</strong> add-on which allows your users to benefit from a discount based on their remaining subscription time when upgrading or downgrading their subscription plan.", "paid-member-subscriptions"); ?>
-<?php __("More Details", "paid-member-subscriptions"); ?>
+<?php __("<strong>New Stripe add-on feature!</strong> <br>Your recurring subscribers through Stripe can now easily update the payment method of their subscription from the Account page.", "paid-member-subscriptions"); ?>
+<?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("%s Day", "paid-member-subscriptions"); ?>
 <?php __("%s Days", "paid-member-subscriptions"); ?>
 <?php __("%s Week", "paid-member-subscriptions"); ?>
@@ -675,7 +675,6 @@
 <?php __("Content Restriction", "paid-member-subscriptions"); ?>
 <?php __("Create member only forums with just a few clicks.", "paid-member-subscriptions"); ?>
 <?php __("Allow only members to have access to forums and topics with Paid Member Subscriptions's bbPress Add-On.", "paid-member-subscriptions"); ?>
-<?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("Restrict to logged in users", "paid-member-subscriptions"); ?>
 <?php __("Allow only logged in users to see this content.", "paid-member-subscriptions"); ?>
 <?php __("Restrict by Subscription Plans", "paid-member-subscriptions"); ?>
@@ -1171,6 +1170,7 @@
 <?php __("You have selected a Group Membership. After a successful payment you will be able to invite up to %s additional members.", "paid-member-subscriptions"); ?>
 <?php __("Group Name *", "paid-member-subscriptions"); ?>
 <?php __("Group Description", "paid-member-subscriptions"); ?>
+<?php __("The group name you chose is already registered. Please enter another one.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a group name.", "paid-member-subscriptions"); ?>
 <?php __("for %s members", "paid-member-subscriptions"); ?>
 <?php __("You are not allowed to do this.", "paid-member-subscriptions"); ?>
@@ -1404,6 +1404,7 @@
 <?php __("Helps you collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.", "paid-member-subscriptions"); ?>
 <?php __("Recommended Plugins", "paid-member-subscriptions"); ?>
 <?php __("Translate your Paid Member Subscriptions checkout with a WordPress translation plugin that anyone can use. It offers a simpler way to translate WordPress sites, with full support for WooCommerce and site builders.", "paid-member-subscriptions"); ?>
+<?php __("More Details", "paid-member-subscriptions"); ?>
 <?php __("Install Now", "paid-member-subscriptions"); ?>
 <?php __("Compatible with Paid Member Subscriptions.", "paid-member-subscriptions"); ?>
 <?php __("Plugin is <strong>active</strong>", "paid-member-subscriptions"); ?>

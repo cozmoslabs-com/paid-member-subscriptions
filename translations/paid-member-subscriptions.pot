@@ -383,11 +383,11 @@ msgstr ""
 msgid "The selected subscription plan does not exist or is inactive."
 msgstr ""
 
-#: includes/class-form-handler.php:262, includes/admin/class-admin-members.php:366, includes/admin/class-admin-payments.php:371
+#: includes/class-form-handler.php:262, includes/admin/class-admin-members.php:370, includes/admin/class-admin-payments.php:371
 msgid "Please select a subscription plan."
 msgstr ""
 
-#: includes/class-form-handler.php:308, includes/admin/class-admin-members.php:825, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:102, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:302
+#: includes/class-form-handler.php:308, includes/admin/class-admin-members.php:829, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:102, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:305
 msgid "Something went wrong."
 msgstr ""
 
@@ -504,23 +504,23 @@ msgstr ""
 msgid "Something went wrong while registering the user. Contact the website administrator."
 msgstr ""
 
-#: includes/class-merge-tags.php:157
+#: includes/class-merge-tags.php:152
 msgid "abandoned"
 msgstr ""
 
-#: includes/class-merge-tags.php:214, includes/functions-subscription-plan.php:439, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:581, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
+#: includes/class-merge-tags.php:227, includes/functions-subscription-plan.php:439, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:605, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
 msgid "Free"
 msgstr ""
 
-#: includes/class-merge-tags.php:235
+#: includes/class-merge-tags.php:254
 msgid "unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:232, add-ons-basic/discount-codes/includes/functions-discount.php:243
+#: includes/class-merge-tags.php:251, add-ons-basic/discount-codes/includes/functions-discount.php:243
 msgid "until %s"
 msgstr ""
 
-#: includes/class-merge-tags.php:327
+#: includes/class-merge-tags.php:346
 msgid "The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired."
 msgstr ""
 
@@ -2464,7 +2464,7 @@ msgstr ""
 msgid "In order to restore it, you need to put the plugin into <strong>Test Mode</strong>."
 msgstr ""
 
-#: includes/functions-core.php:1168, includes/functions-core.php:1195, includes/functions-core.php:1235, includes/functions-core.php:1214, includes/functions-core.php:1276, includes/functions-plugin-compatibilities.php:101, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:275, add-ons-pro/group-memberships/includes/functions.php:295
+#: includes/functions-core.php:1168, includes/functions-core.php:1195, includes/functions-core.php:1235, includes/functions-core.php:1214, includes/functions-core.php:1276, includes/functions-plugin-compatibilities.php:101, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:287, add-ons-pro/group-memberships/includes/functions.php:307
 msgid " %1$sDismiss%2$s"
 msgstr ""
 
@@ -2541,11 +2541,11 @@ msgid "If you have issues with the styling of the submit button on <strong>Paid 
 msgstr ""
 
 #: includes/functions-plugin-notifications.php:96
-msgid "Check out the new <strong>Pro-rate</strong> add-on which allows your users to benefit from a discount based on their remaining subscription time when upgrading or downgrading their subscription plan."
+msgid "<strong>New Stripe add-on feature!</strong> <br>Your recurring subscribers through Stripe can now easily update the payment method of their subscription from the Account page."
 msgstr ""
 
-#: includes/functions-plugin-notifications.php:97, includes/admin/views/view-page-addons.php:205, includes/admin/views/view-page-addons.php:277
-msgid "More Details"
+#: includes/functions-plugin-notifications.php:97, extend/bbpress/functions.php:36, includes/admin/views/setup-wizard/view-tab-payments.php:41, includes/admin/views/setup-wizard/view-tab-payments.php:87
+msgid "Learn More"
 msgstr ""
 
 #: includes/functions-subscription-plan.php:476, includes/admin/class-admin-subscription-plans.php:390, includes/admin/class-admin-subscription-plans.php:448
@@ -2714,10 +2714,6 @@ msgstr ""
 
 #: extend/bbpress/functions.php:34
 msgid "Allow only members to have access to forums and topics with Paid Member Subscriptions's bbPress Add-On."
-msgstr ""
-
-#: extend/bbpress/functions.php:36, includes/admin/views/setup-wizard/view-tab-payments.php:41, includes/admin/views/setup-wizard/view-tab-payments.php:87
-msgid "Learn More"
 msgstr ""
 
 #: extend/elementor/class-elementor-elements-restriction.php:40
@@ -3160,209 +3156,209 @@ msgstr ""
 msgid "Are you sure you want to delete these Subscriptions? \nThis action is irreversible."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:259
+#: includes/admin/class-admin-members.php:263
 msgid "%d Member Subscription successfully deleted."
 msgid_plural "%d Member Subscriptions successfully deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-members.php:326
+#: includes/admin/class-admin-members.php:330
 msgid "%d members successfully added."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:358, includes/admin/class-admin-payments.php:365
+#: includes/admin/class-admin-members.php:362, includes/admin/class-admin-payments.php:365
 msgid "It seems this user does not exist."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:350, includes/admin/class-admin-payments.php:357
+#: includes/admin/class-admin-members.php:354, includes/admin/class-admin-payments.php:357
 msgid "Please select a user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:377
+#: includes/admin/class-admin-members.php:381
 msgid "This user is already subscribed to the selected plan or another plan from this tier. Select another one."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:385
+#: includes/admin/class-admin-members.php:389
 msgid "Please add a start date for the subscription."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:394
+#: includes/admin/class-admin-members.php:398
 msgid "The expiration date needs to be greater than the start date."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:397
+#: includes/admin/class-admin-members.php:401
 msgid "The expiration date needs to be greater than the trial end date."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:430, includes/admin/class-admin-members.php:443, includes/admin/class-admin-members.php:439
+#: includes/admin/class-admin-members.php:434, includes/admin/class-admin-members.php:447, includes/admin/class-admin-members.php:443
 msgid "Something went wrong. Could not complete your request."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:451
+#: includes/admin/class-admin-members.php:455
 msgid "The user already has a non-abandoned subscription with this plan."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:480
+#: includes/admin/class-admin-members.php:484
 msgid "The expiration date needs to be less than the current date."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:687
+#: includes/admin/class-admin-members.php:691
 msgid "Subscription canceled by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:690
+#: includes/admin/class-admin-members.php:694
 msgid "Subscription initiated by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:693
+#: includes/admin/class-admin-members.php:697
 msgid "Subscription abandoned by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:700
+#: includes/admin/class-admin-members.php:704
 msgid "Subscription activated successfully."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:698
+#: includes/admin/class-admin-members.php:702
 msgid "Subscription activated until <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:704
+#: includes/admin/class-admin-members.php:708
 msgid "Subscription expired."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:711
+#: includes/admin/class-admin-members.php:715
 msgid "Subscription renewed by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:709
+#: includes/admin/class-admin-members.php:713
 msgid "Subscription renewed until <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:715
+#: includes/admin/class-admin-members.php:719
 msgid "Subscription renewed automatically."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:718
+#: includes/admin/class-admin-members.php:722
 msgid "Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:726, includes/admin/class-admin-members.php:722
+#: includes/admin/class-admin-members.php:730, includes/admin/class-admin-members.php:726
 msgid "Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>. Payment will be retried in %s days."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:730
+#: includes/admin/class-admin-members.php:734
 msgid "Subscription could not be renewed. Payment retry was disabled."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:733
+#: includes/admin/class-admin-members.php:737
 msgid "User attempted to upgrade his subscription plan to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:736
+#: includes/admin/class-admin-members.php:740
 msgid "User attempted to downgrade his subscription plan to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:739
+#: includes/admin/class-admin-members.php:743
 msgid "User attempted to change his subscription plan to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:742
+#: includes/admin/class-admin-members.php:746
 msgid "User attempted to retry the payment for his subscription."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:745
+#: includes/admin/class-admin-members.php:749
 msgid "Subscription successfully upgraded from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:748
+#: includes/admin/class-admin-members.php:752
 msgid "Subscription successfully downgraded from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:751
+#: includes/admin/class-admin-members.php:755
 msgid "Subscription successfully changed from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:754
+#: includes/admin/class-admin-members.php:758
 msgid "Subscription trial started until <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:757
+#: includes/admin/class-admin-members.php:761
 msgid "Subscription trial ended."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:760
+#: includes/admin/class-admin-members.php:764
 msgid "Payment method for the subscription updated by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:773
+#: includes/admin/class-admin-members.php:777
 msgid "%s changed <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:771
+#: includes/admin/class-admin-members.php:775
 msgid "%s changed <strong>%s</strong> from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:777
+#: includes/admin/class-admin-members.php:781
 msgid "Subscription activated successfully (by admin, manual offline)"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:780
+#: includes/admin/class-admin-members.php:784
 msgid "Subscription initiated by %s."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:783
+#: includes/admin/class-admin-members.php:787
 msgid "Subscription initiated by %s (bulk)."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:786
+#: includes/admin/class-admin-members.php:790
 msgid "Subscription initiated by %s (payment)."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:792
+#: includes/admin/class-admin-members.php:796
 msgid "Subscription canceled because user was deleted by <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:795
+#: includes/admin/class-admin-members.php:799
 msgid "Subscription canceled by gateway."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:798
+#: includes/admin/class-admin-members.php:802
 msgid "Payment gateway was changed from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:801
+#: includes/admin/class-admin-members.php:805
 msgid "Subscription <strong>activated</strong> successfully by WooCommerce [Order #%s] until <strong>%s</strong>"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:804
+#: includes/admin/class-admin-members.php:808
 msgid "Subscription <strong>canceled</strong> by canceling WooCommerce <strong>Subscription #%s</strong>. "
 msgstr ""
 
-#: includes/admin/class-admin-members.php:807
+#: includes/admin/class-admin-members.php:811
 msgid "<strong>Status</strong> changed from <strong>%s</strong> to <strong>%s</strong> by WooCommerce [Order #%s]."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:810
+#: includes/admin/class-admin-members.php:814
 msgid "<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s]."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:813
+#: includes/admin/class-admin-members.php:817
 msgid "Your <strong>Subscription Plan</strong> has been %s to <strong>%s</strong>  by WooCommerce [Order #%s]."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:816
+#: includes/admin/class-admin-members.php:820
 msgid "<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s]."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:819
+#: includes/admin/class-admin-members.php:823
 msgid "Next <strong>Scheduled Payment date</strong> updated to <strong>%s</strong> by the recurring payment process"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:822
+#: includes/admin/class-admin-members.php:826
 msgid "Subscription initiated by WooCommerce [Order #%s]"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:893, includes/admin/class-admin-members.php:893, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:66, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:13, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
+#: includes/admin/class-admin-members.php:897, includes/admin/class-admin-members.php:897, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:66, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:13, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
 msgid "Members"
 msgstr ""
 
@@ -4329,7 +4325,7 @@ msgstr ""
 msgid "Taxonomy"
 msgstr ""
 
-#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:220, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:227, add-ons-pro/group-memberships/includes/class-group-memberships.php:1068, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:269
+#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:220, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:227, add-ons-pro/group-memberships/includes/class-group-memberships.php:1080, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:269
 msgid "Remove"
 msgstr ""
 
@@ -4634,7 +4630,7 @@ msgid_plural "%d members invited successfully !"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:369, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:318
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:369, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:321
 msgid "Group name cannot be empty."
 msgstr ""
 
@@ -4650,59 +4646,63 @@ msgstr ""
 msgid "You have selected a Group Membership. After a successful payment you will be able to invite up to %s additional members."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:506, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:409, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:17
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:506, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:417, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:17
 msgid "Group Name *"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:514, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:415, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:25
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:514, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:423, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:25
 msgid "Group Description"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:532, add-ons-pro/group-memberships/includes/class-group-memberships.php:944
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:536, add-ons-pro/group-memberships/includes/class-group-memberships.php:552, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:450
+msgid "The group name you chose is already registered. Please enter another one."
+msgstr ""
+
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:534, add-ons-pro/group-memberships/includes/class-group-memberships.php:550, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:445
 msgid "Please enter a group name."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:585
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:609
 msgid "for %s members"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:799, add-ons-pro/group-memberships/includes/class-group-memberships.php:861
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:823, add-ons-pro/group-memberships/includes/class-group-memberships.php:885
 msgid "You are not allowed to do this."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:841
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:865
 msgid "Member invitation removed succesfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:821, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:379, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:371
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:845, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:386, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:377
 msgid "Member removed successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:846, add-ons-pro/group-memberships/includes/class-group-memberships.php:874, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1489
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:870, add-ons-pro/group-memberships/includes/class-group-memberships.php:898, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1489
 msgid "Something went wrong, please try again."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:871
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:895
 msgid "Invitation sent successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:1073, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:239
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:1085, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:239
 msgid "Resend Invite"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/functions.php:251
+#: add-ons-pro/group-memberships/includes/functions.php:263
 msgid "Subscription activated by group subscription invitation."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/functions.php:254
+#: add-ons-pro/group-memberships/includes/functions.php:266
 msgid "User accepted group subscription invitation and registered. Subscription activated."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/functions.php:264
+#: add-ons-pro/group-memberships/includes/functions.php:276
 msgid "Please select the [pms-register] page under Settings -> General -> Membership Pages in order for Group Subscription invitations to work."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/functions.php:284
+#: add-ons-pro/group-memberships/includes/functions.php:296
 msgid "Please select the [pms-account] page under Settings -> General -> Membership Pages in order for Group Owners to be able to invite members and manage their group."
 msgstr ""
 
@@ -5588,6 +5588,10 @@ msgstr ""
 
 #: includes/admin/views/view-page-addons.php:204
 msgid "Translate your Paid Member Subscriptions checkout with a WordPress translation plugin that anyone can use. It offers a simpler way to translate WordPress sites, with full support for WooCommerce and site builders."
+msgstr ""
+
+#: includes/admin/views/view-page-addons.php:205, includes/admin/views/view-page-addons.php:277
+msgid "More Details"
 msgstr ""
 
 #: includes/admin/views/view-page-addons.php:230, includes/admin/views/view-page-addons.php:302
@@ -7079,7 +7083,7 @@ msgstr ""
 msgid "Select content dripping set status."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:50, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:152
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:50, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:155
 msgid "Seats"
 msgstr ""
 
@@ -7107,67 +7111,67 @@ msgstr ""
 msgid "No Members in this Group"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:82
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:85
 msgid "Regular"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:83, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:112, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:180
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:86, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:115, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:183
 msgid "Group"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:92
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:95
 msgid "Subscription Type"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:102
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:105
 msgid "Please select the duration type for this subscription plan."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:156
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:159
 msgid "The number of additional members, including the owner, that can be added to the subscription."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:238
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:241
 msgid "Group..."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:284
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:287
 msgid "Edit Owner"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:315
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:318
 msgid "Invalid subscriptions."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:321
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:324
 msgid "Group seats cannot be empty."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:324
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:327
 msgid "Group seats needs to be a number"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:327
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:330
 msgid "Available seats needs to be equal or bigger than used seats."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:341
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:344
 msgid "Group subscription details edited successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:446
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:480
 msgid "Group subscriptions can only be added as upgrades to regular plans."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:447
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:481
 msgid "Regular plans cannot be added as upgrades to Group subscription plans."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:448
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:482
 msgid "You need to define the number of seats for this Group Subscription."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:449
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:483
 msgid "Group subscriptions cannot be downgrades to regular plans."
 msgstr ""
 

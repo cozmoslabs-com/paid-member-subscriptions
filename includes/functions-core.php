@@ -1121,11 +1121,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         if( $payments_home_url === false ){
 
-            update_option( 'pms_payments_home_url', password_hash( pms_get_absolute_home(), PASSWORD_DEFAULT ) );
+            update_option( 'pms_payments_home_url', password_hash( home_url(), PASSWORD_DEFAULT ) );
 
         } else {
 
-            if( !password_verify( pms_get_absolute_home(), $payments_home_url ) )
+            if( !password_verify( home_url(), $payments_home_url ) )
                 return true;
 
         }

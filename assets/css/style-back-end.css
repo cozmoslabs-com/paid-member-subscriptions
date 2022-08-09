@@ -577,9 +577,9 @@
     text-align: center;
 }
 
-.wp-list-table.payments .column-username {
+/* .wp-list-table.payments .column-username {
     width: 14%;
-}
+} */
 
 .wp-list-table.payments .column-subscriptions {
     width: 14%;
