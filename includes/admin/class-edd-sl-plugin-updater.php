@@ -543,7 +543,7 @@ class PMS_Plugin_Updater {
     }
 
     protected function license_page_url( ){
-        return admin_url( 'admin.php?page=paid-member-subscriptions-register' );
+        return admin_url( 'admin.php?page=pms-register-page' );
     }
 
     public function edd_sanitize_license( $new ) {

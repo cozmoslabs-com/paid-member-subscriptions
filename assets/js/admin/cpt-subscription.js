@@ -44,6 +44,14 @@ jQuery( function($) {
         $('input#publish').val('Save Subscription');
     });
 
+   /**
+    * Add Link to PMS Docs next to page title
+    * */
+   $(document).ready( function () {
+       $(function(){
+           $('.wp-admin.edit-php.post-type-pms-subscription .wrap .wp-heading-inline').append('<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>');
+       });
+   });
 
     /*
      * Move the "Add Upgrade" and "Add Downgrade" buttons from the submit box

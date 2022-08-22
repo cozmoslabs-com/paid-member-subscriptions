@@ -10,7 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <div class="wrap">
 
-    <h1><?php echo esc_html( $this->page_title ); ?></h1>
+    <h1>
+        <?php echo esc_html( $this->page_title ); ?>
+        <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/reports/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+    </h1>
 
     <h2 class="nav-tab-wrapper">
         <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-reports-page' ) ); ?>" class="nav-tab <?php echo $active_tab == 'pms-reports-page' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Reports', 'paid-member-subscriptions' ); ?></a>

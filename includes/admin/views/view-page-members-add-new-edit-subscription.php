@@ -223,7 +223,7 @@ if( ! empty( $_POST ) ) {
 									    	 * If we edit a subcription grab only the subscriptions plans group of the current subscription plan
 									    	 *
 									    	 */
-								        	} else{
+								        	} else {
 								        	    if( $member_subscription->is_auto_renewing() )
 								        	        $subscription_plans = array( pms_get_subscription_plan( $member_subscription->subscription_plan_id ) );
 								        	    else
@@ -270,7 +270,7 @@ if( ! empty( $_POST ) ) {
 
 										}    
 
-                                        if( !apply_filters( 'pms_view_add_new_edit_subscription_hide_expiration_date', $hide_expiration_date, $member_subscription ) ) :
+                                        if( !isset( $member_subscription ) || !apply_filters( 'pms_view_add_new_edit_subscription_hide_expiration_date', $hide_expiration_date, $member_subscription ) ) :
                                     ?>
                                             <!-- Expiration Date -->
                                             <div class="pms-meta-box-field-wrapper">

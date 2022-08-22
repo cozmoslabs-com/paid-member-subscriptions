@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.0
-Stable tag: 2.7.4
+Stable tag: 2.7.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.7.5 =
+* Fix: Issue with {{subscription_name}} tag not working
+* Fix: Issue with Profile Builder Userlisting merge tags that have dates
+* Fix: Make sure PSP cron doesn't start again if another instance of it is running
+* Misc: added option to export Default Website field using PMS Export feature (only for new users)
+* Misc: Added documentation help links to most back-end interfaces
+
 = 2.7.4 =
 * Fix: an issue with the website clone functionality not detecting https correctly in some cases
 * Fix: Payments list table display when you remove some of the bigger columns like Type or Transaction ID

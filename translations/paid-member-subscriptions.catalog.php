@@ -614,6 +614,7 @@
 <?php __("Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate.", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
+<?php __("Your <strong>Paid Member Subscriptions Basic</strong> license has reached its activation limit.<br> Upgrade now to <strong>Pro</strong> for unlimited activations and extra features like recurring payments, invoices, taxes and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>", "paid-member-subscriptions"); ?>
 <?php __('<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
 <?php __("Abandoned", "paid-member-subscriptions"); ?>
@@ -1687,7 +1688,7 @@
 <?php __("Enter your PayPal e-mail address", "paid-member-subscriptions"); ?>
 <?php __("Test PayPal E-mail Address", "paid-member-subscriptions"); ?>
 <?php __("PayPal E-mail address to use for test transactions", "paid-member-subscriptions"); ?>
-<?php __("In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %sMore info%s", "paid-member-subscriptions"); ?>
+<?php __("In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %s", "paid-member-subscriptions"); ?>
 <?php __("Use the following URL for the IPN:", "paid-member-subscriptions"); ?>
 <?php __('Your <strong>PayPal Email Address</strong> is missing. In order to make payments you will need to add the Email Address of your PayPal account %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("User sent to <strong>PayPal Checkout</strong> to continue the payment process.", "paid-member-subscriptions"); ?>
@@ -1800,6 +1801,8 @@
 <?php __("Regular plans cannot be added as upgrades to Group subscription plans.", "paid-member-subscriptions"); ?>
 <?php __("You need to define the number of seats for this Group Subscription.", "paid-member-subscriptions"); ?>
 <?php __("Group subscriptions cannot be downgrades to regular plans.", "paid-member-subscriptions"); ?>
+<?php __("Invite Members via Email", "paid-member-subscriptions"); ?>
+<?php __("Add Existing Users", "paid-member-subscriptions"); ?>
 <?php __("Edit Group Details", "paid-member-subscriptions"); ?>
 <?php __("Edit Details", "paid-member-subscriptions"); ?>
 <?php __("Invite Members", "paid-member-subscriptions"); ?>
@@ -2018,10 +2021,15 @@
 <?php __("Could not validate the reCaptcha. Please complete it again.", "paid-member-subscriptions"); ?>
 <?php __("Click the BACK button on your browser, and try again.", "paid-member-subscriptions"); ?>
 <?php __("You can add up to %s more members.", "paid-member-subscriptions"); ?>
+<?php __("User(s) to add as members of your Group Subscription:", "paid-member-subscriptions"); ?>
+<?php __("Select users", "paid-member-subscriptions"); ?>
 <?php __("Click in the box above to select the users you want to add.", "paid-member-subscriptions"); ?>
 <?php __("Add Members", "paid-member-subscriptions"); ?>
 <?php __("Group Details", "paid-member-subscriptions"); ?>
 <?php __("Add New Members", "paid-member-subscriptions"); ?>
+<?php __("Change Group Owner", "paid-member-subscriptions"); ?>
+<?php __("Select new owner", "paid-member-subscriptions"); ?>
+<?php __("Change owner", "paid-member-subscriptions"); ?>
 <?php __("Discounts behaviour", "paid-member-subscriptions"); ?>
 <?php __("Best price", "paid-member-subscriptions"); ?>
 <?php __("Apply only discounts set below for this product", "paid-member-subscriptions"); ?>

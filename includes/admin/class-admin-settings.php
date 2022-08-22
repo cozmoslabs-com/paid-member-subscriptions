@@ -50,6 +50,12 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
                 <?php
                     $tabs = $this->get_tabs();
                     echo esc_html( $tabs[$this->active_tab] );
+
+                    if ( $this->active_tab == 'general' || $this->active_tab == 'payments' || $this->active_tab == 'content_restriction' || $this->active_tab == 'invoices' || $this->active_tab == 'tax' )
+                        $link_slug = str_replace("_","-",$this->active_tab);
+
+                    if ( isset( $link_slug ))
+                        echo '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/'. esc_html( $link_slug ) .'/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>';
                 ?>
 
                     <div class="pms-payments-status-wrap pms-payments-status-wrap--<?php echo ( pms_is_payment_test_mode() ? 'test' : 'live' ); ?>">

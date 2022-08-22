@@ -1204,6 +1204,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
      *
      */
     $pms_serial_number_status = pms_get_serial_number_status();
+    $license_details          = get_option( 'pms_license_details', false );
+
     if ( $pms_serial_number_status == 'expired' ) {
 
          $pms_expired_message = sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) );
@@ -1223,20 +1225,41 @@ if ( ! defined( 'ABSPATH' ) ) exit;
              '',
              '',
              $pms_force_show );
-    } else {
+
+    } elseif( !empty( $license_details ) && !empty( $license_details->expires ) ) {
+
         // Maybe add about to expire notice
-        $license_details = get_option( 'pms_license_details', false );
+        if( strtotime( $license_details->expires ) < strtotime( '+14 days' ) ){
+            new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
+                sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) ).
+                sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url(add_query_arg('pms_about_to_expire_licence_dismiss_notification', '0')) . "'>", "</a>"), 
+                'notice-warning' );
+        }
 
-        if( !empty( $license_details ) && !empty( $license_details->expires ) ){
+    }
 
-            if( strtotime( $license_details->expires ) < strtotime( '+14 days' ) ){
-                new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
-                    sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) ).
-                    sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url(add_query_arg('pms_about_to_expire_licence_dismiss_notification', '0')) . "'>", "</a>"), 
-                    'notice-warning' );
+    if( isset( $license_details->license ) && $license_details->license == 'invalid' ){
+
+        if( isset( $license_details->error ) && $license_details->error == 'no_activations_left' ){
+
+            $pms_activations_limit_message = sprintf( __( 'Your <strong>Paid Member Subscriptions Basic</strong> license has reached its activation limit.<br> Upgrade now to <strong>Pro</strong> for unlimited activations and extra features like recurring payments, invoices, taxes and more. <a class="button-primary" href="%s">Upgrade now</a>', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-license-activation-limit' ) );
+
+            $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
+            if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
+                $pms_activations_limit_message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url(add_query_arg('pms_basic_activations_limit_dismiss_notification', '0')) . "'>", "</a>");
+                $pms_force_show = false;
+            } else {
+                $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
             }
 
-        }
+            new PMS_Add_General_Notices( 'pms_basic_activations_limit',
+                $pms_activations_limit_message,
+                'error',
+                '',
+                '',
+                $pms_force_show );
+            }
+
     }
 
     /**

@@ -14,7 +14,10 @@ function pms_add_settings_content_paypal_standard( $options ) {
 
     <div class="pms-payment-gateway-wrapper">
 
-        <h4 class="pms-payment-gateway-title"><?php echo esc_html( apply_filters( 'pms_settings_page_payment_gateway_paypal_title', esc_html__( 'Paypal Standard', 'paid-member-subscriptions' ) ) ); ?></h4>
+        <h4 class="pms-payment-gateway-title">
+            <?php echo esc_html( apply_filters( 'pms_settings_page_payment_gateway_paypal_title', esc_html__( 'Paypal Standard', 'paid-member-subscriptions' ) ) ); ?>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/paypal-pro-and-express-checkout/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs/#Entering_your_PayPal_API_Credentials" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+        </h4>
 
         <div class="pms-form-field-wrapper">
             <label class="pms-form-field-label" for="paypal-standard-email"><?php esc_html_e( 'PayPal E-mail Address', 'paid-member-subscriptions' ); ?></label>
@@ -37,7 +40,8 @@ function pms_add_settings_content_paypal_standard( $options ) {
         <!-- IPN Message -->
         <?php if( in_array( 'paypal_standard', $options['active_pay_gates'] ) || in_array( 'paypal_express', $options['active_pay_gates'] ) ) : ?>
             <p class="pms-ipn-notice" style="margin-bottom:16px;">
-                <?php printf( wp_kses_post( __( 'In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %sMore info%s', 'paid-member-subscriptions' ) ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/#IPN_for_PayPal_gateways">', '</a>' ); ?>
+<!--                --><?php //printf( wp_kses_post( __( 'In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %sMore info%s', 'paid-member-subscriptions' ) ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/#IPN_for_PayPal_gateways">', '</a>' ); ?>
+                <?php printf( wp_kses_post( __( 'In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %s', 'paid-member-subscriptions' ) ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/recurring-payments-for-paypal-standard/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs/#Setting_up_Instant_Payment_Notifications_IPN" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>' ); ?>
             </p>
             <p class="pms-ipn-notice">
                 <?php printf( esc_html__( 'Use the following URL for the IPN:', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/#IPN_for_PayPal_gateways">', '</a>' ); ?>

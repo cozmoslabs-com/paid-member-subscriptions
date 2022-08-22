@@ -28,6 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <!-- GDPR Sub Tab -->
 <div data-sub-tab-slug="misc_gdpr" class="pms-sub-tab pms-sub-tab-gdpr <?php echo ( $active_sub_tab == 'misc_gdpr' ? 'tab-active' : '' ); ?>">
 
+    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs/#GDPR" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+
     <div class="pms-form-field-wrapper">
         <label class="pms-form-field-label" for="gdpr-checkbox"><?php esc_html_e( 'GDPR checkbox on Forms', 'paid-member-subscriptions' ) ?></label>
 
@@ -63,6 +65,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <!-- Others Sub Tab -->
 <div data-sub-tab-slug="misc_others" class="pms-sub-tab pms-sub-tab-others <?php echo ( $active_sub_tab == 'misc_others' ? 'tab-active' : '' ); ?>">
+
+    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs/#Others" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
 
     <div class="pms-form-field-wrapper">
         <label class="pms-form-field-label" for="allow-usage-tracking"><?php esc_html_e( 'Usage Tracking' , 'paid-member-subscriptions' ) ?></label>
@@ -162,12 +166,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <!-- reCaptcha Sub Tab -->
 <div data-sub-tab-slug="misc_recaptcha" class="pms-sub-tab pms-sub-tab-recaptcha <?php echo ( $active_sub_tab == 'misc_recaptcha' ? 'tab-active' : '' ); ?>">
+
+    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/recaptcha/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+
     <?php do_action( $this->menu_slug . '_misc_after_recaptcha_tab_content', $this->options ); ?>
 </div>
 
 
 <!-- Payments Sub Tab -->
 <div data-sub-tab-slug="misc_payments" class="pms-sub-tab pms-sub-tab-payments <?php echo ( $active_sub_tab == 'misc_payments' ? 'tab-active' : '' ); ?>">
+
+    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs/#Payments" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
 
     <div class="pms-form-field-wrapper">
         <label class="pms-form-field-label" for="payment-renew-button-delay"><?php esc_html_e( 'Modify renew button output time', 'paid-member-subscriptions' ) ?></label>

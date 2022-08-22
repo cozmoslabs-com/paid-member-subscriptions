@@ -100,8 +100,8 @@ Class PMS_Merge_Tags{
                 $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
         }
 
-        if( !empty( $plan->name ) )
-            return $plan->name;
+        if( !empty( $subscription_plan->name ) )
+            return $subscription_plan->name;
 
         return '';
 

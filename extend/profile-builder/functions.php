@@ -154,20 +154,23 @@ function pms_handle_merge_tag_subscription_status( $value, $name, $children, $ex
 
 
 /* add functionality for Subscription Start Date tag */
-add_filter( 'mustache_variable_subscription_start_date', 'pms_handle_merge_tag_subscription_start_date', 10, 4 );
+add_filter( 'mustache_variable_subscription_start_date', 'pms_handle_merge_tag_subscription_start_date', 40, 4 );
 function pms_handle_merge_tag_subscription_start_date( $value, $name, $children, $extra_info ){
     $user_id = ( ! empty( $extra_info['user_id'] ) ? $extra_info['user_id'] : get_query_var( 'username' ) );
+
     if( !empty( $user_id ) ){
         $member = pms_get_member( $user_id );
+
         if( !empty( $member->subscriptions ) ){
-            if( count( $member->subscriptions ) == 1 ){
+
+            if( count( $member->subscriptions ) == 1 )
                 return apply_filters( 'pms_change_userlisting_expiration_date_format', $member->subscriptions[0]['start_date'] );
-            }
-            else{
+            else {
                 $subscription_start_date = '';
-                foreach( $member->subscriptions as $subscription_plan ){
-                    $subscription_start_date .= '<div>'. apply_filters( 'pms_change_userlisting_expiration_date_format', $subscription_plan['start_date'] ) .'</div>';
-                }
+
+                foreach( $member->subscriptions as $subscription_plan )
+                    $subscription_start_date .= '<div>'. apply_filters( 'pms_change_userlisting_expiration_date_format', date_i18n( get_option('date_format'), strtotime( $subscription_plan['start_date'] ) ) ) .'</div>';
+
                 return $subscription_start_date;
             }
         }
@@ -176,20 +179,21 @@ function pms_handle_merge_tag_subscription_start_date( $value, $name, $children,
 
 
 /* add functionality for Subscription Expiration Date tag */
-add_filter( 'mustache_variable_subscription_expiration_date', 'pms_handle_merge_tag_subscription_expiration_date', 10, 4 );
+add_filter( 'mustache_variable_subscription_expiration_date', 'pms_handle_merge_tag_subscription_expiration_date', 40, 4 );
 function pms_handle_merge_tag_subscription_expiration_date( $value, $name, $children, $extra_info ){
     $user_id = ( ! empty( $extra_info['user_id'] ) ? $extra_info['user_id'] : get_query_var( 'username' ) );
     if( !empty( $user_id ) ){
         $member = pms_get_member( $user_id );
+
         if( !empty( $member->subscriptions ) ){
-            if( count( $member->subscriptions ) == 1 ){
+
+            if( count( $member->subscriptions ) == 1 )
                 return apply_filters( 'pms_change_userlisting_expiration_date_format', $member->subscriptions[0]['expiration_date'] );
-            }
-            else{
+            else {
                 $subscription_expiration_date = '';
-                foreach( $member->subscriptions as $subscription_plan ){
-                    $subscription_expiration_date .= '<div>'. apply_filters( 'pms_change_userlisting_expiration_date_format', $subscription_plan['expiration_date'] ) .'</div>';
-                }
+                foreach( $member->subscriptions as $subscription_plan )
+                    $subscription_expiration_date .= '<div>'. apply_filters( 'pms_change_userlisting_expiration_date_format', date_i18n( get_option('date_format'), strtotime( $subscription_plan['expiration_date'] ) ) ) .'</div>';
+                
                 return $subscription_expiration_date;
             }
         }
@@ -269,3 +273,25 @@ function pms_pb_add_hidden_submit_button_loading_placeholder_text( $content, $fo
 
 }
 add_filter( 'wppb_output_after_last_form_field', 'pms_pb_add_hidden_submit_button_loading_placeholder_text', 100, 3 );
+
+
+/**
+ * Save user_url (Default - Website field), so it can be exported thorough PMS Export feature if needed
+ * Gets triggered when Default PB Edit Profile Form is used for PMS Edit Profile on Account Page
+ */
+function pms_pb_edit_profile_form_field_save( $field, $user_id, $request_data, $form_location ){
+    if( $field['field'] == 'Default - Website' && $form_location == 'edit_profile' )
+            update_user_meta( $user_id, 'user_url', $request_data['website'] );
+}
+add_action( 'wppb_save_form_field', 'pms_pb_edit_profile_form_field_save', 10, 4 );
+
+
+/**
+ * Save user's Website, so it can be exported thorough PMS Export feature if needed
+ * Gets triggered when the user's info is updated through WP Dashboard Edit User Form
+ */
+function pms_pb_admin_user_update_form_field_save( $user_id ) {
+    if ( isset( $_POST['url'] ) )
+        update_user_meta( $user_id, 'user_url', esc_url_raw( $_POST['url'] ));
+}
+add_action( 'edit_user_profile_update', 'pms_pb_admin_user_update_form_field_save' );

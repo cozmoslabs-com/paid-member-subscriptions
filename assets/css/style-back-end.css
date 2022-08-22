@@ -1917,3 +1917,55 @@ body.post-type-pms-subscription #delete-action {
 #pms-plan-metabox-errors {
     margin-left: 0px;
 }
+
+/**********************************************************************************/
+/* Link (question mark icon) to PMS Docs set in pages/custom-posts/settings titles
+/**********************************************************************************/
+.wp-admin.paid-member-subscriptions_page_pms-settings-page .pms-wrap form h3,
+.wp-admin.paid-member-subscriptions_page_pms-settings-page .pms-wrap form h4 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wp-admin.paid-member-subscriptions_page_pms-settings-page .pms-sub-tab {
+    position: relative;
+}
+
+.wp-admin.paid-member-subscriptions_page_pms-settings-page .pms-sub-tab a.pms-docs-link {
+    position: absolute;
+    top: -10px;
+    right: 0;
+    z-index: 1000;
+}
+
+.wp-admin.paid-member-subscriptions_page_pms-settings-page .pms-ipn-notice {
+    position: relative;
+}
+
+.wp-admin.paid-member-subscriptions_page_pms-settings-page .pms-ipn-notice a.pms-docs-link {
+    position: absolute;
+    top: -5px;
+    right: -25px;
+}
+
+.wp-admin.post-type-pms-subscription .pms-meta-box-field-wrapper .pms-meta-box-field-label a.pms-docs-link {
+    margin-top: -5px;
+    font-size: 23px;
+}
+
+.wp-admin a.pms-docs-link {
+    text-decoration: none;
+    box-shadow: none;
+    outline: none;
+    height: auto;
+    width: auto;
+    font-size: 30px;
+}
+
+.wp-admin.paid-member-subscriptions_page_pms-settings-page .wrap h1 a.pms-docs-link,
+.wp-admin.edit-php .wrap h1 a.pms-docs-link {
+    margin-left: 5px;
+}

@@ -172,6 +172,8 @@ jQuery( function($) {
 
     });
 
+    $('#pms-form-add-member-subscription select[name=subscription_plan_id]').trigger('change')
+
 
     /**
      * Shows / hides the payment gateway's extra fields when changing the payment gateway

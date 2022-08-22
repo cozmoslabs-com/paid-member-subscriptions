@@ -41,7 +41,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <!-- General Email Options -->
         <?php $email_general_options = PMS_Emails::get_email_general_options(); ?>
 
-        <h3><?php esc_html_e( 'General Email Options', 'paid-member-subscriptions' ); ?></h3>
+        <h3>
+            <?php esc_html_e( 'General Email Options', 'paid-member-subscriptions' ); ?>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/member-emails/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+        </h3>
 
         <div class="pms-form-field-wrapper">
             <label class="pms-form-field-label" for="email-from-name"><?php esc_html_e( 'From Name', 'paid-member-subscriptions' ) ?></label>
@@ -162,7 +165,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <!-- General Email Options -->
         <?php $email_general_options = PMS_Emails::get_email_general_options(); ?>
 
-        <h3><?php esc_html_e( 'Enable Administrator Emails', 'paid-member-subscriptions' ); ?></h3>
+        <h3>
+            <?php esc_html_e( 'Enable Administrator Emails', 'paid-member-subscriptions' ); ?>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/administrator-emails/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+        </h3>
 
         <div class="pms-form-field-wrapper">
             <label class="pms-form-field-label" for="emails-admin-on"><?php esc_html_e( 'Send Administrator Emails', 'paid-member-subscriptions' ) ?></label>

@@ -13,7 +13,10 @@
 
     <div id="woocommerce-products">
 
-        <h3><?php esc_html_e( 'Products', 'paid-member-subscriptions' ); ?></h3>
+        <h3>
+            <?php esc_html_e( 'Products', 'paid-member-subscriptions' ); ?>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs/#Allow_cumulative_discounts" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+        </h3>
 
         <div class="pms-form-field-wrapper">
             <label class="pms-form-field-label" for="woocommerce-cumulative-discounts"><?php esc_html_e( 'Allow cumulative discounts', 'paid-member-subscriptions' ) ?></label>
@@ -37,7 +40,10 @@
 
     <div id="woocommerce-products">
 
-        <h3><?php esc_html_e( 'Product Messages', 'paid-member-subscriptions' ); ?></h3>
+        <h3>
+            <?php esc_html_e( 'Product Messages', 'paid-member-subscriptions' ); ?>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs/#Product_Discounted_8211_Membership_Required_Custom_Message" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+        </h3>
 
         <div class="pms-form-field-wrapper">
             <label class="pms-form-field-label" for="woocommerce-product-discounted-message"><?php esc_html_e( 'Product Discounted - Membership Required', 'paid-member-subscriptions' ) ?></label>
@@ -51,7 +57,10 @@
 
     <div id="woocommerce-products">
 
-        <h3><?php esc_html_e( 'Product Memberships', 'paid-member-subscriptions' ); ?></h3>
+        <h3>
+            <?php esc_html_e( 'Product Memberships', 'paid-member-subscriptions' ); ?>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs/#WooCommerce_Memberships_8211_enabledisable_feature" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+        </h3>
 
         <div class="pms-form-field-wrapper">
             <label class="pms-form-field-label" for="woocommerce-product-subscriptions"><?php esc_html_e( 'Activate product subscriptions', 'paid-member-subscriptions' ) ?></label>
