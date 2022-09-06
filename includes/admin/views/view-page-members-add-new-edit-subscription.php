@@ -122,7 +122,7 @@ if( ! empty( $_POST ) ) {
 
 								<div class="inside">
 
-									<?php if( $subpage == 'add_subscription' && $first_subscription ): ?>
+									<?php if( $subpage == 'add_subscription' && $first_subscription ) : ?>
 
 										<?php
 										$users = pms_count_users();
@@ -165,16 +165,19 @@ if( ! empty( $_POST ) ) {
 										<strong><?php echo esc_html( $user->display_name ); ?></strong><br />
 										<?php echo esc_html( $user->user_email ); ?>
 
+										<?php do_action( 'pms_view_edit_subscription_after_member_data', $user_id ); ?>
+
 									<?php endif; ?>
 
 								</div>
 							</div>
 						</div>
 
-
 						<!-- Member Subscription Details Meta-box -->
 						<div id="normal-sortables" class="meta-box-sortables ui-sortable">
 							<div id="pms-member-subscription-details" class="postbox">
+
+								<?php $disable_subscription_editing = apply_filters( 'pms_view_edit_add_new_subscription_disable_subscription_editing', false, $member_id ); ?>
 
 								<h3 class="hndle">
 									<span><?php echo esc_html__( 'Subscription Details', 'paid-member-subscriptions' ); ?></span>
@@ -186,7 +189,7 @@ if( ! empty( $_POST ) ) {
 
 									    <label for="pms-subscription-plan-id" class="pms-meta-box-field-label"><?php echo esc_html__( 'Subscription Plan', 'paid-member-subscriptions' ); ?> <span>*</span></label>
 
-									    <select id="pms-subscription-plan-id" name="subscription_plan_id" class="pms-subscription-field" required>
+									    <select id="pms-subscription-plan-id" name="subscription_plan_id" class="pms-subscription-field" required <?php echo $disable_subscription_editing == true ? 'disabled' : ''; ?>>
 
 									    <?php
 									    	if( $subpage == 'add_subscription' )
@@ -246,7 +249,11 @@ if( ! empty( $_POST ) ) {
 
 									    <label for="pms-subscription-start-date" class="pms-meta-box-field-label"><?php echo esc_html__( 'Start Date', 'paid-member-subscriptions' ); ?> <span>*</span></label>
 
-									    <input id="pms-subscription-start-date" type="text" name="start_date" class="datepicker pms-subscription-field" value="<?php echo ( ! empty( $form_data['start_date'] ) ? esc_attr( pms_sanitize_date( $form_data['start_date'] ) ) : '' ); ?>" required />
+										<?php if( !$disable_subscription_editing ) : ?>
+									    	<input id="pms-subscription-start-date" type="text" name="start_date" class="datepicker pms-subscription-field" value="<?php echo ( ! empty( $form_data['start_date'] ) ? esc_attr( pms_sanitize_date( $form_data['start_date'] ) ) : '' ); ?>" required />
+										<?php else : ?>
+											<span class="readonly medium"><strong><?php echo ( ! empty( $form_data['start_date'] ) ? esc_attr( pms_sanitize_date( $form_data['start_date'] ) ) : '' ); ?></strong></span>
+										<?php endif; ?>
 
 									</div>
 
@@ -264,11 +271,11 @@ if( ! empty( $_POST ) ) {
 													$hide_expiration_date = true;
 												elseif ( $plan->is_fixed_period_membership() && $plan->fixed_period_renewal_allowed() )
 													$hide_expiration_date = true;
-												
+
 											} elseif ( $plan->is_fixed_period_membership() && $plan->fixed_period_renewal_allowed() )
 												$hide_expiration_date = true;
 
-										}    
+										}
 
                                         if( !isset( $member_subscription ) || !apply_filters( 'pms_view_add_new_edit_subscription_hide_expiration_date', $hide_expiration_date, $member_subscription ) ) :
                                     ?>
@@ -277,8 +284,11 @@ if( ! empty( $_POST ) ) {
 
                                                 <label for="pms-subscription-expiration-date" class="pms-meta-box-field-label"><?php echo esc_html__( 'Expiration Date', 'paid-member-subscriptions' ); ?></label>
 
-                                                <input id="pms-subscription-expiration-date" type="text" name="expiration_date" class="datepicker pms-subscription-field" value="<?php echo ( ! empty( $form_data['expiration_date'] ) ? esc_attr( pms_sanitize_date( $form_data['expiration_date'] ) ) : '' ); ?>" />
-
+												<?php if( !$disable_subscription_editing ) : ?>
+                                                	<input id="pms-subscription-expiration-date" type="text" name="expiration_date" class="datepicker pms-subscription-field" value="<?php echo ( ! empty( $form_data['expiration_date'] ) ? esc_attr( pms_sanitize_date( $form_data['expiration_date'] ) ) : '' ); ?>" />
+												<?php else : ?>
+													<span class="readonly medium"><strong><?php echo ( ! empty( $form_data['expiration_date'] ) ? esc_attr( pms_sanitize_date( $form_data['expiration_date'] ) ) : '' ); ?></strong></span>
+												<?php endif; ?>
                                             </div>
                                     <?php endif; ?>
 
@@ -287,13 +297,13 @@ if( ! empty( $_POST ) ) {
 
 									    <label for="pms-subscription-status" class="pms-meta-box-field-label"><?php echo esc_html__( 'Status', 'paid-member-subscriptions' ); ?> <span>*</span></label>
 
-								        <select id="pms-subscription-status" name="status" class="pms-subscription-field" required>
+								        <select id="pms-subscription-status" name="status" class="pms-subscription-field" required <?php echo $disable_subscription_editing == true ? 'disabled' : ''; ?>>
 
-								        <?php
-								        	foreach( pms_get_member_subscription_statuses() as $member_status_slug => $member_status_name ) {
-									            echo '<option value="' . esc_attr( $member_status_slug ) . '"' . selected( $member_status_slug, $form_data['status'], false ) . '>' . esc_html( $member_status_name ) . '</option>';
-									        }
-								        ?>
+											<?php
+												foreach( pms_get_member_subscription_statuses() as $member_status_slug => $member_status_name ) {
+													echo '<option value="' . esc_attr( $member_status_slug ) . '"' . selected( $member_status_slug, $form_data['status'], false ) . '>' . esc_html( $member_status_name ) . '</option>';
+												}
+											?>
 
 								        </select>
 
@@ -305,7 +315,11 @@ if( ! empty( $_POST ) ) {
 
 									    <label for="pms-subscription-trial-end" class="pms-meta-box-field-label"><?php echo esc_html__( 'Trial End', 'paid-member-subscriptions' ); ?></label>
 
-									    <input id="pms-subscription-trial-end" type="text" name="trial_end" class="datepicker pms-subscription-field" value="<?php echo ( ! empty( $form_data['trial_end'] ) ? esc_attr( pms_sanitize_date( $form_data['trial_end'] ) ) : '' ); ?>" />
+										<?php if( !$disable_subscription_editing ) : ?>
+									    	<input id="pms-subscription-trial-end" type="text" name="trial_end" class="datepicker pms-subscription-field" value="<?php echo ( ! empty( $form_data['trial_end'] ) ? esc_attr( pms_sanitize_date( $form_data['trial_end'] ) ) : '' ); ?>" />
+										<?php else : ?>
+											<span class="readonly medium"><strong><?php echo ( ! empty( $form_data['trial_end'] ) ? esc_attr( pms_sanitize_date( $form_data['trial_end'] ) ) : '-' ); ?></strong></span>
+										<?php endif; ?>
 
 									</div>
 									<?php endif; ?>

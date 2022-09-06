@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.0
-Stable tag: 2.7.5
+Stable tag: 2.7.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,11 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.7.6 =
+* Fix: The Manage Group link from the account dashboard was not working in case the user was subscribed to two subscription plans
+* Fix: Add Email Confirmation compatibility to the Group Name validation messages
+* Misc: Improvements to back-end UI for group subscriptions members
+
 = 2.7.5 =
 * Fix: Issue with {{subscription_name}} tag not working
 * Fix: Issue with Profile Builder Userlisting merge tags that have dates

@@ -46,6 +46,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <?php
         $user_status          = get_post_meta( $post->ID, 'pms-content-restrict-user-status', true );
         $subscription_plans   = pms_get_subscription_plans();
+
+        usort($subscription_plans, 'pms_compare_subscription_plan_objects');
+
         $selected_subscription_plans = get_post_meta( $post->ID, 'pms-content-restrict-subscription-plan' );
         $all_plans_selected   = get_post_meta( $post->ID, 'pms-content-restrict-all-subscription-plans');
         ?>

@@ -20,23 +20,27 @@
     <div class="pms-setup-line-wrap">
         <p><?php esc_html_e( 'Learn about the different ways in which you can restrict your premium content.', 'paid-member-subscriptions' ); ?></p>
 
-        <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/content-restriction/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFree" target="_blank" class="button secondary button-secondary button-hero">
+        <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/content-restriction/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFreeCR" target="_blank" class="button secondary button-secondary button-hero">
             <?php esc_html_e( 'Content Restriction', 'paid-member-subscriptions' ); ?>
         </a>
     </div>
 </div>
 
-<div class="pms-setup-next">
-    <h4><?php esc_html_e( 'WooCommerce', 'paid-member-subscriptions' ); ?></h4>
+<?php if ( did_action( 'elementor/loaded' ) ) : ?>
 
-    <div class="pms-setup-line-wrap">
-        <p><?php esc_html_e( 'Paid Member Subscriptions integrates with WooCommerce allowing admins to restrict product viewing & purchasing, and also offer special product prices to members.', 'paid-member-subscriptions' ); ?></p>
+    <div class="pms-setup-next">
+        <h4><?php esc_html_e( 'Elementor Integration', 'paid-member-subscriptions' ); ?></h4>
 
-        <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFree" target="_blank" class="button secondary button-secondary button-hero">
-            <?php esc_html_e( 'Read More', 'paid-member-subscriptions' ); ?>
-        </a>
+        <div class="pms-setup-line-wrap">
+            <p><?php esc_html_e( 'Restrict Sections, Widgets and Templates based on subscription plans, show custom restriction messages or templates when a user does not have access.', 'paid-member-subscriptions' ); ?></p>
+
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/elementor/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFreeElementor" target="_blank" class="button secondary button-secondary button-hero">
+                <?php esc_html_e( 'Read More', 'paid-member-subscriptions' ); ?>
+            </a>
+        </div>
     </div>
-</div>
+
+<?php endif; ?>
 
 <div class="pms-setup-links">
     <div class="pms-setup-line-wrap">

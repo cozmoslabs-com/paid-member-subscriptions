@@ -218,11 +218,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 $member_subscription = pms_get_member_subscription( $subscription_id );
 
-                // Add new subscription plan role
-                pms_add_user_role( $member_subscription->user_id, pms_get_subscription_plan_user_role( (int)$new_data['subscription_plan_id'] ) );
-
                 // Remove old subscription plan role
                 pms_remove_user_role( $member_subscription->user_id, pms_get_subscription_plan_user_role( (int)$old_data['subscription_plan_id'] ) );
+
+                // Add new subscription plan role
+                pms_add_user_role( $member_subscription->user_id, pms_get_subscription_plan_user_role( (int)$new_data['subscription_plan_id'] ) );
 
             }
 

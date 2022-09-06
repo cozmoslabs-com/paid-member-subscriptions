@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.7.5
+ * Version: 2.7.6
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.7.5' );
+        define( 'PMS_VERSION', '2.7.6' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -78,6 +78,11 @@ Class Paid_Member_Subscriptions {
 
             define('PMS_PAID_PLUGIN_DIR', WP_PLUGIN_DIR . '/paid-member-subscriptions-basic' );
             define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-basic/' );
+
+        } elseif ( in_array( 'paid-member-subscriptions-dev/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-dev/index.php'] ) ){
+            
+            if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
+                define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Dev');
 
         } else if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
             define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions');
@@ -623,7 +628,7 @@ Class Paid_Member_Subscriptions {
             require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 
         // First check if WooCommerce is active
-        if ( ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) || (is_plugin_active_for_network('woocommerce/woocommerce.php')) ) {
+        if ( ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) || ( is_plugin_active_for_network('woocommerce/woocommerce.php') ) ) {
 
             /**
              * Filter for disabling/enabling PMS - WooCommerce integration

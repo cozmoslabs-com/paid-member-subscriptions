@@ -265,6 +265,9 @@ function pms_pb_email_confirmation_handle_form_submission() {
 
     do_action( 'pms_ec_process_checkout_validations' );
 
+    if ( count( pms_errors()->get_error_codes() ) > 0 )
+        return;
+
     // Prepare user data
     $user_data = PMS_Form_Handler::get_request_member_data( $user_id );
 

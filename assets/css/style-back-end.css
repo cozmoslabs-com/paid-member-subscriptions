@@ -209,7 +209,7 @@
 
     .pms-4-col > div:nth-child(4n) {
         margin-right: 0;
-    } 
+    }
 }
 /* .pms-4-col {
 
@@ -1184,6 +1184,15 @@ body.post-type-pms-subscription #delete-action {
 #pms-form-add-new-member .row-actions,
 #pms-form-edit-member .row-actions {
     left: 0;
+}
+
+#pms-form-edit-member .row-actions {
+    margin-left: 0px;
+    margin-right: 10px;
+}
+
+#pms-form-edit-member .row-actions a:not(:last-child) {
+    margin-bottom: 6px;
 }
 
 #pms-form-add-new-member .tablenav,

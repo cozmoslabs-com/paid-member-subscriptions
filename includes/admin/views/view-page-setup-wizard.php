@@ -11,8 +11,9 @@ set_current_screen();
     <title><?php esc_html_e( 'Setup Wizard -> Paid Member Subscriptions', 'paid-member-subscriptions' ); ?></title>
     <?php
         wp_enqueue_style( 'colors' );
-        do_action( 'admin_enqueue_scripts' );
+        do_action( 'admin_enqueue_scripts');
         do_action( 'admin_print_styles' );
+        do_action( 'admin_print_scripts' );
         do_action( 'admin_head' );
     ?>
 </head>
@@ -49,7 +50,6 @@ set_current_screen();
         </div>
     </div>
 
-    <?php do_action( 'wp_footer' ); ?>
     <script type="text/javascript">
         var ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php', 'relative' ) ); ?>'
     </script>

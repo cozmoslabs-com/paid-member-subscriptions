@@ -168,7 +168,7 @@ Class PMS_Member_Subscription_List_Table extends WP_List_Table {
 
             $user_subscription_plan = pms_get_subscription_plan( $member_subscription->subscription_plan_id );
 
-            $data[] = array(
+            $data[] = apply_filters( 'pms_member_subscription_list_table_data', array(
                 'subscription_id'      => $member_subscription->id,
                 'subscription_plan_id' => $member_subscription->subscription_plan_id,
                 'subscription_plan'    => $user_subscription_plan->name,
@@ -179,7 +179,7 @@ Class PMS_Member_Subscription_List_Table extends WP_List_Table {
                 'auto_renewal'         => $member_subscription->is_auto_renewing(),
                 'active_trial'         => !empty( $member_subscription->trial_end ) && strtotime( $member_subscription->trial_end ) > time() ? true : false,
                 'item_count'           => $item_count
-            );
+            ), $member_subscription );
 
             $item_count++;
         }
@@ -334,6 +334,8 @@ Class PMS_Member_Subscription_List_Table extends WP_List_Table {
         $output = '<div class="row-actions">';
 
             $output .= '<a href="' . add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'edit_subscription', 'subscription_id' => $item['subscription_id'] ), 'admin.php' ) . '" class="button button-secondary">' . __( 'Edit', 'paid-member-subscriptions' ) . '</a>';
+
+            $output = apply_filters( 'pms_member_subscription_list_table_column_actions', $output, $item );
 
         $output .= '</div>';
 

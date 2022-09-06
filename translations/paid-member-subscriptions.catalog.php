@@ -891,6 +891,7 @@
 <?php __("General", "paid-member-subscriptions"); ?>
 <?php __("E-Mails", "paid-member-subscriptions"); ?>
 <?php __("Misc", "paid-member-subscriptions"); ?>
+<?php __("WooCommerce", "paid-member-subscriptions"); ?>
 <?php __("Next Steps", "paid-member-subscriptions"); ?>
 <?php __("Active", "paid-member-subscriptions"); ?>
 <?php __("Active <span class=\"count\">(%s)</span>", "paid-member-subscriptions"); ?>
@@ -1784,6 +1785,7 @@
 <?php __("Invited", "paid-member-subscriptions"); ?>
 <?php __("Owner", "paid-member-subscriptions"); ?>
 <?php __("Registered", "paid-member-subscriptions"); ?>
+<?php __("View Member", "paid-member-subscriptions"); ?>
 <?php __("No Members in this Group", "paid-member-subscriptions"); ?>
 <?php __("Regular", "paid-member-subscriptions"); ?>
 <?php __("Group", "paid-member-subscriptions"); ?>
@@ -1801,6 +1803,10 @@
 <?php __("Regular plans cannot be added as upgrades to Group subscription plans.", "paid-member-subscriptions"); ?>
 <?php __("You need to define the number of seats for this Group Subscription.", "paid-member-subscriptions"); ?>
 <?php __("Group subscriptions cannot be downgrades to regular plans.", "paid-member-subscriptions"); ?>
+<?php __("Manage Group", "paid-member-subscriptions"); ?>
+<?php __("This is a child subscription that is linked to a Group Owner. You cannot edit this subscription.<br>%sClick here%s to go to the owner's subscription in order to make changes.", "paid-member-subscriptions"); ?>
+<?php __("This is the subscription of a Group Owner. By editing this subscription, all child subscriptions will be modified as well.", "paid-member-subscriptions"); ?>
+<?php __("Group Dashboard", "paid-member-subscriptions"); ?>
 <?php __("Invite Members via Email", "paid-member-subscriptions"); ?>
 <?php __("Add Existing Users", "paid-member-subscriptions"); ?>
 <?php __("Edit Group Details", "paid-member-subscriptions"); ?>
@@ -1985,27 +1991,32 @@
 <?php __("User role", "paid-member-subscriptions"); ?>
 <?php __("... Create new user role from this Subscription Plan", "paid-member-subscriptions"); ?>
 <?php __("Select which user role to associate with this subscription plan.", "paid-member-subscriptions"); ?>
-<?php __("Do you want to create the Membership Pages automatically ?", "paid-member-subscriptions"); ?>
+<?php __("Do you want to create the Membership Pages automatically?", "paid-member-subscriptions"); ?>
 <?php __("View Pages", "paid-member-subscriptions"); ?>
 <?php __("Yes, create the pages for me", "paid-member-subscriptions"); ?>
-<?php __("Membership Pages created successfully !", "paid-member-subscriptions"); ?>
+<?php __("Membership Pages created successfully!", "paid-member-subscriptions"); ?>
 <?php __("This will create the pages for Registration, Login, Account and Reset Password automatically.", "paid-member-subscriptions"); ?>
-<?php __("Would you like to automatically log users in after registration ?", "paid-member-subscriptions"); ?>
-<?php __("Prevent users from being logged in with the same account from multiple places at the same time ?", "paid-member-subscriptions"); ?>
-<?php __("Would you like to redirect the default WordPress pages for register, login and password reset ?", "paid-member-subscriptions"); ?>
+<?php __("Alternatively, the pages can be created manually by inserting the corresponding %sshortcodes%s.", "paid-member-subscriptions"); ?>
+<?php __("Would you like to automatically log users in after registration?", "paid-member-subscriptions"); ?>
+<?php __("Prevent users from being logged in with the same account from multiple places at the same time?", "paid-member-subscriptions"); ?>
+<?php __("Would you like to redirect the default WordPress pages for register, login and password reset?", "paid-member-subscriptions"); ?>
 <?php __("The pages will be redirected to their front-end counterparts created automatically above. Can be activated later from settings.", "paid-member-subscriptions"); ?>
 <?php __('%1$s WARNING: %2$s If you enable this option you must log in via the Front-End Login Form as Admin.', 'paid-member-subscriptions' ); ?>
+<?php __("Do you want to hide the admin bar for regular users?", "paid-member-subscriptions"); ?>
+<?php __("This option will hide the admin bar for regular users in the front-end, showing it only to administrators.", "paid-member-subscriptions"); ?>
 <?php __("Continue", "paid-member-subscriptions"); ?>
 <?php __("Next Step", "paid-member-subscriptions"); ?>
 <?php __("Create Subscription Plans", "paid-member-subscriptions"); ?>
 <?php __("Configure your Subscription Plans and start selling them to your users.", "paid-member-subscriptions"); ?>
 <?php __("Additional Information", "paid-member-subscriptions"); ?>
 <?php __("Learn about the different ways in which you can restrict your premium content.", "paid-member-subscriptions"); ?>
-<?php __("WooCommerce", "paid-member-subscriptions"); ?>
-<?php __("Paid Member Subscriptions integrates with WooCommerce allowing admins to restrict product viewing & purchasing, and also offer special product prices to members.", "paid-member-subscriptions"); ?>
+<?php __("Elementor Integration", "paid-member-subscriptions"); ?>
+<?php __("Restrict Sections, Widgets and Templates based on subscription plans, show custom restriction messages or templates when a user does not have access.", "paid-member-subscriptions"); ?>
 <?php __("Read More", "paid-member-subscriptions"); ?>
 <?php __("Visit Dashboard", "paid-member-subscriptions"); ?>
-<?php __("What currency do you want to accept payments in ?", "paid-member-subscriptions"); ?>
+<?php __("What currency do you want to accept payments in?", "paid-member-subscriptions"); ?>
+<?php __("Where do you want the Currency symbol to be displayed?", "paid-member-subscriptions"); ?>
+<?php __("How should prices be displayed?", "paid-member-subscriptions"); ?>
 <?php __("Safe and secure payments handled by PayPal using the customers account.", "paid-member-subscriptions"); ?>
 <?php __("PayPal Email Address", "paid-member-subscriptions"); ?>
 <?php __("For payments to work correctly, you will also need to <strong>setup the IPN URL in your PayPal account</strong>.", "paid-member-subscriptions"); ?>
@@ -2013,7 +2024,14 @@
 <?php __("Manually collect payments from your customers through Checks, Direct Bank Transfers or in person cash.", "paid-member-subscriptions"); ?>
 <?php __("Collect direct credit or debit card payments on your website.", "paid-member-subscriptions"); ?>
 <?php __("PayPal Express Checkout payments using credit cards or customer accounts handled by PayPal.", "paid-member-subscriptions"); ?>
-<?php __("Additional <strong>Payment Gateways</strong> and <strong>Recurring Subscriptions</strong> are available with a Pro licence of Paid Member Subscriptions.", "paid-member-subscriptions"); ?>
+<?php __("Additional <strong>Payment Gateways</strong> and <strong>Recurring Subscriptions</strong> are available with a <strong>Pro</strong> licence of Paid Member Subscriptions.", "paid-member-subscriptions"); ?>
+<?php __("Supercharge your WooCommerce experience", "paid-member-subscriptions"); ?>
+<?php __("Offer Discounted Product Prices to Members", "paid-member-subscriptions"); ?>
+<?php __("Give your members exclusive discounts to Products. Setup individual product discounts or target categories directly.", "paid-member-subscriptions"); ?>
+<?php __("Restrict product view and purchase", "paid-member-subscriptions"); ?>
+<?php __("Create Members-only products or restrict product purchasing, offering your different ways of presenting your products.", "paid-member-subscriptions"); ?>
+<?php __("Sell Subscription Plans as WooCommerce Products", "paid-member-subscriptions"); ?>
+<?php __("Do you want to use another payment gateway or want to offer your customers a Subscription Plan with a Product purchase? Easily associate plans with products and start selling them through the WooCommerce Checkout.", "paid-member-subscriptions"); ?>
 <?php __("Uploaded file is not valid json!", "paid-member-subscriptions"); ?>
 <?php __("Import successfully!", "paid-member-subscriptions"); ?>
 <?php __("Page will refresh in 3 seconds...", "paid-member-subscriptions"); ?>

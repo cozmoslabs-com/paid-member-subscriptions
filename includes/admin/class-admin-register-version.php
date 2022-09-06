@@ -11,6 +11,8 @@ class PMS_Register_Version {
         else
             add_action( 'network_admin_menu', array( $this, 'pms_multisite_register_your_version_page' ), 20 );
 
+        add_action( 'admin_init', array( $this, 'register_settings' ) );
+
     }
 
     public function pms_register_your_version_submenu_page(){
@@ -23,6 +25,12 @@ class PMS_Register_Version {
 
         add_menu_page( __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), 'manage_options', 'pms-register-page', array( $this, 'pms_register_your_version_content' ), PMS_PLUGIN_DIR_URL . 'assets/images/pms-menu-icon.png' );
         
+    }
+
+    public function register_settings(){
+
+        register_setting( 'pms_serial_number', 'pms_serial_number' );
+
     }
 
     /**

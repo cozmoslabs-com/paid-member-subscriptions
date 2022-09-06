@@ -17,6 +17,11 @@
     margin: 0 auto;
 }
 
+.pms-setup-wrap {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
 .pms-setup-steps {
     display: flex;
     justify-content: center;
@@ -90,6 +95,12 @@
 
 .pms-setup-content h3:first-child {
     margin-top: 0;
+}
+
+.pms-setup-content h3 {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
 }
 
 .pms-setup-pages {
@@ -233,11 +244,16 @@
 
 .pms-setup-gateway__upsell {
     font-size: 1.3em;
+    line-height: 1.45em;
     text-align: center;
+    max-width: 90%;
+    margin: 0 auto;
+    background: #fdf9d1;
+    padding: 8px;
+    color: black;
 }
 
 .pms-setup-next {
-    border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
     padding-bottom: 1em;
 }
@@ -245,6 +261,10 @@
 .pms-setup-line-wrap {
     display: flex;
     justify-content: space-between;
+}
+
+.pms-setup-line-wrap p {
+    margin-right: 24px;
 }
 
 .pms-setup-wrap h4 {

@@ -80,3 +80,7 @@ function pms_show_admin_notice_success_by_get(){
         echo '<div class="updated"><p>' . esc_html__( 'Completed successfully.', 'paid-member-subscriptions' ) . '</p></div>';
 
 }
+
+function pms_compare_subscription_plan_objects($a, $b) {
+    return strcmp( $a->name, $b->name );
+}

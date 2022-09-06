@@ -3,12 +3,26 @@
 <form method="post">
     <h3><?php esc_html_e( 'Currency', 'paid-member-subscriptions' ); ?></h3>
 
-    <h4><?php esc_html_e( 'What currency do you want to accept payments in ?', 'paid-member-subscriptions' ); ?></h4>
+    <h4><?php esc_html_e( 'What currency do you want to accept payments in?', 'paid-member-subscriptions' ); ?></h4>
     <select id="payment-currency" name="pms_payments_currency">
         <?php
         foreach( pms_get_currencies() as $currency_code => $currency )
             echo '<option value="' . esc_attr( $currency_code ) . '"' . selected( pms_get_active_currency(), $currency_code, false ) . '>' . esc_html( $currency ) . '</option>';
         ?>
+    </select>
+
+    <h4><?php esc_html_e( 'Where do you want the Currency symbol to be displayed?', 'paid-member-subscriptions' ); ?></h4>
+    <select id="payment-currency-position" name="pms_payments_currency_position">
+        <option value="before" <?php ( isset( $this->payments_settings['currency_position'] ) ? selected( $this->payments_settings['currency_position'], 'before', true ) : ''); ?>><?php esc_html_e( 'Before', 'paid-member-subscriptions' ); ?></option>
+        <option value="before_with_space" <?php ( isset( $this->payments_settings['currency_position'] ) ? selected( $this->payments_settings['currency_position'], 'before_with_space', true ) : ''); ?>><?php esc_html_e( 'Before with space', 'paid-member-subscriptions' ); ?></option>
+        <option value="after" <?php ( isset( $this->payments_settings['currency_position'] ) ? selected( $this->payments_settings['currency_position'], 'after', true ) : ''); ?>><?php esc_html_e( 'After', 'paid-member-subscriptions' ); ?></option>
+        <option value="after_with_space" <?php ( isset( $this->payments_settings['currency_position'] ) ? selected( $this->payments_settings['currency_position'], 'after_with_space', true ) : ''); ?>><?php esc_html_e( 'After with space', 'paid-member-subscriptions' ); ?></option>
+    </select>
+
+    <h4><?php esc_html_e( 'How should prices be displayed?', 'paid-member-subscriptions' ); ?></h4>
+    <select id="payment-price-format" name="pms_payments_price_format">
+        <option value="without_insignificant_zeroes" <?php ( isset( $this->payments_settings['price-display-format'] ) ? selected( $this->payments_settings['price-display-format'], 'without_insignificant_zeroes', true ) : ''); ?>><?php echo isset( $this->payments_settings['currency_position'] ) && $this->payments_settings['currency_position'] == 'after' ? '100$' : '$100'; ?></option>
+        <option value="with_insignificant_zeroes" <?php ( isset( $this->payments_settings['price-display-format'] ) ? selected( $this->payments_settings['price-display-format'], 'with_insignificant_zeroes', true ) : ''); ?>><?php echo isset( $this->payments_settings['currency_position'] ) && $this->payments_settings['currency_position'] == 'after' ? '100.00$' : '$100.00'; ?></option>
     </select>
 
     <h3><?php esc_html_e( 'Payment Gateways', 'paid-member-subscriptions' ); ?></h3>
@@ -36,10 +50,10 @@
                     <input type="email" name="pms_gateway_paypal_email_address" id="pms_gateway_paypal_email_address" value="<?php echo esc_attr( pms_get_paypal_email() ); ?>" />
                 </div>
                 <div>
-                    <?php echo wp_kses( esc_html__( 'For payments to work correctly, you will also need to <strong>setup the IPN URL in your PayPal account</strong>.', 'paid-member-subscriptions' ), $this->kses_args ); ?>
-                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/#IPN_for_PayPal_gateways" target="_blank">
+                    <?php echo wp_kses( __( 'For payments to work correctly, you will also need to <strong>setup the IPN URL in your PayPal account</strong>.', 'paid-member-subscriptions' ), $this->kses_args ); ?>
+                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/#IPN_for_PayPal_gateways/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFreePayPalIPN" target="_blank">
                         <?php esc_html_e( 'Learn More', 'paid-member-subscriptions' ); ?>
-                    </a>.
+                    </a>
                 </div>
             </div>
 
@@ -82,8 +96,8 @@
 
         <div class="pms-setup-gateway">
             <div class="pms-setup-gateway__upsell">
-                <?php echo wp_kses_post( __( 'Additional <strong>Payment Gateways</strong> and <strong>Recurring Subscriptions</strong> are available with a Pro licence of Paid Member Subscriptions.', 'paid-member-subscriptions' ) ); ?>
-                <a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFree" target="_blank">
+                <?php echo wp_kses_post( __( 'Additional <strong>Payment Gateways</strong> and <strong>Recurring Subscriptions</strong> are available with a <strong>Pro</strong> licence of Paid Member Subscriptions.', 'paid-member-subscriptions' ) ); ?>
+                <a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFreeGateways" target="_blank">
                     <?php esc_html_e( 'Learn More', 'paid-member-subscriptions' ); ?>
                 </a>
             </div>

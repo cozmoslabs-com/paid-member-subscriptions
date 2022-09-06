@@ -3,10 +3,11 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 class PMS_Setup_Wizard {
-    private $step             = '';
-    private $steps            = array();
-    private $general_settings = array();
-    public $kses_args         = array(
+    private $step              = '';
+    private $steps             = array();
+    public  $general_settings  = array();
+    public  $payments_settings = array();
+    public  $kses_args         = array(
         'strong' => array()
     );
 
@@ -32,7 +33,7 @@ class PMS_Setup_Wizard {
 
     public function enqueue_scripts_and_styles(){
         if( isset( $_GET['page'] ) && $_GET['page'] == 'pms-setup' ) {
-            wp_enqueue_style( 'pms-setup-wizard', PMS_PLUGIN_DIR_URL . 'assets/css/style-setup-wizard.css', array(), PMS_VERSION );
+            wp_enqueue_style( 'pms-setup-wizard', PMS_PLUGIN_DIR_URL . 'assets/css/admin/style-setup-wizard.css', array(), PMS_VERSION );
             wp_enqueue_script( 'pms-wizard-js', PMS_PLUGIN_DIR_URL . 'assets/js/admin/setup-wizard.js', array( 'jquery' ), PMS_VERSION );
         }
     }
@@ -41,13 +42,18 @@ class PMS_Setup_Wizard {
         if( empty( $_GET['page'] ) || $_GET['page'] != 'pms-setup' )
             return;
 
-        $this->general_settings = get_option( 'pms_general_settings', array() );
+        $this->general_settings  = get_option( 'pms_general_settings', array() );
+        $this->payments_settings = get_option( 'pms_payments_settings', array() );
 
         $default_steps = array(
             'general'  => __( 'Settings', 'paid-member-subscriptions' ),
             'payments' => __( 'Payments', 'paid-member-subscriptions' ),
-            'next'     => __( 'Next Steps', 'paid-member-subscriptions' )
         );
+
+        if ( ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) || ( is_plugin_active_for_network('woocommerce/woocommerce.php') ) )
+            $default_steps['woocommerce'] = __( 'WooCommerce', 'paid-member-subscriptions' );
+
+        $default_steps['next'] = __( 'Next Steps', 'paid-member-subscriptions' );
 
         reset( $default_steps );
 
@@ -87,11 +93,28 @@ class PMS_Setup_Wizard {
             if( !empty( $settings ) )
                 update_option( 'pms_general_settings', $settings );
 
+            $misc_settings = get_option( 'pms_misc_settings', array() );
+
+            if( isset( $_POST['pms_hide_admin_bar'] ) )
+                $misc_settings['hide-admin-bar'] = sanitize_text_field( $_POST['pms_hide_admin_bar'] );
+            else
+                unset( $misc_settings['hide-admin-bar'] );
+
+            if( !empty( $misc_settings ) )
+                update_option( 'pms_misc_settings', $misc_settings );
+
+
         } else if( $this->step === 'payments' ){
             $settings = get_option( 'pms_payments_settings', array() );
 
             if( isset( $_POST['pms_payments_currency'] ) )
                 $settings['currency'] = sanitize_text_field( $_POST['pms_payments_currency'] );
+
+            if( isset( $_POST['pms_payments_currency_position'] ) )
+                $settings['currency_position'] = sanitize_text_field( $_POST['pms_payments_currency_position'] );
+
+            if( isset( $_POST['pms_payments_price_format'] ) )
+                $settings['price-display-format'] = sanitize_text_field( $_POST['pms_payments_price_format'] );
 
             $settings['active_pay_gates'] = array();
 
