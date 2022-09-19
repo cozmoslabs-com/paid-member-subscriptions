@@ -132,7 +132,7 @@ function pms_recaptcha_field_validate_form_login( $user ) {
     if( is_wp_error( $user ) )
         return $user;
 
-    if( isset( $_POST['wp-submit'] ) && !isset( $_POST['wppb-login'] ) )
+    if( isset( $_POST['wp-submit'] ) && !isset( $_POST['wppb_login'] ) )
         $login_form_location = 'default_wp_login';
 
     if( isset( $_POST['pms_login'] ) && $_POST['pms_login'] == 1 )

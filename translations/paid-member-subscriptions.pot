@@ -508,19 +508,19 @@ msgstr ""
 msgid "abandoned"
 msgstr ""
 
-#: includes/class-merge-tags.php:227, includes/functions-subscription-plan.php:439, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:612, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
+#: includes/class-merge-tags.php:230, includes/functions-subscription-plan.php:458, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:612, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
 msgid "Free"
 msgstr ""
 
-#: includes/class-merge-tags.php:254
+#: includes/class-merge-tags.php:257
 msgid "unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:251, add-ons-basic/discount-codes/includes/functions-discount.php:243
+#: includes/class-merge-tags.php:254, add-ons-basic/discount-codes/includes/functions-discount.php:243
 msgid "until %s"
 msgstr ""
 
-#: includes/class-merge-tags.php:346
+#: includes/class-merge-tags.php:349
 msgid "The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired."
 msgstr ""
 
@@ -2552,67 +2552,67 @@ msgstr ""
 msgid "Learn More"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:476, includes/admin/class-admin-subscription-plans.php:390, includes/admin/class-admin-subscription-plans.php:448
+#: includes/functions-subscription-plan.php:495, includes/admin/class-admin-subscription-plans.php:390, includes/admin/class-admin-subscription-plans.php:448
 msgid "%s Day"
 msgid_plural "%s Days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:479, includes/admin/class-admin-subscription-plans.php:393, includes/admin/class-admin-subscription-plans.php:451
+#: includes/functions-subscription-plan.php:498, includes/admin/class-admin-subscription-plans.php:393, includes/admin/class-admin-subscription-plans.php:451
 msgid "%s Week"
 msgid_plural "%s Weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:482, includes/admin/class-admin-subscription-plans.php:396, includes/admin/class-admin-subscription-plans.php:454
+#: includes/functions-subscription-plan.php:501, includes/admin/class-admin-subscription-plans.php:396, includes/admin/class-admin-subscription-plans.php:454
 msgid "%s Month"
 msgid_plural "%s Months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:485, includes/admin/class-admin-subscription-plans.php:399, includes/admin/class-admin-subscription-plans.php:457
+#: includes/functions-subscription-plan.php:504, includes/admin/class-admin-subscription-plans.php:399, includes/admin/class-admin-subscription-plans.php:457
 msgid "%s Year"
 msgid_plural "%s Years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:465, includes/admin/class-admin-subscription-plans.php:406
+#: includes/functions-subscription-plan.php:484, includes/admin/class-admin-subscription-plans.php:406
 msgid "until"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:540, includes/functions-subscription-plan.php:559
+#: includes/functions-subscription-plan.php:559, includes/functions-subscription-plan.php:578
 msgid "day"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:543
+#: includes/functions-subscription-plan.php:562
 msgid "week"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:546
+#: includes/functions-subscription-plan.php:565
 msgid "month"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:549
+#: includes/functions-subscription-plan.php:568
 msgid "year"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:563
+#: includes/functions-subscription-plan.php:582
 msgid " with a %1$s %2$s free trial"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:602
+#: includes/functions-subscription-plan.php:621
 msgid " and a %1$s sign-up fee"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:675
+#: includes/functions-subscription-plan.php:694
 msgid "Automatically renew subscription"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:799
+#: includes/functions-subscription-plan.php:818
 msgid "You need to create Subscription Plans before you can use this form. Go to your <strong>Dashboard -> Paid Member Subscriptions -> Subscriptions Plans</strong> to do this."
 msgstr ""
 
-#: includes/functions-subscription-plan.php:800, add-ons-pro/stripe/includes/functions-actions.php:25, includes/gateways/paypal_standard/functions-paypal-standard.php:80, includes/gateways/paypal_standard/functions-paypal-standard.php:108, includes/gateways/paypal_standard/functions-paypal-standard.php:245, includes/gateways/paypal_standard/functions-paypal-standard.php:273
+#: includes/functions-subscription-plan.php:819, add-ons-pro/stripe/includes/functions-actions.php:25, includes/gateways/paypal_standard/functions-paypal-standard.php:80, includes/gateways/paypal_standard/functions-paypal-standard.php:108, includes/gateways/paypal_standard/functions-paypal-standard.php:245, includes/gateways/paypal_standard/functions-paypal-standard.php:273
 msgid "This message is visible only by Administrators."
 msgstr ""
 
@@ -3770,35 +3770,35 @@ msgstr ""
 msgid "You do not have permission to install plugin updates"
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:681
+#: includes/admin/class-edd-sl-plugin-updater.php:686
 msgid "Your license key expired on %s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:686
+#: includes/admin/class-edd-sl-plugin-updater.php:691
 msgid "Your license key has been disabled."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:689
+#: includes/admin/class-edd-sl-plugin-updater.php:694
 msgid "Invalid license."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:693
+#: includes/admin/class-edd-sl-plugin-updater.php:698
 msgid "Your license is not active for this URL."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:696
+#: includes/admin/class-edd-sl-plugin-updater.php:701
 msgid "This appears to be an invalid license key for %s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:699
+#: includes/admin/class-edd-sl-plugin-updater.php:704
 msgid "Your license key has reached its activation limit."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:702, includes/admin/class-edd-sl-plugin-updater.php:670, includes/admin/class-edd-sl-plugin-updater.php:812
+#: includes/admin/class-edd-sl-plugin-updater.php:707, includes/admin/class-edd-sl-plugin-updater.php:675, includes/admin/class-edd-sl-plugin-updater.php:817
 msgid "An error occurred, please try again."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:732
+#: includes/admin/class-edd-sl-plugin-updater.php:737
 msgid "You have successfully activated your license."
 msgstr ""
 
@@ -4662,11 +4662,11 @@ msgstr ""
 msgid "Group Description"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:537, add-ons-pro/group-memberships/includes/class-group-memberships.php:559, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:510
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:537, add-ons-pro/group-memberships/includes/class-group-memberships.php:559, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:513
 msgid "The group name you chose is already registered. Please enter another one."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:535, add-ons-pro/group-memberships/includes/class-group-memberships.php:557, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:505
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:535, add-ons-pro/group-memberships/includes/class-group-memberships.php:557, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:508
 msgid "Please enter a group name."
 msgstr ""
 
@@ -7171,35 +7171,35 @@ msgstr ""
 msgid "Group subscription details edited successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:540
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:543
 msgid "Group subscriptions can only be added as upgrades to regular plans."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:541
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:544
 msgid "Regular plans cannot be added as upgrades to Group subscription plans."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:542
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:545
 msgid "You need to define the number of seats for this Group Subscription."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:543
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:546
 msgid "Group subscriptions cannot be downgrades to regular plans."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:556
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:559
 msgid "Manage Group"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:588
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:591
 msgid "This is a child subscription that is linked to a Group Owner. You cannot edit this subscription.<br>%sClick here%s to go to the owner's subscription in order to make changes."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:584
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:587
 msgid "This is the subscription of a Group Owner. By editing this subscription, all child subscriptions will be modified as well."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:592
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:595
 msgid "Group Dashboard"
 msgstr ""
 

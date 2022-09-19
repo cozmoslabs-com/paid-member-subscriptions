@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.0
-Stable tag: 2.7.6
+Stable tag: 2.7.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,10 +196,16 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.7.7 =
+* Fix: issue with ReCaptcha functionality affecting Profile Builder login form
+* Fix: issue with change subscription button appearing in unwanted cases
+* Fix: a notice appearing in some cases
+* Misc: remember selected Profile Builder edit profile form user when switching between Paid Member Subscriptions account tabs
+
 = 2.7.6 =
-* Fix: The Manage Group link from the account dashboard was not working in case the user was subscribed to two subscription plans
-* Fix: Add Email Confirmation compatibility to the Group Name validation messages
-* Misc: Improvements to back-end UI for group subscriptions members
+* Fix: An issue with user roles when 2 plans were using the same role
+* Misc: Added more settings to setup wizard, reorganized some pages
+* Misc: The Content Restriction metabox will now list the plans in alphabetical order
 
 = 2.7.5 =
 * Fix: Issue with {{subscription_name}} tag not working

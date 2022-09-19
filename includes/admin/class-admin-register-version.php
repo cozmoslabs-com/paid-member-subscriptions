@@ -62,7 +62,7 @@ class PMS_Register_Version {
             <h2><?php esc_html_e( "Register your version of Paid Member Subscriptions", 'paid-member-subscriptions' ); ?></h2>
 
             <div class="pms-serial-wrap">
-                <form method="post" action="options.php">
+                <form method="post" action="<?php echo !is_multisite() ? 'options.php' : 'edit.php'; ?>">
                     <?php settings_fields( 'pms_serial_number' ); ?>
 
                     <label for="pms_serial_number"><?php esc_html_e( 'License key', 'paid-member-subscriptions' ); ?></label>

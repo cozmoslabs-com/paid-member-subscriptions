@@ -209,12 +209,15 @@ Class PMS_Merge_Tags{
             if ( empty( $payments ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
 
                 $subscription = pms_get_member_subscription( $subscription_id );
-                $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
 
-                if ( !empty( $_POST['discount_code'] ) && !empty( $subscription_plan->price ) )
-                    $amount = pms_calculate_discounted_amount( $subscription_plan->price, pms_get_discount_by_code( sanitize_text_field( $_POST['discount_code'] ) ) );
-                else
-                    $amount = $subscription_plan->price;
+                if( !empty( $subscription ) && !empty( $subscription->subscription_plan_id ) ){
+                    $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+
+                    if ( !empty( $_POST['discount_code'] ) && !empty( $subscription_plan->price ) )
+                        $amount = pms_calculate_discounted_amount( $subscription_plan->price, pms_get_discount_by_code( sanitize_text_field( $_POST['discount_code'] ) ) );
+                    else
+                        $amount = $subscription_plan->price;
+                }
 
             } else
                 $amount = $payments[0]->amount;

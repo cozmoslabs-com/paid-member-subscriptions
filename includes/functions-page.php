@@ -264,6 +264,9 @@ function pms_account_get_tab_url( $tab, $permalink ) {
     } else
         $url = add_query_arg( 'tab', $tab, $permalink );
 
+    if( isset( $_GET['edit_user'] ) )
+        $url = add_query_arg( 'edit_user', absint( $_GET['edit_user'] ), $url );
+
     return apply_filters( 'pms_account_get_tab_url', $url, $tab );
 
 }

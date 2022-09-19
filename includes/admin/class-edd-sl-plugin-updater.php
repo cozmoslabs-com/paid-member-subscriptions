@@ -543,7 +543,12 @@ class PMS_Plugin_Updater {
     }
 
     protected function license_page_url( ){
-        return admin_url( 'admin.php?page=pms-register-page' );
+        
+        if( !is_multisite() )
+            return admin_url( 'admin.php?page=pms-register-page' );
+        else 
+            return network_admin_url( 'admin.php?page=pms-register-page' );
+
     }
 
     public function edd_sanitize_license( $new ) {

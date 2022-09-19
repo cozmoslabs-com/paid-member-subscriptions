@@ -122,7 +122,7 @@ foreach( $subscriptions as $subscription ) :
                         if( $subscription->status != 'pending' ) {
 
                             // Show the Change action if any other subscription plan besides the current one exists
-                            $plans           = pms_get_subscription_plans_list();
+                            $plans           = pms_get_subscription_plan_others( $subscription_plan->id );
                             $plan_upgrades   = pms_get_subscription_plan_upgrades( $subscription_plan->id );
                             $plan_downgrades = pms_get_subscription_plan_downgrades( $subscription_plan->id );
 
