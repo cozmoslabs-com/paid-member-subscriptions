@@ -1110,7 +1110,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
      * @return bool
      */
     function pms_website_was_previously_initialized(){
-return true;
+
         if( apply_filters( 'pms_disable_cloned_website_check', false ) )
             return false;
 
