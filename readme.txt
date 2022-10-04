@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.0
-Stable tag: 2.7.7
+Stable tag: 2.7.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.7.8 =
+* Fix: case where content restriction function was failing
+* Fix: issue with expiration date being cleared in some cases when the admin manually canceled a subscription
+* Fix: allow links to be added in the GDPR checkbox text
+* Fix: some notices appearing on PHP 8.1
+* Misc: improvements to the Pending Manual Payment admin so the payment id tag is available
+* Misc: add documentation link to PSP disabled message
+
 = 2.7.7 =
 * Fix: issue with ReCaptcha functionality affecting Profile Builder login form
 * Fix: issue with change subscription button appearing in unwanted cases

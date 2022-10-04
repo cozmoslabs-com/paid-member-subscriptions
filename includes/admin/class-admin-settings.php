@@ -170,7 +170,7 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
                     $options['gdpr']['gdpr_checkbox'] = sanitize_text_field($options['gdpr']['gdpr_checkbox']);
 
                 if (isset($options['gdpr']['gdpr_checkbox_text'])){
-                    $options['gdpr']['gdpr_checkbox_text'] = sanitize_text_field($options['gdpr']['gdpr_checkbox_text']);
+                    $options['gdpr']['gdpr_checkbox_text'] = wp_kses_post( $options['gdpr']['gdpr_checkbox_text'] );
 
                     if( function_exists('icl_register_string') )
                         icl_register_string('plugin paid-member-subscriptions', 'gdpr_checkbox_text' , $options['gdpr']['gdpr_checkbox_text'] );

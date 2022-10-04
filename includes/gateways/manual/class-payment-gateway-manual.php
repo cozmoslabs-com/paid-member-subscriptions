@@ -38,6 +38,9 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         // Automatically activate the member's subscription when completing the payment
         add_action( 'pms_payment_update', array( $this, 'activate_member_subscription' ), 10, 3 );
 
+        // added email notification for pending manual payment
+        add_action( 'pms_payment_insert', array( $this, 'send_pending_manual_payment_email' ), 10, 2 );
+
         // Remove the Retry payment action for this gateway
         add_action( 'pms_output_subscription_plan_pending_retry_payment', array( $this, 'remove_retry_payment' ), 10, 3 );
 
@@ -368,6 +371,24 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         $actions['delete'] = $delete_action;
 
         return $actions;
+    }
+
+    public function send_pending_manual_payment_email( $payment_id, $payment_data ) {
+
+        if (  empty( $payment_id ) || empty( $payment_data ) || $payment_data['payment_gateway'] != 'manual' )
+            return;
+
+        // avoid sending email multiple times
+        $mail_sent = get_user_meta( $payment_data['user_id'], 'pending_manual_payment_'. $payment_id .'_email_sent', true );
+
+        $subscription = pms_get_member_subscriptions( array( 'user_id' => $payment_data['user_id'], 'subscription_plan_id' => $payment_data['subscription_plan_id'] ) );
+
+        if ( $subscription && !$mail_sent ) {
+            PMS_Emails::mail( 'user', 'pending_manual_payment', $payment_data['user_id'], $subscription[0]->id, $payment_id );
+            PMS_Emails::mail( 'admin', 'pending_manual_payment', $payment_data['user_id'], $subscription[0]->id, $payment_id );
+            update_user_meta( $payment_data['user_id'], 'pending_manual_payment_'. $payment_id .'_email_sent', true );
+        }
+
     }
 
 }

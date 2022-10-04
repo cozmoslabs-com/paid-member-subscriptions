@@ -47,7 +47,10 @@ Class PMS_Merge_Tags{
 
         if( !empty( $merge_tags ) ){
             foreach( $merge_tags as $merge_tag ){
-                $text = str_replace( '{{'.$merge_tag.'}}', apply_filters( 'pms_merge_tag_'.$merge_tag, '', $user_info, $subscription_id, $payment_id, $action, $data ), $text );
+                $tag_value = apply_filters( 'pms_merge_tag_' . $merge_tag, '', $user_info, $subscription_id, $payment_id, $action, $data );
+
+                if( $tag_value != null )
+                    $text = str_replace( '{{'.$merge_tag.'}}', $tag_value, $text );
             }
         }
 

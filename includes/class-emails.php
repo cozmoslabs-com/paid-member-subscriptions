@@ -63,10 +63,6 @@ Class PMS_Emails {
                 $action = 'activate';
                 break;
 
-            case 'pending':
-                $action = 'pending_manual_payment';
-                break;
-
             case 'abandoned':
             case 'canceled':
                 $action = 'cancel';
@@ -106,10 +102,6 @@ Class PMS_Emails {
             $payment_id = $payments[0]->id;
         else
             $payment_id = 0;
-
-        // send the pending manual payment email only if the payment gateway is manual
-        if ( $action == 'pending_manual_payment' && ( !isset( $subscription_data['payment_gateway'] ) || $subscription_data['payment_gateway'] != 'manual' ) )
-            return;
 
         /**
          * Send the email to the user

@@ -17,10 +17,16 @@ function pms_is_post_restricted( $post_id = null ) {
     if( is_array( $post_id ) && empty( $post_id ) )
         $post_id = null;
 
-    if( empty( $post_id ) )
-        return false;
-
     global $post, $pms_show_content, $pms_is_post_restricted_arr;
+
+    if( empty( $post_id ) ){
+
+        if( !empty( $post->ID ) )
+            $post_id = $post->ID;
+        else
+            return false;
+
+    }
 
     /**
      * If we have a cached result, return it
