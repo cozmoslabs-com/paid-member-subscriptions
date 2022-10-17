@@ -1368,6 +1368,8 @@
 <?php __("Activate product subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Enable", "paid-member-subscriptions"); ?>
 <?php __("By checking this option we will activate the <strong>Subscription Plan</strong> Tab. <br> To link a Subscription Plan to a Product go to: <strong>Administration Panel</strong> --> <strong>Products.</strong><br><strong>Edit</strong> an existing product or click on <strong>Add New</strong> to add a new product.<br>After you are redirected to your product options, scroll down to <strong>Product data</strong> Section and click on <strong>Subscription Plan</strong> Tab.", "paid-member-subscriptions"); ?>
+<?php __("Synchronize Billing Details", "paid-member-subscriptions"); ?>
+<?php __("By checking this option the PMS Billing Details and WooCommerce Billing Details will be synchronized.", "paid-member-subscriptions"); ?>
 <?php __("You do not have permission to export data.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Payments Summary", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plan Details", "paid-member-subscriptions"); ?>
@@ -1637,6 +1639,10 @@
 <?php __("Insert an URL to redirect the user after a manual payment is made. ( e.g. %s )", "paid-member-subscriptions"); ?>
 <?php __("Apply sign-up fees to Upgrades and Downgrades", "paid-member-subscriptions"); ?>
 <?php __("Charge users sign-up fees for Subscription Upgrades and Downgrades.", "paid-member-subscriptions"); ?>
+<?php __("Maximum number of retries", "paid-member-subscriptions"); ?>
+<?php __("Enter how many retries the payment retry functionality should attempt.", "paid-member-subscriptions"); ?>
+<?php __("Retry Interval", "paid-member-subscriptions"); ?>
+<?php __("Enter the interval between retries for the payment retry functionality.", "paid-member-subscriptions"); ?>
 <?php __("Test Mode", "paid-member-subscriptions"); ?>
 <?php __("By checking this option you will be able to use Paid Member Subscriptions only with test accounts from your payment processors. <a href=\"%s\">More Details</a>", "paid-member-subscriptions"); ?>
 <?php __("Currency", "paid-member-subscriptions"); ?>
@@ -1659,6 +1665,7 @@
 <?php __("Retry Payments", "paid-member-subscriptions"); ?>
 <?php __("By checking this option, if a payment fails, the plugin will try to charge the user again after %s days for a maximum of %s retries.", "paid-member-subscriptions"); ?>
 <?php __("This is valid for the Stripe and PayPal Express with Reference Transactions payment gateways. For PayPal Subscriptions, this is happening by default.", "paid-member-subscriptions"); ?>
+<?php __("These settings can be changed from the Settings -> %sMisc%s -> Payments page.", "paid-member-subscriptions"); ?>
 <?php __("Allow Subscription Downgrades", "paid-member-subscriptions"); ?>
 <?php __("By checking this option, you are allowing members to downgrade their subscription plan to a lower one from the same tier.", "paid-member-subscriptions"); ?>
 <?php __("Allow Subscription Change", "paid-member-subscriptions"); ?>

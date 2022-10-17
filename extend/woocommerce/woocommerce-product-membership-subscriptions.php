@@ -269,11 +269,12 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
                         $new_next_payment_date = strtotime("+" . $existing_subscription['0']->billing_duration . " " . $existing_subscription['0']->billing_duration_unit, $old_next_payment_date);
                         $subscription_next_payment_date = date('Y-m-d H:i:s', $new_next_payment_date);
                     }
-                    else {
+                    elseif ( !empty( $existing_subscription['0']->expiration_date ) ) {
                         $old_expiration_timestamp = strtotime($existing_subscription['0']->expiration_date);
                         $new_expiration_timestamp = strtotime("+" . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit, $old_expiration_timestamp);
                         $subscription_expiration_date = date('Y-m-d H:i:s', $new_expiration_timestamp);
                     }
+                    else $subscription_expiration_date = $subscription_plan->get_expiration_date();
 
                     if ( $existing_subscription['0']->status == 'active' )   // if subscription already Active don't update status
                         $subscription_status = $existing_subscription['0']->status;
@@ -345,8 +346,19 @@ function pms_woo_update_member_subscription( $subscription_data, $subscription_r
     $subscription = new PMS_Member_Subscription( $subscription_data );
     $subscription->update( $subscription_data );
 
-    if ( !pms_woo_is_manual_order_update( $subscription->id, $order_key ))
+    if ( !pms_woo_is_manual_order_update( $subscription->id, $order_key )) {
         pms_add_member_subscription_meta( $subscription->id, 'woo_order_key', $order_key );
+    }
+    elseif ( $subscription_data['status'] == 'active' && !empty( $user_existing_subscriptions ) ) {
+        $settings = get_option( 'pms_emails_settings', array() );
+
+        if ( isset( $settings[ 'activate_is_enabled' ] ) )
+            PMS_Emails::mail('user', 'activate', $user_existing_subscriptions[0]->user_id, $subscription_data['id'], $order_key);
+
+        if( !empty( $settings['admin_emails_on'] ) && isset( $settings[ 'activate_admin_is_enabled' ] ) )
+            PMS_Emails::mail( 'admin', 'activate', $user_existing_subscriptions[0]->user_id, $subscription_data['id'], $order_key );
+
+    }
 
     if( function_exists( 'pms_add_member_subscription_log' ) ) {
         foreach ( $user_existing_subscriptions as $existing_sub) {

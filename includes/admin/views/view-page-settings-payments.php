@@ -129,8 +129,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <input type="checkbox" id="retry-payments" name="pms_payments_settings[retry-payments]" value="1" <?php echo ( isset( $this->options['retry-payments'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Enable', 'paid-member-subscriptions' ); ?>
                 </p>
                 <p class="description">
-                    <?php printf( esc_html__( 'By checking this option, if a payment fails, the plugin will try to charge the user again after %s days for a maximum of %s retries.', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_retry_payment_interval', 3, '' ) ), 3 );?><br>
-                    <?php esc_html_e( 'This is valid for the Stripe and PayPal Express with Reference Transactions payment gateways. For PayPal Subscriptions, this is happening by default.', 'paid-member-subscriptions' ); ?>
+                    <?php printf( esc_html__( 'By checking this option, if a payment fails, the plugin will try to charge the user again after %s days for a maximum of %s retries.', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_retry_payment_interval', 3, '' ) ), esc_html( apply_filters( 'pms_retry_payment_count', 3, '' ) ) );?><br>
+                    <?php esc_html_e( 'This is valid for the Stripe and PayPal Express with Reference Transactions payment gateways. For PayPal Subscriptions, this is happening by default.', 'paid-member-subscriptions' ); ?><br>
+                    <?php printf( esc_html__( 'These settings can be changed from the Settings -> %sMisc%s -> Payments page.', 'paid-member-subscriptions' ), '<a href="'. esc_url( admin_url( 'admin.php?page=pms-settings-page&tab=misc' ) ) .'">', '</a>' ); ?>
                 </p>
             </div>
 

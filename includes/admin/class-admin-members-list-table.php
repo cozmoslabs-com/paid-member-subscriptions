@@ -211,6 +211,9 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
         echo '<div class="tablenav ' . esc_attr( $which ) . '">';
 
+            if ( !empty( $_GET['pms-view'] ) )
+                echo '<input type="hidden" id="pms-view" name="pms-view" value="'. esc_attr( sanitize_text_field( $_GET['pms-view'] )) .'">';
+
             $this->bulk_actions( $which );
             wp_nonce_field( 'pms_bulk_delete_subscription_nonce', '_wpnonce', false );
 

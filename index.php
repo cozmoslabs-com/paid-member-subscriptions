@@ -3,13 +3,13 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.7.9
+ * Version: 2.8.0
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 6.9
+ * WC tested up to: 7.0
  * Elementor tested up to: 3.7.8
  * Elementor Pro tested up to: 3.7.7
  *
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.7.9' );
+        define( 'PMS_VERSION', '2.8.0' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -881,11 +881,11 @@ Class Paid_Member_Subscriptions {
         global $wpdb;
 
         // If pms_member_subscriptions already exists, but does not have the 'id' column, add it before the other columns
-        // if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}{$this->prefix}member_subscriptions';" ) ) {
-        //     if ( $wpdb->get_var( "SHOW COLUMNS FROM `{$wpdb->prefix}{$this->prefix}member_subscriptions` LIKE 'id';" ) == null ) {
-        //         $wpdb->query( "ALTER TABLE {$wpdb->prefix}{$this->prefix}member_subscriptions ADD id bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT FIRST;" );
-        //     }
-        // }
+        if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}{$this->prefix}member_subscriptions';" ) ) {
+            if ( $wpdb->get_var( "SHOW COLUMNS FROM `{$wpdb->prefix}{$this->prefix}member_subscriptions` LIKE 'id';" ) == null ) {
+                $wpdb->query( "ALTER TABLE {$wpdb->prefix}{$this->prefix}member_subscriptions ADD id bigint(20) NOT NULL PRIMARY KEY AUTO_INCREMENT FIRST;" );
+            }
+        }
 
         // Add / Update the tables as needed
         $charset_collate = $wpdb->get_charset_collate();

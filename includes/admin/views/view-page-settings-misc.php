@@ -197,6 +197,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <p class="description"><input type="checkbox" id="upgrade-downgrade-sign-up-fee" name="pms_misc_settings[payments][upgrade_downgrade_sign_up_fee]" value="1" <?php echo ( isset( $this->options['payments']['upgrade_downgrade_sign_up_fee'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Charge users sign-up fees for Subscription Upgrades and Downgrades.', 'paid-member-subscriptions' ); ?></p>
     </div>
 
+    <?php if( pms_payment_gateways_support( pms_get_payment_gateways( true ), 'plugin_scheduled_payments' ) ) : ?>
+
+        <h3 style="margin-top:40px"><?php esc_html_e( 'Payment Retry', 'paid-member-subscriptions' ); ?></h3>
+
+        <div class="pms-form-field-wrapper">
+            <label class="pms-form-field-label" for="payment-retry-max-retry-amount"><?php esc_html_e( 'Maximum number of retries', 'paid-member-subscriptions' ) ?></label>
+            <input type="text" id="payment-retry-max-retry-amount" class="widefat" name="pms_misc_settings[payments][payment_retry_max_retry_amount]" value="<?php echo ( isset($this->options['payments']['payment_retry_max_retry_amount']) ? esc_attr( $this->options['payments']['payment_retry_max_retry_amount'] ) : esc_attr( apply_filters( 'pms_retry_payment_count', 3, '' ) ) ); ?>">
+            <p class="description"><?php esc_html_e( 'Enter how many retries the payment retry functionality should attempt.', 'paid-member-subscriptions' ); ?></p>
+        </div>
+
+        <div class="pms-form-field-wrapper">
+            <label class="pms-form-field-label" for="payment-retry-retry-interval"><?php esc_html_e( 'Retry Interval', 'paid-member-subscriptions' ) ?></label>
+            <input type="text" id="payment-retry-retry-interval" class="widefat" name="pms_misc_settings[payments][payment_retry_retry_interval]" value="<?php echo ( isset($this->options['payments']['payment_retry_retry_interval']) ? esc_attr( $this->options['payments']['payment_retry_retry_interval'] ) : esc_attr( apply_filters( 'pms_retry_payment_interval', 3, '' ) ) ); ?>">
+            <p class="description"><?php esc_html_e( 'Enter the interval between retries for the payment retry functionality.', 'paid-member-subscriptions' ); ?></p>
+        </div>
+    
+    <?php endif; ?>
+
     <?php do_action( $this->menu_slug . '_misc_after_payments_tab_content', $this->options ); ?>
 </div>
 

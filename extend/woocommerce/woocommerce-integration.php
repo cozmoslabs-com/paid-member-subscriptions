@@ -207,3 +207,92 @@ function pms_woo_disable_tab_url_rewrite( $disable ) {
 
 }
 add_filter( 'pms_account_rewrite_tab_urls', 'pms_woo_disable_tab_url_rewrite' );
+
+
+/**
+ * Used for updating WooCommerce Billing details when PMS Billing details get updated
+ */
+function pms_save_pms_billing_as_woo( $user_data ){
+
+    $user_id = $user_data;
+    if( is_array( $user_data ) )
+        $user_id = $user_data['user_id'];
+
+    $billing_fields = array(
+        'pms_billing_first_name' => 'billing_first_name',
+        'pms_billing_last_name'  => 'billing_last_name',
+        'pms_billing_email'      => 'billing_email',
+        'pms_billing_company'    => 'billing_company',
+        'pms_billing_address'    =>  array('billing_address','billing_address_1'),
+        'pms_billing_city'       => 'billing_city',
+        'pms_billing_zip'        => 'billing_postcode',
+        'pms_billing_country'    => 'billing_country',
+        'pms_billing_state'      => 'billing_state',
+    );
+
+    foreach( $billing_fields as $pms_key => $woo_key ){
+
+        if( isset( $_POST[ $pms_key ] ) ) {
+
+            if ( is_array( $woo_key ) ){
+
+                foreach ( $woo_key as $key )
+                    update_user_meta($user_id, $key, sanitize_text_field($_POST[$pms_key]));
+
+            }
+            else update_user_meta($user_id, $woo_key, sanitize_text_field($_POST[$pms_key]));
+
+        }
+
+    }
+
+}
+
+/**
+ * Used for updating PMS Billing details when WooCommerce Billing details get updated
+ */
+function pms_save_woo_billing_as_pms( $user_id, $woo_form ) {
+
+    if ( $woo_form != 'billing' )
+        return;
+
+    $billing_fields = array(
+        'billing_first_name' => 'pms_billing_first_name',
+        'billing_last_name'  => 'pms_billing_last_name',
+        'billing_email'      => 'pms_billing_email',
+        'billing_company'    => 'pms_billing_company',
+        'billing_address_1'  => array('pms_billing_address','billing_address'),
+        'billing_city'       => 'pms_billing_city',
+        'billing_zip'        => 'pms_billing_postcode',
+        'billing_country'    => 'pms_billing_country',
+        'billing_state'      => 'pms_billing_state',
+    );
+
+    foreach( $billing_fields as $woo_key => $pms_key ){
+
+        if( isset( $_POST[ $woo_key ] ) ) {
+
+            if ( is_array( $pms_key ) ){
+
+                foreach ( $pms_key as $key )
+                    update_user_meta($user_id, $key, sanitize_text_field($_POST[$woo_key]));
+
+            }
+            else update_user_meta($user_id, $pms_key, sanitize_text_field($_POST[$woo_key]));
+
+        }
+
+    }
+
+}
+
+$settings = get_option( 'pms_woocommerce_settings', array() );
+if ( isset( $settings['sync_woo_pms_billing_details'] ) && $settings['sync_woo_pms_billing_details'] == 'yes' ) {
+    add_action( 'pms_edit_profile_form_update_user', 'pms_save_pms_billing_as_woo' );
+    add_action( 'pms_register_form_after_create_user', 'pms_save_pms_billing_as_woo' );
+    add_action( 'pms_renew_subscription_form_extra', 'pms_save_pms_billing_as_woo' );
+    add_action( 'pms_change_subscription_form_extra', 'pms_save_pms_billing_as_woo' );
+    add_action( 'pms_upgrade_subscription_form_extra', 'pms_save_pms_billing_as_woo' );
+    add_action( 'pms_new_subscription_form_extra', 'pms_save_pms_billing_as_woo' );
+    add_action( 'woocommerce_customer_save_address', 'pms_save_woo_billing_as_pms', 10, 2 );
+}

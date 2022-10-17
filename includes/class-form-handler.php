@@ -472,6 +472,9 @@ Class PMS_Form_Handler {
         if( !self::validate_new_subscription_form() )
             return;
 
+        // Hook useful for saving extra information
+        do_action( 'pms_new_subscription_form_extra', get_current_user_id() );
+
         // Proceed to checkout
         self::process_checkout();
 
@@ -529,6 +532,9 @@ Class PMS_Form_Handler {
             // Log attempt
             if( isset( $_GET['subscription_id'] ) )
                 pms_add_member_subscription_log( absint( $_GET['subscription_id'] ), 'subscription_upgrade_attempt', array( 'new_plan' => isset( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : '' ) );
+
+            // Hook useful for saving extra information
+            do_action( 'pms_upgrade_subscription_form_extra', get_current_user_id() );
 
             // Proceed to checkout
             self::process_checkout();
@@ -589,6 +595,9 @@ Class PMS_Form_Handler {
 
                 }
 
+            // Hook useful for saving extra information
+            do_action( 'pms_change_subscription_form_extra', get_current_user_id() );
+
             // Proceed to checkout
             self::process_checkout();
 
@@ -637,6 +646,9 @@ Class PMS_Form_Handler {
             // Validate data sent from the renew subscription form
             if( !self::validate_renew_subscription_form() )
                 return;
+
+            // Hook useful for saving extra information
+            do_action( 'pms_renew_subscription_form_extra', get_current_user_id() );
 
             // Proceed to checkout
             self::process_checkout();

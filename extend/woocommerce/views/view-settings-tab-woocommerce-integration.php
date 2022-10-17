@@ -38,7 +38,7 @@
 
     </div>
 
-    <div id="woocommerce-products">
+    <div id="woocommerce-product-messages">
 
         <h3>
             <?php esc_html_e( 'Product Messages', 'paid-member-subscriptions' ); ?>
@@ -55,7 +55,7 @@
 
     </div>
 
-    <div id="woocommerce-products">
+    <div id="woocommerce-product-memberships">
 
         <h3>
             <?php esc_html_e( 'Product Memberships', 'paid-member-subscriptions' ); ?>
@@ -70,6 +70,23 @@
             </p>
             <p class="description">
                 <?php echo wp_kses_post( __( 'By checking this option we will activate the <strong>Subscription Plan</strong> Tab. <br> To link a Subscription Plan to a Product go to: <strong>Administration Panel</strong> --> <strong>Products.</strong><br><strong>Edit</strong> an existing product or click on <strong>Add New</strong> to add a new product.<br>After you are redirected to your product options, scroll down to <strong>Product data</strong> Section and click on <strong>Subscription Plan</strong> Tab.', 'paid-member-subscriptions' ) ); ?>
+            </p>
+        </div>
+
+    </div>
+
+    <div id="woocommerce-billing-details">
+
+        <h3><?php esc_html_e( 'Billing Details', 'paid-member-subscriptions' ); ?></h3>
+
+        <div class="pms-form-field-wrapper">
+            <label class="pms-form-field-label" for="woocommerce-add-pms-billing-details"><?php esc_html_e( 'Synchronize Billing Details', 'paid-member-subscriptions' ) ?></label>
+
+            <p class="description"><input type="checkbox" id="woocommerce-add-pms-billing-details" name="pms_woocommerce_settings[sync_woo_pms_billing_details]" value="yes" <?php echo ( isset( $options['sync_woo_pms_billing_details'] ) ? checked($options['sync_woo_pms_billing_details'], 'yes', false) : '' ); ?> />
+                <?php echo wp_kses_post( __( 'Enable', 'paid-member-subscriptions' ) ); ?>
+            </p>
+            <p class="description">
+                <?php echo wp_kses_post( __( 'By checking this option the PMS Billing Details and WooCommerce Billing Details will be synchronized.', 'paid-member-subscriptions' ) ); ?>
             </p>
         </div>
 

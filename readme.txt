@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.0
-Stable tag: 2.7.9
+Stable tag: 2.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.8.0 =
+* Fix: merge tags incompatibility with discount codes add-on
+* Fix: issue with emails not sending when manually confirming WooCommerce order for the Product Memberships integration
+* Fix: potential issue with renewals for the Product Memberships integration
+* Misc: added option to sync Billing Details with WooCommerce Billing Fields
+* Misc: keep admin on the selected view when doing bulk members or payments actions
+
 = 2.7.9 =
 * Fix: issue with PSP message appearing even after being dismissed
 
