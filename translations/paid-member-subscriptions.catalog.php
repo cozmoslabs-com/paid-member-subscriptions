@@ -616,6 +616,7 @@
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions Basic</strong> license has reached its activation limit.<br> Upgrade now to <strong>Pro</strong> for unlimited activations and extra features like recurring payments, invoices, taxes and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>", "paid-member-subscriptions"); ?>
 <?php __('<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ); ?>
+<?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
 <?php __("Abandoned", "paid-member-subscriptions"); ?>
 <?php __("Completed", "paid-member-subscriptions"); ?>
@@ -630,8 +631,7 @@
 <?php __("Subscription Downgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Retry Payment", "paid-member-subscriptions"); ?>
 <?php __("If you have issues with the styling of the submit button on <strong>Paid Member Subscriptions</strong> forms, <a href=\"%s\" target=\"_blank\">click here</a> for more info.", "paid-member-subscriptions"); ?>
-<?php __("<strong>New Stripe add-on feature!</strong> <br>Your recurring subscribers through Stripe can now easily update the payment method of their subscription from the Account page.", "paid-member-subscriptions"); ?>
-<?php __("Learn More", "paid-member-subscriptions"); ?>
+<?php __("<strong>New free version features!</strong><br><br><strong>Recurring Payments for PayPal Standard</strong> is now available in the free version. Go to <strong>PMS -> Settings -> Payments</strong> to control the default settings.<br> <strong>Discount Codes</strong> are now available in the free version. Go to <strong>PMS -> Discount Codes</strong> to create one.", "paid-member-subscriptions"); ?>
 <?php __("%s Day", "paid-member-subscriptions"); ?>
 <?php __("%s Days", "paid-member-subscriptions"); ?>
 <?php __("%s Week", "paid-member-subscriptions"); ?>
@@ -676,6 +676,7 @@
 <?php __("Content Restriction", "paid-member-subscriptions"); ?>
 <?php __("Create member only forums with just a few clicks.", "paid-member-subscriptions"); ?>
 <?php __("Allow only members to have access to forums and topics with Paid Member Subscriptions's bbPress Add-On.", "paid-member-subscriptions"); ?>
+<?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("Restrict to logged in users", "paid-member-subscriptions"); ?>
 <?php __("Allow only logged in users to see this content.", "paid-member-subscriptions"); ?>
 <?php __("Restrict by Subscription Plans", "paid-member-subscriptions"); ?>
@@ -1379,7 +1380,6 @@
 <?php __("These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Unlimited plans.", "paid-member-subscriptions"); ?>
 <?php __("bbPress", "paid-member-subscriptions"); ?>
 <?php __("Integrate Paid Member Subscriptions with the popular forums plugin, bbPress. Restrict your forums and topics and allow only premium members to have access to them.", "paid-member-subscriptions"); ?>
-<?php __("Friction-less discount code creation for running promotions, making price reductions or simply rewarding your users.", "paid-member-subscriptions"); ?>
 <?php __("Create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)", "paid-member-subscriptions"); ?>
 <?php __("Fixed Period Membership", "paid-member-subscriptions"); ?>
 <?php __("The Fixed Period Membership Add-On allows your Subscriptions to end at a specific date, no matter when a client subscribes to it.", "paid-member-subscriptions"); ?>
@@ -1399,9 +1399,7 @@
 <?php __("Multiple Subscriptions Per User", "paid-member-subscriptions"); ?>
 <?php __("Setup multiple subscription level blocks and allow members to sign up for more than one subscription plan (one per block).", "paid-member-subscriptions"); ?>
 <?php __("PayPal Express", "paid-member-subscriptions"); ?>
-<?php __("Accept one-time or recurring payments through PayPal Pro (credit card) and PayPal Express.", "paid-member-subscriptions"); ?>
-<?php __("Recurring Payments for PayPal Standard", "paid-member-subscriptions"); ?>
-<?php __("Accept recurring payments from your members through PayPal Standard.", "paid-member-subscriptions"); ?>
+<?php __("Accept one-time or recurring payments through PayPal Express.", "paid-member-subscriptions"); ?>
 <?php __("Stripe", "paid-member-subscriptions"); ?>
 <?php __("Accept credit card payments, both one-time and recurring, directly on your website via Stripe.", "paid-member-subscriptions"); ?>
 <?php __("Tax & EU VAT", "paid-member-subscriptions"); ?>
@@ -1440,6 +1438,8 @@
 <?php __("Overview of all your members and their subscription plans. Easily add/remove members or edit their subscription details. ", "paid-member-subscriptions"); ?>
 <?php __("Keep track of all member payments, payment statuses, purchased subscription plans but also figure out why a Payment failed.", "paid-member-subscriptions"); ?>
 <?php __("Set the payment gateway used to accept payments, select messages seen by users when accessing a restricted content page or customize default member emails. Everything is just a few clicks away. ", "paid-member-subscriptions"); ?>
+<?php __("Setup recurring payments for your subscription plans.", "paid-member-subscriptions"); ?>
+<?php __("Friction-less discount code creation for running promotions, making price reductions or simply rewarding your users.", "paid-member-subscriptions"); ?>
 <?php __("Integrates beautifully with WooCommerce, for extended functionality.", "paid-member-subscriptions"); ?>
 <?php __("Restrict Product Viewing & Purchasing", "paid-member-subscriptions"); ?>
 <?php __("Control who can see or purchase a WooCommerce product based on logged in status and subscription plan. Easily create products available to members only.", "paid-member-subscriptions"); ?>
@@ -1456,9 +1456,7 @@
 <?php __("Edit and change any Paid Member Subscriptions label or string in just a few clicks.", "paid-member-subscriptions"); ?>
 <?php __("Get Basic Add-ons", "paid-member-subscriptions"); ?>
 <?php __("These addons extend your WordPress Membership Plugin and are available with the <a href=\"%s\">PRO version</a> only.", "paid-member-subscriptions"); ?>
-<?php __("Recurring Payments - PayPal Standard", "paid-member-subscriptions"); ?>
-<?php __("PayPal Pro and PayPal Express", "paid-member-subscriptions"); ?>
-<?php __("Accept one time or recurring payments through PayPal Pro (credit card) and/or Express Checkout.", "paid-member-subscriptions"); ?>
+<?php __("Accept one time or recurring payments through PayPal Express Checkout.", "paid-member-subscriptions"); ?>
 <?php __("Multiple Subscriptions / User", "paid-member-subscriptions"); ?>
 <?php __("This add-on allows you and your members to download PDF invoices for each payment that has been completed.", "paid-member-subscriptions"); ?>
 <?php __("Sell group subscriptions that contain multiple member seats but are managed and purchased by a single account.", "paid-member-subscriptions"); ?>
@@ -1628,6 +1626,9 @@
 <?php __("Dashboard redirect", "paid-member-subscriptions"); ?>
 <?php __("Disable dashboard redirect", "paid-member-subscriptions"); ?>
 <?php __("By default, regular users cannot access the admin dashboard. This option disables that redirect.", "paid-member-subscriptions"); ?>
+<?php __("WordPress Date Format", "paid-member-subscriptions"); ?>
+<?php __("Use WordPress date format", "paid-member-subscriptions"); ?>
+<?php __("By checking this option, the date format selected in WordPress Settings --> General will be used for displaying dates.", "paid-member-subscriptions"); ?>
 <?php __("Scripts", "paid-member-subscriptions"); ?>
 <?php __("Load Scripts only on specific pages", "paid-member-subscriptions"); ?>
 <?php __("Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance.", "paid-member-subscriptions"); ?>
@@ -1691,6 +1692,18 @@
 <?php __("Thank you for subscribing. The subscription will be activated after the payment is received.", "paid-member-subscriptions"); ?>
 <?php __("The subscription will be activated after the payment is received.", "paid-member-subscriptions"); ?>
 <?php __("Complete Payment", "paid-member-subscriptions"); ?>
+<?php __("API Username", "paid-member-subscriptions"); ?>
+<?php __("API Username for Live site", "paid-member-subscriptions"); ?>
+<?php __("API Password", "paid-member-subscriptions"); ?>
+<?php __("API Password for Live site", "paid-member-subscriptions"); ?>
+<?php __("API Signature", "paid-member-subscriptions"); ?>
+<?php __("API Signature for Live site", "paid-member-subscriptions"); ?>
+<?php __("Test API Username", "paid-member-subscriptions"); ?>
+<?php __("API Username for Test/Sandbox site", "paid-member-subscriptions"); ?>
+<?php __("Test API Password", "paid-member-subscriptions"); ?>
+<?php __("API Password for Test/Sandbox site", "paid-member-subscriptions"); ?>
+<?php __("Test API Signature", "paid-member-subscriptions"); ?>
+<?php __("API Signature for Test/Sandbox site", "paid-member-subscriptions"); ?>
 <?php __("Paypal Standard", "paid-member-subscriptions"); ?>
 <?php __("PayPal E-mail Address", "paid-member-subscriptions"); ?>
 <?php __("Enter your PayPal e-mail address", "paid-member-subscriptions"); ?>
@@ -1703,7 +1716,6 @@
 <?php __("Waiting to receive Instant Payment Notification (IPN) from <strong>PayPal</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Instant Payment Notification (IPN) received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
-<?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Update", "paid-member-subscriptions"); ?>
 <?php __("Label added successfully.", "paid-member-subscriptions"); ?>
 <?php __("You must select a label to edit!", "paid-member-subscriptions"); ?>
@@ -1868,18 +1880,6 @@
 <?php __("Automatically reset invoice numbers on new year's day. Resets invoice number to 1.", "paid-member-subscriptions"); ?>
 <?php __("Reference Transactions", "paid-member-subscriptions"); ?>
 <?php __('Check if your PayPal account has Reference Transactions enabled. %1$sLearn how to enable reference transactions.%2$s', 'paid-member-subscriptions' ); ?>
-<?php __("API Username", "paid-member-subscriptions"); ?>
-<?php __("API Username for Live site", "paid-member-subscriptions"); ?>
-<?php __("API Password", "paid-member-subscriptions"); ?>
-<?php __("API Password for Live site", "paid-member-subscriptions"); ?>
-<?php __("API Signature", "paid-member-subscriptions"); ?>
-<?php __("API Signature for Live site", "paid-member-subscriptions"); ?>
-<?php __("Test API Username", "paid-member-subscriptions"); ?>
-<?php __("API Username for Test/Sandbox site", "paid-member-subscriptions"); ?>
-<?php __("Test API Password", "paid-member-subscriptions"); ?>
-<?php __("API Password for Test/Sandbox site", "paid-member-subscriptions"); ?>
-<?php __("Test API Signature", "paid-member-subscriptions"); ?>
-<?php __("API Signature for Test/Sandbox site", "paid-member-subscriptions"); ?>
 <?php __("PayPal Billing Agreement ID", "paid-member-subscriptions"); ?>
 <?php __("The provided PayPal Billing Agreement ID is not valid.", "paid-member-subscriptions"); ?>
 <?php __("Payment confirmation", "paid-member-subscriptions"); ?>

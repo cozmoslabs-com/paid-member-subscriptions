@@ -145,7 +145,7 @@ function pms_woo_set_subscription_status( $order_status, $product_type, $existin
     elseif ( $order_status == 'completed' ||  $existing_status == 'active' )
         $subscription_status = 'active';
     elseif ( $order_status == 'cancelled' || $order_status == 'failed' || $order_status == 'refunded' )
-        $subscription_status = 'canceled';
+        $subscription_status = 'expired';
     else $subscription_status = 'pending';
 
     return $subscription_status;
@@ -252,8 +252,10 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
         $replacement_data = pms_get_subscription_replacement_data( $user_id, $subscription_plan_id, $subscription_status );
 
         if( isset( $existing_subscription['0'] )) {
-            $subscription_expiration_date = $existing_subscription['0']->expiration_date;
-            $subscription_next_payment_date = $existing_subscription['0']->billing_next_payment;
+
+            // reset the expiration date if the subscription expired more than a day ago
+            $subscription_expiration_date = ( strtotime( '-1 day' ) < strtotime( $existing_subscription['0']->expiration_date ) ) ? $existing_subscription['0']->expiration_date : '';
+            $subscription_next_payment_date = ( strtotime( '-1 day' ) < strtotime( $existing_subscription['0']->billing_next_payment ) ? $existing_subscription['0']->billing_next_payment : '');
 
             if ( $order_status == 'completed' ) {
 
@@ -261,7 +263,6 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
                     if ( $subscription_status == 'active' && $existing_subscription['0']->status == 'pending' )
                         $subscription_expiration_date = $subscription_plan->get_expiration_date();
                 }
-
                 elseif ( $existing_subscription['0']->status == 'active' || $existing_subscription['0']->status == 'canceled' || $existing_subscription['0']->status == 'expired' ) {  //   extend expiration date (new order placed for already subscribed-to Subscription Plan with active, canceled or expired status )
 
                     if ( !empty( $subscription_next_payment_date )) {
@@ -269,7 +270,7 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
                         $new_next_payment_date = strtotime("+" . $existing_subscription['0']->billing_duration . " " . $existing_subscription['0']->billing_duration_unit, $old_next_payment_date);
                         $subscription_next_payment_date = date('Y-m-d H:i:s', $new_next_payment_date);
                     }
-                    elseif ( !empty( $existing_subscription['0']->expiration_date ) ) {
+                    elseif ( !empty( $subscription_expiration_date ) ) {
                         $old_expiration_timestamp = strtotime($existing_subscription['0']->expiration_date);
                         $new_expiration_timestamp = strtotime("+" . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit, $old_expiration_timestamp);
                         $subscription_expiration_date = date('Y-m-d H:i:s', $new_expiration_timestamp);
@@ -281,14 +282,15 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
 
                 }
 
-                $subscription_data = array(
-                    'id' => $existing_subscription['0']->id,
-                    'expiration_date' => $subscription_expiration_date,
-                    'billing_next_payment' => $subscription_next_payment_date,
-                    'status' => $subscription_status
-                );
 
             }
+
+            $subscription_data = array(
+                'id' => $existing_subscription['0']->id,
+                'expiration_date' => $subscription_expiration_date,
+                'billing_next_payment' => $subscription_next_payment_date,
+                'status' => $subscription_status
+            );
 
         }
         elseif ( !empty( $replacement_data )) {

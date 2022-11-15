@@ -1,0 +1,34 @@
+#pms_subscription_plans_discount_code{
+    width: 50%
+}
+#pms-subscription-plans-discount-messages-wrapper {
+	display: none;
+    padding: 1em;
+    margin: 1em 0;
+    margin-top: 0px;
+    border: 1px solid #e7e7e7;
+}
+#pms-subscription-plans-discount-messages {
+	display: none;
+}
+#pms-subscription-plans-discount-messages-loading {
+	display: none;
+}
+label[for="pms_subscription_plans_discount"]{
+    display: block;
+}
+.pms-discount-error {
+    color: #c0392b;
+    font-size: 80%;
+}
+.pms-discount-success {
+    color: green;
+}
+
+#pms-renew-subscription-form #pms-subscription-plans-discount, #pms-upgrade-subscription-form #pms-subscription-plans-discount, #pms-retry-payment-subscription-form #pms-subscription-plans-discount, #pms-ec-register-form #pms-subscription-plans-discount, .wppb-subscription-plans #pms-subscription-plans-discount {
+    margin-bottom: 20px;
+}
+
+#pms-subscription-plans-discount {
+    margin-bottom: 1em;
+}

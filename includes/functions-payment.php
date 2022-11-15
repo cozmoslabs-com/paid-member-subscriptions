@@ -60,7 +60,7 @@ function pms_get_payments( $args = array() ) {
     // Add search query
     if( !empty($args['search']) ) {
         $search_term    = sanitize_text_field( $args['search'] );
-        $query_where    = $query_where . " AND " . " ( pms_payments.transaction_id LIKE '%s' OR users.user_nicename LIKE '%%%s%%' OR posts.post_title LIKE '%%%s%%' ) ". " ";
+        $query_where    = $query_where . " AND " . " ( pms_payments.transaction_id LIKE '%s' OR users.user_nicename LIKE '%%%s%%' OR users.user_email LIKE '%%%s%%' OR posts.post_title LIKE '%%%s%%' ) ". " ";
     }
 
     // Filter by status
@@ -143,7 +143,7 @@ function pms_get_payments( $args = array() ) {
 
     // Return results
     if (!empty($search_term))
-        $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ) , $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
+        $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ) , $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
     else
         $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1 ), ARRAY_A );
 
@@ -281,7 +281,7 @@ function pms_get_payments_count( $args = array() ) {
     // Filter by search
     if( !empty( $args['search'] ) ) {
         $search = sanitize_text_field( $args['search'] );
-        $query_where .= " AND ( pms_payments.transaction_id LIKE '%%{$search}%%' OR users.user_nicename LIKE '%%{$search}%%' OR posts.post_title LIKE '%%{$search}%%' ) ". " ";
+        $query_where .= " AND ( pms_payments.transaction_id LIKE '%%{$search}%%' OR users.user_nicename LIKE '%%{$search}%%' OR users.user_email LIKE '%%{$search}%%' OR posts.post_title LIKE '%%{$search}%%' ) ". " ";
     }
 
     // Filter by status
@@ -774,3 +774,28 @@ function pms_get_payments_by_subscription_id( $subscription_id, $count = 0 ){
     return false;
 
 }
+
+/**
+ * Function that resets payment counters for Payments List Table when adding or deleting a payment
+ *
+ * @param int   $payment_id   - the id of the new payment
+ * @param object|array $payment_data - data for the current payment
+ *
+ */
+function pms_reset_payment_counters( $payment_id, $payment_data ){
+
+    if ( is_object( $payment_data ) && isset( $payment_data->status ))
+        $status_list = array( $payment_data->status, '' );
+    elseif ( is_array( $payment_data ) && isset( $payment_data['status'] ))
+        $status_list = array( $payment_data['status'], '' );
+    else return;
+
+    foreach ( $status_list as $status ) {
+        $key   = md5( 'pms_payments_count_' . serialize( array( 'status' => $status ) ) );
+        delete_transient( $key );
+    }
+
+}
+add_action( 'pms_after_bulk_delete_payments', 'pms_reset_payment_counters', 10, 2 );
+add_action( 'pms_after_delete_payment', 'pms_reset_payment_counters', 10, 2 );
+add_action( 'pms_payment_insert', 'pms_reset_payment_counters', 10, 2 );

@@ -30,6 +30,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         $this->supports = apply_filters( 'pms_gateway_manual_supports', array(
             'subscription_sign_up_fee',
             'subscription_free_trial',
+            'recurring_payments',
         ) );
 
         // Add custom user messages for this gateway
@@ -384,8 +385,14 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         $subscription = pms_get_member_subscriptions( array( 'user_id' => $payment_data['user_id'], 'subscription_plan_id' => $payment_data['subscription_plan_id'] ) );
 
         if ( $subscription && !$mail_sent ) {
-            PMS_Emails::mail( 'user', 'pending_manual_payment', $payment_data['user_id'], $subscription[0]->id, $payment_id );
-            PMS_Emails::mail( 'admin', 'pending_manual_payment', $payment_data['user_id'], $subscription[0]->id, $payment_id );
+            $email_settings = get_option( 'pms_emails_settings', array() );
+
+            if ( isset( $email_settings['pending_manual_payment_is_enabled'] ) && $email_settings['pending_manual_payment_is_enabled'] == 'yes' )
+                PMS_Emails::mail( 'user', 'pending_manual_payment', $payment_data['user_id'], $subscription[0]->id, $payment_id );
+
+            if ( isset( $email_settings['pending_manual_payment_admin_is_enabled'] ) && $email_settings['pending_manual_payment_admin_is_enabled'] == 'yes' )
+                PMS_Emails::mail( 'admin', 'pending_manual_payment', $payment_data['user_id'], $subscription[0]->id, $payment_id );
+
             update_user_meta( $payment_data['user_id'], 'pending_manual_payment_'. $payment_id .'_email_sent', true );
         }
 

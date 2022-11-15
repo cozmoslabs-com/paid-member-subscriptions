@@ -1,0 +1,45 @@
+    /*
+     * Hide the default "Move to Trash button"
+     * Hide the "Edit" link for Discount Code status
+     * Hide the "Visibility" box for discount codes
+     * Hide the "Save Draft" button
+     * Hide the "Status" div
+     * Hide the "Published on.." section
+     * Hide the currency text when discount is percent (not fixed)
+
+     */
+#delete-action,
+.edit-post-status,
+#visibility,
+#minor-publishing-actions,
+div.misc-pub-post-status,
+#misc-publishing-actions,
+.pms-discount-currency{
+    display:none;
+}
+
+/* Hide empty Datepicker div loading on Edit Discount Code page */
+#ui-datepicker-div{
+    display:none;
+}
+
+/* Discount code select */
+.pms-discount-code.input {
+    width: 80%;
+    background: #fff none repeat scroll 0 0 !important;
+    border: 1px solid #e1e1e1;
+    box-shadow: none !important;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 5px;
+    padding: 5px 10px;
+}
+.pms-discount-code:focus {
+    border-color: #e1e1e1 !important;
+}
+
+#pms_discount_codes .pms-meta-box-checkbox-label {
+    display: inline-block;
+    margin-right: 10px;
+}

@@ -126,6 +126,7 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
                         $deleted = $payment->remove();
 
                         if( $deleted ){
+                            do_action( 'pms_after_bulk_delete_payments', $id, $payment );
                             $deleted_payments_count++;
                         }
                     }
@@ -150,8 +151,10 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
             $payment = pms_get_payment( $payment_id );
 
-            if( $payment->remove() )
+            if( $payment->remove() ) {
+                do_action( 'pms_after_delete_payment', $payment_id, $payment );
                 $this->add_admin_notice( esc_html__( 'Payment successfully deleted.', 'paid-member-subscriptions' ), 'updated' );
+            }
 
         }
 

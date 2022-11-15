@@ -185,13 +185,13 @@ function pms_output_form_field( $field = array() ) {
 
 	    echo '<div class="pms-field-input-container">';
 
-	    /**
-	     * Action hook to dynamically add the actual input HTML for the field
-	     *
-	     * @param array $field
-	     *
-	     */
-	    do_action( 'pms_output_form_field_inner_' . $field['type'], $field );
+			/**
+			 * Action hook to dynamically add the actual input HTML for the field
+			 *
+			 * @param array $field
+			 *
+			 */
+			do_action( 'pms_output_form_field_inner_' . $field['type'], $field );
 
 	    echo '</div>';
 

@@ -1311,34 +1311,33 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
      /**
       * Add a notice if a recurring PayPal gateway is active but API credentials are missing
-      * @TODO: reactivate after paypal merge
       */
-    //   add_action( 'plugins_loaded', 'pms_general_notice_plugins_loaded' );
-    //   function pms_general_notice_plugins_loaded() {
+      add_action( 'plugins_loaded', 'pms_general_notice_plugins_loaded' );
+      function pms_general_notice_plugins_loaded() {
 
-    //       //check if related gateways are active
-    //       $are_active = array_intersect( array( 'paypal_standard', 'paypal_pro', 'paypal_express' ), pms_get_active_payment_gateways() );
+          //check if related gateways are active
+          $are_active = array_intersect( array( 'paypal_standard', 'paypal_pro', 'paypal_express' ), pms_get_active_payment_gateways() );
 
-    //       if ( function_exists( 'pms_get_paypal_api_credentials' ) && pms_get_paypal_api_credentials() === false && !empty( $are_active ) ) {
+          if ( function_exists( 'pms_get_paypal_api_credentials' ) && pms_get_paypal_api_credentials() === false && !empty( $are_active ) ) {
 
-    //           $message = sprintf( __( 'Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ), '<a href="' . admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) .'">', '</a>' );
+              $message = sprintf( __( 'Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ), '<a href="' . admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) .'">', '</a>' );
 
-    //           if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
+              if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
 
-    //               new PMS_Add_General_Notices( 'pms_paypal_api_credentials',
-    //                   '<p>' . $message . '</p>',
-    //                   'notice-warning');
+                  new PMS_Add_General_Notices( 'pms_paypal_api_credentials',
+                      '<p>' . $message . '</p>',
+                      'notice-warning');
 
-    //           } else {
+              } else {
 
-    //               new PMS_Add_General_Notices( 'pms_paypal_api_credentials',
-    //                   sprintf( '<p>' . $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( add_query_arg( 'pms_paypal_api_credentials_dismiss_notification', '0' ) ) . "'>", "</a>" ) . '</p>',
-    //                   'notice-warning');
+                  new PMS_Add_General_Notices( 'pms_paypal_api_credentials',
+                      sprintf( '<p>' . $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( add_query_arg( 'pms_paypal_api_credentials_dismiss_notification', '0' ) ) . "'>", "</a>" ) . '</p>',
+                      'notice-warning');
 
-    //           }
+              }
 
-    //       }
-    //   }
+          }
+      }
 
     /**
      * Add a notice requesting a plugin review on wp.org

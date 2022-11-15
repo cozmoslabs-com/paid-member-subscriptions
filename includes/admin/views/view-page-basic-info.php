@@ -81,6 +81,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                 </div>
             </div>
+            <div class="pms-row pms-2-col">
+                <div>
+                    <h3><?php esc_html_e( 'Recurring Payments', 'paid-member-subscriptions' ); ?></h3>
+                    <p><?php esc_html_e( 'Setup recurring payments for your subscription plans.', 'paid-member-subscriptions' ); ?></p>
+                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                </div>
+                <div>
+                    <h3><?php esc_html_e( 'Discount Codes', 'paid-member-subscriptions' ); ?></h3>
+                    <p><?php esc_html_e( 'Friction-less discount code creation for running promotions, making price reductions or simply rewarding your users.', 'paid-member-subscriptions' ); ?></p>
+                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/discount-codes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                </div>
+            </div>
         </div>
 
         <div class="">
@@ -148,17 +160,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </a>
 
             <p><?php esc_html_e( 'Easy way to add global content restriction rules to subscription plans, based on post type, taxonomy and terms.', 'paid-member-subscriptions' ); ?></p>
-        </div>
-        <div>
-            <a href="https://www.cozmoslabs.com/add-ons/discount-codes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
-                <h4 class="pms-add-on-name"><?php esc_html_e( 'Discount Codes', 'paid-member-subscriptions' ); ?></h4>
-            </a>
-
-            <a href="https://www.cozmoslabs.com/add-ons/discount-codes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
-                <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-discount-codes.png" alt="Discount Codes" class="pms-addon-image" />
-            </a>
-
-            <p><?php esc_html_e( 'Friction-less discount code creation for running promotions, making price reductions or simply rewarding your users.', 'paid-member-subscriptions' ); ?></p>
         </div>
         <div>
             <a href="https://www.cozmoslabs.com/add-ons/email-reminders/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
@@ -238,26 +239,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     </div>
     <div class="pms-row pms-4-col pms-addons">
         <div>
-            <a href="https://www.cozmoslabs.com/add-ons/recurring-payments-for-paypal-standard/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
-                <h4 class="pms-add-on-name"><?php esc_html_e( 'Recurring Payments - PayPal Standard', 'paid-member-subscriptions' ); ?></h4>
-            </a>
-
-            <a href="https://www.cozmoslabs.com/add-ons/recurring-payments-for-paypal-standard/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
-                <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-paypal-recurring.png" alt="Recurring Payments PayPal Standard" class="pms-addon-image" />
-            </a>
-
-            <p><?php esc_html_e( 'Accept recurring payments from your members through PayPal Standard.', 'paid-member-subscriptions' ); ?></p>
-        </div>
-        <div>
             <a href="https://www.cozmoslabs.com/add-ons/paypal-pro-paypal-express/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
-                <h4 class="pms-add-on-name"><?php esc_html_e( 'PayPal Pro and PayPal Express', 'paid-member-subscriptions' ); ?></h4>
+                <h4 class="pms-add-on-name"><?php esc_html_e( 'PayPal Express', 'paid-member-subscriptions' ); ?></h4>
             </a>
 
             <a href="https://www.cozmoslabs.com/add-ons/paypal-pro-paypal-express/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
-                <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-paypal-pro.png" alt="PayPal Pro and PayPal Express" class="pms-addon-image" />
+                <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-paypal-pro.png" alt="PayPal Express" class="pms-addon-image" />
             </a>
 
-            <p><?php esc_html_e( 'Accept one time or recurring payments through PayPal Pro (credit card) and/or Express Checkout.', 'paid-member-subscriptions' ); ?></p>
+            <p><?php esc_html_e( 'Accept one time or recurring payments through PayPal Express Checkout.', 'paid-member-subscriptions' ); ?></p>
         </div>
         <div>
             <a href="https://www.cozmoslabs.com/add-ons/stripe/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
@@ -276,7 +266,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </a>
 
             <a href="https://www.cozmoslabs.com/add-ons/content-dripping/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
-                <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-content-dripping.png" alt="PayPal Pro and PayPal Express" class="pms-addon-image" />
+                <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-content-dripping.png" alt="Content Dripping" class="pms-addon-image" />
             </a>
 
             <p><?php esc_html_e( 'Create schedules for your content, making posts or categories available for your members only after a certain time has passed since they signed up for a subscription plan.', 'paid-member-subscriptions' ); ?></p>

@@ -132,6 +132,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </p>
     </div>
 
+    <div class="pms-form-field-wrapper">
+        <label class="pms-form-field-label" for="match-wp-date-format"><?php esc_html_e( 'WordPress Date Format' , 'paid-member-subscriptions' ) ?></label>
+
+        <p class="description">
+            <input type="checkbox" id="match-wp-date-format" name="pms_misc_settings[match-wp-date-format]" value="1" <?php echo ( isset( $this->options['match-wp-date-format'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Use WordPress date format', 'paid-member-subscriptions' ); ?>
+        </p>
+        <p class="description">
+            <?php esc_html_e( 'By checking this option, the date format selected in WordPress Settings --> General will be used for displaying dates.', 'paid-member-subscriptions' ); ?>
+        </p>
+    </div>
+
     <h3><?php esc_html_e( 'Scripts', 'paid-member-subscriptions' ); ?></h3>
 
     <div class="pms-form-field-wrapper">

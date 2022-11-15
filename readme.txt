@@ -3,8 +3,8 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
-Tested up to: 6.0
-Stable tag: 2.8.0
+Tested up to: 6.1
+Stable tag: 2.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ https://www.youtube.com/watch?v=6AEIvvCOZHM&start=0&autoplay=1
 = Membership Payments =
 Accept PayPal payments from your subscribers. You can keep track of all member payments, payment statuses and purchased subscription plans. Access to detailed payment logs.
 
+= Recurring Payments =
+Ability to accept recurring payments through the PayPal Standard gateway. The recurring setting can be forced or you can let the user choose whether he wants to subscribe for a recurring subscription or not.
+
 = Hierarchical Subscription Plans =
 You can create an unlimited number of hierarchical subscription plans (eg: Free, Silver, Gold). Each new user can choose a membership plan (subscription) during the registration process.
 Existing users can purchase a subscription plan from a page with the [pms-subscriptions] shortcode.
@@ -58,6 +61,9 @@ Existing users can purchase a subscription plan from a page with the [pms-subscr
 Members can upgrade their subscription plan from the [pms-account] page, the same page also allows the member to Renew, Cancel or Abandon his subscription.
 
 Subscription plans can offer free and/or paid memberships on your website.
+
+= Discount Codes =
+Create an unlimited number of discount codes and offer percentage or flat rate based discounts for your memberships.
 
 = Members Management =
 Have an overview of all your members and their subscription plans. Easily add/remove members or edit their subscription details.
@@ -99,7 +105,6 @@ Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslab
 
 * [bbPress](https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-bbpress/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - integrate Paid Member Subscriptions with the popular forums plugin, bbPress, to [restrict your forums and topics](https://www.cozmoslabs.com/104619-restrict-bbpress-forum-membership-subscription/).
 * [Global Content Restriction](https://www.cozmoslabs.com/add-ons/global-content-restriction/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - add global content restriction rules to subscription plans, based on post type, taxonomy and terms
-* [Discount Codes](https://www.cozmoslabs.com/add-ons/discount-codes/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create an unlimited number of discount codes and offer percentage or flat rate based discounts
 * [Email Reminders](https://www.cozmoslabs.com/add-ons/email-reminders/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)
 * [Navigation Menu Filtering](https://www.cozmoslabs.com/add-ons/navigation-menu-filtering/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - dynamically display menu items based on logged-in status as well as selected subscription plans
 * [Fixed Period Membership](https://www.cozmoslabs.com/add-ons/fixed-period-membership/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create subscriptions plans that end at a specific date, no matter when a member subscribes to it.
@@ -111,7 +116,6 @@ Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslab
 * [Pro Rate](https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription
 * [Tax & EU VAT](https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - collect tax or vat from your users depending on their location, with full control over tax rates and who to charge
 * [Group Memberships](https://www.cozmoslabs.com/add-ons/group-memberships/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - sell group subscriptions to your users
-* [Recurring Payments for PayPal Standard](https://www.cozmoslabs.com/add-ons/recurring-payments-paypal-standard/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept recurring payments from your members through PayPal Standard
 * [PayPal Express](https://www.cozmoslabs.com/add-ons/paypal-pro-paypal-express/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept one-time or recurring payments through PayPal Pro (credit card) and PayPal Express Checkout
 * [Stripe Gateway](https://www.cozmoslabs.com/add-ons/stripe/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept credit card payments, both one-time and recurring, directly on your website via Stripe
 * [Content Dripping](https://www.cozmoslabs.com/add-ons/content-dripping/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create schedules for your content, making posts or categories available for your members only after a certain time has passed since they signed up for a subscription plan
@@ -196,6 +200,18 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.8.1 =
+* Feature: Added Recurring Payments support for PayPal Standard. Go to PMS -> Settings -> Payments to control the recurring option and add your PayPal API Credentials
+* Feature: Added Discount Codes option. Go to PMS -> Discount Codes to start creating your first code
+
+* Fix: Make sure Pending Payment Email respects the enabled/disabled setting
+* Fix: An issue with the Change button not appearing when only downgrades were available
+* Fix: Reset Payments page counters when a payment is added or deleted
+* Fix: Issue with WooCommerce Integration when the order is manually edited
+* Misc: Added an option to use the WordPress Date Format on all back-end screens
+* Misc: Don't show Register Version page when only free version is present
+* Misc: Added the possibility to search payments by email address
+
 = 2.8.0 =
 * Fix: merge tags incompatibility with discount codes add-on
 * Fix: issue with emails not sending when manually confirming WooCommerce order for the Product Memberships integration

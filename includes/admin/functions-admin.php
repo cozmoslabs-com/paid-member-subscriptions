@@ -84,3 +84,47 @@ function pms_show_admin_notice_success_by_get(){
 function pms_compare_subscription_plan_objects($a, $b) {
     return strcmp( $a->name, $b->name );
 }
+
+
+// add filters to match WP Date Format if PMS -> Misc -> Others -> "WordPress Date Format" setting is Enabled
+$misc_settings = get_option( 'pms_misc_settings', array() );
+if ( isset( $misc_settings['match-wp-date-format'] ) ) {
+    add_filter( 'pms_match_date_format_to_wp_settings', 'pms_match_date_format', 10, 2 );
+    add_filter( 'post_date_column_time', 'pms_cpt_last_modified_date_fromat', 10, 4 );
+}
+
+/**
+ * Function that changes the date format to match the one set in Wordpress --> Settings --> General
+ *
+ * @param $date - date or timestamp
+ * @param $display_time - true/false for displaying the time along with the date
+ *
+ */
+function pms_match_date_format( $date , $display_time ) {
+
+    if ( $display_time )
+        $wp_time_format = get_option( 'time_format' );
+    else $wp_time_format = '';
+
+    if ( !empty( $date )) {
+        $wp_date_format = get_option( 'date_format' );
+        $timestamp = ( strtotime( $date )) ? strtotime( $date ) : $date;
+        $date = ucfirst( wp_date( $wp_date_format . ' ' .  $wp_time_format, $timestamp ));
+    }
+
+    return $date;
+
+}
+
+// Subscription Plans List
+// change Last Modified date format to match the one set in Wordpress --> Settings --> General
+function pms_cpt_last_modified_date_fromat( $published_time, $post, $column_name, $display_mode ) {
+
+    if ( !isset( $_GET['post_type'] ) || $_GET['post_type'] != 'pms-subscription' )
+        return $published_time;
+
+    $post_date = get_the_modified_date( get_option( 'date_format' ), $post );
+    $post_time = get_post_modified_time( get_option('time_format'), $post );
+
+    return $post_date . ' at ' . $post_time;
+}

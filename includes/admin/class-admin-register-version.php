@@ -17,13 +17,15 @@ class PMS_Register_Version {
 
     public function pms_register_your_version_submenu_page(){
 
-        add_submenu_page( 'paid-member-subscriptions', __( 'Register Your Version', 'paid-member-subscriptions' ), __( 'Register Version', 'paid-member-subscriptions' ), 'manage_options', 'pms-register-page', array( $this, 'pms_register_your_version_content' ) );
+        if ( pms_are_paid_versions_active() )
+            add_submenu_page( 'paid-member-subscriptions', __( 'Register Your Version', 'paid-member-subscriptions' ), __( 'Register Version', 'paid-member-subscriptions' ), 'manage_options', 'pms-register-page', array( $this, 'pms_register_your_version_content' ) );
 
     }
 
     public function pms_multisite_register_your_version_page(){
 
-        add_menu_page( __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), 'manage_options', 'pms-register-page', array( $this, 'pms_register_your_version_content' ), PMS_PLUGIN_DIR_URL . 'assets/images/pms-menu-icon.png' );
+        if ( pms_are_paid_versions_active() )
+            add_menu_page( __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), 'manage_options', 'pms-register-page', array( $this, 'pms_register_your_version_content' ), PMS_PLUGIN_DIR_URL . 'assets/images/pms-menu-icon.png' );
         
     }
 

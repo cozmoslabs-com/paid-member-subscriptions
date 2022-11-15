@@ -85,16 +85,13 @@ function pms_add_plugin_notification( $notification_id = '', $notification_messa
 
 }
 
-/**
- *
- *
- */
+
 function pms_add_plugin_notification_new_add_on() {
 
-	$notification_id = 'pms_new_feature_stripe';
-	$message = '<img style="float: left; margin: 20px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/stripe_icon.png" />';
-	$message .= '<p style="margin-top: 16px;">' . wp_kses_post( __( '<strong>New Stripe add-on feature!</strong> <br>Your recurring subscribers through Stripe can now easily update the payment method of their subscription from the Account page.', 'paid-member-subscriptions' ) ) . '</p>';
-	$message .= '<p><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/stripe-payment-gateway/#Update_Credit_Card_Details?utm_source=wp-backend&utm_medium=addon-notification&utm_campaign=PMSFree" class="button-primary">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
+	$notification_id = 'pms_new_free_version_features';
+	$message = '<img style="float: left; margin: 20px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/pms_logo.png" />';
+	$message .= '<p style="margin-top: 16px;">' . wp_kses_post( __( '<strong>New free version features!</strong><br><br><strong>Recurring Payments for PayPal Standard</strong> is now available in the free version. Go to <strong>PMS -> Settings -> Payments</strong> to control the default settings.<br> <strong>Discount Codes</strong> are now available in the free version. Go to <strong>PMS -> Discount Codes</strong> to create one.', 'paid-member-subscriptions' ) ) . '</p>';
+	//$message .= '<p><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/stripe-payment-gateway/#Update_Credit_Card_Details?utm_source=wp-backend&utm_medium=addon-notification&utm_campaign=PMSFree" class="button-primary">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
 	$message .= '<a href="' . esc_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
 
 	pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );

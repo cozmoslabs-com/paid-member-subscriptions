@@ -156,7 +156,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="pms-form-field-wrapper">
 
                 <label for="pms-payment-date" class="pms-form-field-label"><?php echo esc_html__( 'Date', 'paid-member-subscriptions' ); ?></label>
-                <input type="text" id="pms-payment-date" name="pms-payment-date" class="datepicker medium" value="<?php echo esc_attr( $payment_date ); ?>" />
+                <input type="text" id="pms-payment-date" name="pms-payment-date" class="datepicker medium" value="<?php echo esc_attr( apply_filters( 'pms_match_date_format_to_wp_settings',$payment_date , true )); ?>" />
 
             </div>
 

@@ -3,15 +3,15 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.8.0
+ * Version: 2.8.1
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 7.0
- * Elementor tested up to: 3.7.8
- * Elementor Pro tested up to: 3.7.7
+ * WC tested up to: 7.1
+ * Elementor tested up to: 3.8.1
+ * Elementor Pro tested up to: 3.8.1
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.8.0' );
+        define( 'PMS_VERSION', '2.8.1' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -48,7 +48,7 @@ Class Paid_Member_Subscriptions {
         $active_network_plugins = get_site_option('active_sitewide_plugins');
 
         if ( in_array( 'paid-member-subscriptions-pro/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-pro/index.php'] ) ){
-            
+
             if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
                 define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Pro');
 
@@ -56,7 +56,7 @@ Class Paid_Member_Subscriptions {
             define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-pro/' );
 
         } elseif ( in_array( 'paid-member-subscriptions-elite/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-elite/index.php'] ) ){
-            
+
             if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
                 define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Elite');
 
@@ -64,7 +64,7 @@ Class Paid_Member_Subscriptions {
             define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-elite/' );
 
         } elseif ( in_array( 'paid-member-subscriptions-unlimited/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-unlimited/index.php'] ) ){
-            
+
             if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
                 define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Unlimited');
 
@@ -72,7 +72,7 @@ Class Paid_Member_Subscriptions {
             define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-unlimited/' );
 
         } elseif ( in_array( 'paid-member-subscriptions-basic/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-basic/index.php'] ) ){
-            
+
             if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
                 define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Basic');
 
@@ -80,7 +80,7 @@ Class Paid_Member_Subscriptions {
             define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-basic/' );
 
         } elseif ( in_array( 'paid-member-subscriptions-dev/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-dev/index.php'] ) ){
-            
+
             if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
                 define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Dev');
 
@@ -197,7 +197,24 @@ Class Paid_Member_Subscriptions {
 
             do_action('pms_update_check');
 
+            // Removed add-ons are disabled here
+            $add_ons_settings = get_option( 'pms_add_ons_settings', array() );
+
+            if( !empty( $add_ons_settings ) ){
+                foreach( $add_ons_settings as $add_on_slug => $add_on_enabled ){
+
+                    if( $add_on_slug == 'pms-add-on-paypal-standard-recurring-payments/index.php' )
+                        unset( $add_ons_settings[ $add_on_slug ] );
+                    else if( $add_on_slug == 'pms-add-on-discount-codes/index.php' )
+                        unset( $add_ons_settings[ $add_on_slug ] );
+
+                }
+            }
+
+            update_option( 'pms_add_ons_settings', $add_ons_settings );
+
             update_option( 'pms_version', PMS_VERSION );
+
         }
 
         /**
@@ -229,22 +246,22 @@ Class Paid_Member_Subscriptions {
                 // setup the updater
                 $pms_edd_updater = new PMS_EDD_SL_Plugin_Updater( 'https://cozmoslabs.com', PMS_PAID_PLUGIN_DIR . '/index.php', array(
                         'version'   => $plugin_version,   // current version number
-                        'license'   => $serial,         
+                        'license'   => $serial,
                         'item_name' => str_replace( '- ', '', PAID_MEMBER_SUBSCRIPTIONS ),      // name of this plugin
                         'item_id'   => $cl_plugin_id,
                         'author'    => 'Cozmoslabs',         // author of this plugin
                         'beta'      => false
                     )
                 );
-                    
+
             }
 
 
             function pms_plugin_update_message( $plugin_data, $new_data ) {
-                
+
                 if( !function_exists( 'pms_get_serial_number' ) )
                     return;
-                    
+
                 if( pms_get_serial_number() === false ){
 
                     echo '<br />' . wp_kses_post( sprintf( __('To enable updates, please enter your serial number on the <a href="%s">Add-ons</a> page. If you don\'t have a serial number, please see <a href="%s" target="_blank">details & pricing</a>.', 'paid-member-subscriptions' ), esc_url( admin_url('admin.php?page=pms-addons-page') ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-plugins-page&utm_campaign=PMSPro' ) );
@@ -710,6 +727,18 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_standard/functions-paypal-standard.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_standard/functions-paypal-standard.php';
 
+        // PayPal Standard Recurring
+        $add_ons_settings = get_option( 'pms_add_ons_settings', array() );
+
+        if( !isset( $add_ons_settings['pms-add-on-paypal-standard-recurring-payments/index.php'] ) || $add_ons_settings['pms-add-on-paypal-standard-recurring-payments/index.php'] != true ){
+            if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_standard/functions-paypal-standard-recurring.php' ) )
+                include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_standard/functions-paypal-standard-recurring.php';
+        }
+
+        // we don't do this above so we are making sure that there are no fatal errors even though on a first load, it might look like this functionality is not available
+        $add_ons_settings['pms-add-on-paypal-standard-recurring-payments/index.php'] = false;
+
+        update_option( 'pms_add_ons_settings', $add_ons_settings );
 
         /*
          * Content restriction
@@ -732,6 +761,21 @@ Class Paid_Member_Subscriptions {
          */
          if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-logger.php' ) )
              include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-logger.php';
+
+        /**
+         * Discounts
+         */
+        if( !isset( $add_ons_settings['pms-add-on-discount-codes/index.php'] ) || $add_ons_settings['pms-add-on-discount-codes/index.php'] != true ){
+
+            if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/features/discount-codes/index.php' ) )
+                include_once PMS_PLUGIN_DIR_PATH . 'includes/features/discount-codes/index.php';
+
+        }
+
+        // we don't do this above so we are making sure that there are no fatal errors even though on a first load, it might look like this functionality is not available
+        $add_ons_settings['pms-add-on-discount-codes/index.php'] = false;
+
+        update_option( 'pms_add_ons_settings', $add_ons_settings );
 
         /*
          * Deprecated
