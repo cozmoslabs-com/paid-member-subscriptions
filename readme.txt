@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.1
-Stable tag: 2.8.1
+Stable tag: 2.8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -200,6 +200,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.8.2 =
+* Feature: Added Gutenberg Blocks for Register, Account, Login and Reset Password forms
+* Fix: issue with Redirect Default WordPress Pages bypass not working in some cases
+* Fix: reCaptcha issue on subsequent AJAX validation requests
+* Fix: error triggering from subscription price merge tag in some cases
+
 = 2.8.1 =
 * Feature: Added Recurring Payments support for PayPal Standard. Go to PMS -> Settings -> Payments to control the recurring option and add your PayPal API Credentials
 * Feature: Added Discount Codes option. Go to PMS -> Discount Codes to start creating your first code

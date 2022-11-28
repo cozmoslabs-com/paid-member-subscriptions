@@ -103,7 +103,7 @@ function pms_redirect_default_wp_pages(){
 
     global $pagenow;
 
-    if( $pagenow === 'wp-login.php' && isset( $_GET['pms_force_wp_login'] ) )
+    if( $pagenow === 'wp-login.php' && isset( $_REQUEST['pms_force_wp_login'] ) )
         return;
 
     $settings = get_option( 'pms_general_settings' );
@@ -129,6 +129,16 @@ function pms_redirect_default_wp_pages(){
         wp_redirect($lost_password_page);
         exit;
     }
+
+}
+
+add_action( 'login_form', 'pms_set_bypass_default_wp_pages_redirect_token_in_login_form' );
+function pms_set_bypass_default_wp_pages_redirect_token_in_login_form(){
+
+    if( !is_admin() || !isset( $_GET['pms_force_wp_login'] ) )
+        return;
+
+    echo '<input type="hidden" name="pms_force_wp_login" value="true" />';
 
 }
 

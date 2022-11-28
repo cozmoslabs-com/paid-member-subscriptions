@@ -44,7 +44,7 @@ class PMS_Elementor_Product_Messages_Widget extends \Elementor\Widget_Base {
      * Register widget controls
      *
      */
-    protected function _register_controls() {
+    protected function register_controls() {
 
         // Restricted Product Message TAB
         $this->start_controls_section(

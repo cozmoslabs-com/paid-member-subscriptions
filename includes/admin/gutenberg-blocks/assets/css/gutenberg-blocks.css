@@ -1,0 +1,33 @@
+.pms-block-container{
+    pointer-events: none;
+}
+
+.pms-field-section.pms-price-breakdown__holder{
+    display: none;
+}
+
+.pms-block-select-multiple select[multiple] {
+    height: auto !important;
+    overflow: scroll !important;
+    padding: 8px !important;
+}
+
+.pms-block-select-multiple select[multiple] + .components-input-control__suffix {
+    display: none;
+}
+
+.pms-group-memberships-field {
+    display: none;
+}
+
+#pms-subscription-plans-discount {
+    display: none;
+}
+
+#pms-credit-card-information {
+    display: none;
+}
+
+#pms-paygates-wrapper {
+    display: none;
+}

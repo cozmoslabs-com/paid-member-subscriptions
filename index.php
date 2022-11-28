@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.8.1
+ * Version: 2.8.2
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -11,7 +11,7 @@
  * WC requires at least: 3.0.0
  * WC tested up to: 7.1
  * Elementor tested up to: 3.8.1
- * Elementor Pro tested up to: 3.8.1
+ * Elementor Pro tested up to: 3.8.2
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.8.1' );
+        define( 'PMS_VERSION', '2.8.2' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -514,6 +514,15 @@ Class Paid_Member_Subscriptions {
          */
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-shortcodes.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/class-shortcodes.php';
+
+        /*
+         * Blocks
+         */
+        global $wp_version;
+        if ( version_compare( $wp_version, "5.0.0", ">=" ) ) {
+            if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/gutenberg-blocks/manage-blocks.php' ) )
+                include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/gutenberg-blocks/manage-blocks.php';
+        }
 
         /*
          * Email files

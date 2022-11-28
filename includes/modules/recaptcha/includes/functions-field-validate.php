@@ -26,18 +26,15 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
     }
 
     $already_validated = false;
+    $saved             = get_option( 'pms_recaptcha_validations', array() );
 
-    if( !wp_doing_ajax() ){
+    if( isset( $saved[ $post_data['g-recaptcha-response'] ] ) && $saved[ $post_data['g-recaptcha-response'] ] == true ){
+        $already_validated = true;
 
-        $saved = get_option( 'pms_recaptcha_validations', array() );
-
-        if( isset( $saved[ $post_data['g-recaptcha-response'] ] ) && $saved[ $post_data['g-recaptcha-response'] ] == true ){
-            $already_validated = true;
-
+        if( !wp_doing_ajax() ){
             unset( $saved[ $post_data['g-recaptcha-response'] ] );
 
             update_option( 'pms_recaptcha_validations', $saved );
-
         }
 
     }

@@ -54,7 +54,8 @@ Class PMS_Shortcodes {
             'subscription_plans' => array(),
             'plans_position'     => 'bottom',
             'selected'           => '',
-            'exclude'           => array(),
+            'exclude'            => array(),
+            'block'              => '',
         ), $atts, 'pms-register' );
 
         /*
@@ -116,7 +117,7 @@ Class PMS_Shortcodes {
 
         }
 
-        if( is_user_logged_in() ) {
+        if( is_user_logged_in() && $atts['block'] === '' ) {
 
             $plans   = '';
             $exclude = '';
@@ -131,7 +132,7 @@ Class PMS_Shortcodes {
 
         } else {
 
-            if( !$users_can_register ) {
+            if( !$users_can_register && $atts['block'] !== 'true' ) {
                 echo '<p>' . esc_html__( 'Only an administrator can add new users.', 'paid-member-subscriptions' ) . '</p>';
             } else {
 
@@ -399,12 +400,13 @@ Class PMS_Shortcodes {
             'redirect_url'        => '',
             'register_url'        => '',
             'lostpassword_url'    => '',
-            'logout_redirect_url' => pms_get_current_page_url()
+            'logout_redirect_url' => pms_get_current_page_url(),
+            'block'               => ''
         ), $atts );
 
         $output = '';
 
-        if( !is_user_logged_in() ) {
+        if( !is_user_logged_in() || $atts['block'] === 'true' ) {
 
             // Set up arguments for
             $args = array( 'echo' => false, 'form_id' => 'pms_login' );
@@ -621,7 +623,8 @@ Class PMS_Shortcodes {
      */
     public static function recover_password_form( $atts ){
         $atts = shortcode_atts( array(
-            'redirect_url' => ''
+            'redirect_url' => '',
+            'block'        => ''
         ), $atts );
 
         // If entered username or email is valid, display a message to the user and email confirmation link
@@ -632,7 +635,7 @@ Class PMS_Shortcodes {
         ob_start();
 
         // Do not display the recover password form if user is logged in, display already logged in message
-        if ( is_user_logged_in() ) {
+        if ( is_user_logged_in() && $atts['block'] !== 'true' ) {
 
             $member = pms_get_member( get_current_user_id() );
             echo( wp_kses_post( apply_filters ('pms_recover_password_form_logged_in_message', '<p>' .  __( 'You are already logged in.', 'paid-member-subscriptions' ) . '</p>', $atts, $member) ) );

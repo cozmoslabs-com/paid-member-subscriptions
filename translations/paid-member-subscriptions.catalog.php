@@ -1372,6 +1372,12 @@
 <?php __("Synchronize Billing Details", "paid-member-subscriptions"); ?>
 <?php __("By checking this option the PMS Billing Details and WooCommerce Billing Details will be synchronized.", "paid-member-subscriptions"); ?>
 <?php __("You do not have permission to export data.", "paid-member-subscriptions"); ?>
+<?php __("Displays the Paid Member Subscriptions Account Form.", "paid-member-subscriptions"); ?>
+<?php __("Form", "paid-member-subscriptions"); ?>
+<?php __("PMS", "paid-member-subscriptions"); ?>
+<?php __("Displays the Paid Member Subscriptions Login Form.", "paid-member-subscriptions"); ?>
+<?php __("Displays the Paid Member Subscriptions Recover Password Form.", "paid-member-subscriptions"); ?>
+<?php __("Displays the Paid Member Subscriptions Registration Form.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Payments Summary", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plan Details", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Add-ons", "paid-member-subscriptions"); ?>

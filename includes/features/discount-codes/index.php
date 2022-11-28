@@ -157,11 +157,22 @@ function pms_in_dc_output_discount_box( $output, $include, $exclude_id_group, $m
     }
 
 
+    $discount_code_value = !empty( $_POST['discount_code'] ) ? sanitize_text_field( $_POST['discount_code'] ) : '';
+
+    if( !empty( $_GET['discount_code'] ) ){
+        
+        $discount_code = pms_in_get_discount_by_code( sanitize_text_field( $_GET['discount_code'] ) );
+
+        if( !empty( $discount_code->id ) )
+            $discount_code_value = $discount_code->code;
+
+    }
+
     // Return the discount code field only if we have paid plans
     if( $total_price !== 0 ) {
         $discount_output  = '<div id="pms-subscription-plans-discount">';
         $discount_output .= '<label for="pms_subscription_plans_discount">' . apply_filters('pms_form_label_discount_code', __('Discount Code: ', 'paid-member-subscriptions')) . '</label>';
-        $discount_output .= '<input id="pms_subscription_plans_discount_code" name="discount_code" placeholder="' . apply_filters( 'pms_form_input_placeholder_discount_code', __( 'Enter discount', 'paid-member-subscriptions' ) ) . '" type="text" value="' . ( !empty( $_POST['discount_code'] ) ? sanitize_text_field( $_POST['discount_code'] ) : '' ) . '" />';
+        $discount_output .= '<input id="pms_subscription_plans_discount_code" name="discount_code" placeholder="' . apply_filters( 'pms_form_input_placeholder_discount_code', __( 'Enter discount', 'paid-member-subscriptions' ) ) . '" type="text" value="' . esc_attr( $discount_code_value ) . '" />';
         $discount_output .= '<input id="pms-apply-discount" class="pms-submit button" type="submit" value="' . apply_filters( 'pms_form_submit_discount_code', __( 'Apply', 'paid-member-subscriptions' ) ) . '">';
         $discount_output .= '</span>';
         $discount_output .= '</div>';

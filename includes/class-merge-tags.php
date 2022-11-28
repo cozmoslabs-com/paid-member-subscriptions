@@ -211,15 +211,17 @@ Class PMS_Merge_Tags{
             // If the website is doing cron we don't want the price of the last payment
             if ( empty( $payments ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
 
-                $subscription = pms_get_member_subscription( $subscription_id );
+                if( !empty( $subscription_id ) ){
+                    $subscription = pms_get_member_subscription( $subscription_id );
 
-                if( !empty( $subscription ) && !empty( $subscription->subscription_plan_id ) ){
-                    $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+                    if( !empty( $subscription ) && !empty( $subscription->subscription_plan_id ) ){
+                        $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
 
-                    if ( !empty( $_POST['discount_code'] ) && !empty( $subscription_plan->price ) )
-                        $amount = pms_in_calculate_discounted_amount( $subscription_plan->price, pms_in_get_discount_by_code( sanitize_text_field( $_POST['discount_code'] ) ) );
-                    else
-                        $amount = $subscription_plan->price;
+                        if ( !empty( $_POST['discount_code'] ) && !empty( $subscription_plan->price ) )
+                            $amount = pms_in_calculate_discounted_amount( $subscription_plan->price, pms_in_get_discount_by_code( sanitize_text_field( $_POST['discount_code'] ) ) );
+                        else
+                            $amount = $subscription_plan->price;
+                    }
                 }
 
             } else
