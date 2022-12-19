@@ -263,7 +263,7 @@ function pms_save_woo_billing_as_pms( $user_id, $woo_form ) {
         'billing_company'    => 'pms_billing_company',
         'billing_address_1'  => array('pms_billing_address','billing_address'),
         'billing_city'       => 'pms_billing_city',
-        'billing_zip'        => 'pms_billing_postcode',
+        'billing_postcode'   => 'pms_billing_zip',
         'billing_country'    => 'pms_billing_country',
         'billing_state'      => 'pms_billing_state',
     );

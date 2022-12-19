@@ -826,6 +826,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'woocommerce_new_product_subscription':
                 $message = sprintf( __( 'Subscription initiated by WooCommerce [Order #%s]', 'paid-member-subscriptions' ), $log['data']['order_id'] );
                 break;
+            case 'subscription_trial_period_already_used':
+                $message = __( 'The <strong>Trial Period</strong> for this Subscription has already been used.', 'paid-member-subscriptions' );
+                break;
             default:
                 $message = __( 'Something went wrong.', 'paid-member-subscriptions' );
                 break;

@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.1
-Stable tag: 2.8.2
+Stable tag: 2.8.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -200,6 +200,16 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.8.3 =
+* Fix: Compatibility between reCaptcha feature and block only themes
+* Fix: Syncing of Postal Code between Paid Member Subscriptions and WooCommerce
+* Fix: Allow admin to clear the association of a subscription plan with a WooCommerce product
+* Fix: Cancel PayPal gateway subscription when a subscription is abandoned from the admin interface
+* Fix: Issue with the GDPR delete account functionality not working correctly
+* Misc: Add a mention in subscription logs when a free trial is not applied because the user already benefited from it
+* Misc: Save subscription ID for newly added plugin scheduled payments
+* Misc: Subscription List table to make use of the Match Date to WP Settings option if set
+
 = 2.8.2 =
 * Feature: Added Gutenberg Blocks for Register, Account, Login and Reset Password forms
 * Fix: issue with Redirect Default WordPress Pages bypass not working in some cases

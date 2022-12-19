@@ -74,7 +74,7 @@ add_action( 'woocommerce_product_data_panels', 'pms_woo_subscription_tab_content
 
 // Add Subscription options when saving Product information (Add New | Edit)
 function pms_woo_add_subscription_meta_to_product( $product_id ) {
-    if( isset( $_POST['pms_woo_subscription_id'] ) && !empty( $_POST['pms_woo_subscription_id'] ) && (int)$_POST['pms_woo_subscription_id'] > 0 ) {
+    if( isset( $_POST['pms_woo_subscription_id'] )  && (int)$_POST['pms_woo_subscription_id'] >= 0 ) {
         update_post_meta( $product_id, '_pms_woo_subscription_id', (int)$_POST['pms_woo_subscription_id'] );
     }
 }

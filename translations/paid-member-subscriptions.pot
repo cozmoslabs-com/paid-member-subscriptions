@@ -387,7 +387,7 @@ msgstr ""
 msgid "Please select a subscription plan."
 msgstr ""
 
-#: includes/class-form-handler.php:308, includes/admin/class-admin-members.php:830, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:102, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:320
+#: includes/class-form-handler.php:308, includes/admin/class-admin-members.php:833, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:113, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:320
 msgid "Something went wrong."
 msgstr ""
 
@@ -688,7 +688,7 @@ msgstr ""
 msgid "Something went wrong while trying to process the payment."
 msgstr ""
 
-#: includes/functions-content-filtering.php:335, add-ons-pro/stripe/includes/functions-filters.php:163
+#: includes/functions-content-filtering.php:335, add-ons-pro/stripe/includes/functions-filters.php:174
 msgid "Please try again."
 msgstr ""
 
@@ -2524,7 +2524,7 @@ msgstr ""
 msgid "Subscription Initial Payment"
 msgstr ""
 
-#: includes/functions-payment.php:394, add-ons-pro/stripe/includes/functions-filters.php:42
+#: includes/functions-payment.php:394, add-ons-pro/stripe/includes/functions-filters.php:53
 msgid "Subscription Recurring Payment"
 msgstr ""
 
@@ -3366,7 +3366,11 @@ msgstr ""
 msgid "Subscription initiated by WooCommerce [Order #%s]"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:898, includes/admin/class-admin-members.php:898, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:66, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:13, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
+#: includes/admin/class-admin-members.php:830
+msgid "The <strong>Trial Period</strong> for this Subscription has already been used."
+msgstr ""
+
+#: includes/admin/class-admin-members.php:901, includes/admin/class-admin-members.php:901, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:66, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:13, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
 msgid "Members"
 msgstr ""
 
@@ -4690,7 +4694,7 @@ msgstr ""
 msgid "Member removed successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:882, add-ons-pro/group-memberships/includes/class-group-memberships.php:910, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1489
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:882, add-ons-pro/group-memberships/includes/class-group-memberships.php:910, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1495
 msgid "Something went wrong, please try again."
 msgstr ""
 
@@ -4770,15 +4774,15 @@ msgstr ""
 msgid "%sClick here%s to go now."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1191, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:688, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:720
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1196, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:688, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:720
 msgid "No request response received."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1289, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:698, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:307
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1294, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:698, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:312
 msgid "The selected gateway is not configured correctly: <strong>PayPal Address is missing</strong>. Contact the system administrator."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1292, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:701
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1297, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:701
 msgid "The selected gateway is not configured correctly: <strong>PayPal API credentials are missing</strong>. Contact the system administrator."
 msgstr ""
 
@@ -4834,7 +4838,7 @@ msgstr ""
 msgid "Please enter a valid card expiration date."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:34, add-ons-pro/stripe/includes/functions-filters.php:17, add-ons-pro/stripe/includes/functions-filters.php:24
+#: add-ons-pro/paypal-express-pro/includes/functions.php:34, add-ons-pro/stripe/includes/functions-filters.php:23, add-ons-pro/stripe/includes/functions-filters.php:35
 msgid "Credit / Debit Card"
 msgstr ""
 
@@ -4898,23 +4902,23 @@ msgstr ""
 msgid "Attempting to charge user based on the <strong>PayPal Checkout</strong>."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:549, add-ons-pro/stripe/includes/functions-filters.php:155
+#: add-ons-pro/paypal-express-pro/includes/functions.php:549, add-ons-pro/stripe/includes/functions-filters.php:166
 msgid "The payment gateway is reporting the following error:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:596, add-ons-pro/stripe/includes/functions-filters.php:255
+#: add-ons-pro/paypal-express-pro/includes/functions.php:596, add-ons-pro/stripe/includes/functions-filters.php:266
 msgid "Payment Gateway Message"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:599, add-ons-pro/stripe/includes/functions-filters.php:258
+#: add-ons-pro/paypal-express-pro/includes/functions.php:599, add-ons-pro/stripe/includes/functions-filters.php:269
 msgid "Error code:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:604, add-ons-pro/stripe/includes/functions-filters.php:263
+#: add-ons-pro/paypal-express-pro/includes/functions.php:604, add-ons-pro/stripe/includes/functions-filters.php:274
 msgid "Message:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:609, add-ons-pro/stripe/includes/functions-filters.php:268
+#: add-ons-pro/paypal-express-pro/includes/functions.php:609, add-ons-pro/stripe/includes/functions-filters.php:279
 msgid "More info:"
 msgstr ""
 
@@ -4994,39 +4998,39 @@ msgstr ""
 msgid "Credit / Debit Card Information"
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:828
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:834
 msgid "Payment Intent created."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:831
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:837
 msgid "Attempting to confirm Payment Intent."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:834
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:840
 msgid "Payment Intent confirmed successfully."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:837
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:843
 msgid "3D Secure authentication required. An email with the confirmation link was sent to the user."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:840
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:846
 msgid "3D Secure authentication is successful."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:843
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:849
 msgid "3D Secure authentication has failed."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:846
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:852
 msgid "The user did not click on the confirmation link that was sent."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:849
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:855
 msgid "User returned to the website for authentication."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1498
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1504
 msgid "Payment method updated successfully."
 msgstr ""
 
@@ -5038,119 +5042,119 @@ msgstr ""
 msgid "Your Stripe API settings are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:41
+#: add-ons-pro/stripe/includes/functions-filters.php:52
 msgid "Card - One Time"
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:149
+#: add-ons-pro/stripe/includes/functions-filters.php:160
 msgid "Payment could not be processed."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:175
+#: add-ons-pro/stripe/includes/functions-filters.php:186
 msgid "Please %slog in%s and try again."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:210
+#: add-ons-pro/stripe/includes/functions-filters.php:221
 msgid "The card does not support this type of purchase."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:211
+#: add-ons-pro/stripe/includes/functions-filters.php:222
 msgid "The customer has exceeded the balance or credit limit available on their card."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:212
+#: add-ons-pro/stripe/includes/functions-filters.php:223
 msgid "The card does not support the specified currency."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:213
+#: add-ons-pro/stripe/includes/functions-filters.php:224
 msgid "A transaction with identical amount and credit card information was submitted very recently."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:214
+#: add-ons-pro/stripe/includes/functions-filters.php:225
 msgid "The card has expired."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:215
+#: add-ons-pro/stripe/includes/functions-filters.php:226
 msgid "The payment has been declined as Stripe suspects it is fraudulent."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:216, add-ons-pro/stripe/includes/functions-filters.php:217
+#: add-ons-pro/stripe/includes/functions-filters.php:227, add-ons-pro/stripe/includes/functions-filters.php:228
 msgid "The card has been declined for an unknown reason."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:218, add-ons-pro/stripe/includes/functions-filters.php:227
+#: add-ons-pro/stripe/includes/functions-filters.php:229, add-ons-pro/stripe/includes/functions-filters.php:238
 msgid "The card number is incorrect."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:219, add-ons-pro/stripe/includes/functions-filters.php:225
+#: add-ons-pro/stripe/includes/functions-filters.php:230, add-ons-pro/stripe/includes/functions-filters.php:236
 msgid "The CVC number is incorrect."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:220, add-ons-pro/stripe/includes/functions-filters.php:228
+#: add-ons-pro/stripe/includes/functions-filters.php:231, add-ons-pro/stripe/includes/functions-filters.php:239
 msgid "The PIN entered is incorrect"
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:221
+#: add-ons-pro/stripe/includes/functions-filters.php:232
 msgid "The ZIP/postal code is incorrect."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:222
+#: add-ons-pro/stripe/includes/functions-filters.php:233
 msgid "The card has insufficient funds to complete the purchase."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:223
+#: add-ons-pro/stripe/includes/functions-filters.php:234
 msgid "The card, or account the card is connected to, is invalid."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:224
+#: add-ons-pro/stripe/includes/functions-filters.php:235
 msgid "The payment amount is invalid, or exceeds the amount that is allowed."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:226
+#: add-ons-pro/stripe/includes/functions-filters.php:237
 msgid "The expiration year invalid."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:229
+#: add-ons-pro/stripe/includes/functions-filters.php:240
 msgid "The card issuer could not be reached, so the payment could not be authorized."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:230
+#: add-ons-pro/stripe/includes/functions-filters.php:241
 msgid "The payment has been declined because the card is reported lost."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:231
+#: add-ons-pro/stripe/includes/functions-filters.php:242
 msgid "The payment has been declined because it matches a value on the Stripe user's blocklist."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:232
+#: add-ons-pro/stripe/includes/functions-filters.php:243
 msgid "The payment is not permitted."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:233
+#: add-ons-pro/stripe/includes/functions-filters.php:244
 msgid "An error occurred while processing the card."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:234
+#: add-ons-pro/stripe/includes/functions-filters.php:245
 msgid "The payment could not be processed by the issuer for an unknown reason."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:235
+#: add-ons-pro/stripe/includes/functions-filters.php:246
 msgid "The card cannot be used to make this payment (it is possible it has been reported lost or stolen)."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:236
+#: add-ons-pro/stripe/includes/functions-filters.php:247
 msgid "The payment has been declined because the card is reported stolen."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:237
+#: add-ons-pro/stripe/includes/functions-filters.php:248
 msgid "A Stripe test card number was used."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:238
+#: add-ons-pro/stripe/includes/functions-filters.php:249
 msgid "The customer has exceeded the balance or credit limit available on their card. "
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:319
+#: add-ons-pro/stripe/includes/functions-filters.php:330
 msgid "Payment authenticated successfully."
 msgstr ""
 

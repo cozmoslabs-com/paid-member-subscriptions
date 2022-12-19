@@ -576,12 +576,12 @@ class PMS_Plugin_Updater {
             $license_details = array();
 
             // data to send in our API request
-            $api_params = array(
+            $api_params = apply_filters( 'pms_update_check_licence_api_params', array(
                 'edd_action' => 'activate_license',                  //as the license is already activated this does not do anything. We could use check_license action but it gives different results  so we can't use it consistently with the result we get from the moment we activate it
                 'license'    => $license,
                 'item_name'  => urlencode( $this->get_edd_product_name() ), // the name of our product in EDD
                 'url'        => home_url()
-            );
+            ) );
 
             // Call the custom API.
             $response = wp_remote_post( $this->store_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );

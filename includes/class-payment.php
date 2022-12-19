@@ -237,6 +237,14 @@ Class PMS_Payment {
         if( empty( $data['user_id'] ) || empty( $data['subscription_plan_id'] ) )
             return false;
 
+        // This is stored in payment_meta so we cache it and save it after the payment has been inserted if present
+        // Usually, code will save it separately, but it can be refactored to use this option
+        if( !empty( $data['member_subscription_id'] ) ){
+            $member_subscription_id = $data['member_subscription_id'];
+
+            // it gets removed here manually because it's part of the object properties and it won't be removed below
+            unset( $data['member_subscription_id'] );
+        }
 
         // Eliminate all values that are not a part of the object
         $object_vars = array_keys( get_object_vars( $this ) );
@@ -263,6 +271,9 @@ Class PMS_Payment {
             $this->id = $wpdb->insert_id;
             $this->set_instance( $data );
 
+            // Set Member Subscription ID if present
+            if( isset( $member_subscription_id ) )
+                pms_update_payment_meta( $this->id, 'subscription_id', $member_subscription_id );
 
             /**
              * Fires right after the Payment db entry was inserted

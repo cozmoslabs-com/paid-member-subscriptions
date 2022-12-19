@@ -202,7 +202,7 @@ function pms_gdpr_delete_user() {
     $gdpr_settings = pms_get_gdpr_settings();
     if( !empty( $gdpr_settings ) ) {
         if (!empty($gdpr_settings['gdpr_delete']) && $gdpr_settings['gdpr_delete'] === 'enabled') {
-            if (isset($_REQUEST['pms_action']) && $_REQUEST['pms_action'] === 'pms_delete_user' && isset( $_REQUEST['pms_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_REQUEST['pms_nonce'] ), 'pms-user-own-account-deletion') && isset($_REQUEST['pms_user']) && get_current_user_id() === $_REQUEST['pms_user']) {
+            if (isset($_REQUEST['pms_action']) && $_REQUEST['pms_action'] === 'pms_delete_user' && isset( $_REQUEST['pms_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_REQUEST['pms_nonce'] ), 'pms-user-own-account-deletion') && isset($_REQUEST['pms_user']) && get_current_user_id() == $_REQUEST['pms_user']) {
                 require_once(ABSPATH . 'wp-admin/includes/user.php');
                 $user = new WP_User(absint( $_REQUEST['pms_user'] ));
 

@@ -492,14 +492,15 @@ function pms_cron_process_member_subscriptions_payments() {
             // Payment data
             $payment_data = apply_filters( 'pms_cron_process_member_subscriptions_payment_data' ,
                 array(
-                    'user_id'              => $subscription->user_id,
-                    'subscription_plan_id' => $subscription->subscription_plan_id,
-                    'date'                 => date( 'Y-m-d H:i:s' ),
-                    'amount'               => ( isset( $payment_gateway->payment_gateway ) && $payment_gateway->payment_gateway == 'manual' && ( $subscription->billing_amount == 0 || $subscription_plan->has_sign_up_fee() ) ) ? $subscription_plan->price : $subscription->billing_amount,
-                    'payment_gateway'      => $subscription->payment_gateway,
-                    'currency'             => pms_get_active_currency(),
-                    'status'               => 'pending',
-                    'type'                 => 'subscription_recurring_payment'
+                    'user_id'                => $subscription->user_id,
+                    'subscription_plan_id'   => $subscription->subscription_plan_id,
+                    'date'                   => date( 'Y-m-d H:i:s' ),
+                    'amount'                 => ( isset( $payment_gateway->payment_gateway ) && $payment_gateway->payment_gateway == 'manual' && ( $subscription->billing_amount == 0 || $subscription_plan->has_sign_up_fee() ) ) ? $subscription_plan->price : $subscription->billing_amount,
+                    'payment_gateway'        => $subscription->payment_gateway,
+                    'currency'               => pms_get_active_currency(),
+                    'status'                 => 'pending',
+                    'type'                   => 'subscription_recurring_payment',
+                    'member_subscription_id' => $subscription->id
                 ),
                 $subscription
             );

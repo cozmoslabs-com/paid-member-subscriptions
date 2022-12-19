@@ -78,7 +78,7 @@ if( !is_plugin_active( 'pms-add-on-recaptcha/index.php' ) ){
 
             global $pms_print_scripts_recaptcha;
 
-            if( $pms_print_scripts_recaptcha )
+            if( $pms_print_scripts_recaptcha || pms_should_load_scripts() )
                 wp_print_scripts( array( 'pms-recaptcha', 'google-recaptcha-api' ) );
 
         }

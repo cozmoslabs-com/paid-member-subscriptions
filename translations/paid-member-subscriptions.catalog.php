@@ -837,6 +837,7 @@
 <?php __("<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s].", "paid-member-subscriptions"); ?>
 <?php __("Next <strong>Scheduled Payment date</strong> updated to <strong>%s</strong> by the recurring payment process", "paid-member-subscriptions"); ?>
 <?php __("Subscription initiated by WooCommerce [Order #%s]", "paid-member-subscriptions"); ?>
+<?php __("The <strong>Trial Period</strong> for this Subscription has already been used.", "paid-member-subscriptions"); ?>
 <?php __("Members", "paid-member-subscriptions"); ?>
 <?php __("Delete Payments", "paid-member-subscriptions"); ?>
 <?php __("ID", "paid-member-subscriptions"); ?>
