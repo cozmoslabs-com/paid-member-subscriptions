@@ -1,0 +1,37 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "pms/login",
+    "title": "PMS Login",
+    "category": "pms-block",
+    "description": "Displays the Paid Member Subscriptions Login Form.",
+    "keywords": [ "Login", "PMS", "Form", "Paid Member Subscriptions" ],
+    "textdomain": "paid-member-subscriptions",
+    "attributes": {
+        "redirect_url": {
+            "type": "string",
+            "default": ""
+        },
+        "logout_redirect_url": {
+            "type": "string",
+            "default": ""
+        },
+        "is_preview": {
+            "type": "boolean",
+            "default": false
+        },
+        "is_editor": {
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "example": {
+        "attributes": {
+            "redirect_url": "",
+            "logout_redirect_url": "",
+            "is_preview": true,
+            "is_editor": true
+        }
+    },
+    "editorScript": "pms-block-login"
+}

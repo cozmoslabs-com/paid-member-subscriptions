@@ -17,46 +17,8 @@ add_action(
             true
         );
         register_block_type(
-            'pms/login',
+            __DIR__,
             [
-                'api_version'                 => 2,
-                'title'                       => __( 'PMS Login' , 'paid-member-subscriptions' ),
-                'description'                 => __( 'Displays the Paid Member Subscriptions Login Form.' , 'paid-member-subscriptions' ),
-                'category'                    => 'pms-block',
-                'keywords'                    => [
-                    __( 'Login' , 'paid-member-subscriptions' ),
-                    __( 'Form' , 'paid-member-subscriptions' ),
-                    __( 'PMS' , 'paid-member-subscriptions' ),
-                    __( 'Paid Member Subscriptions' , 'paid-member-subscriptions' ),
-                ],
-                'example'                     => [
-                    'attributes'              => [
-                        'redirect_url'        => '',
-                        'logout_redirect_url' => '',
-                        'is_preview'          => true,
-                        'is_editor'           => true,
-                    ],
-                ],
-                'editor_script'               => 'pms-block-login',
-                'attributes'                  => [
-                    'redirect_url'            => [
-                        'type'                => 'string',
-                        'default'             => '',
-                    ],
-                    'logout_redirect_url'     => [
-                        'type'                => 'string',
-                        'default'             => '',
-                    ],
-                    'is_preview'              => [
-                        'type'                => 'boolean',
-                        'default'             => false,
-                    ],
-                    'is_editor'               => [
-                        'type'                => 'boolean',
-                        'default'             => false,
-                    ],
-                ],
-
                 'render_callback' => function( $attributes, $content ) {
                     ob_start();
                     do_action( 'pms/login/render_callback', $attributes, $content );

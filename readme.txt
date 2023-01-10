@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.1
-Stable tag: 2.8.3
+Stable tag: 2.8.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -200,6 +200,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.8.4 =
+* Fix: issue with bypass default login page redirect
+* Fix: issue with Upgrade button not appearing in some scenarios
+* Misc: small improvements to basic info page
+* Misc: added new action that is triggered when a subscription is upgraded, downgraded or changed through the manual payment gateway: pms_manual_subscription_change_plan
+* Misc: small changes and fixes regarding blocks
+
 = 2.8.3 =
 * Fix: Compatibility between reCaptcha feature and block only themes
 * Fix: Syncing of Postal Code between Paid Member Subscriptions and WooCommerce

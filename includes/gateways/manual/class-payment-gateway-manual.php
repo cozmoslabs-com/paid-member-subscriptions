@@ -296,10 +296,10 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
             
             // reset custom schedule
             if( $old_subscription->payment_gateway != 'manual' ){
-                $subscription_data['billing_amount'] = '';
-                $subscription_data['billing_duration'] = '';
+                $subscription_data['billing_amount']        = '';
+                $subscription_data['billing_duration']      = '';
                 $subscription_data['billing_duration_unit'] = '';
-                $subscription_data['billing_next_payment'] = '';
+                $subscription_data['billing_next_payment']  = '';
             }
 
             $old_subscription->update( $subscription_data );
@@ -307,6 +307,11 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
             $context = pms_get_change_subscription_plan_context( $old_plan_id, $subscription_plan->id );
 
             pms_add_member_subscription_log( $old_subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $old_plan_id, 'new_plan' => $subscription_plan->id ) );
+
+            /**
+             * This is triggered after a subscription was Upgraded, Downgraded or Changed
+             */
+            do_action( 'pms_manual_subscription_change_plan', $old_subscription, $subscription_plan, $payment_id, $context );
 
         }
 

@@ -17,41 +17,8 @@ add_action(
             true
         );
         register_block_type(
-            'pms/recover-password',
+            __DIR__,
             [
-                'api_version'             => 2,
-                'title'                   => __( 'PMS Recover Password' , 'paid-member-subscriptions' ),
-                'description'             => __( 'Displays the Paid Member Subscriptions Recover Password Form.' , 'paid-member-subscriptions' ),
-                'category'                => 'pms-block',
-                'keywords'                => [
-                    __( 'Recover Password' , 'paid-member-subscriptions' ),
-                    __( 'Form' , 'paid-member-subscriptions' ),
-                    __( 'PMS' , 'paid-member-subscriptions' ),
-                    __( 'Paid Member Subscriptions' , 'paid-member-subscriptions' ),
-                ],
-                'example'                 => [
-                    'attributes'          => [
-                        'redirect_url'    => '',
-                        'is_preview'      => true,
-                        'is_editor'       => true,
-                    ],
-                ],
-                'editor_script'           => 'pms-block-recover-password',
-                'attributes'              => [
-                    'redirect_url'        => [
-                        'type'            => 'string',
-                        'default'         => '',
-                    ],
-                    'is_preview'          => [
-                        'type'            => 'boolean',
-                        'default'         => false,
-                    ],
-                    'is_editor'           => [
-                        'type'            => 'boolean',
-                        'default'         => false,
-                    ],
-                ],
-
                 'render_callback' => function( $attributes, $content ) {
                     ob_start();
                     do_action( 'pms/recover-password/render_callback', $attributes, $content );

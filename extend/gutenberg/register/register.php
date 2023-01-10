@@ -17,66 +17,8 @@ add_action(
             true
         );
         register_block_type(
-            'pms/register',
+            __DIR__,
             [
-                'api_version'                      => 2,
-                'title'                            => __( 'PMS Register' , 'paid-member-subscriptions' ),
-                'description'                      => __( 'Displays the Paid Member Subscriptions Registration Form.' , 'paid-member-subscriptions' ),
-                'category'                         => 'pms-block',
-                'keywords'                         => [
-                    __( 'Register' , 'paid-member-subscriptions' ),
-                    __( 'Form' , 'paid-member-subscriptions' ),
-                    __( 'PMS' , 'paid-member-subscriptions' ),
-                    __( 'Paid Member Subscriptions' , 'paid-member-subscriptions' ),
-                ],
-                'example'                          => [
-                    'attributes'                   => [
-                        'include'                  => true,
-                        'show_subscription_plans'  => true,
-                        'subscription_plans'       => [],
-                        'exclude_subscription_plans'=> [],
-                        'selected'                 => '',
-                        'plans_position'           => false,
-                        'is_preview'               => true,
-                        'is_editor'                => true,
-                    ],
-                ],
-                'editor_script'                    => 'pms-block-register',
-                'attributes'                       => [
-                    'show_subscription_plans'      => [
-                        'type'                     => 'boolean',
-                        'default'                  => true,
-                    ],
-                    'include'                      => [
-                        'type'                     => 'boolean',
-                        'default'                  => true,
-                    ],
-                    'subscription_plans'           => [
-                        'type'                     => 'array',
-                        'default'                  => [],
-                    ],
-                    'exclude_subscription_plans'   => [
-                        'type'                     => 'array',
-                        'default'                  => [],
-                    ],
-                    'selected'                     => [
-                        'type'                     => 'string',
-                        'default'                  => '',
-                    ],
-                    'plans_position'               => [
-                        'type'                     => 'boolean',
-                        'default'                  => false,
-                    ],
-                    'is_preview'                   => [
-                        'type'                     => 'boolean',
-                        'default'                  => false,
-                    ],
-                    'is_editor'                    => [
-                        'type'                     => 'boolean',
-                        'default'                  => false,
-                    ],
-                ],
-
                 'render_callback' => function( $attributes, $content ) {
                     ob_start();
                     do_action( 'pms/register/render_callback', $attributes, $content );

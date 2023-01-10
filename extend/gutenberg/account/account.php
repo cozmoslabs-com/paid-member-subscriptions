@@ -17,42 +17,8 @@ add_action(
             true
         );
         register_block_type(
-            'pms/account',
+            __DIR__,
             [
-                'api_version'              => 2,
-                'title'                    => __( 'PMS Account' , 'paid-member-subscriptions' ),
-                'description'              => __( 'Displays the Paid Member Subscriptions Account Form.' , 'paid-member-subscriptions' ),
-                'category'                 => 'pms-block',
-                'keywords'                 => [
-                    __( 'Account' , 'paid-member-subscriptions' ),
-                    __( 'Form' , 'paid-member-subscriptions' ),
-                    __( 'PMS' , 'paid-member-subscriptions' ),
-                    __( 'Paid Member Subscriptions' , 'paid-member-subscriptions' ),
-                ],
-                'example'                  => [
-                    'attributes'           => [
-                        'logout_redirect_url' => '',
-                        'hide_tabs'           => false,
-                        'is_preview'          => true,
-                    ],
-                ],
-                'editor_script'            => 'pms-block-account',
-                'attributes'               => [
-                    'logout_redirect_url'  => [
-                        'type'             => 'string',
-                        'default'          => '',
-
-                    ],
-                    'hide_tabs'            => [
-                        'type'             => 'boolean',
-                        'default'          => false,
-                    ],
-                    'is_preview'           => [
-                        'type'             => 'boolean',
-                        'default'          => false,
-                    ],
-                ],
-
                 'render_callback' => function( $attributes, $content ) {
                     ob_start();
                     do_action( 'pms/account/render_callback', $attributes, $content );

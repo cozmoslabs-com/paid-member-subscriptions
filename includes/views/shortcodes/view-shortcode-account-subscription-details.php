@@ -146,9 +146,9 @@ foreach( $subscriptions as $subscription ) :
                                 $display_action = true;
                             else if( ( !isset( $payments_settings['allow-change'] ) && isset( $payments_settings['allow-downgrades'] ) ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
                                 $display_action = true;
-                            else if( isset( $payments_settings['allow-change'] ) && !empty( $plans ) )
+                            else if( isset( $payments_settings['allow-change'] ) && ( !empty( $plans ) || !empty( $plan_upgrades ) ) )
                                 $display_action = true;
-                            else if( isset( $payments_settings['allow-downgrades'] ) && !empty( $plan_downgrades ) )
+                            else if( isset( $payments_settings['allow-downgrades'] ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
                                 $display_action = true;
 
                             if( $display_action === true )

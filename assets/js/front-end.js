@@ -132,12 +132,12 @@ jQuery( function($) {
             if( $pms_checked_paygate.data('type') == 'credit_card' ) {
 
                 $('.pms-credit-card-information').show()
-                $('.pms-billing-details').show()
+                // $('.pms-billing-details').show()
 
             } else {
 
                 $('.pms-credit-card-information').hide()
-                $('.pms-billing-details').hide()
+                // $('.pms-billing-details').hide()
 
             }
 
@@ -166,6 +166,10 @@ jQuery( function($) {
             handle_billing_fields_display()
 
         })
+
+        /** Billing fields PWYW compatibility */
+        $(document).on('change', '.pms_pwyw_pricing', handle_billing_fields_display )
+        $(document).on('keyup', '.pms_pwyw_pricing', handle_billing_fields_display )
 
         /**
          * Handle the auto renew checkbox field display in the page

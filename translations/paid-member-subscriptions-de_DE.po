@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Paid Member Subscriptions\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-03-31 11:02+0000\n"
+"PO-Revision-Date: 2023-01-10 08:37+0200\n"
 "Last-Translator: Roger Perren <info@blueforce.ch>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Loco https://localise.biz/\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: paid-member-subscriptions.pot\n"
 
@@ -126,11 +126,11 @@ msgstr ""
 #: translations/paid-member-subscriptions.catalog.php:1144
 #: includes/admin/class-admin-members.php:719
 msgid ""
-"%s changed <strong>%s</strong> from <strong>%s</strong> to <strong>"
-"%s</strong>."
+"%s changed <strong>%s</strong> from <strong>%s</strong> to <strong>%s</"
+"strong>."
 msgstr ""
-"%s hat <strong>%s</strong> von <strong>%s</strong> in <strong>%s</strong>"
-"geändert."
+"%s hat <strong>%s</strong> von <strong>%s</strong> in <strong>%s</"
+"strong>geändert."
 
 #: translations/paid-member-subscriptions.catalog.php:1143
 #: includes/admin/class-admin-members.php:721
@@ -506,21 +506,22 @@ msgstr ""
 #| msgid ""
 #| "<p>Hello {{display_name}},</p> <p>Payment Authentication is required in "
 #| "order to confirm the payment of <strong>{{payment_amount}}</strong> for "
-#| "the <strong>{{subscription_name}}</strong> subscription on <strong>"
-#| "{{site_name}}</strong>.</p> <p>Click on the following link in order to "
-#| "authenticate the payment: {{stripe_auth_link}}</p>"
+#| "the <strong>{{subscription_name}}</strong> subscription on "
+#| "<strong>{{site_name}}</strong>.</p> <p>Click on the following link in "
+#| "order to authenticate the payment: {{stripe_auth_link}}</p>"
 msgid ""
 "<p>Hello {{display_name}},</p> <p>Payment Authentication is required in "
 "order to confirm the payment of <strong>{{subscription_price}}</strong> for "
-"the <strong>{{subscription_name}}</strong> subscription on <strong>"
-"{{site_name}}</strong>.</p> <p>Click on the following link in order to "
-"authenticate the payment: {{stripe_auth_link}}</p>"
+"the <strong>{{subscription_name}}</strong> subscription on "
+"<strong>{{site_name}}</strong>.</p> <p>Click on the following link in order "
+"to authenticate the payment: {{stripe_auth_link}}</p>"
 msgstr ""
 "<p>Hallo {{display_name}},</p><p>Die Zahlungsauthentifizierung ist "
 "erforderlich, um die Zahlung von <strong>{{payment_amount}}</strong> für das "
-"Abo von <strong>{{subscription_name}}</strong> auf der Seite bei<strong>"
-"{{site_name}}</strong>zu bestätigen.</p><p>Bitte auf den folgenden Link "
-"klicken, um die Zahlung zu authentifizieren: {{stripe_auth_link}}</p>"
+"Abo von <strong>{{subscription_name}}</strong> auf der Seite "
+"bei<strong>{{site_name}}</strong>zu bestätigen.</p><p>Bitte auf den "
+"folgenden Link klicken, um die Zahlung zu authentifizieren: "
+"{{stripe_auth_link}}</p>"
 
 #: translations/paid-member-subscriptions.catalog.php:837
 msgid ""
@@ -533,8 +534,8 @@ msgstr ""
 
 #: translations/paid-member-subscriptions.catalog.php:1374
 msgid ""
-"<strong>Enable taxes and tax calculations on all subscription plan purchases."
-" </strong>"
+"<strong>Enable taxes and tax calculations on all subscription plan "
+"purchases. </strong>"
 msgstr ""
 "<strong>Aktiviere Steuern und Steuerberechnungen für alle Abo Käufe.</strong>"
 
@@ -656,8 +657,8 @@ msgstr ""
 #: translations/paid-member-subscriptions.catalog.php:1514
 #: includes/admin/views/view-page-basic-info.php:256
 msgid ""
-"Accept one time or recurring payments through PayPal Pro (credit card) "
-"and/or Express Checkout."
+"Accept one time or recurring payments through PayPal Pro (credit card) and/"
+"or Express Checkout."
 msgstr ""
 "Einmalige oder wiederholte Zahlungen über PayPal Pro (Kreditkarte) und/oder "
 "Express Check-Out akzeptieren."
@@ -935,7 +936,6 @@ msgid "Add-On is Active"
 msgstr "Add-On ist aktiv"
 
 #: translations/paid-member-subscriptions.catalog.php:1074
-#: includes/admin/class-admin-addons.php:226
 #: includes/admin/class-admin-addons.php:226
 msgid "Add-ons"
 msgstr "Add-Ons"
@@ -1500,7 +1500,7 @@ msgid ""
 "Are you sure you want to abandon your %s subscription? This subscription "
 "will be removed completely from your account."
 msgstr ""
-"Bist du sicher, dass du dein %s künden möchtest? Dieses Abo wird komplett "
+"Bist du sicher, dass du dein %s kündigen möchtest? Dieses Abo wird komplett "
 "aus dem Konto gelöscht."
 
 #: translations/paid-member-subscriptions.catalog.php:295
@@ -1647,8 +1647,8 @@ msgstr ""
 msgid ""
 "Attempting to charge user based on the <strong>PayPal Checkout</strong>."
 msgstr ""
-"Es wird versucht, den Benutzer basierend auf dem <strong>PayPal-"
-"Checkout</strong>zu belasten."
+"Es wird versucht, den Benutzer basierend auf dem <strong>PayPal-Checkout</"
+"strong>zu belasten."
 
 #: translations/paid-member-subscriptions.catalog.php:942
 msgid "Attempting to confirm Payment Intent."
@@ -1906,7 +1906,6 @@ msgid "Basic Add-ons"
 msgstr "Basis Add-Ons"
 
 #: translations/paid-member-subscriptions.catalog.php:1075
-#: includes/admin/class-admin-basic-info.php:44
 #: includes/admin/class-admin-basic-info.php:44
 msgid "Basic Information"
 msgstr "Allgemeine Informationen"
@@ -2450,8 +2449,8 @@ msgid ""
 "Details</a>"
 msgstr ""
 "Wenn du diese Option aktivierst, kannst du Mitglieder-Abonnements mit Test-"
-"Accounts deines Zahlungsanbieters (Payment Gateways) verwenden. <a href=“%s“>"
-"Weitere Infos</a>"
+"Accounts deines Zahlungsanbieters (Payment Gateways) verwenden. <a "
+"href=“%s“>Weitere Infos</a>"
 
 #: translations/paid-member-subscriptions.catalog.php:1692
 #: includes/admin/views/view-page-settings-payments.php:130
@@ -2468,8 +2467,8 @@ msgid ""
 "users except Administrators."
 msgstr ""
 "Wenn du diese Option aktivierst, kannst du Mitglieder-Abonnements mit Test-"
-"Accounts deines Zahlungsanbieters (Payment Gateways) verwenden. <a href=“%s“>"
-"Weitere Infos</a>."
+"Accounts deines Zahlungsanbieters (Payment Gateways) verwenden. <a "
+"href=“%s“>Weitere Infos</a>."
 
 #: translations/paid-member-subscriptions.catalog.php:1319
 msgid ""
@@ -3359,8 +3358,8 @@ msgstr ""
 msgid ""
 "Couldn't receive checkout details from PayPal. <strong>Error %s</strong>: %s"
 msgstr ""
-"Kaufdetails von PayPal konnten nicht empfangen werden. <strong>Fehler "
-"%s</strong>: %s"
+"Kaufdetails von PayPal konnten nicht empfangen werden. <strong>Fehler %s</"
+"strong>: %s"
 
 #: translations/paid-member-subscriptions.catalog.php:1389
 msgid "Country"
@@ -4464,9 +4463,9 @@ msgid ""
 "( Company Name, Address, Country, etc.) <br/> <strong>Note: Company details "
 "are required to create invoices.</strong>"
 msgstr ""
-"Gib die Firmendaten so ein, wie sie auf der Rechnung angezeigt werden sollen."
-" (Firmenname, Adresse, Land usw.)<br/> <strong>Hinweis: Zum Erstellen von "
-"Rechnungen sind Firmendaten erforderlich.</strong>"
+"Gib die Firmendaten so ein, wie sie auf der Rechnung angezeigt werden "
+"sollen. (Firmenname, Adresse, Land usw.)<br/> <strong>Hinweis: Zum Erstellen "
+"von Rechnungen sind Firmendaten erforderlich.</strong>"
 
 #: translations/paid-member-subscriptions.catalog.php:1715
 #: includes/gateways/paypal_standard/functions-paypal-standard.php:24
@@ -4623,7 +4622,6 @@ msgstr "Export"
 
 #: translations/paid-member-subscriptions.catalog.php:1081
 #: includes/admin/class-admin-export.php:178
-#: includes/admin/class-admin-export.php:178
 msgid "Export Data"
 msgstr "Ablaufdatum"
 
@@ -4779,8 +4777,8 @@ msgid ""
 "For invoice title and format you can use the following tags: <code>{{number}}"
 "</code>, <code>{{MM}}</code>, <code>{{YYYY}}</code>"
 msgstr ""
-"Für Rechnungstitel und -format kannst du folgende Tags verwenden: <code>"
-"{{number}}</code>, <code>{{MM}}</code>, <code>{{YYYY}}</code>"
+"Für Rechnungstitel und -format kannst du folgende Tags verwenden: "
+"<code>{{number}}</code>, <code>{{MM}}</code>, <code>{{YYYY}}</code>"
 
 #: translations/paid-member-subscriptions.catalog.php:1812
 #: includes/admin/views/setup-wizard/view-tab-payments.php:39
@@ -5525,8 +5523,8 @@ msgstr ""
 #: includes/views/shortcodes/view-shortcode-register-form.php:118
 #: includes/admin/views/view-page-settings-misc.php:29
 msgid ""
-"I allow the website to collect and store the data I submit through this form."
-" *"
+"I allow the website to collect and store the data I submit through this "
+"form. *"
 msgstr ""
 "Ich erlaube der Website, die Daten, die ich über dieses Formular absende, zu "
 "sammeln und zu speichern. *"
@@ -5706,8 +5704,8 @@ msgstr ""
 #: translations/paid-member-subscriptions.catalog.php:719
 #: includes/functions-core.php:1138
 msgid ""
-"In order to restore it, you need to put the plugin into <strong>Test "
-"Mode</strong>."
+"In order to restore it, you need to put the plugin into <strong>Test Mode</"
+"strong>."
 msgstr ""
 
 #: translations/paid-member-subscriptions.catalog.php:17
@@ -6173,8 +6171,8 @@ msgstr ""
 
 #: i18n/states/TH.php:24
 msgid ""
-"Kanchanaburi (&#3585;&#3634;&#3597;&#3592;&#3609;&#3610;&#3640;&#3619;&#3637;"
-")"
+"Kanchanaburi (&#3585;&#3634;&#3597;&#3592;&#3609;&#3610;&#3640;&#3619;"
+"&#3637;)"
 msgstr ""
 
 #: i18n/states/NP.php:110
@@ -7243,7 +7241,6 @@ msgstr "Das Mitgliedsabo wurde erfolgreich aktualisiert."
 
 #: translations/paid-member-subscriptions.catalog.php:802
 #: includes/admin/class-admin-members.php:817
-#: includes/admin/class-admin-members.php:817
 #: includes/admin/views/view-page-basic-info.php:66
 msgid "Members"
 msgstr "Mitglieder"
@@ -7664,8 +7661,8 @@ msgstr ""
 
 #: i18n/states/TH.php:38
 msgid ""
-"Nakhon Sawan (&#3609;&#3588;&#3619;&#3626;&#3623;&#3619;&#3619;&#3588;&#3660;"
-")"
+"Nakhon Sawan (&#3609;&#3588;&#3619;&#3626;&#3623;&#3619;&#3619;&#3588;"
+"&#3660;)"
 msgstr ""
 
 #: i18n/states/TH.php:39
@@ -8259,8 +8256,8 @@ msgid ""
 "Offer product discounts to members based on their active subscription. Set "
 "discounts globally per subscription plan, or individually per product."
 msgstr ""
-"Biete den Mitgliedern Produktrabatte auf der Grundlage ihres aktiven Abos an."
-" Lege Rabatte global pro Aboplan oder individuell pro Produkt fest."
+"Biete den Mitgliedern Produktrabatte auf der Grundlage ihres aktiven Abos "
+"an. Lege Rabatte global pro Aboplan oder individuell pro Produkt fest."
 
 #: translations/paid-member-subscriptions.catalog.php:1813
 #: includes/admin/views/setup-wizard/view-tab-payments.php:51
@@ -8767,7 +8764,6 @@ msgstr "Zahlung aktualisiert."
 #: translations/paid-member-subscriptions.catalog.php:239
 #: includes/class-shortcodes.php:247
 #: includes/admin/class-admin-setup-wizard.php:43
-#: includes/admin/class-admin-payments.php:426
 #: includes/admin/class-admin-payments.php:426
 #: includes/admin/class-admin-settings.php:192
 #: includes/admin/views/view-page-basic-info.php:74
@@ -9807,8 +9803,8 @@ msgstr "Entferne diese Regel"
 #: translations/paid-member-subscriptions.catalog.php:1701
 #: includes/admin/views/view-page-uninstall.php:24
 msgid ""
-"Removes all custom options, used by Paid Member Subscriptions, from the <em>"
-"options</em> table of the database."
+"Removes all custom options, used by Paid Member Subscriptions, from the "
+"<em>options</em> table of the database."
 msgstr ""
 "Entfernt alle benutzerdefinierten Optionen, die von PMS verwendet werden, "
 "aus der Tabelle \"<em>-</em>\" der Datenbank."
@@ -9873,7 +9869,6 @@ msgstr ""
 "Elementor Templates in PMS -> Einstellungen -> Content Einschränkung."
 
 #: translations/paid-member-subscriptions.catalog.php:1182
-#: includes/admin/class-admin-reports.php:293
 #: includes/admin/class-admin-reports.php:293
 #: includes/admin/views/view-page-export.php:16
 #: includes/admin/views/view-page-reports.php:16
@@ -10265,8 +10260,8 @@ msgstr ""
 
 #: i18n/states/TH.php:65
 msgid ""
-"Samut Sakhon (&#3626;&#3617;&#3640;&#3607;&#3619;&#3626;&#3634;&#3588;&#3619;"
-")"
+"Samut Sakhon (&#3626;&#3617;&#3640;&#3607;&#3619;&#3626;&#3634;&#3588;"
+"&#3619;)"
 msgstr ""
 
 #: i18n/states/TH.php:66
@@ -10558,8 +10553,8 @@ msgid ""
 "Select the page containing the <strong>[pms-recover-password]</strong> "
 "shortcode."
 msgstr ""
-"Wähle die Seite aus, die den Kurzcode <strong>[pms-recover-password]</strong>"
-" enthält."
+"Wähle die Seite aus, die den Kurzcode <strong>[pms-recover-password]</"
+"strong> enthält."
 
 #: translations/paid-member-subscriptions.catalog.php:1645
 #: includes/admin/views/view-page-settings-general.php:110
@@ -10607,8 +10602,8 @@ msgid ""
 "Select the username you wish to assign this payment to. You can create a new "
 "user <a href=\"%s\">here</a>."
 msgstr ""
-"Wähle den Benutzernamen, dem du ein Abo zuordnen möchtest. <a href=\"%s\">"
-"Hier</a> kannst du einen neuen Benutzer erstellen."
+"Wähle den Benutzernamen, dem du ein Abo zuordnen möchtest. <a "
+"href=\"%s\">Hier</a> kannst du einen neuen Benutzer erstellen."
 
 #: translations/paid-member-subscriptions.catalog.php:1554
 #: includes/admin/views/view-page-members-add-new-edit-subscription.php:142
@@ -10652,8 +10647,8 @@ msgstr ""
 #: translations/paid-member-subscriptions.catalog.php:1415
 #: extend/profile-builder/admin/manage-fields.php:30
 msgid ""
-"Select which Subscription Plans to show to the user on the register forms ( "
-"drag and drop to re-order )"
+"Select which Subscription Plans to show to the user on the register forms "
+"( drag and drop to re-order )"
 msgstr ""
 "Wähle aus, welche Abonnements im Registrierungsformular angezeigt werden "
 "sollen (Drag & Drop zum Sortieren)"
@@ -10789,7 +10784,6 @@ msgstr "Lege die Dauer des Abos fest. 0 steht für unbegrenzt."
 
 #: index.php:886 translations/paid-member-subscriptions.catalog.php:6
 #: includes/admin/class-admin-setup-wizard.php:42
-#: includes/admin/class-admin-settings.php:235
 #: includes/admin/class-admin-settings.php:235
 #: includes/admin/views/view-page-basic-info.php:79
 #: includes/admin/views/view-page-basic-info.php:115
@@ -11106,9 +11100,10 @@ msgstr "Einige der eingegebenen Zeichen waren ungültig."
 #: translations/paid-member-subscriptions.catalog.php:219
 #: includes/class-form-handler.php:1178
 msgid ""
-"Someone has just requested a password reset for the following account: <b>"
-"%1$s</b><br/><br/>If this was a mistake, just ignore this email and nothing "
-"will happen.<br/>To reset your password, visit the following link: %2$s"
+"Someone has just requested a password reset for the following account: "
+"<b>%1$s</b><br/><br/>If this was a mistake, just ignore this email and "
+"nothing will happen.<br/>To reset your password, visit the following link: "
+"%2$s"
 msgstr ""
 "Jemand hat das Zurücksetzen des Passworts für folgendes Konto angefordert: "
 "<b>%1$s </b> <br/> <br/> Wenn dies ein Fehler war, ignoriere einfach diese "
@@ -12183,8 +12178,8 @@ msgstr ""
 #: translations/paid-member-subscriptions.catalog.php:184
 #: includes/class-emails.php:551
 msgid ""
-"The \"{{subscription_name}}\" plan has been canceled for user {{display_name}"
-"}."
+"The \"{{subscription_name}}\" plan has been canceled for user "
+"{{display_name}}."
 msgstr ""
 "Das “{{subscription_name}}“ Abo von Benutzer {{display_name}} wurde "
 "gekündigt."
@@ -12553,8 +12548,8 @@ msgstr ""
 #: translations/paid-member-subscriptions.catalog.php:1068
 #: includes/admin/class-admin-addons.php:212
 msgid ""
-"The serial number you entered is invalid. Need a licence ? <a href=\"%s\">"
-"Click here</a> to purchase one."
+"The serial number you entered is invalid. Need a licence ? <a "
+"href=\"%s\">Click here</a> to purchase one."
 msgstr ""
 "Die eingegebene Seriennummer ist ungültig. Benötigst du eine Lizenz? <a "
 "href=\"%s\">Klicke hier</a>, um eine zu kaufen."
@@ -12702,7 +12697,7 @@ msgid ""
 "%shere%s."
 msgstr ""
 "Diese Emailadresse ist schon registriert. Bitte eine andere wählen oder "
-"%shier%s anmelden."
+"%shere%s anmelden."
 
 #: translations/paid-member-subscriptions.catalog.php:190
 #: includes/class-form-handler.php:102 includes/class-form-handler.php:1295
@@ -12777,7 +12772,7 @@ msgid ""
 "This username is already taken. Please choose another one or login %shere%s."
 msgstr ""
 "Der Benutzername ist bereits vergeben. Bitte einen anderen wählen oder "
-"%shier%s anmelden."
+"%shere%s anmelden."
 
 #: translations/paid-member-subscriptions.catalog.php:187
 #: includes/class-form-handler.php:67
@@ -12857,8 +12852,8 @@ msgstr ""
 #: translations/paid-member-subscriptions.catalog.php:1707
 #: includes/admin/views/view-page-uninstall.php:53
 msgid ""
-"To confirm the Uninstall process please type the word <strong>REMOVE</strong>"
-" in the field below and then click the Uninstall button."
+"To confirm the Uninstall process please type the word <strong>REMOVE</"
+"strong> in the field below and then click the Uninstall button."
 msgstr ""
 "Um die Deinstallation zu bestätigen, gib das Wort <strong> REMOVE </strong> "
 "in das Feld unten ein und klicke auf Deinstallieren."
@@ -13206,7 +13201,6 @@ msgstr "Ukrainische Hrywnja"
 
 #: index.php:884 translations/paid-member-subscriptions.catalog.php:5
 #: includes/admin/class-admin-uninstall.php:79
-#: includes/admin/class-admin-uninstall.php:79
 #: includes/admin/views/view-page-uninstall.php:44
 #: includes/admin/views/view-page-uninstall.php:60
 msgid "Uninstall"
@@ -13381,8 +13375,8 @@ msgstr ""
 
 #: translations/paid-member-subscriptions.catalog.php:921
 msgid ""
-"User did not accept the <strong>Billing Agreement</strong> on the <strong>"
-"PayPal Checkout</strong>."
+"User did not accept the <strong>Billing Agreement</strong> on the "
+"<strong>PayPal Checkout</strong>."
 msgstr ""
 "Der Benutzer hat die <strong>Abrechnungsvereinbarung</strong> für den "
 "<strong>PayPal-Checkout</strong>nicht akzeptiert."
@@ -13728,11 +13722,11 @@ msgstr ""
 #: translations/paid-member-subscriptions.catalog.php:1721
 #: includes/gateways/paypal_standard/functions-paypal-standard.php:137
 msgid ""
-"Waiting to receive Instant Payment Notification (IPN) from <strong>"
-"PayPal</strong>."
+"Waiting to receive Instant Payment Notification (IPN) from <strong>PayPal</"
+"strong>."
 msgstr ""
-"Warte auf den Erhalt einer Sofortzahlungsbenachrichtigung (IPN) von <strong>"
-"PayPal</strong>."
+"Warte auf den Erhalt einer Sofortzahlungsbenachrichtigung (IPN) von "
+"<strong>PayPal</strong>."
 
 #: i18n/states/JP.php:37
 msgid "Wakayama"
@@ -14131,12 +14125,12 @@ msgstr "Du benötigst das richtige Abo, um dieses Produkt kaufen zu können."
 #: includes/functions-subscription-plan.php:732
 msgid ""
 "You need to create Subscription Plans before you can use this form. Go to "
-"your <strong>Dashboard -> Paid Member Subscriptions -> Subscriptions "
-"Plans</strong> to do this."
+"your <strong>Dashboard -> Paid Member Subscriptions -> Subscriptions Plans</"
+"strong> to do this."
 msgstr ""
 "Bitte zuerst ein Abo erstellen, bevor dieses Formular verwendet werden kann. "
-"Gehe zum <strong>Dashboard -> Paid Member Subscriptions -> Abo Pläne,"
-"</strong> um dies zu tun."
+"Gehe zum <strong>Dashboard -> Paid Member Subscriptions -> Abo Pläne,</"
+"strong> um dies zu tun."
 
 #: translations/paid-member-subscriptions.catalog.php:1270
 msgid "You need to define the number of seats for this Group Subscription."
@@ -14215,8 +14209,9 @@ msgstr ""
 #: translations/paid-member-subscriptions.catalog.php:722
 #: includes/functions-core.php:1190
 msgid ""
-"Your <strong>Paid Member Subscriptions</strong> serial number has <strong>"
-"expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>"
+"Your <strong>Paid Member Subscriptions</strong> serial number has "
+"<strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</"
+"a>"
 msgstr ""
 "Seriennummer für <strong>Paid Member Subscriptions</strong> ist abgelaufen."
 "<a class=“button-primary“ href=“%s“>Jetzt erneuern</a>"
@@ -14229,16 +14224,16 @@ msgid ""
 "access to product downloads, automatic updates and support.  <a "
 "class=\"button-primary\" href=\"%s\">Renew now</a>"
 msgstr ""
-"Seriennummer für <strong>Paid Member Subscriptions</strong> läuft am <strong>"
-"%s</strong>ab.<br>Bitte erneuere die Lizenz, um weiterhin Zugriff auf "
-"Produktdownloads, automatische Updates und Support zu erhalten.  <a "
+"Seriennummer für <strong>Paid Member Subscriptions</strong> läuft am "
+"<strong>%s</strong>ab.<br>Bitte erneuere die Lizenz, um weiterhin Zugriff "
+"auf Produktdownloads, automatische Updates und Support zu erhalten.  <a "
 "class=“button-primary“ href=“%s“>Jetzt erneuern</a>"
 
 #: translations/paid-member-subscriptions.catalog.php:866
 msgid ""
 "Your <strong>Paid Member Subscriptions</strong> version is not 100%% "
-"compatible with this version of the <strong>Invoices</strong> add-on.<br>"
-"Please go to the <a href=\"%s\">plugins</a> page and <strong>update Paid "
+"compatible with this version of the <strong>Invoices</strong> add-on."
+"<br>Please go to the <a href=\"%s\">plugins</a> page and <strong>update Paid "
 "Member Subscriptions</strong> to the latest version."
 msgstr ""
 "Diese <strong>Paid Member Subscriptions</strong> ist nicht zu 100 % mit "
@@ -14303,10 +14298,10 @@ msgid ""
 "After renewal, go to the <a href=\"%s\">plugins</a> page to <strong>update "
 "the add-on to the latest version</strong>."
 msgstr ""
-"Die Lizenz ist <strong>abgelaufen</strong> . Die Lizenz muss <a href=„%s“>"
-"erneuert</a>, um auf die neuesten Updates zugreifen zu können. Wechsele nach "
-"der Erneuerung zur <a href=„%s“>Plugins-</a> Seite, um das <strong>Add-On "
-"auf die neueste Version</strong> zu aktualisieren."
+"Die Lizenz ist <strong>abgelaufen</strong> . Die Lizenz muss <a "
+"href=„%s“>erneuert</a>, um auf die neuesten Updates zugreifen zu können. "
+"Wechsele nach der Erneuerung zur <a href=„%s“>Plugins-</a> Seite, um das "
+"<strong>Add-On auf die neueste Version</strong> zu aktualisieren."
 
 #: translations/paid-member-subscriptions.catalog.php:1069
 #: includes/admin/class-admin-addons.php:209
@@ -14323,8 +14318,8 @@ msgid ""
 "Your licence is valid but will expire on %s. <a href=\"%s\">Click here</a> "
 "to renew."
 msgstr ""
-"Diese Lizenz ist gültig, läuft aber am %s ab. <a href=\"%s\">Klicke hier</a>,"
-" um zu verlängern."
+"Diese Lizenz ist gültig, läuft aber am %s ab. <a href=\"%s\">Klicke hier</"
+"a>, um zu verlängern."
 
 #: translations/paid-member-subscriptions.catalog.php:255
 #: includes/class-shortcodes.php:630
@@ -14404,17 +14399,17 @@ msgstr "Diese MwSt.-Nummer ist zu kurz."
 #: translations/paid-member-subscriptions.catalog.php:113
 #, php-format
 msgid ""
-"Your version of <strong>Paid Member Subscriptions</strong> is not 100% "
-"compatible with the <strong>Group Memberships</strong> add-on. Please update "
-"to <strong>Paid Member Subscriptions</strong> version <strong>2.0.7</strong> "
-"or above."
+"Your version of <strong>Paid Member Subscriptions</strong> is not "
+"100% compatible with the <strong>Group Memberships</strong> add-on. Please "
+"update to <strong>Paid Member Subscriptions</strong> version <strong>2.0.7</"
+"strong> or above."
 msgstr ""
 
 #: translations/paid-member-subscriptions.catalog.php:127
 msgid ""
-"Your version of Paid Member Subscriptions is not compatible with the <strong>"
-"Tax & EU VAT</strong> add-on. Please update Paid Member Subscriptions to the "
-"latest version."
+"Your version of Paid Member Subscriptions is not compatible with the "
+"<strong>Tax & EU VAT</strong> add-on. Please update Paid Member "
+"Subscriptions to the latest version."
 msgstr ""
 "Die aktuelle Version von Paid Member Subscriptions ist mit der aktuellen "
 "<strong>Steuer & EU Ust</strong> Add-on Version nicht kompatibel. Bitte Paid "

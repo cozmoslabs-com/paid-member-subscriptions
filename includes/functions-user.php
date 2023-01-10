@@ -135,7 +135,9 @@ function pms_redirect_default_wp_pages(){
 add_action( 'login_form', 'pms_set_bypass_default_wp_pages_redirect_token_in_login_form' );
 function pms_set_bypass_default_wp_pages_redirect_token_in_login_form(){
 
-    if( !is_admin() || !isset( $_GET['pms_force_wp_login'] ) )
+    global $pagenow;
+
+    if( $pagenow != 'wp-login.php' || !isset( $_REQUEST['pms_force_wp_login'] ) )
         return;
 
     echo '<input type="hidden" name="pms_force_wp_login" value="true" />';

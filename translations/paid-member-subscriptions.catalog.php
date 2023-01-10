@@ -1373,12 +1373,6 @@
 <?php __("Synchronize Billing Details", "paid-member-subscriptions"); ?>
 <?php __("By checking this option the PMS Billing Details and WooCommerce Billing Details will be synchronized.", "paid-member-subscriptions"); ?>
 <?php __("You do not have permission to export data.", "paid-member-subscriptions"); ?>
-<?php __("Displays the Paid Member Subscriptions Account Form.", "paid-member-subscriptions"); ?>
-<?php __("Form", "paid-member-subscriptions"); ?>
-<?php __("PMS", "paid-member-subscriptions"); ?>
-<?php __("Displays the Paid Member Subscriptions Login Form.", "paid-member-subscriptions"); ?>
-<?php __("Displays the Paid Member Subscriptions Recover Password Form.", "paid-member-subscriptions"); ?>
-<?php __("Displays the Paid Member Subscriptions Registration Form.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Payments Summary", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plan Details", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Add-ons", "paid-member-subscriptions"); ?>
@@ -1462,6 +1456,7 @@
 <?php __("Labels Edit", "paid-member-subscriptions"); ?>
 <?php __("Edit and change any Paid Member Subscriptions label or string in just a few clicks.", "paid-member-subscriptions"); ?>
 <?php __("Get Basic Add-ons", "paid-member-subscriptions"); ?>
+<?php __("Activate Basic Add-ons", "paid-member-subscriptions"); ?>
 <?php __("These addons extend your WordPress Membership Plugin and are available with the <a href=\"%s\">PRO version</a> only.", "paid-member-subscriptions"); ?>
 <?php __("Accept one time or recurring payments through PayPal Express Checkout.", "paid-member-subscriptions"); ?>
 <?php __("Multiple Subscriptions / User", "paid-member-subscriptions"); ?>
@@ -1470,6 +1465,7 @@
 <?php __("Collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.", "paid-member-subscriptions"); ?>
 <?php __("Pro Rate", "paid-member-subscriptions"); ?>
 <?php __("Get Pro Add-ons", "paid-member-subscriptions"); ?>
+<?php __("Activate Pro Add-ons", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions comes with an <a href=\"%s\">extensive documentation</a> to assist you.", "paid-member-subscriptions"); ?>
 <?php __("Export", "paid-member-subscriptions"); ?>
 <?php __("Members Export", "paid-member-subscriptions"); ?>
