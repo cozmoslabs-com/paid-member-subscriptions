@@ -453,7 +453,11 @@ function pms_member_check_expired_subscriptions() {
 
     foreach( $subscriptions as $subscription ) {
 
-        $update_result = $wpdb->update( $wpdb->prefix . 'pms_member_subscriptions', array( 'status' => 'expired' ), array( 'user_id' => $subscription['user_id'], 'subscription_plan_id' => $subscription['subscription_plan_id'] ) );
+        /**
+         * @since 2.8.5 Added status to where clause to only affect the desired subscription instead of reactivating 
+         *              abandoned subscriptions with the same plan
+         */
+        $update_result = $wpdb->update( $wpdb->prefix . 'pms_member_subscriptions', array( 'status' => 'expired' ), array( 'user_id' => $subscription['user_id'], 'subscription_plan_id' => $subscription['subscription_plan_id'], 'status' => $subscription['status'] ) );
 
 		pms_add_member_subscription_log( $subscription['id'], 'subscription_expired' );
 

@@ -375,7 +375,7 @@ Class PMS_Shortcodes {
         $output = ob_get_contents();
         ob_end_clean();
 
-        return $output;
+        return apply_filters( 'pms_edit_profile_shortcode_content', $output );
 
     }
 
@@ -702,6 +702,7 @@ Class PMS_Shortcodes {
              'display_to'          => '',
              'message'             => '',
              'group_owner_user_id' => '',
+             'restrict_free_trial' => '',
          ), $atts );
 
         // Message to replace the content of checks do not match
@@ -748,20 +749,23 @@ Class PMS_Shortcodes {
 
                 if( $args['display_to'] == 'not_subscribed' ) {
 
-                    if( !pms_is_member_of_plan( $subscription_plans ) )
+                    if( $args['restrict_free_trial'] == 'true' && !pms_is_member_of_plan( $subscription_plans ) && pms_member_has_free_trial( $subscription_plans ) )
+                        return $message;
+                    else if ( !pms_is_member_of_plan( $subscription_plans ) ) 
                         return do_shortcode( $content );
-                    else
+                    else 
                         return $message;
 
                 } else {
 
-                    if( pms_is_member_of_plan( $subscription_plans ) )
+                    if( $args['restrict_free_trial'] == 'true' && pms_is_member_of_plan( $subscription_plans ) && pms_member_has_free_trial( $subscription_plans ) )
+                        return $message;
+                    else if( pms_is_member_of_plan( $subscription_plans ) )
                         return do_shortcode( $content );
                     else
                         return $message;
 
                 }
-
 
             } else if( $args['display_to'] == 'not_subscribed' ){
 
@@ -831,7 +835,7 @@ Class PMS_Shortcodes {
         $output = ob_get_contents();
         ob_end_clean();
 
-        return $output;
+        return apply_filters( 'pms_payment_history_shortcode_content', $output, $args );
 
     }
 

@@ -180,11 +180,15 @@ Class PMS_Merge_Tags{
         if( !empty( $subscription_id ) ){
             $subscription = pms_get_member_subscription( $subscription_id );
 
+            $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+
             if ( !empty( $subscription->expiration_date ) )
                 return date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $subscription->expiration_date ) + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
             // If Expiration Date is empty, return Billing Next Payment if available
             else if( !empty( $subscription->billing_next_payment ) )
-                return date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $subscription->billing_next_payment ) );
+                return date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $subscription->billing_next_payment ) + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
+            else if( empty( $subscription->expiration_date ) && $subscription_plan->duration == 0 )
+                return esc_html__( 'Unlimited', 'paid-member-subscriptions' );
 
         }
 

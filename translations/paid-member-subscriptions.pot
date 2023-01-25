@@ -508,19 +508,23 @@ msgstr ""
 msgid "abandoned"
 msgstr ""
 
-#: includes/class-merge-tags.php:235, includes/functions-subscription-plan.php:458, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:614, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
+#: includes/class-merge-tags.php:191, includes/functions-content-filtering.php:553, includes/admin/class-admin-member-subscription-list-table.php:273, includes/admin/class-admin-members-list-table.php:515, includes/views/shortcodes/view-shortcode-account-subscription-details.php:53, includes/views/shortcodes/view-shortcode-account.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:64
+msgid "Unlimited"
+msgstr ""
+
+#: includes/class-merge-tags.php:239, includes/functions-subscription-plan.php:458, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:614, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
 msgid "Free"
 msgstr ""
 
-#: includes/class-merge-tags.php:262
+#: includes/class-merge-tags.php:266
 msgid "unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:259, add-ons-basic/discount-codes/includes/functions-discount.php:243, includes/features/discount-codes/includes/functions-discount.php:243
+#: includes/class-merge-tags.php:263, add-ons-basic/discount-codes/includes/functions-discount.php:243, includes/features/discount-codes/includes/functions-discount.php:243
 msgid "until %s"
 msgstr ""
 
-#: includes/class-merge-tags.php:354
+#: includes/class-merge-tags.php:358
 msgid "The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired."
 msgstr ""
 
@@ -722,10 +726,6 @@ msgstr ""
 
 #: includes/functions-content-filtering.php:416, includes/functions-content-filtering.php:595, includes/functions-content-filtering.php:648, includes/functions-content-filtering.php:698, includes/functions-content-filtering.php:762, includes/functions-content-filtering.php:836, includes/views/actions/view-actions-account-change-subscription-form.php:100
 msgid "Go back"
-msgstr ""
-
-#: includes/functions-content-filtering.php:553, includes/admin/class-admin-member-subscription-list-table.php:273, includes/admin/class-admin-members-list-table.php:515, includes/views/shortcodes/view-shortcode-account-subscription-details.php:53, includes/views/shortcodes/view-shortcode-account.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:64
-msgid "Unlimited"
 msgstr ""
 
 #: includes/functions-content-filtering.php:574
@@ -3046,7 +3046,7 @@ msgstr ""
 msgid "Not Found - ID: %s"
 msgstr ""
 
-#: includes/admin/class-admin-member-subscription-list-table.php:309, includes/admin/class-admin-member-subscription-list-table.php:317, includes/admin/class-admin-members-list-table.php:519, includes/admin/class-admin-members-list-table.php:522, add-ons-pro/tax/includes/functions-admin.php:489, extend/elementor/widgets/class-widget-account.php:63, includes/admin/views/view-page-settings-general.php:25, extend/beaver-builder/modules/pms-account/pms-account.php:38, extend/siteorigin/widgets/pms-account/pms-account.php:26
+#: includes/admin/class-admin-member-subscription-list-table.php:309, includes/admin/class-admin-member-subscription-list-table.php:317, includes/admin/class-admin-members-list-table.php:519, includes/admin/class-admin-members-list-table.php:522, add-ons-pro/tax/includes/functions-admin.php:489, extend/elementor/widgets/class-widget-account.php:63, includes/admin/views/view-page-settings-general.php:25, includes/admin/views/view-page-settings-misc.php:150, extend/beaver-builder/modules/pms-account/pms-account.php:38, extend/siteorigin/widgets/pms-account/pms-account.php:26
 msgid "Yes"
 msgstr ""
 
@@ -4774,15 +4774,15 @@ msgstr ""
 msgid "%sClick here%s to go now."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1196, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:688, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:720
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1210, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:688, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:720
 msgid "No request response received."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1294, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:698, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:312
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1308, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:698, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:312
 msgid "The selected gateway is not configured correctly: <strong>PayPal Address is missing</strong>. Contact the system administrator."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1297, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:701
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1311, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:701
 msgid "The selected gateway is not configured correctly: <strong>PayPal API credentials are missing</strong>. Contact the system administrator."
 msgstr ""
 
@@ -5270,15 +5270,15 @@ msgstr ""
 msgid "By checking this option tax will not be calculated for this plan."
 msgstr ""
 
-#: add-ons-pro/tax/includes/functions.php:282
+#: add-ons-pro/tax/includes/functions.php:284
 msgid "Subtotal: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/functions.php:283
+#: add-ons-pro/tax/includes/functions.php:285
 msgid "TAX/VAT: "
 msgstr ""
 
-#: add-ons-pro/tax/includes/functions.php:284
+#: add-ons-pro/tax/includes/functions.php:286
 msgid "Total: %s"
 msgstr ""
 
@@ -5446,7 +5446,7 @@ msgstr ""
 msgid "Activate product subscriptions"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:69, extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:86, includes/admin/views/view-page-settings-misc.php:152, includes/admin/views/view-page-settings-payments.php:129, includes/admin/views/view-page-settings-payments.php:145, includes/admin/views/view-page-settings-payments.php:157
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:69, extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:86, includes/admin/views/view-page-settings-misc.php:165, includes/admin/views/view-page-settings-payments.php:129, includes/admin/views/view-page-settings-payments.php:145, includes/admin/views/view-page-settings-payments.php:157
 msgid "Enable"
 msgstr ""
 
@@ -6014,7 +6014,7 @@ msgstr ""
 msgid "Payment Gateway"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:464, includes/admin/views/view-page-settings-misc.php:213
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:464, includes/admin/views/view-page-settings-misc.php:224
 msgid "Payment Retry"
 msgstr ""
 
@@ -6502,63 +6502,75 @@ msgstr ""
 msgid "By checking this option, the date format selected in WordPress Settings --> General will be used for displaying dates."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:146
-msgid "Scripts"
+#: includes/admin/views/view-page-settings-misc.php:147
+msgid "Always show Subscriptions Expiration Date"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:149
-msgid "Load Scripts only on specific pages"
+#: includes/admin/views/view-page-settings-misc.php:153
+msgid "By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear."
 msgstr ""
 
 #: includes/admin/views/view-page-settings-misc.php:155
-msgid "Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance."
+msgid "You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:160
-msgid "Select pages"
+#: includes/admin/views/view-page-settings-misc.php:159
+msgid "Scripts"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:162
+msgid "Load Scripts only on specific pages"
 msgstr ""
 
 #: includes/admin/views/view-page-settings-misc.php:168
+msgid "Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance."
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:173
+msgid "Select pages"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:181
 msgid "Select the pages where scripts should be loaded. You must select every page that contains a shortcode from Paid Member Subscriptions."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:194
+#: includes/admin/views/view-page-settings-misc.php:205
 msgid "Modify renew button output time"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:196
+#: includes/admin/views/view-page-settings-misc.php:207
 msgid "Insert how many days before the subscription expires, should the renewal button be displayed inside the [pms-account] shortcode."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:200
+#: includes/admin/views/view-page-settings-misc.php:211
 msgid "Redirect after a manual payment"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:202
+#: includes/admin/views/view-page-settings-misc.php:213
 msgid "Insert an URL to redirect the user after a manual payment is made. ( e.g. %s )"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:206
+#: includes/admin/views/view-page-settings-misc.php:217
 msgid "Apply sign-up fees to Upgrades and Downgrades"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:208
+#: includes/admin/views/view-page-settings-misc.php:219
 msgid "Charge users sign-up fees for Subscription Upgrades and Downgrades."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:216
+#: includes/admin/views/view-page-settings-misc.php:227
 msgid "Maximum number of retries"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:218
+#: includes/admin/views/view-page-settings-misc.php:229
 msgid "Enter how many retries the payment retry functionality should attempt."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:222
+#: includes/admin/views/view-page-settings-misc.php:233
 msgid "Retry Interval"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:224
+#: includes/admin/views/view-page-settings-misc.php:235
 msgid "Enter the interval between retries for the payment retry functionality."
 msgstr ""
 

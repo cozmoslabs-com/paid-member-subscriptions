@@ -128,3 +128,9 @@ function pms_cpt_last_modified_date_fromat( $published_time, $post, $column_name
 
     return $post_date . ' at ' . $post_time;
 }
+
+// add filter for Misc -> Others -> Always show Subscriptions Expiration Date option
+$misc_settings = get_option( 'pms_misc_settings', array() );
+if ( isset( $misc_settings['force-subscriptions-expiration-date'] ) ) {
+    add_filter( 'pms_view_add_new_edit_subscription_hide_expiration_date', '__return_false' );
+}

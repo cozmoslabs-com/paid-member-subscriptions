@@ -54,7 +54,7 @@ function pms_is_member( $user_id = '', $subscription_plans = array() ) {
  * Usage: pms_is_member_of_plan( 123 ) or pms_is_member_of_plan( array( 123, 124 ) )
  * The user id can also be specified as the second parameter.
  *
- * @param  int     $subscription_plans A single subscription plan id or an array of them.
+ * @param  int     $subscription_plans A single subscription plan id or an array of them.  
  * @return boolean
  */
 function pms_is_member_of_plan( $subscription_plans, $user_id = '' ) {
@@ -65,6 +65,39 @@ function pms_is_member_of_plan( $subscription_plans, $user_id = '' ) {
         return pms_is_member( $user_id, $subscription_plans );
 
     return false;
+}
+
+/**
+ * Will check if the currently logged in users has a free trial active for any of 
+ * the given plans
+ * 
+ * @param  int     $subscription_plans  An array of subscription plans
+ * @return boolean 
+ */
+function pms_member_has_free_trial( $subscription_plans, $user_id = '' ){
+
+    if( !is_user_logged_in() || empty( $subscription_plans ) )
+        return false;
+    
+    $free_trial_active = false;
+
+    if( empty( $user_id ) )
+        $user_id = get_current_user_id();
+
+    $current_date = new DateTime();
+
+    foreach( $subscription_plans as $plan_id ){
+
+        $subscription = pms_get_member_subscriptions( array( 'subscription_plan_id' => $plan, 'user_id' => $user_id ) );
+        $trial_date   = new DateTime( $subscription[0]->trial_end );
+
+        if( !empty( $subscription[0] ) && !empty( $subscription[0]->trial_end ) && $trial_date >= $current_date )
+            $free_trial_active = true;
+
+    }
+
+    return $free_trial_active;
+
 }
 
 /**

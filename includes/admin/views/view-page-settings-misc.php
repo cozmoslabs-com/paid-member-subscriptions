@@ -143,6 +143,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </p>
     </div>
 
+    <div class="pms-form-field-wrapper">
+        <label class="pms-form-field-label" for="force-subscriptions-expiration-date"><?php esc_html_e( 'Always show Subscriptions Expiration Date' , 'paid-member-subscriptions' ) ?></label>
+
+        <p class="description">
+            <input type="checkbox" id="force-subscriptions-expiration-date" name="pms_misc_settings[force-subscriptions-expiration-date]" value="1" <?php echo ( isset( $this->options['force-subscriptions-expiration-date'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Yes', 'paid-member-subscriptions' ); ?>
+        </p>
+        <p class="description">
+            <?php esc_html_e( 'By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear.', 'paid-member-subscriptions' ); ?>
+            <br>
+            <?php esc_html_e( 'You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing.', 'paid-member-subscriptions' ); ?>
+        </p>
+    </div>
+
     <h3><?php esc_html_e( 'Scripts', 'paid-member-subscriptions' ); ?></h3>
 
     <div class="pms-form-field-wrapper">
@@ -168,8 +181,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <?php esc_html_e( 'Select the pages where scripts should be loaded. You must select every page that contains a shortcode from Paid Member Subscriptions.', 'paid-member-subscriptions' ); ?>
         </p>
     </div>
-
-
 
     <?php do_action( $this->menu_slug . '_misc_after_others_tab_content', $this->options ); ?>
 

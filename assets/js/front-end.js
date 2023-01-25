@@ -392,7 +392,7 @@ jQuery( function($) {
                 return
 
             if ( $pms_checked_subscription.length > 0 && !is_pb_email_confirmation_on && $pms_checked_subscription.data('price') != 0 )
-                $pms_section_billing_details.show()
+                $('.pms-billing-details').show()
 
         }
 

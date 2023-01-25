@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.1
-Stable tag: 2.8.4
+Stable tag: 2.8.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -200,6 +200,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.8.5 =
+* Feature: Add an option to the [pms-restrict] shortcode that will restrict specific content for Free Trial users. Usage [pms-restrict subscription_plans="1,2,3" restrict_free_trial="true"]
+* Fix: An issue when expiring memberships and the user has abandoned memberships with the same subscription plan
+* Fix: Expiration Date merge tag will now return Unlimited for subscription plans that do not have a duaration
+* Misc: Add a setting under Settings -> Misc -> Others to always show the Expiration Date when editing Subscriptions
+* Misc: Added filters for Edit Profile: `pms_edit_profile_shortcode_content` and Payment History: `pms_payment_history_shortcode_content` shortcode output
+
 = 2.8.4 =
 * Fix: issue with bypass default login page redirect
 * Fix: issue with Upgrade button not appearing in some scenarios

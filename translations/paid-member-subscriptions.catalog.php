@@ -121,6 +121,7 @@
 <?php __("Profile updated successfully", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong while registering the user. Contact the website administrator.", "paid-member-subscriptions"); ?>
 <?php __("abandoned", "paid-member-subscriptions"); ?>
+<?php __("Unlimited", "paid-member-subscriptions"); ?>
 <?php __("Free", "paid-member-subscriptions"); ?>
 <?php __("unlimited", "paid-member-subscriptions"); ?>
 <?php __("until %s", "paid-member-subscriptions"); ?>
@@ -175,7 +176,6 @@
 <?php __('Upgrade %1$s to %2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Upgrade Subscription", "paid-member-subscriptions"); ?>
 <?php __("Go back", "paid-member-subscriptions"); ?>
-<?php __("Unlimited", "paid-member-subscriptions"); ?>
 <?php __("Renew %s subscription. The subscription will be active until %s", "paid-member-subscriptions"); ?>
 <?php __("Renew Subscription", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to cancel your %s subscription? No further payments will be made for this subscription and it will expire.", "paid-member-subscriptions"); ?>
@@ -1632,6 +1632,9 @@
 <?php __("WordPress Date Format", "paid-member-subscriptions"); ?>
 <?php __("Use WordPress date format", "paid-member-subscriptions"); ?>
 <?php __("By checking this option, the date format selected in WordPress Settings --> General will be used for displaying dates.", "paid-member-subscriptions"); ?>
+<?php __("Always show Subscriptions Expiration Date", "paid-member-subscriptions"); ?>
+<?php __("By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear.", "paid-member-subscriptions"); ?>
+<?php __("You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing.", "paid-member-subscriptions"); ?>
 <?php __("Scripts", "paid-member-subscriptions"); ?>
 <?php __("Load Scripts only on specific pages", "paid-member-subscriptions"); ?>
 <?php __("Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance.", "paid-member-subscriptions"); ?>
