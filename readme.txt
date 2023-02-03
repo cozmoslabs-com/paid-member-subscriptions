@@ -147,31 +147,47 @@ For more information please visit our [documentation page](https://www.cozmoslab
 
 == Frequently Asked Questions ==
 
-= What type of membership sites can I create ? =
+= What type of membership sites can I create? =
 
 Here are [some examples](https://www.cozmoslabs.com/188635-membership-websites-examples/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) of what you could sell from your membership site: premium tutorials, newsletter, magazine, database, online community, software, apps, videos, ebooks, audio files, discount codes, fan clubs, consulting, coaching etc.
+
+= What type of memberships can I sell? =
+
+You can sell one-time or [recurring memberships](https://www.cozmoslabs.com/220929-wordpress-recurring-payments/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) with any custom duration you wish.
+
+You can also [give users a free trial](https://www.cozmoslabs.com/419574-free-trial-membership-subscription/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to your plans and/or charge a sign-up fee.
+
+= Can I offer both free and paid memberships at the same time? =
+
+Yes, you can have both free and paid memberships on your site.
+
+= Can I create discount codes for special promotions? =
+
+Yes, you can create percent or fixed-amount discount codes that are available for selected subscriptions. You can [limit the uses of a discount code](https://www.cozmoslabs.com/140124-limit-discount-code-uses-per-user-in-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree), make it available only to new users, have a set period in which the discount is available, and many more. [Learn more](https://www.cozmoslabs.com/docs/paid-member-subscriptions/discount-codes/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree)
+
+= Can I restrict access to premium content allowing only paying users to view it? =
+
+Yes, the plugin allows you to [restrict content](https://www.cozmoslabs.com/docs/paid-member-subscriptions/content-restriction/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) and make it available to paid members only.
+
+Any type of content can be restricted including posts, pages, and custom post types. We also have an [integration with WooCommerce](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) so you can restrict access (or purchase) to these products
+
+We also offer an [Elementor integration](https://www.cozmoslabs.com/392394-restrict-content-elementor/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) which lets you restrict any Section or Widget and make it available only to paid users.
+
+= Can I customize the registration form? =
+
+Yes, the registration form can be customized using [Profile Builder](https://wordpress.org/plugins/profile-builder/). You can change the order of the form fields, remove fields that aren't required and also add extra fields to the form like Inputs, Checkboxes, Selects, Radio buttons, and more. [Learn More](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree)
+
+= Can I ask users to confirm their Email Address before they can register and pay? =
+
+Yes, this is possible through [Profile Builder](https://www.cozmoslabs.com/wordpress-profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) as well using its [Email Confirmation feature](https://www.cozmoslabs.com/14722-wordpress-email-confirmation/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree). In this case, the payment will happen after the user has clicked the link he received in the confirmation email after registering. [Learn more](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree#Email_Confirmation)
 
 = Can my members pay using a credit card ? =
 
 The subscription plan payments are handled via PayPal Standard. Your members will be able to pay for the membership via their credit card or their PayPal account. More payment gateways are supported via [Add-ons](http://www.cozmoslabs.com/paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
 
-= Can I offer both free and paid memberships at the same time ? =
-
-Yes, you can have both free and paid memberships on your site.
-
-= Can I restrict access to premium content allowing only paying users to view it ? =
-
-Yes, the plugin allows you to [restrict content](https://www.cozmoslabs.com/docs/paid-member-subscriptions/content-restriction/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) and make it available to paid members only.
-
-= Can I modify the registration form ? =
-
-Yes, this is possible using [Profile Builder](https://wordpress.org/plugins/profile-builder/). For custom fields you will need a [paid version](https://www.cozmoslabs.com/wordpress-profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
-More information can be found on [this page](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
-
 = Where can I find out more information? =
 
 For more information please check out [Paid Member Subscriptions documentation](https://www.cozmoslabs.com/docs/paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
-
 
 == Screenshots ==
 1. Basic Information page for Paid Member Subscriptions - membership plugin
