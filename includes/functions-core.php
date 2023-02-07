@@ -1309,35 +1309,41 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     }
 
-     /**
-      * Add a notice if a recurring PayPal gateway is active but API credentials are missing
-      */
-      add_action( 'plugins_loaded', 'pms_general_notice_plugins_loaded' );
-      function pms_general_notice_plugins_loaded() {
+    /**
+     * Add a notice if a recurring PayPal gateway is active but API credentials are missing
+    */
+    add_action( 'plugins_loaded', 'pms_general_notice_plugins_loaded' );
+    function pms_general_notice_plugins_loaded() {
 
-          //check if related gateways are active
-          $are_active = array_intersect( array( 'paypal_standard', 'paypal_pro', 'paypal_express' ), pms_get_active_payment_gateways() );
+        //check if related gateways are active
+        $are_active = array_intersect( array( 'paypal_standard', 'paypal_pro', 'paypal_express' ), pms_get_active_payment_gateways() );
 
-          if ( function_exists( 'pms_get_paypal_api_credentials' ) && pms_get_paypal_api_credentials() === false && !empty( $are_active ) ) {
+        $settings = get_option( 'pms_payments_settings' );
 
-              $message = sprintf( __( 'Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ), '<a href="' . admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) .'">', '</a>' );
+        // don't show if Never Renew Automatically is selected
+        if( isset( $settings['recurring'] ) && $settings['recurring'] == 3 )
+            return;
 
-              if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
+        if ( function_exists( 'pms_get_paypal_api_credentials' ) && pms_get_paypal_api_credentials() === false && !empty( $are_active ) ) {
 
-                  new PMS_Add_General_Notices( 'pms_paypal_api_credentials',
-                      '<p>' . $message . '</p>',
-                      'notice-warning');
+            $message = sprintf( __( 'Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s', 'paid-member-subscriptions' ), '<a href="' . admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) .'">', '</a>', '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/paypal-standard/#Recurring_Payments_credentials">', '</a>' );
 
-              } else {
+            if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
 
-                  new PMS_Add_General_Notices( 'pms_paypal_api_credentials',
-                      sprintf( '<p>' . $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( add_query_arg( 'pms_paypal_api_credentials_dismiss_notification', '0' ) ) . "'>", "</a>" ) . '</p>',
-                      'notice-warning');
+                new PMS_Add_General_Notices( 'pms_paypal_api_credentials',
+                '<p>' . $message . '</p>',
+                'notice-warning');
 
-              }
+            } else {
 
-          }
-      }
+                new PMS_Add_General_Notices( 'pms_paypal_api_credentials',
+                sprintf( '<p>' . $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( add_query_arg( 'pms_paypal_api_credentials_dismiss_notification', '0' ) ) . "'>", "</a>" ) . '</p>',
+                'notice-warning');
+
+            }
+
+        }
+    }
 
     /**
      * Add a notice requesting a plugin review on wp.org

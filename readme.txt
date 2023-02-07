@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.1
-Stable tag: 2.8.5
+Stable tag: 2.8.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.8.6 =
+* Fix: Cancel WooCommerce Subscription when PMS membership gets canceled and they are linked
+* Fix: Update PMS membership status when a WooCommerce order is refunded
+* Fix: Issue with Pending Payment email for manual payments was not working correctly in some cases
+* Misc: Run a hook when a payment is manually edited from the back-end: pms_manually_edited_payment_success
+
 = 2.8.5 =
 * Feature: Add an option to the [pms-restrict] shortcode that will restrict specific content for Free Trial users. Usage [pms-restrict subscription_plans="1,2,3" restrict_free_trial="true"]
 * Fix: An issue when expiring memberships and the user has abandoned memberships with the same subscription plan

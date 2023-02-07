@@ -132,17 +132,40 @@ add_filter( 'woocommerce_checkout_registration_enabled', 'pms_woo_enable_registr
 
 
 // Set the Subscription Status based on WooCommerce Order Status and Product Type (subscription or other)
-function pms_woo_set_subscription_status( $order_status, $product_type, $existing_status ) {
-    if ( $product_type == 'subscription' ) {
+function pms_woo_set_subscription_status( $order_status, $product_type, $existing_status, $woo_subscription_status ) {
 
-      if ( $order_status == 'on-hold' || $order_status == 'failed' )
-            $subscription_status = 'pending';
-      elseif ( $order_status == 'cancelled' )
-          $subscription_status = 'canceled';
-      else  $subscription_status = 'active';
+    if ( $product_type != 'subscription' ) {
+
+        if ( $order_status == 'completed' || $order_status == 'processing' )
+            $subscription_status = 'active';
+
+        elseif ( $order_status == 'cancelled' )
+            $subscription_status = 'canceled';
+
+        elseif ( $order_status == 'refunded' )
+            $subscription_status = 'expired';
+
+        else $subscription_status = 'pending';
 
     }
-    elseif ( $order_status == 'completed' ||  $existing_status == 'active' )
+    elseif ( !empty( $woo_subscription_status ) ) {
+
+        if ( $woo_subscription_status == 'active' )
+            $subscription_status = 'active';
+
+        elseif ( $woo_subscription_status == 'on-hold' || $woo_subscription_status == 'pending' )
+            $subscription_status = 'pending';
+
+        elseif ( $woo_subscription_status == 'pending-cancel' )
+            $subscription_status = 'canceled';
+
+        elseif ( $woo_subscription_status == 'cancelled' || $woo_subscription_status == 'expired' )
+            $subscription_status = 'expired';
+
+        else $subscription_status = $existing_status;
+
+    }
+    elseif ( $order_status == 'completed' )
         $subscription_status = 'active';
     elseif ( $order_status == 'cancelled' || $order_status == 'failed' || $order_status == 'refunded' )
         $subscription_status = 'expired';
@@ -247,7 +270,7 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
             $existing_subscription_status = $existing_subscription['0']->status;
         else $existing_subscription_status = '';
 
-        $subscription_status = pms_woo_set_subscription_status( $order_status, $product_type, $existing_subscription_status );
+        $subscription_status = pms_woo_set_subscription_status( $order_status, $product_type, $existing_subscription_status, '' );
 
         $replacement_data = pms_get_subscription_replacement_data( $user_id, $subscription_plan_id, $subscription_status );
 
@@ -351,7 +374,7 @@ function pms_woo_update_member_subscription( $subscription_data, $subscription_r
     if ( !pms_woo_is_manual_order_update( $subscription->id, $order_key )) {
         pms_add_member_subscription_meta( $subscription->id, 'woo_order_key', $order_key );
     }
-    elseif ( $subscription_data['status'] == 'active' && !empty( $user_existing_subscriptions ) ) {
+    elseif ( $subscription_data['status'] == 'active' && !empty( $user_existing_subscriptions ) && $user_existing_subscriptions[0]->status != 'active' ) {
         $settings = get_option( 'pms_emails_settings', array() );
 
         if ( isset( $settings[ 'activate_is_enabled' ] ) )
@@ -371,17 +394,19 @@ function pms_woo_update_member_subscription( $subscription_data, $subscription_r
                             pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_expiration_renewal', array('new_expire_date' => $subscription_data['expiration_date'], 'order_id' => $order_id));
                         pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_activate', array('expiration_date' => $subscription_data['expiration_date'], 'order_id' => $order_id));
                     }
-                    else pms_add_member_subscription_log( $subscription_data['id'], 'woocommerce_product_subscription_status_update', array( 'old_status' => $existing_sub->status, 'new_status' => $subscription_data['status'], 'order_id' => $order_id ));
+                    elseif ( !empty( $existing_sub->status ) && $existing_sub->status != $subscription_data['status'] )
+                        pms_add_member_subscription_log( $subscription_data['id'], 'woocommerce_product_subscription_status_update', array( 'old_status' => $existing_sub->status, 'new_status' => $subscription_data['status'], 'order_id' => $order_id ));
+                    else pms_add_member_subscription_log( $subscription_data['id'], 'woocommerce_product_subscription_status_set', array( 'status' => $subscription_data['status'], 'order_id' => $order_id ));
                 }
                 elseif ( !empty( $subscription_data['replacement_type'] ) ) {
                     pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_replacement', array('type' => $subscription_data['replacement_type'], 'new_name' => $subscription_data['new_name'], 'order_id' => $order_id));
                 }
-                elseif ( $existing_sub->expiration_date != $subscription_data['expiration_date'] ) {
+                elseif ( !empty( $subscription_data['expiration_date'] ) && $existing_sub->expiration_date != $subscription_data['expiration_date'] ) {
                     if ( $subscription_renewal )
                         pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_expiration_renewal', array('new_expire_date' => $subscription_data['expiration_date'], 'order_id' => $order_id));
                     else pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_expiration_update', array('new_expire_date' => $subscription_data['expiration_date'], 'order_id' => $order_id));
                 }
-                elseif ( $existing_sub->billing_next_payment != $subscription_data['billing_next_payment'] )
+                elseif ( !empty( $subscription_data['billing_next_payment'] ) && $existing_sub->billing_next_payment != $subscription_data['billing_next_payment'] )
                     pms_add_member_subscription_log($subscription_data['id'], 'woocommerce_product_subscription_next_payment_update', array('new_payment_date' => $subscription_data['billing_next_payment']));
             }
         }
@@ -389,13 +414,9 @@ function pms_woo_update_member_subscription( $subscription_data, $subscription_r
 }
 
 
-// Update Subscription Status when WooCommerce Subscription Status is changed
-function pms_woo_subscription_status_update() {
-    if ( !isset( $_GET['post'] ))
-        return;
-
-    $woo_subscription = wcs_get_subscription( absint( $_GET['post'] ) );
-    $woo_subscription_status = $woo_subscription->get_status();
+// Update PMS Subscription Status when WooCommerce Subscription Status is updated
+function pms_woo_update_pms_subsciption_status( $woo_subscription, $woo_subscription_new_status, $woo_subscription_old_status ) {
+    $woo_subscription_id = $woo_subscription->get_id();
     $items = $woo_subscription->get_items();
     $user = $woo_subscription->get_user();
     $user_id = $user->data->ID;
@@ -407,25 +428,21 @@ function pms_woo_subscription_status_update() {
 
         if ( isset( $existing_subscription['0'] )) {
 
-            if ( $woo_subscription_status == 'cancelled' )
-                $subscription_data = array( 'id' => $existing_subscription['0']->id, 'status' => 'canceled' );
-            elseif ( $woo_subscription_status == 'on-hold' )
-                $subscription_data = array( 'id' => $existing_subscription['0']->id, 'status' => 'pending' );
-            elseif ( $woo_subscription_status == 'active' )
-                $subscription_data = array( 'id' => $existing_subscription['0']->id, 'expiration_date' => $existing_subscription['0']->expiration_date, 'status' => 'active' );
+            $subscription_status = pms_woo_set_subscription_status( '', 'subscription', $existing_subscription['0']->status, $woo_subscription_new_status );
 
-            if ( isset( $subscription_data )) {
-                pms_woo_update_member_subscription($subscription_data, false, $existing_subscription, $woo_subscription->get_parent_id(), $woo_subscription->get_order_key());
-                if( function_exists( 'pms_add_member_subscription_log' ) && $woo_subscription_status == 'cancelled' )
-                    pms_add_member_subscription_log( $subscription_data['id'], 'woocommerce_product_subscription_canceled', array( 'woo_subscription_id' => absint( $_GET['post'] )));
-            }
+            if ( $woo_subscription_new_status == 'active' )
+                $subscription_data = array( 'id' => $existing_subscription['0']->id, 'expiration_date' => $existing_subscription['0']->expiration_date, 'status' => 'active' );
+            else $subscription_data = array( 'id' => $existing_subscription['0']->id, 'status' => $subscription_status );
+
+            pms_woo_update_member_subscription( $subscription_data, false, $existing_subscription, $woo_subscription->get_parent_id(), $woo_subscription->get_order_key() );
+
+            if( function_exists( 'pms_add_member_subscription_log' ) && $woo_subscription_new_status == 'cancelled' )
+                pms_add_member_subscription_log( $subscription_data['id'], 'woocommerce_product_subscription_canceled', array( 'woo_subscription_id' => $woo_subscription_id ));
 
         }
     }
 }
-add_action('woocommerce_subscription_status_cancelled',  'pms_woo_subscription_status_update');
-add_action('woocommerce_subscription_status_on-hold',  'pms_woo_subscription_status_update');
-add_action('woocommerce_subscription_status_active',  'pms_woo_subscription_status_update');
+add_action('woocommerce_subscription_status_updated', 'pms_woo_update_pms_subsciption_status', 10, 3 );
 
 
 // Handle Member Subscription
@@ -470,3 +487,33 @@ add_action('woocommerce_order_status_processing', 'pms_woo_handle_member_subscri
 add_action('woocommerce_order_status_completed',  'pms_woo_handle_member_subscription');
 add_action('woocommerce_order_status_refunded',   'pms_woo_handle_member_subscription');
 add_action('woocommerce_order_status_cancelled',  'pms_woo_handle_member_subscription');
+
+
+// When PMS Subscription is Canceled from PMS Account also Cancel linked WooCommerce Subscription
+/**
+ * @throws Exception
+ */
+function pms_woo_cancel_woocommerce_subscription($member_data, $member_subscription ) {
+    $order_key = pms_get_member_subscription_meta( $member_subscription->id, 'woo_order_key', true );
+    $order_id = wc_get_order_id_by_order_key( $order_key );
+    $order = new WC_Order( $order_id );
+
+    if ( wcs_order_contains_subscription( $order, array( 'parent', 'renewal' ) ) ) {
+
+        $subscriptions = wcs_get_subscriptions_for_order( $order_id, array( 'order_type' => array( 'parent', 'renewal' ) ) );
+
+        foreach ( $subscriptions as $subscription ) {
+
+            $latest_order = $subscription->get_last_order();
+
+            if ( $order_id == $latest_order && $subscription->can_be_updated_to( 'pending-cancel' ) ) {
+
+                $subscription->update_status('pending-cancel', esc_html__('Subscription canceled from PMS Account.', 'paid-member-subscriptions'));
+            }
+
+        }
+
+    }
+
+}
+add_action('pms_cancel_member_subscription_successful', 'pms_woo_cancel_woocommerce_subscription', 10, 2);

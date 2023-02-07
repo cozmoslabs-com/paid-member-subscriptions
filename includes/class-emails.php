@@ -309,7 +309,7 @@ Class PMS_Emails {
 
         // for the register email, the subscription doesn't exist yet, the provided $subscription_id is a plan id actually
         // set it in the extra user_info array and make it available for tags to use (e.g. subscription name)
-        if( $action == 'register' ){
+        if( $action == 'register' || $action == 'pending_manual_payment' ){
             $user_info->subscription_plan_id = $subscription_id;
             $subscription_id = 0;
         }

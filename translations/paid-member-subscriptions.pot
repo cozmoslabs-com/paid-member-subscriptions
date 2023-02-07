@@ -383,11 +383,11 @@ msgstr ""
 msgid "The selected subscription plan does not exist or is inactive."
 msgstr ""
 
-#: includes/class-form-handler.php:262, includes/admin/class-admin-members.php:371, includes/admin/class-admin-payments.php:374
+#: includes/class-form-handler.php:262, includes/admin/class-admin-members.php:371, includes/admin/class-admin-payments.php:377
 msgid "Please select a subscription plan."
 msgstr ""
 
-#: includes/class-form-handler.php:308, includes/admin/class-admin-members.php:833, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:113, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:320
+#: includes/class-form-handler.php:308, includes/admin/class-admin-members.php:836, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:135, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:320
 msgid "Something went wrong."
 msgstr ""
 
@@ -588,7 +588,7 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: includes/class-shortcodes.php:255, includes/admin/class-admin-payments.php:508, includes/admin/class-admin-payments.php:508, includes/admin/class-admin-settings.php:216, includes/admin/class-admin-setup-wizard.php:50, includes/admin/views/view-page-basic-info.php:74, includes/admin/views/view-page-settings-misc.php:19
+#: includes/class-shortcodes.php:255, includes/admin/class-admin-payments.php:511, includes/admin/class-admin-payments.php:511, includes/admin/class-admin-settings.php:216, includes/admin/class-admin-setup-wizard.php:50, includes/admin/views/view-page-basic-info.php:74, includes/admin/views/view-page-settings-misc.php:19
 msgid "Payments"
 msgstr ""
 
@@ -692,7 +692,7 @@ msgstr ""
 msgid "Something went wrong while trying to process the payment."
 msgstr ""
 
-#: includes/functions-content-filtering.php:335, add-ons-pro/stripe/includes/functions-filters.php:174
+#: includes/functions-content-filtering.php:335, add-ons-pro/stripe/includes/functions-filters.php:196
 msgid "Please try again."
 msgstr ""
 
@@ -2464,7 +2464,7 @@ msgstr ""
 msgid "In order to restore it, you need to put the plugin into <strong>Test Mode</strong>."
 msgstr ""
 
-#: includes/functions-core.php:1168, includes/functions-core.php:1195, includes/functions-core.php:1235, includes/functions-core.php:1216, includes/functions-core.php:1249, includes/functions-core.php:1299, includes/functions-core.php:1334, includes/functions-plugin-compatibilities.php:101, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:287, add-ons-pro/group-memberships/includes/functions.php:307
+#: includes/functions-core.php:1168, includes/functions-core.php:1195, includes/functions-core.php:1235, includes/functions-core.php:1216, includes/functions-core.php:1249, includes/functions-core.php:1299, includes/functions-core.php:1340, includes/functions-plugin-compatibilities.php:101, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:287, add-ons-pro/group-memberships/includes/functions.php:307
 msgid " %1$sDismiss%2$s"
 msgstr ""
 
@@ -2488,8 +2488,8 @@ msgstr ""
 msgid "<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\"%1$s\" target=\"_blank\">have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\"%2$s\" target=\"_blank\">account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>"
 msgstr ""
 
-#: includes/functions-core.php:1323, includes/gateways/paypal_standard/functions-paypal-standard.php:244, includes/gateways/paypal_standard/functions-paypal-standard.php:272
-msgid "Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
+#: includes/functions-core.php:1329
+msgid "Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s"
 msgstr ""
 
 #: includes/functions-form-extra-fields.php:593
@@ -2524,7 +2524,7 @@ msgstr ""
 msgid "Subscription Initial Payment"
 msgstr ""
 
-#: includes/functions-payment.php:394, add-ons-pro/stripe/includes/functions-filters.php:53
+#: includes/functions-payment.php:394, add-ons-pro/stripe/includes/functions-filters.php:75
 msgid "Subscription Recurring Payment"
 msgstr ""
 
@@ -2869,7 +2869,7 @@ msgstr ""
 msgid "Are you sure you want to remove this discount?"
 msgstr ""
 
-#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:19, extend/woocommerce/woocommerce-product-membership-subscriptions.php:54, includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1083, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:562, includes/admin/views/view-page-members-add-new-edit-subscription.php:190, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:19, extend/woocommerce/woocommerce-product-membership-subscriptions.php:54, includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1083, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:563, includes/admin/views/view-page-members-add-new-edit-subscription.php:190, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
 msgid "Subscription Plan"
 msgstr ""
 
@@ -2891,6 +2891,10 @@ msgstr ""
 
 #: extend/woocommerce/woocommerce-product-membership-subscriptions.php:66
 msgid "Allow customers to create an account during checkout must be %1$sENABLED%2$s"
+msgstr ""
+
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:511
+msgid "Subscription canceled from PMS Account."
 msgstr ""
 
 #: extend/wpbakery/class-wpbakery.php:19, extend/siteorigin/widgets/pms-register/pms-register.php:15
@@ -3002,7 +3006,7 @@ msgstr ""
 msgid "Nonce verification failed"
 msgstr ""
 
-#: includes/admin/class-admin-export.php:119, includes/admin/class-edd-sl-plugin-updater.php:416, includes/admin/export/class-batch-export.php:132, includes/admin/export/class-export.php:172
+#: includes/admin/class-admin-export.php:119, includes/admin/class-edd-sl-plugin-updater.php:421, includes/admin/export/class-batch-export.php:132, includes/admin/export/class-export.php:172
 msgid "Error"
 msgstr ""
 
@@ -3174,11 +3178,11 @@ msgstr[1] ""
 msgid "%d members successfully added."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:363, includes/admin/class-admin-payments.php:368
+#: includes/admin/class-admin-members.php:363, includes/admin/class-admin-payments.php:371
 msgid "It seems this user does not exist."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:355, includes/admin/class-admin-payments.php:360
+#: includes/admin/class-admin-members.php:355, includes/admin/class-admin-payments.php:363
 msgid "Please select a user."
 msgstr ""
 
@@ -3339,7 +3343,7 @@ msgid "Subscription <strong>activated</strong> successfully by WooCommerce [Orde
 msgstr ""
 
 #: includes/admin/class-admin-members.php:809
-msgid "Subscription <strong>canceled</strong> by canceling WooCommerce <strong>Subscription #%s</strong>. "
+msgid "Subscription <strong>expired</strong> because WooCommerce <strong>Subscription #%s</strong> was canceled. "
 msgstr ""
 
 #: includes/admin/class-admin-members.php:812
@@ -3347,30 +3351,34 @@ msgid "<strong>Status</strong> changed from <strong>%s</strong> to <strong>%s</s
 msgstr ""
 
 #: includes/admin/class-admin-members.php:815
-msgid "<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s]."
+msgid "<strong>Status</strong> set to <strong>%s</strong> by WooCommerce [Order #%s]."
 msgstr ""
 
 #: includes/admin/class-admin-members.php:818
-msgid "Your <strong>Subscription Plan</strong> has been %s to <strong>%s</strong>  by WooCommerce [Order #%s]."
+msgid "<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s]."
 msgstr ""
 
 #: includes/admin/class-admin-members.php:821
-msgid "<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s]."
+msgid "Your <strong>Subscription Plan</strong> has been %s to <strong>%s</strong>  by WooCommerce [Order #%s]."
 msgstr ""
 
 #: includes/admin/class-admin-members.php:824
-msgid "Next <strong>Scheduled Payment date</strong> updated to <strong>%s</strong> by the recurring payment process"
+msgid "<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s]."
 msgstr ""
 
 #: includes/admin/class-admin-members.php:827
-msgid "Subscription initiated by WooCommerce [Order #%s]"
+msgid "Next <strong>Scheduled Payment date</strong> updated to <strong>%s</strong> by the recurring payment process"
 msgstr ""
 
 #: includes/admin/class-admin-members.php:830
+msgid "Subscription initiated by WooCommerce [Order #%s]"
+msgstr ""
+
+#: includes/admin/class-admin-members.php:833
 msgid "The <strong>Trial Period</strong> for this Subscription has already been used."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:901, includes/admin/class-admin-members.php:901, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:66, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:13, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
+#: includes/admin/class-admin-members.php:904, includes/admin/class-admin-members.php:904, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:66, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:13, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
 msgid "Members"
 msgstr ""
 
@@ -3488,19 +3496,19 @@ msgstr[1] ""
 msgid "Payment successfully deleted."
 msgstr ""
 
-#: includes/admin/class-admin-payments.php:209
+#: includes/admin/class-admin-payments.php:211
 msgid "Payment successfully updated."
 msgstr ""
 
-#: includes/admin/class-admin-payments.php:343
+#: includes/admin/class-admin-payments.php:346
 msgid "Payment successfully completed."
 msgstr ""
 
-#: includes/admin/class-admin-payments.php:379
+#: includes/admin/class-admin-payments.php:382
 msgid "Please enter a date for the payment."
 msgstr ""
 
-#: includes/admin/class-admin-payments.php:398
+#: includes/admin/class-admin-payments.php:401
 msgid "This user already has a subscription (%s) from the same group with the one you selected. Select it or remove it to be able to complete this payment."
 msgstr ""
 
@@ -3766,47 +3774,47 @@ msgid_plural "%d subscription plans have been successfully deactivated"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:222
+#: includes/admin/class-edd-sl-plugin-updater.php:227
 msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:214
+#: includes/admin/class-edd-sl-plugin-updater.php:219
 msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:416
+#: includes/admin/class-edd-sl-plugin-updater.php:421
 msgid "You do not have permission to install plugin updates"
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:686
+#: includes/admin/class-edd-sl-plugin-updater.php:691
 msgid "Your license key expired on %s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:691
+#: includes/admin/class-edd-sl-plugin-updater.php:696
 msgid "Your license key has been disabled."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:694
+#: includes/admin/class-edd-sl-plugin-updater.php:699
 msgid "Invalid license."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:698
+#: includes/admin/class-edd-sl-plugin-updater.php:703
 msgid "Your license is not active for this URL."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:701
+#: includes/admin/class-edd-sl-plugin-updater.php:706
 msgid "This appears to be an invalid license key for %s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:704
+#: includes/admin/class-edd-sl-plugin-updater.php:709
 msgid "Your license key has reached its activation limit."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:707, includes/admin/class-edd-sl-plugin-updater.php:675, includes/admin/class-edd-sl-plugin-updater.php:817
+#: includes/admin/class-edd-sl-plugin-updater.php:712, includes/admin/class-edd-sl-plugin-updater.php:680, includes/admin/class-edd-sl-plugin-updater.php:822
 msgid "An error occurred, please try again."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:737
+#: includes/admin/class-edd-sl-plugin-updater.php:742
 msgid "You have successfully activated your license."
 msgstr ""
 
@@ -4838,7 +4846,7 @@ msgstr ""
 msgid "Please enter a valid card expiration date."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:34, add-ons-pro/stripe/includes/functions-filters.php:23, add-ons-pro/stripe/includes/functions-filters.php:35
+#: add-ons-pro/paypal-express-pro/includes/functions.php:34, add-ons-pro/stripe/includes/functions-filters.php:29, add-ons-pro/stripe/includes/functions-filters.php:36
 msgid "Credit / Debit Card"
 msgstr ""
 
@@ -4902,23 +4910,23 @@ msgstr ""
 msgid "Attempting to charge user based on the <strong>PayPal Checkout</strong>."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:549, add-ons-pro/stripe/includes/functions-filters.php:166
+#: add-ons-pro/paypal-express-pro/includes/functions.php:549, add-ons-pro/stripe/includes/functions-filters.php:188
 msgid "The payment gateway is reporting the following error:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:596, add-ons-pro/stripe/includes/functions-filters.php:266
+#: add-ons-pro/paypal-express-pro/includes/functions.php:596, add-ons-pro/stripe/includes/functions-filters.php:288
 msgid "Payment Gateway Message"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:599, add-ons-pro/stripe/includes/functions-filters.php:269
+#: add-ons-pro/paypal-express-pro/includes/functions.php:599, add-ons-pro/stripe/includes/functions-filters.php:291
 msgid "Error code:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:604, add-ons-pro/stripe/includes/functions-filters.php:274
+#: add-ons-pro/paypal-express-pro/includes/functions.php:604, add-ons-pro/stripe/includes/functions-filters.php:296
 msgid "Message:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:609, add-ons-pro/stripe/includes/functions-filters.php:279
+#: add-ons-pro/paypal-express-pro/includes/functions.php:609, add-ons-pro/stripe/includes/functions-filters.php:301
 msgid "More info:"
 msgstr ""
 
@@ -5042,119 +5050,119 @@ msgstr ""
 msgid "Your Stripe API settings are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:52
+#: add-ons-pro/stripe/includes/functions-filters.php:74
 msgid "Card - One Time"
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:160
+#: add-ons-pro/stripe/includes/functions-filters.php:182
 msgid "Payment could not be processed."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:186
+#: add-ons-pro/stripe/includes/functions-filters.php:208
 msgid "Please %slog in%s and try again."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:221
+#: add-ons-pro/stripe/includes/functions-filters.php:243
 msgid "The card does not support this type of purchase."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:222
+#: add-ons-pro/stripe/includes/functions-filters.php:244
 msgid "The customer has exceeded the balance or credit limit available on their card."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:223
+#: add-ons-pro/stripe/includes/functions-filters.php:245
 msgid "The card does not support the specified currency."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:224
+#: add-ons-pro/stripe/includes/functions-filters.php:246
 msgid "A transaction with identical amount and credit card information was submitted very recently."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:225
+#: add-ons-pro/stripe/includes/functions-filters.php:247
 msgid "The card has expired."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:226
+#: add-ons-pro/stripe/includes/functions-filters.php:248
 msgid "The payment has been declined as Stripe suspects it is fraudulent."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:227, add-ons-pro/stripe/includes/functions-filters.php:228
+#: add-ons-pro/stripe/includes/functions-filters.php:249, add-ons-pro/stripe/includes/functions-filters.php:250
 msgid "The card has been declined for an unknown reason."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:229, add-ons-pro/stripe/includes/functions-filters.php:238
+#: add-ons-pro/stripe/includes/functions-filters.php:251, add-ons-pro/stripe/includes/functions-filters.php:260
 msgid "The card number is incorrect."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:230, add-ons-pro/stripe/includes/functions-filters.php:236
+#: add-ons-pro/stripe/includes/functions-filters.php:252, add-ons-pro/stripe/includes/functions-filters.php:258
 msgid "The CVC number is incorrect."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:231, add-ons-pro/stripe/includes/functions-filters.php:239
+#: add-ons-pro/stripe/includes/functions-filters.php:253, add-ons-pro/stripe/includes/functions-filters.php:261
 msgid "The PIN entered is incorrect"
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:232
+#: add-ons-pro/stripe/includes/functions-filters.php:254
 msgid "The ZIP/postal code is incorrect."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:233
+#: add-ons-pro/stripe/includes/functions-filters.php:255
 msgid "The card has insufficient funds to complete the purchase."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:234
+#: add-ons-pro/stripe/includes/functions-filters.php:256
 msgid "The card, or account the card is connected to, is invalid."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:235
+#: add-ons-pro/stripe/includes/functions-filters.php:257
 msgid "The payment amount is invalid, or exceeds the amount that is allowed."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:237
+#: add-ons-pro/stripe/includes/functions-filters.php:259
 msgid "The expiration year invalid."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:240
+#: add-ons-pro/stripe/includes/functions-filters.php:262
 msgid "The card issuer could not be reached, so the payment could not be authorized."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:241
+#: add-ons-pro/stripe/includes/functions-filters.php:263
 msgid "The payment has been declined because the card is reported lost."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:242
+#: add-ons-pro/stripe/includes/functions-filters.php:264
 msgid "The payment has been declined because it matches a value on the Stripe user's blocklist."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:243
+#: add-ons-pro/stripe/includes/functions-filters.php:265
 msgid "The payment is not permitted."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:244
+#: add-ons-pro/stripe/includes/functions-filters.php:266
 msgid "An error occurred while processing the card."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:245
+#: add-ons-pro/stripe/includes/functions-filters.php:267
 msgid "The payment could not be processed by the issuer for an unknown reason."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:246
+#: add-ons-pro/stripe/includes/functions-filters.php:268
 msgid "The card cannot be used to make this payment (it is possible it has been reported lost or stolen)."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:247
+#: add-ons-pro/stripe/includes/functions-filters.php:269
 msgid "The payment has been declined because the card is reported stolen."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:248
+#: add-ons-pro/stripe/includes/functions-filters.php:270
 msgid "A Stripe test card number was used."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:249
+#: add-ons-pro/stripe/includes/functions-filters.php:271
 msgid "The customer has exceeded the balance or credit limit available on their card. "
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:330
+#: add-ons-pro/stripe/includes/functions-filters.php:352
 msgid "Payment authenticated successfully."
 msgstr ""
 
@@ -5174,51 +5182,51 @@ msgstr ""
 msgid "E-mail: "
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:500, add-ons-pro/invoices/includes/templates/default.php:162
+#: add-ons-pro/tax/includes/class-tax.php:501, add-ons-pro/invoices/includes/templates/default.php:162
 msgid "Invoice number: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:503, add-ons-pro/invoices/includes/templates/default.php:165
+#: add-ons-pro/tax/includes/class-tax.php:504, add-ons-pro/invoices/includes/templates/default.php:165
 msgid "Payment ID: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:506, add-ons-pro/invoices/includes/templates/default.php:168
+#: add-ons-pro/tax/includes/class-tax.php:507, add-ons-pro/invoices/includes/templates/default.php:168
 msgid "Payment date: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:509, add-ons-pro/invoices/includes/templates/default.php:171
+#: add-ons-pro/tax/includes/class-tax.php:510, add-ons-pro/invoices/includes/templates/default.php:171
 msgid "Payment status: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:513, add-ons-pro/invoices/includes/templates/default.php:175
+#: add-ons-pro/tax/includes/class-tax.php:514, add-ons-pro/invoices/includes/templates/default.php:175
 msgid "Payment gateway: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:527, add-ons-pro/invoices/includes/templates/default.php:189
+#: add-ons-pro/tax/includes/class-tax.php:528, add-ons-pro/invoices/includes/templates/default.php:189
 msgid "Provided by:"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:531, add-ons-pro/invoices/includes/templates/default.php:193
+#: add-ons-pro/tax/includes/class-tax.php:532, add-ons-pro/invoices/includes/templates/default.php:193
 msgid "Provided to:"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:568, includes/admin/views/view-page-payments-add-new-edit.php:135, add-ons-pro/invoices/includes/templates/default.php:230
+#: add-ons-pro/tax/includes/class-tax.php:569, includes/admin/views/view-page-payments-add-new-edit.php:135, add-ons-pro/invoices/includes/templates/default.php:230
 msgid "Amount (%s)"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:612, add-ons-pro/tax/includes/class-tax.php:609
+#: add-ons-pro/tax/includes/class-tax.php:613, add-ons-pro/tax/includes/class-tax.php:610
 msgid "%s%% %s: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:617, add-ons-pro/invoices/includes/templates/default.php:268
+#: add-ons-pro/tax/includes/class-tax.php:618, add-ons-pro/invoices/includes/templates/default.php:268
 msgid "Total (%s): %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:627, add-ons-pro/tax/includes/class-tax.php:638
+#: add-ons-pro/tax/includes/class-tax.php:628, add-ons-pro/tax/includes/class-tax.php:639
 msgid "TAX/VAT"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:650
+#: add-ons-pro/tax/includes/class-tax.php:651
 msgid "* Taxes might be applied at the end of the checkout."
 msgstr ""
 
@@ -5446,7 +5454,7 @@ msgstr ""
 msgid "Activate product subscriptions"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:69, extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:86, includes/admin/views/view-page-settings-misc.php:165, includes/admin/views/view-page-settings-payments.php:129, includes/admin/views/view-page-settings-payments.php:145, includes/admin/views/view-page-settings-payments.php:157
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:69, extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:86, includes/admin/views/view-page-settings-misc.php:165, includes/admin/views/view-page-settings-payments.php:130, includes/admin/views/view-page-settings-payments.php:146, includes/admin/views/view-page-settings-payments.php:158
 msgid "Enable"
 msgstr ""
 
@@ -6622,67 +6630,67 @@ msgstr ""
 msgid "Select how prices should be displayed."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:69
+#: includes/admin/views/view-page-settings-payments.php:70
 msgid "Active Payment Gateways"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:91
+#: includes/admin/views/view-page-settings-payments.php:92
 msgid "Default Payment Gateway"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:106, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:132
+#: includes/admin/views/view-page-settings-payments.php:107, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:132
 msgid "Renewal"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:110, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:137
+#: includes/admin/views/view-page-settings-payments.php:111, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:137
 msgid "Customer opts in for automatic renewal"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:111, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:138
+#: includes/admin/views/view-page-settings-payments.php:112, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:138
 msgid "Always renew automatically"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:112, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:139
+#: includes/admin/views/view-page-settings-payments.php:113, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:139
 msgid "Never renew automatically"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:116
+#: includes/admin/views/view-page-settings-payments.php:117
 msgid "Select renewal type. You can either allow the customer to opt in or force automatic renewal."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:126
+#: includes/admin/views/view-page-settings-payments.php:127
 msgid "Retry Payments"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:132
+#: includes/admin/views/view-page-settings-payments.php:133
 msgid "By checking this option, if a payment fails, the plugin will try to charge the user again after %s days for a maximum of %s retries."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:133
+#: includes/admin/views/view-page-settings-payments.php:134
 msgid "This is valid for the Stripe and PayPal Express with Reference Transactions payment gateways. For PayPal Subscriptions, this is happening by default."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:134
+#: includes/admin/views/view-page-settings-payments.php:135
 msgid "These settings can be changed from the Settings -> %sMisc%s -> Payments page."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:142
+#: includes/admin/views/view-page-settings-payments.php:143
 msgid "Allow Subscription Downgrades"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:148
+#: includes/admin/views/view-page-settings-payments.php:149
 msgid "By checking this option, you are allowing members to downgrade their subscription plan to a lower one from the same tier."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:154
+#: includes/admin/views/view-page-settings-payments.php:155
 msgid "Allow Subscription Change"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:160
+#: includes/admin/views/view-page-settings-payments.php:161
 msgid "By checking this option, you are allowing members to change their subscription to one from another tier."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:173, includes/admin/views/setup-wizard/view-tab-payments.php:28
+#: includes/admin/views/view-page-settings-payments.php:174, includes/admin/views/setup-wizard/view-tab-payments.php:28
 msgid "Payment Gateways"
 msgstr ""
 
@@ -6860,6 +6868,10 @@ msgstr ""
 
 #: includes/gateways/paypal_standard/functions-paypal-standard.php:161
 msgid "Instant Payment Notification (IPN) not received from PayPal."
+msgstr ""
+
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:244, includes/gateways/paypal_standard/functions-paypal-standard.php:272
+msgid "Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
 #: includes/modules/labels-edit/index.php:90, includes/views/shortcodes/view-shortcode-account-subscription-details.php:107, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:119

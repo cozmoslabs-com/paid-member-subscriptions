@@ -616,7 +616,7 @@
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions Basic</strong> license has reached its activation limit.<br> Upgrade now to <strong>Pro</strong> for unlimited activations and extra features like recurring payments, invoices, taxes and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>", "paid-member-subscriptions"); ?>
 <?php __('<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ); ?>
-<?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
 <?php __("Abandoned", "paid-member-subscriptions"); ?>
 <?php __("Completed", "paid-member-subscriptions"); ?>
@@ -719,6 +719,7 @@
 <?php __("For this Subscription Plan association to work properly we need the following WooCommerce settings to be met:", "paid-member-subscriptions"); ?>
 <?php __('Allow customers to place orders without an account must be %1$sDISABLED%2$s', 'paid-member-subscriptions' ); ?>
 <?php __('Allow customers to create an account during checkout must be %1$sENABLED%2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Subscription canceled from PMS Account.", "paid-member-subscriptions"); ?>
 <?php __("PMS Register", "paid-member-subscriptions"); ?>
 <?php __("Insert the [pms-register] shortcode", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plans", "paid-member-subscriptions"); ?>
@@ -830,8 +831,9 @@
 <?php __("Subscription canceled by gateway.", "paid-member-subscriptions"); ?>
 <?php __("Payment gateway was changed from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription <strong>activated</strong> successfully by WooCommerce [Order #%s] until <strong>%s</strong>", "paid-member-subscriptions"); ?>
-<?php __("Subscription <strong>canceled</strong> by canceling WooCommerce <strong>Subscription #%s</strong>. ", "paid-member-subscriptions"); ?>
+<?php __("Subscription <strong>expired</strong> because WooCommerce <strong>Subscription #%s</strong> was canceled. ", "paid-member-subscriptions"); ?>
 <?php __("<strong>Status</strong> changed from <strong>%s</strong> to <strong>%s</strong> by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
+<?php __("<strong>Status</strong> set to <strong>%s</strong> by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
 <?php __("<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Subscription Plan</strong> has been %s to <strong>%s</strong>  by WooCommerce [Order #%s].", "paid-member-subscriptions"); ?>
 <?php __("<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s].", "paid-member-subscriptions"); ?>
@@ -1722,6 +1724,7 @@
 <?php __("Waiting to receive Instant Payment Notification (IPN) from <strong>PayPal</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Instant Payment Notification (IPN) received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
+<?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Update", "paid-member-subscriptions"); ?>
 <?php __("Label added successfully.", "paid-member-subscriptions"); ?>
 <?php __("You must select a label to edit!", "paid-member-subscriptions"); ?>

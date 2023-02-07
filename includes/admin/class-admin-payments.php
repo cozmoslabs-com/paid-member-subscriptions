@@ -205,8 +205,11 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
             else
                 $updated = $payment->update( $payment_vars );
 
-            if( $updated )
+            if( $updated ){
+                do_action( 'pms_manually_edited_payment_success', $payment, $payment_vars );
+
                 $this->add_admin_notice( esc_html__( 'Payment successfully updated.', 'paid-member-subscriptions' ), 'updated' );
+            }
 
         }
 

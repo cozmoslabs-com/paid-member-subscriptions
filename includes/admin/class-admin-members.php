@@ -806,10 +806,13 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                 $message = sprintf( __( 'Subscription <strong>activated</strong> successfully by WooCommerce [Order #%s] until <strong>%s</strong>', 'paid-member-subscriptions' ), $log['data']['order_id'], $log['data']['expiration_date'] );
                 break;
             case 'woocommerce_product_subscription_canceled':
-                $message = sprintf( __( 'Subscription <strong>canceled</strong> by canceling WooCommerce <strong>Subscription #%s</strong>. ', 'paid-member-subscriptions' ), $log['data']['woo_subscription_id'] );
+                $message = sprintf( __( 'Subscription <strong>expired</strong> because WooCommerce <strong>Subscription #%s</strong> was canceled. ', 'paid-member-subscriptions' ), $log['data']['woo_subscription_id'] );
                 break;
             case 'woocommerce_product_subscription_status_update':
                 $message = sprintf( __( '<strong>Status</strong> changed from <strong>%s</strong> to <strong>%s</strong> by WooCommerce [Order #%s].', 'paid-member-subscriptions' ), $log['data']['old_status'], $log['data']['new_status'], $log['data']['order_id'] );
+                break;
+            case 'woocommerce_product_subscription_status_set':
+                $message = sprintf( __( '<strong>Status</strong> set to <strong>%s</strong> by WooCommerce [Order #%s].', 'paid-member-subscriptions' ), $log['data']['status'], $log['data']['order_id'] );
                 break;
             case 'woocommerce_product_subscription_expiration_update':
                 $message = sprintf( __( '<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s].', 'paid-member-subscriptions' ), $log['data']['new_expire_date'], $log['data']['order_id'] );

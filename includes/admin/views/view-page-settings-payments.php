@@ -61,6 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     <?php
     $payment_gateways = pms_get_payment_gateways();
+    $payment_gateways = apply_filters( 'pms_admin_display_payment_gateways', $payment_gateways );
 
     if( count( $payment_gateways ) > 1 ) :
 
@@ -70,8 +71,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             foreach( $payment_gateways as $payment_gateway_slug => $payment_gateways_details ) {
                 echo '<label>';
-                echo '<input type="checkbox" name="pms_payments_settings[active_pay_gates][]" value="' . esc_attr( $payment_gateway_slug ) . '" ' . ( !empty( $this->options['active_pay_gates'] ) && in_array( $payment_gateway_slug, $this->options['active_pay_gates'] ) ? 'checked="checked"' : '' ) . '/>';
-                    echo esc_html( $payment_gateways_details['display_name_admin'] );
+                    echo '<input type="checkbox" name="pms_payments_settings[active_pay_gates][]" value="' . esc_attr( $payment_gateway_slug ) . '" ' . ( !empty( $this->options['active_pay_gates'] ) && in_array( $payment_gateway_slug, $this->options['active_pay_gates'] ) ? 'checked="checked"' : '' ) . '/>';
+                        echo esc_html( $payment_gateways_details['display_name_admin'] );
                 echo '</label><br>';
             }
         echo '</div>';
