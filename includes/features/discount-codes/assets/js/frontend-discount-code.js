@@ -10,43 +10,61 @@ jQuery(document).ready(function($) {
     // Cache the value of the last checked discount code
     var last_checked_discount_code;
 
+    /*
+     * Show / Hide discount code field if a free plan is selected
+     *
+     */
+    toggle_discount_box( $('input[name=subscription_plans][type=radio]').length > 0 ? $('input[name=subscription_plans][type=radio]:checked') : $('input[name=subscription_plans][type=hidden]') )
+
     /**
      * Trigger automatically "Apply" discount button when the user already entered a discount code and selects another subscription plan, or checks the "Automatically renew subscription" checkbox.
      * This will update the discount message shown below the field.
      *
      */
-    $('.pms-subscription-plan input[type="radio"][name="subscription_plans"]').click(function(){
+    $(document).on('click', '.pms-subscription-plan input[type="radio"][name="subscription_plans"]', function(){
 
         // If subscription is not free and discount code field is not empty
-        if (  ( $(this).attr("data-price") > 0) && ( $('#pms_subscription_plans_discount_code').length > 0 ) ){
+        if (($(this).attr("data-price") > 0) && ($('#pms_subscription_plans_discount_code').length > 0)) {
 
-            $('#pms-apply-discount').trigger('click');
+            $('#pms-apply-discount').trigger('click')
 
         } else {
 
-            $('#pms-subscription-plans-discount-messages-wrapper').hide();
-            $('#pms-subscription-plans-discount-messages').hide();
+            $('#pms-subscription-plans-discount-messages-wrapper').hide()
+            $('#pms-subscription-plans-discount-messages').hide()
 
         }
 
-    });
+        toggle_discount_box( $(this) )
 
-    $('.pms-subscription-plan-auto-renew input[type="checkbox"][name="pms_recurring"]').click(function(){
+    })
+
+    $(document).on('click', '.pms-subscription-plan-auto-renew input[type="checkbox"][name="pms_recurring"]', function () {
 
         // If discount code field is not empty
         if ( $('#pms_subscription_plans_discount_code').length > 0 ){
 
-            $('#pms-apply-discount').trigger('click');
+            $('#pms-apply-discount').trigger('click')
 
         } else {
 
-            $('#pms-subscription-plans-discount-messages-wrapper').hide();
-            $('#pms-subscription-plans-discount-messages').hide();
+            $('#pms-subscription-plans-discount-messages-wrapper').hide()
+            $('#pms-subscription-plans-discount-messages').hide()
 
         }
 
-    });
+        toggle_discount_box( $($pms_checked_subscription) )
 
+    })
+    
+    /**
+     * Toggle discount code box when the subscription plans field is shown from the
+     * Profile Builder Conditional Logic functionality
+     */
+    $(document).on("wppbAddRequiredAttributeEvent", function (e) {
+        if ($(e.target).is('#pms_subscription_plans_discount_code'))
+            toggle_discount_box($('input[name=subscription_plans][type=radio]').length > 0 ? $('input[name=subscription_plans][type=radio]:checked') : $('input[name=subscription_plans][type=hidden]'))
+    })
 
     /**
      * Handles discount code validation when the user clicks the "Apply" discount button
@@ -182,7 +200,7 @@ jQuery(document).ready(function($) {
 
         }
 
-    });
+    })
 
     /**
      * If there is a discount code value already set on document ready
@@ -190,7 +208,7 @@ jQuery(document).ready(function($) {
      *
      */
     if( $('input[name=discount_code]').val() != '' )
-        $('#pms-apply-discount').trigger('click');
+        $('#pms-apply-discount').trigger('click')
 
     /**
      * When losing focus of the discount code field, directly apply the discount
@@ -203,7 +221,7 @@ jQuery(document).ready(function($) {
 
         if ( $('input[name=discount_code]').val() == '' )
             show_payment_fields( $pms_form );
-    });
+    })
 
     /**
      * Clones and caches the wrappers for the payment gateways and the credit card / billing information
@@ -266,35 +284,23 @@ jQuery(document).ready(function($) {
 
     }
 
-
-    /*
-     * Show / Hide discount code field if a free plan is selected
-     *
-     */
-    toggle_discount_box( $( 'input[name=subscription_plans][type=radio]' ).length > 0 ? $( 'input[name=subscription_plans][type=radio]:checked' ) : $( 'input[name=subscription_plans][type=hidden]' ) );
-
-    $('input[type=radio][name=subscription_plans]').click( function() {
-        toggle_discount_box( $(this) )
-    })
-
-    $('.pms-subscription-plan-auto-renew input[type="checkbox"][name="pms_recurring"]').click( function() {
-        toggle_discount_box( $($pms_checked_subscription) )
-    })
-
     /*
      * Show / Hide discount code field if a free plan is selected
      *
      */
     function toggle_discount_box( $element ) {
 
+        if( !$element )
+            return
+
         var selector = '#pms-subscription-plans-discount';
         
         if( !subscription_has_discount( $element.val() ) )
             $(selector).hide()
         else {
-            if ( $element.attr('data-price') == '0' && !$.pms_plan_has_signup_fee( $element ) ) {
+            if ( $element.attr('data-price') == '0' ) {
 
-                if ( $.pms_plan_is_prorated() ) {
+                if ( $.isFunction( $.pms_plan_is_prorated ) && $.pms_plan_is_prorated( $element ) ) {
 
                     if ( $('input[name="pms_recurring"]', $('.pms-subscription-plan-auto-renew') ).prop('checked') || $element.data('recurring') == 2 ){
                         $(selector).show()
@@ -302,6 +308,9 @@ jQuery(document).ready(function($) {
                     }
 
                 }
+
+                if ( $.isFunction( $.pms_plan_has_signup_fee ) && $.pms_plan_has_signup_fee( $element ) )
+                    $(selector).show()
 
                 $(selector).hide()
 

@@ -291,6 +291,9 @@ add_action( 'wppb_before_register_fields', 'pms_wppb_paypal_api_credentials_admi
  */
 function pms_is_paypal_payment_profile_id( $payment_profile_id = '' ) {
 
+    if( empty( $payment_profile_id ) )
+        return false;
+
     if( strpos( $payment_profile_id, 'I-' ) !== false )
         return true;
     else

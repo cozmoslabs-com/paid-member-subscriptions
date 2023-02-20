@@ -464,12 +464,14 @@ jQuery( function($) {
          */
         jQuery(document).on('elementor/popup/show', function () {
 
-            handle_auto_renew_field_display()
-            handle_payment_gateways_display()
-            handle_plan_recurring_duration_display()
-            handle_billing_fields_display()
+            if ($('.pms-form', $('.elementor-popup-modal')).length > 0) {
+                handle_auto_renew_field_display()
+                handle_payment_gateways_display()
+                handle_plan_recurring_duration_display()
+                handle_billing_fields_display()
 
-            $('#pms-paygates-inner').css('visibility', 'visible');
+                $('#pms-paygates-inner').css('visibility', 'visible');
+            }
 
         })
 

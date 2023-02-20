@@ -58,8 +58,6 @@ class PMS_WOO_Subscription_Discounts {
      */
     public function init() {
 
-        $this->is_active_member = pms_is_member( get_current_user_id() );
-
         // check if on sale products are excluded from membership discounts
         $options = get_option( 'pms_woocommerce_settings' );
 
@@ -86,6 +84,8 @@ class PMS_WOO_Subscription_Discounts {
         // Subscription discount class methods are available on both frontend and backend,
         // but the hooks below should run in frontend only for logged in members.
         if (!(is_admin() && !is_ajax())) {
+
+            $this->is_active_member = pms_is_member( get_current_user_id() );
 
             // Initialize discount actions that will be called in this class methods
             add_action('pms_woo_discounts_enable_price_adjustments', array($this, 'enable_price_adjustments'));

@@ -295,16 +295,20 @@ add_action( 'pms_change_subscription_form_validation',        'pms_in_dc_add_for
 add_action( 'pms_retry_payment_subscription_form_validation', 'pms_in_dc_add_form_discount_error' );
 add_action( 'pms_ec_process_checkout_validations',            'pms_in_dc_add_form_discount_error' );
 
-function pms_in_dc_add_pbform_discount_error() {
+function pms_in_dc_add_pbform_discount_error( $message ) {
+
     if ( !empty($_POST['discount_code']) && !empty($_POST['subscription_plans']) ) {
         $code                 = sanitize_text_field( $_POST['discount_code'] );
         $subscription_plan_id = absint( $_POST['subscription_plans'] );
 
         $error = pms_in_dc_get_discount_error( $code, $subscription_plan_id );
 
-        if ( !empty($error) )
-            return $error;
+        if ( !empty( $error ) )
+            $message = $error;
     }
+
+    return $message;
+
 }
 add_filter( 'wppb_check_form_field_subscription-plans', 'pms_in_dc_add_pbform_discount_error', 20, 4 );
 

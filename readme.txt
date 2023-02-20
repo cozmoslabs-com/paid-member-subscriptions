@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.1
-Stable tag: 2.8.6
+Stable tag: 2.8.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.8.7 =
+* Fix: some PHP 8.1 notices
+* Fix: compatibility issue with Elementor popups
+* Fix: compatibility between Discount Codes and Profile Builder Conditional Logic functionality
+* Fix: issue with PWYW validation messages not appearing on Profile Builder forms due to a Discount Codes add-on incompatibility
+* Misc: remove some unnecessary back-end code from the WooCommerce Product Discounts functionality
+* Misc: extend filters that allow other user roles to access plugin pages and functions
+* Misc: fix use of deprecated function used for Elementor widgets
+
 = 2.8.6 =
 * Fix: Cancel WooCommerce Subscription when PMS membership gets canceled and they are linked
 * Fix: Update PMS membership status when a WooCommerce order is refunded

@@ -83,7 +83,7 @@ Class PMS_Custom_Post_Type {
     public function filter_arguments() {
 
         // For the moment only administrators should be able to see custom post types
-        if( !current_user_can( 'manage_options' ) ) {
+        if( !current_user_can( apply_filters( 'pms_custom_post_type_capability', 'manage_options', $this->post_type ) ) ) {
             $this->args['show_ui'] = false;
         }
 
