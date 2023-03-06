@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.1
-Stable tag: 2.8.7
+Stable tag: 2.8.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,16 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.8.8 =
+* Feature: added 'subscription_plan_price' tag for emails
+* Fix: cancel subscription issue with WooCommerce Memberships
+* Fix: issue with payment editing redirecting back to the payments list
+* Misc: fix issue with subscription update hooks missing data when subscription was inserted from WooCommerce
+* Misc: backwards compatibility for Elementor widgets
+* Misc: show Subscription Plan name in the Payments History table from the Account shortcode
+* Misc: added filters to manage members and payments columns when exporting data to csv: pms_export_members_csv_columns and pms_export_payments_csv_columns
+* Misc: added a filter to change the name that is displayed when selecting users to add a payment: pms_add_new_payment_dropdown_display_name
+
 = 2.8.7 =
 * Fix: some PHP 8.1 notices
 * Fix: compatibility issue with Elementor popups

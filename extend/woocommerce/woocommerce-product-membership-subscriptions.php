@@ -365,10 +365,10 @@ function pms_woo_add_new_member_subscription( $subscription_data, $order_id, $or
 // Update existing Membership Subscription
 function pms_woo_update_member_subscription( $subscription_data, $subscription_renewal, $user_existing_subscriptions, $order_id, $order_key ) {
 
-    if ( empty( $subscription_data ) )
+    if ( empty( $subscription_data ) || empty( $subscription_data['id'] ) )
         return;
 
-    $subscription = new PMS_Member_Subscription( $subscription_data );
+    $subscription = pms_get_member_subscription( $subscription_data['id'] );
     $subscription->update( $subscription_data );
 
     if ( !pms_woo_is_manual_order_update( $subscription->id, $order_key )) {
@@ -498,7 +498,7 @@ function pms_woo_cancel_woocommerce_subscription($member_data, $member_subscript
     $order_id = wc_get_order_id_by_order_key( $order_key );
     $order = new WC_Order( $order_id );
 
-    if ( wcs_order_contains_subscription( $order, array( 'parent', 'renewal' ) ) ) {
+    if ( function_exists('wcs_order_contains_subscription') && wcs_order_contains_subscription( $order, array( 'parent', 'renewal' ) ) ) {
 
         $subscriptions = wcs_get_subscriptions_for_order( $order_id, array( 'order_type' => array( 'parent', 'renewal' ) ) );
 

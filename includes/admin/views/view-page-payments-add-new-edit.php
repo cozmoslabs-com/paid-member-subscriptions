@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     <div class="">
 
-        <?php $url = ( $action == 'add_payment' ) ? add_query_arg( array( 'pms-action' => 'add_payment'), admin_url( 'admin.php?page=pms-payments-page' ) ) : admin_url( 'admin.php?page=pms-payments-page' ); ?>
+        <?php $url = ( $action == 'add_payment' ) ? add_query_arg( array( 'pms-action' => 'add_payment'), admin_url( 'admin.php?page=pms-payments-page' ) ) : add_query_arg( array( 'pms-action' => 'edit_payment', 'payment_id' => $payment_id ), admin_url( 'admin.php?page=pms-payments-page' ) ); ?>
 
         <form id="pms-form-<?php echo ( $action == 'edit_payment' ? 'edit' : 'add' ); ?>-payment" class="pms-form" method="POST" action="<?php echo esc_url( $url ); ?>">
 
@@ -74,7 +74,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             $users = get_users();
 
                             foreach( $users as $user ) {
-                                echo '<option ' . ( ! empty( $form_data['pms-member-username'] ) ? selected( $form_data['pms-member-username'], $user->ID, false ) : '' ) . ' value="' . esc_attr( $user->ID ) . '">' . esc_html( $user->data->user_login ) . '</option>';
+                                echo '<option ' . ( ! empty( $form_data['pms-member-username'] ) ? selected( $form_data['pms-member-username'], $user->ID, false ) : '' ) . ' value="' . esc_attr( $user->ID ) . '">' . esc_html( apply_filters( 'pms_add_new_payment_dropdown_display_name', $user->data->user_login, $user->ID, $form_data ) ) . '</option>';
                             }
                             ?>
                         </select>

@@ -19,6 +19,7 @@ Class PMS_Merge_Tags{
         add_filter( 'pms_merge_tag_subscription_start_date',      array( $this, 'pms_tag_subscription_start_date' ), 10, 3 );
         add_filter( 'pms_merge_tag_subscription_expiration_date', array( $this, 'pms_tag_subscription_expiration_date' ), 10, 3 );
         add_filter( 'pms_merge_tag_subscription_price',           array( $this, 'pms_tag_subscription_price' ), 10, 4 );
+        add_filter( 'pms_merge_tag_subscription_plan_price',      array( $this, 'pms_tag_subscription_plan_price' ), 10, 3 );
         add_filter( 'pms_merge_tag_subscription_duration',        array( $this, 'pms_tag_subscription_duration' ), 10, 3 );
         add_filter( 'pms_merge_tag_username',                     array( $this, 'pms_tag_username' ), 10, 2 );
         add_filter( 'pms_merge_tag_first_name',                   array( $this, 'pms_tag_firstname' ), 10, 2 );
@@ -72,6 +73,7 @@ Class PMS_Merge_Tags{
             'subscription_start_date',
             'subscription_expiration_date',
             'subscription_price',
+            'subscription_plan_price',
             'subscription_duration',
             'first_name',
             'last_name',
@@ -245,6 +247,41 @@ Class PMS_Merge_Tags{
             return pms_format_price( $amount, $currency );
 
         }
+
+    }
+
+    /**
+     * Replace the {{subscription_plan_price}} tag
+     */
+    public function pms_tag_subscription_plan_price( $value, $user_info, $subscription_id ){
+
+        $amount = false;
+
+        if( !empty( $subscription_id ) ){
+            $subscription = pms_get_member_subscription( $subscription_id );
+
+            if( !empty( $subscription ) && !empty( $subscription->subscription_plan_id ) )
+                $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+        }
+        elseif ( !empty( $user_info ) && !empty( $user_info->data ) && !empty( $user_info->data->subscription_plan_id )) {
+            $subscription_plan = pms_get_subscription_plan( $user_info->data->subscription_plan_id );
+        }
+
+
+        if ( isset( $subscription_plan ) && !empty( $subscription_plan->price ) ) {
+
+            if ( !empty( $_POST['discount_code'] ) )
+                $amount = pms_in_calculate_discounted_amount( $subscription_plan->price, pms_in_get_discount_by_code( sanitize_text_field( $_POST['discount_code'] ) ) );
+            else
+                $amount = $subscription_plan->price;
+
+        }
+
+        if( $amount !== false ){
+            $currency = apply_filters( 'pms_merge_tag_subscription_plan_price_currency', pms_get_active_currency(), $subscription_id );
+            return pms_format_price( $amount, $currency );
+        }
+        else return apply_filters( 'pms_merge_tag_no_subscription_plan_price_message', __( 'Free', 'paid-member-subscriptions' ));
 
     }
 

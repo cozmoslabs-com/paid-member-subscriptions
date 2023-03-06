@@ -73,11 +73,19 @@ class PMS_Elementor {
 	public function register_widgets() {
 		$this->include_widgets_files();
 
-		\Elementor\Plugin::instance()->widgets_manager->register( new PMS_Elementor_Account_Widget() );
-		\Elementor\Plugin::instance()->widgets_manager->register( new PMS_Elementor_Login_Widget() );
-		\Elementor\Plugin::instance()->widgets_manager->register( new PMS_Elementor_Recover_Password_Widget() );
-		\Elementor\Plugin::instance()->widgets_manager->register( new PMS_Elementor_Register_Widget() );
-		\Elementor\Plugin::instance()->widgets_manager->register( new PMS_Elementor_Product_Messages_Widget() );
+        if( version_compare( ELEMENTOR_VERSION, '3.5,', '>=' ) ){
+            \Elementor\Plugin::instance()->widgets_manager->register( new PMS_Elementor_Account_Widget() );
+            \Elementor\Plugin::instance()->widgets_manager->register( new PMS_Elementor_Login_Widget() );
+            \Elementor\Plugin::instance()->widgets_manager->register( new PMS_Elementor_Recover_Password_Widget() );
+            \Elementor\Plugin::instance()->widgets_manager->register( new PMS_Elementor_Register_Widget() );
+            \Elementor\Plugin::instance()->widgets_manager->register( new PMS_Elementor_Product_Messages_Widget() );
+        } else {
+            \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Account_Widget() );
+            \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Login_Widget() );
+            \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Recover_Password_Widget() );
+            \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Register_Widget() );
+            \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Product_Messages_Widget() );
+        }
 	}
 
     private function register_sections() {

@@ -73,7 +73,8 @@ class PMS_Batch_Export_Payments extends PMS_Batch_Export {
             $cols['paymentmeta_' . $meta_key] = 'paymentmeta_' . $meta_key;
         }
 
-		return $cols;
+        return apply_filters( 'pms_export_payments_csv_columns', $cols );
+
 	}
 
 	/**

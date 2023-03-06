@@ -85,7 +85,8 @@ class PMS_Batch_Export_Members extends PMS_Batch_Export {
             }
         }
 
-		return $cols;
+        return apply_filters( 'pms_export_members_csv_columns', $cols );
+
 	}
 
 	/**
