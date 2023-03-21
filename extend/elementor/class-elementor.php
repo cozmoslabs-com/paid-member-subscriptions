@@ -33,6 +33,12 @@ class PMS_Elementor {
 		// Register widgets
 		add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widgets' ) );
 
+        // Register dynamic_tag Groups
+		add_action( 'elementor/dynamic_tags/register', array( $this, 'register_dynamic_tag_groups' ) );
+
+        // Register Dynamic Tags
+		add_action( 'elementor/dynamic_tags/register', array( $this, 'register_dynamic_tags' ) );
+
         // Load Elements restriction class
         if( apply_filters( 'pms_elementor_enable_content_restriction', true ) )
             require_once( __DIR__ . '/class-elementor-elements-restriction.php' );
@@ -121,6 +127,34 @@ class PMS_Elementor {
     }
 
     protected function content_restriction(){}
+
+    /**
+     * Register dynamic_tag Groups
+     */
+    public function register_dynamic_tag_groups( $dynamic_tags_manager ) {
+        $dynamic_tags_manager->register_group(
+            'subscription-plans',
+            [
+                'title' => esc_html__( 'Subscription Plans', 'paid-member-subscriptions' )
+            ]
+        );
+    }
+
+    /**
+     * Include Dynamic Tags files
+     */
+    private function include_dynamic_tags_files() {
+        require_once( __DIR__ . '/tags/class-subscription-plan-url.php' );
+    }
+
+    /**
+     * Register Dynamic Tags
+     */
+    public function register_dynamic_tags( $dynamic_tags_manager ) {
+        $this->include_dynamic_tags_files();
+
+        $dynamic_tags_manager->register( new \PMS_Elementor_Dynamic_Tag_Subscription_Plan );
+    }
 }
 
 // Instantiate Plugin Class

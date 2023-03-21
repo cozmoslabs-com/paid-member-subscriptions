@@ -659,14 +659,12 @@ Class PMS_Shortcodes {
                 }
 
                 else {
-                    global $wpdb;
+                    $key   = sanitize_text_field( $_GET['key'] );
+                    $login = sanitize_user( $_GET['loginName'] );
 
-                    $key = sanitize_text_field( $_GET['key'] );
-                    $username = sanitize_user( $_GET['loginName'] );
+                    $user = check_password_reset_key( $key, $login );
 
-                    $user = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->users WHERE user_activation_key = %s AND user_login = %s", $key, $username ) );
-
-                    if ( !empty( $user ) && ( $user->user_activation_key === $_GET['key'] ) )
+                    if ( !is_wp_error( $user ) )
                         // Display the new password form
                         include 'views/shortcodes/view-shortcode-new-password-form.php';
                     else

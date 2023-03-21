@@ -742,7 +742,7 @@ function pms_member_update_payment_method( $content ) {
         <?php pms_display_field_errors( pms_errors()->get_error_messages( 'update_payment_method' ) ); ?>
 
         <p>
-            <?php printf( wp_kses_post( __( 'Update recurring payment details for the %s subscription that will renew on %s.', 'paid-member-subscriptions' ) ), '<strong>' . esc_html( $subscription_plan->name ) . '</strong>', '<strong>' . esc_html( date_i18n( get_option('date_format'), $member_subscription->billing_next_payment ) ) . '</strong>' ) ?>
+            <?php printf( wp_kses_post( __( 'Update recurring payment details for the %s subscription that will renew on %s.', 'paid-member-subscriptions' ) ), '<strong>' . esc_html( $subscription_plan->name ) . '</strong>', '<strong>' . esc_html( date_i18n( get_option('date_format'), strtotime( $member_subscription->billing_next_payment ) ) ) . '</strong>' ) ?>
         </p>
         <?php
 

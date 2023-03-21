@@ -1362,7 +1362,7 @@ Class PMS_Form_Handler {
                     $requestedUserEmail = $user->user_email;
 
                     //search if there is already an activation key present, if not create one
-                    $key = pms_retrieve_activation_key( $requestedUserLogin );
+                    $key = get_password_reset_key( $user );
 
                     //Confirmation link email content
                     $recoveruserMailMessage1 = sprintf(__('Someone has just requested a password reset for the following account: <b>%1$s</b><br/><br/>If this was a mistake, just ignore this email and nothing will happen.<br/>To reset your password, visit the following link: %2$s', 'paid-member-subscriptions'), $username_email, '<a href="' . esc_url(add_query_arg(array('loginName' => urlencode( $requestedUserLogin ), 'key' => $key), pms_get_current_page_url())) . '">' . esc_url(add_query_arg(array('loginName' => urlencode( $requestedUserLogin ), 'key' => $key), pms_get_current_page_url())) . '</a>');
@@ -1390,16 +1390,6 @@ Class PMS_Form_Handler {
                     remove_filter( 'wp_mail_from_name', array( 'PMS_Emails', 'pms_email_website_name' ), 20 );
                     remove_filter( 'wp_mail_from', array( 'PMS_Emails', 'pms_email_website_email' ), 20 );
 
-                    // add option to store all user $id => $key and timestamp values that reset their passwords every 24 hours
-                    if ( false === ( $activation_keys = get_option( 'pms_recover_password_activation_keys' ) ) ) {
-                        $activation_keys = array();
-                    }
-
-                    $activation_keys[$user->ID]['key'] = $key;
-                    $activation_keys[$user->ID]['time'] = time();
-
-                    update_option( 'pms_recover_password_activation_keys', $activation_keys );
-
                     if( $sent === true )
                         do_action( 'pms_password_reset_email_sent', $user, $key );
 
@@ -1425,11 +1415,12 @@ Class PMS_Form_Handler {
                 if ($new_pass != $repeat_pass )
                     pms_errors()->add('pms_repeat_password',__( 'The entered passwords don\'t match! Please try again.', 'paid-member-subscriptions'));
 
-                $loginName = sanitize_user( $_GET['loginName'] );
-                $key       = sanitize_text_field( $_GET['key'] );
-                $user      = get_user_by('login', $loginName);
+                $login = sanitize_user( $_GET['loginName'] );
+                $key   = sanitize_text_field( $_GET['key'] );
 
-                if ( ( count( pms_errors()->get_error_codes() ) == 0 ) && is_object($user) && ($user->user_activation_key == $key) ) {
+                $user = check_password_reset_key( $key, $login );
+
+                if ( ( count( pms_errors()->get_error_codes() ) == 0 ) && !is_wp_error($user) && ($user->user_activation_key == $key) ) {
                     // update the new password
                     wp_set_password( $new_pass, $user->ID );
                     //delete the user activation key

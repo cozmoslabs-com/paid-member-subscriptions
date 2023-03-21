@@ -72,7 +72,7 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
         if( empty( $_POST['post_ID'] ) )
             return;
 
-        if( $post_id != $_POST['post_ID'] )
+        if( $post_id != $_POST['post_ID'] || get_post_type( $post_id ) != $this->post_type )
             return;
 
         // Update subscription plan description post meta

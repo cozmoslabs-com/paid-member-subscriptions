@@ -691,6 +691,7 @@
 <?php __("Template", "paid-member-subscriptions"); ?>
 <?php __("Select Template", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Shortcodes", "paid-member-subscriptions"); ?>
+<?php __("Subscription Plans", "paid-member-subscriptions"); ?>
 <?php __("Subscribe", "paid-member-subscriptions"); ?>
 <?php __("You will soon be redirected to complete the payment.", "paid-member-subscriptions"); ?>
 <?php __("You are being redirected to PayPal to complete the payment...", "paid-member-subscriptions"); ?>
@@ -722,7 +723,6 @@
 <?php __("Subscription canceled from PMS Account.", "paid-member-subscriptions"); ?>
 <?php __("PMS Register", "paid-member-subscriptions"); ?>
 <?php __("Insert the [pms-register] shortcode", "paid-member-subscriptions"); ?>
-<?php __("Subscription Plans", "paid-member-subscriptions"); ?>
 <?php __('Comma separated list of subscription plans ids to show. %1$sRead more%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Selected plan", "paid-member-subscriptions"); ?>
 <?php __('ID of the plan which should be selected by default. %1$sRead more%2$s', 'paid-member-subscriptions' ); ?>
@@ -1329,6 +1329,11 @@
 <?php __("Subtotal: %s", "paid-member-subscriptions"); ?>
 <?php __("TAX/VAT: ", "paid-member-subscriptions"); ?>
 <?php __("Total: %s", "paid-member-subscriptions"); ?>
+<?php __("Subscription Plan URL", "paid-member-subscriptions"); ?>
+<?php __("Single Plan", "paid-member-subscriptions"); ?>
+<?php __('%1$sDisplay only the selected Subscription Plan on the Registration Form.%2$s', 'paid-member-subscriptions' ); ?>
+<?php __("NOTICE:", "paid-member-subscriptions"); ?>
+<?php __('The %1$sRegister Page%2$s is not selected in  %3$sPaid Member Subscriptions --> Settings%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Account", "paid-member-subscriptions"); ?>
 <?php __("Layout", "paid-member-subscriptions"); ?>
 <?php __("Show tabs", "paid-member-subscriptions"); ?>

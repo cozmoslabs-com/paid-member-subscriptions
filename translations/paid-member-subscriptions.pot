@@ -45,49 +45,49 @@ msgstr ""
 msgid "To enable updates, please enter your serial number on the <a href=\"%s\">Add-ons</a> page. If you don't have a serial number, please see <a href=\"%s\" target=\"_blank\">details & pricing</a>."
 msgstr ""
 
-#: index.php:381
+#: index.php:378
 msgid "You must be logged in to view this content."
 msgstr ""
 
-#: index.php:384
+#: index.php:381
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:1066, index.php:1066, includes/functions-user.php:245, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:17, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
+#: index.php:1060, index.php:1060, includes/functions-user.php:245, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:17, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
 msgid "Paid Member Subscriptions"
 msgstr ""
 
-#: index.php:1085, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
+#: index.php:1079, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
 msgid "Uninstall"
 msgstr ""
 
-#: index.php:1087, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-setup-wizard.php:49, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:127, includes/admin/views/setup-wizard/view-tab-general.php:23, includes/admin/views/setup-wizard/view-tab-next.php:48
+#: index.php:1081, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-setup-wizard.php:49, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:127, includes/admin/views/setup-wizard/view-tab-general.php:23, includes/admin/views/setup-wizard/view-tab-next.php:48
 msgid "Settings"
 msgstr ""
 
-#: index.php:1089
+#: index.php:1083
 msgid "Docs"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1141
+#: index.php:1135
 msgid "Type %s to confirm deleting your account and all data associated with it:"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1143
+#: index.php:1137
 msgid "You did not type %s. Try again!"
 msgstr ""
 
-#: index.php:1159
+#: index.php:1153
 msgid "Select an option"
 msgstr ""
 
-#: index.php:1160
+#: index.php:1154
 msgid "No results match"
 msgstr ""
 
-#: index.php:1179, index.php:1179
+#: index.php:1173, index.php:1173
 msgid "Get Support"
 msgstr ""
 
@@ -347,11 +347,11 @@ msgstr ""
 msgid "This username is already taken. Please choose another one or login %shere%s."
 msgstr ""
 
-#: includes/class-form-handler.php:104, includes/class-form-handler.php:111, includes/class-form-handler.php:1468, includes/class-form-handler.php:1475
+#: includes/class-form-handler.php:104, includes/class-form-handler.php:111, includes/class-form-handler.php:1459, includes/class-form-handler.php:1466
 msgid "Please enter an e-mail address."
 msgstr ""
 
-#: includes/class-form-handler.php:125, includes/class-form-handler.php:1485
+#: includes/class-form-handler.php:125, includes/class-form-handler.php:1476
 msgid "This e-mail is already registered. Please choose another one."
 msgstr ""
 
@@ -359,7 +359,7 @@ msgstr ""
 msgid "This e-mail is already registered. Please choose another one or login %shere%s."
 msgstr ""
 
-#: includes/class-form-handler.php:115, includes/class-form-handler.php:1479, add-ons-pro/invoices/includes/functions-form-extra-fields.php:317
+#: includes/class-form-handler.php:115, includes/class-form-handler.php:1470, add-ons-pro/invoices/includes/functions-form-extra-fields.php:317
 msgid "The e-mail address doesn't seem to be valid."
 msgstr ""
 
@@ -371,7 +371,7 @@ msgstr ""
 msgid "Please repeat the password."
 msgstr ""
 
-#: includes/class-form-handler.php:152, includes/class-form-handler.php:1518
+#: includes/class-form-handler.php:152, includes/class-form-handler.php:1509
 msgid "The passwords did not match."
 msgstr ""
 
@@ -484,23 +484,23 @@ msgstr ""
 msgid "There was an error while trying to send the activation link."
 msgstr ""
 
-#: includes/class-form-handler.php:1426
+#: includes/class-form-handler.php:1416
 msgid "The entered passwords don't match! Please try again."
 msgstr ""
 
-#: includes/class-form-handler.php:1510, includes/class-form-handler.php:1513
+#: includes/class-form-handler.php:1501, includes/class-form-handler.php:1504
 msgid "Some of the characters entered were not valid."
 msgstr ""
 
-#: includes/class-form-handler.php:1557
+#: includes/class-form-handler.php:1548
 msgid "Something went wrong. We could not update your profile."
 msgstr ""
 
-#: includes/class-form-handler.php:1554
+#: includes/class-form-handler.php:1545
 msgid "Profile updated successfully"
 msgstr ""
 
-#: includes/class-form-handler.php:1756
+#: includes/class-form-handler.php:1747
 msgid "Something went wrong while registering the user. Contact the website administrator."
 msgstr ""
 
@@ -652,7 +652,7 @@ msgstr ""
 msgid "Please check your email for the confirmation link."
 msgstr ""
 
-#: includes/class-shortcodes.php:674
+#: includes/class-shortcodes.php:672
 msgid "The confirmation link has expired. Invalid key."
 msgstr ""
 
@@ -2708,7 +2708,7 @@ msgstr ""
 msgid "VAT"
 msgstr ""
 
-#: extend/bbpress/functions.php:16, extend/elementor/class-elementor.php:116, includes/admin/class-admin-settings.php:217, includes/admin/meta-boxes/class-meta-box-single-content-restriction.php:125, includes/admin/views/setup-wizard/view-tab-next.php:18, includes/admin/views/setup-wizard/view-tab-next.php:24, add-ons-basic/bbpress/includes/admin/meta-boxes/functions-meta-box-content-restriction.php:28
+#: extend/bbpress/functions.php:16, extend/elementor/class-elementor.php:122, includes/admin/class-admin-settings.php:217, includes/admin/meta-boxes/class-meta-box-single-content-restriction.php:125, includes/admin/views/setup-wizard/view-tab-next.php:18, includes/admin/views/setup-wizard/view-tab-next.php:24, add-ons-basic/bbpress/includes/admin/meta-boxes/functions-meta-box-content-restriction.php:28
 msgid "Content Restriction"
 msgstr ""
 
@@ -2776,8 +2776,12 @@ msgstr ""
 msgid "Select Template"
 msgstr ""
 
-#: extend/elementor/class-elementor.php:101
+#: extend/elementor/class-elementor.php:107
 msgid "Paid Member Subscriptions Shortcodes"
+msgstr ""
+
+#: extend/elementor/class-elementor.php:138, extend/wpbakery/class-wpbakery.php:28, includes/admin/class-admin-subscription-plans.php:1083, extend/elementor/widgets/class-widget-register.php:60, includes/admin/views/view-page-basic-info.php:61, extend/beaver-builder/modules/pms-register/pms-register.php:35, extend/beaver-builder/modules/pms-register/pms-register.php:47, extend/siteorigin/widgets/pms-register/pms-register.php:23
+msgid "Subscription Plans"
 msgstr ""
 
 #: extend/profile-builder/functions-email-confirmation.php:120, includes/views/shortcodes/view-shortcode-new-subscription-form.php:41
@@ -2869,7 +2873,7 @@ msgstr ""
 msgid "Are you sure you want to remove this discount?"
 msgstr ""
 
-#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:19, extend/woocommerce/woocommerce-product-membership-subscriptions.php:54, includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1083, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:563, includes/admin/views/view-page-members-add-new-edit-subscription.php:190, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, includes/views/shortcodes/view-shortcode-payment-history.php:38, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:19, extend/woocommerce/woocommerce-product-membership-subscriptions.php:54, includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1083, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:563, extend/elementor/tags/class-subscription-plan-url.php:89, includes/admin/views/view-page-members-add-new-edit-subscription.php:190, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, includes/views/shortcodes/view-shortcode-payment-history.php:38, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
 msgid "Subscription Plan"
 msgstr ""
 
@@ -2893,7 +2897,7 @@ msgstr ""
 msgid "Allow customers to create an account during checkout must be %1$sENABLED%2$s"
 msgstr ""
 
-#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:511
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:521
 msgid "Subscription canceled from PMS Account."
 msgstr ""
 
@@ -2903,10 +2907,6 @@ msgstr ""
 
 #: extend/wpbakery/class-wpbakery.php:20
 msgid "Insert the [pms-register] shortcode"
-msgstr ""
-
-#: extend/wpbakery/class-wpbakery.php:28, includes/admin/class-admin-subscription-plans.php:1083, extend/elementor/widgets/class-widget-register.php:60, includes/admin/views/view-page-basic-info.php:61, extend/beaver-builder/modules/pms-register/pms-register.php:35, extend/beaver-builder/modules/pms-register/pms-register.php:47, extend/siteorigin/widgets/pms-register/pms-register.php:23
-msgid "Subscription Plans"
 msgstr ""
 
 #. translators: %s: anchor tags
@@ -5288,6 +5288,26 @@ msgstr ""
 
 #: add-ons-pro/tax/includes/functions.php:286
 msgid "Total: %s"
+msgstr ""
+
+#: extend/elementor/tags/class-subscription-plan-url.php:42
+msgid "Subscription Plan URL"
+msgstr ""
+
+#: extend/elementor/tags/class-subscription-plan-url.php:102
+msgid "Single Plan"
+msgstr ""
+
+#: extend/elementor/tags/class-subscription-plan-url.php:104
+msgid "%1$sDisplay only the selected Subscription Plan on the Registration Form.%2$s"
+msgstr ""
+
+#: extend/elementor/tags/class-subscription-plan-url.php:116
+msgid "NOTICE:"
+msgstr ""
+
+#: extend/elementor/tags/class-subscription-plan-url.php:129
+msgid "The %1$sRegister Page%2$s is not selected in  %3$sPaid Member Subscriptions --> Settings%4$s"
 msgstr ""
 
 #: extend/elementor/widgets/class-widget-account.php:24, includes/admin/views/view-page-basic-info.php:34, extend/beaver-builder/modules/pms-account/pms-account.php:16

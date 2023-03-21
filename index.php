@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.8.8
+ * Version: 2.8.9
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.8.8' );
+        define( 'PMS_VERSION', '2.8.9' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -301,9 +301,8 @@ Class Paid_Member_Subscriptions {
         if( !wp_next_scheduled( 'pms_cron_process_pending_payments' ) )
             wp_schedule_event( time(), 'daily', 'pms_cron_process_pending_payments' );
 
-        //Schedule event for deleting expired activation keys used for password reset
-        if( !wp_next_scheduled( 'pms_remove_activation_key' ) )
-            wp_schedule_event( time(), 'daily', 'pms_remove_activation_key' );
+        // remove password reset activation keys event
+        wp_clear_scheduled_hook( 'pms_remove_activation_key' );
 
 
     }
@@ -319,8 +318,6 @@ Class Paid_Member_Subscriptions {
         wp_clear_scheduled_hook( 'pms_check_subscription_status' );
 
         wp_clear_scheduled_hook( 'pms_cron_process_pending_payments' );
-
-        wp_clear_scheduled_hook( 'pms_remove_activation_key' );
 
     }
 
@@ -1047,9 +1044,6 @@ Class Paid_Member_Subscriptions {
 
         // Hook to be executed on a specific interval, by the cron job (wp_schedule_event); used to check if a subscription has expired
         add_action('pms_check_subscription_status','pms_member_check_expired_subscriptions');
-
-        // Hook to be executed on a daily interval, by the cron job (wp_schedule_event); used to remove the user activation key from the db (make it expire) every 24 hours
-        add_action('pms_remove_activation_key','pms_remove_expired_activation_key');
 
         // Add new actions besides the activate/deactivate ones from the Plugins page
         add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_plugin_action_links' ) );

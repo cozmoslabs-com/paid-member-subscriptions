@@ -256,7 +256,7 @@ function pms_get_subscription_replacement_data( $user_id, $new_subscription_plan
 
 
 // Get the Subscription Data for the Product linked Subscription
-function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order_key, $product_type, $user_email ) {
+function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_status, $order_key, $product_type, $user_email ) {
 
     $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
     $member = pms_get_member( email_exists( $user_email ));
@@ -280,13 +280,13 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
             $subscription_expiration_date = ( strtotime( '-1 day' ) < strtotime( $existing_subscription['0']->expiration_date ) ) ? $existing_subscription['0']->expiration_date : '';
             $subscription_next_payment_date = ( strtotime( '-1 day' ) < strtotime( $existing_subscription['0']->billing_next_payment ) ? $existing_subscription['0']->billing_next_payment : '');
 
-            if ( $order_status == 'completed' ) {
+            if ( $product_type == 'subscription' || $order_status == 'completed' ) {
 
                 if ( pms_woo_is_manual_order_update( $existing_subscription['0']->id, $order_key )) { //   update expiration date if subscription status not active (order status changed manually)
-                    if ( $subscription_status == 'active' && $existing_subscription['0']->status == 'pending' )
+                    if ( $subscription_status == 'active' && $existing_subscription['0']->status == 'pending' && $product_type != 'subscription' )
                         $subscription_expiration_date = $subscription_plan->get_expiration_date();
                 }
-                elseif ( $existing_subscription['0']->status == 'active' || $existing_subscription['0']->status == 'canceled' || $existing_subscription['0']->status == 'expired' ) {  //   extend expiration date (new order placed for already subscribed-to Subscription Plan with active, canceled or expired status )
+                elseif ( $existing_subscription['0']->status != 'abandoned' ) {  // extend expiration date if Subscription is not Abandoned (new/renewal order placed for already subscribed-to Subscription Plan )
 
                     if ( !empty( $subscription_next_payment_date )) {
                         $old_next_payment_date = strtotime($existing_subscription['0']->billing_next_payment);
@@ -300,8 +300,18 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
                     }
                     else $subscription_expiration_date = $subscription_plan->get_expiration_date();
 
-                    if ( $existing_subscription['0']->status == 'active' )   // if subscription already Active don't update status
+                    if ( $existing_subscription['0']->status == 'active' ) {  // if subscription already Active don't update status
                         $subscription_status = $existing_subscription['0']->status;
+                    }
+                    elseif ( $product_type == 'subscription' && function_exists( 'wcs_get_subscriptions_for_renewal_order' ) ) { // Sync PMS Subscription and WooCommerce Subscription statuses
+                        $renewal_order_related_subscriptions = wcs_get_subscriptions_for_renewal_order( $order_id );
+
+                        foreach ( $renewal_order_related_subscriptions as $woo_subscription ) {
+                            $woo_subscription_data = $woo_subscription->get_data();
+                            $subscription_status = pms_woo_set_subscription_status( $order_status, $product_type, $existing_subscription_status, $woo_subscription_data['status'] );
+                        }
+
+                    }
 
                 }
 
@@ -336,7 +346,7 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_status, $order
     return $subscription_data;
 
 }
-add_filter( 'pms_woo_get_subscription_data', 'pms_woo_subscription_data', 100, 5 );
+add_filter( 'pms_woo_get_subscription_data', 'pms_woo_subscription_data', 100, 6 );
 
 
 // Add new Membership Subscription
@@ -468,7 +478,7 @@ function pms_woo_handle_member_subscription( $order_id ) {
         else $subscription_renewal = pms_woo_is_product_subscription_renewal( $item );
 
         if ( !empty( $subscription_plan_id ) ) {
-            $subscription_data = apply_filters( 'pms_woo_get_subscription_data', $subscription_plan_id, $order_status, $order_key, $product_type, $user->data->user_email );
+            $subscription_data = apply_filters( 'pms_woo_get_subscription_data', $subscription_plan_id, $order_id, $order_status, $order_key, $product_type, $user->data->user_email );
             if( isset($subscription_data['id'])) {
                 pms_woo_update_member_subscription( $subscription_data, $subscription_renewal, $user_existing_subscriptions, $order_id, $order_key );
             }

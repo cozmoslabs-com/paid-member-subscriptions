@@ -129,17 +129,10 @@ jQuery( function($) {
                 $pms_checked_paygate = $(this)
 
             // Show / hide the credit card details
-            if( $pms_checked_paygate.data('type') == 'credit_card' ) {
-
+            if( $pms_checked_paygate.data('type') == 'credit_card' )
                 $('.pms-credit-card-information').show()
-                // $('.pms-billing-details').show()
-
-            } else {
-
+            else
                 $('.pms-credit-card-information').hide()
-                // $('.pms-billing-details').hide()
-
-            }
 
             // Show billing fields
             handle_billing_fields_display()
@@ -391,7 +384,7 @@ jQuery( function($) {
             if( !( $pms_section_billing_details.length > 0 ) )
                 return
 
-            if ( $pms_checked_subscription.length > 0 && !is_pb_email_confirmation_on && $pms_checked_subscription.data('price') != 0 )
+            if ( $pms_checked_subscription.length > 0 && !is_pb_email_confirmation_on && ( $pms_checked_subscription.data('price') != 0 || $.pms_plan_has_signup_fee( $pms_checked_subscription ) ) )
                 $('.pms-billing-details').show()
 
         }

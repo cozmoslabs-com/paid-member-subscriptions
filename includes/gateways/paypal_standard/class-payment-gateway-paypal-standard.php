@@ -103,7 +103,7 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
         $used_trial = get_option( 'pms_used_trial_' . $this->subscription_plan->id, false );
 
-        if( !empty( $used_trial ) && in_array( $this->user_email, $used_trial ) && function_exists( 'pms_add_member_subscription_log' ) )
+        if( in_array( $this->form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'wppb_register' ) ) && !empty( $used_trial ) && in_array( $this->user_email, $used_trial ) && function_exists( 'pms_add_member_subscription_log' ) )
             pms_add_member_subscription_log( $payment->member_subscription_id, 'subscription_trial_period_already_used' );
 
         if ( $payment->status != 'completed' && $payment->amount != 0 )

@@ -176,7 +176,7 @@ function pms_get_members( $args = array(), $count = false ) {
 
     // Add search query
     if( ! empty( $args['search'] ) ) {
-        $search_term       = sanitize_text_field( $args['search'] );
+        $search_term = sanitize_text_field( $args['search'] );
 
         if( apply_filters( 'pms_members_list_search_query_fullname', true ) ){
             $query_inner_join .= "LEFT JOIN (SELECT usermeta.user_id, GROUP_CONCAT(usermeta.meta_value SEPARATOR ' ') AS fullname FROM {$wpdb->usermeta} usermeta WHERE usermeta.meta_key IN ('first_name', 'last_name') GROUP BY usermeta.user_id) fullname_table ON fullname_table.user_id = users.ID ";
@@ -208,16 +208,26 @@ function pms_get_members( $args = array(), $count = false ) {
     // Return results
     if( ! $count ) {
 
-        if ( ! empty( $search_term ) )
-            $results = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
-        else
+        if ( ! empty( $search_term ) ){
+
+            if( apply_filters( 'pms_members_list_search_query_fullname', true ) )
+                $results = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
+            else
+                $results = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
+
+        } else
             $results = $wpdb->get_results( $wpdb->prepare( $query_string, 1 ), ARRAY_A );
 
     } else {
 
-        if ( ! empty( $search_term ) )
-            $results = (int)$wpdb->get_var( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ) );
-        else
+        if ( ! empty( $search_term ) ){
+
+            if( apply_filters( 'pms_members_list_search_query_fullname', true ) )
+                $results = (int)$wpdb->get_var( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ) );
+            else
+                $results = (int)$wpdb->get_var( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ) );
+
+        } else
             $results = (int)$wpdb->get_var( $wpdb->prepare( $query_string, 1 ) );
 
     }
@@ -375,3 +385,5 @@ function pms_remove_expired_activation_key(){
 
     }
 }
+
+add_filter( 'pms_members_list_search_query_fullname', '__return_false' );
