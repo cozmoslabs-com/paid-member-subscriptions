@@ -151,9 +151,11 @@ class PMS_Elementor {
      * Register Dynamic Tags
      */
     public function register_dynamic_tags( $dynamic_tags_manager ) {
-        $this->include_dynamic_tags_files();
+        if ( class_exists ( 'ElementorPro\Modules\DynamicTags\Tags\Base\Data_Tag' ) ) {
+            $this->include_dynamic_tags_files();
 
-        $dynamic_tags_manager->register( new \PMS_Elementor_Dynamic_Tag_Subscription_Plan );
+            $dynamic_tags_manager->register(new \PMS_Elementor_Dynamic_Tag_Subscription_Plan);
+        }
     }
 }
 

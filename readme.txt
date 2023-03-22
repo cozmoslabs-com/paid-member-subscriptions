@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.2
-Stable tag: 2.8.9
+Stable tag: 2.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,9 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.9.0 =
+* Fix: Fatal error with the free version of Elementor
+
 = 2.8.9 =
 * Feature: Added Dynamic Tag option for Elementor in order to insert a link to buy a specific plan
 * Fix: Refactor password reset functionality to use WordPress core functions
