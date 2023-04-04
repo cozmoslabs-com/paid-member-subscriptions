@@ -45,8 +45,15 @@ Class PMS_Form_Handler {
             return;
 
         // Validate data sent from the registration form
-        if( !self::validate_register_form() )
-            return;
+        if( !self::validate_register_form() ){
+            
+            // return errors for AJAX requests
+            if( wp_doing_ajax() )
+                self::return_generated_errors_for_ajax();
+            else
+                return;
+
+        }
 
         // Check if we need to register the user without him selecting a subscription (becoming a member) - thins happens when "subscription_plans" param in register form is = "none"
         if ( isset( $_POST['pmstkn2'] ) && ( wp_verify_nonce( sanitize_text_field( $_POST['pmstkn2'] ), 'pms_register_user_no_subscription_nonce' ) ) ) {
@@ -469,8 +476,15 @@ Class PMS_Form_Handler {
             return;
 
         // Validate data sent from the new subscription form
-        if( !self::validate_new_subscription_form() )
-            return;
+        if( !self::validate_new_subscription_form() ){
+
+            // return errors for AJAX requests
+            if( wp_doing_ajax() )
+                self::return_generated_errors_for_ajax();
+            else
+                return;
+
+        }
 
         // Hook useful for saving extra information
         do_action( 'pms_new_subscription_form_extra', get_current_user_id() );
@@ -487,11 +501,11 @@ Class PMS_Form_Handler {
 
         // Just in case, do not let logged out users get here
         if( !is_user_logged_in() )
-            return;
+            return false;
 
         // First of all validate the subscription plans
         if( !self::validate_subscription_plans() )
-            return;
+            return false;
 
         // Get user id
         $member = pms_get_member( pms_get_current_user_id() );
@@ -526,8 +540,15 @@ Class PMS_Form_Handler {
         if( isset( $_POST['pms_upgrade_subscription'] ) ) {
 
             // Validate data sent from the upgrade subscription form
-            if( !self::validate_upgrade_subscription_form() )
-                return;
+            if( !self::validate_upgrade_subscription_form() ){
+
+                // return errors for AJAX requests
+                if( wp_doing_ajax() )
+                    self::return_generated_errors_for_ajax();
+                else
+                    return;
+
+            }
 
             // Log attempt
             if( isset( $_GET['subscription_id'] ) )
@@ -556,10 +577,10 @@ Class PMS_Form_Handler {
 
         // Just in case, do not let logged out users get here
         if( !is_user_logged_in() )
-            return;
+            return false;
 
         if( !self::validate_subscription_plans($_POST) )
-            return;
+            return false;
 
         // Extra validations
         do_action('pms_upgrade_subscription_form_validation' );
@@ -572,28 +593,38 @@ Class PMS_Form_Handler {
 
     }
 
+    /**
+     * Change subscription plan form logic
+     */
     public static function change_subscription() {
 
         // Verify nonce
         if( !isset( $_REQUEST['pmstkn'] ) || !wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_change_subscription' ) )
             return;
 
-        // Upgrade subscription
+        // Change subscription
         if( isset( $_POST['pms_change_subscription'] ) ) {
 
             // Validate data sent from the upgrade subscription form
-            if( !self::validate_change_subscription_form() )
-                return;
+            if( !self::validate_change_subscription_form() ){
 
-                // Log Attempt?
-                if ( isset( $_GET['subscription_id'] ) && isset( $_POST['subscription_plans'] ) ){
+                // return errors for AJAX requests
+                if( wp_doing_ajax() )
+                    self::return_generated_errors_for_ajax();
+                else
+                    return;
 
-                    $subscription = pms_get_member_subscription( absint( $_GET['subscription_id'] ) );
-                    $context      = pms_get_change_subscription_plan_context( $subscription->subscription_plan_id, absint( $_POST['subscription_plans'] ) );
+            }
 
-                    pms_add_member_subscription_log( absint( $_GET['subscription_id'] ), 'subscription_'. $context .'_attempt', array( 'new_plan' => isset( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : '' ) );
+            // Log Attempt?
+            if ( isset( $_GET['subscription_id'] ) && isset( $_POST['subscription_plans'] ) ){
 
-                }
+                $subscription = pms_get_member_subscription( absint( $_GET['subscription_id'] ) );
+                $context      = pms_get_change_subscription_plan_context( $subscription->subscription_plan_id, absint( $_POST['subscription_plans'] ) );
+
+                pms_add_member_subscription_log( absint( $_GET['subscription_id'] ), 'subscription_'. $context .'_attempt', array( 'new_plan' => isset( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : '' ) );
+
+            }
 
             // Hook useful for saving extra information
             do_action( 'pms_change_subscription_form_extra', get_current_user_id() );
@@ -611,14 +642,17 @@ Class PMS_Form_Handler {
 
     }
 
+    /**
+     * Validate Change subscription plan form
+     */
     public static function validate_change_subscription_form() {
 
         // Just in case, do not let logged out users get here
         if( !is_user_logged_in() )
-            return;
+            return false;
 
         if( !self::validate_subscription_plans( $_POST ) )
-            return;
+            return false;
 
         // Extra validations
         do_action( 'pms_change_subscription_form_validation' );
@@ -644,8 +678,15 @@ Class PMS_Form_Handler {
         if( isset( $_POST['pms_renew_subscription'] ) ) {
 
             // Validate data sent from the renew subscription form
-            if( !self::validate_renew_subscription_form() )
-                return;
+            if( !self::validate_renew_subscription_form() ){
+
+                // return errors for AJAX requests
+                if( wp_doing_ajax() )
+                    self::return_generated_errors_for_ajax();
+                else
+                    return;
+
+            }
 
             // Hook useful for saving extra information
             do_action( 'pms_renew_subscription_form_extra', get_current_user_id() );
@@ -670,10 +711,10 @@ Class PMS_Form_Handler {
 
         // Just in case, do not let logged out users get here
         if( !is_user_logged_in() )
-            return;
+            return false;
 
         if( !self::validate_subscription_plans($_POST) )
-            return;
+            return false;
 
         // Extra validations
         do_action( 'pms_renew_subscription_form_validation' );
@@ -717,7 +758,6 @@ Class PMS_Form_Handler {
             // Stop if there are errors
             if ( count( pms_errors()->get_error_codes() ) > 0 )
                 return;
-
 
             $member_data          = self::get_request_member_data();
             $subscription_plan_id = (int)$member_subscription->subscription_plan_id;
@@ -1211,7 +1251,9 @@ Class PMS_Form_Handler {
 
                 break;
 
+            case 'change_subscription':
             case 'upgrade_subscription':
+            case 'downgrade_subscription':
             case 'renew_subscription':
             case 'retry_payment':
 
@@ -1420,7 +1462,7 @@ Class PMS_Form_Handler {
 
                 $user = check_password_reset_key( $key, $login );
 
-                if ( ( count( pms_errors()->get_error_codes() ) == 0 ) && !is_wp_error($user) && ($user->user_activation_key == $key) ) {
+                if ( ( count( pms_errors()->get_error_codes() ) == 0 ) && !is_wp_error($user) ) {
                     // update the new password
                     wp_set_password( $new_pass, $user->ID );
                     //delete the user activation key
@@ -1691,7 +1733,7 @@ Class PMS_Form_Handler {
 
     }
 
-
+    // NOTE: Should be refactored in a new class
     /**
      * Checkout process
      *
@@ -1731,9 +1773,15 @@ Class PMS_Form_Handler {
          * Stop if there are errors
          *
          */
-        if ( count( pms_errors()->get_error_codes() ) > 0 )
-            return;
+        if ( count( pms_errors()->get_error_codes() ) > 0 ){
 
+            // return errors for AJAX requests
+            if( wp_doing_ajax() )
+                self::return_generated_errors_for_ajax();
+            else
+                return;
+            
+        }
 
         /**
          * If we're on the register form register the user
@@ -1883,7 +1931,7 @@ Class PMS_Form_Handler {
                 $subscription = $current_subscription;
 
             }
- 
+
         }
 
         /**
@@ -2216,9 +2264,20 @@ Class PMS_Form_Handler {
          */
         } else {
 
+            /**
+             * Action that fires when a checkout error occurs and the plugin will redirect 
+             * away to the error page
+             *
+             * @param object $subscription
+             * @param object $payment
+             */
+            do_action( 'pms_checkout_error_before_redirect', $subscription, isset( $payment ) ? $payment : null, $form_location );
+
             if( wp_doing_ajax() ){
 
-                self::return_failed_payment_redirect_for_ajax( $payment->id, $form_location );
+                if( isset( $payment ) )
+                    self::return_failed_payment_redirect_for_ajax( $payment->id, $form_location );
+                // TODO: have a clean return here with the other message without a payment_id
 
             } else {
 
@@ -2324,9 +2383,14 @@ Class PMS_Form_Handler {
                 $subscription_data['expiration_date'] = date( 'Y-m-d H:i:s', $expiration_date );
                 $days_difference = ( strtotime( $subscription_plan->get_expiration_date() ) - strtotime( $subscription_plan->get_trial_expiration_date() ) ) / 86400;
 
+            } else {
+
+                if( $pay_gate == 'paypal_express' )
+                    $subscription_data['expiration_date'] = $subscription_data['trial_end'];
+                else
+                    $subscription_data['expiration_date'] = date( 'Y-m-d H:i:s', strtotime( "+" . $subscription_plan->trial_duration . ' ' . $subscription_plan->trial_duration_unit, $expiration_date ) );
+
             }
-            else
-                $subscription_data['expiration_date'] = date( 'Y-m-d H:i:s', strtotime( "+" . $subscription_plan->trial_duration . ' ' . $subscription_plan->trial_duration_unit, $expiration_date ) );
 
         } else
             $subscription_data['trial_end'] = '';
@@ -2368,6 +2432,7 @@ Class PMS_Form_Handler {
     }
 
     public static function return_failed_payment_redirect_for_ajax( $payment_id, $form_location ){
+        
         $redirect_page = '';
 
         if( in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation' ) ) )
@@ -2378,7 +2443,7 @@ Class PMS_Form_Handler {
         if( empty( $redirect_page ) && !empty( $_POST['current_page'] ) )
             $redirect_page = esc_url_raw( $_POST['current_page'] );
 
-        //@TODO: Log this case / add a notice / by adding an option or something we can make the user aware of this 'error'
+        // TODO: Log this case / add a notice / by adding an option or something we can make the user aware of this 'error'
         if( empty( $redirect_page ) )
             die();
 
@@ -2394,14 +2459,28 @@ Class PMS_Form_Handler {
 
         echo json_encode( $data );
         die();
+
     }
 
+    // TODO: this should be removed and replaced with PMS_Emails::pms_email_content_type()
     /**
      * Used to enable HTML in the password recovery email
      * @return string
      */
     public static function email_content_type() {
         return 'text/html';
+    }
+
+    public static function return_generated_errors_for_ajax(){
+
+        $errors = pms_get_generated_errors();
+
+        echo json_encode( array(
+            'success' => false,
+            'data'    => $errors,
+        ) );
+        die();
+
     }
 
 }

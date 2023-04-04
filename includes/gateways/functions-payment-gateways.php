@@ -188,6 +188,9 @@ function pms_to_gateway( $payment_gateway_slug, $payment_data ) {
  */
 function pms_payment_gateways_webhook_catcher() {
 
+    if( !isset( $_GET['pay_gate_listener'] ) )
+        return;
+
     $gateways = pms_get_payment_gateways();
 
     foreach( $gateways as $gateway_slug => $gateway_details ) {

@@ -72,7 +72,7 @@ foreach( $subscriptions as $subscription ) :
 
             <!-- Payment Method -->
             <?php 
-                if( $subscription->is_auto_renewing() && pms_payment_gateways_support( array( $subscription->payment_gateway ), 'update_payment_method' ) ) : 
+                if( $subscription->is_auto_renewing() && pms_payment_gateways_support( array( $subscription->payment_gateway ), 'update_payment_method' ) && $subscription->status != 'pending' ) : 
                 
                 $payment_method_data = pms_get_member_subscription_payment_method_details( $subscription->id );
             ?>

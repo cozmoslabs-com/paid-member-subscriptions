@@ -1978,3 +1978,43 @@ body.post-type-pms-subscription #delete-action {
 .wp-admin.edit-php .wrap h1 a.pms-docs-link {
     margin-left: 5px;
 }
+
+.pms-stripe-connect__button img {
+    max-width: 200px;
+}
+
+.pms-stripe-connect__button:hover {
+    opacity: 0.9;
+}
+
+.pms-stripe-connect__settings-error {
+    color: #d63638;
+}
+
+.pms-stripe-connect__settings-warning {
+    color: #dba617;
+    font-weight: bold;
+    font-size: 110%;
+}
+
+.pms-stripe-connect__settings-success {
+    display: inline-block;
+    font-size: 120%;
+    color: #00a32a;
+    padding-top: 1px;
+    font-weight: bold;
+}
+
+.pms-stripe-connect__settings {
+    margin-top: 2em;
+}
+
+.pms-stripe-connect__connection--live {
+    color: #46b450;
+    font-weight: bold;
+}
+
+.pms-stripe-connect__connection--test {
+    color: #ffb900;
+    font-weight: bold;
+}

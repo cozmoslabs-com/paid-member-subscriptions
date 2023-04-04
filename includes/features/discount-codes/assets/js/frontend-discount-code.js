@@ -114,13 +114,13 @@ jQuery(document).ready(function($) {
             'subscription'            : $subscription_plan.val(),
             'recurring'               : $('input[name="pms_recurring"]:checked').val(),
             'pwyw_price'              : pwyw_price,
-            'pmstkn'                  : $pms_form.find('input[name="pmstkn"]').val(),
+            'pmstkn_original'         : $pms_form.find('input[name="pmstkn"]').val(),
             'pms_current_subscription': $pms_form.find('input[name="pms_current_subscription"]').val(),
-            'form_action': $pms_form.find('input[name="form_action"]').val(),
+            'form_action'             : $pms_form.find('input[name="form_action"]').val(),
         };
 
-        if( data.pmstkn === undefined && jQuery( '.wppb-register-user' ).length > 0 )
-            data.pmstkn = 'pb_form'
+        if( data.pmstkn_original === undefined && jQuery( '.wppb-register-user' ).length > 0 )
+            data.pmstkn_original = 'pb_form'
 
         // Make sure it's not an empty discount
         if ( data['code'] !== '' ) {

@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.2
-Stable tag: 2.9.0
+Stable tag: 2.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.9.1 =
+* Feature: Added new options for Elementor Content Restriction functionality: show section/widget to Logged Out users and show section/widget for Non Subscribers or users that are not subscribed to a specific plan
+* Fix: Issue with password reset functionality not working correctly
+* Misc: WooCommerce Sync option to also sync Billing Details on Checkout completion
+* Misc: Better handling of Billing Details when Profile Builder Email Confirmation functionality is used
+* Misc: Extend option to match dates displayed by the plugin with WordPress for Profile Builder integration
+
 = 2.9.0 =
 * Fix: Fatal error with the free version of Elementor
 

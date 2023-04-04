@@ -238,7 +238,7 @@ function pms_in_dc_output_apply_discount_message() {
 
         // Add new price to response
         $plan          = pms_get_subscription_plan( $subscription );
-        $form_location = PMS_Form_Handler::get_request_form_location();
+        $form_location = PMS_Form_Handler::get_request_form_location( 'pmstkn_original' );
         $amount        = (float)$plan->price;
 
         if ( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) && !empty( $plan->sign_up_fee ) && pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_sign_up_fee' ) ) {

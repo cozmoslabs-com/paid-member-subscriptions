@@ -519,3 +519,27 @@ function pms_should_load_scripts(){
     return false;
 
 }
+
+/**
+ * Return an array of generated errors
+ */
+function pms_get_generated_errors(){
+
+    $generated_errors = array();
+    $error_obj        = pms_errors();
+
+    if( !empty( $error_obj->errors ) ){
+        foreach( $error_obj->errors as $key => $error ){
+
+            if( !empty( $error[0] ) )
+                $generated_errors[] = array(
+                    'target'  => $key,
+                    'message' => $error[0]
+                );
+
+        }
+    }
+
+    return $generated_errors;
+
+}

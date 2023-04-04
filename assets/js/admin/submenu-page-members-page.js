@@ -186,7 +186,7 @@ jQuery( function($) {
          */
         var value = $(this).val()
 
-        if( value == 'stripe_intents' )
+        if( value == 'stripe_intents' || value == 'stripe_connect' )
             value = 'stripe'
 
         $('#pms-meta-box-fields-wrapper-payment-gateways > div').hide();

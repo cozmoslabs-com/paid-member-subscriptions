@@ -393,8 +393,8 @@ Class PMS_Payment {
      * Add a log entry to the payment
      *
      * @param string $type         - the type of the log
-     * @param string $error_code   - an error code that can be transformed to a human readable message
      * @param array $data          - extra data relevant to the type of error
+     * @param string $error_code   - an error code that can be transformed to a human readable message
      *
      * @return bool
      *

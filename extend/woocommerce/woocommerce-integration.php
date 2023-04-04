@@ -210,89 +210,150 @@ add_filter( 'pms_account_rewrite_tab_urls', 'pms_woo_disable_tab_url_rewrite' );
 
 
 /**
- * Used for updating WooCommerce Billing details when PMS Billing details get updated
+ * Update WooCommerce Billing details when PMS Billing details get updated
  */
-function pms_save_pms_billing_as_woo( $user_data ){
+function pms_handle_pms_billing_details_update( $user_data ){
+
+    if ( empty( $user_data ) )
+        return;
 
     $user_id = $user_data;
     if( is_array( $user_data ) )
         $user_id = $user_data['user_id'];
 
-    $billing_fields = array(
-        'pms_billing_first_name' => 'billing_first_name',
-        'pms_billing_last_name'  => 'billing_last_name',
-        'pms_billing_email'      => 'billing_email',
-        'pms_billing_company'    => 'billing_company',
-        'pms_billing_address'    =>  array('billing_address','billing_address_1'),
-        'pms_billing_city'       => 'billing_city',
-        'pms_billing_zip'        => 'billing_postcode',
-        'pms_billing_country'    => 'billing_country',
-        'pms_billing_state'      => 'billing_state',
-    );
-
-    foreach( $billing_fields as $pms_key => $woo_key ){
-
-        if( isset( $_POST[ $pms_key ] ) ) {
-
-            if ( is_array( $woo_key ) ){
-
-                foreach ( $woo_key as $key )
-                    update_user_meta($user_id, $key, sanitize_text_field($_POST[$pms_key]));
-
-            }
-            else update_user_meta($user_id, $woo_key, sanitize_text_field($_POST[$pms_key]));
-
+    $updated_pms_fields = array();
+    foreach ( $_POST as $key => $value ) {
+        if ( strpos($key, 'pms_billing_' ) === 0) {
+            $updated_pms_fields[$key] = $value;
         }
-
     }
+
+    pms_update_user_account_data( $updated_pms_fields, $user_id, 'pms_form' );
 
 }
 
 /**
- * Used for updating PMS Billing details when WooCommerce Billing details get updated
+ * Update PMS Billing details when WooCommerce Billing details get updated
  */
-function pms_save_woo_billing_as_pms( $user_id, $woo_form ) {
+function pms_handle_woo_account_billing_details_update( $user_id, $woo_form ) {
 
-    if ( $woo_form != 'billing' )
+    if ( $woo_form != 'billing' || empty( $user_id ) )
         return;
 
-    $billing_fields = array(
-        'billing_first_name' => 'pms_billing_first_name',
-        'billing_last_name'  => 'pms_billing_last_name',
-        'billing_email'      => 'pms_billing_email',
-        'billing_company'    => 'pms_billing_company',
-        'billing_address_1'  => array('pms_billing_address','billing_address'),
-        'billing_city'       => 'pms_billing_city',
-        'billing_postcode'   => 'pms_billing_zip',
-        'billing_country'    => 'pms_billing_country',
-        'billing_state'      => 'pms_billing_state',
-    );
-
-    foreach( $billing_fields as $woo_key => $pms_key ){
-
-        if( isset( $_POST[ $woo_key ] ) ) {
-
-            if ( is_array( $pms_key ) ){
-
-                foreach ( $pms_key as $key )
-                    update_user_meta($user_id, $key, sanitize_text_field($_POST[$woo_key]));
-
-            }
-            else update_user_meta($user_id, $pms_key, sanitize_text_field($_POST[$woo_key]));
-
+    $updated_woo_fields = array();
+    foreach ( $_POST as $key => $value ) {
+        if ( strpos($key, 'billing_' ) === 0) {
+            $updated_woo_fields[$key] = $value;
         }
-
     }
+
+    pms_update_user_account_data( $updated_woo_fields, $user_id, 'woo_account_form' );
+
+}
+
+/**
+ * Update PMS Billing details when a new user registers on WooCommerce Checkout
+ */
+function pms_handle_woo_checkout_registration_billing_details( $order_id ) {
+
+    if ( !empty( $order_id ) and class_exists( 'WC_Order' ))
+        $order = new WC_Order( $order_id );
+
+    if ( empty( $order ) )
+        return;
+
+    $order_data = $order->get_data();
+    $order_billing_fields = $order_data['billing'];
+    $user_id = get_current_user_id();
+
+    pms_update_user_account_data( $order_billing_fields, $user_id, 'woo_checkout_form' );
 
 }
 
 $settings = get_option( 'pms_woocommerce_settings', array() );
 if ( isset( $settings['sync_woo_pms_billing_details'] ) && $settings['sync_woo_pms_billing_details'] == 'yes' ) {
-    add_action( 'pms_edit_profile_form_update_user', 'pms_save_pms_billing_as_woo' );
-    add_action( 'pms_register_form_after_create_user', 'pms_save_pms_billing_as_woo' );
-    add_action( 'pms_renew_subscription_form_extra', 'pms_save_pms_billing_as_woo' );
-    add_action( 'pms_change_subscription_form_extra', 'pms_save_pms_billing_as_woo' );
-    add_action( 'pms_upgrade_subscription_form_extra', 'pms_save_pms_billing_as_woo' );
-    add_action( 'pms_new_subscription_form_extra', 'pms_save_pms_billing_as_woo' );
-    add_action( 'woocommerce_customer_save_address', 'pms_save_woo_billing_as_pms', 10, 2 );
+    // PMS action hooks
+    add_action( 'pms_edit_profile_form_update_user', 'pms_handle_pms_billing_details_update' );
+    add_action( 'pms_register_form_after_create_user', 'pms_handle_pms_billing_details_update' );
+    add_action( 'pms_renew_subscription_form_extra', 'pms_handle_pms_billing_details_update' );
+    add_action( 'pms_change_subscription_form_extra', 'pms_handle_pms_billing_details_update' );
+    add_action( 'pms_upgrade_subscription_form_extra', 'pms_handle_pms_billing_details_update' );
+    add_action( 'pms_new_subscription_form_extra', 'pms_handle_pms_billing_details_update' );
+    // WOO action hooks
+    add_action( 'woocommerce_customer_save_address', 'pms_handle_woo_account_billing_details_update', 10, 2 );
+    add_action( 'woocommerce_thankyou', 'pms_handle_woo_checkout_registration_billing_details', 10, 1 );
+}
+
+
+/**
+ * Synchronize user's billing data between PMS and WooCommerce accounts
+ */
+function pms_update_user_account_data( $new_data_fields, $user_id, $form_type ) {
+
+    if ( empty( $new_data_fields ) || empty( $user_id ) )
+        return;
+
+    $pms_data = array(
+        'key_prefix' => 'pms_billing_',
+        'address_key' => 'pms_billing_address',
+        'postcode_key' => 'pms_billing_zip'
+    );
+
+    $woo_data = array(
+        'key_prefix' => 'billing_',
+        'address_key' => 'billing_address_1',
+        'postcode_key' => 'billing_postcode'
+    );
+    
+    switch ( $form_type ) {
+        case 'pms_form':
+            $data_updated = $pms_data;
+            $data_to_update = $woo_data;
+            break;
+
+        case 'woo_account_form':
+            $data_updated = $woo_data;
+            $data_to_update = $pms_data;
+            break;
+
+        case 'woo_checkout_form':
+            $data_updated = array(
+                'key_prefix' => '',
+                'address_key' => 'address_1',
+                'postcode_key' => 'postcode'
+            );
+            $data_to_update = $pms_data;
+            break;
+
+        default: return;
+    }
+
+    $billing_fields = array(
+        $data_updated['key_prefix'].'first_name' => $data_to_update['key_prefix'].'first_name',
+        $data_updated['key_prefix'].'last_name'  => $data_to_update['key_prefix'].'last_name',
+        $data_updated['key_prefix'].'email'      => $data_to_update['key_prefix'].'email',
+        $data_updated['key_prefix'].'company'    => $data_to_update['key_prefix'].'company',
+        $data_updated['address_key']             =>  array('billing_address',$data_to_update['address_key']),
+        $data_updated['key_prefix'].'city'       => $data_to_update['key_prefix'].'city',
+        $data_updated['postcode_key']            => $data_to_update['postcode_key'],
+        $data_updated['key_prefix'].'country'    => $data_to_update['key_prefix'].'country',
+        $data_updated['key_prefix'].'state'      => $data_to_update['key_prefix'].'state',
+    );
+
+    foreach( $billing_fields as $field_updated_key => $field_to_update_key ){
+
+        if( isset( $new_data_fields[$field_updated_key] ) ) {
+
+            if ( is_array( $field_to_update_key ) ){
+
+                foreach ( $field_to_update_key as $key )
+                    update_user_meta( $user_id, $key, $new_data_fields[$field_updated_key] );
+
+            }
+            else update_user_meta( $user_id, $field_to_update_key, $new_data_fields[$field_updated_key] );
+
+        }
+
+    }
+
 }

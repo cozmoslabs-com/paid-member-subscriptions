@@ -164,7 +164,7 @@ function pms_handle_merge_tag_subscription_start_date( $value, $name, $children,
         if( !empty( $member->subscriptions ) ){
 
             if( count( $member->subscriptions ) == 1 )
-                return apply_filters( 'pms_change_userlisting_expiration_date_format', $member->subscriptions[0]['start_date'] );
+            return apply_filters( 'pms_change_userlisting_expiration_date_format', $member->subscriptions[0]['start_date'] );
             else {
                 $subscription_start_date = '';
 
@@ -193,7 +193,7 @@ function pms_handle_merge_tag_subscription_expiration_date( $value, $name, $chil
                 $subscription_expiration_date = '';
                 foreach( $member->subscriptions as $subscription_plan )
                     $subscription_expiration_date .= '<div>'. apply_filters( 'pms_change_userlisting_expiration_date_format', date_i18n( get_option('date_format'), strtotime( $subscription_plan['expiration_date'] ) ) ) .'</div>';
-                
+
                 return $subscription_expiration_date;
             }
         }
@@ -295,3 +295,12 @@ function pms_pb_admin_user_update_form_field_save( $user_id ) {
         update_user_meta( $user_id, 'user_url', esc_url_raw( $_POST['url'] ));
 }
 add_action( 'edit_user_profile_update', 'pms_pb_admin_user_update_form_field_save' );
+
+
+/**
+ * Match the Subscription start and expiration date format with the one set in WordPress General Settings
+ */
+function pms_change_sub_date_to_wp_format( $date ) {
+    return date_i18n( get_option('date_format') . ' ' . get_option('time_format'), strtotime( $date ) );
+}
+add_filter('pms_change_userlisting_expiration_date_format', 'pms_change_sub_date_to_wp_format');

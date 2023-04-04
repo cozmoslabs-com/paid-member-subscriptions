@@ -96,7 +96,7 @@
 
         <div class="pms-setup-gateway">
             <div class="pms-setup-gateway__upsell">
-                <?php echo wp_kses_post( __( 'Additional <strong>Payment Gateways</strong> and <strong>Recurring Subscriptions</strong> are available with a <strong>Pro</strong> licence of Paid Member Subscriptions.', 'paid-member-subscriptions' ) ); ?>
+                <?php echo wp_kses_post( __( 'Additional <strong>Payment Gateways</strong>, Taxes, Invoices and other features are available with a <strong>Pro</strong> licence of Paid Member Subscriptions.', 'paid-member-subscriptions' ) ); ?>
                 <a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFreeGateways" target="_blank">
                     <?php esc_html_e( 'Learn More', 'paid-member-subscriptions' ); ?>
                 </a>

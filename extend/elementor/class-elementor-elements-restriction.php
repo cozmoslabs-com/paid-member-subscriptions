@@ -40,16 +40,59 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 				'label'       => __( 'Restrict to logged in users', 'paid-member-subscriptions' ),
 				'type'        => Controls_Manager::SWITCHER,
 				'description' => __( 'Allow only logged in users to see this content.', 'paid-member-subscriptions' ),
+                'condition'   => array(
+                    'pms_restriction_loggedout_users!' => 'yes'
+                ),
 			)
 		);
+
+        $element->add_control(
+            'pms_restriction_loggedout_users', array(
+                'label'       => __( 'Restrict to logged out users', 'paid-member-subscriptions' ),
+                'type'        => Controls_Manager::SWITCHER,
+                'description' => __( 'Allow only logged out users to see this content.', 'paid-member-subscriptions' ),
+                'condition'   => array(
+                    'pms_restriction_loggedin_users!' => 'yes',
+                    'pms_restriction_display_to_non_subscribers!' => 'yes',
+                ),
+            )
+        );
+
+        $element->add_control(
+            'pms_restriction_display_to_non_subscribers', array(
+                'label'       => __( 'Display to non subscribers', 'paid-member-subscriptions' ),
+                'type'        => Controls_Manager::SWITCHER,
+                'description' => __( 'Allow only non-subscribed users to see this content.', 'paid-member-subscriptions' ),
+                'condition'   => array(
+                    'pms_restriction_loggedout_users!' => 'yes'
+                ),
+            )
+        );
 
 		$element->add_control(
 			'pms_restriction_subscription_plans_heading', array(
 				'label'     => __( 'Restrict by Subscription Plans', 'paid-member-subscriptions' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
+                'condition'   => array(
+                    'pms_restriction_display_to_non_subscribers!' => 'yes',
+                    'pms_restriction_loggedout_users!' => 'yes'
+                ),
+
 			)
 		);
+
+        $element->add_control(
+            'pms_restriction_subscription_plans_non_members_heading', array(
+                'label'     => __( 'Restrict to Non-Members by Subscription Plans', 'paid-member-subscriptions' ),
+                'type'      => Controls_Manager::HEADING,
+                'separator' => 'before',
+                'condition'   => array(
+                    'pms_restriction_display_to_non_subscribers' => 'yes',
+                    'pms_restriction_loggedout_users!' => 'yes'
+                ),
+            )
+        );
 
 		$element->add_control(
             'pms_restriction_subscription_plans', array(
@@ -57,7 +100,33 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
                 'options'     => pms_get_subscription_plans_list(),
                 'multiple'    => 'true',
 				'label_block' => 'true',
-				'description' => __( 'Allow only members of the selected plans to see this content.', 'paid-member-subscriptions' ),
+                'condition'   => array(
+                    'pms_restriction_loggedout_users!' => 'yes'
+                ),
+            )
+        );
+
+        $element->add_control(
+            'pms_restriction_subscription_plans_description', array(
+                'type' => Controls_Manager::RAW_HTML,
+                'raw' => '<div class="elementor-control-field-description" style="margin-top: -5px">' . sprintf( __( 'Allow only %1$s MEMBERS %2$s of the selected plans to see this content.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ) . '</div>',
+                'condition'   => array(
+                    'pms_restriction_display_to_non_subscribers!' => 'yes',
+                    'pms_restriction_loggedout_users!' => 'yes'
+                ),
+
+            )
+        );
+
+        $element->add_control(
+            'pms_restriction_subscription_plans_non_members_description', array(
+                'type' => Controls_Manager::RAW_HTML,
+                'raw' => '<div class="elementor-control-field-description" style="margin-top: -5px">' . sprintf( __( 'Allow only %1$s NON-MEMBERS %2$s of the selected plans to see this content.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ) . '</div>',
+                'condition'   => array(
+                    'pms_restriction_display_to_non_subscribers' => 'yes',
+                    'pms_restriction_loggedout_users!' => 'yes'
+                ),
+
             )
         );
 
@@ -148,19 +217,23 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 		$settings = $element->get_settings();
 		$hidden   = false;
 
-		if( !empty( $settings['pms_restriction_subscription_plans'] ) && is_user_logged_in() ) {
+        if( is_user_logged_in() && !current_user_can( 'manage_options' ) ) {
 
-			if( pms_is_member_of_plan( $settings['pms_restriction_subscription_plans'] ) || current_user_can( 'manage_options' ) )
-				$hidden = false;
-			else
-				$hidden = true;
+            if ( $settings['pms_restriction_loggedout_users'] == 'yes' ) {
+                $hidden = true;
+            }
+            elseif ( $settings['pms_restriction_display_to_non_subscribers'] == 'yes' ) {
 
-		} else if ( !is_user_logged_in() && (
-					( $settings['pms_restriction_loggedin_users'] == 'yes' ) || ( !empty( $settings['pms_restriction_subscription_plans'] ) )
-				) ) {
+                if ( ( empty( $settings['pms_restriction_subscription_plans'] ) && pms_is_member( get_current_user_id() ) ) || ( !empty( $settings['pms_restriction_subscription_plans'] ) && pms_is_member_of_plan( $settings['pms_restriction_subscription_plans'] ) ) )
+                    $hidden = true;
 
-			$hidden = true;
-		}
+            }
+            elseif ( !empty( $settings['pms_restriction_subscription_plans'] ) && !pms_is_member_of_plan( $settings['pms_restriction_subscription_plans'] ) )
+                $hidden = true;
+
+        }
+        elseif ( !is_user_logged_in() && ( $settings['pms_restriction_loggedin_users'] == 'yes' || $settings['pms_restriction_display_to_non_subscribers'] == 'yes' || !empty( $settings['pms_restriction_subscription_plans'] )  ) )
+            $hidden = true;
 
 		return apply_filters( 'pms_elementor_elements_restriction_element_is_hidden', $hidden, $element, $settings );
 

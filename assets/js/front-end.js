@@ -872,8 +872,8 @@ jQuery( function($) {
          */
 
         // Handle on document ready
-        if ( $('.pms-subscription-plan input[type=radio][data-price="0"]').is(':checked') || $('.pms-subscription-plan input[type=hidden]').attr( 'data-price' ) == '0' ||
-            $('.pms-subscription-plan input[type=radio]').prop('checked') == false ) {
+        if ( ( $('.pms-subscription-plan input[type=radio][data-price="0"]').is(':checked') || $('.pms-subscription-plan input[type=hidden]').attr( 'data-price' ) == '0' ||
+            $('.pms-subscription-plan input[type=radio]').prop('checked') == false ) && !$.pms_plan_has_signup_fee() ) {
 
             $('.pms-email-confirmation-payment-message').hide()
         }
@@ -883,7 +883,7 @@ jQuery( function($) {
             var has_paid_subscription = false
 
             $('.pms-subscription-plan input[type=radio]').each( function() {
-                if( $(this).data('price') != 0 )
+                if( $(this).data('price') != 0 || $.pms_plan_has_signup_fee( $(this) ) )
                     has_paid_subscription = true
             })
 
@@ -895,11 +895,11 @@ jQuery( function($) {
         // Handle clicking on the subscription plans
         $('.pms-subscription-plan input[type=radio]').click(function(){
 
-            if ( $('.pms-subscription-plan input[type=radio][data-price="0"]').is(':checked') ) {
+            if ( $('.pms-subscription-plan input[type=radio][data-price="0"]').is(':checked') && !$.pms_plan_has_signup_fee( $(this) ) )
                 $('.pms-email-confirmation-payment-message').hide()
-            } else {
+            else
                 $('.pms-email-confirmation-payment-message').show()
-            }
+
         })
 
         $('.wppb-edit-user input[required]').on('invalid', function(e){
