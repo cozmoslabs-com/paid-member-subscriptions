@@ -1229,7 +1229,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     } elseif( !empty( $license_details ) && !empty( $license_details->expires ) ) {
 
         // Maybe add about to expire notice
-        if( strtotime( $license_details->expires ) < strtotime( '+14 days' ) ){
+        if( ( !isset( $license_details->subscription_status ) || $license_details->subscription_status != 'active' ) && strtotime( $license_details->expires ) < strtotime( '+14 days' ) ){
             new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
                 sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) ).
                 sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url(add_query_arg('pms_about_to_expire_licence_dismiss_notification', '0')) . "'>", "</a>"), 

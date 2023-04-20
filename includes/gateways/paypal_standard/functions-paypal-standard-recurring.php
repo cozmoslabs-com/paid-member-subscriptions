@@ -595,6 +595,8 @@ function pms_in_ppsrp_update_member_subscription_data( $payment_data, $post_data
 
         do_action( 'pms_paypal_subscr_payment_after_subscription_activation', $member_subscription, $payment_data, $post_data );
 
+        pms_delete_member_subscription_meta( $member_subscription->id, 'pms_retry_payment' );
+
         break;
     }
 
@@ -649,6 +651,8 @@ function pms_in_ppsrp_update_member_subscription_data( $payment_data, $post_data
 
         // Keeping the name for backwards compatibility
         do_action( 'pms_paypal_subscr_payment_after_upgrade_subscription', $new_subscription_plan->id, $payment_data, $post_data );
+
+        pms_delete_member_subscription_meta( $current_subscription->id, 'pms_retry_payment' );
 
     }
 

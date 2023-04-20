@@ -508,11 +508,11 @@ msgstr ""
 msgid "abandoned"
 msgstr ""
 
-#: includes/class-merge-tags.php:193, includes/functions-content-filtering.php:553, includes/admin/class-admin-member-subscription-list-table.php:273, includes/admin/class-admin-members-list-table.php:515, includes/views/shortcodes/view-shortcode-account-subscription-details.php:53, includes/views/shortcodes/view-shortcode-account.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:64
+#: includes/class-merge-tags.php:193, includes/functions-content-filtering.php:553, includes/admin/class-admin-member-subscription-list-table.php:273, includes/admin/class-admin-members-list-table.php:515, includes/views/shortcodes/view-shortcode-account-subscription-details.php:60, includes/views/shortcodes/view-shortcode-account.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:64
 msgid "Unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:241, includes/class-merge-tags.php:284, includes/functions-subscription-plan.php:458, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:614, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
+#: includes/class-merge-tags.php:241, includes/class-merge-tags.php:284, includes/functions-subscription-plan.php:458, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:625, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
 msgid "Free"
 msgstr ""
 
@@ -764,7 +764,7 @@ msgstr ""
 msgid "Your %s subscription is still pending. Do you wish to retry the payment?"
 msgstr ""
 
-#: includes/functions-content-filtering.php:835, includes/views/shortcodes/view-shortcode-account-subscription-details.php:172, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:177
+#: includes/functions-content-filtering.php:835, includes/views/shortcodes/view-shortcode-account-subscription-details.php:179, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:177
 msgid "Retry payment"
 msgstr ""
 
@@ -3046,7 +3046,7 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
-#: includes/admin/class-admin-member-payments-list-table.php:54, includes/views/shortcodes/view-shortcode-account-subscription-details.php:116, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:59, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:66, add-ons-pro/group-memberships/includes/views/view-members-list.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:128
+#: includes/admin/class-admin-member-payments-list-table.php:54, includes/views/shortcodes/view-shortcode-account-subscription-details.php:123, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:59, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:66, add-ons-pro/group-memberships/includes/views/view-members-list.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:128
 msgid "Actions"
 msgstr ""
 
@@ -3058,7 +3058,7 @@ msgstr ""
 msgid "No payments found"
 msgstr ""
 
-#: includes/admin/class-admin-member-subscription-list-table.php:69, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:123, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:111, includes/admin/views/view-page-export.php:157, includes/admin/views/view-page-members-add-new-edit-subscription.php:250, includes/views/shortcodes/view-shortcode-account-subscription-details.php:45, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:51, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:56, includes/features/discount-codes/includes/class-admin-discount-codes.php:123, includes/features/discount-codes/views/view-meta-box-discount-codes.php:111
+#: includes/admin/class-admin-member-subscription-list-table.php:69, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:123, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:111, includes/admin/views/view-page-export.php:157, includes/admin/views/view-page-members-add-new-edit-subscription.php:250, includes/views/shortcodes/view-shortcode-account-subscription-details.php:46, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:51, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:56, includes/features/discount-codes/includes/class-admin-discount-codes.php:123, includes/features/discount-codes/views/view-meta-box-discount-codes.php:111
 msgid "Start Date"
 msgstr ""
 
@@ -3066,7 +3066,7 @@ msgstr ""
 msgid "Expiration date"
 msgstr ""
 
-#: includes/admin/class-admin-member-subscription-list-table.php:72, includes/admin/class-admin-members-list-table.php:519
+#: includes/admin/class-admin-member-subscription-list-table.php:72, includes/admin/class-admin-members-list-table.php:519, includes/views/shortcodes/view-shortcode-account-subscription-details.php:40
 msgid "Auto-renewing"
 msgstr ""
 
@@ -3114,7 +3114,7 @@ msgstr ""
 msgid "Select Subscription Status..."
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:169, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:124, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:122, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:145, includes/admin/views/view-page-members-add-new-edit-subscription.php:285, includes/views/shortcodes/view-shortcode-account-subscription-details.php:52, add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:40, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:63, includes/features/discount-codes/includes/class-admin-discount-codes.php:124, includes/features/discount-codes/views/view-meta-box-discount-codes.php:122
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:169, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:124, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:122, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:145, includes/admin/views/view-page-members-add-new-edit-subscription.php:285, includes/views/shortcodes/view-shortcode-account-subscription-details.php:57, add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:40, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:63, includes/features/discount-codes/includes/class-admin-discount-codes.php:124, includes/features/discount-codes/views/view-meta-box-discount-codes.php:122
 msgid "Expiration Date"
 msgstr ""
 
@@ -3862,15 +3862,15 @@ msgstr ""
 msgid "PayPal Standard"
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:364
+#: includes/gateways/functions-payment-gateways.php:363
 msgid "Select a Payment Method"
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:387
+#: includes/gateways/functions-payment-gateways.php:386
 msgid "No payment methods are available for the selected subscription plan."
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:343
+#: includes/gateways/functions-payment-gateways.php:342
 msgid "No payment methods are available to complete the checkout process."
 msgstr ""
 
@@ -4377,7 +4377,7 @@ msgstr ""
 msgid "Taxonomy"
 msgstr ""
 
-#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:220, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:227, add-ons-pro/group-memberships/includes/class-group-memberships.php:1094, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:273
+#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:220, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:227, add-ons-pro/group-memberships/includes/class-group-memberships.php:1132, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:273
 msgid "Remove"
 msgstr ""
 
@@ -4506,7 +4506,7 @@ msgstr ""
 msgid "Original: %s"
 msgstr ""
 
-#: add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:228, includes/admin/views/view-page-payments-add-new-edit.php:267, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:61, includes/views/shortcodes/view-shortcode-account-subscription-details.php:166, includes/views/shortcodes/view-shortcode-account-subscription-details.php:164, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:172
+#: add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:228, includes/admin/views/view-page-payments-add-new-edit.php:267, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:61, includes/views/shortcodes/view-shortcode-account-subscription-details.php:173, includes/views/shortcodes/view-shortcode-account-subscription-details.php:171, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:172
 msgid "Cancel"
 msgstr ""
 
@@ -4672,73 +4672,73 @@ msgstr ""
 msgid "Registration page not selected. Contact administrator."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:350, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:204, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:152, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:158, extend/profile-builder/front-end/subscription-plans-field.php:140
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:361, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:204, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:152, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:158, extend/profile-builder/front-end/subscription-plans-field.php:140
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:348
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:359
 msgid "%d member invited successfully !"
 msgid_plural "%d members invited successfully !"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:372, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:336
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:383, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:336
 msgid "Group name cannot be empty."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:459
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:470
 msgid "You were invited to join this website by <strong>%s</strong>."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:461
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:472
 msgid "Please fill the form below in order to complete your registration."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:478
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:489
 msgid "You have selected a Group Membership. After a successful payment you will be able to invite up to %s additional members."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:509, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:477, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:17
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:520, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:477, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:17
 msgid "Group Name *"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:517, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:483, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:25
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:528, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:483, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:25
 msgid "Group Description"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:539, add-ons-pro/group-memberships/includes/class-group-memberships.php:561, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:513
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:550, add-ons-pro/group-memberships/includes/class-group-memberships.php:572, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:513
 msgid "The group name you chose is already registered. Please enter another one."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:537, add-ons-pro/group-memberships/includes/class-group-memberships.php:559, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:508
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:548, add-ons-pro/group-memberships/includes/class-group-memberships.php:570, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:508
 msgid "Please enter a group name."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:618
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:629
 msgid "for %s members"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:837, add-ons-pro/group-memberships/includes/class-group-memberships.php:899
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:852, add-ons-pro/group-memberships/includes/class-group-memberships.php:923
 msgid "You are not allowed to do this."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:879
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:903
 msgid "Member invitation removed succesfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:859, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:401, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:392
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:883, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:401, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:392
 msgid "Member removed successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:884, add-ons-pro/group-memberships/includes/class-group-memberships.php:912, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1515, add-ons-pro/stripe/includes/stripe-connect/class-payment-gateway-stripe-connect.php:973
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:908, add-ons-pro/group-memberships/includes/class-group-memberships.php:936, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1515, add-ons-pro/stripe/includes/stripe-connect/class-payment-gateway-stripe-connect.php:973
 msgid "Something went wrong, please try again."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:909
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:933
 msgid "Invitation sent successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:1099, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:243
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:1137, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:243
 msgid "Resend Invite"
 msgstr ""
 
@@ -4810,7 +4810,7 @@ msgstr ""
 msgid "%sClick here%s to go now."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1211, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:688, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:720
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1211, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:688, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:724
 msgid "No request response received."
 msgstr ""
 
@@ -4958,7 +4958,7 @@ msgstr ""
 msgid "More info:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:626, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:954, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:986
+#: add-ons-pro/paypal-express-pro/includes/functions.php:626, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:954, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:990
 msgid "Subscription setup successfully with PayPal."
 msgstr ""
 
@@ -4970,11 +4970,11 @@ msgstr ""
 msgid "PayPal Standard - Trial Payment"
 msgstr ""
 
-#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:643, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:675
+#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:643, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:679
 msgid "PayPal API credentials are missing or are incomplete"
 msgstr ""
 
-#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:649, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:681
+#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:649, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:685
 msgid "Payment profile ID is empty, nothing to cancel."
 msgstr ""
 
@@ -6062,7 +6062,7 @@ msgstr ""
 msgid "Year(s)"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:416, includes/views/shortcodes/view-shortcode-account-subscription-details.php:68, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:57, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:79
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:416, includes/views/shortcodes/view-shortcode-account-subscription-details.php:75, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:57, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:79
 msgid "Next Payment"
 msgstr ""
 
@@ -6922,7 +6922,7 @@ msgstr ""
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:90, includes/views/shortcodes/view-shortcode-account-subscription-details.php:107, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:119
+#: includes/modules/labels-edit/index.php:90, includes/views/shortcodes/view-shortcode-account-subscription-details.php:114, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:119
 msgid "Update"
 msgstr ""
 
@@ -7050,52 +7050,56 @@ msgstr ""
 msgid "Trial"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:60, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:71
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:55
+msgid "Next Payment Date"
+msgstr ""
+
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:67, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:71
 msgid "Trial End Date"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:69, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:80
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:76, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:80
 msgctxt "[amount] on [date]"
 msgid "%s on %s"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:80, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:92
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:87, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:92
 msgid "Payment Method"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:100, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:112
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:107, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:112
 msgid "Expires:"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:107, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:119
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:114, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:119
 msgid "Update the payment method attached to a recurring subscription."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:135, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:145
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:142, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:145
 msgid "Change"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:138, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:148
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:145, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:148
 msgid "Upgrade"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:161, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:169
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:168, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:169
 msgid "Renew"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:166
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:173
 msgid "Cancels recurring payments for this subscription, letting it expire at the end of the current peiod."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:164, includes/views/shortcodes/view-shortcode-account-subscription-details.php:179
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:171, includes/views/shortcodes/view-shortcode-account-subscription-details.php:186
 msgid "This action is not available because your website doesn't have https enabled."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:181
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:188
 msgid "Cancels recurring payments and then removes the subscription from your account immediately."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:181, includes/views/shortcodes/view-shortcode-account-subscription-details.php:179, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:182
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:188, includes/views/shortcodes/view-shortcode-account-subscription-details.php:186, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:182
 msgid "Abandon"
 msgstr ""
 

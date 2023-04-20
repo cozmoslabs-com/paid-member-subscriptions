@@ -1769,6 +1769,7 @@
 <?php __("Downgrade Subscription", "paid-member-subscriptions"); ?>
 <?php __("Change Subscription", "paid-member-subscriptions"); ?>
 <?php __("Trial", "paid-member-subscriptions"); ?>
+<?php __("Next Payment Date", "paid-member-subscriptions"); ?>
 <?php __("Trial End Date", "paid-member-subscriptions"); ?>
 <?php __("%s on %s", "paid-member-subscriptions"); ?>
 <?php __("Payment Method", "paid-member-subscriptions"); ?>

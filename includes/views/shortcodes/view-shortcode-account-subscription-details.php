@@ -37,6 +37,7 @@ foreach( $subscriptions as $subscription ) :
 				<td>
                     <?php echo ( ! empty( $subscription_statuses[$subscription->status] ) ? esc_html( $subscription_statuses[$subscription->status] ) : '' ); ?>
                     <?php echo ( $subscription->is_trial_period() ? ' (' . esc_html__( 'Trial', 'paid-member-subscriptions' ) . ')' : '' ); ?>
+                    <?php echo ( !empty( $subscription->payment_profile_id ) ? ' (' . esc_html__( 'Auto-renewing', 'paid-member-subscriptions' ) . ')' : '' ); ?>
                 </td>
 			</tr>
 
@@ -49,7 +50,13 @@ foreach( $subscriptions as $subscription ) :
             <!-- Subscription expiration date -->
 			<?php if( empty( $subscription->billing_next_payment ) ) : ?>
 	            <tr class="pms-account-subscription-details-table__expiration-date">
-	                <td><?php esc_html_e( 'Expiration Date', 'paid-member-subscriptions' ); ?></td>
+                    
+                <?php if( !empty( $subscription->payment_profile_id ) ) : ?>
+	                    <td><?php esc_html_e( 'Next Payment Date', 'paid-member-subscriptions' ); ?></td>
+                    <?php else : ?>
+                        <td><?php esc_html_e( 'Expiration Date', 'paid-member-subscriptions' ); ?></td>
+                    <?php endif; ?>
+
 	                <td><?php echo ( ! empty( $subscription->expiration_date ) ? esc_html( ucfirst( date_i18n( get_option('date_format'), strtotime( $subscription->expiration_date ) ) ) ) : esc_html__( 'Unlimited', 'paid-member-subscriptions' ) ); ?></td>
 	            </tr>
 			<?php endif; ?>

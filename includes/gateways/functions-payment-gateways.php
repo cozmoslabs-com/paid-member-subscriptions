@@ -182,14 +182,13 @@ function pms_to_gateway( $payment_gateway_slug, $payment_data ) {
 
 /*
  * Processes the webhooks for all active payment gateways
+ * This also serves the purpose of loading the payment gateway files in back-end and front-end.
+ * For example, the hooks for the manual payment gateway
  *
  * @return void
  *
  */
 function pms_payment_gateways_webhook_catcher() {
-
-    if( !isset( $_GET['pay_gate_listener'] ) )
-        return;
 
     $gateways = pms_get_payment_gateways();
 
