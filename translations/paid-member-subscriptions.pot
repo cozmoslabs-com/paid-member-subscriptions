@@ -3866,15 +3866,15 @@ msgstr ""
 msgid "PayPal Standard"
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:367
+#: includes/gateways/functions-payment-gateways.php:370
 msgid "Select a Payment Method"
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:390
+#: includes/gateways/functions-payment-gateways.php:393
 msgid "No payment methods are available for the selected subscription plan."
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:346
+#: includes/gateways/functions-payment-gateways.php:349
 msgid "No payment methods are available to complete the checkout process."
 msgstr ""
 

@@ -10,7 +10,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
  * When Stripe Connect is active and the plugin tries to charge an user through the 
  * regular Charges API or Payment Intents API, switch the charge to the Connect implementation
  */
-add_filter( 'pms_get_payment_gateway_class_name', 'pms_stripe_connect_filter_payment_gateway', 20, 3 );
+add_filter( 'pms_get_payment_gateway_class_name', 'pms_stripe_connect_filter_payment_gateway', 30, 3 );
 function pms_stripe_connect_filter_payment_gateway( $class, $gateway_slug, $payment_data ){
 
     $active_stripe_gateway = pms_get_active_stripe_gateway();

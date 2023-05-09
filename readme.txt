@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.2
-Stable tag: 2.9.3
+Stable tag: 2.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,9 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.9.4 =
+* Fix: Error triggered with older Pro versions of the plugin
+
 = 2.9.3 =
 * Feature: Stripe payment gateway is now available in the free version. Allow your users to pay using credit and debit cards directly on your website. Go to PMS -> Settings -> Payments to enable it
 * Fix: Integration issue with WooCommerce where subscription wasn't extended properly when manual payment gateways from WooCommerce were used

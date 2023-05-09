@@ -95,7 +95,10 @@ function pms_get_payment_gateway( $gateway_slug = '', $payment_data = array() ) 
 
     $class = apply_filters( 'pms_get_payment_gateway_class_name', $payment_gateways[$gateway_slug]['class_name'], $gateway_slug, $payment_data );
 
-    return new $class( $payment_data );
+    if( class_exists( $class ) )
+        return new $class( $payment_data );
+
+    return null;
 
 }
 
