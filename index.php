@@ -3,15 +3,15 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.9.2
+ * Version: 2.9.3
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * License: GPL2
  * WC requires at least: 3.0.0
  * WC tested up to: 7.6
- * Elementor tested up to: 3.12.1
- * Elementor Pro tested up to: 3.12.1
+ * Elementor tested up to: 3.13.0
+ * Elementor Pro tested up to: 3.13.0
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.9.2' );
+        define( 'PMS_VERSION', '2.9.3' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -55,13 +55,13 @@ Class Paid_Member_Subscriptions {
             define('PMS_PAID_PLUGIN_DIR', WP_PLUGIN_DIR . '/paid-member-subscriptions-pro' );
             define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-pro/' );
 
-        } elseif ( in_array( 'paid-member-subscriptions-elite/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-elite/index.php'] ) ){
+        } elseif ( in_array( 'paid-member-subscriptions-agency/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-agency/index.php'] ) ){
 
             if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
-                define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Elite');
+                define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Agency');
 
-            define('PMS_PAID_PLUGIN_DIR', WP_PLUGIN_DIR . '/paid-member-subscriptions-elite' );
-            define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-elite/' );
+            define('PMS_PAID_PLUGIN_DIR', WP_PLUGIN_DIR . '/paid-member-subscriptions-agency' );
+            define('PMS_PAID_PLUGIN_URL', plugins_url() . '/paid-member-subscriptions-agency/' );
 
         } elseif ( in_array( 'paid-member-subscriptions-unlimited/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-unlimited/index.php'] ) ){
 
@@ -238,7 +238,7 @@ Class Paid_Member_Subscriptions {
                     $cl_plugin_id = '51100';
                 else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Basic' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Basic' )
                     $cl_plugin_id = '60833';
-                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Elite' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Elite' )
+                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Agency' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Agency' )
                     $cl_plugin_id = '416191'; // @TODO: needs to be updated
                 else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Unlimited' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Unlimited' )
                     $cl_plugin_id = '62920';
@@ -331,7 +331,7 @@ Class Paid_Member_Subscriptions {
         $already_installed = get_option( 'pms_already_installed' );
 
         //Run Setup Wizard ?
-        if( !$already_installed && !pms_get_paypal_email() && !pms_are_paid_versions_active() )
+        if( !$already_installed && !pms_get_paypal_email() && !pms_is_paid_version_active() )
             set_transient( 'pms_run_setup_wizard', 'true', 120 );
 
         //General
@@ -746,6 +746,32 @@ Class Paid_Member_Subscriptions {
 
         update_option( 'pms_add_ons_settings', $add_ons_settings );
 
+        // Stripe Connect
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'assets/libs/stripe/init.php' ) )
+            include PMS_PLUGIN_DIR_PATH . 'assets/libs/stripe/init.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/admin/functions-admin-connect.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/admin/functions-admin-connect.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/class-payment-gateway-stripe-connect.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/class-payment-gateway-stripe-connect.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/functions.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/functions.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/functions-actions.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/functions-actions.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/functions-filters.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/functions-filters.php';
+
+        if( pms_stripe_connect_payment_request_enabled() ){
+
+            if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/apple-pay/functions-apple-pay.php' ) )
+                include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/apple-pay/functions-apple-pay.php';
+
+        }
+
         /*
          * Content restriction
          */
@@ -1140,9 +1166,11 @@ Class Paid_Member_Subscriptions {
         wp_localize_script( 'pms-front-end', 'PMS_States', pms_get_billing_states() );
 
         // Add chosen in the front-end if Billing Details are showing
-        if( defined( 'PMS_IN_TAX_VERSION' ) || defined( 'PMS_IN_INV_VERSION' ) ) {
+        if( (defined( 'PMS_IN_TAX_VERSION' ) || defined( 'PMS_IN_INV_VERSION' )) && apply_filters( 'pms_enable_chosen_in_frontend', true ) ) {
+
             $account_page  = pms_get_page( 'account' );
             $register_page = pms_get_page( 'register' );
+
 
             if( ( !empty( $account_page ) && $account_page == get_the_ID() ) || ( !empty( $register_page ) && $register_page == get_the_ID() ) ){
                 wp_enqueue_script( 'pms-chosen', PMS_PLUGIN_DIR_URL . 'assets/libs/chosen/chosen.jquery.min.js', array( 'jquery' ), PMS_VERSION );

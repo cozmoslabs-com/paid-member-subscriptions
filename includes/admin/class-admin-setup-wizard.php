@@ -116,6 +116,9 @@ class PMS_Setup_Wizard {
             if( isset( $_POST['pms_payments_price_format'] ) )
                 $settings['price-display-format'] = sanitize_text_field( $_POST['pms_payments_price_format'] );
 
+            if( isset( $_POST['pms_payments_renewal'] ) )
+                $settings['recurring'] = sanitize_text_field( $_POST['pms_payments_renewal'] );
+
             $settings['active_pay_gates'] = array();
 
             if( isset( $_POST['pms_gateway_offline'] ) ){
@@ -126,6 +129,11 @@ class PMS_Setup_Wizard {
             if( isset( $_POST['pms_gateway_paypal_standard'] ) ){
                 $settings['active_pay_gates'][] = 'paypal_standard';
                 $settings['default_payment_gateway'] = 'paypal_standard';
+            }
+
+            if( isset( $_POST['pms_gateway_stripe'] ) ){
+                $settings['active_pay_gates'][] = 'stripe_connect';
+                $settings['default_payment_gateway'] = 'stripe_connect';
             }
 
             if( isset( $_POST['pms_gateway_paypal_email_address'] ) ){

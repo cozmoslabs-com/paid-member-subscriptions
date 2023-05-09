@@ -53,41 +53,41 @@ msgstr ""
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:1060, index.php:1060, includes/functions-user.php:245, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:17, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
+#: index.php:1086, index.php:1086, includes/functions-user.php:245, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:17, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
 msgid "Paid Member Subscriptions"
 msgstr ""
 
-#: index.php:1079, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
+#: index.php:1105, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
 msgid "Uninstall"
 msgstr ""
 
-#: index.php:1081, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-setup-wizard.php:49, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:127, includes/admin/views/setup-wizard/view-tab-general.php:23, includes/admin/views/setup-wizard/view-tab-next.php:48
+#: index.php:1107, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-setup-wizard.php:49, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:127, includes/admin/views/setup-wizard/view-tab-general.php:23, includes/admin/views/setup-wizard/view-tab-next.php:48
 msgid "Settings"
 msgstr ""
 
-#: index.php:1083
+#: index.php:1109
 msgid "Docs"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1135
+#: index.php:1161
 msgid "Type %s to confirm deleting your account and all data associated with it:"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1137
+#: index.php:1163
 msgid "You did not type %s. Try again!"
 msgstr ""
 
-#: index.php:1153
+#: index.php:1181
 msgid "Select an option"
 msgstr ""
 
-#: index.php:1154
+#: index.php:1182
 msgid "No results match"
 msgstr ""
 
-#: index.php:1173, index.php:1173
+#: index.php:1201, index.php:1201
 msgid "Get Support"
 msgstr ""
 
@@ -387,7 +387,7 @@ msgstr ""
 msgid "Please select a subscription plan."
 msgstr ""
 
-#: includes/class-form-handler.php:315, includes/admin/class-admin-members.php:836, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:140, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:320
+#: includes/class-form-handler.php:315, includes/admin/class-admin-members.php:836, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:134, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:320
 msgid "Something went wrong."
 msgstr ""
 
@@ -451,7 +451,7 @@ msgstr ""
 msgid "Both fields are empty."
 msgstr ""
 
-#: includes/class-form-handler.php:1249, add-ons-pro/stripe/includes/stripe-connect/class-payment-gateway-stripe-connect.php:827
+#: includes/class-form-handler.php:1249, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:827
 msgid "Congratulations, you have successfully created an account."
 msgstr ""
 
@@ -692,7 +692,7 @@ msgstr ""
 msgid "Something went wrong while trying to process the payment."
 msgstr ""
 
-#: includes/functions-content-filtering.php:335, add-ons-pro/stripe/includes/functions-filters.php:201
+#: includes/functions-content-filtering.php:335, add-ons-pro/stripe/includes/functions-filters.php:195, includes/gateways/stripe/functions-filters.php:214
 msgid "Please try again."
 msgstr ""
 
@@ -828,11 +828,11 @@ msgstr ""
 msgid "Processing. Please wait..."
 msgstr ""
 
-#: includes/functions-core.php:313, includes/functions-core.php:345, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:391
+#: includes/functions-core.php:313, includes/functions-core.php:345, includes/gateways/stripe/admin/functions-admin-connect.php:221
 msgid "US Dollar"
 msgstr ""
 
-#: includes/functions-core.php:314, includes/functions-core.php:346, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:392
+#: includes/functions-core.php:314, includes/functions-core.php:346, includes/gateways/stripe/admin/functions-admin-connect.php:222
 msgid "Euro"
 msgstr ""
 
@@ -928,531 +928,531 @@ msgstr ""
 msgid "Turkish Lira"
 msgstr ""
 
-#: includes/functions-core.php:347, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:393
+#: includes/functions-core.php:347, includes/gateways/stripe/admin/functions-admin-connect.php:223
 msgid "Pound sterling"
 msgstr ""
 
-#: includes/functions-core.php:348, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:394
+#: includes/functions-core.php:348, includes/gateways/stripe/admin/functions-admin-connect.php:224
 msgid "Canadian dollar"
 msgstr ""
 
-#: includes/functions-core.php:349, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:395
+#: includes/functions-core.php:349, includes/gateways/stripe/admin/functions-admin-connect.php:225
 msgid "United Arab Emirates dirham"
 msgstr ""
 
-#: includes/functions-core.php:350, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:396
+#: includes/functions-core.php:350, includes/gateways/stripe/admin/functions-admin-connect.php:226
 msgid "Afghan afghani"
 msgstr ""
 
-#: includes/functions-core.php:351, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:397
+#: includes/functions-core.php:351, includes/gateways/stripe/admin/functions-admin-connect.php:227
 msgid "Albanian lek"
 msgstr ""
 
-#: includes/functions-core.php:352, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:398
+#: includes/functions-core.php:352, includes/gateways/stripe/admin/functions-admin-connect.php:228
 msgid "Armenian dram"
 msgstr ""
 
-#: includes/functions-core.php:353, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:399
+#: includes/functions-core.php:353, includes/gateways/stripe/admin/functions-admin-connect.php:229
 msgid "Netherlands Antillean guilder"
 msgstr ""
 
-#: includes/functions-core.php:354, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:400
+#: includes/functions-core.php:354, includes/gateways/stripe/admin/functions-admin-connect.php:230
 msgid "Angolan kwanza"
 msgstr ""
 
-#: includes/functions-core.php:355, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:401
+#: includes/functions-core.php:355, includes/gateways/stripe/admin/functions-admin-connect.php:231
 msgid "Argentine peso"
 msgstr ""
 
-#: includes/functions-core.php:356, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:402
+#: includes/functions-core.php:356, includes/gateways/stripe/admin/functions-admin-connect.php:232
 msgid "Australian dollar"
 msgstr ""
 
-#: includes/functions-core.php:357, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:403
+#: includes/functions-core.php:357, includes/gateways/stripe/admin/functions-admin-connect.php:233
 msgid "Aruban florin"
 msgstr ""
 
-#: includes/functions-core.php:358, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:404
+#: includes/functions-core.php:358, includes/gateways/stripe/admin/functions-admin-connect.php:234
 msgid "Azerbaijani manat"
 msgstr ""
 
-#: includes/functions-core.php:359, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:405
+#: includes/functions-core.php:359, includes/gateways/stripe/admin/functions-admin-connect.php:235
 msgid "Bosnia and Herzegovina convertible mark"
 msgstr ""
 
-#: includes/functions-core.php:360, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:406
+#: includes/functions-core.php:360, includes/gateways/stripe/admin/functions-admin-connect.php:236
 msgid "Barbadian dollar"
 msgstr ""
 
-#: includes/functions-core.php:361, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:407
+#: includes/functions-core.php:361, includes/gateways/stripe/admin/functions-admin-connect.php:237
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: includes/functions-core.php:362, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:408
+#: includes/functions-core.php:362, includes/gateways/stripe/admin/functions-admin-connect.php:238
 msgid "Bulgarian lev"
 msgstr ""
 
-#: includes/functions-core.php:363, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:409
+#: includes/functions-core.php:363, includes/gateways/stripe/admin/functions-admin-connect.php:239
 msgid "Burundian franc"
 msgstr ""
 
-#: includes/functions-core.php:364, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:410
+#: includes/functions-core.php:364, includes/gateways/stripe/admin/functions-admin-connect.php:240
 msgid "Bermudian dollar"
 msgstr ""
 
-#: includes/functions-core.php:365, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:411
+#: includes/functions-core.php:365, includes/gateways/stripe/admin/functions-admin-connect.php:241
 msgid "Brunei dollar"
 msgstr ""
 
-#: includes/functions-core.php:366, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:412
+#: includes/functions-core.php:366, includes/gateways/stripe/admin/functions-admin-connect.php:242
 msgid "Bolivian boliviano"
 msgstr ""
 
-#: includes/functions-core.php:367, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:413
+#: includes/functions-core.php:367, includes/gateways/stripe/admin/functions-admin-connect.php:243
 msgid "Brazilian real"
 msgstr ""
 
-#: includes/functions-core.php:368, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:414
+#: includes/functions-core.php:368, includes/gateways/stripe/admin/functions-admin-connect.php:244
 msgid "Bahamian dollar"
 msgstr ""
 
-#: includes/functions-core.php:369, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:415
+#: includes/functions-core.php:369, includes/gateways/stripe/admin/functions-admin-connect.php:245
 msgid "Botswana pula"
 msgstr ""
 
-#: includes/functions-core.php:370, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:416
+#: includes/functions-core.php:370, includes/gateways/stripe/admin/functions-admin-connect.php:246
 msgid "Belize dollar"
 msgstr ""
 
-#: includes/functions-core.php:371, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:417
+#: includes/functions-core.php:371, includes/gateways/stripe/admin/functions-admin-connect.php:247
 msgid "Congolese franc"
 msgstr ""
 
-#: includes/functions-core.php:372, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:418
+#: includes/functions-core.php:372, includes/gateways/stripe/admin/functions-admin-connect.php:248
 msgid "Swiss franc"
 msgstr ""
 
-#: includes/functions-core.php:373, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:419
+#: includes/functions-core.php:373, includes/gateways/stripe/admin/functions-admin-connect.php:249
 msgid "Chilean peso"
 msgstr ""
 
-#: includes/functions-core.php:374, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:420
+#: includes/functions-core.php:374, includes/gateways/stripe/admin/functions-admin-connect.php:250
 msgid "Chinese yuan"
 msgstr ""
 
-#: includes/functions-core.php:375, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:421
+#: includes/functions-core.php:375, includes/gateways/stripe/admin/functions-admin-connect.php:251
 msgid "Colombian peso"
 msgstr ""
 
-#: includes/functions-core.php:376, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:422
+#: includes/functions-core.php:376, includes/gateways/stripe/admin/functions-admin-connect.php:252
 msgid "Costa Rican col&oacute;n"
 msgstr ""
 
-#: includes/functions-core.php:377, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:423
+#: includes/functions-core.php:377, includes/gateways/stripe/admin/functions-admin-connect.php:253
 msgid "Cape Verdean escudo"
 msgstr ""
 
-#: includes/functions-core.php:378, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:424
+#: includes/functions-core.php:378, includes/gateways/stripe/admin/functions-admin-connect.php:254
 msgid "Czech koruna"
 msgstr ""
 
-#: includes/functions-core.php:379, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:425
+#: includes/functions-core.php:379, includes/gateways/stripe/admin/functions-admin-connect.php:255
 msgid "Djiboutian franc"
 msgstr ""
 
-#: includes/functions-core.php:380, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:426
+#: includes/functions-core.php:380, includes/gateways/stripe/admin/functions-admin-connect.php:256
 msgid "Danish krone"
 msgstr ""
 
-#: includes/functions-core.php:381, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:427
+#: includes/functions-core.php:381, includes/gateways/stripe/admin/functions-admin-connect.php:257
 msgid "Dominican peso"
 msgstr ""
 
-#: includes/functions-core.php:382, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:428
+#: includes/functions-core.php:382, includes/gateways/stripe/admin/functions-admin-connect.php:258
 msgid "Algerian dinar"
 msgstr ""
 
-#: includes/functions-core.php:383, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:429
+#: includes/functions-core.php:383, includes/gateways/stripe/admin/functions-admin-connect.php:259
 msgid "Egyptian pound"
 msgstr ""
 
-#: includes/functions-core.php:384, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:430
+#: includes/functions-core.php:384, includes/gateways/stripe/admin/functions-admin-connect.php:260
 msgid "Eritrean nakfa"
 msgstr ""
 
-#: includes/functions-core.php:385, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:431
+#: includes/functions-core.php:385, includes/gateways/stripe/admin/functions-admin-connect.php:261
 msgid "Ethiopian birr"
 msgstr ""
 
-#: includes/functions-core.php:386, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:432
+#: includes/functions-core.php:386, includes/gateways/stripe/admin/functions-admin-connect.php:262
 msgid "Fijian dollar"
 msgstr ""
 
-#: includes/functions-core.php:387, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:433
+#: includes/functions-core.php:387, includes/gateways/stripe/admin/functions-admin-connect.php:263
 msgid "Falkland Islands pound"
 msgstr ""
 
-#: includes/functions-core.php:388, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:434
+#: includes/functions-core.php:388, includes/gateways/stripe/admin/functions-admin-connect.php:264
 msgid "Georgian lari"
 msgstr ""
 
-#: includes/functions-core.php:389, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:435
+#: includes/functions-core.php:389, includes/gateways/stripe/admin/functions-admin-connect.php:265
 msgid "Gibraltar pound"
 msgstr ""
 
-#: includes/functions-core.php:390, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:436
+#: includes/functions-core.php:390, includes/gateways/stripe/admin/functions-admin-connect.php:266
 msgid "Gambian dalasi"
 msgstr ""
 
-#: includes/functions-core.php:391, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:437
+#: includes/functions-core.php:391, includes/gateways/stripe/admin/functions-admin-connect.php:267
 msgid "Guinean franc"
 msgstr ""
 
-#: includes/functions-core.php:392, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:438
+#: includes/functions-core.php:392, includes/gateways/stripe/admin/functions-admin-connect.php:268
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: includes/functions-core.php:393, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:439
+#: includes/functions-core.php:393, includes/gateways/stripe/admin/functions-admin-connect.php:269
 msgid "Guyanese dollar"
 msgstr ""
 
-#: includes/functions-core.php:394, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:440
+#: includes/functions-core.php:394, includes/gateways/stripe/admin/functions-admin-connect.php:270
 msgid "Hong Kong dollar"
 msgstr ""
 
-#: includes/functions-core.php:395, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:441
+#: includes/functions-core.php:395, includes/gateways/stripe/admin/functions-admin-connect.php:271
 msgid "Honduran lempira"
 msgstr ""
 
-#: includes/functions-core.php:396, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:442
+#: includes/functions-core.php:396, includes/gateways/stripe/admin/functions-admin-connect.php:272
 msgid "Croatian kuna"
 msgstr ""
 
-#: includes/functions-core.php:397, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:443
+#: includes/functions-core.php:397, includes/gateways/stripe/admin/functions-admin-connect.php:273
 msgid "Haitian gourde"
 msgstr ""
 
-#: includes/functions-core.php:398, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:444
+#: includes/functions-core.php:398, includes/gateways/stripe/admin/functions-admin-connect.php:274
 msgid "Hungarian forint"
 msgstr ""
 
-#: includes/functions-core.php:399, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:445
+#: includes/functions-core.php:399, includes/gateways/stripe/admin/functions-admin-connect.php:275
 msgid "Indonesian rupiah"
 msgstr ""
 
-#: includes/functions-core.php:400, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:446
+#: includes/functions-core.php:400, includes/gateways/stripe/admin/functions-admin-connect.php:276
 msgid "Israeli new shekel"
 msgstr ""
 
-#: includes/functions-core.php:401, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:447
+#: includes/functions-core.php:401, includes/gateways/stripe/admin/functions-admin-connect.php:277
 msgid "Indian rupee"
 msgstr ""
 
-#: includes/functions-core.php:402, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:448
+#: includes/functions-core.php:402, includes/gateways/stripe/admin/functions-admin-connect.php:278
 msgid "Icelandic kr&oacute;na"
 msgstr ""
 
-#: includes/functions-core.php:403, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:449
+#: includes/functions-core.php:403, includes/gateways/stripe/admin/functions-admin-connect.php:279
 msgid "Jamaican dollar"
 msgstr ""
 
-#: includes/functions-core.php:404, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:450
+#: includes/functions-core.php:404, includes/gateways/stripe/admin/functions-admin-connect.php:280
 msgid "Japanese yen"
 msgstr ""
 
-#: includes/functions-core.php:405, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:451
+#: includes/functions-core.php:405, includes/gateways/stripe/admin/functions-admin-connect.php:281
 msgid "Kenyan shilling"
 msgstr ""
 
-#: includes/functions-core.php:406, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:452
+#: includes/functions-core.php:406, includes/gateways/stripe/admin/functions-admin-connect.php:282
 msgid "Kyrgyzstani som"
 msgstr ""
 
-#: includes/functions-core.php:407, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:453
+#: includes/functions-core.php:407, includes/gateways/stripe/admin/functions-admin-connect.php:283
 msgid "Cambodian riel"
 msgstr ""
 
-#: includes/functions-core.php:408, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:454
+#: includes/functions-core.php:408, includes/gateways/stripe/admin/functions-admin-connect.php:284
 msgid "Comorian franc"
 msgstr ""
 
-#: includes/functions-core.php:409, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:455
+#: includes/functions-core.php:409, includes/gateways/stripe/admin/functions-admin-connect.php:285
 msgid "South Korean won"
 msgstr ""
 
-#: includes/functions-core.php:410, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:456
+#: includes/functions-core.php:410, includes/gateways/stripe/admin/functions-admin-connect.php:286
 msgid "Cayman Islands dollar"
 msgstr ""
 
-#: includes/functions-core.php:411, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:457
+#: includes/functions-core.php:411, includes/gateways/stripe/admin/functions-admin-connect.php:287
 msgid "Kazakhstani tenge"
 msgstr ""
 
-#: includes/functions-core.php:412, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:458
+#: includes/functions-core.php:412, includes/gateways/stripe/admin/functions-admin-connect.php:288
 msgid "Lao kip"
 msgstr ""
 
-#: includes/functions-core.php:413, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:459
+#: includes/functions-core.php:413, includes/gateways/stripe/admin/functions-admin-connect.php:289
 msgid "Lebanese pound"
 msgstr ""
 
-#: includes/functions-core.php:414, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:460
+#: includes/functions-core.php:414, includes/gateways/stripe/admin/functions-admin-connect.php:290
 msgid "Sri Lankan rupee"
 msgstr ""
 
-#: includes/functions-core.php:415, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:461
+#: includes/functions-core.php:415, includes/gateways/stripe/admin/functions-admin-connect.php:291
 msgid "Liberian dollar"
 msgstr ""
 
-#: includes/functions-core.php:416, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:462
+#: includes/functions-core.php:416, includes/gateways/stripe/admin/functions-admin-connect.php:292
 msgid "Lesotho loti"
 msgstr ""
 
-#: includes/functions-core.php:417, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:463
+#: includes/functions-core.php:417, includes/gateways/stripe/admin/functions-admin-connect.php:293
 msgid "Moroccan dirham"
 msgstr ""
 
-#: includes/functions-core.php:418, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:464
+#: includes/functions-core.php:418, includes/gateways/stripe/admin/functions-admin-connect.php:294
 msgid "Moldovan leu"
 msgstr ""
 
-#: includes/functions-core.php:419, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:465
+#: includes/functions-core.php:419, includes/gateways/stripe/admin/functions-admin-connect.php:295
 msgid "Malagasy ariary"
 msgstr ""
 
-#: includes/functions-core.php:420, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:466
+#: includes/functions-core.php:420, includes/gateways/stripe/admin/functions-admin-connect.php:296
 msgid "Macedonian denar"
 msgstr ""
 
-#: includes/functions-core.php:421, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:467
+#: includes/functions-core.php:421, includes/gateways/stripe/admin/functions-admin-connect.php:297
 msgid "Burmese kyat"
 msgstr ""
 
-#: includes/functions-core.php:422, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:468
+#: includes/functions-core.php:422, includes/gateways/stripe/admin/functions-admin-connect.php:298
 msgid "Mongolian t&ouml;gr&ouml;g"
 msgstr ""
 
-#: includes/functions-core.php:423, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:469
+#: includes/functions-core.php:423, includes/gateways/stripe/admin/functions-admin-connect.php:299
 msgid "Macanese pataca"
 msgstr ""
 
-#: includes/functions-core.php:424, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:470
+#: includes/functions-core.php:424, includes/gateways/stripe/admin/functions-admin-connect.php:300
 msgid "Mauritian rupee"
 msgstr ""
 
-#: includes/functions-core.php:425, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:471
+#: includes/functions-core.php:425, includes/gateways/stripe/admin/functions-admin-connect.php:301
 msgid "Maldivian rufiyaa"
 msgstr ""
 
-#: includes/functions-core.php:426, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:472
+#: includes/functions-core.php:426, includes/gateways/stripe/admin/functions-admin-connect.php:302
 msgid "Malawian kwacha"
 msgstr ""
 
-#: includes/functions-core.php:427, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:473
+#: includes/functions-core.php:427, includes/gateways/stripe/admin/functions-admin-connect.php:303
 msgid "Mexican peso"
 msgstr ""
 
-#: includes/functions-core.php:428, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:474
+#: includes/functions-core.php:428, includes/gateways/stripe/admin/functions-admin-connect.php:304
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: includes/functions-core.php:429, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:475
+#: includes/functions-core.php:429, includes/gateways/stripe/admin/functions-admin-connect.php:305
 msgid "Mozambican metical"
 msgstr ""
 
-#: includes/functions-core.php:430, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:476
+#: includes/functions-core.php:430, includes/gateways/stripe/admin/functions-admin-connect.php:306
 msgid "Namibian dollar"
 msgstr ""
 
-#: includes/functions-core.php:431, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:477
+#: includes/functions-core.php:431, includes/gateways/stripe/admin/functions-admin-connect.php:307
 msgid "Nigerian naira"
 msgstr ""
 
-#: includes/functions-core.php:432, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:478
+#: includes/functions-core.php:432, includes/gateways/stripe/admin/functions-admin-connect.php:308
 msgid "Nicaraguan c&oacute;rdoba"
 msgstr ""
 
-#: includes/functions-core.php:433, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:479
+#: includes/functions-core.php:433, includes/gateways/stripe/admin/functions-admin-connect.php:309
 msgid "Norwegian krone"
 msgstr ""
 
-#: includes/functions-core.php:434, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:480
+#: includes/functions-core.php:434, includes/gateways/stripe/admin/functions-admin-connect.php:310
 msgid "Nepalese rupee"
 msgstr ""
 
-#: includes/functions-core.php:435, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:481
+#: includes/functions-core.php:435, includes/gateways/stripe/admin/functions-admin-connect.php:311
 msgid "New Zealand dollar"
 msgstr ""
 
-#: includes/functions-core.php:436, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:482
+#: includes/functions-core.php:436, includes/gateways/stripe/admin/functions-admin-connect.php:312
 msgid "Panamanian balboa"
 msgstr ""
 
-#: includes/functions-core.php:437, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:483
+#: includes/functions-core.php:437, includes/gateways/stripe/admin/functions-admin-connect.php:313
 msgid "Sol"
 msgstr ""
 
-#: includes/functions-core.php:438, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:484
+#: includes/functions-core.php:438, includes/gateways/stripe/admin/functions-admin-connect.php:314
 msgid "Papua New Guinean kina"
 msgstr ""
 
-#: includes/functions-core.php:439, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:485
+#: includes/functions-core.php:439, includes/gateways/stripe/admin/functions-admin-connect.php:315
 msgid "Philippine peso"
 msgstr ""
 
-#: includes/functions-core.php:440, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:486
+#: includes/functions-core.php:440, includes/gateways/stripe/admin/functions-admin-connect.php:316
 msgid "Pakistani rupee"
 msgstr ""
 
-#: includes/functions-core.php:441, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:487
+#: includes/functions-core.php:441, includes/gateways/stripe/admin/functions-admin-connect.php:317
 msgid "Polish z&#x142;oty"
 msgstr ""
 
-#: includes/functions-core.php:442, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:488
+#: includes/functions-core.php:442, includes/gateways/stripe/admin/functions-admin-connect.php:318
 msgid "Paraguayan guaran&iacute;"
 msgstr ""
 
-#: includes/functions-core.php:443, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:489
+#: includes/functions-core.php:443, includes/gateways/stripe/admin/functions-admin-connect.php:319
 msgid "Qatari riyal"
 msgstr ""
 
-#: includes/functions-core.php:444, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:490
+#: includes/functions-core.php:444, includes/gateways/stripe/admin/functions-admin-connect.php:320
 msgid "Romanian leu"
 msgstr ""
 
-#: includes/functions-core.php:445, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:491
+#: includes/functions-core.php:445, includes/gateways/stripe/admin/functions-admin-connect.php:321
 msgid "Serbian dinar"
 msgstr ""
 
-#: includes/functions-core.php:446, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:492
+#: includes/functions-core.php:446, includes/gateways/stripe/admin/functions-admin-connect.php:322
 msgid "Russian ruble"
 msgstr ""
 
-#: includes/functions-core.php:447, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:493
+#: includes/functions-core.php:447, includes/gateways/stripe/admin/functions-admin-connect.php:323
 msgid "Rwandan franc"
 msgstr ""
 
-#: includes/functions-core.php:448, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:494
+#: includes/functions-core.php:448, includes/gateways/stripe/admin/functions-admin-connect.php:324
 msgid "Saudi riyal"
 msgstr ""
 
-#: includes/functions-core.php:449, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:495
+#: includes/functions-core.php:449, includes/gateways/stripe/admin/functions-admin-connect.php:325
 msgid "Solomon Islands dollar"
 msgstr ""
 
-#: includes/functions-core.php:450, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:496
+#: includes/functions-core.php:450, includes/gateways/stripe/admin/functions-admin-connect.php:326
 msgid "Seychellois rupee"
 msgstr ""
 
-#: includes/functions-core.php:451, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:497
+#: includes/functions-core.php:451, includes/gateways/stripe/admin/functions-admin-connect.php:327
 msgid "Swedish krona"
 msgstr ""
 
-#: includes/functions-core.php:452, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:498
+#: includes/functions-core.php:452, includes/gateways/stripe/admin/functions-admin-connect.php:328
 msgid "Singapore dollar"
 msgstr ""
 
-#: includes/functions-core.php:453, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:499
+#: includes/functions-core.php:453, includes/gateways/stripe/admin/functions-admin-connect.php:329
 msgid "Saint Helena pound"
 msgstr ""
 
-#: includes/functions-core.php:454, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:500
+#: includes/functions-core.php:454, includes/gateways/stripe/admin/functions-admin-connect.php:330
 msgid "Sierra Leonean leone"
 msgstr ""
 
-#: includes/functions-core.php:455, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:501
+#: includes/functions-core.php:455, includes/gateways/stripe/admin/functions-admin-connect.php:331
 msgid "Somali shilling"
 msgstr ""
 
-#: includes/functions-core.php:456, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:502
+#: includes/functions-core.php:456, includes/gateways/stripe/admin/functions-admin-connect.php:332
 msgid "Surinamese dollar"
 msgstr ""
 
-#: includes/functions-core.php:457, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:503
+#: includes/functions-core.php:457, includes/gateways/stripe/admin/functions-admin-connect.php:333
 msgid "Swazi lilangeni"
 msgstr ""
 
-#: includes/functions-core.php:458, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:504
+#: includes/functions-core.php:458, includes/gateways/stripe/admin/functions-admin-connect.php:334
 msgid "Thai baht"
 msgstr ""
 
-#: includes/functions-core.php:459, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:505
+#: includes/functions-core.php:459, includes/gateways/stripe/admin/functions-admin-connect.php:335
 msgid "Tajikistani somoni"
 msgstr ""
 
-#: includes/functions-core.php:460, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:506
+#: includes/functions-core.php:460, includes/gateways/stripe/admin/functions-admin-connect.php:336
 msgid "Tongan pa&#x2bb;anga"
 msgstr ""
 
-#: includes/functions-core.php:461, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:507
+#: includes/functions-core.php:461, includes/gateways/stripe/admin/functions-admin-connect.php:337
 msgid "Turkish lira"
 msgstr ""
 
-#: includes/functions-core.php:462, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:508
+#: includes/functions-core.php:462, includes/gateways/stripe/admin/functions-admin-connect.php:338
 msgid "Trinidad and Tobago dollar"
 msgstr ""
 
-#: includes/functions-core.php:463, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:509
+#: includes/functions-core.php:463, includes/gateways/stripe/admin/functions-admin-connect.php:339
 msgid "New Taiwan dollar"
 msgstr ""
 
-#: includes/functions-core.php:464, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:510
+#: includes/functions-core.php:464, includes/gateways/stripe/admin/functions-admin-connect.php:340
 msgid "Tanzanian shilling"
 msgstr ""
 
-#: includes/functions-core.php:465, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:511
+#: includes/functions-core.php:465, includes/gateways/stripe/admin/functions-admin-connect.php:341
 msgid "Ukrainian hryvnia"
 msgstr ""
 
-#: includes/functions-core.php:466, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:512
+#: includes/functions-core.php:466, includes/gateways/stripe/admin/functions-admin-connect.php:342
 msgid "Ugandan shilling"
 msgstr ""
 
-#: includes/functions-core.php:467, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:513
+#: includes/functions-core.php:467, includes/gateways/stripe/admin/functions-admin-connect.php:343
 msgid "Uruguayan peso"
 msgstr ""
 
-#: includes/functions-core.php:468, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:514
+#: includes/functions-core.php:468, includes/gateways/stripe/admin/functions-admin-connect.php:344
 msgid "Uzbekistani som"
 msgstr ""
 
-#: includes/functions-core.php:469, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:515
+#: includes/functions-core.php:469, includes/gateways/stripe/admin/functions-admin-connect.php:345
 msgid "Vietnamese &#x111;&#x1ed3;ng"
 msgstr ""
 
-#: includes/functions-core.php:470, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:516
+#: includes/functions-core.php:470, includes/gateways/stripe/admin/functions-admin-connect.php:346
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: includes/functions-core.php:471, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:517
+#: includes/functions-core.php:471, includes/gateways/stripe/admin/functions-admin-connect.php:347
 msgid "Samoan t&#x101;l&#x101;"
 msgstr ""
 
-#: includes/functions-core.php:472, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:518
+#: includes/functions-core.php:472, includes/gateways/stripe/admin/functions-admin-connect.php:348
 msgid "Central African CFA franc"
 msgstr ""
 
-#: includes/functions-core.php:473, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:519
+#: includes/functions-core.php:473, includes/gateways/stripe/admin/functions-admin-connect.php:349
 msgid "East Caribbean dollar"
 msgstr ""
 
-#: includes/functions-core.php:474, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:520
+#: includes/functions-core.php:474, includes/gateways/stripe/admin/functions-admin-connect.php:350
 msgid "West African CFA franc"
 msgstr ""
 
-#: includes/functions-core.php:475, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:521
+#: includes/functions-core.php:475, includes/gateways/stripe/admin/functions-admin-connect.php:351
 msgid "CFP franc"
 msgstr ""
 
-#: includes/functions-core.php:476, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:522
+#: includes/functions-core.php:476, includes/gateways/stripe/admin/functions-admin-connect.php:352
 msgid "Yemeni rial"
 msgstr ""
 
-#: includes/functions-core.php:477, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:523
+#: includes/functions-core.php:477, includes/gateways/stripe/admin/functions-admin-connect.php:353
 msgid "South African rand"
 msgstr ""
 
-#: includes/functions-core.php:478, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:524
+#: includes/functions-core.php:478, includes/gateways/stripe/admin/functions-admin-connect.php:354
 msgid "Zambian kwacha"
 msgstr ""
 
@@ -2524,7 +2524,7 @@ msgstr ""
 msgid "Subscription Initial Payment"
 msgstr ""
 
-#: includes/functions-payment.php:394, add-ons-pro/stripe/includes/functions-filters.php:81
+#: includes/functions-payment.php:394, add-ons-pro/stripe/includes/functions-filters.php:75, includes/gateways/stripe/functions-filters.php:138
 msgid "Subscription Recurring Payment"
 msgstr ""
 
@@ -2549,7 +2549,11 @@ msgid "If you have issues with the styling of the submit button on <strong>Paid 
 msgstr ""
 
 #: includes/functions-plugin-notifications.php:93
-msgid "<strong>New free version features!</strong><br><br><strong>Recurring Payments for PayPal Standard</strong> is now available in the free version. Go to <strong>PMS -> Settings -> Payments</strong> to control the default settings.<br> <strong>Discount Codes</strong> are now available in the free version. Go to <strong>PMS -> Discount Codes</strong> to create one."
+msgid "<strong>New payment gateway!</strong><br><br><strong>Stripe</strong> payment gateway is now available in the free version. <br>Your users can pay using credit and debit cards without leaving your website and you can also offer them additional payment methods like Bancontact, iDeal, Giropay and more. <br><br>Get started now by going to <strong>Paid Member Subscriptions -> Settings -> Payments</strong>!"
+msgstr ""
+
+#: includes/functions-plugin-notifications.php:94, extend/bbpress/functions.php:36, includes/admin/views/setup-wizard/view-tab-payments.php:60, includes/admin/views/setup-wizard/view-tab-payments.php:91, includes/admin/views/setup-wizard/view-tab-payments.php:125, includes/admin/views/setup-wizard/view-tab-woocommerce.php:12, includes/admin/views/setup-wizard/view-tab-woocommerce.php:24, includes/admin/views/setup-wizard/view-tab-woocommerce.php:36
+msgid "Learn More"
 msgstr ""
 
 #: includes/functions-subscription-plan.php:495, includes/admin/class-admin-subscription-plans.php:390, includes/admin/class-admin-subscription-plans.php:448
@@ -2676,11 +2680,11 @@ msgstr ""
 msgid "Are you sure you want to remove this member ?"
 msgstr ""
 
-#: add-ons-pro/stripe/index.php:136
+#: add-ons-pro/stripe/index.php:124, includes/gateways/stripe/functions-actions.php:24
 msgid "Please enter a credit card number."
 msgstr ""
 
-#: add-ons-pro/stripe/index.php:136
+#: add-ons-pro/stripe/index.php:124, includes/gateways/stripe/functions-actions.php:24
 msgid "Your card details do not seem to be valid."
 msgstr ""
 
@@ -2722,10 +2726,6 @@ msgstr ""
 
 #: extend/bbpress/functions.php:34
 msgid "Allow only members to have access to forums and topics with Paid Member Subscriptions's bbPress Add-On."
-msgstr ""
-
-#: extend/bbpress/functions.php:36, includes/admin/views/setup-wizard/view-tab-payments.php:55, includes/admin/views/setup-wizard/view-tab-payments.php:101, includes/admin/views/setup-wizard/view-tab-woocommerce.php:12, includes/admin/views/setup-wizard/view-tab-woocommerce.php:24, includes/admin/views/setup-wizard/view-tab-woocommerce.php:36
-msgid "Learn More"
 msgstr ""
 
 #: extend/elementor/class-elementor-elements-restriction.php:40
@@ -2901,7 +2901,7 @@ msgstr ""
 msgid "Are you sure you want to remove this discount?"
 msgstr ""
 
-#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:19, extend/woocommerce/woocommerce-product-membership-subscriptions.php:54, includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1083, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:563, extend/elementor/tags/class-subscription-plan-url.php:89, includes/admin/views/view-page-members-add-new-edit-subscription.php:190, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, includes/views/shortcodes/view-shortcode-payment-history.php:38, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:224
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:19, extend/woocommerce/woocommerce-product-membership-subscriptions.php:54, includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-subscription-plans.php:1083, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:568, extend/elementor/tags/class-subscription-plan-url.php:89, includes/admin/views/view-page-members-add-new-edit-subscription.php:190, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, includes/views/shortcodes/view-shortcode-payment-history.php:38, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:229
 msgid "Subscription Plan"
 msgstr ""
 
@@ -2925,7 +2925,7 @@ msgstr ""
 msgid "Allow customers to create an account during checkout must be %1$sENABLED%2$s"
 msgstr ""
 
-#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:521
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:520
 msgid "Subscription canceled from PMS Account."
 msgstr ""
 
@@ -3850,27 +3850,31 @@ msgstr ""
 msgid "Completed successfully."
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:20, includes/gateways/functions-payment-gateways.php:21
+#: includes/gateways/functions-payment-gateways.php:19, add-ons-pro/paypal-express-pro/includes/functions.php:34, add-ons-pro/stripe/includes/functions-filters.php:29, add-ons-pro/stripe/includes/functions-filters.php:36
+msgid "Credit / Debit Card"
+msgstr ""
+
+#: includes/gateways/functions-payment-gateways.php:24, includes/gateways/functions-payment-gateways.php:25
 msgid "Manual/Offline"
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:26, add-ons-pro/paypal-express-pro/includes/functions.php:16, add-ons-pro/paypal-express-pro/includes/admin/functions-admin-pages.php:16
+#: includes/gateways/functions-payment-gateways.php:30, add-ons-pro/paypal-express-pro/includes/functions.php:16, add-ons-pro/paypal-express-pro/includes/admin/functions-admin-pages.php:16
 msgid "PayPal"
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:27
+#: includes/gateways/functions-payment-gateways.php:31
 msgid "PayPal Standard"
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:363
+#: includes/gateways/functions-payment-gateways.php:367
 msgid "Select a Payment Method"
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:386
+#: includes/gateways/functions-payment-gateways.php:390
 msgid "No payment methods are available for the selected subscription plan."
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:342
+#: includes/gateways/functions-payment-gateways.php:346
 msgid "No payment methods are available to complete the checkout process."
 msgstr ""
 
@@ -4730,7 +4734,7 @@ msgstr ""
 msgid "Member removed successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:908, add-ons-pro/group-memberships/includes/class-group-memberships.php:936, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1515, add-ons-pro/stripe/includes/stripe-connect/class-payment-gateway-stripe-connect.php:973
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:908, add-ons-pro/group-memberships/includes/class-group-memberships.php:936, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1517, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:973
 msgid "Something went wrong, please try again."
 msgstr ""
 
@@ -4766,7 +4770,7 @@ msgstr ""
 msgid "Company Details are required in order to create invoices."
 msgstr ""
 
-#: add-ons-pro/invoices/includes/functions-admin.php:91, add-ons-pro/invoices/includes/functions-invoices.php:198, add-ons-pro/invoices/includes/functions-invoices.php:377, add-ons-pro/invoices/includes/functions-invoices.php:460, add-ons-pro/tax/includes/class-tax.php:354, add-ons-pro/tax/includes/class-tax.php:484, add-ons-pro/invoices/includes/templates/default.php:24, add-ons-pro/invoices/includes/templates/default.php:146, add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:68
+#: add-ons-pro/invoices/includes/functions-admin.php:91, add-ons-pro/invoices/includes/functions-invoices.php:198, add-ons-pro/invoices/includes/functions-invoices.php:377, add-ons-pro/invoices/includes/functions-invoices.php:460, add-ons-pro/tax/includes/class-tax.php:354, add-ons-pro/tax/includes/class-tax.php:489, add-ons-pro/invoices/includes/templates/default.php:24, add-ons-pro/invoices/includes/templates/default.php:151, add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:68
 msgid "Invoice"
 msgstr ""
 
@@ -4874,10 +4878,6 @@ msgstr ""
 msgid "Please enter a valid card expiration date."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:34, add-ons-pro/stripe/includes/functions-filters.php:29, add-ons-pro/stripe/includes/functions-filters.php:36
-msgid "Credit / Debit Card"
-msgstr ""
-
 #: add-ons-pro/paypal-express-pro/includes/functions.php:67
 msgid "PayPal Recurring Initial Payment"
 msgstr ""
@@ -4938,23 +4938,23 @@ msgstr ""
 msgid "Attempting to charge user based on the <strong>PayPal Checkout</strong>."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:549, add-ons-pro/stripe/includes/functions-filters.php:193
+#: add-ons-pro/paypal-express-pro/includes/functions.php:549, add-ons-pro/stripe/includes/functions-filters.php:187, includes/gateways/stripe/functions-filters.php:206
 msgid "The payment gateway is reporting the following error:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:596, add-ons-pro/stripe/includes/functions-filters.php:293
+#: add-ons-pro/paypal-express-pro/includes/functions.php:596, add-ons-pro/stripe/includes/functions-filters.php:287, includes/gateways/stripe/functions-filters.php:332
 msgid "Payment Gateway Message"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:599, add-ons-pro/stripe/includes/functions-filters.php:296
+#: add-ons-pro/paypal-express-pro/includes/functions.php:599, add-ons-pro/stripe/includes/functions-filters.php:290, includes/gateways/stripe/functions-filters.php:335
 msgid "Error code:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:604, add-ons-pro/stripe/includes/functions-filters.php:301
+#: add-ons-pro/paypal-express-pro/includes/functions.php:604, add-ons-pro/stripe/includes/functions-filters.php:295, includes/gateways/stripe/functions-filters.php:340
 msgid "Message:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:609, add-ons-pro/stripe/includes/functions-filters.php:306
+#: add-ons-pro/paypal-express-pro/includes/functions.php:609, add-ons-pro/stripe/includes/functions-filters.php:300, includes/gateways/stripe/functions-filters.php:345
 msgid "More info:"
 msgstr ""
 
@@ -5034,39 +5034,39 @@ msgstr ""
 msgid "Credit / Debit Card Information"
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:853, add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:292
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:855, includes/gateways/stripe/functions-filters.php:63
 msgid "Payment Intent created."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:856, add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:298
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:858, includes/gateways/stripe/functions-filters.php:69
 msgid "Attempting to confirm Payment Intent."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:859, add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:301
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:861, includes/gateways/stripe/functions-filters.php:72
 msgid "Payment Intent confirmed successfully."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:862, add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:307
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:864, includes/gateways/stripe/functions-filters.php:78
 msgid "3D Secure authentication required. An email with the confirmation link was sent to the user."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:865, add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:310
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:867, includes/gateways/stripe/functions-filters.php:81
 msgid "3D Secure authentication is successful."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:868, add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:313
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:870, includes/gateways/stripe/functions-filters.php:84
 msgid "3D Secure authentication has failed."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:871, add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:316
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:873, includes/gateways/stripe/functions-filters.php:87
 msgid "The user did not click on the confirmation link that was sent."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:874, add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:319
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:876, includes/gateways/stripe/functions-filters.php:90
 msgid "User returned to the website for authentication."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1524, add-ons-pro/stripe/includes/stripe-connect/class-payment-gateway-stripe-connect.php:982
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1526, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:982
 msgid "Payment method updated successfully."
 msgstr ""
 
@@ -5078,123 +5078,119 @@ msgstr ""
 msgid "Your Stripe API settings are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:43, includes/admin/views/view-page-addons.php:139, includes/admin/views/view-page-basic-info.php:258, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:39
-msgid "Stripe"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/functions-filters.php:80
+#: add-ons-pro/stripe/includes/functions-filters.php:74, includes/gateways/stripe/functions-filters.php:137
 msgid "Card - One Time"
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:187
+#: add-ons-pro/stripe/includes/functions-filters.php:181, includes/gateways/stripe/functions-filters.php:200
 msgid "Payment could not be processed."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:213
+#: add-ons-pro/stripe/includes/functions-filters.php:207, includes/gateways/stripe/functions-filters.php:226
 msgid "Please %slog in%s and try again."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:248
+#: add-ons-pro/stripe/includes/functions-filters.php:242, includes/gateways/stripe/functions-filters.php:260
 msgid "The card does not support this type of purchase."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:249
+#: add-ons-pro/stripe/includes/functions-filters.php:243, includes/gateways/stripe/functions-filters.php:261
 msgid "The customer has exceeded the balance or credit limit available on their card."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:250
+#: add-ons-pro/stripe/includes/functions-filters.php:244, includes/gateways/stripe/functions-filters.php:262
 msgid "The card does not support the specified currency."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:251
+#: add-ons-pro/stripe/includes/functions-filters.php:245, includes/gateways/stripe/functions-filters.php:263
 msgid "A transaction with identical amount and credit card information was submitted very recently."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:252
+#: add-ons-pro/stripe/includes/functions-filters.php:246, includes/gateways/stripe/functions-filters.php:264
 msgid "The card has expired."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:253
+#: add-ons-pro/stripe/includes/functions-filters.php:247, includes/gateways/stripe/functions-filters.php:265
 msgid "The payment has been declined as Stripe suspects it is fraudulent."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:254, add-ons-pro/stripe/includes/functions-filters.php:255
+#: add-ons-pro/stripe/includes/functions-filters.php:248, add-ons-pro/stripe/includes/functions-filters.php:249, includes/gateways/stripe/functions-filters.php:266, includes/gateways/stripe/functions-filters.php:267
 msgid "The card has been declined for an unknown reason."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:256, add-ons-pro/stripe/includes/functions-filters.php:265
+#: add-ons-pro/stripe/includes/functions-filters.php:250, add-ons-pro/stripe/includes/functions-filters.php:259, includes/gateways/stripe/functions-filters.php:268, includes/gateways/stripe/functions-filters.php:277
 msgid "The card number is incorrect."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:257, add-ons-pro/stripe/includes/functions-filters.php:263
+#: add-ons-pro/stripe/includes/functions-filters.php:251, add-ons-pro/stripe/includes/functions-filters.php:257, includes/gateways/stripe/functions-filters.php:269, includes/gateways/stripe/functions-filters.php:275
 msgid "The CVC number is incorrect."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:258, add-ons-pro/stripe/includes/functions-filters.php:266
+#: add-ons-pro/stripe/includes/functions-filters.php:252, add-ons-pro/stripe/includes/functions-filters.php:260, includes/gateways/stripe/functions-filters.php:270, includes/gateways/stripe/functions-filters.php:278
 msgid "The PIN entered is incorrect"
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:259
+#: add-ons-pro/stripe/includes/functions-filters.php:253, includes/gateways/stripe/functions-filters.php:271
 msgid "The ZIP/postal code is incorrect."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:260
+#: add-ons-pro/stripe/includes/functions-filters.php:254, includes/gateways/stripe/functions-filters.php:272
 msgid "The card has insufficient funds to complete the purchase."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:261
+#: add-ons-pro/stripe/includes/functions-filters.php:255, includes/gateways/stripe/functions-filters.php:273
 msgid "The card, or account the card is connected to, is invalid."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:262
+#: add-ons-pro/stripe/includes/functions-filters.php:256, includes/gateways/stripe/functions-filters.php:274
 msgid "The payment amount is invalid, or exceeds the amount that is allowed."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:264
+#: add-ons-pro/stripe/includes/functions-filters.php:258, includes/gateways/stripe/functions-filters.php:276
 msgid "The expiration year invalid."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:267
+#: add-ons-pro/stripe/includes/functions-filters.php:261, includes/gateways/stripe/functions-filters.php:279
 msgid "The card issuer could not be reached, so the payment could not be authorized."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:268
+#: add-ons-pro/stripe/includes/functions-filters.php:262, includes/gateways/stripe/functions-filters.php:280
 msgid "The payment has been declined because the card is reported lost."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:269
+#: add-ons-pro/stripe/includes/functions-filters.php:263, includes/gateways/stripe/functions-filters.php:281
 msgid "The payment has been declined because it matches a value on the Stripe user's blocklist."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:270
+#: add-ons-pro/stripe/includes/functions-filters.php:264, includes/gateways/stripe/functions-filters.php:282
 msgid "The payment is not permitted."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:271
+#: add-ons-pro/stripe/includes/functions-filters.php:265, includes/gateways/stripe/functions-filters.php:283
 msgid "An error occurred while processing the card."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:272
+#: add-ons-pro/stripe/includes/functions-filters.php:266, includes/gateways/stripe/functions-filters.php:284
 msgid "The payment could not be processed by the issuer for an unknown reason."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:273
+#: add-ons-pro/stripe/includes/functions-filters.php:267, includes/gateways/stripe/functions-filters.php:285
 msgid "The card cannot be used to make this payment (it is possible it has been reported lost or stolen)."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:274
+#: add-ons-pro/stripe/includes/functions-filters.php:268, includes/gateways/stripe/functions-filters.php:286
 msgid "The payment has been declined because the card is reported stolen."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:275
+#: add-ons-pro/stripe/includes/functions-filters.php:269, includes/gateways/stripe/functions-filters.php:287
 msgid "A Stripe test card number was used."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:276
+#: add-ons-pro/stripe/includes/functions-filters.php:270, includes/gateways/stripe/functions-filters.php:288
 msgid "The customer has exceeded the balance or credit limit available on their card. "
 msgstr ""
 
-#: add-ons-pro/stripe/includes/functions-filters.php:357
+#: add-ons-pro/stripe/includes/functions-filters.php:351
 msgid "Payment authenticated successfully."
 msgstr ""
 
@@ -5206,59 +5202,59 @@ msgstr ""
 msgid "Please fill your company details in Paid Member Subscriptions -> Settings -> Invoices"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:457
+#: add-ons-pro/tax/includes/class-tax.php:462
 msgid "VAT Number: "
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:462, add-ons-pro/invoices/includes/templates/default.php:124
+#: add-ons-pro/tax/includes/class-tax.php:467, add-ons-pro/invoices/includes/templates/default.php:129
 msgid "E-mail: "
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:501, add-ons-pro/invoices/includes/templates/default.php:162
+#: add-ons-pro/tax/includes/class-tax.php:506, add-ons-pro/invoices/includes/templates/default.php:167
 msgid "Invoice number: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:504, add-ons-pro/invoices/includes/templates/default.php:165
+#: add-ons-pro/tax/includes/class-tax.php:509, add-ons-pro/invoices/includes/templates/default.php:170
 msgid "Payment ID: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:507, add-ons-pro/invoices/includes/templates/default.php:168
+#: add-ons-pro/tax/includes/class-tax.php:512, add-ons-pro/invoices/includes/templates/default.php:173
 msgid "Payment date: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:510, add-ons-pro/invoices/includes/templates/default.php:171
+#: add-ons-pro/tax/includes/class-tax.php:515, add-ons-pro/invoices/includes/templates/default.php:176
 msgid "Payment status: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:514, add-ons-pro/invoices/includes/templates/default.php:175
+#: add-ons-pro/tax/includes/class-tax.php:519, add-ons-pro/invoices/includes/templates/default.php:180
 msgid "Payment gateway: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:528, add-ons-pro/invoices/includes/templates/default.php:189
+#: add-ons-pro/tax/includes/class-tax.php:533, add-ons-pro/invoices/includes/templates/default.php:194
 msgid "Provided by:"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:532, add-ons-pro/invoices/includes/templates/default.php:193
+#: add-ons-pro/tax/includes/class-tax.php:537, add-ons-pro/invoices/includes/templates/default.php:198
 msgid "Provided to:"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:569, includes/admin/views/view-page-payments-add-new-edit.php:135, add-ons-pro/invoices/includes/templates/default.php:230
+#: add-ons-pro/tax/includes/class-tax.php:574, includes/admin/views/view-page-payments-add-new-edit.php:135, add-ons-pro/invoices/includes/templates/default.php:235
 msgid "Amount (%s)"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:613, add-ons-pro/tax/includes/class-tax.php:610
+#: add-ons-pro/tax/includes/class-tax.php:618, add-ons-pro/tax/includes/class-tax.php:615
 msgid "%s%% %s: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:618, add-ons-pro/invoices/includes/templates/default.php:268
+#: add-ons-pro/tax/includes/class-tax.php:623, add-ons-pro/invoices/includes/templates/default.php:273
 msgid "Total (%s): %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:628, add-ons-pro/tax/includes/class-tax.php:639
+#: add-ons-pro/tax/includes/class-tax.php:633, add-ons-pro/tax/includes/class-tax.php:644
 msgid "TAX/VAT"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:651
+#: add-ons-pro/tax/includes/class-tax.php:656
 msgid "* Taxes might be applied at the end of the checkout."
 msgstr ""
 
@@ -5636,6 +5632,10 @@ msgstr ""
 
 #: includes/admin/views/view-page-addons.php:126
 msgid "Accept one-time or recurring payments through PayPal Express."
+msgstr ""
+
+#: includes/admin/views/view-page-addons.php:139, includes/admin/views/view-page-basic-info.php:258, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:39, includes/gateways/stripe/admin/functions-admin-connect.php:375
+msgid "Stripe"
 msgstr ""
 
 #: includes/admin/views/view-page-addons.php:140, includes/admin/views/view-page-basic-info.php:265
@@ -6690,15 +6690,15 @@ msgstr ""
 msgid "Renewal"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:111, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:137
+#: includes/admin/views/view-page-settings-payments.php:111, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:137, includes/admin/views/setup-wizard/view-tab-payments.php:30
 msgid "Customer opts in for automatic renewal"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:112, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:138
+#: includes/admin/views/view-page-settings-payments.php:112, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:138, includes/admin/views/setup-wizard/view-tab-payments.php:31
 msgid "Always renew automatically"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:113, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:139
+#: includes/admin/views/view-page-settings-payments.php:113, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:139, includes/admin/views/setup-wizard/view-tab-payments.php:32
 msgid "Never renew automatically"
 msgstr ""
 
@@ -6738,7 +6738,7 @@ msgstr ""
 msgid "By checking this option, you are allowing members to change their subscription to one from another tier."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-payments.php:174, includes/admin/views/setup-wizard/view-tab-payments.php:28
+#: includes/admin/views/view-page-settings-payments.php:174, includes/admin/views/setup-wizard/view-tab-payments.php:35
 msgid "Payment Gateways"
 msgstr ""
 
@@ -6920,6 +6920,34 @@ msgstr ""
 
 #: includes/gateways/paypal_standard/functions-paypal-standard.php:244, includes/gateways/paypal_standard/functions-paypal-standard.php:272
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
+msgstr ""
+
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1669
+msgid "Payment Details"
+msgstr ""
+
+#: includes/gateways/stripe/functions-filters.php:66
+msgid "Payment Intent is still processing. Subscription was activated until confirmation of success or failure is received."
+msgstr ""
+
+#: includes/gateways/stripe/functions-filters.php:75
+msgid "Payment Intent has failed."
+msgstr ""
+
+#: includes/gateways/stripe/functions-filters.php:93
+msgid "Stripe webhook received: %1$s. Event ID: %2$s"
+msgstr ""
+
+#: includes/gateways/stripe/functions-filters.php:96
+msgid "Payment was refunded in the Stripe Dashboard."
+msgstr ""
+
+#: includes/gateways/stripe/functions-filters.php:121
+msgid "Subscription expired because the payment was refunded in the Stripe Dashboard."
+msgstr ""
+
+#: includes/gateways/stripe/functions-filters.php:124
+msgid "User attemped to setup a payment method for this subscription but failed. Reason: %s"
 msgstr ""
 
 #: includes/modules/labels-edit/index.php:90, includes/views/shortcodes/view-shortcode-account-subscription-details.php:114, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:119
@@ -7649,144 +7677,20 @@ msgstr ""
 msgid "Live Secret Key"
 msgstr ""
 
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:191
-msgid "Something went wrong, please attempt the connection again."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:208
-msgid "Connect your existing Stripe account or create a new one to start accepting payments. Press the button above to start."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:85
-msgid "Connection Status"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:87
-msgid "Success"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:94
-msgid "Your account is connected successfully in %s mode. You can start accepting payments."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:92
-msgid "Your account is connected successfully in %s mode. You can start accepting test payments."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:100
-msgid "<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is expired. Go to your %sCozmoslabs Account%s page in order to renew."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:75
-msgid "An error happened with the connection of your Stripe account. Stripe is reporting the following error: "
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:79
-msgid "Please reload the page and connect your account again in order to receive payments."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:107
-msgid "Webhooks Status"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:126
-msgid "Connected"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:127
-msgid "Webhooks are connected successfully. Last webhook received at: %s"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:118
-msgid "Unknown"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:119
-msgid "Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Stripe Account."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:113
-msgid "Waiting for data"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:114
-msgid "When the status above changes to Connected, the website has started processing webhook data from Stripe."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:135
-msgid "Webhooks URL"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:139
-msgid "Copy this URL and configure it in your Stripe Account under Developers -> Webhooks -> Add Endpoint. %sClick here%s to see the list of necessary events and learn more. "
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:155
-msgid "Disconnect"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:159
-msgid "Disconnecting your account will stop all payments from being processed."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:259
-msgid "Stripe Customer ID"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:267
-msgid "Stripe Card ID"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:290
-msgid "The provided Stripe Customer ID is not valid."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:298
-msgid "The provided Stripe Card ID is not valid."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:360
+#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:77
 msgid "The Test Publishable Key you entered is invalid. The key should start with `pk_test`."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:365
+#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:82
 msgid "The Test Secret Key you entered is invalid. The key should start with `sk_test`."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:371
+#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:88
 msgid "The Live Publishable Key you entered is invalid. The key should start with `pk_live`."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:376
+#: add-ons-pro/stripe/includes/admin/functions-admin-pages.php:93
 msgid "The Live Secret Key you entered is invalid. The key should start with `sk_live`."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/stripe-connect/class-payment-gateway-stripe-connect.php:1669
-msgid "Payment Details"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:295
-msgid "Payment Intent is still processing. Subscription was activated until confirmation of success or failure is received."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:304
-msgid "Payment Intent has failed."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:322
-msgid "Stripe webhook received: %1$s. Event ID: %2$s"
-msgstr ""
-
-#: add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:325
-msgid "Payment was refunded in the Stripe Dashboard."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:350
-msgid "Subscription expired because the payment was refunded in the Stripe Dashboard."
-msgstr ""
-
-#: add-ons-pro/stripe/includes/stripe-connect/functions-connect.php:353
-msgid "User attemped to setup a payment method for this subscription but failed. Reason: %s"
 msgstr ""
 
 #: add-ons-pro/stripe/includes/views/view-billing-cc-form.php:28
@@ -8209,7 +8113,7 @@ msgstr ""
 msgid "This option will hide the admin bar for regular users in the front-end, showing it only to administrators."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/view-tab-general.php:63, includes/admin/views/setup-wizard/view-tab-payments.php:108, includes/admin/views/setup-wizard/view-tab-woocommerce.php:43
+#: includes/admin/views/setup-wizard/view-tab-general.php:63, includes/admin/views/setup-wizard/view-tab-payments.php:132, includes/admin/views/setup-wizard/view-tab-woocommerce.php:43
 msgid "Continue"
 msgstr ""
 
@@ -8261,35 +8165,43 @@ msgstr ""
 msgid "How should prices be displayed?"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/view-tab-payments.php:36
+#: includes/admin/views/setup-wizard/view-tab-payments.php:28
+msgid "How should automatic subscription renewal work?"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/view-tab-payments.php:44
+msgid "Accept payments directly on your website using a wide range of payment methods allowing for a faster checkout directly on your website. Enable users to pay using debit or credit cards, Bancontact, Giropay, iDEAL, Sofort and many more."
+msgstr ""
+
+#: includes/admin/views/setup-wizard/view-tab-payments.php:58
+msgid "After finishing setup, please go to the PMS -> Settings -> Payments page in order to continue the setup for this gateway."
+msgstr ""
+
+#: includes/admin/views/setup-wizard/view-tab-payments.php:72
 msgid "Safe and secure payments handled by PayPal using the customers account."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/view-tab-payments.php:49
+#: includes/admin/views/setup-wizard/view-tab-payments.php:85
 msgid "PayPal Email Address"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/view-tab-payments.php:53
+#: includes/admin/views/setup-wizard/view-tab-payments.php:89
 msgid "For payments to work correctly, you will also need to <strong>setup the IPN URL in your PayPal account</strong>."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/view-tab-payments.php:65
+#: includes/admin/views/setup-wizard/view-tab-payments.php:101
 msgid "Offline Payments"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/view-tab-payments.php:68
+#: includes/admin/views/setup-wizard/view-tab-payments.php:104
 msgid "Manually collect payments from your customers through Checks, Direct Bank Transfers or in person cash."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/view-tab-payments.php:80
-msgid "Collect direct credit or debit card payments on your website."
-msgstr ""
-
-#: includes/admin/views/setup-wizard/view-tab-payments.php:91
+#: includes/admin/views/setup-wizard/view-tab-payments.php:115
 msgid "PayPal Express Checkout payments using credit cards or customer accounts handled by PayPal."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/view-tab-payments.php:99
+#: includes/admin/views/setup-wizard/view-tab-payments.php:123
 msgid "Additional <strong>Payment Gateways</strong>, Taxes, Invoices and other features are available with a <strong>Pro</strong> licence of Paid Member Subscriptions."
 msgstr ""
 
@@ -8319,6 +8231,106 @@ msgstr ""
 
 #: includes/admin/views/setup-wizard/view-tab-woocommerce.php:33
 msgid "Do you want to use another payment gateway or want to offer your customers a Subscription Plan with a Product purchase? Easily associate plans with products and start selling them through the WooCommerce Checkout."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:121
+msgid "Stripe Customer ID"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:129
+msgid "Stripe Card ID"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:152
+msgid "The provided Stripe Customer ID is not valid."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:160
+msgid "The provided Stripe Card ID is not valid."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:512
+msgid "Something went wrong, please attempt the connection again."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:529
+msgid "Connect your existing Stripe account or create a new one to start accepting payments. Press the button above to start."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:404
+msgid "Connection Status"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:406
+msgid "Success"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:413
+msgid "Your account is connected successfully in %s mode. You can start accepting payments."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:411
+msgid "Your account is connected successfully in %s mode. You can start accepting test payments."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:421
+msgid "<strong>NOTE</strong>: All payments done through Stripe include a <strong>2%% fee</strong> because you're using the free version of Paid Member Subscriptions. <br>This fee goes to the Paid Member Subscriptions team and is used to continue supporting the development of this gateway and the plugin in general. <br>Users with an active license key will not be charged this fee, %sclick here%s to purchase one."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:419
+msgid "<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is expired. Go to your %sCozmoslabs Account%s page in order to renew."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:394
+msgid "An error happened with the connection of your Stripe account. Stripe is reporting the following error: "
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:398
+msgid "Please reload the page and connect your account again in order to receive payments."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:428
+msgid "Webhooks Status"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:447
+msgid "Connected"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:448
+msgid "Webhooks are connected successfully. Last webhook received at: %s"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:439
+msgid "Unknown"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:440
+msgid "Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Stripe Account."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:434
+msgid "Waiting for data"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:435
+msgid "When the status above changes to Connected, the website has started processing webhook data from Stripe."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:456
+msgid "Webhooks URL"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:460
+msgid "Copy this URL and configure it in your Stripe Account under Developers -> Webhooks -> Add Endpoint. %sClick here%s to see the list of necessary events and learn more. "
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:476
+msgid "Disconnect"
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:480
+msgid "Disconnecting your account will stop all payments from being processed."
 msgstr ""
 
 #: includes/modules/labels-edit/includes/class-pmsle-import.php:34

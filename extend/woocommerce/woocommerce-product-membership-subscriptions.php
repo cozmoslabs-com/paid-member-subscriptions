@@ -139,10 +139,10 @@ function pms_woo_set_subscription_status( $order_status, $product_type, $existin
         if ( $order_status == 'completed' || $order_status == 'processing' )
             $subscription_status = 'active';
 
-        elseif ( $order_status == 'cancelled' )
+        elseif ( $order_status == 'cancelled' && $existing_status == 'active' )
             $subscription_status = 'canceled';
 
-        elseif ( $order_status == 'refunded' )
+        elseif ( $order_status == 'refunded' || ( $order_status == 'cancelled' && $existing_status != 'active') )
             $subscription_status = 'expired';
 
         else $subscription_status = 'pending';
@@ -282,11 +282,10 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_sta
 
             if ( $product_type == 'subscription' || $order_status == 'completed' ) {
 
-                if ( pms_woo_is_manual_order_update( $existing_subscription['0']->id, $order_key )) { //   update expiration date if subscription status not active (order status changed manually)
-                    if ( $subscription_status == 'active' && $existing_subscription['0']->status == 'pending' && $product_type != 'subscription' )
+                if ( pms_woo_is_manual_order_update( $existing_subscription['0']->id, $order_key ) && $subscription_status == 'active' && $product_type != 'subscription' && ( $existing_subscription['0']->status == 'pending' || $existing_subscription['0']->status == 'expired' ) ) { //   update expiration date if subscription status pending or expired (order status changed manually)
                         $subscription_expiration_date = $subscription_plan->get_expiration_date();
                 }
-                elseif ( $existing_subscription['0']->status != 'abandoned' ) {  // extend expiration date if Subscription is not Abandoned (new/renewal order placed for already subscribed-to Subscription Plan )
+                elseif ( $existing_subscription['0']->status != 'abandoned' && ( !pms_woo_is_manual_order_update( $existing_subscription['0']->id, $order_key ) || ( pms_woo_is_manual_order_update( $existing_subscription['0']->id, $order_key ) && $subscription_status == 'active' && $product_type != 'subscription' ) ) ) { // extend expiration date if Subscription is not Abandoned (new/renewal order placed for already subscribed-to Subscription Plan)
 
                     if ( !empty( $subscription_next_payment_date )) {
                         $old_next_payment_date = strtotime($existing_subscription['0']->billing_next_payment);

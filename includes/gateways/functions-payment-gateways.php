@@ -15,7 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function pms_get_payment_gateways( $only_slugs = false ) {
 
     $payment_gateways = apply_filters( 'pms_payment_gateways', array(
-
+        'stripe_connect' => array(
+            'display_name_user'  => __( 'Credit / Debit Card', 'paid-member-subscriptions' ),
+            'display_name_admin' => 'Stripe',
+            'class_name'         => 'PMS_Payment_Gateway_Stripe_Connect'
+        ),
         'manual'          => array(
             'display_name_user'  => __( 'Manual/Offline', 'paid-member-subscriptions' ),
             'display_name_admin' => __( 'Manual/Offline', 'paid-member-subscriptions' ),

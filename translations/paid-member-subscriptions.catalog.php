@@ -631,7 +631,8 @@
 <?php __("Subscription Downgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Retry Payment", "paid-member-subscriptions"); ?>
 <?php __("If you have issues with the styling of the submit button on <strong>Paid Member Subscriptions</strong> forms, <a href=\"%s\" target=\"_blank\">click here</a> for more info.", "paid-member-subscriptions"); ?>
-<?php __("<strong>New free version features!</strong><br><br><strong>Recurring Payments for PayPal Standard</strong> is now available in the free version. Go to <strong>PMS -> Settings -> Payments</strong> to control the default settings.<br> <strong>Discount Codes</strong> are now available in the free version. Go to <strong>PMS -> Discount Codes</strong> to create one.", "paid-member-subscriptions"); ?>
+<?php __("<strong>New payment gateway!</strong><br><br><strong>Stripe</strong> payment gateway is now available in the free version. <br>Your users can pay using credit and debit cards without leaving your website and you can also offer them additional payment methods like Bancontact, iDeal, Giropay and more. <br><br>Get started now by going to <strong>Paid Member Subscriptions -> Settings -> Payments</strong>!", "paid-member-subscriptions"); ?>
+<?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("%s Day", "paid-member-subscriptions"); ?>
 <?php __("%s Days", "paid-member-subscriptions"); ?>
 <?php __("%s Week", "paid-member-subscriptions"); ?>
@@ -677,7 +678,6 @@
 <?php __("Content Restriction", "paid-member-subscriptions"); ?>
 <?php __("Create member only forums with just a few clicks.", "paid-member-subscriptions"); ?>
 <?php __("Allow only members to have access to forums and topics with Paid Member Subscriptions's bbPress Add-On.", "paid-member-subscriptions"); ?>
-<?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("Restrict to logged in users", "paid-member-subscriptions"); ?>
 <?php __("Allow only logged in users to see this content.", "paid-member-subscriptions"); ?>
 <?php __("Restrict to logged out users", "paid-member-subscriptions"); ?>
@@ -963,6 +963,7 @@
 <?php __("An error occurred, please try again.", "paid-member-subscriptions"); ?>
 <?php __("You have successfully activated your license.", "paid-member-subscriptions"); ?>
 <?php __("Completed successfully.", "paid-member-subscriptions"); ?>
+<?php __("Credit / Debit Card", "paid-member-subscriptions"); ?>
 <?php __("Manual/Offline", "paid-member-subscriptions"); ?>
 <?php __("PayPal", "paid-member-subscriptions"); ?>
 <?php __("PayPal Standard", "paid-member-subscriptions"); ?>
@@ -1225,7 +1226,6 @@
 <?php __("Please enter a valid card number.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a valid card verification value.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a valid card expiration date.", "paid-member-subscriptions"); ?>
-<?php __("Credit / Debit Card", "paid-member-subscriptions"); ?>
 <?php __("PayPal Recurring Initial Payment", "paid-member-subscriptions"); ?>
 <?php __("PayPal Express - Checkout Payment", "paid-member-subscriptions"); ?>
 <?php __("PayPal Recurring Payment", "paid-member-subscriptions"); ?>
@@ -1276,7 +1276,6 @@
 <?php __("Payment method updated successfully.", "paid-member-subscriptions"); ?>
 <?php __("The selected gateway is not configured correctly: <strong>API credentials are missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
 <?php __('Your Stripe API settings are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
-<?php __("Stripe", "paid-member-subscriptions"); ?>
 <?php __("Card - One Time", "paid-member-subscriptions"); ?>
 <?php __("Payment could not be processed.", "paid-member-subscriptions"); ?>
 <?php __("Please %slog in%s and try again.", "paid-member-subscriptions"); ?>
@@ -1416,6 +1415,7 @@
 <?php __("Setup multiple subscription level blocks and allow members to sign up for more than one subscription plan (one per block).", "paid-member-subscriptions"); ?>
 <?php __("PayPal Express", "paid-member-subscriptions"); ?>
 <?php __("Accept one-time or recurring payments through PayPal Express.", "paid-member-subscriptions"); ?>
+<?php __("Stripe", "paid-member-subscriptions"); ?>
 <?php __("Accept credit card payments, both one-time and recurring, directly on your website via Stripe.", "paid-member-subscriptions"); ?>
 <?php __("Tax & EU VAT", "paid-member-subscriptions"); ?>
 <?php __("Helps you collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.", "paid-member-subscriptions"); ?>
@@ -1737,6 +1737,13 @@
 <?php __("Instant Payment Notification (IPN) received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Payment Details", "paid-member-subscriptions"); ?>
+<?php __("Payment Intent is still processing. Subscription was activated until confirmation of success or failure is received.", "paid-member-subscriptions"); ?>
+<?php __("Payment Intent has failed.", "paid-member-subscriptions"); ?>
+<?php __('Stripe webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>
+<?php __("Subscription expired because the payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>
+<?php __("User attemped to setup a payment method for this subscription but failed. Reason: %s", "paid-member-subscriptions"); ?>
 <?php __("Update", "paid-member-subscriptions"); ?>
 <?php __("Label added successfully.", "paid-member-subscriptions"); ?>
 <?php __("You must select a label to edit!", "paid-member-subscriptions"); ?>
@@ -1920,41 +1927,10 @@
 <?php __("Test Secret Key", "paid-member-subscriptions"); ?>
 <?php __("Live Publishable Key", "paid-member-subscriptions"); ?>
 <?php __("Live Secret Key", "paid-member-subscriptions"); ?>
-<?php __("Something went wrong, please attempt the connection again.", "paid-member-subscriptions"); ?>
-<?php __("Connect your existing Stripe account or create a new one to start accepting payments. Press the button above to start.", "paid-member-subscriptions"); ?>
-<?php __("Connection Status", "paid-member-subscriptions"); ?>
-<?php __("Success", "paid-member-subscriptions"); ?>
-<?php __("Your account is connected successfully in %s mode. You can start accepting payments.", "paid-member-subscriptions"); ?>
-<?php __("Your account is connected successfully in %s mode. You can start accepting test payments.", "paid-member-subscriptions"); ?>
-<?php __("<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is expired. Go to your %sCozmoslabs Account%s page in order to renew.", "paid-member-subscriptions"); ?>
-<?php __("An error happened with the connection of your Stripe account. Stripe is reporting the following error: ", "paid-member-subscriptions"); ?>
-<?php __("Please reload the page and connect your account again in order to receive payments.", "paid-member-subscriptions"); ?>
-<?php __("Webhooks Status", "paid-member-subscriptions"); ?>
-<?php __("Connected", "paid-member-subscriptions"); ?>
-<?php __("Webhooks are connected successfully. Last webhook received at: %s", "paid-member-subscriptions"); ?>
-<?php __("Unknown", "paid-member-subscriptions"); ?>
-<?php __("Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Stripe Account.", "paid-member-subscriptions"); ?>
-<?php __("Waiting for data", "paid-member-subscriptions"); ?>
-<?php __("When the status above changes to Connected, the website has started processing webhook data from Stripe.", "paid-member-subscriptions"); ?>
-<?php __("Webhooks URL", "paid-member-subscriptions"); ?>
-<?php __("Copy this URL and configure it in your Stripe Account under Developers -> Webhooks -> Add Endpoint. %sClick here%s to see the list of necessary events and learn more. ", "paid-member-subscriptions"); ?>
-<?php __("Disconnect", "paid-member-subscriptions"); ?>
-<?php __("Disconnecting your account will stop all payments from being processed.", "paid-member-subscriptions"); ?>
-<?php __("Stripe Customer ID", "paid-member-subscriptions"); ?>
-<?php __("Stripe Card ID", "paid-member-subscriptions"); ?>
-<?php __("The provided Stripe Customer ID is not valid.", "paid-member-subscriptions"); ?>
-<?php __("The provided Stripe Card ID is not valid.", "paid-member-subscriptions"); ?>
 <?php __("The Test Publishable Key you entered is invalid. The key should start with `pk_test`.", "paid-member-subscriptions"); ?>
 <?php __("The Test Secret Key you entered is invalid. The key should start with `sk_test`.", "paid-member-subscriptions"); ?>
 <?php __("The Live Publishable Key you entered is invalid. The key should start with `pk_live`.", "paid-member-subscriptions"); ?>
 <?php __("The Live Secret Key you entered is invalid. The key should start with `sk_live`.", "paid-member-subscriptions"); ?>
-<?php __("Payment Details", "paid-member-subscriptions"); ?>
-<?php __("Payment Intent is still processing. Subscription was activated until confirmation of success or failure is received.", "paid-member-subscriptions"); ?>
-<?php __("Payment Intent has failed.", "paid-member-subscriptions"); ?>
-<?php __('Stripe webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>
-<?php __("Payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>
-<?php __("Subscription expired because the payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>
-<?php __("User attemped to setup a payment method for this subscription but failed. Reason: %s", "paid-member-subscriptions"); ?>
 <?php __("Card Number *", "paid-member-subscriptions"); ?>
 <?php __("Card CVV *", "paid-member-subscriptions"); ?>
 <?php __("Expiration Date *", "paid-member-subscriptions"); ?>
@@ -2073,12 +2049,14 @@
 <?php __("What currency do you want to accept payments in?", "paid-member-subscriptions"); ?>
 <?php __("Where do you want the Currency symbol to be displayed?", "paid-member-subscriptions"); ?>
 <?php __("How should prices be displayed?", "paid-member-subscriptions"); ?>
+<?php __("How should automatic subscription renewal work?", "paid-member-subscriptions"); ?>
+<?php __("Accept payments directly on your website using a wide range of payment methods allowing for a faster checkout directly on your website. Enable users to pay using debit or credit cards, Bancontact, Giropay, iDEAL, Sofort and many more.", "paid-member-subscriptions"); ?>
+<?php __("After finishing setup, please go to the PMS -> Settings -> Payments page in order to continue the setup for this gateway.", "paid-member-subscriptions"); ?>
 <?php __("Safe and secure payments handled by PayPal using the customers account.", "paid-member-subscriptions"); ?>
 <?php __("PayPal Email Address", "paid-member-subscriptions"); ?>
 <?php __("For payments to work correctly, you will also need to <strong>setup the IPN URL in your PayPal account</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Offline Payments", "paid-member-subscriptions"); ?>
 <?php __("Manually collect payments from your customers through Checks, Direct Bank Transfers or in person cash.", "paid-member-subscriptions"); ?>
-<?php __("Collect direct credit or debit card payments on your website.", "paid-member-subscriptions"); ?>
 <?php __("PayPal Express Checkout payments using credit cards or customer accounts handled by PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Additional <strong>Payment Gateways</strong>, Taxes, Invoices and other features are available with a <strong>Pro</strong> licence of Paid Member Subscriptions.", "paid-member-subscriptions"); ?>
 <?php __("Supercharge your WooCommerce experience", "paid-member-subscriptions"); ?>
@@ -2088,6 +2066,31 @@
 <?php __("Create Members-only products or restrict product purchasing, offering your different ways of presenting your products.", "paid-member-subscriptions"); ?>
 <?php __("Sell Subscription Plans as WooCommerce Products", "paid-member-subscriptions"); ?>
 <?php __("Do you want to use another payment gateway or want to offer your customers a Subscription Plan with a Product purchase? Easily associate plans with products and start selling them through the WooCommerce Checkout.", "paid-member-subscriptions"); ?>
+<?php __("Stripe Customer ID", "paid-member-subscriptions"); ?>
+<?php __("Stripe Card ID", "paid-member-subscriptions"); ?>
+<?php __("The provided Stripe Customer ID is not valid.", "paid-member-subscriptions"); ?>
+<?php __("The provided Stripe Card ID is not valid.", "paid-member-subscriptions"); ?>
+<?php __("Something went wrong, please attempt the connection again.", "paid-member-subscriptions"); ?>
+<?php __("Connect your existing Stripe account or create a new one to start accepting payments. Press the button above to start.", "paid-member-subscriptions"); ?>
+<?php __("Connection Status", "paid-member-subscriptions"); ?>
+<?php __("Success", "paid-member-subscriptions"); ?>
+<?php __("Your account is connected successfully in %s mode. You can start accepting payments.", "paid-member-subscriptions"); ?>
+<?php __("Your account is connected successfully in %s mode. You can start accepting test payments.", "paid-member-subscriptions"); ?>
+<?php __("<strong>NOTE</strong>: All payments done through Stripe include a <strong>2%% fee</strong> because you're using the free version of Paid Member Subscriptions. <br>This fee goes to the Paid Member Subscriptions team and is used to continue supporting the development of this gateway and the plugin in general. <br>Users with an active license key will not be charged this fee, %sclick here%s to purchase one.", "paid-member-subscriptions"); ?>
+<?php __("<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is expired. Go to your %sCozmoslabs Account%s page in order to renew.", "paid-member-subscriptions"); ?>
+<?php __("An error happened with the connection of your Stripe account. Stripe is reporting the following error: ", "paid-member-subscriptions"); ?>
+<?php __("Please reload the page and connect your account again in order to receive payments.", "paid-member-subscriptions"); ?>
+<?php __("Webhooks Status", "paid-member-subscriptions"); ?>
+<?php __("Connected", "paid-member-subscriptions"); ?>
+<?php __("Webhooks are connected successfully. Last webhook received at: %s", "paid-member-subscriptions"); ?>
+<?php __("Unknown", "paid-member-subscriptions"); ?>
+<?php __("Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Stripe Account.", "paid-member-subscriptions"); ?>
+<?php __("Waiting for data", "paid-member-subscriptions"); ?>
+<?php __("When the status above changes to Connected, the website has started processing webhook data from Stripe.", "paid-member-subscriptions"); ?>
+<?php __("Webhooks URL", "paid-member-subscriptions"); ?>
+<?php __("Copy this URL and configure it in your Stripe Account under Developers -> Webhooks -> Add Endpoint. %sClick here%s to see the list of necessary events and learn more. ", "paid-member-subscriptions"); ?>
+<?php __("Disconnect", "paid-member-subscriptions"); ?>
+<?php __("Disconnecting your account will stop all payments from being processed.", "paid-member-subscriptions"); ?>
 <?php __("Uploaded file is not valid json!", "paid-member-subscriptions"); ?>
 <?php __("Import successfully!", "paid-member-subscriptions"); ?>
 <?php __("Page will refresh in 3 seconds...", "paid-member-subscriptions"); ?>

@@ -850,8 +850,8 @@ class PMS_Plugin_Updater {
             return 'Paid Member Subscriptions Pro';
         elseif( $version == 'unlimited' )
             return 'Paid Member Subscriptions Unlimited';
-        elseif( $version == 'elite' )
-            return 'Paid Member Subscriptions Elite';
+        elseif( $version == 'agency' )
+            return 'Paid Member Subscriptions Agency';
         elseif( $version == 'basic' )
             return 'Paid Member Subscriptions Basic';
         elseif( $version == 'dev' )

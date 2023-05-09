@@ -338,7 +338,7 @@ function pms_get_serial_number_status() {
  * Retrives the current Paid Member Subscriptions version
  *
  * @since 1.7.8
- * @return string  Free, basic, pro, unlimited, elite
+ * @return string  Free, basic, pro, unlimited, agency
  */
 function pms_get_product_version() {
 
@@ -351,8 +351,8 @@ function pms_get_product_version() {
         $version = 'pro';
     elseif( in_array( 'paid-member-subscriptions-unlimited/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-unlimited/index.php'] ) )
         $version = 'unlimited';
-    elseif( in_array( 'paid-member-subscriptions-elite/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-elite/index.php'] ) )
-        $version = 'elite';
+    elseif( in_array( 'paid-member-subscriptions-agency/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-agency/index.php'] ) )
+        $version = 'agency';
     elseif( in_array( 'paid-member-subscriptions-basic/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-basic/index.php'] ) )
         $version = 'basic';
     elseif( in_array( 'paid-member-subscriptions-dev/index.php', $active_plugins ) || isset( $active_network_plugins['paid-member-subscriptions-dev/index.php'] ) )
@@ -451,11 +451,11 @@ function pms_icl_t( $context, $name, $value ){
 /**
  * Verifies if a paid version of the plugin is active
  */
-function pms_are_paid_versions_active(){
+function pms_is_paid_version_active(){
 
     $slugs = array(
         '/paid-member-subscriptions-basic/index.php',
-        '/paid-member-subscriptions-elite/index.php',
+        '/paid-member-subscriptions-agency/index.php',
         '/paid-member-subscriptions-pro/index.php',
         '/paid-member-subscriptions-unlimited/index.php',
     );

@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     //Add Basic section
     $pms_addons_listing->section_header = array( 'title' => __('Basic Add-ons', 'paid-member-subscriptions' ), 'description' => __('These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Unlimited plans.', 'paid-member-subscriptions')  );
-    $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Basic', 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Elite', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Basic', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Elite', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
+    $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Basic', 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Agency', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Basic', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Agency', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
     $pms_addons_listing->items = array(
         array(  'slug' => 'pms-add-on-bbpress/index.php',
             'type'        => 'add-on',
@@ -83,7 +83,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     //Add Pro Section
     $pms_addons_listing->section_header = array( 'title' => __('Pro Add-ons', 'paid-member-subscriptions' ), 'description' => __('These addons extend Paid Member Subscriptions and are available in the Pro and Unlimited plans.', 'paid-member-subscriptions')  );
-    $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Elite', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Elite', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
+    $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Agency', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Agency', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
     $pms_addons_listing->items = array(
         array(  'slug' => 'pms-add-on-pro-rate/index.php',
             'type'        => 'add-on',

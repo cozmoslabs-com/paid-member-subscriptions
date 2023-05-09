@@ -237,7 +237,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         echo '<div class="postbox">';
             echo '<div class="inside">';
                 echo '<h4>' . esc_html__( 'Summary', 'paid-member-subscriptions' ) . '</h4>';
-                echo '<p>' . esc_html__( 'Total earnings for the selected period: ', 'paid-member-subscriptions' ) . '<strong>' . esc_html( pms_get_currency_symbol( pms_get_active_currency() ) . $payments_amount ) . '</strong>' . '</p>';
+                echo '<p>' . esc_html__( 'Total earnings for the selected period: ', 'paid-member-subscriptions' ) . '<strong>' . esc_html( pms_format_price( $payments_amount, pms_get_active_currency() ) ) . '</strong>' . '</p>';
                 echo '<p>' . esc_html__( 'Total number of payments for the selected period: ', 'paid-member-subscriptions' ) . '<strong>' . esc_html( $payments_count ) . '</strong>' . '</p>';
             echo '</div>';
         echo '</div>';

@@ -34,15 +34,27 @@ jQuery( function($){
     $(document).ready( function(){
 
         if( $('#pms_gateway_paypal_standard').prop( 'checked' ) )
-            $('.pms-setup-gateway-extra').css( 'display', 'flex' )
+            $('.pms-setup-gateway-extra.paypal').css( 'display', 'flex' )
+
+        if( $('#pms_gateway_stripe').prop( 'checked' ) )
+            $('.pms-setup-gateway-extra.stripe').css( 'display', 'flex' )
             
         $('label[for="pms_gateway_paypal_standard"]').click( function(){
             var value = $('#pms_gateway_paypal_standard').prop( 'checked' )
 
             if( value === false )
-                $('.pms-setup-gateway-extra').css( 'display', 'flex' )
+                $('.pms-setup-gateway-extra.paypal').css( 'display', 'flex' )
             else
-                $('.pms-setup-gateway-extra').css( 'display', 'none' )
+                $('.pms-setup-gateway-extra.paypal').css( 'display', 'none' )
+        })
+
+        $('label[for="pms_gateway_stripe"]').click( function(){
+            var value = $('#pms_gateway_stripe').prop( 'checked' )
+
+            if( value === false )
+                $('.pms-setup-gateway-extra.stripe').css( 'display', 'flex' )
+            else
+                $('.pms-setup-gateway-extra.stripe').css( 'display', 'none' )
         })
 
         $('#pms_create_subscription_pages').click( function(){

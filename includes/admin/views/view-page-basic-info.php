@@ -228,7 +228,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </div>
     </div>
     <div class="pms-row">
-        <?php if( pms_are_paid_versions_active() ) : ?>
+        <?php if( pms_is_paid_version_active() ) : ?>
             <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-addons-page' ) ); ?>" class="button-primary pms-cta"><?php esc_html_e( 'Activate Basic Add-ons', 'paid-member-subscriptions' ); ?></a></p>
         <?php else : ?>
             <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-btn&utm_campaign=PMSFree" class="button-primary pms-cta"><?php esc_html_e( 'Get Basic Add-ons', 'paid-member-subscriptions' ); ?></a></p>
@@ -333,7 +333,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </div>
     </div>
     <div class="pms-row">
-        <?php if( pms_are_paid_versions_active() ) : ?>
+        <?php if( pms_is_paid_version_active() ) : ?>
             <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-addons-page' ) ); ?>" class="button-primary pms-cta"><?php esc_html_e( 'Activate Pro Add-ons', 'paid-member-subscriptions' ); ?></a></p>
         <?php else : ?>
             <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-pro-btn&utm_campaign=PMSFree" class="button-primary pms-cta"><?php esc_html_e( 'Get Pro Add-ons', 'paid-member-subscriptions' ); ?></a></p>
