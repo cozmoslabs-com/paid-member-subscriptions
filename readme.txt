@@ -49,10 +49,10 @@ https://www.youtube.com/watch?v=6AEIvvCOZHM&start=0&autoplay=1
  Integrates with Elementor page builder allowing you to [restrict content for Elementor](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/elementor/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) sections and widgets based on logged in status or subscription plans, by using the visual interface.
 
 = Membership Payments =
-Accept PayPal payments from your subscribers. You can keep track of all member payments, payment statuses and purchased subscription plans. Access to detailed payment logs.
+Accept PayPal or direct credit card payments from your subscribers. You can keep track of all member payments, payment statuses and purchased subscription plans. Access to detailed payment logs.
 
 = Recurring Payments =
-Ability to accept recurring payments through the PayPal Standard gateway. The recurring setting can be forced or you can let the user choose whether he wants to subscribe for a recurring subscription or not.
+Ability to accept recurring payments through the PayPal Standard or Stripe payment gateways. The recurring setting can be forced or you can let the user choose whether he wants to subscribe for a recurring subscription or not.
 
 = Hierarchical Subscription Plans =
 You can create an unlimited number of hierarchical subscription plans (eg: Free, Silver, Gold). Each new user can choose a membership plan (subscription) during the registration process.
