@@ -127,7 +127,7 @@ function pms_pb_email_confirmation_payment_form( $message ) {
         $message = '';
 
     // Return
-    return $message . $output;
+    return apply_filters( 'pms_pb_email_confirmation_payment_form_content' ,$message . $output, 'pb_email_confirmation_payment_form' );
 
 }
 add_filter( 'wppb_success_email_confirmation', 'pms_pb_email_confirmation_payment_form', 20, 1 );

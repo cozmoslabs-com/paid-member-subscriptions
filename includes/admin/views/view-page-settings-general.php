@@ -16,6 +16,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <p class="description"><input type="checkbox" id="use-pms-css" name="pms_general_settings[use_pms_css]" value="1" <?php echo ( isset( $this->options['use_pms_css'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Use Paid Member Subscriptions\'s own CSS in the front-end.', 'paid-member-subscriptions' ); ?></p>
     </div>
 
+    <!-- Form Styles -->
+    <div class="pms-form-field-wrapper">
+        <label class="pms-form-field-label" for="pms-active-form-design"><?php esc_html_e( 'Form Styles' , 'paid-member-subscriptions' ) ?></label>
+        <input type="hidden" id="pms-active-form-design" name="pms_general_settings[forms_design]" value="<?php echo ( isset( $this->options['forms_design'] ) ? esc_attr($this->options['forms_design']) : 'form_style_default' ); ?>"/>
+
+        <?php
+            if (( defined( 'PMS_PAID_PLUGIN_DIR' ) && file_exists( PMS_PAID_PLUGIN_DIR . '/add-ons-basic/form-designs/form-designs.php' ) ) || ( PAID_MEMBER_SUBSCRIPTIONS === 'Paid Member Subscriptions Dev' && file_exists( PMS_PLUGIN_DIR_PATH . '/add-ons-basic/form-designs/form-designs.php' ) ) ) {
+                echo pms_render_forms_design_selector(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            }
+            elseif ( PAID_MEMBER_SUBSCRIPTIONS === 'Paid Member Subscriptions' ) {
+                echo pms_display_form_designs_preview(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                printf( esc_html__( '%3$sYou can now beautify your forms using new Styles. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s', 'paid-member-subscriptions' ),'<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=general-settings-link&utm_campaign=PMSFree#pricing-vers" target="_blank">', '</a>', '<p class="pms-form-desig-description description">', '</p>' );
+            }
+        ?>
+
+    </div>
+
     <!-- Automatically Log In -->
     <div class="pms-form-field-wrapper">
         <label class="pms-form-field-label" for="automatically-log-in"><?php esc_html_e( 'Automatically Log In', 'paid-member-subscriptions' ) ?></label>

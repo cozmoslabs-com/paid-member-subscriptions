@@ -490,7 +490,7 @@ function pms_member_change_subscription( $content ){
     $output = ob_get_contents();
     ob_end_clean();
 
-    return $output;
+    return apply_filters('pms_change_subscription_shortcode_content', $output, 'change_subscriptio_form');
 
 }
 add_filter( 'pms_account_shortcode_content', 'pms_member_change_subscription', 11 );
@@ -650,7 +650,7 @@ function pms_member_cancel_subscription( $content ) {
 
     $output .= '</form>';
 
-    return $output;
+    return apply_filters('pms_cancel_subscription_form_content', $output, 'cancel_subscription_form');
 
 }
 add_filter( 'pms_account_shortcode_content', 'pms_member_cancel_subscription', 11 );
@@ -699,7 +699,7 @@ function pms_member_abandon_subscription( $content ) {
 
     $output .= '</form>';
 
-    return $output;
+    return apply_filters('pms_abandon_subscription_form_content', $output, 'abandon_subscription_form');
 
 }
 add_filter( 'pms_account_shortcode_content', 'pms_member_abandon_subscription', 11 );
@@ -763,7 +763,7 @@ function pms_member_update_payment_method( $content ) {
 
     $output .= '</form>';
 
-    return $output;
+    return apply_filters( 'pms_update_payment_method_form_content', $output, 'update_payment_method_form' );
 
 }
 add_filter( 'pms_account_shortcode_content', 'pms_member_update_payment_method', 11 );
@@ -837,7 +837,7 @@ function pms_member_retry_payment_subscription( $content ) {
 
     $output .= '</form>';
 
-    return $output;
+    return apply_filters( 'pms_retry_payment_shortcode_content', $output, 'retry_payment_form');
 
 }
 add_filter( 'pms_account_shortcode_content', 'pms_member_retry_payment_subscription', 11 );

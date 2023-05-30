@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.2
-Stable tag: 2.9.4
+Stable tag: 2.9.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -183,7 +183,7 @@ Yes, this is possible through [Profile Builder](https://www.cozmoslabs.com/wordp
 
 = Can my members pay using a credit card ? =
 
-The subscription plan payments are handled via PayPal Standard. Your members will be able to pay for the membership via their credit card or their PayPal account. More payment gateways are supported via [Add-ons](http://www.cozmoslabs.com/paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
+Yes! Users can pay with a credit or debit card without leaving your website through the Stripe payment gateway.
 
 = Where can I find out more information? =
 
@@ -216,6 +216,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.9.5 =
+* Fix: Issue with Stripe free message appearing in unwanted cases
+* Fix: Issue with Sign-up fee not applying for Stripe payments
+* Misc: Return empty strings instead of the tag for empty merge tags
+* Misc: Added settings on the Misc -> Payments page to disable specific settings
+
 = 2.9.4 =
 * Fix: Error triggered with older Pro versions of the plugin
 

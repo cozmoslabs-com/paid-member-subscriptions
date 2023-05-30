@@ -52,6 +52,8 @@ Class PMS_Merge_Tags{
 
                 if( $tag_value != null )
                     $text = str_replace( '{{'.$merge_tag.'}}', $tag_value, $text );
+                else
+                    $text = str_replace( '{{'.$merge_tag.'}}', '', $text );
             }
         }
 

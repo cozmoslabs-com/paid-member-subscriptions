@@ -91,11 +91,11 @@ foreach( $subscriptions as $subscription ) :
                             <?php if( !empty( $payment_method_data ) ) : ?>
                                 <div class="pms-account-subscription-details-table__payment-method__wrap">
                                     <span class="pms-account-subscription-details-table__payment-method__brand">
-                                        <?php 
-                                        $assets_url = esc_url( PMS_PLUGIN_DIR_URL ) . 'assets/images/card-icons/';
+                                        <?php
+                                        $assets_src = esc_url( PMS_PLUGIN_DIR_PATH ) . 'assets/images/card-icons/';
 
                                         if( !empty( $payment_method_data['pms_payment_method_type'] ) ) 
-                                            echo file_get_contents( $assets_url . $payment_method_data['pms_payment_method_type'] . '.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            echo file_get_contents( $assets_src . $payment_method_data['pms_payment_method_type'] . '.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                         ?>
                                     </span>
 

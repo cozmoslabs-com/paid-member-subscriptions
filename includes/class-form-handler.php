@@ -1019,7 +1019,7 @@ Class PMS_Form_Handler {
                 $error_message = $user->get_error_message( $error_code );
 
                 if( $error_code == 'incorrect_password' ){
-                    $error_message = '<strong>' . __( 'ERROR', 'paid-member-subscriptions' ) . '</strong>: ';
+                    $error_message = '<strong>' . __( 'ERROR:', 'paid-member-subscriptions' ) . '</strong> ';
 
                     if( isset( $_POST['log'] ) && is_email( $_POST['log'] ) )
                         $error_message .= __( 'The email and password combination is wrong.', 'paid-member-subscriptions' );
@@ -1029,7 +1029,7 @@ Class PMS_Form_Handler {
 
                 // If there's no error message then neither the user name or password was entered
                 if( empty( $error_message ) )
-                    $error_message = '<strong>' . __( 'ERROR', 'paid-member-subscriptions' ) . '</strong>: ' . __( 'Both fields are empty.', 'paid-member-subscriptions' );
+                    $error_message = '<strong>' . __( 'ERROR:', 'paid-member-subscriptions' ) . '</strong> ' . __( 'Both fields are empty.', 'paid-member-subscriptions' );
 
                 if( isset($error_message) && !empty($error_message) )
                     $redirect_to = add_query_arg( array( 'login_error' => urlencode(base64_encode($error_message)) ) , $redirect_to );

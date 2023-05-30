@@ -2018,3 +2018,190 @@ body.post-type-pms-subscription #delete-action {
     color: #ffb900;
     font-weight: bold;
 }
+
+
+/**************************************************/
+/* Form Designs - Admin UI styles
+/**************************************************/
+
+.pms-forms-design-screenshot {
+    width: 100%;
+    max-width: 200px;
+    height: 155px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fd;
+}
+
+.pms-forms-design-screenshot img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#pms-forms-design-browser {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: start;
+    padding-bottom: 20px;
+}
+
+.pms-forms-design {
+    border: 1px solid #D2D1D1;
+    flex-basis: 200px;
+}
+
+.pms-forms-design-preview {
+    width: 140px;
+    height: 46px;
+    position: absolute;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.pms-forms-design-preview:hover {
+    color: #fff;
+}
+
+.pms-forms-design:hover .pms-forms-design-screenshot .pms-forms-design-preview {
+    display: flex;
+}
+
+.pms-forms-design:not(#form-style-default):hover .pms-forms-design-screenshot img {
+    opacity: 0.7;
+}
+
+.pms-forms-design.active:hover .pms-forms-design-activate button.activate,
+.pms-forms-design .pms-forms-design-activate button.activate {
+    display: none;
+}
+
+.pms-forms-design:hover .pms-forms-design-activate button.activate {
+    display: inline-block;
+}
+
+.pms-forms-design .pms-forms-design-details {
+    height: 45px;
+    background: #FAFAFA;
+}
+
+.pms-forms-design .pms-forms-design-details .pms-forms-design-title h2 {
+    line-height: 45px !important;
+    padding: 0 10px !important;
+    color: #535252;
+    margin: 0;
+    font-size: 14px;
+}
+
+.pms-forms-design.active .pms-forms-design-details {
+    background: #1D2327;
+}
+
+.pms-forms-design.active .pms-forms-design-details h2 {
+    color: #fff;
+}
+
+.pms-forms-design .pms-forms-design-details {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.pms-forms-design .pms-forms-design-title {
+    flex-basis: 55%;
+    box-sizing: border-box;
+}
+
+.pms-forms-design.active .pms-forms-design-title {
+    flex-basis: 100%;
+}
+
+.pms-forms-design.active .pms-forms-design-activate {
+    flex-basis: 40%;
+}
+
+.pms-forms-design .pms-forms-design-activate {
+    flex-basis: 45%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.pms-forms-design.active:hover .pms-forms-design-details .pms-forms-design-title,
+.pms-forms-design.active .pms-forms-design-details .pms-forms-design-title {
+    border-right: none;
+}
+
+.pms-forms-design:hover .pms-forms-design-details .pms-forms-design-title {
+    border-right: 1px solid #D2D1D1;
+}
+
+
+.pms-forms-design-modal {
+    display: none;
+    padding: 16px 24px;
+}
+
+.pms-forms-design-modal .pms-forms-design-preview-image {
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+.pms-forms-design-modal .pms-forms-design-preview-image.active {
+    display: block;
+}
+
+
+.pms-forms-design-modal .pms-slideshow-button {
+    font-size: 50px;
+    cursor: pointer;
+    color: #6E7A86;
+}
+
+.pms-forms-design-modal .pms-slideshow-button.disabled {
+    visibility: hidden;
+}
+
+.pms-forms-design-modal .pms-forms-design-modal-slideshow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.ui-dialog[aria-describedby^='pms-modal-form-style'] .ui-widget-header {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #dcdcde;
+}
+
+.ui-dialog[aria-describedby^='pms-modal-form-style'] .ui-button,
+.ui-dialog[aria-describedby^='pms-modal-form-style'] .ui-button:focus,
+.ui-dialog[aria-describedby^='pms-modal-form-style'] .ui-button:hover {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+p.pms-form-desig-description {
+    font-weight: 400;
+    font-style: italic;
+}
+
+p.pms-form-desig-description a {
+    text-decoration: none;
+}

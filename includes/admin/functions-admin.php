@@ -134,3 +134,103 @@ $misc_settings = get_option( 'pms_misc_settings', array() );
 if ( isset( $misc_settings['force-subscriptions-expiration-date'] ) ) {
     add_filter( 'pms_view_add_new_edit_subscription_hide_expiration_date', '__return_false' );
 }
+
+/**
+ * Generate the Form Designs Preview Showcase
+ *
+ */
+function pms_display_form_designs_preview() {
+
+    wp_enqueue_script( 'jquery-ui-dialog' );
+
+    $form_designs_data = array(
+        array(
+            'id' => 'form-style-default',
+            'name' => 'Default',
+            'images' => array(
+                'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style-default.jpg',
+            ),
+        ),
+        array(
+            'id' => 'form-style-1',
+            'name' => 'Style 1',
+            'images' => array(
+                'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style1-slide1.jpg',
+                'slide1' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style1-slide2.jpg',
+            ),
+        ),
+        array(
+            'id' => 'form-style-2',
+            'name' => 'Style 2',
+            'images' => array(
+                'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style2-slide1.jpg',
+                'slide1' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style2-slide2.jpg',
+            ),
+        ),
+        array(
+            'id' => 'form-style-3',
+            'name' => 'Style 3',
+            'images' => array(
+                'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style3-slide1.jpg',
+                'slide1' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style3-slide2.jpg',
+            ),
+        )
+    );
+
+    $output = '<div id="pms-forms-design-browser">';
+
+    foreach ( $form_designs_data as $form_design ) {
+
+        if ( $form_design['id'] != 'form-style-default' )
+            $preview_button = '<div class="pms-forms-design-preview" id="'. $form_design['id'] .'-info">Preview</div>';
+        else $preview_button = '';
+
+        $output .= '
+                <div class="pms-forms-design" id="'. $form_design['id'] .'">
+                   <div class="pms-forms-design-screenshot">
+                      <img src="' . $form_design['images']['main'] . '" alt="Form Design">
+                      '. $preview_button .'
+                   </div>
+                   <div class="pms-forms-design-details">
+                      <div class="pms-forms-design-title" style="border:none;">
+                         <h2>'. $form_design['name'] .'</h2>
+                      </div>
+
+                   </div>
+                </div>
+        ';
+
+        $img_count = 0;
+        $image_list = '';
+        foreach ( $form_design['images'] as $image ) {
+            $img_count++;
+            $active_img = ( $img_count == 1 ) ? ' active' : '';
+            $image_list .= '<img class="pms-forms-design-preview-image'. $active_img .'" src="'. $image .'">';
+        }
+
+        if ( $img_count > 1 ) {
+            $previous_button = '<div class="pms-slideshow-button pms-forms-design-sildeshow-previous disabled" data-theme-id="'. $form_design['id'] .'" data-slideshow-direction="previous"> < </div>';
+            $next_button = '<div class="pms-slideshow-button pms-forms-design-sildeshow-next" data-theme-id="'. $form_design['id'] .'" data-slideshow-direction="next"> > </div>';
+            $justify_content = 'space-between';
+        }
+        else {
+            $previous_button = $next_button = '';
+            $justify_content = 'center';
+        }
+
+        $output .= '<div id="pms-modal-'. $form_design['id'] .'" class="pms-forms-design-modal" title="'. $form_design['name'] .'">
+                        <div class="pms-forms-design-modal-slideshow" style="justify-content: '. $justify_content .'">
+                            '. $previous_button .'
+                            <div class="pms-forms-design-modal-images">
+                                '. $image_list .'
+                            </div>
+                            '. $next_button .'
+                        </div>
+                    </div>';
+
+    }
+
+    $output .= '</div>';
+
+    return $output;
+}

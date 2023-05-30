@@ -103,7 +103,7 @@
 <?php __("Your subscription has been successfully canceled.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. We could not remove your subscription.", "paid-member-subscriptions"); ?>
 <?php __("Your subscription has been successfully removed.", "paid-member-subscriptions"); ?>
-<?php __("ERROR", "paid-member-subscriptions"); ?>
+<?php __("ERROR:", "paid-member-subscriptions"); ?>
 <?php __("The username and password combination is wrong.", "paid-member-subscriptions"); ?>
 <?php __("The email and password combination is wrong.", "paid-member-subscriptions"); ?>
 <?php __("Both fields are empty.", "paid-member-subscriptions"); ?>
@@ -664,6 +664,12 @@
 <?php __("Enter discount", "paid-member-subscriptions"); ?>
 <?php __("Apply", "paid-member-subscriptions"); ?>
 <?php __("Applying discount code. Please wait...", "paid-member-subscriptions"); ?>
+<?php __('For a consistent design on your website, it is best to set the same Form Style for both %1$sPaid Member Subscriptions%2$s and %1$sProfile Builder%2$s plugins.', 'paid-member-subscriptions' ); ?>
+<?php __('The currently active Form Style for Profile Builder forms is:  %1$s %3$s %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("SUCCESS!", "paid-member-subscriptions"); ?>
+<?php __("Account Details", "paid-member-subscriptions"); ?>
+<?php __("Select Your Subscription Plan", "paid-member-subscriptions"); ?>
+<?php __("Add Your Group Details", "paid-member-subscriptions"); ?>
 <?php __("Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this member ?", "paid-member-subscriptions"); ?>
 <?php __("Please enter a credit card number.", "paid-member-subscriptions"); ?>
@@ -1591,6 +1597,8 @@
 <?php __("Add a list of email addresses, separated by comma, that you wish to receive emails for member subscription status changes.", "paid-member-subscriptions"); ?>
 <?php __("Load CSS", "paid-member-subscriptions"); ?>
 <?php __("Use Paid Member Subscriptions's own CSS in the front-end.", "paid-member-subscriptions"); ?>
+<?php __("Form Styles", "paid-member-subscriptions"); ?>
+<?php __('%3$sYou can now beautify your forms using new Styles. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Automatically Log In", "paid-member-subscriptions"); ?>
 <?php __("Select \"Yes\" to automatically log in new members after successful registration.", "paid-member-subscriptions"); ?>
 <?php __("Prevent Account Sharing", "paid-member-subscriptions"); ?>
@@ -1660,6 +1668,11 @@
 <?php __("Insert an URL to redirect the user after a manual payment is made. ( e.g. %s )", "paid-member-subscriptions"); ?>
 <?php __("Apply sign-up fees to Upgrades and Downgrades", "paid-member-subscriptions"); ?>
 <?php __("Charge users sign-up fees for Subscription Upgrades and Downgrades.", "paid-member-subscriptions"); ?>
+<?php __("Disabled Subscription Actions", "paid-member-subscriptions"); ?>
+<?php __("Change", "paid-member-subscriptions"); ?>
+<?php __("Renew", "paid-member-subscriptions"); ?>
+<?php __("Abandon", "paid-member-subscriptions"); ?>
+<?php __("Select which subscription actions should be disabled on the [pms-account] shortcode.", "paid-member-subscriptions"); ?>
 <?php __("Maximum number of retries", "paid-member-subscriptions"); ?>
 <?php __("Enter how many retries the payment retry functionality should attempt.", "paid-member-subscriptions"); ?>
 <?php __("Retry Interval", "paid-member-subscriptions"); ?>
@@ -1782,13 +1795,10 @@
 <?php __("Payment Method", "paid-member-subscriptions"); ?>
 <?php __("Expires:", "paid-member-subscriptions"); ?>
 <?php __("Update the payment method attached to a recurring subscription.", "paid-member-subscriptions"); ?>
-<?php __("Change", "paid-member-subscriptions"); ?>
 <?php __("Upgrade", "paid-member-subscriptions"); ?>
-<?php __("Renew", "paid-member-subscriptions"); ?>
 <?php __("Cancels recurring payments for this subscription, letting it expire at the end of the current peiod.", "paid-member-subscriptions"); ?>
 <?php __("This action is not available because your website doesn't have https enabled.", "paid-member-subscriptions"); ?>
 <?php __("Cancels recurring payments and then removes the subscription from your account immediately.", "paid-member-subscriptions"); ?>
-<?php __("Abandon", "paid-member-subscriptions"); ?>
 <?php __("Expires", "paid-member-subscriptions"); ?>
 <?php __("Expired on: ", "paid-member-subscriptions"); ?>
 <?php __("Username *", "paid-member-subscriptions"); ?>
@@ -2096,6 +2106,7 @@
 <?php __("Page will refresh in 3 seconds...", "paid-member-subscriptions"); ?>
 <?php __("Please complete the reCaptcha.", "paid-member-subscriptions"); ?>
 <?php __("Could not validate the reCaptcha. Please complete it again.", "paid-member-subscriptions"); ?>
+<?php __("ERROR", "paid-member-subscriptions"); ?>
 <?php __("Click the BACK button on your browser, and try again.", "paid-member-subscriptions"); ?>
 <?php __("You can add up to %s more members.", "paid-member-subscriptions"); ?>
 <?php __("User(s) to add as members of your Group Subscription:", "paid-member-subscriptions"); ?>

@@ -45,49 +45,49 @@ msgstr ""
 msgid "To enable updates, please enter your serial number on the <a href=\"%s\">Add-ons</a> page. If you don't have a serial number, please see <a href=\"%s\" target=\"_blank\">details & pricing</a>."
 msgstr ""
 
-#: index.php:378
+#: index.php:381
 msgid "You must be logged in to view this content."
 msgstr ""
 
-#: index.php:381
+#: index.php:384
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:1086, index.php:1086, includes/functions-user.php:245, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:17, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
+#: index.php:1098, index.php:1098, includes/functions-user.php:245, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:17, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
 msgid "Paid Member Subscriptions"
 msgstr ""
 
-#: index.php:1105, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
+#: index.php:1117, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
 msgid "Uninstall"
 msgstr ""
 
-#: index.php:1107, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-setup-wizard.php:49, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:127, includes/admin/views/setup-wizard/view-tab-general.php:23, includes/admin/views/setup-wizard/view-tab-next.php:48
+#: index.php:1119, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-settings.php:288, includes/admin/class-admin-setup-wizard.php:49, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:127, includes/admin/views/setup-wizard/view-tab-general.php:23, includes/admin/views/setup-wizard/view-tab-next.php:48
 msgid "Settings"
 msgstr ""
 
-#: index.php:1109
+#: index.php:1121
 msgid "Docs"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1161
+#: index.php:1173
 msgid "Type %s to confirm deleting your account and all data associated with it:"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1163
+#: index.php:1175
 msgid "You did not type %s. Try again!"
 msgstr ""
 
-#: index.php:1181
+#: index.php:1193
 msgid "Select an option"
 msgstr ""
 
-#: index.php:1182
+#: index.php:1194
 msgid "No results match"
 msgstr ""
 
-#: index.php:1201, index.php:1201
+#: index.php:1213, index.php:1213
 msgid "Get Support"
 msgstr ""
 
@@ -95,7 +95,7 @@ msgstr ""
 msgid "Billing Details"
 msgstr ""
 
-#: includes/class-billing-details.php:47, includes/admin/class-admin-member-subscription-list-table.php:336, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:142, includes/admin/views/view-page-settings-general.php:65, includes/admin/views/view-page-settings-general.php:86, includes/admin/views/view-page-settings-general.php:107, includes/admin/views/view-page-settings-general.php:128, includes/admin/views/view-page-settings-general.php:149, includes/modules/labels-edit/index.php:291, includes/modules/labels-edit/index.php:307, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:204
+#: includes/class-billing-details.php:47, includes/admin/class-admin-member-subscription-list-table.php:336, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:142, includes/admin/views/view-page-settings-general.php:82, includes/admin/views/view-page-settings-general.php:103, includes/admin/views/view-page-settings-general.php:124, includes/admin/views/view-page-settings-general.php:145, includes/admin/views/view-page-settings-general.php:166, includes/modules/labels-edit/index.php:291, includes/modules/labels-edit/index.php:307, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:204
 msgid "Edit"
 msgstr ""
 
@@ -435,8 +435,8 @@ msgstr ""
 msgid "Your subscription has been successfully removed."
 msgstr ""
 
-#: includes/class-form-handler.php:1022, includes/class-form-handler.php:1032, includes/modules/recaptcha/includes/functions-field-validate.php:144, includes/modules/recaptcha/includes/functions-field-validate.php:171
-msgid "ERROR"
+#: includes/class-form-handler.php:1022, includes/class-form-handler.php:1032
+msgid "ERROR:"
 msgstr ""
 
 #: includes/class-form-handler.php:1027
@@ -451,7 +451,7 @@ msgstr ""
 msgid "Both fields are empty."
 msgstr ""
 
-#: includes/class-form-handler.php:1249, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:827
+#: includes/class-form-handler.php:1249, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:829
 msgid "Congratulations, you have successfully created an account."
 msgstr ""
 
@@ -504,27 +504,27 @@ msgstr ""
 msgid "Something went wrong while registering the user. Contact the website administrator."
 msgstr ""
 
-#: includes/class-merge-tags.php:157
+#: includes/class-merge-tags.php:159
 msgid "abandoned"
 msgstr ""
 
-#: includes/class-merge-tags.php:193, includes/functions-content-filtering.php:553, includes/admin/class-admin-member-subscription-list-table.php:273, includes/admin/class-admin-members-list-table.php:515, includes/views/shortcodes/view-shortcode-account-subscription-details.php:60, includes/views/shortcodes/view-shortcode-account.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:64
+#: includes/class-merge-tags.php:195, includes/functions-content-filtering.php:553, includes/admin/class-admin-member-subscription-list-table.php:273, includes/admin/class-admin-members-list-table.php:515, includes/views/shortcodes/view-shortcode-account-subscription-details.php:60, includes/views/shortcodes/view-shortcode-account.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:64
 msgid "Unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:241, includes/class-merge-tags.php:284, includes/functions-subscription-plan.php:458, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:625, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
+#: includes/class-merge-tags.php:243, includes/class-merge-tags.php:286, includes/functions-subscription-plan.php:458, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:629, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
 msgid "Free"
 msgstr ""
 
-#: includes/class-merge-tags.php:303
+#: includes/class-merge-tags.php:305
 msgid "unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:300, add-ons-basic/discount-codes/includes/functions-discount.php:243, includes/features/discount-codes/includes/functions-discount.php:243
+#: includes/class-merge-tags.php:302, add-ons-basic/discount-codes/includes/functions-discount.php:243, includes/features/discount-codes/includes/functions-discount.php:243
 msgid "until %s"
 msgstr ""
 
-#: includes/class-merge-tags.php:395
+#: includes/class-merge-tags.php:397
 msgid "The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired."
 msgstr ""
 
@@ -608,63 +608,63 @@ msgstr ""
 msgid "You must be logged in to view this information."
 msgstr ""
 
-#: includes/class-shortcodes.php:448
+#: includes/class-shortcodes.php:450
 msgid "Log out of this account"
 msgstr ""
 
-#: includes/class-shortcodes.php:448
+#: includes/class-shortcodes.php:450
 msgid "Log out"
 msgstr ""
 
-#: includes/class-shortcodes.php:450, includes/class-shortcodes.php:594
+#: includes/class-shortcodes.php:452, includes/class-shortcodes.php:596
 msgid "You are currently logged in as %s."
 msgstr ""
 
-#: includes/class-shortcodes.php:469
+#: includes/class-shortcodes.php:471
 msgid "Username or Email Address"
 msgstr ""
 
-#: includes/class-shortcodes.php:470, includes/views/shortcodes/view-shortcode-edit-profile-form.php:58, includes/views/shortcodes/view-shortcode-new-password-form.php:28
+#: includes/class-shortcodes.php:472, includes/views/shortcodes/view-shortcode-edit-profile-form.php:58, includes/views/shortcodes/view-shortcode-new-password-form.php:28
 msgid "Password"
 msgstr ""
 
-#: includes/class-shortcodes.php:471
+#: includes/class-shortcodes.php:473
 msgid "Remember Me"
 msgstr ""
 
-#: includes/class-shortcodes.php:472
+#: includes/class-shortcodes.php:474
 msgid "Log In"
 msgstr ""
 
-#: includes/class-shortcodes.php:566, extend/elementor/widgets/class-widget-register.php:24, includes/admin/views/view-page-basic-info.php:24, includes/views/shortcodes/view-shortcode-register-form.php:149, extend/beaver-builder/modules/pms-register/pms-register.php:16
+#: includes/class-shortcodes.php:568, extend/elementor/widgets/class-widget-register.php:24, includes/admin/views/view-page-basic-info.php:24, includes/views/shortcodes/view-shortcode-register-form.php:149, extend/beaver-builder/modules/pms-register/pms-register.php:16
 msgid "Register"
 msgstr ""
 
-#: includes/class-shortcodes.php:571
+#: includes/class-shortcodes.php:573
 msgid "Lost your password?"
 msgstr ""
 
-#: includes/class-shortcodes.php:595
+#: includes/class-shortcodes.php:597
 msgid "Log out."
 msgstr ""
 
-#: includes/class-shortcodes.php:632
+#: includes/class-shortcodes.php:634
 msgid "Please check your email for the confirmation link."
 msgstr ""
 
-#: includes/class-shortcodes.php:672
+#: includes/class-shortcodes.php:674
 msgid "The confirmation link has expired. Invalid key."
 msgstr ""
 
-#: includes/class-shortcodes.php:650
+#: includes/class-shortcodes.php:652
 msgid "Your password was successfully changed!"
 msgstr ""
 
-#: includes/class-shortcodes.php:655
+#: includes/class-shortcodes.php:657
 msgid "You will soon be redirected automatically."
 msgstr ""
 
-#: includes/class-shortcodes.php:641
+#: includes/class-shortcodes.php:643
 msgid "You are already logged in."
 msgstr ""
 
@@ -2672,6 +2672,30 @@ msgstr ""
 msgid "Applying discount code. Please wait..."
 msgstr ""
 
+#: add-ons-basic/form-designs/form-designs.php:98
+msgid "For a consistent design on your website, it is best to set the same Form Style for both %1$sPaid Member Subscriptions%2$s and %1$sProfile Builder%2$s plugins."
+msgstr ""
+
+#: add-ons-basic/form-designs/form-designs.php:99
+msgid "The currently active Form Style for Profile Builder forms is:  %1$s %3$s %2$s."
+msgstr ""
+
+#: add-ons-basic/form-designs/form-designs.php:179
+msgid "SUCCESS!"
+msgstr ""
+
+#: add-ons-basic/form-designs/form-designs.php:184
+msgid "Account Details"
+msgstr ""
+
+#: add-ons-basic/form-designs/form-designs.php:185
+msgid "Select Your Subscription Plan"
+msgstr ""
+
+#: add-ons-basic/form-designs/form-designs.php:186
+msgid "Add Your Group Details"
+msgstr ""
+
 #: add-ons-pro/group-memberships/index.php:39
 msgid "Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version."
 msgstr ""
@@ -2889,7 +2913,7 @@ msgstr ""
 msgid "Fixed"
 msgstr ""
 
-#: extend/woocommerce/woocommerce-integration.php:138, add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:167, add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:215, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:90, add-ons-pro/content-dripping/includes/class-meta-box-content-dripping-rules.php:100, add-ons-pro/content-dripping/includes/class-meta-box-content-dripping-rules.php:113, add-ons-pro/multiple-subscriptions-per-user/includes/functions.php:92, extend/profile-builder/admin/manage-fields.php:23, includes/admin/views/view-page-members-add-new-edit-subscription.php:196, includes/admin/views/view-page-members-add-new-edit-subscription.php:404, includes/admin/views/view-page-payments-add-new-edit.php:110, includes/admin/views/view-page-settings-general.php:55, includes/admin/views/view-page-settings-general.php:76, includes/admin/views/view-page-settings-general.php:97, includes/admin/views/view-page-settings-general.php:118, includes/admin/views/view-page-settings-general.php:139, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:12, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:102
+#: extend/woocommerce/woocommerce-integration.php:138, add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:167, add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:215, add-ons-basic/navigation-menu-filtering/includes/class-nav-menu-filtering.php:90, add-ons-pro/content-dripping/includes/class-meta-box-content-dripping-rules.php:100, add-ons-pro/content-dripping/includes/class-meta-box-content-dripping-rules.php:113, add-ons-pro/multiple-subscriptions-per-user/includes/functions.php:92, extend/profile-builder/admin/manage-fields.php:23, includes/admin/views/view-page-members-add-new-edit-subscription.php:196, includes/admin/views/view-page-members-add-new-edit-subscription.php:404, includes/admin/views/view-page-payments-add-new-edit.php:110, includes/admin/views/view-page-settings-general.php:72, includes/admin/views/view-page-settings-general.php:93, includes/admin/views/view-page-settings-general.php:114, includes/admin/views/view-page-settings-general.php:135, includes/admin/views/view-page-settings-general.php:156, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:12, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:102
 msgid "Choose..."
 msgstr ""
 
@@ -3078,11 +3102,11 @@ msgstr ""
 msgid "Not Found - ID: %s"
 msgstr ""
 
-#: includes/admin/class-admin-member-subscription-list-table.php:309, includes/admin/class-admin-member-subscription-list-table.php:317, includes/admin/class-admin-members-list-table.php:519, includes/admin/class-admin-members-list-table.php:522, add-ons-pro/tax/includes/functions-admin.php:489, extend/elementor/widgets/class-widget-account.php:63, includes/admin/views/view-page-settings-general.php:25, includes/admin/views/view-page-settings-misc.php:150, extend/beaver-builder/modules/pms-account/pms-account.php:38, extend/siteorigin/widgets/pms-account/pms-account.php:26
+#: includes/admin/class-admin-member-subscription-list-table.php:309, includes/admin/class-admin-member-subscription-list-table.php:317, includes/admin/class-admin-members-list-table.php:519, includes/admin/class-admin-members-list-table.php:522, add-ons-pro/tax/includes/functions-admin.php:489, extend/elementor/widgets/class-widget-account.php:63, includes/admin/views/view-page-settings-general.php:42, includes/admin/views/view-page-settings-misc.php:150, extend/beaver-builder/modules/pms-account/pms-account.php:38, extend/siteorigin/widgets/pms-account/pms-account.php:26
 msgid "Yes"
 msgstr ""
 
-#: includes/admin/class-admin-member-subscription-list-table.php:309, includes/admin/class-admin-member-subscription-list-table.php:317, includes/admin/class-admin-members-list-table.php:519, extend/elementor/widgets/class-widget-account.php:64, includes/admin/views/view-page-settings-general.php:24, extend/beaver-builder/modules/pms-account/pms-account.php:39, extend/siteorigin/widgets/pms-account/pms-account.php:27
+#: includes/admin/class-admin-member-subscription-list-table.php:309, includes/admin/class-admin-member-subscription-list-table.php:317, includes/admin/class-admin-members-list-table.php:519, extend/elementor/widgets/class-widget-account.php:64, includes/admin/views/view-page-settings-general.php:41, extend/beaver-builder/modules/pms-account/pms-account.php:39, extend/siteorigin/widgets/pms-account/pms-account.php:27
 msgid "No"
 msgstr ""
 
@@ -4381,7 +4405,7 @@ msgstr ""
 msgid "Taxonomy"
 msgstr ""
 
-#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:220, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:227, add-ons-pro/group-memberships/includes/class-group-memberships.php:1132, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:273
+#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:220, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:227, add-ons-pro/group-memberships/includes/class-group-memberships.php:1136, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:273
 msgid "Remove"
 msgstr ""
 
@@ -4510,7 +4534,7 @@ msgstr ""
 msgid "Original: %s"
 msgstr ""
 
-#: add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:228, includes/admin/views/view-page-payments-add-new-edit.php:267, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:61, includes/views/shortcodes/view-shortcode-account-subscription-details.php:173, includes/views/shortcodes/view-shortcode-account-subscription-details.php:171, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:172
+#: add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:228, includes/admin/views/view-page-payments-add-new-edit.php:267, includes/admin/views/view-page-settings-misc.php:236, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:61, includes/views/shortcodes/view-shortcode-account-subscription-details.php:173, includes/views/shortcodes/view-shortcode-account-subscription-details.php:171, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:172
 msgid "Cancel"
 msgstr ""
 
@@ -4668,81 +4692,81 @@ msgstr ""
 msgid "Go Back"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:229
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:230
 msgid "%s Group Dashboard"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:261
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:262
 msgid "Registration page not selected. Contact administrator."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:361, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:204, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:152, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:158, extend/profile-builder/front-end/subscription-plans-field.php:140
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:362, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:204, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:152, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:158, extend/profile-builder/front-end/subscription-plans-field.php:140
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:359
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:360
 msgid "%d member invited successfully !"
 msgid_plural "%d members invited successfully !"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:383, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:336
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:384, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:336
 msgid "Group name cannot be empty."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:470
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:471
 msgid "You were invited to join this website by <strong>%s</strong>."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:472
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:473
 msgid "Please fill the form below in order to complete your registration."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:489
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:490
 msgid "You have selected a Group Membership. After a successful payment you will be able to invite up to %s additional members."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:520, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:477, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:17
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:521, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:477, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:17
 msgid "Group Name *"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:528, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:483, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:25
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:529, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:483, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:25
 msgid "Group Description"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:550, add-ons-pro/group-memberships/includes/class-group-memberships.php:572, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:513
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:551, add-ons-pro/group-memberships/includes/class-group-memberships.php:576, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:513
 msgid "The group name you chose is already registered. Please enter another one."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:548, add-ons-pro/group-memberships/includes/class-group-memberships.php:570, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:508
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:549, add-ons-pro/group-memberships/includes/class-group-memberships.php:574, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:508
 msgid "Please enter a group name."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:629
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:633
 msgid "for %s members"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:852, add-ons-pro/group-memberships/includes/class-group-memberships.php:923
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:856, add-ons-pro/group-memberships/includes/class-group-memberships.php:927
 msgid "You are not allowed to do this."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:903
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:907
 msgid "Member invitation removed succesfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:883, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:401, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:392
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:887, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:401, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:392
 msgid "Member removed successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:908, add-ons-pro/group-memberships/includes/class-group-memberships.php:936, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1517, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:973
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:912, add-ons-pro/group-memberships/includes/class-group-memberships.php:940, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1517, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:975
 msgid "Something went wrong, please try again."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:933
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:937
 msgid "Invitation sent successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:1137, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:243
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:1141, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:243
 msgid "Resend Invite"
 msgstr ""
 
@@ -5066,7 +5090,7 @@ msgstr ""
 msgid "User returned to the website for authentication."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1526, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:982
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1526, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:984
 msgid "Payment method updated successfully."
 msgstr ""
 
@@ -6070,7 +6094,7 @@ msgstr ""
 msgid "Payment Gateway"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:464, includes/admin/views/view-page-settings-misc.php:224
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:464, includes/admin/views/view-page-settings-misc.php:248
 msgid "Payment Retry"
 msgstr ""
 
@@ -6339,102 +6363,110 @@ msgid "Use Paid Member Subscriptions's own CSS in the front-end."
 msgstr ""
 
 #: includes/admin/views/view-page-settings-general.php:21
+msgid "Form Styles"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-general.php:30
+msgid "%3$sYou can now beautify your forms using new Styles. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-general.php:38
 msgid "Automatically Log In"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:28
+#: includes/admin/views/view-page-settings-general.php:45
 msgid "Select \"Yes\" to automatically log in new members after successful registration."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:33
+#: includes/admin/views/view-page-settings-general.php:50
 msgid "Prevent Account Sharing"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:35
+#: includes/admin/views/view-page-settings-general.php:52
 msgid "Prevent users from being logged in with the same account from multiple places at the same time. "
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:36, includes/admin/views/setup-wizard/view-tab-general.php:41
+#: includes/admin/views/view-page-settings-general.php:53, includes/admin/views/setup-wizard/view-tab-general.php:41
 msgid "If the current user's session has been taken over by a newer session, we will log him out and he will have to login again. This will make it inconvenient for members to share their login credentials."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:41
+#: includes/admin/views/view-page-settings-general.php:58
 msgid "Redirect Default WordPress Pages"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:43
+#: includes/admin/views/view-page-settings-general.php:60
 msgid "Redirect users from the default WordPress login ( wp-login.php ), register and lost password forms to the front-end ones created with Paid Member Subscriptions."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:44
+#: includes/admin/views/view-page-settings-general.php:61
 msgid "This option can be bypassed by adding the %s parameter to your login page URL: %s"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:47, includes/admin/views/setup-wizard/view-tab-general.php:3
+#: includes/admin/views/view-page-settings-general.php:64, includes/admin/views/setup-wizard/view-tab-general.php:3
 msgid "Membership Pages"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:48
+#: includes/admin/views/view-page-settings-general.php:65
 msgid "These pages need to be set so that Paid Member Subscriptions knows where to send users."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:52
+#: includes/admin/views/view-page-settings-general.php:69
 msgid "Register Success Page"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:64, includes/admin/views/view-page-settings-general.php:85, includes/admin/views/view-page-settings-general.php:106, includes/admin/views/view-page-settings-general.php:127, includes/admin/views/view-page-settings-general.php:148
+#: includes/admin/views/view-page-settings-general.php:81, includes/admin/views/view-page-settings-general.php:102, includes/admin/views/view-page-settings-general.php:123, includes/admin/views/view-page-settings-general.php:144, includes/admin/views/view-page-settings-general.php:165
 msgid "View"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:68
+#: includes/admin/views/view-page-settings-general.php:85
 msgid "Select the page where you wish to redirect your newly registered members."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:73
+#: includes/admin/views/view-page-settings-general.php:90
 msgid "Login Page"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:89
+#: includes/admin/views/view-page-settings-general.php:106
 msgid "Select the page containing the <strong>[pms-login]</strong> shortcode."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:94
+#: includes/admin/views/view-page-settings-general.php:111
 msgid "Register Page"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:110
+#: includes/admin/views/view-page-settings-general.php:127
 msgid "Select the page containing the <strong>[pms-register]</strong> shortcode."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:115
+#: includes/admin/views/view-page-settings-general.php:132
 msgid "Account Page"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:131
+#: includes/admin/views/view-page-settings-general.php:148
 msgid "Select the page containing the <strong>[pms-account]</strong> shortcode."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:136
+#: includes/admin/views/view-page-settings-general.php:153
 msgid "Lost Password Page"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:152
+#: includes/admin/views/view-page-settings-general.php:169
 msgid "Select the page containing the <strong>[pms-recover-password]</strong> shortcode."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:161
+#: includes/admin/views/view-page-settings-general.php:178
 msgid "Edit Profile Form"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:164
+#: includes/admin/views/view-page-settings-general.php:181
 msgid "Default Paid Member Subscriptions"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:165
+#: includes/admin/views/view-page-settings-general.php:182
 msgid "Default Profile Builder"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-general.php:187
+#: includes/admin/views/view-page-settings-general.php:204
 msgid "<b>Profile Builder</b> is enabled. <b>You can replace the edit profile in the [pms-account] page</b> with the Profile Builder alternative."
 msgstr ""
 
@@ -6614,19 +6646,39 @@ msgstr ""
 msgid "Charge users sign-up fees for Subscription Upgrades and Downgrades."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:227
+#: includes/admin/views/view-page-settings-misc.php:225
+msgid "Disabled Subscription Actions"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:228, includes/views/shortcodes/view-shortcode-account-subscription-details.php:142, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:145
+msgid "Change"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:232, includes/views/shortcodes/view-shortcode-account-subscription-details.php:168, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:169
+msgid "Renew"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:240, includes/views/shortcodes/view-shortcode-account-subscription-details.php:188, includes/views/shortcodes/view-shortcode-account-subscription-details.php:186, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:182
+msgid "Abandon"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:244
+msgid "Select which subscription actions should be disabled on the [pms-account] shortcode."
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:251
 msgid "Maximum number of retries"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:229
+#: includes/admin/views/view-page-settings-misc.php:253
 msgid "Enter how many retries the payment retry functionality should attempt."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:233
+#: includes/admin/views/view-page-settings-misc.php:257
 msgid "Retry Interval"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:235
+#: includes/admin/views/view-page-settings-misc.php:259
 msgid "Enter the interval between retries for the payment retry functionality."
 msgstr ""
 
@@ -6922,7 +6974,7 @@ msgstr ""
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1669
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1676
 msgid "Payment Details"
 msgstr ""
 
@@ -7103,16 +7155,8 @@ msgstr ""
 msgid "Update the payment method attached to a recurring subscription."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:142, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:145
-msgid "Change"
-msgstr ""
-
 #: includes/views/shortcodes/view-shortcode-account-subscription-details.php:145, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:148
 msgid "Upgrade"
-msgstr ""
-
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:168, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:169
-msgid "Renew"
 msgstr ""
 
 #: includes/views/shortcodes/view-shortcode-account-subscription-details.php:173
@@ -7125,10 +7169,6 @@ msgstr ""
 
 #: includes/views/shortcodes/view-shortcode-account-subscription-details.php:188
 msgid "Cancels recurring payments and then removes the subscription from your account immediately."
-msgstr ""
-
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:188, includes/views/shortcodes/view-shortcode-account-subscription-details.php:186, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:182
-msgid "Abandon"
 msgstr ""
 
 #: includes/views/shortcodes/view-shortcode-account.php:15
@@ -8351,6 +8391,10 @@ msgstr ""
 
 #: includes/modules/recaptcha/includes/functions-field-validate.php:85
 msgid "Could not validate the reCaptcha. Please complete it again."
+msgstr ""
+
+#: includes/modules/recaptcha/includes/functions-field-validate.php:144, includes/modules/recaptcha/includes/functions-field-validate.php:171
+msgid "ERROR"
 msgstr ""
 
 #: includes/modules/recaptcha/includes/functions-field-validate.php:194

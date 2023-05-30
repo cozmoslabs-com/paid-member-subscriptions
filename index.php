@@ -3,15 +3,15 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.9.4
+ * Version: 2.9.5
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 7.6
- * Elementor tested up to: 3.13.0
- * Elementor Pro tested up to: 3.13.0
+ * WC tested up to: 7.7
+ * Elementor tested up to: 3.13.4
+ * Elementor Pro tested up to: 3.13.4
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.9.4' );
+        define( 'PMS_VERSION', '2.9.5' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -340,6 +340,9 @@ Class Paid_Member_Subscriptions {
         if( !isset( $settings['use_pms_css'] ) && !$already_installed ) {
             $settings['use_pms_css'] = 1;
         }
+
+        if ( !isset( $settings['forms_design'] ) )
+            $settings['forms_design'] = 'form_style_default';
 
         update_option( 'pms_general_settings', $settings );
 
@@ -838,6 +841,15 @@ Class Paid_Member_Subscriptions {
          */
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/bbpress/functions.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'extend/bbpress/functions.php';
+
+        /**
+         * Form Designs
+         */
+        if ( defined( 'PMS_PAID_PLUGIN_DIR' ) && file_exists( PMS_PAID_PLUGIN_DIR . '/add-ons-basic/form-designs/form-designs.php' ) ) {
+            include_once(PMS_PAID_PLUGIN_DIR . '/add-ons-basic/form-designs/form-designs.php');
+        }
+        elseif ( PAID_MEMBER_SUBSCRIPTIONS === 'Paid Member Subscriptions Dev' && file_exists( PMS_PLUGIN_DIR_PATH . '/add-ons-basic/form-designs/form-designs.php' ) )
+            include_once(PMS_PLUGIN_DIR_PATH . '/add-ons-basic/form-designs/form-designs.php');
 
         /*
          * Profile Builder Compatibility

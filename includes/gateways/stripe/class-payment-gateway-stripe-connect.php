@@ -283,7 +283,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         }
 
-        $form_location = PMS_Form_Handler::get_request_form_location( 'pmstkn_original' );
+        $target = isset( $_POST['pmstkn_original'] ) ? 'pmstkn_original' : 'pmstkn';
+
+        $form_location = PMS_Form_Handler::get_request_form_location( $target );
 
         if( isset( $_REQUEST['payment_intent'] ) && isset( $_GET['pms_stripe_connect_return_url'] ) && $_GET['pms_stripe_connect_return_url'] == 1 )
             $form_location = 'stripe_return_url';
@@ -423,7 +425,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     }
 
                     // Update subscription
-                    $this->update_subscription( $subscription, $form_location );
+                    $this->update_subscription( $subscription, $form_location, false, false, false, $intent->amount );
 
                     // If subscription had a trial, save card fingerprint
                     $this->save_trial_card( $subscription_id, $intent->payment_method );
@@ -1144,7 +1146,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
-    public function update_subscription( $subscription, $form_location, $has_trial = false, $is_recurring = false, $plan_id = false ){
+    public function update_subscription( $subscription, $form_location, $has_trial = false, $is_recurring = false, $plan_id = false, $checkout_amount = false ){
 
         if( empty( $subscription ) || empty( $form_location ) )
             return false;
@@ -1169,7 +1171,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         } else {
 
-            $subscription_data = array( 'status' => 'active' );
+            $subscription_data = array( 
+                'status'         => 'active',
+            );
+
+            if( $is_recurring && !empty( $checkout_amount ) )
+                $subscription_data['billing_amount'] = $checkout_amount / 100;
 
         }
 

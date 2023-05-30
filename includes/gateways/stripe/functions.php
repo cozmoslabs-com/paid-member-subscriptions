@@ -108,7 +108,9 @@ function pms_stripe_calculate_payment_amount( $subscription_plan ){
     // Add sign-up fee if necessary
     if( !empty( $subscription_plan->sign_up_fee ) && apply_filters( 'pms_stripe_create_payment_intent_apply_sign_up_fee', true, $subscription_plan ) ){
 
-        $form_location = PMS_Form_Handler::get_request_form_location( 'pmstkn_original' );
+        $target = isset( $_POST['pmstkn_original'] ) ? 'pmstkn_original' : 'pmstkn';
+
+        $form_location = PMS_Form_Handler::get_request_form_location( $target );
 
         if( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) )
             $amount = $amount + $subscription_plan->sign_up_fee;

@@ -302,7 +302,7 @@ Class PMS_Shortcodes {
                 $register_page = esc_url( pms_get_page( 'register', true ) );
 
                 if ( !empty( $register_page ) )
-                    $message .= sprintf( '<p>' . __( 'To purchase a subscription, you can %sclick here%s.', 'paid-member-subscriptions' ) . '</p>', '<a href="'.$register_page.'">', '</a>' );
+                    $message .= sprintf( '<p>' . __( 'To purchase a subscription, you can %sclick here%s.', 'paid-member-subscriptions' ) . '</p>', '<a href="'.$register_page.'" class="pms-register-page-link">', '</a>' );
 
                 echo wp_kses_post( apply_filters( 'pms_member_account_not_member', $message, $member ) );
             } else {
@@ -439,6 +439,8 @@ Class PMS_Shortcodes {
             }
 
             $output .= PMS_Shortcodes::pms_wp_login_form( apply_filters( 'pms_login_form_args', $args ) );
+
+            $output = apply_filters( 'pms_login_form_shortcode_content', $output, $args );
 
         } else {
 
@@ -638,7 +640,7 @@ Class PMS_Shortcodes {
         if ( is_user_logged_in() && $atts['block'] !== 'true' ) {
 
             $member = pms_get_member( get_current_user_id() );
-            echo( wp_kses_post( apply_filters ('pms_recover_password_form_logged_in_message', '<p>' .  __( 'You are already logged in.', 'paid-member-subscriptions' ) . '</p>', $atts, $member) ) );
+            echo( wp_kses_post( apply_filters ('pms_recover_password_form_logged_in_message', '<p class="pms-alert">' .  __( 'You are already logged in.', 'paid-member-subscriptions' ) . '</p>', $atts, $member) ) );
 
         } else {
 
@@ -682,7 +684,7 @@ Class PMS_Shortcodes {
         $output = ob_get_contents();
         ob_end_clean();
 
-        return $output;
+        return apply_filters('pms_recover_password_shortcode_content', $output, 'recover_password_form');
 
     }
 

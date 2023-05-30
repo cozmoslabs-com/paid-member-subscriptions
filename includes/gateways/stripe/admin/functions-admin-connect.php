@@ -417,7 +417,7 @@ function pms_stripe_add_settings_content( $options ) {
 
 							if ( pms_is_paid_version_active() && ( empty( $serial_number ) || $serial_number_status != 'valid' ) )
 								echo '<p style="font-size:110%;margin-top:0px;border:1px solid #ffb900;padding: 12px;margin-bottom: 0px;">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is expired. Go to your %sCozmoslabs Account%s page in order to renew.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=stripe-connect-fee-notice">', '</a>' ) ) . '</p>';
-							else
+							elseif( !pms_is_paid_version_active() && empty( $serial_number ) )
 								echo '<p style="font-size:110%;margin-top:0px;border:1px solid #ffb900;padding: 12px;margin-bottom: 0px;">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments done through Stripe include a <strong>2%% fee</strong> because you\'re using the free version of Paid Member Subscriptions. <br>This fee goes to the Paid Member Subscriptions team and is used to continue supporting the development of this gateway and the plugin in general. <br>Users with an active license key will not be charged this fee, %sclick here%s to purchase one.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=stripe-connect-fee-notice" target="_blank">', '</a>' ) ) . '</p>';
 
 						}
