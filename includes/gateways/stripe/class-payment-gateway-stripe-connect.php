@@ -159,6 +159,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             if( !pms_stripe_check_filter_from_class_exists( 'pms_update_payment_method_stripe_connect', get_class($this), 'update_customer_payment_method' ) )
                 add_action( 'pms_update_payment_method_stripe_connect', array( $this, 'update_customer_payment_method' ) );
 
+            if( !pms_stripe_check_filter_from_class_exists( 'pms_update_payment_method_stripe_intents', get_class($this), 'update_customer_payment_method' ) )
+                add_action( 'pms_update_payment_method_stripe_intents', array( $this, 'update_customer_payment_method' ) );
+
             // Add Form Fields placeholder
             if( !pms_stripe_check_filter_from_class_exists( 'pms_output_form_field_stripe_placeholder', get_class($this), 'output_form_field_stripe_placeholder' ) )
                 add_action( 'pms_output_form_field_stripe_placeholder', array( $this, 'output_form_field_stripe_placeholder' ) );
@@ -230,6 +233,28 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                         return false;
                     }
+                }
+
+                // WPPB Setup Intent
+                if( !empty( $_REQUEST['setup_intent_id'] ) ){
+
+                    $setup_intent = \Stripe\SetupIntent::retrieve( sanitize_text_field( $_REQUEST['setup_intent_id'] ) );
+
+                    if( !empty( $setup_intent->customer ) ){
+
+                        // Save Customer and Card for this subscription
+                        pms_update_member_subscription_meta( $member_subscription_id, '_stripe_customer_id', $setup_intent->customer );
+                        pms_update_member_subscription_meta( $member_subscription_id, '_stripe_card_id', $this->stripe_token );
+                        
+                        $subscription = pms_get_member_subscription( $member_subscription_id );
+
+                        // Save Customer to usermeta
+                        update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $setup_intent->customer );
+        
+                        $this->update_customer_information( $setup_intent->customer );
+        
+                    }
+
                 }
 
                 // If subscription had a trial, save card fingerprint
@@ -312,13 +337,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 // Set PaymentMethod as default
                 if( !empty( $intent->customer ) ){
-
-                    // \Stripe\Customer::update(
-                    //     $intent->customer,
-                    //     array(
-                    //         'invoice_settings' => array( 'default_payment_method' => $intent->payment_method )
-                    //     )
-                    // );
 
                     // Save Customer and Card for this subscription
                     pms_update_member_subscription_meta( $subscription_id, '_stripe_customer_id', $intent->customer );
@@ -485,13 +503,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             // Set PaymentMethod as default
             if( !empty( $intent->customer ) ){
 
-                // \Stripe\Customer::update(
-                //     $intent->customer,
-                //     array(
-                //         'invoice_settings' => array( 'default_payment_method' => $intent->payment_method )
-                //     )
-                // );
-
                 // Save Customer and Card for this subscription
                 pms_update_member_subscription_meta( $subscription_id, '_stripe_customer_id', $intent->customer );
                 pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $intent->payment_method );
@@ -518,12 +529,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 ), $payment, $form_location );
 
                 PaymentIntent::update( $intent->id, array( 'metadata' => $metadata ) );
-
-                // // If subscription had a trial, save card fingerprint
-                // $this->save_trial_card( $subscription_id );
-
-                // // Save card expiration info
-                // $this->save_payment_method_expiration_data( $subscription_id, $this->stripe_token );
 
                 return true;
 
@@ -934,8 +939,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         $customer = $this->get_customer( $member_subscription->user_id );
 
-        if( empty( $customer )  )
+        if( empty( $customer )  ){
+            pms_errors()->add( 'update_payment_method', __( 'Something went wrong, please try again.', 'paid-member-subscriptions' ) );
             return false;
+        }
 
         $success_message = false;
 
@@ -1632,7 +1639,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      */
     public static function register_form_sections( $sections = array(), $form_location = '' ) {
 
-        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_stripe_connect' ) ) )
+        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_stripe_connect', 'update_payment_method_stripe_intents' ) ) )
             return $sections;
 
         // Add the credit card details if it does not exist
@@ -1662,7 +1669,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      */
     public static function register_form_fields( $fields = array(), $form_location = '' ) {
 
-        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_stripe_connect' ) ) )
+        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_stripe_connect', 'update_payment_method_stripe_intents' ) ) )
             return $fields;
 
 

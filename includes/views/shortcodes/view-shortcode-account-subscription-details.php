@@ -23,7 +23,7 @@ foreach( $subscriptions as $subscription ) :
 	<table class="pms-account-subscription-details-table pms-account-subscription-details-table__<?php echo esc_attr( $subscription->subscription_plan_id ); ?>">
 		<tbody>
 
-			<?php do_action( 'pms_subscriptions_table_before_rows' ); ?>
+			<?php do_action( 'pms_subscriptions_table_before_rows', $subscription ); ?>
 
 			<!-- Subscription plan -->
 			<tr class="pms-account-subscription-details-table__plan">
@@ -129,7 +129,7 @@ foreach( $subscriptions as $subscription ) :
                         if( $subscription->status != 'pending' ) {
 
                             // Show the Change action if any other subscription plan besides the current one exists
-                            $plans           = pms_get_subscription_plan_others( $subscription_plan->id );
+                            $plans           = pms_get_subscription_plan_others( $user_id );
                             $plan_upgrades   = pms_get_subscription_plan_upgrades( $subscription_plan->id );
                             $plan_downgrades = pms_get_subscription_plan_downgrades( $subscription_plan->id );
 
@@ -194,7 +194,7 @@ foreach( $subscriptions as $subscription ) :
                 </td>
             </tr>
 
-			<?php do_action( 'pms_subscriptions_table_after_rows' ); ?>
+			<?php do_action( 'pms_subscriptions_table_after_rows', $subscription ); ?>
 
 		</tbody>
 	</table>

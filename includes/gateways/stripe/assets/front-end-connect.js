@@ -355,8 +355,20 @@ jQuery( function( $ ) {
 
                             paymentRequestStarted = false
 
-                            // Make request to process payment
-                            stripeConnectProcessPayment(result, response, data)
+                            if (result.error) {
+
+                                addValidationErrors([{ target: 'credit_card', message: result.error.message }], current_button)
+
+                            } else if (result.setupIntent && result.setupIntent.status == 'succeeded') {
+
+                                // Add PaymentIntent ID to form so we can verify that the payment is already processed
+                                $form = $(current_button).closest('form')
+
+                                $form.append($('<input type="hidden" name="setup_intent_id" />').val(result.setupIntent.id))
+
+                                stripeTokenHandler({ id: result.setupIntent.payment_method }, $form)
+
+                            }
 
                         })
 
@@ -640,7 +652,7 @@ jQuery( function( $ ) {
                 data.pms_recurring = form_data.pms_recurring
     
             $.post(pms.ajax_url, data, function (response) {
-    
+
                 response = JSON.parse(response)
     
                 if( typeof response.redirect_url != 'undefined' && response.redirect_url )

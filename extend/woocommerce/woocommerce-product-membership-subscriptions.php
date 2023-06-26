@@ -256,7 +256,7 @@ function pms_get_subscription_replacement_data( $user_id, $new_subscription_plan
 
 
 // Get the Subscription Data for the Product linked Subscription
-function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_status, $order_key, $product_type, $user_email ) {
+function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_status, $order_payment_method, $order_key, $product_type, $user_email ) {
 
     $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
     $member = pms_get_member( email_exists( $user_email ));
@@ -270,7 +270,9 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_sta
             $existing_subscription_status = $existing_subscription['0']->status;
         else $existing_subscription_status = '';
 
-        $subscription_status = pms_woo_set_subscription_status( $order_status, $product_type, $existing_subscription_status, '' );
+        if ( $order_status == 'processing' && $order_payment_method !== 'stripe_sepa' && $existing_subscription_status !== 'active' )
+            $subscription_status = 'pending';
+        else $subscription_status = pms_woo_set_subscription_status( $order_status, $product_type, $existing_subscription_status, '' );
 
         $replacement_data = pms_get_subscription_replacement_data( $user_id, $subscription_plan_id, $subscription_status );
 
@@ -345,7 +347,7 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_sta
     return $subscription_data;
 
 }
-add_filter( 'pms_woo_get_subscription_data', 'pms_woo_subscription_data', 100, 6 );
+add_filter( 'pms_woo_get_subscription_data', 'pms_woo_subscription_data', 100, 7 );
 
 
 // Add new Membership Subscription
@@ -456,12 +458,13 @@ add_action('woocommerce_subscription_status_updated', 'pms_woo_update_pms_subsci
 
 // Handle Member Subscription
 function pms_woo_handle_member_subscription( $order_id ) {
-    $order          = new WC_Order( $order_id );
-    $order_status   = $order->get_status();
-    $order_key      = $order->get_order_key();
-    $order_items    = $order->get_items('line_item');
-    $total_quantity = $order->get_item_count();
-    $user           = $order->get_user();
+    $order                = new WC_Order( $order_id );
+    $order_status         = $order->get_status();
+    $order_payment_method = $order->get_payment_method();
+    $order_key            = $order->get_order_key();
+    $order_items          = $order->get_items('line_item');
+    $total_quantity       = $order->get_item_count();
+    $user                 = $order->get_user();
 
     $user_existing_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $user->data->ID ));
 
@@ -477,7 +480,7 @@ function pms_woo_handle_member_subscription( $order_id ) {
         else $subscription_renewal = pms_woo_is_product_subscription_renewal( $item );
 
         if ( !empty( $subscription_plan_id ) ) {
-            $subscription_data = apply_filters( 'pms_woo_get_subscription_data', $subscription_plan_id, $order_id, $order_status, $order_key, $product_type, $user->data->user_email );
+            $subscription_data = apply_filters( 'pms_woo_get_subscription_data', $subscription_plan_id, $order_id, $order_status, $order_payment_method, $order_key, $product_type, $user->data->user_email );
             if( isset($subscription_data['id'])) {
                 pms_woo_update_member_subscription( $subscription_data, $subscription_renewal, $user_existing_subscriptions, $order_id, $order_key );
             }

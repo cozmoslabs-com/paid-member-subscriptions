@@ -50,8 +50,16 @@ function pms_add_form_extra_fields() {
 			if( isset( $_GET['pms-action'] ) && $_GET['pms-action'] == 'update_payment_method' && !empty( $_GET['subscription_id'] ) ){
 				$member_subscription = pms_get_member_subscription( absint( $_GET['subscription_id'] ) );
 
-				if( !empty( $member_subscription->payment_gateway ) )
-					$form_name = 'update_payment_method_' . $member_subscription->payment_gateway;
+				if( !empty( $member_subscription->payment_gateway ) ){
+				
+					// there's no update payment method for the older Stripe gateway but we would still like these users to be able to update,
+					// so we send them to the current active Stripe gateway
+					if( $member_subscription->payment_gateway == 'stripe' ){
+						$form_name = 'update_payment_method_' . pms_get_active_stripe_gateway();
+					} else
+						$form_name = 'update_payment_method_' . $member_subscription->payment_gateway;
+
+				}
 			}
 
             break;

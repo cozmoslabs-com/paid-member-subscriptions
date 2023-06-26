@@ -213,18 +213,34 @@ function pms_get_subscription_plan_downgrades( $subscription_plan_id, $only_acti
 /**
  * Returns an array of PMS_Subscription_Plan objects that are possible changes for the given plan (other tiers besides current one)
  */
-function pms_get_subscription_plan_others( $subscription_plan_id, $only_active = true ){
-    
+function pms_get_subscription_plan_others( $user_id = false ){
+
     $subscription_plans = pms_get_subscription_plans();
-    $current_plan       = pms_get_subscription_plan( $subscription_plan_id );
+
+    if( empty( $user_id ) )
+        $user_id = pms_get_current_user_id();
+
+    // get all current tiers that the user is subscribed to
+    $member = pms_get_member( $user_id );
+
+    if( empty( $member->subscriptions ) )
+        return $subscription_plans;
+
+    $current_plan_parents = [];
+
+    foreach( $member->subscriptions as $subscription ) {
+        $plan = pms_get_subscription_plan( $subscription['subscription_plan_id'] );
+
+        $current_plan_parents[] = $plan->top_parent;
+    }
 
     if( !empty( $subscription_plans ) ){
         foreach( $subscription_plans as $key => $plan ){
-            if( $plan->top_parent == $current_plan->top_parent )
+            if( in_array( $plan->top_parent, $current_plan_parents ) )
                 unset( $subscription_plans[$key] );
         }
     }
-    
+
     return $subscription_plans;
 
 }

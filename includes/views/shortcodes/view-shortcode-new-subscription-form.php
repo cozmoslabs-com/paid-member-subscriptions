@@ -9,6 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
      * @param $atts     - is available from parent file, in the register_form method of the PMS_Shortcodes class
      */
     $form_name = 'new_subscription';
+
+    $target_plans = $atts['subscription_plans'];
+
+    if( !empty( $array_dif ) )
+        $target_plans = $array_dif;
+
 ?>
 
 <form id="pms_<?php echo esc_attr( $form_name ); ?>-form" class="pms-form" method="POST">
@@ -29,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             $field_errors = pms_errors()->get_error_messages( 'subscription_plans' );
 
             echo '<li class="pms-field pms-field-subscriptions ' . ( !empty( $field_errors ) ? 'pms-field-error' : '' ) . '">';
-                echo pms_output_subscription_plans( $atts['subscription_plans'], $atts['exclude'], false, (isset($atts['selected']) ? trim($atts['selected']) : '' ), 'new_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo pms_output_subscription_plans( $target_plans, $atts['exclude'], false, (isset($atts['selected']) ? trim($atts['selected']) : '' ), 'new_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
 
         ?>

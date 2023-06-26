@@ -68,7 +68,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <?php foreach( $subscription_plans as $subscription_plan ): ?>
 
                 <label class="pms-meta-box-checkbox-label" for="pms-content-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ) ?>">
-                    <input type="checkbox" value="<?php echo esc_attr( $subscription_plan->id ); ?>" <?php if( in_array( $subscription_plan->id, $selected_subscription_plans ) || $all_plans_selected ) echo 'checked="checked"'; ?> name="pms-content-restrict-subscription-plan[]" id="pms-content-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ) ?>">
+                    <input type="checkbox" value="<?php echo esc_attr( $subscription_plan->id ); ?>" <?php if( ( is_array( $selected_subscription_plans ) && in_array( $subscription_plan->id, $selected_subscription_plans )) || $all_plans_selected ) echo 'checked="checked"'; ?> name="pms-content-restrict-subscription-plan[]" id="pms-content-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ) ?>">
                     <?php echo esc_html( $subscription_plan->name ); ?>
                 </label>
 

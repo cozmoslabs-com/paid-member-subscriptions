@@ -225,19 +225,27 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <label class="pms-form-field-label" for="enabled-subscription-actions"><?php esc_html_e( 'Disabled Subscription Actions' , 'paid-member-subscriptions' ) ?></label>
 
             <p class="description">
+                <label for="disable-change-button">
                 <input type="checkbox" id="disable-change-button" name="pms_misc_settings[disable-change-button]" value="1" <?php echo ( isset( $this->options['disable-change-button'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Change', 'paid-member-subscriptions' ); ?>
+                </label>
             </p>
 
             <p class="description">
+                <label for="disable-renew-button">
                 <input type="checkbox" id="disable-renew-button" name="pms_misc_settings[disable-renew-button]" value="1" <?php echo ( isset( $this->options['disable-renew-button'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Renew', 'paid-member-subscriptions' ); ?>
+                </label>
             </p>
 
             <p class="description">
+                <label for="disable-cancel-button">
                 <input type="checkbox" id="disable-cancel-button" name="pms_misc_settings[disable-cancel-button]" value="1" <?php echo ( isset( $this->options['disable-cancel-button'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Cancel', 'paid-member-subscriptions' ); ?>
+                </label>
             </p>
 
             <p class="description">
+                <label for="disable-abandon-button">
                 <input type="checkbox" id="disable-abandon-button" name="pms_misc_settings[disable-abandon-button]" value="1" <?php echo ( isset( $this->options['disable-abandon-button'] ) ? 'checked' : '' ); ?> /><?php esc_html_e( 'Abandon', 'paid-member-subscriptions' ); ?>
+                </label>
             </p>
 
             <p class="description">

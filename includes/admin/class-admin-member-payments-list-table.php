@@ -54,7 +54,7 @@ Class PMS_Member_Payments_List_Table extends WP_List_Table {
             'actions'           => __( 'Actions', 'paid-member-subscriptions' )
         );
 
-        return $columns;
+        return apply_filters( 'pms_member_payments_list_table_columns', $columns );
 
     }
 

@@ -1896,11 +1896,11 @@
 <?php __("Upload Image", "paid-member-subscriptions"); ?>
 <?php __("The logo will appear in the top-right corner of the Invoice.", "paid-member-subscriptions"); ?>
 <?php __("Invoice Settings", "paid-member-subscriptions"); ?>
-<?php __("For invoice title and format you can use the following tags: <code>{{number}}</code>, <code>{{MM}}</code>, <code>{{YYYY}}</code>", "paid-member-subscriptions"); ?>
+<?php __("For invoice title and format you can use the following tags: <code>%s</code>, <code>%s</code>, <code>%s</code>, <code>%s</code>", "paid-member-subscriptions"); ?>
 <?php __("Invoice Title", "paid-member-subscriptions"); ?>
 <?php __("Depending on your country fiscal regulations you can change it to things like: Tax Invoice etc.", "paid-member-subscriptions"); ?>
 <?php __("Format", "paid-member-subscriptions"); ?>
-<?php __("<strong>Note</strong>: {{number}} is required.", "paid-member-subscriptions"); ?>
+<?php __("<strong>Note</strong>: <code>%s</code> is required.", "paid-member-subscriptions"); ?>
 <?php __("Font", "paid-member-subscriptions"); ?>
 <?php __("English / Cyrillic", "paid-member-subscriptions"); ?>
 <?php __("Arabic", "paid-member-subscriptions"); ?>

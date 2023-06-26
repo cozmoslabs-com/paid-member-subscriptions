@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.2
-Stable tag: 2.9.5
+Stable tag: 2.9.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.9.6 =
+* Feature: Allow users of the oldest Stripe implementation to update their credit card details through the newest gateway
+* Fix: Issue with Stripe gateway and free trial subscriptions on the Profile Builder form
+* Fix: An issue with WooCommerce cash on delivery orders and subcriptions
+* Fix: Potential notice coming from the content restriction metabox
+* Misc: Added filter to allow the extension of the Paments List table from the members view
+* Misc: Extend account page filters that are triggered before and after the cotent
+
 = 2.9.5 =
 * Fix: Issue with Stripe free message appearing in unwanted cases
 * Fix: Issue with Sign-up fee not applying for Stripe payments

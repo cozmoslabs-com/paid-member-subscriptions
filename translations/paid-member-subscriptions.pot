@@ -451,7 +451,7 @@ msgstr ""
 msgid "Both fields are empty."
 msgstr ""
 
-#: includes/class-form-handler.php:1249, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:829
+#: includes/class-form-handler.php:1249, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:834
 msgid "Congratulations, you have successfully created an account."
 msgstr ""
 
@@ -512,7 +512,7 @@ msgstr ""
 msgid "Unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:243, includes/class-merge-tags.php:286, includes/functions-subscription-plan.php:458, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:629, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
+#: includes/class-merge-tags.php:243, includes/class-merge-tags.php:286, includes/functions-subscription-plan.php:474, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:629, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:202, includes/admin/views/view-page-addons.php:274
 msgid "Free"
 msgstr ""
 
@@ -764,7 +764,7 @@ msgstr ""
 msgid "Your %s subscription is still pending. Do you wish to retry the payment?"
 msgstr ""
 
-#: includes/functions-content-filtering.php:835, includes/views/shortcodes/view-shortcode-account-subscription-details.php:179, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:177
+#: includes/functions-content-filtering.php:835, includes/views/shortcodes/view-shortcode-account-subscription-details.php:179, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:179
 msgid "Retry payment"
 msgstr ""
 
@@ -2492,7 +2492,7 @@ msgstr ""
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s"
 msgstr ""
 
-#: includes/functions-form-extra-fields.php:593
+#: includes/functions-form-extra-fields.php:601
 msgid "Are you sure ? Try again."
 msgstr ""
 
@@ -2556,67 +2556,67 @@ msgstr ""
 msgid "Learn More"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:495, includes/admin/class-admin-subscription-plans.php:390, includes/admin/class-admin-subscription-plans.php:448
+#: includes/functions-subscription-plan.php:511, includes/admin/class-admin-subscription-plans.php:390, includes/admin/class-admin-subscription-plans.php:448
 msgid "%s Day"
 msgid_plural "%s Days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:498, includes/admin/class-admin-subscription-plans.php:393, includes/admin/class-admin-subscription-plans.php:451
+#: includes/functions-subscription-plan.php:514, includes/admin/class-admin-subscription-plans.php:393, includes/admin/class-admin-subscription-plans.php:451
 msgid "%s Week"
 msgid_plural "%s Weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:501, includes/admin/class-admin-subscription-plans.php:396, includes/admin/class-admin-subscription-plans.php:454
+#: includes/functions-subscription-plan.php:517, includes/admin/class-admin-subscription-plans.php:396, includes/admin/class-admin-subscription-plans.php:454
 msgid "%s Month"
 msgid_plural "%s Months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:504, includes/admin/class-admin-subscription-plans.php:399, includes/admin/class-admin-subscription-plans.php:457
+#: includes/functions-subscription-plan.php:520, includes/admin/class-admin-subscription-plans.php:399, includes/admin/class-admin-subscription-plans.php:457
 msgid "%s Year"
 msgid_plural "%s Years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:484, includes/admin/class-admin-subscription-plans.php:406
+#: includes/functions-subscription-plan.php:500, includes/admin/class-admin-subscription-plans.php:406
 msgid "until"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:559, includes/functions-subscription-plan.php:578
+#: includes/functions-subscription-plan.php:575, includes/functions-subscription-plan.php:594
 msgid "day"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:562
+#: includes/functions-subscription-plan.php:578
 msgid "week"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:565
+#: includes/functions-subscription-plan.php:581
 msgid "month"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:568
+#: includes/functions-subscription-plan.php:584
 msgid "year"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:582
+#: includes/functions-subscription-plan.php:598
 msgid " with a %1$s %2$s free trial"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:621
+#: includes/functions-subscription-plan.php:637
 msgid " and a %1$s sign-up fee"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:694
+#: includes/functions-subscription-plan.php:710
 msgid "Automatically renew subscription"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:818
+#: includes/functions-subscription-plan.php:834
 msgid "You need to create Subscription Plans before you can use this form. Go to your <strong>Dashboard -> Paid Member Subscriptions -> Subscriptions Plans</strong> to do this."
 msgstr ""
 
-#: includes/functions-subscription-plan.php:819, add-ons-pro/stripe/includes/functions-actions.php:25, includes/gateways/paypal_standard/functions-paypal-standard.php:80, includes/gateways/paypal_standard/functions-paypal-standard.php:108, includes/gateways/paypal_standard/functions-paypal-standard.php:245, includes/gateways/paypal_standard/functions-paypal-standard.php:273
+#: includes/functions-subscription-plan.php:835, add-ons-pro/stripe/includes/functions-actions.php:25, includes/gateways/paypal_standard/functions-paypal-standard.php:80, includes/gateways/paypal_standard/functions-paypal-standard.php:108, includes/gateways/paypal_standard/functions-paypal-standard.php:245, includes/gateways/paypal_standard/functions-paypal-standard.php:273
 msgid "This message is visible only by Administrators."
 msgstr ""
 
@@ -2836,7 +2836,7 @@ msgstr ""
 msgid "Subscription Plans"
 msgstr ""
 
-#: extend/profile-builder/functions-email-confirmation.php:120, includes/views/shortcodes/view-shortcode-new-subscription-form.php:41
+#: extend/profile-builder/functions-email-confirmation.php:120, includes/views/shortcodes/view-shortcode-new-subscription-form.php:47
 msgid "Subscribe"
 msgstr ""
 
@@ -2949,7 +2949,7 @@ msgstr ""
 msgid "Allow customers to create an account during checkout must be %1$sENABLED%2$s"
 msgstr ""
 
-#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:520
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:523
 msgid "Subscription canceled from PMS Account."
 msgstr ""
 
@@ -4534,7 +4534,7 @@ msgstr ""
 msgid "Original: %s"
 msgstr ""
 
-#: add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:228, includes/admin/views/view-page-payments-add-new-edit.php:267, includes/admin/views/view-page-settings-misc.php:236, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:61, includes/views/shortcodes/view-shortcode-account-subscription-details.php:173, includes/views/shortcodes/view-shortcode-account-subscription-details.php:171, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:172
+#: add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:228, includes/admin/views/view-page-payments-add-new-edit.php:267, includes/admin/views/view-page-settings-misc.php:241, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:61, includes/views/shortcodes/view-shortcode-account-subscription-details.php:173, includes/views/shortcodes/view-shortcode-account-subscription-details.php:171, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:174
 msgid "Cancel"
 msgstr ""
 
@@ -4758,7 +4758,7 @@ msgstr ""
 msgid "Member removed successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:912, add-ons-pro/group-memberships/includes/class-group-memberships.php:940, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1517, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:975
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:912, add-ons-pro/group-memberships/includes/class-group-memberships.php:940, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1516, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:943, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:982
 msgid "Something went wrong, please try again."
 msgstr ""
 
@@ -4794,7 +4794,7 @@ msgstr ""
 msgid "Company Details are required in order to create invoices."
 msgstr ""
 
-#: add-ons-pro/invoices/includes/functions-admin.php:91, add-ons-pro/invoices/includes/functions-invoices.php:198, add-ons-pro/invoices/includes/functions-invoices.php:377, add-ons-pro/invoices/includes/functions-invoices.php:460, add-ons-pro/tax/includes/class-tax.php:354, add-ons-pro/tax/includes/class-tax.php:489, add-ons-pro/invoices/includes/templates/default.php:24, add-ons-pro/invoices/includes/templates/default.php:151, add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:68
+#: add-ons-pro/invoices/includes/functions-admin.php:91, add-ons-pro/invoices/includes/functions-invoices.php:198, add-ons-pro/invoices/includes/functions-invoices.php:379, add-ons-pro/invoices/includes/functions-invoices.php:462, add-ons-pro/tax/includes/class-tax.php:354, add-ons-pro/tax/includes/class-tax.php:489, add-ons-pro/invoices/includes/templates/default.php:24, add-ons-pro/invoices/includes/templates/default.php:151, add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:68
 msgid "Invoice"
 msgstr ""
 
@@ -4810,11 +4810,11 @@ msgstr ""
 msgid "Invoice-%d"
 msgstr ""
 
-#: add-ons-pro/invoices/includes/functions-invoices.php:402, add-ons-pro/invoices/includes/functions-invoices.php:435
+#: add-ons-pro/invoices/includes/functions-invoices.php:404, add-ons-pro/invoices/includes/functions-invoices.php:437
 msgid "Download Invoice"
 msgstr ""
 
-#: add-ons-pro/invoices/includes/functions-invoices.php:472
+#: add-ons-pro/invoices/includes/functions-invoices.php:474
 msgid "Payments & Invoices"
 msgstr ""
 
@@ -5058,39 +5058,39 @@ msgstr ""
 msgid "Credit / Debit Card Information"
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:855, includes/gateways/stripe/functions-filters.php:63
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:854, includes/gateways/stripe/functions-filters.php:63
 msgid "Payment Intent created."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:858, includes/gateways/stripe/functions-filters.php:69
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:857, includes/gateways/stripe/functions-filters.php:69
 msgid "Attempting to confirm Payment Intent."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:861, includes/gateways/stripe/functions-filters.php:72
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:860, includes/gateways/stripe/functions-filters.php:72
 msgid "Payment Intent confirmed successfully."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:864, includes/gateways/stripe/functions-filters.php:78
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:863, includes/gateways/stripe/functions-filters.php:78
 msgid "3D Secure authentication required. An email with the confirmation link was sent to the user."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:867, includes/gateways/stripe/functions-filters.php:81
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:866, includes/gateways/stripe/functions-filters.php:81
 msgid "3D Secure authentication is successful."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:870, includes/gateways/stripe/functions-filters.php:84
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:869, includes/gateways/stripe/functions-filters.php:84
 msgid "3D Secure authentication has failed."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:873, includes/gateways/stripe/functions-filters.php:87
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:872, includes/gateways/stripe/functions-filters.php:87
 msgid "The user did not click on the confirmation link that was sent."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:876, includes/gateways/stripe/functions-filters.php:90
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:875, includes/gateways/stripe/functions-filters.php:90
 msgid "User returned to the website for authentication."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1526, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:984
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1525, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:991
 msgid "Payment method updated successfully."
 msgstr ""
 
@@ -6094,7 +6094,7 @@ msgstr ""
 msgid "Payment Gateway"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:464, includes/admin/views/view-page-settings-misc.php:248
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:464, includes/admin/views/view-page-settings-misc.php:256
 msgid "Payment Retry"
 msgstr ""
 
@@ -6650,35 +6650,35 @@ msgstr ""
 msgid "Disabled Subscription Actions"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:228, includes/views/shortcodes/view-shortcode-account-subscription-details.php:142, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:145
+#: includes/admin/views/view-page-settings-misc.php:229, includes/views/shortcodes/view-shortcode-account-subscription-details.php:142, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:145
 msgid "Change"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:232, includes/views/shortcodes/view-shortcode-account-subscription-details.php:168, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:169
+#: includes/admin/views/view-page-settings-misc.php:235, includes/views/shortcodes/view-shortcode-account-subscription-details.php:168, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:171
 msgid "Renew"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:240, includes/views/shortcodes/view-shortcode-account-subscription-details.php:188, includes/views/shortcodes/view-shortcode-account-subscription-details.php:186, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:182
+#: includes/admin/views/view-page-settings-misc.php:247, includes/views/shortcodes/view-shortcode-account-subscription-details.php:188, includes/views/shortcodes/view-shortcode-account-subscription-details.php:186, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:184
 msgid "Abandon"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:244
+#: includes/admin/views/view-page-settings-misc.php:252
 msgid "Select which subscription actions should be disabled on the [pms-account] shortcode."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:251
+#: includes/admin/views/view-page-settings-misc.php:259
 msgid "Maximum number of retries"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:253
+#: includes/admin/views/view-page-settings-misc.php:261
 msgid "Enter how many retries the payment retry functionality should attempt."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:257
+#: includes/admin/views/view-page-settings-misc.php:265
 msgid "Retry Interval"
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:259
+#: includes/admin/views/view-page-settings-misc.php:267
 msgid "Enter the interval between retries for the payment retry functionality."
 msgstr ""
 
@@ -6974,7 +6974,7 @@ msgstr ""
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1676
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1683
 msgid "Payment Details"
 msgstr ""
 
@@ -7560,7 +7560,7 @@ msgid "Invoice Settings"
 msgstr ""
 
 #: add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:64
-msgid "For invoice title and format you can use the following tags: <code>{{number}}</code>, <code>{{MM}}</code>, <code>{{YYYY}}</code>"
+msgid "For invoice title and format you can use the following tags: <code>%s</code>, <code>%s</code>, <code>%s</code>, <code>%s</code>"
 msgstr ""
 
 #: add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:67
@@ -7576,7 +7576,7 @@ msgid "Format"
 msgstr ""
 
 #: add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:75
-msgid "<strong>Note</strong>: {{number}} is required."
+msgid "<strong>Note</strong>: <code>%s</code> is required."
 msgstr ""
 
 #: add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:79
