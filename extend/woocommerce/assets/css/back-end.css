@@ -90,3 +90,92 @@
     margin: 0.5em 0;
 }
 
+@media screen and (max-width: 782px) {
+    #pms-woo-product-membership-discounts,
+    #pms-woo-subscription-product-discounts {
+        display: flex;
+    }
+
+    #pms-woo-product-membership-discounts tbody tr.pms-woo-product-membership-discount,
+    #pms-woo-subscription-product-discounts tbody tr.pms-woo-subscription-product-discount {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 50px;
+    }
+
+    #pms-woo-product-membership-discounts thead tr,
+    #pms-woo-subscription-product-discounts thead tr {
+        display: none;
+    }
+
+    #pms-woo-subscription-product-discounts tbody {
+        width: 100%;
+    }
+
+    #pms-woo-product-membership-discounts tbody tr.pms-woo-product-membership-discount td,
+    #pms-woo-subscription-product-discounts tbody tr.pms-woo-subscription-product-discount td {
+        width: 100%;
+        padding: 0;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    #pms-woo-product-membership-discounts tbody tr.pms-woo-product-membership-discount td:last-of-type,
+    #pms-woo-subscription-product-discounts tbody tr.pms-woo-subscription-product-discount td:last-of-type {
+        justify-content: flex-end;
+    }
+
+    #pms-woo-product-membership-discounts tbody tr.pms-woo-product-membership-discount td:before,
+    #pms-woo-subscription-product-discounts tbody tr.pms-woo-subscription-product-discount td:before {
+        flex-basis: 150px;
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 16px;
+        color: #1E1E1E;
+    }
+
+    #pms-woo-subscription-product-discounts tbody tr.pms-woo-subscription-product-discount td:nth-child(1):before {
+        content: 'Discount for';
+    }
+
+    #pms-woo-subscription-product-discounts tbody tr.pms-woo-subscription-product-discount td:nth-child(2):before {
+        content: 'Name';
+    }
+
+    #pms-woo-subscription-product-discounts tbody tr.pms-woo-subscription-product-discount td:nth-child(3):before {
+        content: 'Type';
+    }
+
+    #pms-woo-subscription-product-discounts tbody tr.pms-woo-subscription-product-discount td:nth-child(4):before {
+        content: 'Amount';
+    }
+
+    #pms-woo-subscription-product-discounts tbody tr.pms-woo-subscription-product-discount td:nth-child(5):before {
+        content: 'Status';
+    }
+
+    #pms-woo-subscription-product-discounts tbody tr td .pms-select-name {
+        height: auto;
+    }
+
+    #pms-woo-product-membership-discounts tbody tr.pms-woo-product-membership-discount td:nth-child(1):before {
+        content: 'Subscription plan';
+    }
+
+    #pms-woo-product-membership-discounts tbody tr.pms-woo-product-membership-discount td:nth-child(2):before {
+        content: 'Type';
+    }
+
+    #pms-woo-product-membership-discounts tbody tr.pms-woo-product-membership-discount td:nth-child(3):before {
+        content: 'Amount';
+    }
+
+    #pms-woo-product-membership-discounts tbody tr.pms-woo-product-membership-discount td:nth-child(4):before {
+        content: 'Status';
+    }
+
+}

@@ -24,13 +24,27 @@ function pms_stripe_connect_handle_authorization_return(){
     if( !empty( $_POST['stripe_secret_key'] ) )
         update_option( 'pms_stripe_connect_'. $environment .'_secret_key', sanitize_text_field( $_POST['stripe_secret_key'] ) );
 
-    $redirect_url = add_query_arg( array(
+	if( isset( $_POST['return_location'] ) && $_POST['return_location'] == 'setup' ){
+
+		$redirect_url = add_query_arg( array(
+            'page'                       => 'pms-setup',
+            'step'                       => 'payments',
+            'pms_stripe_connect_success' => 1,
+        ),
+			admin_url( 'index.php' )
+		);
+
+	} else {
+
+		$redirect_url = add_query_arg( array(
             'page'                       => 'pms-settings-page',
             'tab'                        => 'payments',
             'pms_stripe_connect_success' => 1,
         ),
-        admin_url( 'admin.php#pms-stripe__gateway-settings' ) 
-    );
+			admin_url( 'admin.php#pms-stripe__gateway-settings' )
+		);
+
+	}
 
     // set account country
     $gateway = new PMS_Payment_Gateway_Stripe_Connect();
@@ -116,17 +130,17 @@ function pms_stripe_add_payment_gateway_admin_subscription_fields( $subscription
     $stripe_card_id = ( ! empty( $_POST['_stripe_card_id'] ) ? sanitize_text_field( $_POST['_stripe_card_id'] ) : $stripe_card_id );
 
     // Stripe Customer ID
-    echo '<div class="pms-meta-box-field-wrapper">';
+    echo '<div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">';
 
-        echo '<label for="pms-subscription-stripe-customer-id" class="pms-meta-box-field-label">' . esc_html__( 'Stripe Customer ID', 'paid-member-subscriptions' ) . '</label>';
+        echo '<label for="pms-subscription-stripe-customer-id" class="pms-meta-box-field-label cozmoslabs-form-field-label">' . esc_html__( 'Stripe Customer ID', 'paid-member-subscriptions' ) . '</label>';
         echo '<input id="pms-subscription-stripe-customer-id" type="text" name="_stripe_customer_id" class="pms-subscription-field" value="' . esc_attr( $stripe_customer_id ) . '" />';
 
     echo '</div>';
 
     // Stripe Card ID
-    echo '<div class="pms-meta-box-field-wrapper">';
+    echo '<div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">';
 
-        echo '<label for="pms-subscription-stripe-card-id" class="pms-meta-box-field-label">' . esc_html__( 'Stripe Card ID', 'paid-member-subscriptions' ) . '</label>';
+        echo '<label for="pms-subscription-stripe-card-id" class="pms-meta-box-field-label cozmoslabs-form-field-label">' . esc_html__( 'Stripe Card ID', 'paid-member-subscriptions' ) . '</label>';
         echo '<input id="pms-subscription-stripe-card-id" type="text" name="_stripe_card_id" class="pms-subscription-field" value="' . esc_attr( $stripe_card_id ) . '" />';
 
     echo '</div>';
@@ -369,11 +383,11 @@ function pms_stripe_add_settings_content( $options ) {
 
 	if( in_array( 'stripe_connect', $options['active_pay_gates'] ) ) :
 
-		echo '<div class="pms-payment-gateway-wrapper">';
+		echo '<div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-stripe-connect-configs">';
 
-			echo '<h4 class="pms-payment-gateway-title" id="pms-stripe__gateway-settings">'
+			echo '<h4 class="cozmoslabs-subsection-title" id="pms-stripe__gateway-settings">'
 					. esc_html__( 'Stripe', 'paid-member-subscriptions' ) .
-					'<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/stripe-payment-gateway/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Entering_your_Stripe_API_Credentials" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+					'<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Initial_Setup" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
 				</h4>';
 
 			if( in_array( 'stripe_connect', $options['active_pay_gates'] ) ) :
@@ -393,71 +407,72 @@ function pms_stripe_add_settings_content( $options ) {
 
 							echo '<p>' . esc_html__( 'An error happened with the connection of your Stripe account. Stripe is reporting the following error: ', 'paid-member-subscriptions' ) . '</p>';
 
-								echo '<p class="pms-stripe-connect__settings-error">' . esc_html( $connection_status['message'] ) . '</p>';
+								echo '<p class="cozmoslabs-stripe-connect__settings-error">' . esc_html( $connection_status['message'] ) . '</p>';
 
 							echo '<p>' . esc_html__( 'Please reload the page and connect your account again in order to receive payments.', 'paid-member-subscriptions' ) . '</p>';
 
 						} else if( $connection_status != false ){
 
-							echo '<div class="pms-form-field-wrapper">';
+							echo '<div class="cozmoslabs-form-field-wrapper">';
 
-								echo '<label class="pms-form-field-label" for="stripe-connect-webhook-url">' . esc_html__( 'Connection Status', 'paid-member-subscriptions' ) . '</label>';
+								echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-webhook-url">' . esc_html__( 'Connection Status', 'paid-member-subscriptions' ) . '</label>';
 
-								echo '<span class="'. ( pms_is_payment_test_mode() ? 'pms-stripe-connect__settings-warning' : 'pms-stripe-connect__settings-success' ) .'">'. esc_html__( 'Success', 'paid-member-subscriptions' ) .'</span>';
+								echo '<span class="'. ( pms_is_payment_test_mode() ? 'cozmoslabs-stripe-connect__settings-warning' : 'cozmoslabs-stripe-connect__settings-success' ) .'">'. esc_html__( 'Success', 'paid-member-subscriptions' ) .'</span>';
+
+                                if( pms_is_payment_test_mode() )
+                                    echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . sprintf( esc_html__( 'Your account is connected successfully in %s mode. You can start accepting test payments.', 'paid-member-subscriptions' ), '<span class="cozmoslabs-stripe-connect__connection--test">TEST</span>' ) . '</p>';
+                                else
+                                    echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . sprintf( esc_html__( 'Your account is connected successfully in %s mode. You can start accepting payments.', 'paid-member-subscriptions' ), '<span class="cozmoslabs-stripe-connect__connection--live">LIVE</span>' ) . '</p>';
+
 
 							echo '</div>';
-
-							if( pms_is_payment_test_mode() )
-								echo '<p style="font-size:110%;margin-top:0px;">' . sprintf( esc_html__( 'Your account is connected successfully in %s mode. You can start accepting test payments.', 'paid-member-subscriptions' ), '<span class="pms-stripe-connect__connection--test">TEST</span>' ) . '</p>';
-							else
-								echo '<p style="font-size:110%;margin-top:0px;">' . sprintf( esc_html__( 'Your account is connected successfully in %s mode. You can start accepting payments.', 'paid-member-subscriptions' ), '<span class="pms-stripe-connect__connection--live">LIVE</span>' ) . '</p>';
 
 							$serial_number        = pms_get_serial_number();
 							$serial_number_status = pms_get_serial_number_status();
 
 							if ( pms_is_paid_version_active() && ( empty( $serial_number ) || $serial_number_status != 'valid' ) )
-								echo '<p style="font-size:110%;margin-top:0px;border:1px solid #ffb900;padding: 12px;margin-bottom: 0px;">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is expired. Go to your %sCozmoslabs Account%s page in order to renew.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=stripe-connect-fee-notice">', '</a>' ) ) . '</p>';
+								echo '<p class="cozmoslabs-description cozmoslabs-stripe-connect__notice">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is expired. Go to your %sCozmoslabs Account%s page in order to renew.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=stripe-connect-fee-notice">', '</a>' ) ) . '</p>';
 							elseif( !pms_is_paid_version_active() && empty( $serial_number ) )
-								echo '<p style="font-size:110%;margin-top:0px;border:1px solid #ffb900;padding: 12px;margin-bottom: 0px;">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments done through Stripe include a <strong>2%% fee</strong> because you\'re using the free version of Paid Member Subscriptions. <br>This fee goes to the Paid Member Subscriptions team and is used to continue supporting the development of this gateway and the plugin in general. <br>Users with an active license key will not be charged this fee, %sclick here%s to purchase one.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=stripe-connect-fee-notice" target="_blank">', '</a>' ) ) . '</p>';
+								echo '<p class="cozmoslabs-description cozmoslabs-stripe-connect__notice">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments done through Stripe include a <strong>2%% fee</strong> because you\'re using the free version of Paid Member Subscriptions. <br>This fee goes to the Paid Member Subscriptions team and is used to continue supporting the development of this gateway and the plugin in general. <br>Users with an active license key will not be charged this fee, %sclick here%s to purchase one.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=stripe-connect-fee-notice" target="_blank">', '</a>' ) ) . '</p>';
 
 						}
 
 						echo '<div class="pms-stripe-connect__settings">';
-							echo '<div class="pms-form-field-wrapper">';
+							echo '<div class="cozmoslabs-form-field-wrapper">';
 
-								echo '<label class="pms-form-field-label" for="stripe-connect-webhook-url">' . esc_html__( 'Webhooks Status', 'paid-member-subscriptions' ) . '</label>';
+								echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-webhook-url">' . esc_html__( 'Webhooks Status', 'paid-member-subscriptions' ) . '</label>';
 
 								$webhook_status = get_option( 'pms_stripe_connect_webhook_connection', false );
 
 								if( empty( $webhook_status ) ){
 
-									echo '<span class="pms-stripe-connect__settings-warning">'. esc_html__( 'Waiting for data', 'paid-member-subscriptions' ) .'</span>';
-									echo '<p class="description">' . esc_html__( 'When the status above changes to Connected, the website has started processing webhook data from Stripe.', 'paid-member-subscriptions' ) . '</p>';
+									echo '<span class="cozmoslabs-stripe-connect__settings-warning">'. esc_html__( 'Waiting for data', 'paid-member-subscriptions' ) .'</span>';
+									echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'When the status changes to Connected, the website has started processing webhook data from Stripe.', 'paid-member-subscriptions' ) . '</p>';
 
 								} elseif( !empty( $webhook_status ) && $webhook_status < strtotime('-14 days') ) {
 
-									echo '<span class="pms-stripe-connect__settings-warning" style="font-size: 100%">'. esc_html__( 'Unknown', 'paid-member-subscriptions' ) .'</span>';
-									echo '<p class="description">' . esc_html__( 'Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Stripe Account.', 'paid-member-subscriptions' ) . '</p>';
+									echo '<span class="cozmoslabs-stripe-connect__settings-warning" style="font-size: 100%">'. esc_html__( 'Unknown', 'paid-member-subscriptions' ) .'</span>';
+									echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Stripe Account.', 'paid-member-subscriptions' ) . '</p>';
 
 								} else {
 
 									$date_format = get_option('date_format');
 									$time_format = get_option('time_format');
 
-									echo '<span class="pms-stripe-connect__settings-success" style="font-size: 100%">'. esc_html__( 'Connected', 'paid-member-subscriptions' ) .'</span>';
-									echo '<p class="description">' . wp_kses_post( sprintf( __( 'Webhooks are connected successfully. Last webhook received at: %s', 'paid-member-subscriptions' ), '<strong>' . date_i18n( $date_format . ' ' . $time_format, $webhook_status ) . '</strong>' ) ). '</p>';
+									echo '<span class="cozmoslabs-stripe-connect__settings-success" style="font-size: 100%">'. esc_html__( 'Connected', 'paid-member-subscriptions' ) .'</span>';
+									echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . wp_kses_post( sprintf( __( 'Webhooks are connected successfully. Last webhook received at: %s', 'paid-member-subscriptions' ), '<strong>' . date_i18n( $date_format . ' ' . $time_format, $webhook_status ) . '</strong>' ) ). '</p>';
 
 								}
 
 							echo '</div>';
 
-							echo '<div class="pms-form-field-wrapper">';
+							echo '<div class="cozmoslabs-form-field-wrapper">';
 
-								echo '<label class="pms-form-field-label" for="stripe-connect-webhook-url">' . esc_html__( 'Webhooks URL', 'paid-member-subscriptions' ) . '</label>';
+								echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-webhook-url">' . esc_html__( 'Webhooks URL', 'paid-member-subscriptions' ) . '</label>';
 
-								echo '<input id="stripe-connect-webhook-url" type="text" name="stripe_connect_webhook_url" value="' . esc_url( add_query_arg( 'pay_gate_listener', 'stripe', trailingslashit( home_url() ) ) ) . '" class="widefat" disabled /><a class="stripe-connect__copy" data-id="stripe-connect-webhook-url" href="" style="margin-left: 4px;">Copy</a>';
+								echo '<input id="stripe-connect-webhook-url" type="text" name="stripe_connect_webhook_url" value="' . esc_url( add_query_arg( 'pay_gate_listener', 'stripe', trailingslashit( home_url() ) ) ) . '" class="widefat" disabled /><a class="stripe-connect__copy button-secondary" data-id="stripe-connect-webhook-url" href="" style="margin-left: 4px;">Copy</a>';
 
-								echo '<p class="description">' . wp_kses_post( sprintf( __( 'Copy this URL and configure it in your Stripe Account under Developers -> Webhooks -> Add Endpoint. %sClick here%s to see the list of necessary events and learn more. ', 'paid-member-subscriptions' ), '<br><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/">', '</a>' ) ) . '</p>';
+								echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . wp_kses_post( sprintf( __( 'Copy this URL and configure it in your Stripe Account under Developers -> Webhooks -> Add Endpoint. %sClick here%s to see the list of necessary events and learn more. ', 'paid-member-subscriptions' ), '<br><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/">', '</a>' ) ) . '</p>';
 
 							echo '</div>';
 
@@ -471,28 +486,15 @@ function pms_stripe_add_settings_content( $options ) {
 								$stripe_connect_base_url
 							);
 							
-							echo '<div class="pms-form-field-wrapper">';
+							echo '<div class="cozmoslabs-form-field-wrapper">';
 
-								echo '<label class="pms-form-field-label" for="stripe-connect-webhook-url">' . esc_html__( 'Disconnect', 'paid-member-subscriptions' ) . '</label>';
+								echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-webhook-url">' . esc_html__( 'Disconnect', 'paid-member-subscriptions' ) . '</label>';
 
-								echo '<a class="pms-stripe-connect__disconnect-handler" href="'. esc_url( $stripe_disconnect_link ) .'">Disconnect</a>';
+								echo '<a class="pms-stripe-connect__disconnect-handler button-secondary" href="'. esc_url( $stripe_disconnect_link ) .'">Disconnect</a>';
 
-								echo '<p class="description">' . esc_html__( 'Disconnecting your account will stop all payments from being processed.', 'paid-member-subscriptions' ) . '</p>';
+								echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Disconnecting your account will stop all payments from being processed.', 'paid-member-subscriptions' ) . '</p>';
 
 							echo '</div>';
-
-							// echo '<div class="pms-form-field-wrapper">';
-
-							// 	echo '<label class="pms-form-field-label" for="stripe-connect-payment-request">' . esc_html__( 'Apple Pay or Google Pay', 'paid-member-subscriptions' ) . '</label>';
-
-							// 	echo '<select id="stripe-connect-payment-request" name="pms_payments_settings[stripe_connect_payment_request]">';
-							// 		echo '<option value="disabled"' . ( isset( $options['stripe_connect_payment_request'] ) ? selected( $options['stripe_connect_payment_request'], 'disabled', true ) : '' ) .' >' . __( 'Disabled', 'paid-member-subscriptions' ) . '</option>';
-							// 		echo '<option value="enabled"' . ( isset( $options['stripe_connect_payment_request'] ) ? selected( $options['stripe_connect_payment_request'], 'enabled', true ) : '' ) .' >' . __( 'Enabled', 'paid-member-subscriptions' ) . '</option>';
-							// 	echo '</select>';
-
-							// 	echo '<p class="description">' . esc_html__( 'Enabling this functionality will allow your users to pay using Apple Pay or Google Pay.', 'paid-member-subscriptions' ) . '</p>';
-
-							// echo '</div>';
 
 						echo '</div>';
 
@@ -503,13 +505,13 @@ function pms_stripe_add_settings_content( $options ) {
 							if( !empty( $_GET['error'] ) ){
 								$error = sanitize_text_field( $_GET['error'] );
 
-								echo '<p class="pms-stripe-connect__settings-error">'. esc_html( $error ) . '</p>';
+								echo '<p class="cozmoslabs-stripe-connect__settings-error">'. esc_html( $error ) . '</p>';
 							} else {
 
 								$error_code = sanitize_text_field( $_GET['code'] );
 
 								if( $error_code == 'generic_error' ){
-									echo '<p class="pms-stripe-connect__settings-error">' . esc_html__( 'Something went wrong, please attempt the connection again.', 'paid-member-subscriptions' ) . '</p>';
+									echo '<p class="cozmoslabs-stripe-connect__settings-error">' . esc_html__( 'Something went wrong, please attempt the connection again.', 'paid-member-subscriptions' ) . '</p>';
 								}
 
 							}
@@ -525,11 +527,12 @@ function pms_stripe_add_settings_content( $options ) {
 							$stripe_connect_base_url
 						);
 
-						echo '<a href="'. esc_url( $stripe_connect_link ) .'" class="pms-stripe-connect__button"><img src="' . esc_attr( PMS_PLUGIN_DIR_URL ) . 'includes/gateways/stripe/assets/img/stripe-connect.png" /></a><br>';
-						echo '<p>' . esc_html__( 'Connect your existing Stripe account or create a new one to start accepting payments. Press the button above to start.', 'paid-member-subscriptions' ) . '<p>';
-
-						// if/else based on license status
-						//echo '<p><strong>NOTE:</strong> You are using the free Stripe payment gateway which includes an additional 2% fee for payments processing. <br>By purchasing a Paid Member Subscriptions license, this fee is removed. LINK TO DOCS EXPLAINING THIS AS WELL & BUY NOW</p>';
+						echo '<a href="'. esc_url( $stripe_connect_link ) .'" class="cozmoslabs-stripe-connect__button"><img src="' . esc_attr( PMS_PLUGIN_DIR_URL ) . 'includes/gateways/stripe/assets/img/stripe-connect.png" /></a><br>';
+						echo '<p class="cozmoslabs-description">'
+                                . esc_html__( 'Connect your existing Stripe account or create a new one to start accepting payments. Press the button above to start.', 'paid-member-subscriptions' ) .
+                                '<br>'
+                                . esc_html__( 'You will be redirected back here once the process is completed.', 'paid-member-subscriptions' ) .
+                             '<p>';
 
 					}
 

@@ -3,15 +3,15 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.9.6
+ * Version: 2.9.7
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * License: GPL2
  * WC requires at least: 3.0.0
  * WC tested up to: 7.9
- * Elementor tested up to: 3.14.0
- * Elementor Pro tested up to: 3.14.0
+ * Elementor tested up to: 3.15.0
+ * Elementor Pro tested up to: 3.15.0
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.9.6' );
+        define( 'PMS_VERSION', '2.9.7' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -353,10 +353,10 @@ Class Paid_Member_Subscriptions {
             $settings['currency'] = 'USD';
 
         if( !isset( $settings['active_pay_gates'] ) )
-            $settings['active_pay_gates'][] = 'paypal_standard';
+            $settings['active_pay_gates'][] = 'stripe_connect';
 
         if( !isset( $settings['default_payment_gateway'] ) )
-            $settings['default_payment_gateway'] = 'paypal_standard';
+            $settings['default_payment_gateway'] = 'stripe_connect';
 
         if( !isset( $settings['allow-downgrades'] ) )
             $settings['allow-downgrades'] = '1';
@@ -700,12 +700,6 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php';
 
-        /*
-         * Register Version
-         */
-
-        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-register-version.php' ) )
-            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-register-version.php';
 
         /*
          * Payment gateways
@@ -1137,6 +1131,10 @@ Class Paid_Member_Subscriptions {
     public function enqueue_admin_scripts() {
 
         wp_enqueue_style( 'pms-style-back-end', PMS_PLUGIN_DIR_URL . 'assets/css/style-back-end.css', array(), PMS_VERSION );
+
+        if ( isset( $_GET['page'] ) && $_GET['page'] === 'pms-settings-page' ) {
+            add_editor_style( PMS_PLUGIN_DIR_URL . 'assets/css/wysiwyg-editor-container-style.css' );
+        }
 
     }
 

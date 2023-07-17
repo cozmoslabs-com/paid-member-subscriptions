@@ -146,14 +146,14 @@ function pms_display_form_designs_preview() {
     $form_designs_data = array(
         array(
             'id' => 'form-style-default',
-            'name' => 'Default',
+            'name' => 'Default Style',
             'images' => array(
                 'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style-default.jpg',
             ),
         ),
         array(
             'id' => 'form-style-1',
-            'name' => 'Style 1',
+            'name' => 'Sublime',
             'images' => array(
                 'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style1-slide1.jpg',
                 'slide1' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style1-slide2.jpg',
@@ -161,7 +161,7 @@ function pms_display_form_designs_preview() {
         ),
         array(
             'id' => 'form-style-2',
-            'name' => 'Style 2',
+            'name' => 'Greenery',
             'images' => array(
                 'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style2-slide1.jpg',
                 'slide1' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style2-slide2.jpg',
@@ -169,7 +169,7 @@ function pms_display_form_designs_preview() {
         ),
         array(
             'id' => 'form-style-3',
-            'name' => 'Style 3',
+            'name' => 'Slim',
             'images' => array(
                 'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style3-slide1.jpg',
                 'slide1' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style3-slide2.jpg',
@@ -182,21 +182,16 @@ function pms_display_form_designs_preview() {
     foreach ( $form_designs_data as $form_design ) {
 
         if ( $form_design['id'] != 'form-style-default' )
-            $preview_button = '<div class="pms-forms-design-preview" id="'. $form_design['id'] .'-info">Preview</div>';
+            $preview_button = '<div class="pms-forms-design-preview button-secondary" id="'. $form_design['id'] .'-info">Preview</div>';
         else $preview_button = '';
 
         $output .= '
                 <div class="pms-forms-design" id="'. $form_design['id'] .'">
+                    <label>' . $form_design['name'] . '</label>
                    <div class="pms-forms-design-screenshot">
-                      <img src="' . $form_design['images']['main'] . '" alt="Form Design">
-                      '. $preview_button .'
-                   </div>
-                   <div class="pms-forms-design-details">
-                      <div class="pms-forms-design-title" style="border:none;">
-                         <h2>'. $form_design['name'] .'</h2>
-                      </div>
-
-                   </div>
+                        <img src="' . $form_design['images']['main'] . '" alt="Form Design">
+                        '. $preview_button .'
+                   </div>                       
                 </div>
         ';
 
@@ -233,4 +228,125 @@ function pms_display_form_designs_preview() {
     $output .= '</div>';
 
     return $output;
+}
+
+
+/**
+ * Register Version Form
+ *
+ */
+function pms_add_register_version_form() {
+
+    if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) && PAID_MEMBER_SUBSCRIPTIONS !== 'Paid Member Subscriptions Dev' )
+        return '';
+
+    $status  = pms_get_serial_number_status();
+    $license = pms_get_serial_number();
+
+    $output = '<div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-register-version">
+                    <h4 class="cozmoslabs-subsection-title">'. esc_html__( 'Register Website ', 'paid-member-subscriptions' ). '</h4>
+                    
+                    <form method="post" action="options.php">
+
+                        <div class="cozmoslabs-form-field-wrapper">
+                            <label class="cozmoslabs-form-field-label" for="pms_serial_number">'. esc_html__( 'License key', 'paid-member-subscriptions' ) .'</label>
+            
+                            <div class="cozmoslabs-serial-wrap__holder">
+                                <input id="pms_serial_number" name="pms_serial_number" type="password" class="regular-text" value="'. esc_attr( $license ) .'" />
+                                '.  wp_nonce_field( 'pms_license_nonce', 'pms_license_nonce' );
+
+
+   if( $status !== false && $status == 'valid' ) {
+        $button_name =  'pms_edd_license_deactivate';
+        $button_value = __('Deactivate License', 'paid-member-subscriptions' );
+
+        if( empty( $details['invalid'] ) )
+            $output .= '<span title="'. esc_html__( 'Active on this site', 'paid-member-subscriptions' ) .'" class="cozmoslabs-active-license dashicons dashicons-yes"></span>';
+        else
+            $output .= '<span title="'. esc_html__( 'Your license is invalid', 'paid-member-subscriptions' ) .'" class="cozmoslabs-invalid-license dashicons dashicons-warning"></span>';
+
+   } else {
+        $button_name =  'pms_edd_license_activate';
+        $button_value = __('Activate License', 'paid-member-subscriptions');
+   }
+
+    $output .= '                <input type="submit" class="button-secondary" name="'. esc_attr( $button_name ) .'" value="'. esc_attr( $button_value ) .'"/>
+                            </div>
+            
+                            <div class="cozmoslabs-description-container">
+                                <p class="cozmoslabs-description">'. esc_html__( 'Enter your license key. Your license key can be found in your Cozmoslabs account. ', 'paid-member-subscriptions' ) .'</p>
+                                <p class="cozmoslabs-description">'. esc_html__( 'You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required.', 'paid-member-subscriptions' ) .'</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>';
+
+    return $output;
+}
+
+
+/**
+ * Insert the PMS Admin area Header Banner
+ *
+ */
+function pms_insert_page_banner() {
+
+    if ( isset( $_GET['post_type'] ) )
+        $post_type = sanitize_text_field( $_GET['post_type'] );
+    elseif ( isset( $_GET['post'] ) )
+        $post_type = get_post_type( (int)$_GET['post'] );
+    elseif ( isset( $_GET['page'] ) )
+        $post_type = sanitize_text_field( $_GET['page'] );
+    else $post_type = '';
+
+    $page_name = '';
+    if ( $post_type == 'pms-addons-page' )
+        $page_name = ' Addons';
+
+    if ( !empty( $post_type ) && str_starts_with( $post_type, 'pms' ) )
+        pms_output_page_banner( $page_name );
+
+}
+add_action( 'in_admin_header', 'pms_insert_page_banner' );
+
+
+/**
+ * Output the PMS Admin area Header Banner content
+ *
+ */
+function pms_output_page_banner( $page_name ) {
+
+    $page_title = '';
+    if ( !empty( $page_name ) )
+        $page_title = ' ' . $page_name;
+
+    $upgrade_button = '<a class="cozmoslabs-banner-link cozmoslabs-upgrade-link" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=general-settings-link&utm_campaign=PMSFree#pricing-vers" target="_blank">
+                         <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/upgrade-link-icon.svg" alt="">
+                         Upgrade to PRO
+                       </a>';
+
+
+    $output = '<div class="cozmoslabs-banner">
+                   <div class="cozmoslabs-banner-title">
+                       <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/pms-logo.svg" alt="">
+                       <h4>Paid Member Subscriptions'. $page_title .'</h4>
+                   </div>
+                   <div class="cozmoslabs-banner-buttons">
+                       <a class="cozmoslabs-banner-link cozmoslabs-support-link" href="https://www.cozmoslabs.com/support?utm_source=wpbackend&utm_medium=pms-support&utm_campaign=PMSSupport" target="_blank">
+                           <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/support-link-icon.svg" alt="">
+                           Support
+                       </a>
+               
+                       <a class="cozmoslabs-banner-link cozmoslabs-documentation-link" href="https://www.cozmoslabs.com/docs/paid-member-subscriptions?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank">
+                           <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/docs-link-icon.svg" alt="">
+                           Documentation
+                       </a>';
+
+    if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) )
+        $output .= $upgrade_button;
+
+    $output .= '    </div>
+                </div>';
+
+    echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }

@@ -175,12 +175,12 @@ function pms_output_form_field( $field = array() ) {
 	    $field_element_wrapper = ( ! empty( $field['element_wrapper'] ) ? $field['element_wrapper'] : 'div' );
 
 	    // Opening element tag of the field
-	    echo '<' . esc_attr( $field_element_wrapper ) . ' class="pms-field pms-field-type-' . esc_attr( $field['type'] ) . ' ' . ( ! empty( $field['required'] ) ? 'pms-field-required' : '' ) . ' ' . ( ! empty( $field['wrapper_class'] ) ? esc_attr( $field['wrapper_class'] ) : '' ) . '">';
+	    echo '<' . esc_attr( $field_element_wrapper ) . ' class="cozmoslabs-form-field-wrapper pms-field pms-field-type-' . esc_attr( $field['type'] ) . ' ' . ( ! empty( $field['required'] ) ? 'pms-field-required' : '' ) . ' ' . ( ! empty( $field['wrapper_class'] ) ? esc_attr( $field['wrapper_class'] ) : '' ) . '">';
 
 	    // Field label
 	    if( ! empty( $field['label'] ) ) {
 
-	    	echo '<label ' . ( ! empty( $field['name'] ) ? 'for="' . esc_attr( $field['name'] ) . '"' : '' ) . '>';
+	    	echo '<label ' . ( ! empty( $field['name'] ) ? 'for="' . esc_attr( $field['name'] ) . '"' : '' ) . ' class="cozmoslabs-form-field-label">';
 
 	    		echo esc_attr( $field['label'] );
 
@@ -191,21 +191,17 @@ function pms_output_form_field( $field = array() ) {
 
 	    }
 
-	    echo '<div class="pms-field-input-container">';
-
-			/**
-			 * Action hook to dynamically add the actual input HTML for the field
-			 *
-			 * @param array $field
-			 *
-			 */
-			do_action( 'pms_output_form_field_inner_' . $field['type'], $field );
-
-	    echo '</div>';
+        /**
+         * Action hook to dynamically add the actual input HTML for the field
+         *
+         * @param array $field
+         *
+         */
+        do_action( 'pms_output_form_field_inner_' . $field['type'], $field );
 
 	    // Field description
 	    if( ! empty( $field['description'] ) )
-	        echo '<p class="pms-field-description">' . esc_attr( $field['description'] ) . '</p>';
+	        echo '<p class="pms-field-description cozmoslabs-description cozmoslabs-description-align-right">' . esc_attr( $field['description'] ) . '</p>';
 
 	    // Field errors
 	    if( ! empty( $field['name'] ) ) {

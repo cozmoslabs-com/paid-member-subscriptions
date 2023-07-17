@@ -42,9 +42,12 @@ function pms_woo_content_restrict_add_purchasing_restricted_message( $post_id ){
 
         if ( !empty($post_type) && ($post_type == 'product') ) {
 
-            // this is a WooCommerce product, so we will display the editor for customizing the purchasing restricted message.
-            echo '<p><strong>' . esc_html( __( 'Messages for restricted product purchase', 'paid-member-subscriptions' ) ) . '</strong></p>';
-            wp_editor( wp_kses_post( get_post_meta( $post_id, 'pms-content-restrict-message-purchasing_restricted', true ) ), 'messages_purchasing_restricted', array( 'textarea_name' => 'pms-content-restrict-message-purchasing_restricted', 'editor_height' => 200 ) );
+            echo '<div class="cozmoslabs-form-field-wrapper cozmoslabs-wysiwyg-wrapper cozmoslabs-wysiwyg-indented">
+    
+                    <label class="cozmoslabs-form-field-label">' . esc_html(__( 'Messages for restricted product purchase', 'paid-member-subscriptions' ) ). '</label>';
+                    wp_editor( wp_kses_post( get_post_meta( $post_id, 'pms-content-restrict-message-purchasing_restricted', true ) ), 'messages_purchasing_restricted', array( 'textarea_name' => 'pms-content-restrict-message-purchasing_restricted', 'editor_height' => 180 ) );
+
+            echo '</div>';
 
         }
     }
@@ -60,13 +63,15 @@ add_action( 'pms_view_meta_box_content_restrict_restriction_messages_bottom', 'p
  */
 function pms_woo_settings_page_add_default_purchasing_restricted_message( $options ) {
 
-    echo '<h4 class="pms-subsection-title">' . esc_html( __( 'WooCommerce Restriction Messages', 'paid-member-subscriptions' ) ) . '</h4>';
+    echo '<div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-restriction-woo-product">';
+        echo '<h4 class="cozmoslabs-subsection-title">' . esc_html( __( 'WooCommerce Restriction Messages', 'paid-member-subscriptions' ) ) . '</h4>';
 
-    echo '<div class="pms-form-field-wrapper">
+        echo '<div class="cozmoslabs-form-field-wrapper cozmoslabs-wysiwyg-wrapper cozmoslabs-wysiwyg-indented">
+    
+                <label class="cozmoslabs-form-field-label">' . esc_html(__( 'Messages for restricted product purchase', 'paid-member-subscriptions' ) ). '</label>';
+        wp_editor( pms_get_restriction_content_message( 'purchasing_restricted' ), 'messages_purchasing_restricted', array( 'textarea_name' => 'pms_content_restriction_settings[purchasing_restricted]', 'editor_height' => 180 ) );
 
-            <label class="pms-form-field-label">' . esc_html(__( 'Messages for restricted product purchase', 'paid-member-subscriptions' ) ). '</label>';
-    wp_editor( pms_get_restriction_content_message( 'purchasing_restricted' ), 'messages_purchasing_restricted', array( 'textarea_name' => 'pms_content_restriction_settings[purchasing_restricted]', 'editor_height' => 250 ) );
-
+        echo '</div>';
     echo '</div>';
 
 }

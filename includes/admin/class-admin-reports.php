@@ -206,7 +206,9 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      */
     public function output_filters() {
 
-        echo '<select name="pms-filter-time">';
+        echo '<label class="cozmoslabs-form-field-label" for="pms-reports-filter-month">' . esc_html__( 'Select Month', 'paid-member-subscriptions' ) . '</label>';
+
+        echo '<select name="pms-filter-time" id="pms-reports-filter-month">';
 
             echo '<option value="current_month">' . esc_html__( 'Current month', 'paid-member-subscriptions' ) . '</option>';
 
@@ -234,11 +236,22 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                 $payments_amount += $payment->amount;
         }
 
-        echo '<div class="postbox">';
+        echo '<div class="postbox cozmoslabs-form-subsection-wrapper">';
+        echo '<h4 class="cozmoslabs-subsection-title">' . esc_html__( 'Summary', 'paid-member-subscriptions' ) . '</h4>';
             echo '<div class="inside">';
-                echo '<h4>' . esc_html__( 'Summary', 'paid-member-subscriptions' ) . '</h4>';
-                echo '<p>' . esc_html__( 'Total earnings for the selected period: ', 'paid-member-subscriptions' ) . '<strong>' . esc_html( pms_format_price( $payments_amount, pms_get_active_currency() ) ) . '</strong>' . '</p>';
-                echo '<p>' . esc_html__( 'Total number of payments for the selected period: ', 'paid-member-subscriptions' ) . '<strong>' . esc_html( $payments_count ) . '</strong>' . '</p>';
+
+                echo '<div class="cozmoslabs-form-field-wrapper">';
+                    echo '<label class="pms-form-field-label cozmoslabs-form-field-label" for="pms-reports-total-earnings">' . esc_html__( 'Total Earnings', 'paid-member-subscriptions' ) . '</label>';
+                    echo '<input id="pms-reports-total-earnings" type="text" value="' . esc_html( pms_format_price( $payments_amount, pms_get_active_currency() ) ) . '" disabled />';
+                    echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Total earnings for the selected period', 'paid-member-subscriptions' ) . '</p>';
+                echo '</div>';
+
+                echo '<div class="cozmoslabs-form-field-wrapper">';
+                    echo '<label class="pms-form-field-label cozmoslabs-form-field-label" for="pms-reports-total-payments">' . esc_html__( 'Total Payments', 'paid-member-subscriptions' ) . '</label>';
+                    echo '<input id="pms-reports-total-payments" type="text" value="' . esc_html( $payments_count ) . '" disabled />';
+                    echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Total number of payments for the selected period', 'paid-member-subscriptions' ) . '</p>';
+                echo '</div>';
+
             echo '</div>';
         echo '</div>';
 

@@ -142,33 +142,44 @@ Class PMS_Members_Add_New_Bulk_List_Table extends WP_List_Table {
      */
     public function extra_tablenav( $which ) {
 
-        if( $which == 'top' ) {
+        if( $which == 'bottom' ) {
 
             $subscription_plans = pms_get_subscription_plans();
 
-            echo '<select id="pms_add_member_bulk_subscription_plan" name="subscription_plan_id">';
+            echo '<div class="cozmoslabs-form-field-wrapper">';
+                echo '<label class="cozmoslabs-form-field-label" for="pms_add_member_bulk_subscription_plan">'. esc_html__( 'Subscription Plan', 'paid-member-subscriptions' ) .'</label>';
+                echo '<select id="pms_add_member_bulk_subscription_plan" name="subscription_plan_id">';
 
-                echo '<option value="-1">' . esc_html__( 'Select Subscription Plan...', 'paid-member-subscriptions' ) . '</option>';
+                    echo '<option value="-1">' . esc_html__( 'Select Subscription Plan...', 'paid-member-subscriptions' ) . '</option>';
 
-                if( !empty( $subscription_plans ) ) {
-                    foreach( $subscription_plans as $subscription_plan )
-                        echo '<option value="' . esc_attr( $subscription_plan->id ) . '">' . esc_html( $subscription_plan->name ) . '</option>';
-                }
+                    if( !empty( $subscription_plans ) ) {
+                        foreach( $subscription_plans as $subscription_plan )
+                            echo '<option value="' . esc_attr( $subscription_plan->id ) . '">' . esc_html( $subscription_plan->name ) . '</option>';
+                    }
 
-            echo '</select>';
+                echo '</select>';
+            echo '</div>';
 
-            echo '<select id="pms_add_member_bulk_subscription_status" name="subscription_status" title="'. esc_html__( 'Select Subscription Status', 'paid-member-subscriptions' ) .'">';
 
-                echo '<option value="" disabled>'. esc_html__( 'Select Subscription Status...', 'paid-member-subscriptions' ) .'</option>';
-                echo '<option value="active">' . esc_html__( 'Active', 'paid-member-subscriptions' ) . '</option>';
-                echo '<option value="pending">' . esc_html__( 'Pending', 'paid-member-subscriptions' ) . '</option>';
-                echo '<option value="expired">' . esc_html__( 'Expired', 'paid-member-subscriptions' ) . '</option>';
+            echo '<div class="cozmoslabs-form-field-wrapper">';
+                echo '<label class="cozmoslabs-form-field-label" for="pms_add_member_bulk_subscription_status">'. esc_html__( 'Status', 'paid-member-subscriptions' ) .'</label>';
+                echo '<select id="pms_add_member_bulk_subscription_status" name="subscription_status" title="'. esc_html__( 'Select Subscription Status', 'paid-member-subscriptions' ) .'">';
 
-            echo '</select>';
+                    echo '<option value="" disabled>'. esc_html__( 'Select Subscription Status...', 'paid-member-subscriptions' ) .'</option>';
+                    echo '<option value="active">' . esc_html__( 'Active', 'paid-member-subscriptions' ) . '</option>';
+                    echo '<option value="pending">' . esc_html__( 'Pending', 'paid-member-subscriptions' ) . '</option>';
+                    echo '<option value="expired">' . esc_html__( 'Expired', 'paid-member-subscriptions' ) . '</option>';
 
-            echo '<label>' . esc_html__( 'Expiration Date', 'paid-member-subscriptions' ) . '<input id="pms_add_member_bulk_subscription_expiration_date" type="text" name="subscription_expiration_date" class="datepicker pms-subscription-field" value="" />' . '</label>';
+                echo '</select>';
+            echo '</div>';
 
-            submit_button( esc_html__( 'Assign', 'paid-member-subscriptions' ), 'secondary', 'pms_add_member_bulk_assign', false );
+            echo '<div class="cozmoslabs-form-field-wrapper">';
+                echo '<label class="cozmoslabs-form-field-label" for="pms_add_member_bulk_subscription_expiration_date">'. esc_html__( 'Expiration Date', 'paid-member-subscriptions' ) .'</label>';
+                echo '<input id="pms_add_member_bulk_subscription_expiration_date" type="text" name="subscription_expiration_date" class="datepicker pms-subscription-field" value="" />';
+
+            echo '</div>';
+
+            submit_button( esc_html__( 'Assign', 'paid-member-subscriptions' ), 'primary', 'pms_add_member_bulk_assign', false );
 
         }
 

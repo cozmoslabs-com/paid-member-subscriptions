@@ -74,8 +74,8 @@ jQuery( function($) {
             _wp_http_referer = pms_add_query_arg( 'message', 1, _wp_http_referer );
             $_wp_http_referer.val( pms_add_query_arg( 'nav_sub_tab', $navTab.data('sub-tab-slug'), _wp_http_referer ) );
 
-            $('.pms-sub-tab').removeClass('tab-active');
-            $('.pms-sub-tab[data-sub-tab-slug="' + $navTab.data('sub-tab-slug') + '"]').addClass('tab-active');
+            $('.cozmoslabs-sub-tab').removeClass('tab-active');
+            $('.cozmoslabs-sub-tab[data-sub-tab-slug="' + $navTab.data('sub-tab-slug') + '"]').addClass('tab-active');
 
         });
 
@@ -147,48 +147,105 @@ jQuery( function($) {
 
     }
 
-    $(document).ready( function() {
-        positionAvailableTags();
-        $availableTags.css( 'opacity', 1 );
-    });
 
-    $(window).on( 'resize', function() {
-        positionAvailableTags();
-    });
+    /**
+     * Open/Close the Available Tags List for each email
+     */
+    $(document).ready(function() {
 
-    $(window).on( 'scroll', function() {
-        $formTabsWrapper = $('#pms-settings-emails').closest('form');
+        $('.cozmoslabs-tags-list-heading').on('click', function() {
+            let tagsList = $(this).siblings('.cozmoslabs-tags-list');
 
-        if ( $formTabsWrapper.length > 0 ) {
-
-            if( $(window).scrollTop() < $formTabsWrapper.offset().top ) {
-                $('#pms-available-tags').css( 'top', $formTabsWrapper.offset().top + 60 - $(window).scrollTop() );
+            // Hide/Show Tags List
+            if (tagsList.css('display') === 'none') {
+                tagsList.css('display', 'flex');
             } else {
-                $('#pms-available-tags').css( 'top', '60px' );
+                tagsList.css('display', 'none');
             }
 
+            // Mark the Heading if the Tags List is opened
+            $(this).toggleClass('cozmoslabs-tags-list-open', tagsList.is(':visible'));
+        });
+
+        $('.cozmoslabs-tags-list input').click( function() {
+            this.select();
+        });
+
+
+        $('.cozmoslabs-email-heading-wrap input').each( function () {
+            checkEmailField(this);
+        });
+
+
+        if ( $('input[name="pms_emails_settings[admin_emails_on]"]').prop('checked') ) {
+            $('.cozmoslabs-sub-tab-admin .cozmoslabs-email-heading-wrap input').prop('disabled', false);
+        }
+        else {
+            $('.cozmoslabs-sub-tab-admin .cozmoslabs-email-heading-wrap input').prop('disabled', true);
         }
 
     });
 
-    /*
-     * Show the individual email toggles when administrator emails are enabled
-     *
-     */
-     $(document).on( 'change', '#emails-admin-on', function () {
-         if ( this.checked )
-            $( '.pms-sub-tab-admin .pms-heading-wrap label' ).show();
-        else
-            $( '.pms-sub-tab-admin .pms-heading-wrap label' ).hide();
-     });
 
-     $(document).ready( function() {
-         if ( $('input[name="pms_emails_settings[admin_emails_on]"]').prop('checked') )
-            $( '.pms-sub-tab-admin .pms-heading-wrap label' ).show();
-     });
 
+    $(document).on( 'change', '#emails-admin-on', function () {
+        let adminEmailField = $('.cozmoslabs-sub-tab-admin .cozmoslabs-email-heading-wrap input');
+        if (this.checked) {
+            adminEmailField.prop('disabled', false);
+            adminEmailField.each( function () {
+                checkEmailField(this);
+            });
+
+        }
+        else {
+            adminEmailField.prop('disabled', true);
+            $('.cozmoslabs-sub-tab-admin .cozmoslabs-wysiwyg-container .cozmoslabs-form-field-wrapper').hide();
+        }
+    });
+
+    $(document).on( 'change', '.cozmoslabs-email-heading-wrap input', function () {
+        if (this.checked) {
+            $(this).closest('.cozmoslabs-wysiwyg-container').find('.cozmoslabs-form-field-wrapper').show();
+        }
+        else {
+            $(this).closest('.cozmoslabs-wysiwyg-container').find('.cozmoslabs-form-field-wrapper').hide();
+        }
+    });
+
+
+    function checkEmailField(element) {
+        if (element.checked) {
+            $(element).closest('.cozmoslabs-wysiwyg-container').find('.cozmoslabs-form-field-wrapper').show();
+        }
+        else {
+            $(element).closest('.cozmoslabs-wysiwyg-container').find('.cozmoslabs-form-field-wrapper').hide();
+        }
+    }
 });
 
+
+/**
+ *  PayPal IPN URL Copy Button functionality
+ *
+ * */
+jQuery( document ).ready(function(){
+    jQuery('.paypal-connect__copy').click(function (e) {
+        e.preventDefault();
+
+        var inputId = jQuery(this).data('id');
+        var inputValue = jQuery('#' + inputId).val();
+
+        navigator.clipboard.writeText(inputValue);
+
+        jQuery(this).text('Copied!');
+
+        var clickTarget = jQuery(this);
+
+        setTimeout(function () {
+            clickTarget.text('Copy');
+        }, 2500);
+    });
+});
 
 
 /**
@@ -293,3 +350,52 @@ function previousSlide( currentSlide, themeID ){
 
     }
 }
+
+
+
+/**
+ *  Position Save Settings Button
+ *
+ * */
+jQuery( document ).ready(setTimeout(function () {
+
+    let navMenu = jQuery('.cozmoslabs-wrap .cozmoslabs-nav-tab-wrapper'),
+        bannerHeight = jQuery('.cozmoslabs-banner').outerHeight(),
+        top = navMenu.offset().top,
+        buttonWrapper = jQuery('.cozmoslabs-wrap p.submit');
+
+    if ( navMenu.length > 0 && buttonWrapper.length > 0 ) {
+
+        buttonWrapper.prepend('<h3 class="cozmoslabs-subsection-title">Update Settings</h3>');
+
+
+        buttonWrapper.css({
+            'top': top - bannerHeight - 32 + 'px',  // 32px is the admin bar height
+            'right': '100px'
+        });
+
+
+        jQuery(window).scroll(function () {
+            let distanceToTop = calculateDistanceToTop(navMenu);
+
+            if (distanceToTop < 50) {
+                buttonWrapper.css({
+                    'position': 'fixed',
+                    'top': '50px',
+                });
+            } else {
+                buttonWrapper.css({
+                    'position': 'absolute',
+                    'top': top - bannerHeight - 32 + 'px',
+                });
+            }
+        });
+    }
+
+    function calculateDistanceToTop(element) {
+        let scrollTop = jQuery(window).scrollTop();
+        let elementOffset = element.offset().top;
+        return elementOffset - scrollTop;
+    }
+
+}, 1000));

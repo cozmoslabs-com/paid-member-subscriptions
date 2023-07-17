@@ -8,41 +8,57 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 ?>
 
-<div class="wrap">
 
-    <h1>
-        <?php echo esc_html__( 'Edit Member', 'paid-member-subscriptions' ); ?>
-    </h1>
+<div class="wrap cozmoslabs-wrap" id="pms-edit-member-page">
+
+    <h1></h1>
+    <!-- WordPress Notices are added after the h1 tag -->
+
+    <div class="cozmoslabs-page-header">
+        <div class="cozmoslabs-section-title">
+
+            <h3 class="cozmoslabs-page-title"><?php echo esc_html__( 'Edit Member', 'paid-member-subscriptions' ); ?></h3>
+
+        </div>
+    </div>
 
     <form id="pms-form-edit-member" class="pms-form" method="POST">
 
         <?php if( isset( $_REQUEST['member_id'] ) ) : ?>
             <?php $member = pms_get_member( (int)sanitize_text_field( $_REQUEST['member_id'] ) ); ?>
 
-            <div class="pms-form-field-wrapper pms-form-field-user-name">
+            <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-member-sub-list">
+                <h3 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Subscriptions', 'paid-member-subscriptions' ); ?></h3>
 
-                <label class="pms-form-field-label"><?php echo esc_html__( 'Username', 'paid-member-subscriptions' ); ?></label>
-                <input type="hidden" id="pms-member-user-id" name="pms-member-user-id" class="widefat" value="<?php echo esc_attr( $member->user_id ); ?>" />
+                <div class="cozmoslabs-form-field-wrapper">
 
-                <span class="readonly medium"><strong><?php echo esc_html( $member->username ); ?></strong></span>
+                    <label class="cozmoslabs-form-field-label"><?php echo esc_html__( 'Username', 'paid-member-subscriptions' ); ?></label>
+                    <input type="hidden" id="pms-member-user-id" name="pms-member-user-id" class="widefat" value="<?php echo esc_attr( $member->user_id ); ?>" />
 
+                    <input id="pms-member-username" type="text" name="pms-member-username" value="<?php echo esc_html( $member->username ); ?>" disabled="">
+
+                </div>
+
+                <div class="cozmoslabs-form-field-wrapper">
+                    <?php
+                        $member_subscriptions_table = new PMS_Member_Subscription_List_Table( $member->user_id );
+                        $member_subscriptions_table->prepare_items();
+                        $member_subscriptions_table->display();
+                    ?>
+                </div>
             </div>
 
-            <h3><?php esc_html_e( 'Subscriptions', 'paid-member-subscriptions' ); ?></h3>
-            <?php
-                $member_subscriptions_table = new PMS_Member_Subscription_List_Table( $member->user_id );
-                $member_subscriptions_table->prepare_items();
-                $member_subscriptions_table->display();
-            ?>
+            <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-member-payment-list">
+                <h3 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Recent Payments', 'paid-member-subscriptions' ); ?></h3>
 
-            <br />
-
-            <h3><?php esc_html_e( 'Recent Payments', 'paid-member-subscriptions' ); ?></h3>
-            <?php
-                $member_payments_table = new PMS_Member_Payments_List_Table();
-                $member_payments_table->prepare_items();
-                $member_payments_table->display();
-            ?>
+                <div class="cozmoslabs-form-field-wrapper">
+                    <?php
+                        $member_payments_table = new PMS_Member_Payments_List_Table();
+                        $member_payments_table->prepare_items();
+                        $member_payments_table->display();
+                    ?>
+                </div>
+            </div>
 
             <?php do_action( 'pms_member_edit_form_field' ); ?>
 

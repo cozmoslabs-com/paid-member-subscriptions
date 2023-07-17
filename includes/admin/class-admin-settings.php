@@ -45,35 +45,40 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
         $this->options = get_option( 'pms_' . $this->active_tab . '_settings', array() );
 
         ?>
-        <div class="wrap pms-wrap">
-            <h1>
+
+        <div class="wrap pms-wrap cozmoslabs-wrap">
+
+            <h1></h1>
+            <!-- WordPress Notices are added after the h1 tag -->
+
+            <div class="cozmoslabs-page-header">
+                <div class="cozmoslabs-section-title">
+
+                    <h3 class="cozmoslabs-page-title"><?php esc_html_e( 'Settings', 'paid-member-subscriptions' ); ?></h3>
+                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+
+                </div>
+
+                <div class="pms-payments-status-wrap pms-payments-status-wrap--<?php echo ( pms_is_payment_test_mode() ? 'test' : 'live' ); ?>">
+                    <div><?php echo ( pms_is_payment_test_mode() ? esc_html__( 'Test Payments are enabled', 'paid-member-subscriptions' ) : esc_html__( 'Live Payments are enabled', 'paid-member-subscriptions' ) ); ?></div>
+                    <div class="pms-payments-status pms-payments-status--<?php echo ( pms_is_payment_test_mode() ? 'test' : 'live' ); ?>"></div>
+                </div>
+            </div>
+
+            <div class="cozmoslabs-nav-tab-wrapper">
                 <?php
-                    $tabs = $this->get_tabs();
-                    echo esc_html( $tabs[$this->active_tab] );
-
-                    if ( $this->active_tab == 'general' || $this->active_tab == 'payments' || $this->active_tab == 'content_restriction' || $this->active_tab == 'invoices' || $this->active_tab == 'tax' )
-                        $link_slug = str_replace("_","-",$this->active_tab);
-
-                    if ( isset( $link_slug ))
-                        echo '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/'. esc_html( $link_slug ) .'/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>';
+                foreach( $this->get_tabs() as $tab_slug => $tab_name )
+                    echo '<a href="' . esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => $tab_slug ), 'admin.php' ) ) ) . '" class="nav-tab ' . ( $this->active_tab == $tab_slug ? 'nav-tab-active' : '' ) . '">' . esc_html( $tab_name ) . '</a>';
                 ?>
-
-                    <div class="pms-payments-status-wrap pms-payments-status-wrap--<?php echo ( pms_is_payment_test_mode() ? 'test' : 'live' ); ?>">
-                        <div class="pms-payments-status pms-payments-status--<?php echo ( pms_is_payment_test_mode() ? 'test' : 'live' ); ?>"></div>
-
-                        <div><?php echo ( pms_is_payment_test_mode() ? esc_html__( 'Test payments are enabled', 'paid-member-subscriptions' ) : esc_html__( 'Live payments are enabled', 'paid-member-subscriptions' ) ); ?></div>
-                    </div>
-
-            </h1>
-
-            <h3 class="nav-tab-wrapper">
-                <?php
-                    foreach( $this->get_tabs() as $tab_slug => $tab_name )
-                        echo '<a href="' . esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => $tab_slug ), 'admin.php' ) ) ) . '" class="nav-tab ' . ( $this->active_tab == $tab_slug ? 'nav-tab-active' : '' ) . '">' . esc_html( $tab_name ) . '</a>';
-                ?>
-            </h3>
+            </div>
 
             <?php settings_errors(); ?>
+
+            <?php
+            // insert Register Version Form to PMS Settings - General Tab
+            if ( isset( $_GET['page'] ) && $_GET['page'] === 'pms-settings-page' && ( !isset( $_GET['tab'] ) || $_GET['tab'] === 'general' ) )
+                echo pms_add_register_version_form(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            ?>
 
             <form method="post" enctype="multipart/form-data" encoding="multipart/form-data" action="options.php">
                 <?php
@@ -88,7 +93,7 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
                     echo apply_filters( 'pms_settings_tab_content', $output, $this->active_tab, $this->options ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-                    submit_button( esc_html__( 'Save Settings', 'paid-member-subscriptions' ) );
+                    submit_button( esc_html__( 'Save Settings', 'paid-member-subscriptions' ), 'primary cozmoslabs-save-settings-button' );
                 ?>
             </form>
 

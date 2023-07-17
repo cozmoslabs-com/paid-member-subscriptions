@@ -1226,7 +1226,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
              '',
              $pms_force_show );
 
-    } elseif( !empty( $license_details ) && !empty( $license_details->expires ) ) {
+    } elseif( !empty( $license_details ) && !empty( $license_details->expires ) && $license_details->expires !== 'lifetime' ) {
 
         // Maybe add about to expire notice
         if( ( !isset( $license_details->subscription_status ) || $license_details->subscription_status != 'active' ) && strtotime( $license_details->expires ) < strtotime( '+14 days' ) ){

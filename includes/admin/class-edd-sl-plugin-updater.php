@@ -550,9 +550,9 @@ class PMS_Plugin_Updater {
     protected function license_page_url( ){
         
         if( !is_multisite() )
-            return admin_url( 'admin.php?page=pms-register-page' );
-        else 
-            return network_admin_url( 'admin.php?page=pms-register-page' );
+            return admin_url( 'admin.php?page=pms-settings-page&tab=general' );
+        else
+            return network_admin_url( 'admin.php?page=pms-settings-page&tab=general' );
 
     }
 

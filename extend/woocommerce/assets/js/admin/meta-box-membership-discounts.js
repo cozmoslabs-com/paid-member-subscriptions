@@ -94,7 +94,7 @@ jQuery( function($){
 
         // Add close link
         output += '<td>';
-        output += '<a href="#" class="pms-woo-product-remove-membership-discount" title="' + pms_woo_admin_vars.strings['Remove this discount'] + '"><span class="dashicons dashicons-no"></span></a>';
+        output += '<a href="#" class="pms-woo-product-remove-membership-discount cozmoslabs-remove-item" title="' + pms_woo_admin_vars.strings['Remove this discount'] + '"><span class="dashicons dashicons-no"></span></a>';
         output += '</td>';
 
         output += '</tr>';
@@ -161,7 +161,7 @@ jQuery( function($){
 
         // Add close link
         output += '<td>';
-        output += '<a href="#" class="pms-woo-subscription-remove-product-discount" title="' + pms_woo_admin_vars.strings['Remove this discount'] + '"><span class="dashicons dashicons-no"></span></a>';
+        output += '<a href="#" class="pms-woo-subscription-remove-product-discount cozmoslabs-remove-item" title="' + pms_woo_admin_vars.strings['Remove this discount'] + '"><span class="dashicons dashicons-no"></span></a>';
         output += '</td>';
 
         output += '</tr>';

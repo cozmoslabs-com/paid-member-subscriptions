@@ -20,7 +20,7 @@ set_current_screen();
 <body class="pms-custom-page wp-admin wp-core-ui">
     <div class="pms-setup-wrap">
 
-        <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/pms-banner.png" alt="Paid Member Subscriptions" style="object-type:cover;height:100%;width:100%;"/>
+        <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/pms-banner.png" alt="Paid Member Subscriptions" />
 
         <ul class="pms-setup-steps">
             <?php foreach( $this->steps as $step => $label ) :

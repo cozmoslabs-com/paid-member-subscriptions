@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.2
-Stable tag: 2.9.6
+Stable tag: 2.9.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.9.7 = 
+* Updated back-end interfaces to a more modern style
+* Fix: Case when admin was setting a subscription to abandoned and the PayPal Subscription would remain active
+* Misc: Added Connect With Stripe button in the Setup Wizard
+* Misc: Fixed some documentation links from the interface
+
 = 2.9.6 =
 * Feature: Allow users of the oldest Stripe implementation to update their credit card details through the newest gateway
 * Fix: Issue with Stripe gateway and free trial subscriptions on the Profile Builder form

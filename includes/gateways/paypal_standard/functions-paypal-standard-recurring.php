@@ -45,14 +45,14 @@ if( !function_exists('pms_in_settings_gateway_paypal_extra_fields') ) {
         );
 
         foreach( $fields as $field_slug => $field_details ) {
-            echo '<div class="pms-form-field-wrapper">';
+            echo '<div class="cozmoslabs-form-field-wrapper">';
 
-            echo '<label class="pms-form-field-label" for="paypal-' . esc_attr( str_replace('_', '-', $field_slug) ) . '">' . esc_html( $field_details['label'] ) . '</label>';
+            echo '<label class="cozmoslabs-form-field-label" for="paypal-' . esc_attr( str_replace('_', '-', $field_slug) ) . '">' . esc_html( $field_details['label'] ) . '</label>';
 
             echo '<input id="paypal-' . esc_attr( str_replace('_', '-', $field_slug) ) . '" type="text" name="pms_payments_settings[gateways][paypal][' . esc_attr( $field_slug ) . ']" value="' . ( isset($options['gateways']['paypal'][$field_slug]) ? esc_attr( $options['gateways']['paypal'][$field_slug] ) : '' ) . '" class="widefat" />';
 
             if( isset( $field_details['desc'] ) )
-                echo '<p class="description">' . esc_html( $field_details['desc'] ) . '</p>';
+                echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html( $field_details['desc'] ) . '</p>';
 
             echo '</div>';
         }
@@ -957,9 +957,9 @@ function pms_in_ppsrp_cancel_subscription_on_admin_deletion( $subscription_id, $
 add_action( 'pms_member_subscription_delete', 'pms_in_ppsrp_cancel_subscription_on_admin_deletion', 10, 2 );
 
 /**
- * Cancel PayPal subscription when the status is changed to Canceled while in the back-end interface
+ * Cancel PayPal subscription when the status is changed to Canceled or Abandoned while in the back-end interface
  * This usually means the user was deleted from the website, but it could also mean an admin changed
- * the status to canceled from the back-end interface
+ * the status to Canceled or Abandoned from the back-end interface
  *
  * @param  int   $subscription_id ID of the subscription that was just edited
  * @param  array $data            Subscription data that was changed
@@ -974,7 +974,7 @@ function pms_in_ppsrp_cancel_subscription_on_api_subscription_cancelation( $id, 
     if( empty( $old_data['payment_profile_id'] ) || !pms_is_paypal_payment_profile_id( $old_data['payment_profile_id'] ) )
         return;
 
-    if( !empty( $data['status'] ) && $data['status'] == 'canceled' && $data['status'] != $old_data )
+    if( !empty( $data['status'] ) && ( $data['status'] == 'canceled' ||  $data['status'] == 'abandoned' ) && $data['status'] != $old_data )
         pms_in_api_cancel_paypal_subscription( $old_data['payment_profile_id'], 'cancel', 'Subscription canceled because an admin deleted the user from the website.' );
 
 }

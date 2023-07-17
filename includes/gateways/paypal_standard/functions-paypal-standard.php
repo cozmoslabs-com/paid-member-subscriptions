@@ -12,49 +12,57 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function pms_add_settings_content_paypal_standard( $options ) {
     ?>
 
-    <div class="pms-payment-gateway-wrapper">
+    <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-paypal-configs">
 
-        <h4 class="pms-payment-gateway-title">
+        <h4 class="cozmoslabs-subsection-title">
             <?php echo esc_html( apply_filters( 'pms_settings_page_payment_gateway_paypal_title', esc_html__( 'Paypal Standard', 'paid-member-subscriptions' ) ) ); ?>
             <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/paypal-pro-and-express-checkout/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Entering_your_PayPal_API_Credentials" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </h4>
 
-        <div class="pms-form-field-wrapper">
-            <label class="pms-form-field-label" for="paypal-standard-email"><?php esc_html_e( 'PayPal E-mail Address', 'paid-member-subscriptions' ); ?></label>
+        <div class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label" for="paypal-standard-email"><?php esc_html_e( 'PayPal E-mail Address', 'paid-member-subscriptions' ); ?></label>
             <input id="paypal-standard-email" type="text" name="pms_payments_settings[gateways][paypal_standard][email_address]" value="<?php echo isset( $options['gateways']['paypal_standard']['email_address' ]) ? esc_attr( $options['gateways']['paypal_standard']['email_address'] ) : ''; ?>" class="widefat" />
 
             <input type="hidden" name="pms_payments_settings[gateways][paypal_standard][name]" value="PayPal" />
 
-            <p class="description"><?php esc_html_e( 'Enter your PayPal e-mail address', 'paid-member-subscriptions' ); ?></p>
+            <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Enter your PayPal e-mail address', 'paid-member-subscriptions' ); ?></p>
         </div>
 
-        <div class="pms-form-field-wrapper">
-            <label class="pms-form-field-label" for="paypal-standard-email"><?php esc_html_e( 'Test PayPal E-mail Address', 'paid-member-subscriptions' ); ?></label>
-            <input id="paypal-standard-email" type="text" name="pms_payments_settings[gateways][paypal_standard][test_email_address]" value="<?php echo isset( $options['gateways']['paypal_standard']['test_email_address' ]) ? esc_attr( $options['gateways']['paypal_standard']['test_email_address'] ) : ''; ?>" class="widefat" />
+        <div class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label" for="paypal-standard-test-email"><?php esc_html_e( 'Test PayPal E-mail Address', 'paid-member-subscriptions' ); ?></label>
+            <input id="paypal-standard-test-email" type="text" name="pms_payments_settings[gateways][paypal_standard][test_email_address]" value="<?php echo isset( $options['gateways']['paypal_standard']['test_email_address' ]) ? esc_attr( $options['gateways']['paypal_standard']['test_email_address'] ) : ''; ?>" class="widefat" />
 
-            <p class="description"><?php esc_html_e( 'PayPal E-mail address to use for test transactions', 'paid-member-subscriptions' ); ?></p>
+            <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'PayPal E-mail address to use for test transactions', 'paid-member-subscriptions' ); ?></p>
         </div>
 
         <?php do_action( 'pms_settings_page_payment_gateway_paypal_extra_fields', $options ); ?>
 
         <!-- IPN Message -->
         <?php if( in_array( 'paypal_standard', $options['active_pay_gates'] ) || in_array( 'paypal_express', $options['active_pay_gates'] ) ) : ?>
-            <p class="pms-ipn-notice" style="margin-bottom:16px;">
-<!--                --><?php //printf( wp_kses_post( __( 'In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %sMore info%s', 'paid-member-subscriptions' ) ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/#IPN_for_PayPal_gateways">', '</a>' ); ?>
-                <?php printf( wp_kses_post( __( 'In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %s', 'paid-member-subscriptions' ) ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/recurring-payments-for-paypal-standard/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Setting_up_Instant_Payment_Notifications_IPN" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>' ); ?>
-            </p>
-            <p class="pms-ipn-notice">
-                <?php printf( esc_html__( 'Use the following URL for the IPN:', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/#IPN_for_PayPal_gateways">', '</a>' ); ?>
-            </p>
 
-            <div class="pms-ipn-url">
-                <?php if( in_array( 'paypal_standard', $options['active_pay_gates'] ) ) : ?>
-                    <?php echo esc_url( add_query_arg( 'pay_gate_listener', 'paypal_ipn', trailingslashit( home_url() ) ) ); ?>
-                <?php elseif( in_array( 'paypal_express', $options['active_pay_gates'] ) ) : ?>
-                    <?php echo esc_url( add_query_arg( 'pay_gate_listener', 'paypal_epipn', trailingslashit( home_url() ) ) ); ?>
-                <?php endif; ?>
+            <?php if( in_array( 'paypal_standard', $options['active_pay_gates'] ) ) : ?>
+                <?php $paypal_ipn_url = esc_url( add_query_arg( 'pay_gate_listener', 'paypal_ipn', trailingslashit( home_url() ) ) ); ?>
+            <?php elseif( in_array( 'paypal_express', $options['active_pay_gates'] ) ) : ?>
+                <?php $paypal_ipn_url = esc_url( add_query_arg( 'pay_gate_listener', 'paypal_epipn', trailingslashit( home_url() ) ) ); ?>
+            <?php else: ?>
+                <?php $paypal_ipn_url = ""; ?>
+            <?php endif; ?>
+
+            <div class="cozmoslabs-form-field-wrapper">
+                <label class="cozmoslabs-form-field-label" for="paypal-ipn-url"><?php echo esc_html__( 'Use the following URL for the IPN:', 'paid-member-subscriptions' ); ?></label>
+                <input id="paypal-ipn-url" type="text" name="paypal-ipn-url" value="<?php echo esc_url( $paypal_ipn_url ); ?>" class="widefat" disabled />
+                <a class="paypal-connect__copy button-secondary" data-id="paypal-ipn-url" href="" style="margin-left: 4px;">Copy</a>
+
+
+                <p class="pms-ipn-notice cozmoslabs-description cozmoslabs-description-space-left">
+                    <?php printf( wp_kses_post( __( 'In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %s', 'paid-member-subscriptions' ) ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/recurring-payments-for-paypal-standard/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Setting_up_Instant_Payment_Notifications_IPN" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>' ); ?>
+                </p>
             </div>
+
         <?php endif; ?>
+
+
+
 
     </div>
 
@@ -241,7 +249,8 @@ function pms_paypal_api_credentials_admin_warning() {
     if( pms_get_paypal_api_credentials() == false && !empty( $are_active ) ) {
 
         echo '<div class="pms-warning-message-wrapper">';
-            echo '<p>' . sprintf( esc_html__( 'Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ), '<a href="' . esc_url( admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) ) .'" target="_blank">', '</a>' ) . '</p>';
+        echo '<strong>' . esc_html__( 'Error', 'paid-member-subscriptions' ) . '</strong>';
+            echo '<p>' . sprintf( esc_html__( 'Your %3$s PayPal API credentials %4$s are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ), '<a href="' . esc_url( admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) ) .'" target="_blank">', '</a>', '<strong>', '</strong>' ) . '</p>';
             echo '<p><em>' . esc_html__( 'This message is visible only by Administrators.', 'paid-member-subscriptions' ) . '</em></p>';
         echo '</div>';
 

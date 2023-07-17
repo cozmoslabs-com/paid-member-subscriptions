@@ -150,11 +150,11 @@ jQuery( function($) {
         // Show/Hide Group Name and Description Fields
         $.post( ajaxurl, { action: 'determine_subscription_type', subscription_plan_id: $subscriptionPlanSelect.val() }, function( response ) {
             if( response == 'group' ) {
-                jQuery('.pms-group-memberships-field').show()
-                jQuery('#pms_group_name').attr('required', true)
+                jQuery('.pms-group-memberships-field').css('display', 'flex');
+                jQuery('#pms_group_name').attr('required', true);
             } else {
-                jQuery('.pms-group-memberships-field').hide()
-                jQuery('#pms_group_name').attr('required', false)
+                jQuery('.pms-group-memberships-field').hide();
+                jQuery('#pms_group_name').attr('required', false);
             }
         });
 
@@ -464,7 +464,7 @@ jQuery( function($) {
 
             if( response.status && response.status == 'success' && response.address_output ){
 
-                jQuery('#pms-member-billing-details .billing-details p').html( response.address_output )
+                jQuery('#pms-member-billing-details .billing-details .billing-details__data').html( response.address_output )
 
                 jQuery( '.billing-details__action span' ).show().fadeOut( 3500 )
 
@@ -567,5 +567,48 @@ jQuery( function($) {
     // if( $('#pms_add_member_bulk_subscription_plan')){
     //     $('.bulkactions').hide();
     // }
+
+});
+
+
+/**
+ *  Position CPT Publish/Save Container
+ *
+ * */
+jQuery( document ).ready(function(){
+
+    let cptButtonsWrapper = jQuery('body[class*="post-type-pms-"] #postbox-container-1'),
+        cptContainer = jQuery('body[class*="post-type-pms-"] #poststuff');
+
+    if ( cptButtonsWrapper.length > 0 ) {
+        cptContainer.css({
+            'position': 'relative'
+        });
+
+        jQuery(window).scroll(function () {
+            let cptDistanceToTop = calculateDistanceToTop(cptContainer);
+
+            if ( cptDistanceToTop < 50 ) {
+                cptButtonsWrapper.css({
+                    'position': 'fixed',
+                    'top': '50px',
+                    'right': '20px'
+                });
+            }
+            else {
+                cptButtonsWrapper.css({
+                    'position': 'absolute',
+                    'top': '10px',
+                    'right': '0px'
+                });
+            }
+        });
+    }
+
+    function calculateDistanceToTop(element) {
+        let scrollTop = jQuery(window).scrollTop();
+        let elementOffset = element.offset().top;
+        return elementOffset - scrollTop;
+    }
 
 });

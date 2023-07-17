@@ -35,30 +35,33 @@ Class PMS_Billing_Details {
 
         ?>
 
-        <h3><?php esc_html_e( 'Billing Details', 'paid-member-subscriptions' ); ?></h3>
+        <div class="cozmoslabs-form-subsection-wrapper">
 
-        <div id="pms-member-billing-details" class="postbox">
-            <div class="inside">
+            <h3 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Billing Details', 'paid-member-subscriptions' ); ?></h3>
 
-                <div class="billing-details">
-                    <?php $this->format_billing_details( $fields_data ); ?>
+            <div id="pms-member-billing-details">
 
-                    <div class="billing-details__action">
-                        <a href="" id="edit" class="button button-secondary"><?php esc_html_e( 'Edit', 'paid-member-subscriptions' ); ?></a>
-                        <span><?php esc_html_e( 'Member details saved successfully !', 'paid-member-subscriptions' ); ?><span>
+                    <div class="billing-details">
+                        <div class="billing-details__data">
+                            <?php $this->format_billing_details( $fields_data ); ?>
+                        </div>
+
+                        <div class="billing-details__action">
+                            <a href="" id="edit" class="button button-secondary"><?php esc_html_e( 'Edit', 'paid-member-subscriptions' ); ?></a>
+                            <span><?php esc_html_e( 'Member details saved successfully !', 'paid-member-subscriptions' ); ?><span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form">
-                    <?php foreach( $billing_fields as $slug => $field ) : ?>
-                        <?php pms_output_form_field( $field ); ?>
-                    <?php endforeach; ?>
+                    <div class="form">
+                        <?php foreach( $billing_fields as $slug => $field ) : ?>
+                            <?php pms_output_form_field( $field ); ?>
+                        <?php endforeach; ?>
 
-                    <input type="hidden" name="pms_member_id" value="<?php echo  isset( $_GET['member_id'] ) ? esc_attr( sanitize_text_field( $_GET['member_id'] ) ) : ''; ?>" />
+                        <input type="hidden" name="pms_member_id" value="<?php echo  isset( $_GET['member_id'] ) ? esc_attr( sanitize_text_field( $_GET['member_id'] ) ) : ''; ?>" />
 
-                    <a href="" id="save" class="button button-secondary"><?php esc_html_e( 'Save', 'paid-member-subscriptions' ); ?></a>
+                        <a href="" id="save" class="button button-primary"><?php esc_html_e( 'Save', 'paid-member-subscriptions' ); ?></a>
 
-                </div>
+                    </div>
             </div>
         </div>
 
@@ -237,49 +240,88 @@ Class PMS_Billing_Details {
     }
 
     public function format_billing_details( $data, $return = false ){
-
         $billing_details = '';
 
+        // First Name
+        $billing_details .= '<div class="cozmoslabs-form-field-wrapper">';
+        $billing_details .= '<label class="cozmoslabs-form-field-label">'. esc_html__( 'Billing First Name' , 'paid-member-subscriptions' ) .'</label>';
         $billing_details .= ( ! empty( $data['pms_billing_first_name'] ) ? '<span id="pms_billing_first_name">' . $data['pms_billing_first_name'] . '</span>' : '' ) . ' ';
+        $billing_details .= '</div>';
+
+        // Last Name
+        $billing_details .= '<div class="cozmoslabs-form-field-wrapper">';
+        $billing_details .= '<label class="cozmoslabs-form-field-label">'. esc_html__( 'Billing Last Name' , 'paid-member-subscriptions' ) .'</label>';
         $billing_details .= ( ! empty( $data['pms_billing_last_name'] ) ? '<span id="pms_billing_last_name">' . $data['pms_billing_last_name'] . '</span>' : '' );
+        $billing_details .= '</div>';
+
+        // Email
+        if( ! empty( $data['pms_billing_email'] ) ) {
+            $billing_details .= '<div class="cozmoslabs-form-field-wrapper">';
+            $billing_details .= '<label class="cozmoslabs-form-field-label">'. esc_html__( 'Billing Email' , 'paid-member-subscriptions' ) .'</label>';
+            $billing_details .= '<span id="pms_billing_email">' . $data['pms_billing_email'] . '</span>';
+            $billing_details .= '</div>';
+        }
 
         // Company
-        if( ! empty( $data['pms_billing_company'] ) )
-            $billing_details .= PHP_EOL . '<span id="pms_billing_company">' . $data['pms_billing_company'] . '</span>';
+        if( ! empty( $data['pms_billing_company'] ) ) {
+            $billing_details .= '<div class="cozmoslabs-form-field-wrapper">';
+            $billing_details .= '<label class="cozmoslabs-form-field-label">'. esc_html__( 'Billing Company' , 'paid-member-subscriptions' ) .'</label>';
+            $billing_details .= '<span id="pms_billing_company">' . $data['pms_billing_company'] . '</span>';
+            $billing_details .= '</div>';
+        }
+
 
         // Address
-        if( ! empty( $data['pms_billing_address'] ) )
-
-            $billing_details .= PHP_EOL . '<span id="pms_billing_address">' . $data['pms_billing_address'] . '</span>';
-
-        // City Line
-        $billing_city = '';
-
-        // Zip code
-        if( ! empty( $data['pms_billing_zip'] ) )
-            $billing_city .= '<span id="pms_billing_zip">' . $data['pms_billing_zip'] . '</span>';
+        if( ! empty( $data['pms_billing_address'] ) ) {
+            $billing_details .= '<div class="cozmoslabs-form-field-wrapper">';
+            $billing_details .= '<label class="cozmoslabs-form-field-label">'. esc_html__( 'Billing Address' , 'paid-member-subscriptions' ) .'</label>';
+            $billing_details .= '<span id="pms_billing_address">' . $data['pms_billing_address'] . '</span>';
+            $billing_details .= '</div>';
+        }
 
         // City
-        if( ! empty( $data['pms_billing_city'] ) )
-            $billing_city .= ', ' . '<span id="pms_billing_city">' . $data['pms_billing_city'] . '</span>';
+        if( ! empty( $data['pms_billing_city'] ) ) {
+            $billing_details .= '<div class="cozmoslabs-form-field-wrapper">';
+            $billing_details .= '<label class="cozmoslabs-form-field-label">'. esc_html__( 'Billing City' , 'paid-member-subscriptions' ) .'</label>';
+            $billing_details .= '<span id="pms_billing_city">' . $data['pms_billing_city'] . '</span>';
+            $billing_details .= '</div>';
+        }
 
-        if( !empty( $billing_city ) )
-            $billing_details .= PHP_EOL . $billing_city;
+        // Zip code
+        if( ! empty( $data['pms_billing_zip'] ) ) {
+            $billing_details .= '<div class="cozmoslabs-form-field-wrapper">';
+            $billing_details .= '<label class="cozmoslabs-form-field-label">'. esc_html__( 'Billing Zip / Postal Code' , 'paid-member-subscriptions' ) .'</label>';
+            $billing_details .= '<span id="pms_billing_zip">' . $data['pms_billing_zip'] . '</span>';
+            $billing_details .= '</div>';
+        }
 
         // Billing country
         if( ! empty( $data['pms_billing_country'] ) ) {
 
             $countries = pms_get_countries();
 
-            if( ! empty( $countries[$data['pms_billing_country']] ) )
-                $billing_details .= PHP_EOL . '<span id="pms_billing_country">' . $countries[$data['pms_billing_country']]  . '</span>';
+            if( ! empty( $countries[$data['pms_billing_country']] ) ) {
+                $billing_details .= '<div class="cozmoslabs-form-field-wrapper">';
+                $billing_details .= '<label class="cozmoslabs-form-field-label">'. esc_html__( 'Billing Country' , 'paid-member-subscriptions' ) .'</label>';
+                $billing_details .= '<span id="pms_billing_country">' . $countries[$data['pms_billing_country']]  . '</span>';
+                $billing_details .= '</div>';
+            }
 
         }
 
-        // Email
-        $billing_details .= PHP_EOL . ( ! empty( $data['pms_billing_email'] ) ? '<span id="pms_billing_email">' . $data['pms_billing_email'] . '</span>' : '' );
+        // Billing State
+        if( ! empty( $data['pms_billing_country'] ) && ! empty( $data['pms_billing_state'] ) ) {
 
-        $billing_details = wpautop( $billing_details );
+            $states = pms_get_billing_states();
+
+            if( ! empty( $states[$data['pms_billing_country']][$data['pms_billing_state']] ) ) {
+                $billing_details .= '<div class="cozmoslabs-form-field-wrapper">';
+                $billing_details .= '<label class="cozmoslabs-form-field-label">'. esc_html__( 'Billing State / Province' , 'paid-member-subscriptions' ) .'</label>';
+                $billing_details .= '<span id="pms_billing_state">' . $states[$data['pms_billing_country']][$data['pms_billing_state']]  . '</span>';
+                $billing_details .= '</div>';
+            }
+
+        }
 
         if( $return === true )
             return wp_kses_post( $billing_details );

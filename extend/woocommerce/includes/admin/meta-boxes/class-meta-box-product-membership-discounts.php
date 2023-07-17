@@ -56,19 +56,21 @@ Class PMS_Meta_Box_Product_Membership_Discounts extends PMS_Meta_Box {
 
 
             // Product Discounts behaviour
-            echo '<div class="pms-meta-box-field-wrapper">';
-            echo '<label for="pms_woo_product_membership_discounts_behaviour" class="pms-meta-box-field-label">' . esc_html( __("Discounts behaviour", "paid-member-subscriptions") ) . '</label>';
+            echo '<div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">';
+            echo '<label for="pms_woo_product_membership_discounts_behaviour" class="pms-meta-box-field-label cozmoslabs-form-field-label">' . esc_html( __("Discounts behaviour", "paid-member-subscriptions") ) . '</label>';
             echo '<select id="pms_woo_product_membership_discounts_behaviour" name="pms-woo-product-membership-discounts-behaviour">';
             echo '<option value="default" ' . selected($membership_discounts_behaviour, 'default', false) . '>' . esc_html( __("Best price" , "paid-member-subscriptions") ). '</option>';
             echo '<option value="ignore" '  . selected($membership_discounts_behaviour, 'ignore', false) . '>'  . esc_html( __("Apply only discounts set below for this product", "paid-member-subscriptions") ) . '</option>';
             echo '<option value="exclude" ' . selected($membership_discounts_behaviour, 'exclude', false) . '>' . esc_html( __("Exclude this product from all membership discounts", "paid-member-subscriptions") ) . '</option>';
             echo '</select>';
 
-            echo '<p class="description default_discount"'. ( ($membership_discounts_behaviour == 'default') ? '' : 'style="display:none"' ) .'>' . esc_html( __('This will calculate the best price for this product, based on all existing member discounts (set both per subscription plan and per product) ', 'paid-member-subscriptions') ). '</p>';
-            echo '<p class="description ignore_discount"' . ( ($membership_discounts_behaviour == 'ignore')  ? '' : 'style="display:none"' ) .'>' . esc_html( __('This will ignore the global discounts set per subscription plan that apply to this product', 'paid-member-subscriptions') ) . '</p>';
-            echo '<p class="description exclude_discount"'. ( ($membership_discounts_behaviour == 'exclude') ? '' : 'style="display:none"' ) .'>' . esc_html( __('This will exclude this product from any membership discounts that may apply now or in the future', 'paid-member-subscriptions') ) . '</p>';
+            echo '<p class="cozmoslabs-description cozmoslabs-description-space-left default_discount"'. ( ($membership_discounts_behaviour == 'default') ? '' : 'style="display:none"' ) .'>' . esc_html( __('This will calculate the best price for this product, based on all existing member discounts (set both per subscription plan and per product) ', 'paid-member-subscriptions') ). '</p>';
+            echo '<p class="cozmoslabs-description cozmoslabs-description-space-left ignore_discount"' . ( ($membership_discounts_behaviour == 'ignore')  ? '' : 'style="display:none"' ) .'>' . esc_html( __('This will ignore the global discounts set per subscription plan that apply to this product', 'paid-member-subscriptions') ) . '</p>';
+            echo '<p class="cozmoslabs-description cozmoslabs-description-space-left exclude_discount"'. ( ($membership_discounts_behaviour == 'exclude') ? '' : 'style="display:none"' ) .'>' . esc_html( __('This will exclude this product from any membership discounts that may apply now or in the future', 'paid-member-subscriptions') ) . '</p>';
             echo '</div>';
 
+
+            echo '<div class="pms-form-field-wrapper cozmoslabs-form-field-wrapper">';
 
             // Discount codes table
             echo '<table id="pms-woo-product-membership-discounts">';
@@ -124,7 +126,7 @@ Class PMS_Meta_Box_Product_Membership_Discounts extends PMS_Meta_Box {
                     echo '</select>';
                     echo '</td>';
 
-                    echo '<td><a href="#" class="pms-woo-product-remove-membership-discount" title="'. esc_html( __('Remove this discount', 'paid-member-subscriptions') ) . '"><span class="dashicons dashicons-no"></span></a></td>';
+                    echo '<td><a href="#" class="pms-woo-product-remove-membership-discount cozmoslabs-remove-item" title="'. esc_html( __('Remove this discount', 'paid-member-subscriptions') ) . '"><span class="dashicons dashicons-no"></span></a></td>';
                     echo '</tr>';
                 }
             }
@@ -132,6 +134,7 @@ Class PMS_Meta_Box_Product_Membership_Discounts extends PMS_Meta_Box {
             echo '</tbody>';
 
             echo '</table>';
+            echo '</div>';
 
             // Add New Discount button
             echo '<a href="#" id="pms-woo-product-add-membership-discount" class="button button-primary">' . esc_html( __( 'Add New Discount', 'paid-member-subscriptions' ) ) . '</a>';

@@ -8,14 +8,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 ?>
 
-<div class="wrap">
+<div class="wrap cozmoslabs-wrap">
 
-    <h1>
-        <?php echo esc_html( $this->page_title ); ?>
-        <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/reports/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
-    </h1>
+    <h1></h1>
+    <!-- WordPress Notices are added after the h1 tag -->
 
-    <h2 class="nav-tab-wrapper">
+    <div class="cozmoslabs-page-header">
+        <div class="cozmoslabs-section-title">
+            <h3 class="cozmoslabs-page-title"><?php echo esc_html( $this->page_title ); ?></h3>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/reports/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+        </div>
+    </div>
+
+    <h2 class="cozmoslabs-nav-tab-wrapper">
         <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-reports-page' ) ); ?>" class="nav-tab <?php echo $active_tab == 'pms-reports-page' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Reports', 'paid-member-subscriptions' ); ?></a>
         <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-export-page' ) ); ?>"  class="nav-tab <?php echo $active_tab == 'pms-export-page' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Export', 'paid-member-subscriptions' ); ?></a>
         <?php do_action( 'pms_reports_tab' ); ?>
@@ -25,20 +30,25 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <input type="hidden" name="page" value="pms-reports-page" />
 
         <!-- Filter box -->
-        <div class="postbox">
+        <div class="postbox cozmoslabs-form-subsection-wrapper">
+            <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Filters', 'paid-member-subscriptions' ); ?></h4>
             <div class="inside">
-                <h4><?php echo esc_html__( 'Filters', 'paid-member-subscriptions' ); ?></h4>
+                    <div class="cozmoslabs-form-field-wrapper">
 
-                <?php do_action( 'pms_reports_filters' ); ?>
+                    <?php do_action( 'pms_reports_filters' ); ?>
 
-                <button name="pms-action" type="submit" class="button-secondary" value="filter_results"><?php echo esc_html__( 'Filter', 'paid-member-subscriptions' ); ?></button>
+                    <button name="pms-action" type="submit" class="button-secondary" value="filter_results"><?php echo esc_html__( 'Filter', 'paid-member-subscriptions' ); ?></button>
+                </div>
             </div>
         </div>
 
         <!-- Chart and details -->
-        <div class="postbox">
-            <div class="inside" style="padding: 20px 45px;">
-                <canvas id="payment-report-chart" width="1000" height="250"></canvas>
+        <div class="postbox cozmoslabs-form-subsection-wrapper">
+            <div class="inside"">
+            <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Report Chart', 'paid-member-subscriptions' ); ?></h4>
+                <div class="cozmoslabs-form-field-wrapper">
+                    <canvas id="payment-report-chart" width="1000" height="250"></canvas>
+                </div>
             </div>
         </div>
 

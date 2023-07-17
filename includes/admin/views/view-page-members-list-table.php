@@ -10,13 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <div class="wrap">
 
-    <h1>
+    <h1 class="wp-heading-inline">
         <?php echo esc_html( $this->page_title ); ?>
 
         <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-management/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
 
-        <a href="<?php echo esc_url( add_query_arg( array( 'page' => $this->menu_slug, 'subpage' => 'add_subscription' ), admin_url( 'admin.php' ) ) ); ?>" class="add-new-h2"><?php echo esc_html__( 'Add New', 'paid-member-subscriptions' ); ?></a>
-        <a href="<?php echo esc_url( add_query_arg( array( 'page' => $this->menu_slug, 'subpage' => 'add_new_members_bulk' ), admin_url( 'admin.php' ) ) ); ?>" class="add-new-h2"><?php echo esc_html__( 'Bulk Add New', 'paid-member-subscriptions' ); ?></a>
+        <a href="<?php echo esc_url( add_query_arg( array( 'page' => $this->menu_slug, 'subpage' => 'add_subscription' ), admin_url( 'admin.php' ) ) ); ?>" class="add-new-h2 page-title-action"><?php echo esc_html__( 'Add New', 'paid-member-subscriptions' ); ?></a>
+        <a href="<?php echo esc_url( add_query_arg( array( 'page' => $this->menu_slug, 'subpage' => 'add_new_members_bulk' ), admin_url( 'admin.php' ) ) ); ?>" class="add-new-h2 page-title-action"><?php echo esc_html__( 'Bulk Add New', 'paid-member-subscriptions' ); ?></a>
     </h1>
     <form method="get">
         <input type="hidden" name="page" value="pms-members-page" />
@@ -41,20 +41,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <div class="postbox">
 
                             <!-- Meta-box Title -->
-                            <h3>
+                            <h2 class="hndle">
 									<span>
 										<?php
                                         esc_html_e( 'Filter by', 'paid-member-subscriptions' );
                                         ?>
 									</span>
-                            </h3>
+                            </h2>
 
                             <div class="submitbox">
                                 <div id="major-publishing-actions">
                                     <?php
-                                    echo '<div style="display: inline-block;">';
 
-                                        echo '<div class="pms-members-filter">';
+                                        echo '<div>';
                                         /*
                                          * Add a custom select box to filter the list by Subscription Plans
                                          *
@@ -77,7 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                         $payment_gateways = pms_get_payment_gateways();
                                         $payment_gateways_keys = array_keys( $payment_gateways );
 
-                                        echo '<div class="pms-members-filter">';
+                                        echo '<div>';
                                             echo '<select name="pms-filter-payment-gateway" class="pms-filter-select" id="pms-filter-payment-gateway">';
                                                 echo '<option value="">' . esc_html__( 'Payment Gateway...', 'paid-member-subscriptions' ) . '</option>';
                                                 $i = 0;
@@ -89,7 +88,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                             echo '</select>';
                                         echo '</div>';
 
-                                        echo '<div class="pms-members-filter">';
+                                        echo '<div>';
                                             echo '<select name="pms-filter-start-date" class="pms-filter-select" id="pms-filter-start-date">';
                                                 echo '<option value="">' . esc_html__( 'Start Date...', 'paid-member-subscriptions' ) . '</option>';
                                                 echo '<option value="last_week" ' . ( !empty( $_GET['pms-filter-start-date'] ) ? selected( "last_week", sanitize_text_field( $_GET['pms-filter-start-date'] ), false ) : '' ) . '>' . esc_html__( 'Last 7 Days', 'paid-member-subscriptions' ) . '</option>';
@@ -99,7 +98,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                             echo '</select>';
                                         echo '</div>';
 
-                                        echo '<div class="pms-custom-interval" id="pms-start-date-interval">';
+                                        echo '<div class="cozmoslabs-custom-interval" id="pms-start-date-interval">';
                                             echo '<label id="pms-label-start-date-beginning" for="pms-datepicker-start-date-beginning">' . esc_html__( 'Start of Interval', 'paid-member-subscriptions' ) . '</label>';
                                             echo '<input id="pms-datepicker-start-date-beginning" type="text" name="pms-datepicker-start-date-beginning" class="datepicker value="'. ( !empty( $_GET['pms-datepicker-start-date-beginning'] ) ? esc_attr( sanitize_text_field( $_GET['pms-datepicker-start-date-beginning'] ) ) : '' ) . '">';
 
@@ -108,7 +107,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                         echo '</div>';
 
 
-                                        echo '<div class="pms-members-filter">';
+                                        echo '<div>';
                                             echo '<select name="pms-filter-expiration-date" class="pms-filter-select" id="pms-filter-expiration-date">';
                                                 echo '<option value="">' . esc_html__( 'Expiration Date...', 'paid-member-subscriptions' ) . '</option>';
                                                 echo '<option value="today" ' . ( !empty( $_GET['pms-filter-expiration-date'] ) ? selected( "today", sanitize_text_field( $_GET['pms-filter-expiration-date'] ), false ) : '' ) . '>' . esc_html__( 'Today', 'paid-member-subscriptions' ) . '</option>';
@@ -119,7 +118,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                             echo '</select>';
                                         echo '</div>';
 
-                                        echo '<div class="pms-custom-interval" id="pms-expiration-date-interval">';
+                                        echo '<div class="cozmoslabs-custom-interval" id="pms-expiration-date-interval">';
                                             echo '<label id="pms-label-expiration-date-beginning" for="pms-datepicker-expiration-date-beginning">' . esc_html__( 'Start of Interval', 'paid-member-subscriptions' ) . '</label>';
                                             echo '<input id="pms-datepicker-expiration-date-beginning" type="text" name="pms-datepicker-expiration-date-beginning" class="datepicker value="'. ( !empty( $_GET['pms-datepicker-expiration-date-beginning'] ) ? esc_attr( sanitize_text_field( $_GET['pms-datepicker-expiration-date-beginning'] ) ) : '' ) . '" ' . ( !empty( $_GET['pms-datepicker-expiration-date-beginning'] ) ? esc_attr( sanitize_text_field( $_GET['pms-datepicker-expiration-date-beginning'] ) ) : '' ) . '>';
 
@@ -132,7 +131,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                          */
                                         echo '<input class="button button-secondary" id="pms-filter-button" type="submit" value="' . esc_html__( 'Filter', 'paid-member-subscriptions' ) . '" />';
 
-                                    echo '</div>';
                                     ?>
 
                                     <div class="clear"></div>

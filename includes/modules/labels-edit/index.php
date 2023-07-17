@@ -239,149 +239,160 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
 
     public function edit_labels_metabox(){
         ?>
-            <div id="pmsle">
-                <form method="post">
-                    <ul>
-                        <li class="list-entry-field">
-                            <label for="pmsle-label" class="field-label"><?php echo esc_html__( 'Label to Edit:', 'paid-member-subscriptions' ); ?></label>
-                            <div>
-
-                                <?php
-
-                                $strings = get_option( 'pmsle_backup', array() );
-
-                                /*
-                                 * Display Labels Edit select
-                                 */
-                                echo '<select name="pmsle-label-select" class="pmsle-label-select" id="pmsle-label-select">';
-                                echo '<option value="">' . esc_html__( '...Choose', 'paid-member-subscriptions' ) . '</option>';
-                                $i = 0;
-                                foreach( $strings as $string ){
-                                    if( isset( $strings[ $i ] ) )
-                                        echo '<option value="' . esc_attr( $strings[ $i ] ) . '">' . esc_html( $strings[ $i ] ) . '</option>';
-                                    $i++;
-                                }
-                                echo '</select>';
-                                echo '<p class="description">' . esc_html__( 'Here you will see the default label so you can copy it.', 'paid-member-subscriptions' ) . '</p>';
-
-                                ?>
-
-                            </div>
-                        </li>
-                        <li class="list-entry-field">
-                            <label for="pmsle-newlabel" class="field-label"><?php echo esc_html__( 'New Label:', 'paid-member-subscriptions' ); ?></label>
-                            <div>
-                                <textarea name="pmsle-newlabel" id="pmsle-newlabel-textarea"></textarea>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <input id="pmsle-submit" type="submit" class="button-primary" value="<?php esc_html_e( 'Add Entry', 'paid-member-subscriptions' ); ?>"/>
+            <form method="post">
+                <div class="cozmoslabs-form-field-wrapper">
+                    <label for="pmsle-label" class="cozmoslabs-form-field-label"><?php echo esc_html__( 'Label to Edit:', 'paid-member-subscriptions' ); ?></label>
 
                     <?php
-                        wp_nonce_field( 'pmsle_add_entry_nonce' );
 
-                        echo '<table id="pmsle-table" class="widefat">';
-                        $edited_labels = get_option( 'pmsle', false );
-                        if( !empty( $edited_labels ) ){
-                            echo '<thead>';
-                                echo '<tr class="pmsle-header">';
-                                    echo '<th class="pmsle-table-number">' . esc_html__( '#', 'paid-member-subscriptions' ) . '</th>';
-                                    echo '<th class="pmsle-table-label">' . esc_html__( 'Labels', 'paid-member-subscriptions' ) . '</th>';
-                                    echo '<th class="pmsle-table-edit">' . esc_html__( 'Edit', 'paid-member-subscriptions' ) . '</th>';
-                                    echo '<th class="pmsle-table-delete"><a id="pmsle-delete-all-fields" onclick="return confirm( \'' . esc_html__( "Are you sure you want to delete all items?", "paid-member-subscriptions" ) . ' \' )" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'page' => 'pms-labels-edit' ) ), 'pmsle_delete_all_nonce' ) ). '">' . esc_html__( 'Delete all', 'paid-member-subscriptions' ) . '</a></th>';
-                                echo '</tr>';
-                            echo '</thead>';
-                            echo '<tbody class="sortable">';
-                            $i = 0;
-                            foreach( $edited_labels as $label ){
-                                if( isset( $edited_labels[ $i ] ) ) {
-                                    echo '<tr id="pmsle-table-element-' . esc_attr( $i ) . '">';
-                                        echo '<td class="pmsle-table-number">' . esc_attr( $i + 1 ) . '</td>';
-                                        echo '<td class="pmsle-table-label">';
-                                            echo '<ul>';
-                                                echo '<li><strong>' . esc_html__( 'Label to Edit:', 'paid-member-subscriptions' ) . '</strong><pre id="pmsle-label-' . esc_attr( $i ) . '">' . esc_attr( $label['pmsle-label'] ) . '</pre></li>';
-                                                echo '<li><strong>' . esc_html__( 'New Label:', 'paid-member-subscriptions' ) . '</strong><pre id="pmsle-newlabel-' . esc_attr( $i ) . '">' . esc_attr( $label['pmsle-newlabel'] ) . '</pre></li>';
-                                            echo '</ul>';
-                                        echo '</td>';
-                                        echo '<td id="pmsle-edit-item-' . esc_attr( $i ) .'" class="pmsle-table-edit"><a class="button-secondary" >' . esc_html__( 'Edit', 'paid-member-subscriptions' ) . '</a></td>';
-                                        echo '<td class="pmsle-table-delete"><a class="delete" onclick="return confirm( \'' . esc_html__( "Delete this item?", "paid-member-subscriptions" ) . ' \' )" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'page' => 'pms-labels-edit', 'pmsle_label_id' => $i ) ), 'pmsle_delete_label_nonce' ) ) . '">' . esc_html__( 'Delete', 'paid-member-subscriptions' ) . '</a></td>';
-                                    echo '</tr>';
-                                }
-                                $i++;
-                            }
-                            echo '</tbody>';
-                        }
-                        echo '</table>';
+                    $strings = get_option( 'pmsle_backup', array() );
+
+                    /*
+                     * Display Labels Edit select
+                     */
+                    echo '<select name="pmsle-label-select" class="pmsle-label-select" id="pmsle-label-select">';
+                    echo '<option value="">' . esc_html__( '...Choose', 'paid-member-subscriptions' ) . '</option>';
+                    $i = 0;
+                    foreach( $strings as $string ){
+                        if( isset( $strings[ $i ] ) )
+                            echo '<option value="' . esc_attr( $strings[ $i ] ) . '">' . esc_html( $strings[ $i ] ) . '</option>';
+                        $i++;
+                    }
+                    echo '</select>';
 
                     ?>
+                    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Here you will see the default label so you can copy it.', 'paid-member-subscriptions' ) ?></p>
 
-                </form>
-            </div>
+                </div>
+
+                <div class="cozmoslabs-form-field-wrapper">
+                    <label for="pmsle-newlabel-textarea" class="cozmoslabs-form-field-label"><?php echo esc_html__( 'New Label:', 'paid-member-subscriptions' ); ?></label>
+                    <textarea name="pmsle-newlabel" id="pmsle-newlabel-textarea"></textarea>
+                </div>
+
+                <input id="pmsle-submit" type="submit" class="button-primary" value="<?php esc_html_e( 'Add Entry', 'paid-member-subscriptions' ); ?>"/>
+
+                <?php
+                    wp_nonce_field( 'pmsle_add_entry_nonce' );
+
+                    echo '<table id="pmsle-table" class="widefat">';
+                    $edited_labels = get_option( 'pmsle', false );
+                    if( !empty( $edited_labels ) ){
+                        echo '<thead>';
+                            echo '<tr class="pmsle-header">';
+                                echo '<th class="pmsle-table-number">' . esc_html__( '#', 'paid-member-subscriptions' ) . '</th>';
+                                echo '<th class="pmsle-table-label">' . esc_html__( 'Labels', 'paid-member-subscriptions' ) . '</th>';
+                                echo '<th class="pmsle-table-edit">' . esc_html__( 'Edit', 'paid-member-subscriptions' ) . '</th>';
+                                echo '<th class="pmsle-table-delete"><a id="pmsle-delete-all-fields" onclick="return confirm( \'' . esc_html__( "Are you sure you want to delete all items?", "paid-member-subscriptions" ) . ' \' )" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'page' => 'pms-labels-edit' ) ), 'pmsle_delete_all_nonce' ) ). '">' . esc_html__( 'Delete all', 'paid-member-subscriptions' ) . '</a></th>';
+                            echo '</tr>';
+                        echo '</thead>';
+                        echo '<tbody class="sortable">';
+                        $i = 0;
+                        foreach( $edited_labels as $label ){
+                            if( isset( $edited_labels[ $i ] ) ) {
+
+                                $alternate_row = '';
+                                if ( $i % 2 === 0 )
+                                    $alternate_row = 'alternate';
+
+                                echo '<tr id="pmsle-table-element-' . esc_attr( $i ) . '" class='. esc_html( $alternate_row ) .' >';
+                                    echo '<td class="pmsle-table-number">' . esc_attr( $i + 1 ) . '</td>';
+                                    echo '<td class="pmsle-table-label">';
+                                        echo '<ul>';
+                                            echo '<li><strong>' . esc_html__( 'Label to Edit:', 'paid-member-subscriptions' ) . '</strong><pre id="pmsle-label-' . esc_attr( $i ) . '">' . esc_attr( $label['pmsle-label'] ) . '</pre></li>';
+                                            echo '<li><strong>' . esc_html__( 'New Label:', 'paid-member-subscriptions' ) . '</strong><pre id="pmsle-newlabel-' . esc_attr( $i ) . '">' . esc_attr( $label['pmsle-newlabel'] ) . '</pre></li>';
+                                        echo '</ul>';
+                                    echo '</td>';
+                                    echo '<td id="pmsle-edit-item-' . esc_attr( $i ) .'" class="pmsle-table-edit"><a class="button-secondary" >' . esc_html__( 'Edit', 'paid-member-subscriptions' ) . '</a></td>';
+                                    echo '<td class="pmsle-table-delete"><a class="delete cozmoslabs-remove-item" onclick="return confirm( \'' . esc_html__( "Delete this item?", "paid-member-subscriptions" ) . ' \' )" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'page' => 'pms-labels-edit', 'pmsle_label_id' => $i ) ), 'pmsle_delete_label_nonce' ) ) . '"><span class="dashicons dashicons-no-alt"></span></a></td>';
+                                echo '</tr>';
+                            }
+                            $i++;
+                        }
+                        echo '</tbody>';
+                    }
+                    echo '</table>';
+
+                ?>
+
+            </form>
     <?php
     }
 
     public function rescan_metabox() {
         ?>
-    	<div class="wrap">
-    		<p>Rescan all Paid Member Subscriptions labels.</p>
 
-    		<form action="" method="post">
-    			<input type="submit" class="button-primary" name="pmsle_rescan" value="Rescan" />
+        <div class="cozmoslabs-form-field-wrapper">
+
+            <form action="" method="post">
+                <input type="submit" class="button-primary" name="pmsle_rescan" value="Rescan" />
                 <?php wp_nonce_field( 'pmsle_rescan_nonce' ); ?>
-    		</form>
-    	</div>
+            </form>
+
+            <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Rescan all Paid Member Subscriptions labels.', 'paid-member-subscriptions' ); ?></p>
+
+        </div>
+
+
     <?php
     }
 
     public function info_metabox() {
         ?>
-    	<div class="wrap">
-    		<p><b>Variables:</b></p>
-    		<ul>
-    			<li>%1$s</li>
-    			<li>%2$s</li>
-    			<li>%s</li>
-    			<li>etc.</li>
-    		</ul>
-    		<p><b>Place them like in the default string!</b></p>
-    		<p>Example:</p>
-    		<p>
-    			<b>Old Label:</b><br>in %1$d sec, click %2$s.%3$s<br>
-    			<b>New Label:</b><br>click %2$s.%3$s in %1$d sec<br>
-    		</p>
-    		<a href="http://www.cozmoslabs.com/?p=40126" target="_blank">Read more detailed information</a>
-    	</div>
+
+        <div class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Variables', 'paid-member-subscriptions' ); ?></label>
+
+            <ul class="pmsle-var-list">
+                <li>%1$s</li>
+                <li>%2$s</li>
+                <li>%s</li>
+                <li>etc.</li>
+            </ul>
+
+            <p class="cozmoslabs-description"><?php esc_html_e( 'Place them like in the default string.', 'paid-member-subscriptions' ); ?></p>
+        </div>
+        <div id="pmsle-example" class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Example:', 'paid-member-subscriptions' ); ?></label>
+            <div class="pmsle-example-container">
+                <p class="cozmoslabs-description"><strong><?php esc_html_e( 'Old Label:', 'paid-member-subscriptions' ); ?></strong> in %1$d sec, click %2$s.%3$s</p>
+                <p class="cozmoslabs-description"><strong><?php esc_html_e( 'New Label:', 'paid-member-subscriptions' ); ?></strong> click %2$s.%3$s in %1$d sec</p>
+            </div>
+            <p class="cozmoslabs-description cozmoslabs-description-space-left">
+                <a href="http://www.cozmoslabs.com/?p=40126" target="_blank"><?php esc_html_e( 'Read more detailed information', 'paid-member-subscriptions' ); ?></a>
+            </p>
+        </div>
+
     <?php
     }
 
     public function import_export_metabox() {
     ?>
-    	<p>
-    		<?php esc_html_e( 'Import Labels from a .json file.', 'paid-member-subscriptions' ); ?>
-    		<br>
-    		<?php esc_html_e( 'Easily import the labels from another site.', 'paid-member-subscriptions' ); ?>
-    	</p>
-    	<form name="pmsle-upload" method="post" action="" enctype= "multipart/form-data">
-    		<div class="wrap">
-    			<input type="file" name="pmsle-upload" value="pmsle-upload" id="pmsle-upload" />
-    		</div>
-    		<div class="wrap">
-    			<input class="button-primary" type="submit" name="pmsle-import" value=<?php esc_attr_e( 'Import', 'paid-member-subscriptions' ); ?> id="pmsle-import" onclick="return confirm( '<?php esc_html_e( 'This will overwrite all your old edited labels! \n\rAre you sure you want to continue?', 'paid-member-subscriptions' ); ?>' )" />
-    		</div>
-            <?php wp_nonce_field( 'pmsle_import_nonce' ); ?>
-    	</form>
-    	<hr>
-    	<p>
-    		<?php esc_html_e( 'Export Labels as a .json file.', 'paid-member-subscriptions' ); ?>
-    		<br>
-    		<?php esc_html_e( 'Easily import the labels into another site.', 'paid-member-subscriptions' ); ?>
-    	</p>
-    	<div class="wrap">
-    		<form action="" method="post"><input class="button-primary" type="submit" name="pmsle-export" value=<?php esc_attr_e( 'Export', 'paid-member-subscriptions' ); ?> id="pmsle-export" />
+
+        <div class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Import Labels', 'paid-member-subscriptions' ); ?></label>
+
+            <form name="pmsle-upload" method="post" action="" enctype= "multipart/form-data">
+                <input class="button-primary" type="submit" name="pmsle-import" value=<?php esc_attr_e( 'Import', 'paid-member-subscriptions' ); ?> id="pmsle-import" onclick="return confirm( '<?php esc_html_e( 'This will overwrite all your old edited labels! \n\rAre you sure you want to continue?', 'paid-member-subscriptions' ); ?>' )" />
+                <input type="file" name="pmsle-upload" value="pmsle-upload" id="pmsle-upload" />
+                <?php wp_nonce_field( 'pmsle_import_nonce' ); ?>
+            </form>
+
+            <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Import Labels from a .json file.', 'paid-member-subscriptions' ); ?></p>
+            <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Easily import the labels from another site.', 'paid-member-subscriptions' ); ?></p>
+        </div>
+
+        <div class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Export Labels', 'paid-member-subscriptions' ); ?></label>
+
+            <form action="" method="post"><input class="button-primary" type="submit" name="pmsle-export" value=<?php esc_attr_e( 'Export', 'paid-member-subscriptions' ); ?> id="pmsle-export" />
                 <?php wp_nonce_field( 'pmsle_export_nonce' ); ?>
             </form>
-    	</div>
+
+            <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Export Labels as a .json file.', 'paid-member-subscriptions' ); ?></p>
+            <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Easily import the labels into another site.', 'paid-member-subscriptions' ); ?></p>
+        </div>
+
     <?php
     }
 

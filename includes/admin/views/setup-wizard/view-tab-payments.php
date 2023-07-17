@@ -44,7 +44,7 @@
                 <?php esc_html_e( 'Accept payments directly on your website using a wide range of payment methods allowing for a faster checkout directly on your website. Enable users to pay using debit or credit cards, Bancontact, Giropay, iDEAL, Sofort and many more.', 'paid-member-subscriptions' ); ?>
             </div>
             <div class="pms-setup-toggle">
-                <input type="checkbox" name="pms_gateway_stripe" id="pms_gateway_stripe" <?php echo $this->check_gateway( 'stripe_connect' ) ? 'checked' : '' ?> /><label for="pms_gateway_stripe">Toggle</label>
+                <input type="checkbox" name="pms_gateway_stripe" id="pms_gateway_stripe" <?php echo $this->check_gateway( 'stripe_connect' ) || !$this->website_has_payments() ? 'checked' : '' ?> /><label for="pms_gateway_stripe">Toggle</label>
             </div>
         </div>
 
@@ -54,12 +54,53 @@
             </div>
 
             <div class="pms-setup-gateway__description pms-setup-gateway__description-extra">
-                <div style="font-weight:bold; font-size: 110%;">
-                    <?php echo wp_kses( __( 'After finishing setup, please go to the PMS -> Settings -> Payments page in order to continue the setup for this gateway.', 'paid-member-subscriptions' ), $this->kses_args ); ?>
-                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Initial_Setup/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFreeStripeInitialSetup" target="_blank">
-                        <?php esc_html_e( 'Learn More', 'paid-member-subscriptions' ); ?>
-                    </a>
-                </div>
+                <?php
+                
+                $connection_status = pms_stripe_connect_get_account_status();
+                
+                if( $connection_status != false ){
+                    echo '<p style="text-align:center; font-size: 110%; color: green;">' . sprintf( __('You are connected in %s mode. You can start accepting payments', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? 'Test' : 'Live' ) . '</p>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                } else {
+                    if( isset( $_GET['pms_stripe_connect_success'] ) && $_GET['pms_stripe_connect_success'] == 1 ){
+
+                        echo '<p style="text-align:center; font-size: 110%; color: green;">' . sprintf( __('You are connected in %s mode. You can start accepting payments', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? 'Test' : 'Live' ) . '</p>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        
+                    } else {
+                        if( isset( $_GET['pms_stripe_connect_platform_error'] ) && !empty( $_GET['code'] ) ){
+    
+                            if( !empty( $_GET['error'] ) ){
+                                $error = sanitize_text_field( $_GET['error'] );
+        
+                                echo '<p class="pms-stripe-connect__settings-error">'. esc_html( $error ) . '</p>';
+                            } else {
+        
+                                $error_code = sanitize_text_field( $_GET['code'] );
+        
+                                if( $error_code == 'generic_error' ){
+                                    echo '<p class="pms-stripe-connect__settings-error">' . esc_html__( 'Something went wrong, please attempt the connection again.', 'paid-member-subscriptions' ) . '</p>';
+                                }
+        
+                            }
+                        }
+        
+                        $stripe_connect_base_url = 'https://cozmoslabs.com/?pms_stripe_connect_handle_authorization';
+                        $environment             = pms_is_payment_test_mode() ? 'test' : 'live';
+        
+                        $stripe_connect_link = add_query_arg(
+                            [
+                                'pms_stripe_connect_action' => 'connect',
+                                'environment'               => $environment,
+                                'home_url'                  => home_url(),
+                                'pms_return_location'       => 'setup',
+                            ],
+                            $stripe_connect_base_url
+                        );
+        
+                        echo '<a href="'. esc_url( $stripe_connect_link ) .'" class="pms-stripe-connect__button"><img src="' . esc_attr( PMS_PLUGIN_DIR_URL ) . 'includes/gateways/stripe/assets/img/stripe-connect.png" /></a>';
+                        echo '<p style="text-align: center; width: 100%;">' . esc_html__( 'Connect your existing Stripe account or create a new one to start accepting payments. Press the button above to start.', 'paid-member-subscriptions' ) . '</p>';
+                    }
+                }
+                ?>
             </div>
 
             <div class="pms-setup-toggle"></div>

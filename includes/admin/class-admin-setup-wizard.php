@@ -275,6 +275,17 @@ class PMS_Setup_Wizard {
             die();
         }
     }
+
+    public function website_has_payments(){
+
+        $payments = pms_get_payments( array( 'number' => '5' ) );
+
+        if( !empty( count( $payments ) ) )
+            return true;
+
+        return false;
+
+    }
 }
 
 new PMS_Setup_Wizard();

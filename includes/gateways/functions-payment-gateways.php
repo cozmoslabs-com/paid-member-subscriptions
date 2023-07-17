@@ -15,21 +15,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function pms_get_payment_gateways( $only_slugs = false ) {
 
     $payment_gateways = apply_filters( 'pms_payment_gateways', array(
-        'stripe_connect' => array(
-            'display_name_user'  => __( 'Credit / Debit Card', 'paid-member-subscriptions' ),
-            'display_name_admin' => 'Stripe',
-            'class_name'         => 'PMS_Payment_Gateway_Stripe_Connect'
-        ),
         'manual'          => array(
             'display_name_user'  => __( 'Manual/Offline', 'paid-member-subscriptions' ),
             'display_name_admin' => __( 'Manual/Offline', 'paid-member-subscriptions' ),
-            'class_name'         => 'PMS_Payment_Gateway_Manual'
+            'class_name'         => 'PMS_Payment_Gateway_Manual',
+            'description'        =>  __( 'Manually collect payments from  Checks, Direct Bank Transfers or in person cash.', 'paid-member-subscriptions' )
         ),
 
         'paypal_standard' => array(
             'display_name_user'  => __( 'PayPal', 'paid-member-subscriptions' ),
             'display_name_admin' => __( 'PayPal Standard', 'paid-member-subscriptions' ),
-            'class_name'         => 'PMS_Payment_Gateway_PayPal_Standard'
+            'class_name'         => 'PMS_Payment_Gateway_PayPal_Standard',
+            'description'        =>  __( 'Safe and secure payments handled by PayPal.', 'paid-member-subscriptions' )
+        ),
+        'stripe_connect' => array(
+            'display_name_user'  => __( 'Credit / Debit Card', 'paid-member-subscriptions' ),
+            'display_name_admin' => 'Stripe',
+            'class_name'         => 'PMS_Payment_Gateway_Stripe_Connect',
+            'description'        =>  __( 'Connect your existing Stripe Account or create a new one to start accepting payments.', 'paid-member-subscriptions' )
         )
 
     ));

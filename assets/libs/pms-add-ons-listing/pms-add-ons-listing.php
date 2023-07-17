@@ -240,13 +240,15 @@ class PMS_Addons_List_Table extends WP_List_Table {
     function display_addons(){
         ?>
         <div class="wrap" id="pms-add-ons-listing">
-            <h1 class="pms-main-header"><?php echo esc_html( $this->header['title'] );?></h1>
+            <h1></h1>
+            <!-- WordPress Notices are added after the h1 tag -->
+
+            <div class="pms-add-on-notice">
+                <h3><?php esc_html_e( 'Leverage Proven Ways to Get Paid for Your Work', 'paid-member-subscriptions' ) ?></h3>
+                <p><?php esc_html_e( 'Your membership site to the next level with a feature-packed WordPress membership plugin.', 'paid-member-subscriptions' ) ?></p>
+            </div>
 
             <form id="pms-addons" method="post">
-
-                <?php $this->show_search_box(); ?>
-
-                <?php $this->show_sumbit_button(); ?>
 
                 <?php
 
@@ -256,7 +258,6 @@ class PMS_Addons_List_Table extends WP_List_Table {
                     }
                 }
                 ?>
-                <?php $this->show_sumbit_button(); ?>
 
                 <!-- For plugins, we also need to ensure that the form posts back to our current page -->
                 <input type="hidden" name="pms_all_add_ons" value="<?php echo esc_attr( implode( '|' ,$this->all_addons ) ); ?>" />

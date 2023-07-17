@@ -116,10 +116,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         /**
          * When Stripe Connect is used for checkout we make an AJAX request to the website that triggers
          * the normal flow of the plugin: validation -> register user -> process checkout
-         * 
+         *
          * The checkout will error out since we don't have the required payment data and we just want it
          * to register the user, payment, subscription at this point, then it will reach this action
-         * 
+         *
          * We hook the action in order to return some data to the front-end js in order to complete the
          * processing of this payment
          */
@@ -245,14 +245,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                         // Save Customer and Card for this subscription
                         pms_update_member_subscription_meta( $member_subscription_id, '_stripe_customer_id', $setup_intent->customer );
                         pms_update_member_subscription_meta( $member_subscription_id, '_stripe_card_id', $this->stripe_token );
-                        
+
                         $subscription = pms_get_member_subscription( $member_subscription_id );
 
                         // Save Customer to usermeta
                         update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $setup_intent->customer );
-        
+
                         $this->update_customer_information( $setup_intent->customer );
-        
+
                     }
 
                 }
@@ -300,7 +300,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         // Set subscription plan
         if( empty( $this->subscription_plan ) ){
-            
+
             if( !empty( $payment ) )
                 $this->subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
             else if( !empty( $_POST['subscription_plan_id'] ) )
@@ -376,7 +376,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                     // $intent_error = $this->parse_intent_last_error( $intent );
                     // $error_code   = !empty( $intent_error['data']['decline_code'] ) ? $intent_error['data']['decline_code'] : ( !empty( $intent_error['data']['code'] ) ? $intent_error['data']['code'] : 'card_declined' );
-                    
+
                     // $payment->log_data( 'payment_failed', $intent_error, $error_code );
                     // $payment->update( array( 'status' => 'failed' ) );
 
@@ -462,15 +462,15 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     } else {
                         return $data;
                     }
-                
+
                 /**
-                 * 
+                 *
                  */
                 } else {
 
                     $intent_error = $this->parse_intent_last_error( $intent );
                     $error_code   = !empty( $intent_error['data']['decline_code'] ) ? $intent_error['data']['decline_code'] : ( !empty( $intent_error['data']['code'] ) ? $intent_error['data']['code'] : 'card_declined' );
-                    
+
                     $payment->log_data( 'payment_failed', $intent_error, $error_code );
                     $payment->update( array( 'status' => 'failed' ) );
 
@@ -488,7 +488,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 }
             }
-        
+
         // WPPB form which is processed old style
         } else if( isset( $_POST['payment_intent_id'] ) ){
 
@@ -662,7 +662,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     /**
      * Handle Checkout Error redirect after a Stripe payment request
-     * 
+     *
      * @param  object    $subscription   PMS_Member_Subscription object
      * @param  object    $payment        PMS_Payment object, can be empty
      * @return JSON
@@ -780,9 +780,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     }
 
     /**
-     * Similar to PMS_Form_Handler::get_redirect_url(), but with a naked else at the end to cover all the 
+     * Similar to PMS_Form_Handler::get_redirect_url(), but with a naked else at the end to cover all the
      * logged out form locations
-     * 
+     *
      * @param  string        $form_location
      * @return string        Success redirect URL
      */
@@ -798,14 +798,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $redirect_url = $account_page;
 
             $redirect_url = remove_query_arg( array( 'pms-action', 'subscription_id', 'subscription_plan', 'pmstkn' ), $redirect_url );
-            $redirect_url = add_query_arg( 
-                array( 
+            $redirect_url = add_query_arg(
+                array(
                     'pmsscscd'                   => base64_encode( 'subscription_plans' ),
                     'pms_gateway_payment_action' => base64_encode( $form_location ),
                     'pms_gateway_payment_id'     => !empty( $this->payment_id ) ? base64_encode( $this->payment_id ) : '',
-                ), 
+                ),
             $redirect_url );
-        
+
         // This uses the register success URL, but without the registration message
         } else if ( in_array( $form_location, array( 'new_subscription' ) ) ){
 
@@ -813,14 +813,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             if( empty( $redirect_url ) && !empty( $_POST['current_page'] ) )
                 $redirect_url = esc_url_raw( $_POST['current_page'] );
-            
+
             $redirect_url = remove_query_arg( array( 'pms-action', 'subscription_id', 'subscription_plan', 'pmstkn' ), $redirect_url );
-            $redirect_url = add_query_arg( 
-                array( 
+            $redirect_url = add_query_arg(
+                array(
                     'pmsscscd'                   => base64_encode( 'subscription_plans' ),
                     'pms_gateway_payment_action' => base64_encode( $form_location ),
                     'pms_gateway_payment_id'     => !empty( $this->payment_id ) ? base64_encode( $this->payment_id ) : '',
-                ), 
+                ),
             $redirect_url );
 
         // Register success page or current page URL
@@ -845,7 +845,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     protected function get_payment_error_redirect_url(){
 
         $account_page = pms_get_page( 'account', true );
-        
+
         $redirect_url    = !empty( $_POST['current_page'] ) ? esc_url_raw( $_POST['current_page'] ) : $account_page;
         $pms_is_register = is_user_logged_in() ? 0 : 1;
 
@@ -855,7 +855,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     /**
      * Given a Stripe Object it parses error data and returns it as an array
-     * 
+     *
      * @param object  $intent  Object containing error data. Can be Payment Intent, Setup Intent or a regular Event from a webhook
      * @return array           Error array formatted for other plugin functionalities.
      */
@@ -959,10 +959,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 if( !empty( $payment_method->card->last4 ) )
                     pms_update_member_subscription_meta( $member_subscription->id, 'pms_payment_method_number', $payment_method->card->last4 );
-                
+
                 if( !empty( $payment_method->card->brand ) )
                     pms_update_member_subscription_meta( $member_subscription->id, 'pms_payment_method_type', $payment_method->card->brand );
-                
+
                 if( !empty( $payment_method->card->exp_month ) )
                     pms_update_member_subscription_meta( $member_subscription->id, 'pms_payment_method_expiration_month', $payment_method->card->exp_month );
 
@@ -1017,7 +1017,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         if( !isset( $customer ) || !isset( $customer->id ) )
             $customer = $this->create_customer();
-        
+
         $args = array(
             'amount'             => 100,
             'currency'           => $this->currency,
@@ -1067,7 +1067,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         if( !isset( $customer ) || !isset( $customer->id ) )
             $customer = $this->create_customer();
-        
+
         $args = array(
             'customer' => $customer->id,
             'metadata' => array(
@@ -1090,7 +1090,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     }
 
     /**
-     * 
+     *
      */
     public function update_payment_intent( $client_secret, $amount, $subscription_plan ){
 
@@ -1162,7 +1162,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             $is_recurring = PMS_Form_Handler::checkout_is_recurring();
 
         if( !in_array( $form_location, array( 'register', 'new_subscription' ) ) ){
-            
+
             $subscription_plan_id = !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : false;
 
             if( empty( $subscription_plan_id ) && !empty( $plan_id ) )
@@ -1178,7 +1178,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         } else {
 
-            $subscription_data = array( 
+            $subscription_data = array(
                 'status'         => 'active',
             );
 
@@ -1225,7 +1225,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     $context = 'upgrade';
                 elseif( $form_location == 'downgrade_subscription' )
                     $context = 'downgrade';
-                
+
                 pms_add_member_subscription_log( $subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $subscription->subscription_plan_id, 'new_plan' => $subscription_data['subscription_plan_id'] ) );
 
                 $subscription->update( $subscription_data );
@@ -1287,7 +1287,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $id = $field['id'] ? $field['id'] : '';
 
         if( pms_stripe_connect_get_account_status() ){
-            
+
             $output = '';
 
             if( pms_stripe_connect_payment_request_enabled() )
@@ -1307,19 +1307,19 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         if( empty( $subscription_id ) )
             return;
-        
+
         if( !empty( $payment_method ) ){
-            
+
             $payment_method = PaymentMethod::retrieve( $payment_method );
 
             if( !empty( $payment_method->card ) ){
 
                 if( !empty( $payment_method->card->last4 ) )
                     pms_update_member_subscription_meta( $subscription_id, 'pms_payment_method_number', $payment_method->card->last4 );
-                
+
                 if( !empty( $payment_method->card->brand ) )
                     pms_update_member_subscription_meta( $subscription_id, 'pms_payment_method_type', $payment_method->card->brand );
-                
+
                 if( !empty( $payment_method->card->exp_month ) )
                     pms_update_member_subscription_meta( $subscription_id, 'pms_payment_method_expiration_month', $payment_method->card->exp_month );
 
@@ -1374,7 +1374,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $data       = $event->data->object;
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
-                if ( $payment_id === 0 ) 
+                if ( $payment_id === 0 )
                     die();
 
                 $payment = pms_get_payment( $payment_id );
@@ -1393,11 +1393,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 break;
             case 'payment_intent.processing':
-                
+
                 $data       = $event->data->object;
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
-                if ( $payment_id === 0 ) 
+                if ( $payment_id === 0 )
                     die();
 
                 $payment = pms_get_payment( $payment_id );
@@ -1419,7 +1419,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $data       = $event->data->object;
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
-                if ( $payment_id === 0 ) 
+                if ( $payment_id === 0 )
                     die();
 
                 $payment = pms_get_payment( $payment_id );
@@ -1446,7 +1446,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $data            = $event->data->object;
                 $subscription_id = isset( $data->metadata->subscription_id ) ? absint( $data->metadata->subscription_id ) : 0;
 
-                if ( $subscription_id === 0 ) 
+                if ( $subscription_id === 0 )
                     die();
 
                 $member_subscription = pms_get_member_subscription( $subscription_id );
@@ -1465,7 +1465,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $data            = $event->data->object;
                 $subscription_id = isset( $data->metadata->subscription_id ) ? absint( $data->metadata->subscription_id ) : 0;
 
-                if ( $subscription_id === 0 ) 
+                if ( $subscription_id === 0 )
                     die();
 
                 $member_subscription = pms_get_member_subscription( $subscription_id );
@@ -1482,7 +1482,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 if( $payment_id === 0 )
                     die();
-                    
+
                 $payment = pms_get_payment( $payment_id );
 
                 if( $payment->status != 'completed' )
@@ -1513,7 +1513,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         die();
-        
+
     }
 
     private function webhooks_process_subscription( $payment, $data ){
@@ -1763,7 +1763,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      */
     public function disable_trial_if_duplicate_card( $has_trial ){
 
-        if( $has_trial == false )
+        if( $has_trial == false || apply_filters( 'pms_disable_trial_if_duplicate_card', false ) )
             return $has_trial;
 
         // Disable when payments are in test mode
@@ -1849,7 +1849,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         $payment->log_data( 'payment_failed', $data, $error_code );
     }
-    
+
     public function set_account_country(){
 
         if( empty( $this->secret_key ) )

@@ -64,12 +64,3 @@ function pmsle_edit(){
 
     });
 }
-
-/**
- * Add Link to PMS Docs next to page title
- * */
-jQuery(document).ready( function () {
-    jQuery(function(){
-        jQuery('.wp-admin.paid-member-subscriptions_page_pms-labels-edit .wrap h1').append('<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/labels-edit/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>');
-    });
-});

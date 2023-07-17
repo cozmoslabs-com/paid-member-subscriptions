@@ -141,7 +141,7 @@ function pms_recaptcha_field_validate_form_login( $user ) {
 
         if( ! $validated ) {
 
-            $user = new WP_Error( 'pms-recaptcha-' . $login_form_location, '<strong>' . esc_html__('ERROR', 'paid-member-subscriptions') . '</strong>: ' . pms_errors()->get_error_message( 'recaptcha-' . $login_form_location ) );
+            $user = new WP_Error( 'pms-recaptcha-' . $login_form_location, '<strong>' . esc_html__('ERROR:', 'paid-member-subscriptions') . '</strong>' . pms_errors()->get_error_message( 'recaptcha-' . $login_form_location ) );
 
         }
 
@@ -168,7 +168,7 @@ function pms_recaptcha_field_validate_default_wp_register( $errors ) {
 
     if( ! $validated ) {
 
-        $errors->add( 'recaptcha-default_wp_register', '<strong>' . esc_html__('ERROR', 'paid-member-subscriptions') . '</strong>: ' . pms_errors()->get_error_message( 'recaptcha-default_wp_register' ) );
+        $errors->add( 'recaptcha-default_wp_register', '<strong>' . esc_html__('ERROR:', 'paid-member-subscriptions') . '</strong>' . pms_errors()->get_error_message( 'recaptcha-default_wp_register' ) );
 
     }
 

@@ -127,7 +127,7 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
                 echo '</select>';
                 echo '</td>';
 
-                echo '<td><a href="#" class="pms-woo-subscription-remove-product-discount" title="'. esc_html( __('Remove this discount', 'paid-member-subscriptions') ) .'"><span class="dashicons dashicons-no"></span></a></td>';
+                echo '<td><a href="#" class="pms-woo-subscription-remove-product-discount cozmoslabs-remove-item" title="'. esc_html( __('Remove this discount', 'paid-member-subscriptions') ) .'"><span class="dashicons dashicons-no"></span></a></td>';
                 echo '</tr>';
             }
         }

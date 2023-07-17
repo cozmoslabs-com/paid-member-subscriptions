@@ -241,7 +241,7 @@ Class PMS_Member_Subscription {
 	 */
 	public function is_auto_renewing() {
 
-		if( $this->status == 'expired' || $this->status == 'canceled' )
+		if( $this->status == 'expired' || $this->status == 'canceled' || $this->status == 'abandoned' )
 			return false;
 
         // One time payments with trial for PayPal Standard and Express have a payment_profile_id, but they are not auto renewing
