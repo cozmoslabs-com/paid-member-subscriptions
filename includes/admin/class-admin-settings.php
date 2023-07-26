@@ -76,7 +76,7 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
             <?php
             // insert Register Version Form to PMS Settings - General Tab
-            if ( isset( $_GET['page'] ) && $_GET['page'] === 'pms-settings-page' && ( !isset( $_GET['tab'] ) || $_GET['tab'] === 'general' ) )
+            if ( !is_multisite() && isset( $_GET['page'] ) && $_GET['page'] === 'pms-settings-page' && ( !isset( $_GET['tab'] ) || $_GET['tab'] === 'general' ) )
                 echo pms_add_register_version_form(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             ?>
 

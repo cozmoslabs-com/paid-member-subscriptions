@@ -1,0 +1,21 @@
+/**************************************************/
+/* Link Generator
+/**************************************************/
+.pms-link-generator-popover .components-popover__content{
+    width: 200px;
+    border-radius: 2px;
+}
+
+#pms-link-generator-subscription-plan-select, #pms-link-generator-page-select{
+    width: 100%;
+}
+
+.pms-link-generator-popover .components-button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pms-link-generator-popover .components-button-group .components-button {
+    margin-inline: 10px;
+}

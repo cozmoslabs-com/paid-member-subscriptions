@@ -552,7 +552,7 @@ class PMS_Plugin_Updater {
         if( !is_multisite() )
             return admin_url( 'admin.php?page=pms-settings-page&tab=general' );
         else
-            return network_admin_url( 'admin.php?page=pms-settings-page&tab=general' );
+            return network_admin_url( 'admin.php?page=pms-register-page' );
 
     }
 

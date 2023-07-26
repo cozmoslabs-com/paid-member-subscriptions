@@ -34,7 +34,7 @@ foreach( $subscriptions as $subscription ) :
 			<!-- Subscription status -->
 			<tr class="pms-account-subscription-details-table__status">
 				<td><?php esc_html_e( 'Status', 'paid-member-subscriptions' ); ?></td>
-				<td>
+				<td class="status-<?php echo esc_html( $subscription->status ) ?>">
                     <?php echo ( ! empty( $subscription_statuses[$subscription->status] ) ? esc_html( $subscription_statuses[$subscription->status] ) : '' ); ?>
                     <?php echo ( $subscription->is_trial_period() ? ' (' . esc_html__( 'Trial', 'paid-member-subscriptions' ) . ')' : '' ); ?>
                     <?php echo ( !empty( $subscription->payment_profile_id ) ? ' (' . esc_html__( 'Auto-renewing', 'paid-member-subscriptions' ) . ')' : '' ); ?>

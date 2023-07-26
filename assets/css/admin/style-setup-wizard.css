@@ -195,6 +195,10 @@
     align-items: center;
 }
 
+.pms-setup-gateway .pms-stripe-connect__button img {
+    max-width: 230px;
+}
+
 .pms-setup-toggle {
     max-width: 100px;
     width: 100%;
@@ -203,6 +207,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .pms-setup-toggle input {
     display: none;
 }

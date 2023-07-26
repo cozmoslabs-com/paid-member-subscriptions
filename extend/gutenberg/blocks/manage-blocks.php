@@ -8,7 +8,7 @@ function pms_block_editor_enqueue()
     wp_enqueue_script('pms_block_frontend_js', PMS_PLUGIN_DIR_URL . 'assets/js/front-end.js', array('jquery'), PMS_VERSION);
     wp_enqueue_style('pms_block_frontend_stylesheet_css', PMS_PLUGIN_DIR_URL . 'assets/css/style-front-end.css', array('wp-edit-blocks'), PMS_VERSION);
 
-    wp_enqueue_style('pms_block_stylesheet_css', plugin_dir_url(__FILE__) . 'assets/css/gutenberg-blocks.css', array(), PMS_VERSION);
+    wp_enqueue_style('pms_block_stylesheet_css', plugin_dir_url( __FILE__ ) . 'assets/css/gutenberg-blocks.css', array(), PMS_VERSION);
 
 
     //Group Memberships
@@ -56,7 +56,7 @@ if ( version_compare( get_bloginfo( 'version' ), '5.8', '>=' ) ) {
     add_filter( 'block_categories', 'pms_register_layout_category' );
 }
 
-include_once(PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/account/account.php');
-include_once(PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/login/login.php');
-include_once(PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/recover-password/recover-password.php');
-include_once(PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/register/register.php');
+include_once(PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/account/account.php');
+include_once(PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/login/login.php');
+include_once(PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/recover-password/recover-password.php');
+include_once(PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/register/register.php');

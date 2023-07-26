@@ -303,7 +303,7 @@ function pms_insert_page_banner() {
     if ( $post_type == 'pms-addons-page' )
         $page_name = ' Addons';
 
-    if ( !empty( $post_type ) && str_starts_with( $post_type, 'pms' ) )
+    if ( !empty( $post_type ) && strpos( $post_type, 'pms' ) === 0 )
         pms_output_page_banner( $page_name );
 
 }

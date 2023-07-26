@@ -619,6 +619,7 @@
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
 <?php __("Abandoned", "paid-member-subscriptions"); ?>
+<?php __("Pricing Table", "paid-member-subscriptions"); ?>
 <?php __("Completed", "paid-member-subscriptions"); ?>
 <?php __("Failed", "paid-member-subscriptions"); ?>
 <?php __("Refunded", "paid-member-subscriptions"); ?>
@@ -887,6 +888,18 @@
 <?php __("Payment successfully completed.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a date for the payment.", "paid-member-subscriptions"); ?>
 <?php __("This user already has a subscription (%s) from the same group with the one you selected. Select it or remove it to be able to complete this payment.", "paid-member-subscriptions"); ?>
+<?php __("Register Your Version", "paid-member-subscriptions"); ?>
+<?php __("Register Version", "paid-member-subscriptions"); ?>
+<?php __("Paid Member Subscriptions Register", "paid-member-subscriptions"); ?>
+<?php __("Register your version of Paid Member Subscriptions", "paid-member-subscriptions"); ?>
+<?php __("Register Version ", "paid-member-subscriptions"); ?>
+<?php __("License key", "paid-member-subscriptions"); ?>
+<?php __("Activate License", "paid-member-subscriptions"); ?>
+<?php __("Deactivate License", "paid-member-subscriptions"); ?>
+<?php __("Your license is invalid", "paid-member-subscriptions"); ?>
+<?php __("Active on this site", "paid-member-subscriptions"); ?>
+<?php __("Enter your license key. Your license key can be found in your Cozmoslabs account. ", "paid-member-subscriptions"); ?>
+<?php __("You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required.", "paid-member-subscriptions"); ?>
 <?php __("Select Month", "paid-member-subscriptions"); ?>
 <?php __("Current month", "paid-member-subscriptions"); ?>
 <?php __("Summary", "paid-member-subscriptions"); ?>
@@ -963,13 +976,6 @@
 <?php __("You have successfully activated your license.", "paid-member-subscriptions"); ?>
 <?php __("Completed successfully.", "paid-member-subscriptions"); ?>
 <?php __("Register Website ", "paid-member-subscriptions"); ?>
-<?php __("License key", "paid-member-subscriptions"); ?>
-<?php __("Activate License", "paid-member-subscriptions"); ?>
-<?php __("Deactivate License", "paid-member-subscriptions"); ?>
-<?php __("Your license is invalid", "paid-member-subscriptions"); ?>
-<?php __("Active on this site", "paid-member-subscriptions"); ?>
-<?php __("Enter your license key. Your license key can be found in your Cozmoslabs account. ", "paid-member-subscriptions"); ?>
-<?php __("You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required.", "paid-member-subscriptions"); ?>
 <?php __("Manual/Offline", "paid-member-subscriptions"); ?>
 <?php __("Manually collect payments from  Checks, Direct Bank Transfers or in person cash.", "paid-member-subscriptions"); ?>
 <?php __("PayPal", "paid-member-subscriptions"); ?>

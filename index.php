@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.9.7
+ * Version: 2.9.8
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.9.7' );
+        define( 'PMS_VERSION', '2.9.8' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -520,14 +520,29 @@ Class Paid_Member_Subscriptions {
          */
         global $wp_version;
         if ( version_compare( $wp_version, "5.0.0", ">=" ) ) {
-            if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/manage-blocks.php' ) )
-                include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/manage-blocks.php';
+            if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/manage-blocks.php' ) )
+                include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/manage-blocks.php';
         }
+
+	    /*
+		 * Block Editor build
+		 */
+	    global $wp_version;
+	    if ( version_compare( $wp_version, "5.0.0", ">=" ) ) {
+		    if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/enqueue-block-editor-assets.php' ) )
+			    include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/enqueue-block-editor-assets.php';
+	    }
+
+        /*
+         * Patterns
+        */
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-patterns.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-patterns.php';
 
         /*
          * Email files
          */
-        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-emails.php' ) )
+        if( function_exists( 'register_block_pattern' ) && file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-emails.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/class-emails.php';
 
         /*
@@ -699,6 +714,13 @@ Class Paid_Member_Subscriptions {
          */
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php';
+
+
+        /*
+         * Register Version
+         */
+        if( is_multisite() && file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-register-version.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-register-version.php';
 
 
         /*
