@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.3
-Stable tag: 2.9.8
+Stable tag: 2.9.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.9.9 = 
+* Fix: A case where the subscription was not updating correctly when adding a manual payment
+* Fix: An issue regarding WooCommerce integration
+* Fix: Issue with Stripe Connect free trials getting activated twice
+* Misc: Fixed visual issue for jQuery dialog in back-end
+* Misc: Added styling for the Dashboard Payments Summary widget
+* Misc: Small corrections regarding the new setting styles
+
 = 2.9.8 = 
 * Feature: Added a simple Pricing Table pattern
 * Feature: Added a way to insert subscription plan purchase links on Gutenberg button blocks (core and 3rd party)

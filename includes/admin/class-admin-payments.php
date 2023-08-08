@@ -255,6 +255,8 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
                             if( !empty( $member_subscription_data['id'] ) ){
                                 // Subscription exists, extend duration if the payment is completed
+                                // NOTE: This deals with Payment Insertion when the status ia Completed. This happens for all manually added payments
+                                // The code for subscription activation only triggers for payments done through the Manual gateway
                                 if( $form_data['pms-payment-status'] == 'completed' ){
 
                                     $member_subscription = pms_get_member_subscription( $member_subscription_data['id'] );
@@ -266,7 +268,24 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
                                                 'expiration_date' => ( $subscription_plan->fixed_period_renewal_allowed() ) ? date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+ 1 year' ) ) : date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date ) ),
                                                 'status'          => $member_subscription_status
                                             );
-                                        } else{
+                                        } else if( $member_subscription->status == 'expired' ) {
+                                            $data = array(
+                                                'expiration_date' => date( 'Y-m-d 23:59:59', strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ),
+                                                'status'          => $member_subscription_status
+                                            );
+                                        } else if( $member_subscription->status == 'canceled' ) {
+
+                                            if ( strtotime( $member_subscription->expiration_date ) > strtotime( 'now' ) )
+                                                $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit );
+                                            else
+                                                $timestamp = strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit );
+                                                
+                                            $data = array(
+                                                'expiration_date' => date( 'Y-m-d 23:59:59', $timestamp ),
+                                                'status'          => $member_subscription_status
+                                            );
+                                            
+                                        } else {
                                             $data = array(
                                                 'expiration_date' => date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ),
                                                 'status'          => $member_subscription_status

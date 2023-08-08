@@ -289,11 +289,11 @@ body.paid-member-subscriptions_page_pms-payments-page #wpbody-content > .wrap:no
 }
 
 .cozmoslabs-subsection-title {
-    font-weight: 600;
+    font-weight: 600 !important;
     font-size: 11px !important;
     line-height: 16px !important;
     text-transform: uppercase;
-    color: #1E1E1E;
+    color: #1E1E1E !important;
     margin: 0 0 10px 0 !important;
     padding: 0 !important;
     display: flex;
@@ -1160,10 +1160,6 @@ body[class*="post-type-pms-"] .submitdelete:focus,
     background: transparent;
     border: none;
     box-shadow: none;
-}
-
-.ui-widget.ui-widget-content {
-    max-width: 95%;
 }
 
 
@@ -2403,6 +2399,18 @@ body[class*="post-type-pms-"] .wp-list-table .column-id {
     text-align: center;
 }
 
+body[class*="paid-member-subscriptions_page_"] .wp-list-table th.sortable a,
+body[class*="post-type-pms-"] .wp-list-table th.sortable a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+body[class*="paid-member-subscriptions_page_"] .wp-list-table th.sortable a .sorting-indicator,
+body[class*="post-type-pms-"] .wp-list-table th.sortable a .sorting-indicator {
+    margin: 0;
+}
+
 
 /* Memebers List Table */
 body[class*="paid-member-subscriptions_page_"] .wp-list-table.members .column-user_id {
@@ -2451,12 +2459,6 @@ body[class*="paid-member-subscriptions_page_"] #major-publishing-actions {
 }
 
 /* Payments List Table */
-.wp-list-table.payments th.column-id a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .wp-list-table.payments .column-username {
     width: 16%;
 }
@@ -2824,6 +2826,52 @@ body[class*="post-type-pms-"] #postbox-container-1 {
 
 #cozmoslabs-basic-info-recommended .cozmoslabs-basic-info-recommended-info .cozmoslabs-form-field-label {
     flex-basis: 100%;
+}
+
+
+/***********************************************************/
+/* Dashboard PMS Widget (Payment Summary)
+/***********************************************************/
+
+#pms_payments_summary .postbox-header h2.hndle {
+    font-weight: 600;
+    font-size: 11px !important;
+    line-height: 40px !important;
+    text-transform: uppercase;
+    color: #1E1E1E;
+    padding: 0 0 0 12px !important;
+    height: 40px;
+}
+
+#pms_payments_summary .cozmoslabs-form-field-wrapper p {
+    margin: 0 !important;
+}
+
+#pms_payments_summary .cozmoslabs-form-field-wrapper:first-of-type {
+    margin-top: 0 !important;
+}
+
+#pms_payments_summary .cozmoslabs-form-field-wrapper:not(:first-of-type) {
+    margin-top: 10px !important;
+}
+
+#pms_payments_summary .cozmoslabs-form-field-wrapper .cozmoslabs-form-field-label  {
+    font-weight: normal;
+}
+
+#pms_payments_summary .cozmoslabs-form-subsection-wrapper {
+    border: none !important;
+    margin: 0;
+    padding: 15px 0;
+}
+
+#pms_payments_summary .cozmoslabs-form-subsection-wrapper:not(:first-of-type) {
+    border-top: 1px solid #ccc !important;
+}
+
+#pms_payments_summary .pms-view-all-payments {
+    margin-top: 10px;
+    display: inline-block;
 }
 
 

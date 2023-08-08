@@ -30,57 +30,91 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <div id="pms-payments-summary">
 
     <!-- This Month's Payments -->
-    <div class="pms-month-income">
+    <div class="pms-month-income cozmoslabs-form-subsection-wrapper">
 
-        <h4><?php esc_html_e( 'Current Month', 'paid-member-subscriptions' ); ?></h4>
+        <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Current Month', 'paid-member-subscriptions' ); ?></h4>
 
-        <p>
-            <span><?php esc_html_e( 'Income:', 'paid-member-subscriptions' ); ?></span>
-            <span><?php echo esc_html( pms_format_price( $month_income ) ); ?></span>
-        </p>
+<!--        <p>-->
+<!--            <span>--><?php //esc_html_e( 'Income:', 'paid-member-subscriptions' ); ?><!--</span>-->
+<!--            <span>--><?php //echo esc_html( pms_format_price( $month_income ) ); ?><!--</span>-->
+<!--        </p>-->
+<!---->
+<!--        <p>-->
+<!--            <span>--><?php //esc_html_e( 'Payments:', 'paid-member-subscriptions' ); ?><!--</span>-->
+<!--            <span>--><?php //echo count( $month_payments ); ?><!--</span>-->
+<!--        </p>-->
 
-        <p>
-            <span><?php esc_html_e( 'Payments:', 'paid-member-subscriptions' ); ?></span>
-            <span><?php echo count( $month_payments ); ?></span>
-        </p>
+
+
+        <div class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Income:', 'paid-member-subscriptions' ); ?></label>
+            <p><?php echo esc_html( pms_format_price( $month_income ) ); ?></p>
+        </div>
+
+        <div class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Payments:', 'paid-member-subscriptions' ); ?></label>
+            <p><?php echo count( $month_payments ); ?></p>
+        </div>
+
+
 
     </div>
 
     <!-- Today's Payments -->
-    <div class="pms-today-income">
+    <div class="pms-today-income cozmoslabs-form-subsection-wrapper">
 
-        <h4><?php esc_html_e( 'Today', 'paid-member-subscriptions' ); ?></h4>
+        <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Today', 'paid-member-subscriptions' ); ?></h4>
 
-        <p>
-            <span><?php esc_html_e( 'Income:', 'paid-member-subscriptions' ); ?></span>
-            <span><?php echo esc_html( pms_format_price( $today_income ) ); ?></span>
-        </p>
+<!--        <p>-->
+<!--            <span>--><?php //esc_html_e( 'Income:', 'paid-member-subscriptions' ); ?><!--</span>-->
+<!--            <span>--><?php //echo esc_html( pms_format_price( $today_income ) ); ?><!--</span>-->
+<!--        </p>-->
+<!---->
+<!--        <p>-->
+<!--            <span>--><?php //esc_html_e( 'Payments:', 'paid-member-subscriptions' ); ?><!--</span>-->
+<!--            <span>--><?php //echo count( $today_payments ); ?><!--</span>-->
+<!--        </p>-->
 
-        <p>
-            <span><?php esc_html_e( 'Payments:', 'paid-member-subscriptions' ); ?></span>
-            <span><?php echo count( $today_payments ); ?></span>
-        </p>
+
+        <div class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Income:', 'paid-member-subscriptions' ); ?></label>
+            <p><?php echo esc_html( pms_format_price( $today_income ) ); ?></p>
+        </div>
+
+        <div class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Payments:', 'paid-member-subscriptions' ); ?></label>
+            <p><?php echo count( $today_payments ); ?></p>
+        </div>
 
     </div>
 
     <!-- Recent Payments -->
-    <div class="pms-recent-payments">
+    <div class="pms-recent-payments cozmoslabs-form-subsection-wrapper">
 
-        <h4><?php esc_html_e( 'Recent Payments', 'paid-member-subscriptions' ); ?></h4>
+        <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Recent Payments', 'paid-member-subscriptions' ); ?></h4>
 
         <?php if( !empty( $recent_payments ) ): ?>
         <?php foreach( $recent_payments as $payment ): ?>
             <?php $payment_user = get_userdata( $payment->user_id ); ?>
-            <div class="pms-recent-payment">
-                <div>
-                    <?php echo esc_html( $payment_user->user_login ) . ' (' . esc_html( $payment_user->user_email ) . ')' ?>
-                    <span class="pms-recent-payments-amount"><?php echo esc_html( pms_format_price( $payment->amount ) ); ?></span>
-                </div>
-                <a href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-payments-page', 'pms-action' => 'edit_payment', 'payment_id' => $payment->id ), admin_url( 'admin.php' ) ) ); ?>"><?php echo esc_html__( 'View Details', 'paid-member-subscriptions' ); ?></a>
+<!--            <div class="pms-recent-payment">-->
+<!--                <div>-->
+<!--                    --><?php //echo esc_html( $payment_user->user_login ) . ' (' . esc_html( $payment_user->user_email ) . ')' ?>
+<!--                    <span class="pms-recent-payments-amount">--><?php //echo esc_html( pms_format_price( $payment->amount ) ); ?><!--</span>-->
+<!--                </div>-->
+<!--                <a href="--><?php //echo esc_url( add_query_arg( array( 'page' => 'pms-payments-page', 'pms-action' => 'edit_payment', 'payment_id' => $payment->id ), admin_url( 'admin.php' ) ) ); ?><!--">--><?php //echo esc_html__( 'View Details', 'paid-member-subscriptions' ); ?><!--</a>-->
+<!--            </div>-->
+
+
+
+            <div class="cozmoslabs-form-field-wrapper">
+                <p><?php echo esc_html( $payment_user->user_login ) . ' (' . esc_html( $payment_user->user_email ) . ')' ?></p>
+                <p class="pms-recent-payments-amount"><?php echo esc_html( pms_format_price( $payment->amount ) ); ?></p>
+                <p class="cozmoslabs-description"><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-payments-page', 'pms-action' => 'edit_payment', 'payment_id' => $payment->id ), admin_url( 'admin.php' ) ) ); ?>"><?php echo esc_html__( 'View Details', 'paid-member-subscriptions' ); ?></a></p>
             </div>
+
         <?php endforeach; ?>
 
-            <a href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-payments-page' ), admin_url( 'admin.php' ) ) ); ?>"><?php echo esc_html__( 'View All Payments', 'paid-member-subscriptions' ); ?></a>
+            <a class="pms-view-all-payments" href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-payments-page' ), admin_url( 'admin.php' ) ) ); ?>"><?php echo esc_html__( 'View All Payments', 'paid-member-subscriptions' ); ?></a>
 
         <?php else: ?>
             <div><?php esc_html_e( 'No payments found.', 'paid-member-subscriptions' ); ?></div>

@@ -278,9 +278,15 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_sta
 
         if( isset( $existing_subscription['0'] )) {
 
-            // reset the expiration date if the subscription expired more than a day ago
-            $subscription_expiration_date = ( strtotime( '-1 day' ) < strtotime( $existing_subscription['0']->expiration_date ) ) ? $existing_subscription['0']->expiration_date : '';
-            $subscription_next_payment_date = ( strtotime( '-1 day' ) < strtotime( $existing_subscription['0']->billing_next_payment ) ? $existing_subscription['0']->billing_next_payment : '');
+            // reset the expiration date if the subscription expired
+            if ( $existing_subscription_status === 'expired' ) {
+                $subscription_expiration_date = '';
+                $subscription_next_payment_date = '';
+            }
+            else {
+                $subscription_expiration_date = $existing_subscription['0']->expiration_date;
+                $subscription_next_payment_date = $existing_subscription['0']->billing_next_payment;
+            }
 
             if ( $product_type == 'subscription' || $order_status == 'completed' ) {
 
@@ -290,14 +296,14 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_sta
                 elseif ( $existing_subscription['0']->status != 'abandoned' && ( !pms_woo_is_manual_order_update( $existing_subscription['0']->id, $order_key ) || ( pms_woo_is_manual_order_update( $existing_subscription['0']->id, $order_key ) && $subscription_status == 'active' && $product_type != 'subscription' ) ) ) { // extend expiration date if Subscription is not Abandoned (new/renewal order placed for already subscribed-to Subscription Plan)
 
                     if ( !empty( $subscription_next_payment_date )) {
-                        $old_next_payment_date = strtotime($existing_subscription['0']->billing_next_payment);
-                        $new_next_payment_date = strtotime("+" . $existing_subscription['0']->billing_duration . " " . $existing_subscription['0']->billing_duration_unit, $old_next_payment_date);
-                        $subscription_next_payment_date = date('Y-m-d H:i:s', $new_next_payment_date);
+                        $old_next_payment_date = strtotime( $existing_subscription['0']->billing_next_payment );
+                        $new_next_payment_date = strtotime( "+" . $existing_subscription['0']->billing_duration . " " . $existing_subscription['0']->billing_duration_unit, $old_next_payment_date );
+                        $subscription_next_payment_date = date( 'Y-m-d H:i:s', $new_next_payment_date );
                     }
                     elseif ( !empty( $subscription_expiration_date ) ) {
-                        $old_expiration_timestamp = strtotime($existing_subscription['0']->expiration_date);
-                        $new_expiration_timestamp = strtotime("+" . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit, $old_expiration_timestamp);
-                        $subscription_expiration_date = date('Y-m-d H:i:s', $new_expiration_timestamp);
+                        $old_expiration_timestamp = strtotime( $existing_subscription['0']->expiration_date );
+                        $new_expiration_timestamp = strtotime( "+" . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit, $old_expiration_timestamp );
+                        $subscription_expiration_date = date( 'Y-m-d H:i:s', $new_expiration_timestamp );
                     }
                     else $subscription_expiration_date = $subscription_plan->get_expiration_date();
 

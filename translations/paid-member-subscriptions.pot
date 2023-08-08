@@ -383,7 +383,7 @@ msgstr ""
 msgid "The selected subscription plan does not exist or is inactive."
 msgstr ""
 
-#: includes/class-form-handler.php:269, includes/admin/class-admin-members.php:371, includes/admin/class-admin-payments.php:377
+#: includes/class-form-handler.php:269, includes/admin/class-admin-members.php:371, includes/admin/class-admin-payments.php:396
 msgid "Please select a subscription plan."
 msgstr ""
 
@@ -451,7 +451,7 @@ msgstr ""
 msgid "Both fields are empty."
 msgstr ""
 
-#: includes/class-form-handler.php:1249, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:834
+#: includes/class-form-handler.php:1249, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:828
 msgid "Congratulations, you have successfully created an account."
 msgstr ""
 
@@ -512,7 +512,7 @@ msgstr ""
 msgid "Unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:243, includes/class-merge-tags.php:286, includes/functions-subscription-plan.php:474, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:629, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:187, includes/admin/views/view-page-addons.php:259
+#: includes/class-merge-tags.php:243, includes/class-merge-tags.php:286, includes/functions-subscription-plan.php:474, includes/admin/class-admin-subscription-plans.php:411, add-ons-pro/group-memberships/includes/class-group-memberships.php:634, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:187, includes/admin/views/view-page-addons.php:259
 msgid "Free"
 msgstr ""
 
@@ -588,7 +588,7 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: includes/class-shortcodes.php:255, includes/admin/class-admin-payments.php:511, includes/admin/class-admin-payments.php:511, includes/admin/class-admin-settings.php:221, includes/admin/class-admin-setup-wizard.php:50, includes/admin/views/view-page-basic-info.php:108, includes/admin/views/view-page-settings-misc.php:19
+#: includes/class-shortcodes.php:255, includes/admin/class-admin-payments.php:530, includes/admin/class-admin-payments.php:530, includes/admin/class-admin-settings.php:221, includes/admin/class-admin-setup-wizard.php:50, includes/admin/views/view-page-basic-info.php:108, includes/admin/views/view-page-settings-misc.php:19
 msgid "Payments"
 msgstr ""
 
@@ -2620,7 +2620,7 @@ msgstr ""
 msgid "You need to create Subscription Plans before you can use this form. Go to your <strong>Dashboard -> Paid Member Subscriptions -> Subscriptions Plans</strong> to do this."
 msgstr ""
 
-#: includes/functions-subscription-plan.php:835, add-ons-pro/stripe/includes/functions-actions.php:25, includes/gateways/paypal_standard/functions-paypal-standard.php:88, includes/gateways/paypal_standard/functions-paypal-standard.php:116, includes/gateways/paypal_standard/functions-paypal-standard.php:254, includes/gateways/paypal_standard/functions-paypal-standard.php:282
+#: includes/functions-subscription-plan.php:835, add-ons-pro/stripe/includes/functions-actions.php:25, includes/gateways/paypal_standard/functions-paypal-standard.php:91, includes/gateways/paypal_standard/functions-paypal-standard.php:119, includes/gateways/paypal_standard/functions-paypal-standard.php:257, includes/gateways/paypal_standard/functions-paypal-standard.php:285
 msgid "This message is visible only by Administrators."
 msgstr ""
 
@@ -2953,7 +2953,7 @@ msgstr ""
 msgid "Allow customers to create an account during checkout must be %1$sENABLED%2$s"
 msgstr ""
 
-#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:523
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:529
 msgid "Subscription canceled from PMS Account."
 msgstr ""
 
@@ -3062,7 +3062,7 @@ msgstr ""
 msgid "Nonce verification failed"
 msgstr ""
 
-#: includes/admin/class-admin-export.php:119, includes/admin/class-edd-sl-plugin-updater.php:421, includes/admin/export/class-batch-export.php:132, includes/admin/export/class-export.php:172, includes/gateways/paypal_standard/functions-paypal-standard.php:252
+#: includes/admin/class-admin-export.php:119, includes/admin/class-edd-sl-plugin-updater.php:421, includes/admin/export/class-batch-export.php:132, includes/admin/export/class-export.php:172, includes/gateways/paypal_standard/functions-paypal-standard.php:255
 msgid "Error"
 msgstr ""
 
@@ -3078,7 +3078,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: includes/admin/class-admin-member-payments-list-table.php:176, includes/admin/class-admin-payments-log-list-table.php:172, includes/views/shortcodes/view-shortcode-account.php:66, includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:79
+#: includes/admin/class-admin-member-payments-list-table.php:176, includes/admin/class-admin-payments-log-list-table.php:172, includes/views/shortcodes/view-shortcode-account.php:66, includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:112
 msgid "View Details"
 msgstr ""
 
@@ -3234,11 +3234,11 @@ msgstr[1] ""
 msgid "%d members successfully added."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:363, includes/admin/class-admin-payments.php:371
+#: includes/admin/class-admin-members.php:363, includes/admin/class-admin-payments.php:390
 msgid "It seems this user does not exist."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:355, includes/admin/class-admin-payments.php:363
+#: includes/admin/class-admin-members.php:355, includes/admin/class-admin-payments.php:382
 msgid "Please select a user."
 msgstr ""
 
@@ -3556,15 +3556,15 @@ msgstr ""
 msgid "Payment successfully updated."
 msgstr ""
 
-#: includes/admin/class-admin-payments.php:346
+#: includes/admin/class-admin-payments.php:365
 msgid "Payment successfully completed."
 msgstr ""
 
-#: includes/admin/class-admin-payments.php:382
+#: includes/admin/class-admin-payments.php:401
 msgid "Please enter a date for the payment."
 msgstr ""
 
-#: includes/admin/class-admin-payments.php:401
+#: includes/admin/class-admin-payments.php:420
 msgid "This user already has a subscription (%s) from the same group with the one you selected. Select it or remove it to be able to complete this payment."
 msgstr ""
 
@@ -4441,7 +4441,7 @@ msgstr ""
 msgid "Taxonomy"
 msgstr ""
 
-#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:220, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:227, add-ons-pro/group-memberships/includes/class-group-memberships.php:1136, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:273
+#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:220, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:227, add-ons-pro/group-memberships/includes/class-group-memberships.php:1141, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:273
 msgid "Remove"
 msgstr ""
 
@@ -4778,31 +4778,31 @@ msgstr ""
 msgid "Please enter a group name."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:633
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:638
 msgid "for %s members"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:856, add-ons-pro/group-memberships/includes/class-group-memberships.php:927
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:861, add-ons-pro/group-memberships/includes/class-group-memberships.php:932
 msgid "You are not allowed to do this."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:907
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:912
 msgid "Member invitation removed succesfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:887, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:401, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:392
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:892, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:401, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:392
 msgid "Member removed successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:912, add-ons-pro/group-memberships/includes/class-group-memberships.php:940, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1516, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:943, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:982
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:917, add-ons-pro/group-memberships/includes/class-group-memberships.php:945, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1516, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:937, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:976
 msgid "Something went wrong, please try again."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:937
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:942
 msgid "Invitation sent successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:1141, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:243
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:1146, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:243
 msgid "Resend Invite"
 msgstr ""
 
@@ -5134,7 +5134,7 @@ msgstr ""
 msgid "User returned to the website for authentication."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1525, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:991
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1525, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:985
 msgid "Payment method updated successfully."
 msgstr ""
 
@@ -6190,7 +6190,7 @@ msgstr ""
 msgid "Delete Subscription"
 msgstr ""
 
-#: includes/admin/views/view-page-members-edit.php:56, includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:69
+#: includes/admin/views/view-page-members-edit.php:56, includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:94
 msgid "Recent Payments"
 msgstr ""
 
@@ -6246,7 +6246,7 @@ msgstr ""
 msgid "Expiration Date..."
 msgstr ""
 
-#: includes/admin/views/view-page-members-list-table.php:113, includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:52
+#: includes/admin/views/view-page-members-list-table.php:113, includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:66
 msgid "Today"
 msgstr ""
 
@@ -6270,7 +6270,7 @@ msgstr ""
 msgid "Add New Payment"
 msgstr ""
 
-#: includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1683
+#: includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1680
 msgid "Payment Details"
 msgstr ""
 
@@ -7046,59 +7046,59 @@ msgstr ""
 msgid "API Signature for Test/Sandbox site"
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:18
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:22
 msgid "Paypal Standard"
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:23
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:32
 msgid "PayPal E-mail Address"
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:28
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:37
 msgid "Enter your PayPal e-mail address"
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:32
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:41
 msgid "Test PayPal E-mail Address"
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:35
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:44
 msgid "PayPal E-mail address to use for test transactions"
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:52
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:60
 msgid "Use the following URL for the IPN:"
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:58
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:66
 msgid "In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %s"
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:87, includes/gateways/paypal_standard/functions-paypal-standard.php:115
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:90, includes/gateways/paypal_standard/functions-paypal-standard.php:118
 msgid "Your <strong>PayPal Email Address</strong> is missing. In order to make payments you will need to add the Email Address of your PayPal account %1$s here %2$s."
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:160
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:163
 msgid "User sent to <strong>PayPal Checkout</strong> to continue the payment process."
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:163
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:166
 msgid "Waiting to receive Instant Payment Notification (IPN) from <strong>PayPal</strong>."
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:166
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:169
 msgid "Instant Payment Notification (IPN) received from PayPal."
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:169
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:172
 msgid "Instant Payment Notification (IPN) not received from PayPal."
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:253
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:256
 msgid "Your %3$s PayPal API credentials %4$s are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: includes/gateways/paypal_standard/functions-paypal-standard.php:281
+#: includes/gateways/paypal_standard/functions-paypal-standard.php:284
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
@@ -8125,19 +8125,19 @@ msgstr ""
 msgid "Current Month"
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:38, includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:55
+#: includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:50, includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:80
 msgid "Income:"
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:43, includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:60
+#: includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:55, includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:85
 msgid "Payments:"
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:86
+#: includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:120
 msgid "No payments found."
 msgstr ""
 
-#: includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:83
+#: includes/admin/meta-boxes/views/view-meta-box-admin-dashboard-payments.php:117
 msgid "View All Payments"
 msgstr ""
 

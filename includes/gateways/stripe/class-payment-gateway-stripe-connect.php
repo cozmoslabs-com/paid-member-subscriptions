@@ -374,12 +374,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 } else {
 
-                    // $intent_error = $this->parse_intent_last_error( $intent );
-                    // $error_code   = !empty( $intent_error['data']['decline_code'] ) ? $intent_error['data']['decline_code'] : ( !empty( $intent_error['data']['code'] ) ? $intent_error['data']['code'] : 'card_declined' );
-
-                    // $payment->log_data( 'payment_failed', $intent_error, $error_code );
-                    // $payment->update( array( 'status' => 'failed' ) );
-
                     $data = array(
                         'success'      => false,
                         'redirect_url' => $this->get_payment_error_redirect_url(),
@@ -1158,6 +1152,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $subscription ) || empty( $form_location ) )
             return false;
 
+        if( $subscription->status == 'active' )
+            return true;
+
         if( $is_recurring == false )
             $is_recurring = PMS_Form_Handler::checkout_is_recurring();
 
@@ -1452,7 +1449,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $member_subscription = pms_get_member_subscription( $subscription_id );
 
                 // update subscription
-                if( !empty( $data->metadata->request_location ) ){
+                if( $member_subscription->status != 'active' && !empty( $data->metadata->request_location ) ){
 
                     $this->update_subscription( $member_subscription, sanitize_text_field( $data->metadata->request_location ), false, sanitize_text_field( $data->metadata->is_recurring ) );
 
