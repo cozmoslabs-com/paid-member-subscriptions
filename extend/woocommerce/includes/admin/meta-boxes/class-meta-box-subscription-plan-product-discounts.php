@@ -34,21 +34,28 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
         wp_nonce_field( 'pms_woo_subscription_plan_product_discounts', 'pmstkn_dc' );
 
         // Add some global js variables
-        $products = get_posts( array( 'post_type' => array('product', /*'product_variation'*/), 'numberposts' => -1 ) );
+        $products_count = $this->count_products();
+
+        if( $products_count < 5000 ){
+            $products = get_posts( array( 'post_type' => array('product', /*'product_variation'*/), 'numberposts' => -1 ) );
+        }
+
         $product_categories = get_terms( array( 'taxonomy' => 'product_cat' ) );
 
-        echo '<script type="text/javascript">';
-        echo 'var pmsWooProducts = {';
-        foreach( $products as $product )
-            echo '\'' . (int)$product->ID . '\'' . ':' . '\'' . esc_js($product->post_title) . '\'' . ',';
-        echo '}';
-        echo '</script>';
+        if( !empty( $products ) ) {
+            echo '<script type="text/javascript">';
+            echo 'var pmsWooProducts = {';
+            foreach( $products as $product )
+                echo '\'' . (int)$product->ID . '\'' . ':' . '\'' . esc_js($product->post_title) . '\'' . ',';
+            echo '}';
+            echo '</script>';
+        }
 
         echo '<script type="text/javascript">';
-        echo 'var pmsWooProductCategories = {';
-        foreach ( $product_categories as $category)
-            echo '\'' . (int)$category->term_id . '\'' . ':' . '\'' . esc_js($category->name) . '\'' . ',';
-        echo '}';
+            echo 'var pmsWooProductCategories = {';
+            foreach ( $product_categories as $category)
+                echo '\'' . (int)$category->term_id . '\'' . ':' . '\'' . esc_js($category->name) . '\'' . ',';
+            echo '}';
         echo '</script>';
 
         // Product Discounts table
@@ -58,7 +65,12 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
         echo '<thead>';
         echo '<tr>';
         echo '<td><h4><label>' . esc_html( __( 'Discount for', 'paid-member-subscriptions' ) ) . '</label></h4></td>';
-        echo '<td><h4><label>' . esc_html( __( 'Name', 'paid-member-subscriptions' ) ) . '</label></h4></td>';
+
+        if( $products_count < 5000 )
+            echo '<td><h4><label>' . esc_html( __( 'Name', 'paid-member-subscriptions' ) ) . '</label></h4></td>';
+        else
+            echo '<td><h4><label>' . esc_html( __( 'ID / Name', 'paid-member-subscriptions' ) ) . '</label></h4></td>';
+
         echo '<td><h4><label>' . esc_html( __( 'Type', 'paid-member-subscriptions' ) ) . '</label></h4></td>';
         echo '<td><h4><label>' . esc_html( __( 'Amount', 'paid-member-subscriptions' ) ) . '</label></h4></td>';
         echo '<td><h4><label>' . esc_html( __( 'Status', 'paid-member-subscriptions' ) ) . '</label></h4></td>';
@@ -88,24 +100,31 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
                 echo '</td>';
 
                 echo '<td>';
-                echo '<select name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][name][]" multiple data-placeholder='. esc_attr( __("Select... or leave blank to apply to all", "paid-member-subscriptions") ) . ' class="widefat pms-chosen pms-select-name">';
 
-                $values = ( $discount['discount-for'] == 'products' ? $products : $product_categories );
+                if( $products_count < 5000 ){
+                    echo '<select name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][name][]" multiple data-placeholder='. esc_attr( __("Select... or leave blank to apply to all", "paid-member-subscriptions") ) . ' class="widefat pms-chosen pms-select-name">';
 
-                if( !empty( $values ) ) {
-                    foreach( $values as $value_object ) {
+                    $values = ( $discount['discount-for'] == 'products' ? $products : $product_categories );
 
-                        $value = ($discount['discount-for'] == 'products' ? $value_object->ID : $value_object->term_id);
-                        $name = ($discount['discount-for'] == 'products' ? $value_object->post_title : $value_object->name);
+                    if( !empty( $values ) ) {
+                        foreach( $values as $value_object ) {
 
-                        $values_array = array();
-                        if (!empty($discount['name']))
-                            $values_array = $discount['name'];
+                            $value = ($discount['discount-for'] == 'products' ? $value_object->ID : $value_object->term_id);
+                            $name = ($discount['discount-for'] == 'products' ? $value_object->post_title : $value_object->name);
 
-                        echo '<option value="' . esc_attr($value) . '" ' . (in_array($value, $values_array) ? 'selected' : '') . '>' . esc_html($name) . '</option>';
+                            $values_array = array();
+                            if (!empty($discount['name']))
+                                $values_array = $discount['name'];
+
+                            echo '<option value="' . esc_attr($value) . '" ' . (in_array($value, $values_array) ? 'selected' : '') . '>' . esc_html($name) . '</option>';
+                        }
                     }
+                    echo '</select>';
+                } else {
+                    echo '<input name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][name]" id="pms-product-ids" type="text" value="'. implode( ',', esc_html( $discount['name'] ) ).'" />';
+
+                    echo '<select name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][name][]" multiple data-placeholder="'.esc_html__( 'Select...', 'paid-member-subscriptions' ).'" class="widefat pms-select-name" style="display:none"></select>';
                 }
-                echo '</select>';
                 echo '</td>';
 
                 echo '<td>';
@@ -160,6 +179,9 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
         foreach ($product_discounts as $key => $discount) {
             if ( empty($discount['amount']) )
                 unset($product_discounts[$key]);
+
+            if( !is_array( $discount['name'] ) )
+                $product_discounts[$key]['name'] = explode( ',', $discount['name'] );
         }
 
         $product_discounts = array_values($product_discounts);
@@ -170,7 +192,12 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
 
     }
 
+    public function count_products(){
+        global $wpdb;
+        $count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE `post_type` LIKE 'product'" );
 
+        return $count;
+    }
 }
 
 $pms_meta_box_subscription_plan_product_discounts = new PMS_Meta_Box_Subscription_Plan_Product_Discounts( 'pms_woo_subscription_plan_product_discounts', __( 'Product Discounts', 'paid-member-subscriptions' ), 'pms-subscription', 'normal' );

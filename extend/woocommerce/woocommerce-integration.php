@@ -137,7 +137,8 @@ function pms_woo_enqueue_admin_scripts_membership_discounts(){
                     'Fixed'                                          => __('Fixed', 'paid-member-subscriptions'),
                     'Choose'                                         => __('Choose...', 'paid-member-subscriptions'),
                     'Remove this discount'                           => __('Remove this discount', 'paid-member-subscriptions'),
-                    'Are you sure you want to remove this discount?' => __('Are you sure you want to remove this discount?', 'paid-member-subscriptions')
+                    'Are you sure you want to remove this discount?' => __('Are you sure you want to remove this discount?', 'paid-member-subscriptions'),
+                    'Enter the Product IDs'                           => __('Enter the Product IDs', 'paid-member-subscriptions')
                 )
             ));
 

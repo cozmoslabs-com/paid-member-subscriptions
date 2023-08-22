@@ -126,42 +126,50 @@ jQuery( function($){
 
         // Add "Discount for" row cell
         output += '<td>';
-        output += '<select name="' + meta_name_subscription + '[][discount-for]" class="widefat pms-select-discount-for">';
-        output += '<option value="products">' + pms_woo_admin_vars.strings['Products'] + '</option>';
-        output += '<option value="product-categories">' + pms_woo_admin_vars.strings['Product Categories'] + '</option>';
-        output += '</select>';
+            output += '<select name="' + meta_name_subscription + '[][discount-for]" class="widefat pms-select-discount-for">';
+                output += '<option value="products">' + pms_woo_admin_vars.strings['Products'] + '</option>';
+                output += '<option value="product-categories">' + pms_woo_admin_vars.strings['Product Categories'] + '</option>';
+            output += '</select>';
         output += '</td>';
 
         // Add "Name" row cell
-        output += '<td><select name="' + meta_name_subscription + '[][name][]" multiple data-placeholder="' + pms_woo_admin_vars.strings['Select...'] + '" class="widefat pms-chosen pms-select-name">';
-        for( var key in pmsWooProducts )
-            output += '<option value="' + key + '">' + pmsWooProducts[key] + '</option>';
-        output += '</select></td>';
+        output += '<td>';
+            if( typeof pmsWooProducts != 'undefined' ){
+                output += '<select name="' + meta_name_subscription + '[][name][]" multiple data-placeholder="' + pms_woo_admin_vars.strings['Select...'] + '" class="widefat pms-chosen pms-select-name">';
+                    for( var key in pmsWooProducts )
+                        output += '<option value="' + key + '">' + pmsWooProducts[key] + '</option>';
+                output += '</select>';
+            } else {
+                output += '<input id="pms-product-ids" type="text" value="" placeholder="'+ pms_woo_admin_vars.strings['Enter the Product IDs']+'" name="' + meta_name_subscription + '[][name]">'
+
+                output += '<select name="' + meta_name_subscription + '[][name][]" multiple data-placeholder="' + pms_woo_admin_vars.strings['Select...'] + '" class="widefat pms-select-name" style="display:none"></select>';
+            }
+        output += '</td>';
 
         // Add "Type" row cell
         output += '<td>';
-        output += '<select name="' + meta_name_subscription + '[][type]" class="widefat pms-select-discount-type">';
-        output += '<option value="percent" >' + pms_woo_admin_vars.strings['Percent'] + ' (%)</option>';
-        output += '<option value="fixed" >' + pms_woo_admin_vars.strings['Fixed'] + ' (' + pms_woo_admin_vars.currency_symbol + ')</option>';
-        output += '</select>';
+            output += '<select name="' + meta_name_subscription + '[][type]" class="widefat pms-select-discount-type">';
+                output += '<option value="percent" >' + pms_woo_admin_vars.strings['Percent'] + ' (%)</option>';
+                output += '<option value="fixed" >' + pms_woo_admin_vars.strings['Fixed'] + ' (' + pms_woo_admin_vars.currency_symbol + ')</option>';
+            output += '</select>';
         output += '</td>';
 
         // Add "Amount" row cell
         output += '<td>';
-        output += '<input type="text" name="' + meta_name_subscription + '[][amount]" value="" class="widefat pms-input-discount-amount">';
+            output += '<input type="text" name="' + meta_name_subscription + '[][amount]" value="" class="widefat pms-input-discount-amount">';
         output += '</td>';
 
         // Add "Status" row cell
         output += '<td>';
-        output += '<select name="' + meta_name_subscription + '[][status]" class="widefat pms-select-discount-status">';
-        output += '<option value="active">' + pms_woo_admin_vars.strings['Active'] + '</option>';
-        output += '<option value="inactive">' + pms_woo_admin_vars.strings['Inactive'] + '</option>';
-        output += '</select>';
+            output += '<select name="' + meta_name_subscription + '[][status]" class="widefat pms-select-discount-status">';
+                output += '<option value="active">' + pms_woo_admin_vars.strings['Active'] + '</option>';
+                output += '<option value="inactive">' + pms_woo_admin_vars.strings['Inactive'] + '</option>';
+            output += '</select>';
         output += '</td>';
 
         // Add close link
         output += '<td>';
-        output += '<a href="#" class="pms-woo-subscription-remove-product-discount cozmoslabs-remove-item" title="' + pms_woo_admin_vars.strings['Remove this discount'] + '"><span class="dashicons dashicons-no"></span></a>';
+            output += '<a href="#" class="pms-woo-subscription-remove-product-discount cozmoslabs-remove-item" title="' + pms_woo_admin_vars.strings['Remove this discount'] + '"><span class="dashicons dashicons-no"></span></a>';
         output += '</td>';
 
         output += '</tr>';
@@ -180,21 +188,31 @@ jQuery( function($){
     $('#pms-woo-subscription-product-discounts').on('change', '.pms-select-discount-for', function(){
 
         var contents = '';
-        $(this).closest('tr').find('.pms-chosen').html('');
+        $(this).closest('tr').find('.pms-select-name').html('');
 
         if ( $(this).val() == 'product-categories') {
 
             for( var key in pmsWooProductCategories )
                 contents += '<option value="' + key + '">' + pmsWooProductCategories[key] + '</option>';
+
+            if( typeof pmsWooProducts == 'undefined' ){
+                $(this).closest('tr').find('.pms-select-name').chosen();
+                $(this).closest('tr').find('#pms-product-ids').css('display', 'none');
+                $(this).closest('tr').find('.chosen-container').css('display', 'block');
+            }
         }
         else {
-
-            for ( var key in pmsWooProducts )
-                contents += '<option value="' + key + ' ">' + pmsWooProducts[key] + '</option>';
+            if( typeof pmsWooProducts != 'undefined' ){
+                for ( var key in pmsWooProducts )
+                    contents += '<option value="' + key + ' ">' + pmsWooProducts[key] + '</option>';
+            } else {
+                $(this).closest('tr').find('#pms-product-ids').css('display', 'block');
+                $(this).closest('tr').find('.chosen-container').css('display', 'none');
+            }
         }
 
-        $(this).closest('tr').find('.pms-chosen').html(contents);
-        $(this).closest('tr').find('.pms-chosen').trigger('chosen:updated');
+        $(this).closest('tr').find('.pms-select-name').html(contents);
+        $(this).closest('tr').find('.pms-select-name').trigger('chosen:updated');
 
     });
 
@@ -216,6 +234,16 @@ jQuery( function($){
             });
 
             $(this).find('input.pms-input-discount-amount').each( function() {
+
+                var element_attr_name = $(this).attr('name');
+
+                var element_attr_name_beg = element_attr_name.substr( 0, element_attr_name.indexOf('[') + 1 );
+                var element_attr_name_end = element_attr_name.substr( element_attr_name.indexOf(']'), element_attr_name.length - 1 );
+
+                $(this).attr( 'name', element_attr_name_beg + index + element_attr_name_end );
+            });
+
+            $(this).find('input#pms-product-ids').each( function() {
 
                 var element_attr_name = $(this).attr('name');
 

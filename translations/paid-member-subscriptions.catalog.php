@@ -728,6 +728,7 @@
 <?php __("Choose...", "paid-member-subscriptions"); ?>
 <?php __("Remove this discount", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this discount?", "paid-member-subscriptions"); ?>
+<?php __("Enter the Product IDs", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plan", "paid-member-subscriptions"); ?>
 <?php __("None", "paid-member-subscriptions"); ?>
 <?php __("Please select a Subscription Plan you want to associate with this product:", "paid-member-subscriptions"); ?>
@@ -976,6 +977,10 @@
 <?php __("You have successfully activated your license.", "paid-member-subscriptions"); ?>
 <?php __("Completed successfully.", "paid-member-subscriptions"); ?>
 <?php __("Register Website ", "paid-member-subscriptions"); ?>
+<?php __("Plan Name", "paid-member-subscriptions"); ?>
+<?php __("Next Payment Date", "paid-member-subscriptions"); ?>
+<?php __("Auto Renewal", "paid-member-subscriptions"); ?>
+<?php __("On", "paid-member-subscriptions"); ?>
 <?php __("Manual/Offline", "paid-member-subscriptions"); ?>
 <?php __("Manually collect payments from  Checks, Direct Bank Transfers or in person cash.", "paid-member-subscriptions"); ?>
 <?php __("PayPal", "paid-member-subscriptions"); ?>
@@ -1828,7 +1833,6 @@
 <?php __("Downgrade Subscription", "paid-member-subscriptions"); ?>
 <?php __("Change Subscription", "paid-member-subscriptions"); ?>
 <?php __("Trial", "paid-member-subscriptions"); ?>
-<?php __("Next Payment Date", "paid-member-subscriptions"); ?>
 <?php __("Trial End Date", "paid-member-subscriptions"); ?>
 <?php __("%s on %s", "paid-member-subscriptions"); ?>
 <?php __("Payment Method", "paid-member-subscriptions"); ?>
@@ -2172,6 +2176,7 @@
 <?php __("Add New Discount", "paid-member-subscriptions"); ?>
 <?php __("Membership Discounts", "paid-member-subscriptions"); ?>
 <?php __("Discount for", "paid-member-subscriptions"); ?>
+<?php __("ID / Name", "paid-member-subscriptions"); ?>
 <?php __("Product Discounts", "paid-member-subscriptions"); ?>
 <?php __("Rescan Labels", "paid-member-subscriptions"); ?>
 <?php __("Information", "paid-member-subscriptions"); ?>

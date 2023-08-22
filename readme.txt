@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.3
-Stable tag: 2.9.9
+Stable tag: 2.10.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.10.0 = 
+* Fix: Issue with Stripe Connect and change/upgrade subscription
+* Fix: Small issue with the Dashboard Payments Widget not showing the full payments amount
+* Fix: Correct display issue for the expiration date of canceled PayPal subscriptions
+* Fix: Improve behaviour for WooCommerce Product Membership Discounts when the website has a lot of products defined
+* Misc: Added some information about a users subscriptions on the Edit User page
+
 = 2.9.9 = 
 * Fix: A case where the subscription was not updating correctly when adding a manual payment
 * Fix: An issue regarding WooCommerce integration

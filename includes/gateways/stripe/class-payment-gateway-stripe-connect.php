@@ -693,7 +693,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     'payment_id'           => !empty( $payment ) ? $payment->id : '0',
                     'request_location'     => $form_location,
                     'subscription_id'      => $subscription->id,
-                    'subscription_plan_id' => $subscription->subscription_plan_id,
+                    'subscription_plan_id' => !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ): $subscription->subscription_plan_id,
                     'home_url'             => home_url(),
                     'is_recurring'         => PMS_Form_Handler::checkout_is_recurring(),
                 ), $payment, $form_location )
@@ -1152,9 +1152,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $subscription ) || empty( $form_location ) )
             return false;
 
-        if( $subscription->status == 'active' )
-            return true;
-
         if( $is_recurring == false )
             $is_recurring = PMS_Form_Handler::checkout_is_recurring();
 
@@ -1379,7 +1376,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 if( $payment->status == 'completed' )
                     die();
 
-                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.succeeded' ) );
+                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.succeeded', 'data' => $data->metadata ) );
 
                 $payment->log_data( 'stripe_intent_confirmed' );
 
@@ -1402,7 +1399,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 if( $payment->status == 'completed' )
                     die();
 
-                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.processing' ) );
+                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.processing', 'data' => $data->metadata ) );
 
                 $payment->log_data( 'stripe_intent_processing' );
 
@@ -1424,7 +1421,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 if( $payment->status == 'failed' )
                     die();
 
-                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.payment_failed' ) );
+                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.payment_failed', 'data' => $data->metadata ) );
 
                 $payment->log_data( 'payment_failed', $this->parse_intent_last_error( $data ) );
 
@@ -1521,6 +1518,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( !empty( $data->metadata->request_location ) ){
 
             $subscription = pms_get_member_subscription( $payment->member_subscription_id );
+
+            if( $subscription->status == 'active' )
+                return;
 
             $this->update_subscription( $subscription, sanitize_text_field( $data->metadata->request_location ), false, sanitize_text_field( $data->metadata->is_recurring ), $payment->subscription_id );
 

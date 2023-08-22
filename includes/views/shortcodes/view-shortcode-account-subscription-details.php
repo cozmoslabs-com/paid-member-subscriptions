@@ -51,7 +51,7 @@ foreach( $subscriptions as $subscription ) :
 			<?php if( empty( $subscription->billing_next_payment ) ) : ?>
 	            <tr class="pms-account-subscription-details-table__expiration-date">
                     
-                <?php if( !empty( $subscription->payment_profile_id ) ) : ?>
+                <?php if( !empty( $subscription->payment_profile_id ) && $subscription->status == 'active' ) : ?>
 	                    <td><?php esc_html_e( 'Next Payment Date', 'paid-member-subscriptions' ); ?></td>
                     <?php else : ?>
                         <td><?php esc_html_e( 'Expiration Date', 'paid-member-subscriptions' ); ?></td>
