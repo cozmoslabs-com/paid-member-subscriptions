@@ -935,6 +935,14 @@
 <?php __("Move Subscription Plan Down", "paid-member-subscriptions"); ?>
 <?php __("for %d seat", "paid-member-subscriptions"); ?>
 <?php __("for %d seats", "paid-member-subscriptions"); ?>
+<?php __("Create Pricing Page", "paid-member-subscriptions"); ?>
+<?php __("PMS -> Settings -> Membership Pages -> Registration", "paid-member-subscriptions"); ?>
+<?php __("%sError:%s It seems that you do not have the register page set. To solve the problem, please navigate to %s and select the page containing the %s shortcode.", "paid-member-subscriptions"); ?>
+<?php __("Select rhe subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans.", "paid-member-subscriptions"); ?>
+<?php __("First plan:", "paid-member-subscriptions"); ?>
+<?php __("Select a plan...", "paid-member-subscriptions"); ?>
+<?php __("Second plan:", "paid-member-subscriptions"); ?>
+<?php __("Third plan:", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Subscription Plan?", "paid-member-subscriptions"); ?>
 <?php __("Delete Plan", "paid-member-subscriptions"); ?>
 <?php __("a downgrade", "paid-member-subscriptions"); ?>

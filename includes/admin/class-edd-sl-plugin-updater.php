@@ -17,6 +17,7 @@ if( !class_exists('PMS_EDD_SL_Plugin_Updater') ) {
         private $name = '';
         private $slug = '';
         private $version = '';
+        private $beta = false;
         private $wp_override = false;
         private $cache_key = '';
 

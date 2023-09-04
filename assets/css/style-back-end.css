@@ -3130,3 +3130,57 @@ body[class*="post-type-pms-"] #postbox-container-1 {
     }
 
 }
+
+/* Settings for Create Pricing Table button*/
+.pms-modal__holder h2 {
+    margin-top: 0;
+}
+.pms-modal__holder .pms-button-close {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 20px;
+    right: 20px;
+    opacity: 0.8;
+    transition: all 200ms;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #666;
+}
+.pms-modal__holder .pms-button-close:hover {
+    opacity: 1;
+}
+.pms-modal__holder p {
+    margin: 0 0 1em;
+}
+.pms-modal__holder p:last-child {
+    margin: 0;
+}
+.pms-modal__holder .pms-chosen-modal{
+    width: 300px;
+}
+.pms-select-container label{
+    margin-right: 10px;
+    font-size: 14px;
+}
+/*Settings for error message*/
+.pms-modal__holder .pms-error-box {
+    background-color: #f8d7da;
+    border: 2px solid #f5c6cb;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 900px;
+    margin: 20px auto;
+    text-align: center;
+}
+.pms-modal__holder .pms-error-message {
+    color: #721c24;
+    font-size: 16px;
+    margin: 0;
+}
+
+.post-type-pms-subscription .pms-modal {
+    top: 25%;
+    min-height: 25%;
+}

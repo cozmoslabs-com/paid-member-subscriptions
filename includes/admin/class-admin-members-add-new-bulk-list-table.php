@@ -232,12 +232,19 @@ Class PMS_Members_Add_New_Bulk_List_Table extends WP_List_Table {
             $checkbox = '<label class="screen-reader-text" for="user_' . esc_attr( $usr->data->ID ) . '">' . sprintf( esc_html__( 'Select %s', 'paid-member-subscriptions' ), esc_html( $usr->data->user_login ) ) . '</label>'
                 . "<input type='checkbox' name='users[]' id='user_". esc_attr( $usr->data->ID ) ."' value='". esc_attr( $usr->data->ID ) ."' />";
 
+            if( !empty( $usr->roles ) ){
+                $role = array_values( $usr->roles );
+
+                if( !empty( $role[0] ) )
+                    $role = $role[0];
+            }
+
             $data[] = array(
                 'cb'                => $checkbox,
                 'user_id'           => $usr->data->ID,
                 'username'          => $usr->data->user_login,
                 'email'             => $usr->data->user_email,
-                'role'              => ( ! empty( $usr->roles[0] ) ? $usr->roles[0] : '' )
+                'role'              => ( ! empty( $role ) ? $role : '' )
             );
         }
 

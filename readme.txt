@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.3
-Stable tag: 2.10.0
+Stable tag: 2.10.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.10.1 =
+* Feature: Added a simple Pricing Page creation interface on the Subscription Plans page
+* Feature: Allow non-recurring Stripe payment methods to appear when recurring payments are disabled in settings
+* Fix: issue with Bulk Add Members filter by role not working when user role key was different than 0
+* Fix: warning appearing in some cases from the Redirect functionality from Content Restriction
+* Fix: some warnings relating to PHP 8.2
+* Fix: issue with Activate Subscription email not being sent when changing subscription
+* Fix: issue with expiration date being broken for unlimited subscription when adding a new manual payment
+
 = 2.10.0 = 
 * Fix: Issue with Stripe Connect and change/upgrade subscription
 * Fix: Small issue with the Dashboard Payments Widget not showing the full payments amount

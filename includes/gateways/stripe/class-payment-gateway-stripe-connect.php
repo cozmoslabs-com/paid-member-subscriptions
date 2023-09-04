@@ -1025,6 +1025,15 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             ],
         );
 
+        // Remove setup future usage when recurring payments are disabled
+        // NOTE:  Should explor if we can change this setting through a Payment Intent update. In that case we should update it all the time
+        //        based on the data coming from the form and always respect the recurring option
+        $payment_settings = get_option( 'pms_payments_settings', false );
+
+        if( isset( $payment_settings['recurring'] ) && $payment_settings['recurring'] == 3 ){
+            unset( $args['setup_future_usage'] );
+        }
+
         $args['amount'] = $this->process_amount( $args['amount'], $args['currency'] );
 
         $args = self::add_application_fee( $args );

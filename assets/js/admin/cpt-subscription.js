@@ -54,6 +54,34 @@ jQuery( function($) {
    });
 
     /*
+      * Move the "Create Pricing Page" button from the admin footer
+      * next to the "Add New" button next to the title of the page
+      *
+      */
+    $(document).ready( function() {
+        $buttonsWrapper = $('#pms-create-pricing-page-button-wrapper');
+
+        $buttons = $buttonsWrapper.children();
+
+        $('.wrap .page-title-action').first().after( $buttons );
+
+        $buttonsWrapper.remove();
+
+    });
+
+    /*
+     * Showing and closing the modal
+     */
+
+    $(document).on( 'click', '#pms-popup1', function() {
+        $( '.pms-modal' ).show();
+    });
+
+    $(document).on( 'click', '#pms-button-close', function() {
+        $( '.pms-modal' ).hide();
+    });
+
+    /*
      * Move the "Add Upgrade" and "Add Downgrade" buttons from the submit box
      * next to the "Add New" button next to the title of the page
      *

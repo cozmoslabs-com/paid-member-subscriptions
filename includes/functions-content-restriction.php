@@ -212,6 +212,9 @@ function pms_restricted_post_redirect() {
 
     global $post;
 
+    if( empty( $post ) || empty( $post->ID ) )
+        return;
+
     /**
      * Filter to change the $post_id of the current restricted post
      *

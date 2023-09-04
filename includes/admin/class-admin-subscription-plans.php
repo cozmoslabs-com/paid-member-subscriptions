@@ -1,5 +1,4 @@
 <?php
-
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -32,6 +31,12 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
 
         add_filter( 'manage_' . $this->post_type . '_posts_columns', array( __CLASS__, 'manage_posts_columns' ) );
         add_action( 'manage_' . $this->post_type . '_posts_custom_column', array( __CLASS__, 'manage_posts_custom_column' ), 10, 2 );
+
+
+        //Create Pricing Page button
+        add_action('admin_footer', array( $this, 'admin_footer_add_create_pricing_page_button') );
+        add_action('admin_post_pms_create_pricing_table_page', array( $this, 'creating_pricing_table_page' ) );
+
 
         // Bulk actions
         add_filter( 'bulk_actions-edit-' . $this->post_type, array( $this, 'remove_bulk_actions' ) );
@@ -83,7 +88,6 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
 		add_filter( 'bulk_post_updated_messages', array( $this, 'set_bulk_custom_messages' ), 10, 2 );
 
     }
-
 
     /*
      * Method that validates data for the subscription plan cpt
@@ -217,7 +221,6 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
         )  );
 
     }
-
 
     /*
      * Method that removes all row actions besides the edit one
@@ -470,6 +473,168 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
         }
 
 	}
+
+    public function creating_pricing_table_page(){
+
+            if( isset( $_POST ) ){
+                $id_subscriptions = array_filter( $_POST,'wp_kses_post' );
+            }
+            else{
+                return;
+            }
+
+            $count_ids = count( $id_subscriptions ) - 1;
+            if( $count_ids == 3 ){
+                $pattern = pms_patterns_pricing_table();
+            }
+            elseif ( $count_ids == 2 ){
+                $pattern = pms_patterns_pricing_table_two_columns();
+            }
+            elseif ( $count_ids == 1 ){
+                $pattern = pms_patterns_pricing_table_one_column();
+            }
+
+            $number_of_subscriptions = 0;
+
+            foreach ( $id_subscriptions as $id ) {
+
+                $plan = pms_get_subscription_plan( $id );
+
+                if ( $number_of_subscriptions == 0 ) {
+
+                    $pattern = str_replace('Silver', $plan->name, $pattern );
+                    $currency = pms_get_currency_symbol( pms_get_active_currency() );
+                    $price = $plan->price . $currency;
+                    $duration = " / " . $plan->duration_unit;
+                    $details = $price . $duration;
+                    $pattern = str_replace( '29$ / month', $details, $pattern );
+                    $url = 'href="' .  get_permalink( pms_get_page('register') );
+                    $pattern = str_replace( 'href=""', $url, $pattern );
+
+                } elseif ( $number_of_subscriptions == 1 ) {
+
+                    $pattern = str_replace( 'Gold', $plan->name, $pattern );
+                    $currency = pms_get_currency_symbol( pms_get_active_currency() );
+                    $price = $plan->price . $currency;
+                    $duration = " / " . $plan->duration_unit;
+                    $details = $price . $duration;
+                    $pattern = str_replace( '49$ / month', $details, $pattern );
+
+                } elseif ( $number_of_subscriptions == 2 ) {
+
+                    $pattern = str_replace( 'Platinum', $plan->name, $pattern );
+                    $currency = pms_get_currency_symbol( pms_get_active_currency() );
+                    $price = $plan->price . $currency;
+                    $duration = " / " . $plan->duration_unit;
+                    $details = $price . $duration;
+                    $pattern = str_replace( '89$ / month', $details, $pattern );
+
+                }
+                $number_of_subscriptions++;
+            }
+
+            $new_post = array(
+                'post_title' => 'Pricing',
+                'post_content' => $pattern,
+                'post_type' => 'page',
+                'post_status' => 'publish',
+                'post_author' => 1
+            );
+            $id_page = wp_insert_post( $new_post );
+            $link_page = htmlspecialchars_decode( esc_url( add_query_arg( array( 'post' => $id_page, 'action' => 'edit' ), admin_url( 'post.php' ) ) ) );
+            wp_redirect( $link_page );
+            exit;
+    }
+    public function admin_footer_add_create_pricing_page_button(){
+        global $pagenow;
+
+        if( $pagenow === 'edit.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'pms-subscription' ) {
+            echo '<div id="pms-create-pricing-page-button-wrapper">';
+            echo '<a class="add-new-h2 page-title-action" id="pms-popup1" href="#" style="margin-left:10px;">' . esc_html__('Create Pricing Page', 'paid-member-subscriptions') . '</a>';
+            echo '</div>';
+?>
+            <div id="" class="pms-modal">
+                <div class="pms-modal__holder">
+                    <h2 class="cozmoslabs-page-title"><?php esc_html_e( 'Create Pricing Page', 'paid-member-subscriptions' ); ?></h2>
+                    <a class="pms-button-close" id="pms-button-close" href="#">&times;</a>
+                    <div class="pms-content">
+                        <?php
+                        if( empty( pms_get_page( 'register' ) ) || pms_get_page( 'register' ) == false ){
+
+                            $pms_url_settings_page = esc_url( add_query_arg( array( 'page' => 'pms-settings-page' ), admin_url( 'admin.php' ) ) . '#cozmoslabs-subsection-membership-pages' );
+                            $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS -> Settings -> Membership Pages -> Registration', 'paid-member-subscriptions' ) . '</a>';
+                            $pms_register_page_set_error = sprintf( __('%sError:%s It seems that you do not have the register page set. To solve the problem, please navigate to %s and select the page containing the %s shortcode.', 'paid-member-subscriptions'),
+                            '<strong>', '</strong>', $pms_url, '<strong>[pms-register]</strong>');
+                            echo '<div class="pms-error-box">';
+                            echo '<p class="pms-error-message">' . wp_kses_post( $pms_register_page_set_error ) . '</p>';
+                            echo '</div>';
+                            return;
+                        }
+                        ?>
+                        <p><?php esc_html_e( 'Select rhe subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans.', 'paid-member-subscriptions' ); ?></p>
+                        <form action="<?php echo  esc_url( admin_url( 'admin-post.php') ); ?>" method="post" class="pms-form">
+                            <table class="pms-select-container">
+                                <tr>
+                                    <th>
+                                        <label for="pms-silver-subscription-plan"><?php esc_html_e( 'First plan:', 'paid-member-subscriptions' ); ?></label>
+                                    </th>
+                                    <td>
+                                        <select id="pms-silver-subscription-plan" name="pms-silver-subscription-plan"  class="pms-chosen-modal" >
+                                            <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
+                                            <?php
+                                            $subscriptions = pms_get_subscription_plans();
+                                            foreach ( $subscriptions as $subscription ){
+                                                echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="pms-gold-subscription-plan"><?php esc_html_e( 'Second plan:', 'paid-member-subscriptions' ); ?></label>
+                                    </th>
+                                    <td>
+                                        <select id="pms-gold-subscription-plan" name="pms-gold-subscription-plan"  class="pms-chosen-modal" >
+                                            <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
+                                            <?php
+                                            $subscriptions = pms_get_subscription_plans();
+                                            foreach ( $subscriptions as $subscription ){
+                                                echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="pms-platinum-subscription-plan"><?php esc_html_e( 'Third plan:', 'paid-member-subscriptions' ); ?></label>
+                                    </th>
+                                    <td>
+                                        <select id="pms-platinum-subscription-plan" name="pms-platinum-subscription-plan"  class="pms-chosen-modal" >
+                                            <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
+                                            <?php
+                                            $subscriptions = pms_get_subscription_plans();
+                                            foreach ( $subscriptions as $subscription ){
+                                                echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div style="margin-top: 10px;">
+                                <input type="hidden" name="action" value="pms_create_pricing_table_page">
+                                <input type="submit" class="button button-primary" value="Submit">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+<?php
+
+        }
+    }
 
 
     /*
@@ -1082,3 +1247,4 @@ $args = array(
 
 $pms_cpt_subscribtion = new PMS_Custom_Post_Type_Subscription( 'pms-subscription', esc_html__( 'Subscription Plan', 'paid-member-subscriptions' ), esc_html__( 'Subscription Plans', 'paid-member-subscriptions' ), $args );
 $pms_cpt_subscribtion->init();
+

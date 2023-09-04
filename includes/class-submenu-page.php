@@ -54,6 +54,14 @@ Class PMS_Submenu_Page {
     public $settings_slug;
 
     /**
+     * Screen option slug
+     *
+     * @access public
+     * @var string
+     */
+    public $screen_option;
+
+    /**
 	 * Option values
 	 *
      * Holds the settings option values, used for options/settings pages
