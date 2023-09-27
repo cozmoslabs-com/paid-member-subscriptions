@@ -1,29 +1,57 @@
-=== Membership & Content Restriction - Paid Member Subscriptions ===
+=== Paid Membership Subscriptions - Effortless Memberships, Recurring Payments & Content Restriction ===
 Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, reflectionmedia, raster02
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
-Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
+Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.3
 Stable tag: 2.10.2
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Free WordPress membership plugin that lets you create subscription plans, accept payments and restrict content on your membership site. WooCommerce integration.
+Feature-packed membership plugin for creating subscription plans, adding recurring payments & content restriction on your membership site. WooCommerce integration.
 
 == Description ==
 
-**[Paid Member Subscriptions](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) is a robust WordPress membership plugin that's a joy to set up and use.**
+**[Paid Member Subscriptions](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) is the #1 WordPress membership plugin focused on growing recurring revenue.**
 
-It offers a complete membership solution, allowing you to accept member payments, manage members, create subscription plans and restrict access to premium content.
+Increase conversions and generate subscription revenue with a feature-packed membership solution. It lets you accept recurring payments, register and manage new members, create subscription plans and restrict access to premium content. 
+
+Paid Member Subscriptions is designed to help you kickstart your subscription business in just a few minutes and begin generating income as quickly as possible.
 
 Integrates with [WooCommerce](https://www.cozmoslabs.com/94386-restrict-woocommerce-product-purchase-shop-page-non-members/), allowing you to restrict product viewing and purchasing to members-only as well, offer special discounted product price based on subscription plans as well as allow your customers to purchase subscription plans through the WooCommerce Checkout.
+
 You can also use it to setup an [Elementor membership site](https://www.cozmoslabs.com/156382-elementor-membership-site-with-paid-member-subscriptions/) fast and easy.
 
-To start simply create a new page and give it an intuitive name(e.g. Member Registration) and add the following shortcode: [pms-register].
-Publish the page and you are done!
+[Free Demo](https://pms-demo.cozmoslabs.com/) | [Compare Free vs Pro](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/) | [Documentation](https://www.cozmoslabs.com/docs/paid-member-subscriptions/)
 
-= Shortcodes for Member Registration, Login, Content Restriction and managing Membership Plans =
-You can use one of the following shortcodes:
+== Optimize Membership Monetization And Boost Your Revenue ==
+
+Offer premium access and exclusive benefits for members, establishing a thriving paid community that generates income through membership fees or subscription plans. This is ideal for:
+* Paid Membership Services
+* [Online Courses](https://www.cozmoslabs.com/380816-sell-online-courses-from-your-own-website/)
+* Online Coaching
+* Online Consultancy Services
+
+== Automate Revenue Streams With Our Proven Membership Tools ==
+
+Keep your focus on content creation while Paid Member Subscriptions takes care of consistently generating revenue for you through its automated recurring revenue model. This is ideal for: 
+* Content restriction on blogs, news sites, and content hubs
+* Members-only content subscriptions
+* Private WooCommerce Stores
+* [Members-Only WooCommerce Stores](https://www.cozmoslabs.com/94009-woocommerce-members-only-store-paid-member-subscriptions/)
+
+== Build And Grow Your Community While Also Monetizing It ==
+
+Communities are all about collaboration. By giving members the opportunity to gain exposure, promote their services or create networking opportunities, you’re building a valuable community that people are willing to pay to be a part of. This is ideal for: 
+* Business Directories
+* Member Directories
+* Online Associations and Clubs
+* [Online Communities](https://www.cozmoslabs.com/384742-create-online-community-website/)
+
+
+= Shortcodes & Blocks for Member Registration, Login, Content Restriction and managing Membership Plans =
+
+You can use one of the following shortcodes or available blocks to get started:
 
 * **[pms-register]** - adds a front-end user registration form where users can purchase a membership level
 * **[pms-login]** - create a front-end member login form
@@ -81,7 +109,7 @@ Whether you prefer to maintain your own records of your members’ database, do 
 Payment history can be exported to a CSV file, letting you then import the payment data into Excel, QuickBooks, or other accounting software that can process a CSV file.
 
 = WooCommerce Integration =
-Paid Member Subscriptions integrates beautifully with [WooCommerce](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree), allowing you to do the following:
+Paid Member Subscriptions integrates beautifully with [WooCommerce](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree), allowing you to do the following out of the box:
 
 * **Create a Members-only Store** - [restrict access](https://www.cozmoslabs.com/94386-restrict-woocommerce-product-purchase-shop-page-non-members/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to the Shop page to members-only
 * **Restrict Product Viewing and Purchasing** - control who can see or purchase a WooCommerce product based on logged in status and subscription plan. Easily create members-only products.
@@ -101,26 +129,30 @@ Paid Member Subscriptions integrates beautifully with [WooCommerce](https://www.
 
 Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslabs.com/paid-member-subscriptions-add-ons/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) that allow you to extend the power of the membership plugin:
 
-**Basic Add-ons** (available in the [PRO or Hobbyist](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) version)
+**Basic Add-ons** (available in the [Agency, PRO or Basic](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) versions)
 
-* [bbPress](https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-bbpress/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - integrate Paid Member Subscriptions with the popular forums plugin, bbPress, to [restrict your forums and topics](https://www.cozmoslabs.com/104619-restrict-bbpress-forum-membership-subscription/).
+* [bbPress](https://www.cozmoslabs.com/add-ons/bbpress-2/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - integrate Paid Member Subscriptions with the popular forums plugin, bbPress, to [restrict your forums and topics](https://www.cozmoslabs.com/104619-restrict-bbpress-forum-membership-subscription/).
 * [Global Content Restriction](https://www.cozmoslabs.com/add-ons/global-content-restriction/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - add global content restriction rules to subscription plans, based on post type, taxonomy and terms
 * [Email Reminders](https://www.cozmoslabs.com/add-ons/email-reminders/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)
 * [Navigation Menu Filtering](https://www.cozmoslabs.com/add-ons/navigation-menu-filtering/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - dynamically display menu items based on logged-in status as well as selected subscription plans
 * [Fixed Period Membership](https://www.cozmoslabs.com/add-ons/fixed-period-membership/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create subscriptions plans that end at a specific date, no matter when a member subscribes to it.
 * [Pay What You Want](https://www.cozmoslabs.com/add-ons/pay-what-you-want/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept donations and let subscribers pay what they want when purchasing a subscription plan
-* [Labels Edit](https://www.cozmoslabs.com/add-ons/pms-labels-edit/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - edit any label/string that is coming from the Paid Member Subscriptions plugin
 
-**Pro Add-ons** (available in the [PRO version](http://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) only)
+**Pro Add-ons** (available in the [Agency & PRO versions](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) only)
 
 * [Pro Rate](https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription
 * [Tax & EU VAT](https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - collect tax or vat from your users depending on their location, with full control over tax rates and who to charge
 * [Group Memberships](https://www.cozmoslabs.com/add-ons/group-memberships/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - sell group subscriptions to your users
-* [PayPal Express](https://www.cozmoslabs.com/add-ons/paypal-pro-paypal-express/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept one-time or recurring payments through PayPal Pro (credit card) and PayPal Express Checkout
+* [PayPal Express](https://www.cozmoslabs.com/add-ons/paypal-express/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept one-time or recurring payments through PayPal Express Checkout
 * [Stripe Gateway](https://www.cozmoslabs.com/add-ons/stripe/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept credit card payments, both one-time and recurring, directly on your website via Stripe
 * [Content Dripping](https://www.cozmoslabs.com/add-ons/content-dripping/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create schedules for your content, making posts or categories available for your members only after a certain time has passed since they signed up for a subscription plan
 * [Multiple Subscriptions per User](https://www.cozmoslabs.com/add-ons/multiple-subscriptions-per-user/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - setup multiple subscription level groups (e.g. Physics, Math) and allow members to sign up for more than one subscription plan, one per group (e.g. Physics Beginner and Math Advanced)
 * [Invoices](https://www.cozmoslabs.com/add-ons/invoices/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - both you and your members will be able to download PDF invoices for each payment that has been completed
+
+== The Ultimate Membership Bundle ==
+Combine user registration, memberships, and recurring revenue in one powerful plugin bundle called the [Ultimate Membership Bundle](https://www.cozmoslabs.com/ultimate-membership-bundle/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
+
+Get access to both [Paid Member Subscriptions Pro](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) and our all in one user management plugin, [Profile Builder Pro](https://www.cozmoslabs.com/wordpress-profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree). These two plugins are designed to work perfectly together, offering you a powerful toolkit for managing and expanding your user base while generating revenue through paid memberships and recurring revenue.
 
 = Paid Member Subscriptions in your Language =
 We're focusing on translating Paid Member Subscriptions in as many languages as we can. So far, the translations for 10 languages are almost complete, but we still need help on a lot of other languages, so please join us at [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/paid-member-subscriptions)
@@ -190,30 +222,21 @@ Yes! Users can pay with a credit or debit card without leaving your website thro
 For more information please check out [Paid Member Subscriptions documentation](https://www.cozmoslabs.com/docs/paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
 
 == Screenshots ==
-1. Basic Information page for Paid Member Subscriptions - membership plugin
-2. Subscription Plans listing from Paid Member Subscriptions - membership plugin
-3. Adding a New Membership Plan
-4. Member Registration Page - Front-end membership plans listing (logged out)
-5. Member Registration Page - Front-end membership plans listing (logged in)
-6. Member Login Page - Front-end user login form
-7. Member Account Page - Subscriptions tab
-8. Member Account Page - Edit Profile tab
-9. Member Lost Password Page
-10. Restrict Content - posts, pages, custom post types (Gutenberg)
-11. Restrict Content - posts, pages, custom post types (Classic Editor)
+1. Member Registration Form (Account Details + Select Payment Method)
+2. Membership options: Group Memberships, Fixed Period Subscription & Pay What You Want & more
+3. Select your subscription plan and billing details form in Paid Member Subscriptions
+4. Member Account - Subscription Plan Details
+5. Member Profile - Edit Account and Billing Details
+6. Member discounted products for WooCommerce store
+7. WooCommerce shop page restricted on the front-end for non-members
+8. WooCommerce product discounts for members and restriction settings for individual product
+9. Paid Membership Subscriptions onboarding wizard
+10. Settings interface - Membership, Recurring Payments, Content Restriction & more
+11. Subscription Plans listing from Paid Member Subscriptions - membership plugin
 12. Members Management
-13. Add New/Edit Member on your Membership site
-14. Membership Payments
-15. Settings - General
-16. Settings - Setup PayPal payment gateway used to accept payments
-17. Settings - Content Restriction Messages
-18. Settings - Customize default member emails
-19. Add-ons - Paid Member Subscriptions
-20. WooCommerce integration general settings
-21. Product discounts and restriction settings for individual product
-22. WooCommerce shop page restricted on the front-end
-23. Display of member discounted products in the front-end
-
+13. Membership Recurring Payments Details
+14. Discount Codes for Membership Plans
+15. Available Add-ons for extending your membership site
 
 == Changelog ==
 = 2.10.2 =
