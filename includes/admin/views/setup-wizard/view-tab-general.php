@@ -1,63 +1,71 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
-<h3><?php esc_html_e( 'Membership Pages', 'paid-member-subscriptions' ); ?></h3>
-<div class="pms-setup-pages">
-    <h4><?php esc_html_e( 'Do you want to create the Membership Pages automatically?', 'paid-member-subscriptions' ); ?></h4>
-
-    <div class="pms-setup-pages__line">
-        <?php if( $this->show_pages_button() ) : ?>
-            <button class="button primary button-primary button-hero" id="pms_create_subscription_pages"><?php esc_html_e( 'Yes, create the pages for me', 'paid-member-subscriptions' ); ?></button>
-        <?php else : ?>
-            <a href="<?php echo esc_url( admin_url( 'edit.php?s=%5Bpms-&post_status=all&post_type=page&action=-1&m=0&paged=1&action2=-1' ) ); ?>" target="_blank" class="button secondary button-secondary button-hero"><?php esc_html_e( 'View Pages', 'paid-member-subscriptions' ); ?></a>
-        <?php endif; ?>
-
-        <div class="pms-setup-pages__success pms-setup-hidden"><?php esc_html_e( 'Membership Pages created successfully!', 'paid-member-subscriptions' ); ?></div>
-    </div>
-
-    <p class="description">
-        <?php esc_html_e( 'This will create the pages for Registration, Login, Account and Reset Password automatically.', 'paid-member-subscriptions' ); ?><br>
-        <?php printf( esc_html__( 'Alternatively, the pages can be created manually by inserting the corresponding %sshortcodes%s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFree">', '</a>' ); ?>
-    </p>
-</div>
-
-<h3 style="margin-bottom:0;"><?php esc_html_e( 'Settings', 'paid-member-subscriptions' ); ?></h3>
+<h3><?php esc_html_e( 'Design & User Experience Settings', 'paid-member-subscriptions' ); ?></h3>
+<p class="cozmoslabs-description pms-setup-payment-settings__description"><?php esc_html_e( 'Customize the way your users interact with the website!', 'paid-member-subscriptions' ); ?></p>
 
 <form class="pms-setup-form" method="post">
-    <div class="pms-setup-line-wrap">
-        <h4><?php esc_html_e( 'Would you like to automatically log users in after registration?', 'paid-member-subscriptions' ); ?></h4>
 
-        <div class="pms-setup-toggle">
-            <input type="checkbox" name="pms_automatically_login" id="pms_automatically_login" value="1" <?php echo $this->check_value( 'automatically_log_in' ) ? 'checked' : '' ?> /><label for="pms_automatically_login">Toggle</label>
-        </div>
+    <div class="pms-setup-form-styles">
+        <?php
+            if ( ( defined( 'PMS_PAID_PLUGIN_DIR' ) && file_exists( PMS_PAID_PLUGIN_DIR . '/add-ons-basic/form-designs/form-designs.php' ) ) || ( PAID_MEMBER_SUBSCRIPTIONS === 'Paid Member Subscriptions Dev' && file_exists( PMS_PLUGIN_DIR_PATH . '/add-ons-basic/form-designs/form-designs.php' ) ) ) {
+                echo pms_render_forms_design_selector(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                ?>
+
+                <p class="info">
+                    <?php esc_html_e( 'Choose a style that better suits your website.<br>The default style is there to let you customize the CSS and in general will receive the look and feel from your own themes styling. ', 'paid-member-subscriptions' ); ?>
+                </p>
+                <?php
+            } elseif ( PAID_MEMBER_SUBSCRIPTIONS === 'Paid Member Subscriptions' ) {
+                echo pms_display_form_designs_preview(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                printf( esc_html__( '%3$sYou can now beautify your forms using new Styles. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s', 'paid-member-subscriptions' ),'<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=general-settings-link&utm_campaign=PMSFree#pricing-vers" target="_blank">', '</a>', '<p class="pms-setup-form-styles__upsell">', '</p>' );
+            }
+        ?>
     </div>
 
-    <div class="pms-setup-line-wrap">
-        <h4><?php esc_html_e( 'Prevent users from being logged in with the same account from multiple places at the same time?', 'paid-member-subscriptions' ); ?></h4>
+    <strong class="pms-setup-general-settings__heading"><?php esc_html_e( 'Optimize the login and registration flow for your members!', 'paid-member-subscriptions' ); ?></strong>
 
-        <div class="pms-setup-toggle">
-            <input type="checkbox" name="pms_account_sharing" id="pms_account_sharing" value="1" <?php echo $this->check_value( 'prevent_account_sharing' ) ? 'checked' : '' ?>  /><label for="pms_account_sharing">Toggle</label>
+    <div class="pms-setup-general-settings">
+        <div class="pms-setup-general-settings__item">
+            <div class="cozmoslabs-toggle-switch">
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="pms_automatically_login" name="pms_automatically_login" value="1" <?php echo $this->check_value( 'automatically_log_in' ) ? 'checked' : '' ?> />
+                    <label class="cozmoslabs-toggle-track" for="pms_automatically_login"></label>
+                </div>
+            </div>
+            <?php esc_html_e( 'Automatically log users in after registration', 'paid-member-subscriptions' ); ?>
         </div>
-    </div>
-    <p class="description"><?php esc_html_e( 'If the current user\'s session has been taken over by a newer session, we will log him out and he will have to login again. This will make it inconvenient for members to share their login credentials.', 'paid-member-subscriptions' ); ?></p>
 
-    <div class="pms-setup-line-wrap">
-        <h4><?php esc_html_e( 'Would you like to redirect the default WordPress pages for register, login and password reset?', 'paid-member-subscriptions' ); ?></h4>
-
-        <div class="pms-setup-toggle">
-            <input type="checkbox" name="pms_redirect_default" id="pms_redirect_default" value="1" <?php echo $this->show_pages_button() ? 'disabled' : ''; ?> <?php echo $this->check_value( 'redirect_default_wp' ) ? 'checked' : '' ?> /><label for="pms_redirect_default" <?php echo $this->show_pages_button() ? 'style="opacity:0.4"' : ''; ?>>Toggle</label>
+        <div class="pms-setup-general-settings__item">
+            <div class="cozmoslabs-toggle-switch">
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="pms_hide_admin_bar" name="pms_hide_admin_bar" value="1" <?php echo $this->check_value( 'hide-admin-bar' ) ? 'checked' : '' ?> />
+                    <label class="cozmoslabs-toggle-track" for="pms_hide_admin_bar"></label>
+                </div>
+            </div>
+            <?php esc_html_e( 'Hide the admin bar for members', 'paid-member-subscriptions' ); ?>
         </div>
-    </div>
-    <p class="description"><?php esc_html_e( 'The pages will be redirected to their front-end counterparts created automatically above. Can be activated later from settings.', 'paid-member-subscriptions' ); ?></p>
-    <p class="description"><?php echo sprintf(__('%1$s WARNING: %2$s If you enable this option you must log in via the Front-End Login Form as Admin.', 'paid-member-subscriptions' ), '<b>', '</b>'); ?></p>
 
-    <div class="pms-setup-line-wrap">
-        <h4><?php esc_html_e( 'Do you want to hide the admin bar for regular users?', 'paid-member-subscriptions' ); ?></h4>
-
-        <div class="pms-setup-toggle">
-            <input type="checkbox" name="pms_hide_admin_bar" id="pms_hide_admin_bar" value="1" <?php echo $this->check_value( 'hide-admin-bar' ) ? 'checked' : '' ?>  /><label for="pms_hide_admin_bar">Toggle</label>
+        <div class="pms-setup-general-settings__item">
+            <div class="cozmoslabs-toggle-switch">
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="pms_redirect_default" name="pms_redirect_default" value="1" <?php echo $this->check_value( 'redirect_default_wp' ) ? 'checked' : '' ?> />
+                    <label class="cozmoslabs-toggle-track" for="pms_redirect_default"></label>
+                </div>
+            </div>
+            <?php esc_html_e( 'Redirect Default WordPress Login Pages', 'paid-member-subscriptions' ); ?>
         </div>
+
+        <div class="pms-setup-general-settings__item">
+            <div class="cozmoslabs-toggle-switch">
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="pms_account_sharing" name="pms_account_sharing" value="1" <?php echo $this->check_value( 'prevent_account_sharing' ) ? 'checked' : '' ?> />
+                    <label class="cozmoslabs-toggle-track" for="pms_account_sharing"></label>
+                </div>
+            </div>
+            <?php esc_html_e( 'Prevent account sharing', 'paid-member-subscriptions' ); ?>
+        </div>
+
     </div>
-    <p class="description"><?php esc_html_e( 'This option will hide the admin bar for regular users in the front-end, showing it only to administrators.', 'paid-member-subscriptions' ); ?></p>
 
     <div class="pms-setup-form-button">
         <input type="submit" class="button primary button-primary button-hero" value="<?php esc_html_e( 'Continue', 'paid-member-subscriptions' ); ?>" />

@@ -93,7 +93,12 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
                     echo apply_filters( 'pms_settings_tab_content', $output, $this->active_tab, $this->options ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-                    submit_button( esc_html__( 'Save Settings', 'paid-member-subscriptions' ), 'primary cozmoslabs-save-settings-button' );
+                    echo '<div class="submit">';
+                        echo '<h3 class="cozmoslabs-subsection-title">'. esc_html__( 'Update Settings', 'paid-member-subscriptions' ) .'</h3>';
+                        echo '<div class="cozmoslabs-publish-button-group">';
+                            submit_button( esc_html__( 'Save Settings', 'paid-member-subscriptions' ), 'primary cozmoslabs-save-settings-button' );
+                        echo '</div>';
+                    echo '</div>';
                 ?>
             </form>
 

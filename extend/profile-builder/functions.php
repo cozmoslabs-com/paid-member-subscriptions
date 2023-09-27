@@ -187,12 +187,18 @@ function pms_handle_merge_tag_subscription_expiration_date( $value, $name, $chil
 
         if( !empty( $member->subscriptions ) ){
 
-            if( count( $member->subscriptions ) == 1 )
-                return apply_filters( 'pms_change_userlisting_expiration_date_format', $member->subscriptions[0]['expiration_date'] );
+            if( count( $member->subscriptions ) == 1 ){
+                $date = $member->subscriptions[0]['expiration_date'];
+
+                if( empty( $date ) )
+                    $date = $member->subscriptions[0]['billing_next_payment'];
+
+                return apply_filters( 'pms_change_userlisting_expiration_date_format', $date );
+            }
             else {
                 $subscription_expiration_date = '';
                 foreach( $member->subscriptions as $subscription_plan )
-                    $subscription_expiration_date .= '<div>'. apply_filters( 'pms_change_userlisting_expiration_date_format', date_i18n( get_option('date_format'), strtotime( $subscription_plan['expiration_date'] ) ) ) .'</div>';
+                    $subscription_expiration_date .= '<div>'. apply_filters( 'pms_change_userlisting_expiration_date_format', date_i18n( get_option('date_format'), strtotime( !empty( $subscription_plan['expiration_date'] ) ? $subscription_plan['billing_next_payment'] : $subscription_plan['expiration_date'] ) ) ) .'</div>';
 
                 return $subscription_expiration_date;
             }

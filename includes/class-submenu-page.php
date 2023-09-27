@@ -30,6 +30,14 @@ Class PMS_Submenu_Page {
     public $menu_title;
 
     /**
+     * Menu title
+     *
+     * @access public
+     * @var string
+     */
+    public $menu_slug;
+
+    /**
      * User capability that will be able to view/edit this page
      *
      * @access public

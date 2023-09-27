@@ -125,7 +125,7 @@ Class PMS_Member {
     public function get_subscriptions() {
         global $wpdb;
 
-        $subscriptions = $wpdb->get_results( "SELECT id, subscription_plan_id, start_date, expiration_date, status, payment_profile_id FROM {$wpdb->prefix}pms_member_subscriptions WHERE user_id = $this->user_id AND status != 'abandoned' ", ARRAY_A );
+        $subscriptions = $wpdb->get_results( "SELECT id, subscription_plan_id, start_date, expiration_date, status, payment_profile_id, billing_next_payment FROM {$wpdb->prefix}pms_member_subscriptions WHERE user_id = $this->user_id AND status != 'abandoned' ", ARRAY_A );
 
         return $subscriptions;
 

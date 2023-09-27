@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, restrict content, membership plan, membership level, member, members, subscription plans, user payments, paying users, paid users, restrict access, content protection, content restriction, recurring payments, woocommerce
 Requires at least: 3.1
 Tested up to: 6.3
-Stable tag: 2.10.1
+Stable tag: 2.10.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -216,6 +216,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 
 == Changelog ==
+= 2.10.2 =
+* Feature: Updated Setup Wizard to a more modern interface
+* Feature: New main plugin page `Dashboard` which serves as a quick plugin overview
+* Fix: A notice appearing in some cases when localizing data for Gutenberg assets
+* Fix: A notice appearing on PHP 8.2
+* Fix: Issue with the Expiration Date tag for Profile Builder Userlisting where it wasn't returning the correct date in a case
+* Fix: Small fixes for the settings interfaces
+
 = 2.10.1 =
 * Feature: Added a simple Pricing Page creation interface on the Subscription Plans page
 * Feature: Allow non-recurring Stripe payment methods to appear when recurring payments are disabled in settings

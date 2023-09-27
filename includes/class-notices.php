@@ -132,6 +132,10 @@ class PMS_Add_General_Notices{
             remove_all_actions('admin_notices');
         }
 
+        if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'pms-dashboard-page' ) ) {
+            remove_all_actions('admin_notices');
+        }
+
         /* remove all other plugin notifications except our own from the rest of the PB pages */
         if( $this->is_plugin_page() ) {
 

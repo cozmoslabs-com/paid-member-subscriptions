@@ -14,11 +14,11 @@ add_action(
 		wp_enqueue_script( 'pms-block-editor-assets' );
 
 		$subscription_plans = pms_get_subscription_plans();
-		$settings_pages = get_option( 'pms_general_settings' );
+		$settings_pages     = get_option( 'pms_general_settings' );
 
 		$vars_array = array(
 			'subscriptionPlans' => json_encode( $subscription_plans ),
-			'registerPageID'    => json_encode( ( $settings_pages && $settings_pages[ 'register_page' ] !==-1 ) ? $settings_pages[ 'register_page' ] : false ),
+			'registerPageID'    => json_encode( ( isset( $settings_pages['register_page'] ) && $settings_pages['register_page'] !== -1 ) ? $settings_pages['register_page'] : false ),
 		);
 
 		wp_localize_script( 'pms-block-editor-assets', 'pmsBlockEditorData', $vars_array );

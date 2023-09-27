@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div>
             <h1 class="cozmoslabs-page-title"><?php echo esc_html__( 'Paid Member Subscriptions', 'paid-member-subscriptions' ); ?></h1>
             <p class="cozmoslabs-description"><?php printf( esc_html__( 'Accept payments, create subscription plans and restrict content on your website.', 'paid-member-subscriptions' ) ); ?></p>
-            <a href="<?php echo esc_url( admin_url( 'index.php?page=pms-setup' ) ) ?>" class="pms-setup-wizard-button button primary button-primary button-hero"><?php esc_html_e( 'Open Setup Wizard', 'paid-member-subscriptions' ); ?></a>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-dashboard-page&subpage=pms-setup' ) ) ?>" class="pms-setup-wizard-button button primary button-primary button-hero"><?php esc_html_e( 'Open Setup Wizard', 'paid-member-subscriptions' ); ?></a>
         </div>
 
         <div class="pms-badge">

@@ -111,7 +111,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                         <div class="pms-add-meta-key-row cozmoslabs-group-fields-row">
                                             <div class="cozmoslabs-form-field-wrapper">
                                                 <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Column title', 'paid-member-subscriptions' ); ?></label>
-                                                <input type="text" name="pms-filter-user-meta-title[]" value="<?php echo esc_attr( $value ); ?>">
+                                                <input type="text" name="pms-filter-user-meta-title[]"?>">
                                             </div>
 
                                             <div class="cozmoslabs-form-field-wrapper">

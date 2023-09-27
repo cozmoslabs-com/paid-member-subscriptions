@@ -1,0 +1,24 @@
+jQuery( document ).on( 'change', '#pms-dashboard-stats-select', function(){
+
+    let value = jQuery( this ).val()
+    let nonce = jQuery( '#pms-dashboard-stats-select__nonce' ).val()
+
+    jQuery.post( ajaxurl, { action: 'get_dashboard_stats', interval: value, '_wpnonce': nonce }, function( response ) {
+
+        response = JSON.parse( response )
+
+        if( response.data.earnings )
+            jQuery('.pms-dashboard-box.earnings .value').html( response.data.earnings )
+
+        if( response.data.new_subscriptions )
+            jQuery('.pms-dashboard-box.new_subscriptions .value').html( response.data.new_subscriptions )
+
+        if( response.data.new_paid_subscriptions )
+            jQuery('.pms-dashboard-box.new_paid_subscriptions .value').html( response.data.new_paid_subscriptions )
+
+        if( response.data.payments_count )
+            jQuery('.pms-dashboard-box.payments_count .value').html( response.data.payments_count )
+
+    });
+
+});

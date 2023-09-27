@@ -34,6 +34,17 @@ function pms_stripe_connect_handle_authorization_return(){
 			admin_url( 'index.php' )
 		);
 
+	} elseif( isset( $_POST['return_location'] ) && $_POST['return_location'] == 'setup_new' ) {
+
+		$redirect_url = add_query_arg( array(
+			'page'                       => 'pms-dashboard-page',
+			'subpage'                    => 'pms-setup',
+			'step'                       => 'payments',
+			'pms_stripe_connect_success' => 1,
+        ),
+			admin_url( 'admin.php' )
+		);
+
 	} else {
 
 		$redirect_url = add_query_arg( array(

@@ -1,55 +1,38 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
-<h3><?php esc_html_e( 'Next Step', 'paid-member-subscriptions' ); ?></h3>
-
 <div class="pms-setup-next">
-    <h4><?php esc_html_e( 'Create Subscription Plans', 'paid-member-subscriptions' ); ?></h4>
+    <h3><?php esc_html_e( 'You\'re all setup and ready to go!', 'paid-member-subscriptions' ); ?></h3>
+    <p class="cozmoslabs-description"><?php esc_html_e( 'Paid Member Subscriptions is almost ready to run your membership website.<br>You can always change these settings from the plugin settings page.', 'paid-member-subscriptions' ); ?></p>
 
-    <div class="pms-setup-line-wrap">
-        <p><?php esc_html_e( 'Configure your Subscription Plans and start selling them to your users.', 'paid-member-subscriptions' ); ?></p>
+    <?php
+    $hide_newsletter = get_user_meta( get_current_user_id(), 'pms_setup_wizard_newsletter', true );
 
-        <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=pms-subscription' ) ); ?>" target="_blank" class="button primary button-primary button-hero">Create Subscription Plans</a>
-    </div>
-</div>
+    if( empty( $hide_newsletter ) ) : ?>
+        <div class="pms-setup-newsletter">
+            <p>
+                <?php esc_html_e( 'Get valuable insights, tips, and strategies on how to create, grow and monetize your own membership and community websites with WordPress.', 'paid-member-subscriptions' ) ?>
+            </p>
 
-<h3><?php esc_html_e( 'Additional Information', 'paid-member-subscriptions' ); ?></h3>
+            <div class="pms-setup-newsletter__form">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6.75H6C5.30964 6.75 4.75 7.30964 4.75 8V16C4.75 16.6904 5.30964 17.25 6 17.25H18C18.6904 17.25 19.25 16.6904 19.25 16V8C19.25 7.30964 18.6904 6.75 18 6.75Z" stroke="#757575" stroke-width="1.5" />
+                    <path d="M5 7L12 13L19 7" stroke="#757575" stroke-width="1.5" />
+                </svg>
 
-<div class="pms-setup-next">
-    <h4><?php esc_html_e( 'Content Restriction', 'paid-member-subscriptions' ); ?></h4>
+                <input type="email" name="email" value="<?php echo esc_html( get_option( 'admin_email' ) ) ?>">
 
-    <div class="pms-setup-line-wrap">
-        <p><?php esc_html_e( 'Learn about the different ways in which you can restrict your premium content.', 'paid-member-subscriptions' ); ?></p>
+                <a class="button" href="#"><?php esc_html_e( 'Yes Please!', 'paid-member-subscriptions' ) ?></a>
+            </div>
 
-        <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/content-restriction/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFreeCR" target="_blank" class="button secondary button-secondary button-hero">
-            <?php esc_html_e( 'Content Restriction', 'paid-member-subscriptions' ); ?>
-        </a>
-    </div>
-</div>
-
-<?php if ( did_action( 'elementor/loaded' ) ) : ?>
-
-    <div class="pms-setup-next">
-        <h4><?php esc_html_e( 'Elementor Integration', 'paid-member-subscriptions' ); ?></h4>
-
-        <div class="pms-setup-line-wrap">
-            <p><?php esc_html_e( 'Restrict Sections, Widgets and Templates based on subscription plans, show custom restriction messages or templates when a user does not have access.', 'paid-member-subscriptions' ); ?></p>
-
-            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/elementor/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFreeElementor" target="_blank" class="button secondary button-secondary button-hero">
-                <?php esc_html_e( 'Read More', 'paid-member-subscriptions' ); ?>
-            </a>
+            <div class="pms-setup-newsletter__success">
+                <?php esc_html_e( 'Please check your email to confirm the subscription.', 'paid-member-subscriptions' ) ?>
+            </div>
         </div>
-    </div>
+    <?php endif; ?>
 
-<?php endif; ?>
+    <?php $this->output_progress_steps(); ?>
 
-<div class="pms-setup-links">
-    <div class="pms-setup-line-wrap">
-        <a href="<?php echo esc_url( admin_url() ); ?>" class="button secondary button-secondary button-hero"><?php esc_html_e( 'Visit Dashboard', 'paid-member-subscriptions' ); ?></a>
-        <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-settings-page&tab=general' ) ); ?>" class="button secondary button-secondary button-hero"><?php esc_html_e( 'Settings', 'paid-member-subscriptions' ); ?></a>
-        <a href="<?php echo esc_url( admin_url( 'edit.php?s=%5Bpms-&post_status=all&post_type=page&action=-1&m=0&paged=1&action2=-1' ) ); ?>" class="button secondary button-secondary button-hero"><?php esc_html_e( 'View Pages', 'paid-member-subscriptions' ); ?></a>
+    <div class="pms-setup-form-button">
+        <a class="button primary button-primary button-hero" href="<?php echo esc_url( admin_url( 'admin.php?page=pms-dashboard-page' ) ); ?>"><?php esc_html_e( 'Continue to Your Membership Dashboard', 'paid-member-subscriptions' ); ?></a>
     </div>
 </div>
-
-<p class="pms-setup-text">
-    To learn more about Paid Member Subscriptions, visit the <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFree" target="_blank">documentation</a>.
-</p>

@@ -1,26 +1,14 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-set_current_screen();
+$steps_completion = PMS_Setup_Wizard::get_completed_progress_steps();
 ?>
-<!DOCTYPE html>
-<html <?php language_attributes(); ?>>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title><?php esc_html_e( 'Setup Wizard -> Paid Member Subscriptions', 'paid-member-subscriptions' ); ?></title>
-    <?php
-        wp_enqueue_style( 'colors' );
-        do_action( 'admin_enqueue_scripts');
-        do_action( 'admin_print_styles' );
-        do_action( 'admin_print_scripts' );
-        do_action( 'admin_head' );
-    ?>
-</head>
-<body class="pms-custom-page wp-admin wp-core-ui">
+
+<div class="pms-setup-holder">
+
     <div class="pms-setup-wrap">
 
-        <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/pms-banner.png" alt="Paid Member Subscriptions" />
+        <img class="pms-setup-logo" src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/pms-banner.png" alt="Paid Member Subscriptions" />
 
         <ul class="pms-setup-steps">
             <?php foreach( $this->steps as $step => $label ) :
@@ -30,7 +18,7 @@ set_current_screen();
                 if( $this->step === $step ) : ?>
                     <li class="active"><?php echo esc_html( $label ); ?></li>
                 <?php elseif( $completed ) : ?>
-                    <li class="active">
+                    <li class="active <?php echo $steps_completion[$step] == 1 ? 'completed' : ''; ?>">
                         <a href="<?php echo esc_url( add_query_arg( 'step', $step ) ); ?>"><?php echo esc_html( $label ); ?></a>
                     </li>
                 <?php else : ?>
@@ -42,16 +30,14 @@ set_current_screen();
         <div class="pms-setup-content">
             <?php include_once 'setup-wizard/view-tab-' . $this->step . '.php'; ?>
         </div>
+
+        <div class="pms-setup-background"></div>
     </div>
 
     <div class="pms-setup-skip">
         <div class="pms-setup-skip__action">
-            <a href="<?php echo esc_url( admin_url() ); ?>"><?php esc_html_e( 'Skip Setup', 'paid-member-subscriptions' ); ?></a>
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-dashboard-page' ) ); ?>"><?php esc_html_e( 'Skip Setup', 'paid-member-subscriptions' ); ?></a>
         </div>
     </div>
 
-    <script type="text/javascript">
-        var ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php', 'relative' ) ); ?>'
-    </script>
-</body>
-</html>
+</div>

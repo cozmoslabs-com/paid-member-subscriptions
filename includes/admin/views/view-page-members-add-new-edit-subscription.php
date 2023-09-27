@@ -146,7 +146,7 @@ if( ! empty( $_POST ) ) {
             <div class="inside">
 
                 <!-- Subscription Plan -->
-                <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper" id="subscription-plan-id">
 
                     <label for="pms-subscription-plan-id" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Subscription Plan', 'paid-member-subscriptions' ); ?> <span>*</span></label>
 
@@ -438,12 +438,15 @@ if( ! empty( $_POST ) ) {
 
 
         <!-- Update Subscription -->
-        <div class="cozmoslabs-form-field-wrapper">
-            <input type="submit" class="button button-primary right" value="<?php ( $subpage == 'edit_subscription' ? esc_attr_e( 'Save Subscription', 'paid-member-subscriptions' ) : esc_attr_e( 'Add Subscription', 'paid-member-subscriptions' ) ); ?>"/>
+        <div class="submit">
+            <h3 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Update Member Subscription', 'paid-member-subscriptions' ); ?></h3>
+            <div class="cozmoslabs-publish-button-group">
+                <input type="submit" class="button button-primary right" value="<?php ( $subpage == 'edit_subscription' ? esc_attr_e( 'Save Subscription', 'paid-member-subscriptions' ) : esc_attr_e( 'Add Subscription', 'paid-member-subscriptions' ) ); ?>"/>
 
-            <?php if( $subpage == 'edit_subscription' ): ?>
-                <a href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'subscription_id' => $form_data['id'] ), admin_url( 'admin.php?page=pms-members-page' ) ), 'pms_delete_subscription_nonce' ) ) ?>" class="submitdelete deletion" onclick="return confirm( '<?php esc_html_e( 'Are you sure you want to delete this Subscription? \nThis action is irreversible.', 'paid-member-subscriptions' ); ?>' )"><?php esc_html_e( 'Delete Subscription', 'paid-member-subscriptions' ); ?></a>
-            <?php endif; ?>
+                <?php if( $subpage == 'edit_subscription' ): ?>
+                    <a href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'subscription_id' => $form_data['id'] ), admin_url( 'admin.php?page=pms-members-page' ) ), 'pms_delete_subscription_nonce' ) ) ?>" class="submitdelete deletion" onclick="return confirm( '<?php esc_html_e( 'Are you sure you want to delete this Subscription? \nThis action is irreversible.', 'paid-member-subscriptions' ); ?>' )"><?php esc_html_e( 'Delete Subscription', 'paid-member-subscriptions' ); ?></a>
+                <?php endif; ?>
+            </div>
         </div>
 
     </form>

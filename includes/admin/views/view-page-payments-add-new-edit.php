@@ -266,8 +266,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             ?>
 
             <div class="submit">
-                <?php submit_button( $submit_text, 'primary', $submit_name, false ); ?>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-payments-page' ) ); ?>" class="button button-secondary"><?php esc_html_e( 'Go Back', 'paid-member-subscriptions' ); ?></a>
+<!--                <h3 class="cozmoslabs-subsection-title">--><?php //esc_html_e( 'Update Payment', 'paid-member-subscriptions' ); ?><!--</h3>-->
+                <div class="cozmoslabs-publish-button-group">
+                    <?php submit_button( $submit_text, 'primary', $submit_name, false ); ?>
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-payments-page' ) ); ?>" class="button button-secondary"><?php esc_html_e( 'Go Back', 'paid-member-subscriptions' ); ?></a>
+                </div>
             </div>
 
         </form>
