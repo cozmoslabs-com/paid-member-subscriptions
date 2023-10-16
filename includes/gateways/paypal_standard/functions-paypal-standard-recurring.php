@@ -480,17 +480,24 @@ function pms_in_ppsrp_ipn_listener( $payment_data, $post_data ) {
 
         }
 
+    // Trial payments
     } elseif( $payment_data['type'] == 'subscr_signup' ) {
 
-        if( !isset( $post_data['amount1'] ) )
+        // For whatever reason, it seems PayPal either sends the `amount1` parameter for this IPN or doesn't, mc_amount1 is always present, we could use that only
+        // but I believe we should interpret both cases
+        if( isset( $post_data['amount1'] ) )
+            $amount = $post_data['amount1'];
+        else if( isset( $post_data['mc_amount1'] ) )
+            $amount = $post_data['mc_amount1'];
+        else
             return;
 
         if ( method_exists( $payment, 'log_data' ) )
             $payment->log_data( 'paypal_ipn_received', array( 'data' => $post_data, 'desc' => 'paypal IPN' ) );
 
-        $post_data['amount1'] = (float)$post_data['amount1'];
+        $amount = (float)$amount;
 
-        if( isset( $post_data['amount1'] ) && empty( $post_data['amount1'] ) ) {
+        if( empty( $amount ) ) {
 
             /*
              * Handle payment related information

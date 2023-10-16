@@ -175,7 +175,7 @@ foreach( $subscriptions as $subscription ) :
 
                         } else {
 
-                            if( $subscription_plan->price > 0 )
+                            if( $subscription_plan->price > 0 || $subscription_plan->has_sign_up_fee() )
                                 echo wp_kses_post( apply_filters( 'pms_output_subscription_plan_pending_retry_payment', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__retry" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'retry_payment_subscription', 'subscription_plan' => $subscription_plan->id  ) ), 'pms_member_nonce', 'pmstkn' ) ) . '">' . __( 'Retry payment', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array() ) );
 
                         }

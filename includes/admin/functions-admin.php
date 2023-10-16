@@ -148,31 +148,31 @@ function pms_display_form_designs_preview() {
             'id' => 'form-style-default',
             'name' => 'Default Style',
             'images' => array(
-                'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style-default.jpg',
+                'main' => PMS_PLUGIN_DIR_URL.'assets/images/pms-fd-style-default.jpg',
             ),
         ),
         array(
             'id' => 'form-style-1',
             'name' => 'Sublime',
             'images' => array(
-                'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style1-slide1.jpg',
-                'slide1' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style1-slide2.jpg',
+                'main' => PMS_PLUGIN_DIR_URL.'assets/images/pms-fd-style1-slide1.jpg',
+                'slide1' => PMS_PLUGIN_DIR_URL.'assets/images/pms-fd-style1-slide2.jpg',
             ),
         ),
         array(
             'id' => 'form-style-2',
             'name' => 'Greenery',
             'images' => array(
-                'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style2-slide1.jpg',
-                'slide1' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style2-slide2.jpg',
+                'main' => PMS_PLUGIN_DIR_URL.'assets/images/pms-fd-style2-slide1.jpg',
+                'slide1' => PMS_PLUGIN_DIR_URL.'assets/images/pms-fd-style2-slide2.jpg',
             ),
         ),
         array(
             'id' => 'form-style-3',
             'name' => 'Slim',
             'images' => array(
-                'main' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style3-slide1.jpg',
-                'slide1' => PMS_PLUGIN_DIR_URL.'/assets/images/pms-fd-style3-slide2.jpg',
+                'main' => PMS_PLUGIN_DIR_URL.'assets/images/pms-fd-style3-slide1.jpg',
+                'slide1' => PMS_PLUGIN_DIR_URL.'assets/images/pms-fd-style3-slide2.jpg',
             ),
         )
     );

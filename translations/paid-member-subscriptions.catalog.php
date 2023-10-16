@@ -614,7 +614,7 @@
 <?php __("Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate.", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
-<?php __("Your <strong>Paid Member Subscriptions Basic</strong> license has reached its activation limit.<br> Upgrade now to <strong>Pro</strong> for unlimited activations and extra features like recurring payments, invoices, taxes and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>", "paid-member-subscriptions"); ?>
+<?php __("Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like recurring payments, invoices, taxes and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>", "paid-member-subscriptions"); ?>
 <?php __('<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
@@ -1532,6 +1532,9 @@
 <?php __("Easily translate your entire WordPress website", "paid-member-subscriptions"); ?>
 <?php __("Translate your Paid Member Subscriptions checkout with a WordPress translation plugin that anyone can use.", "paid-member-subscriptions"); ?>
 <?php __("It offers a simpler way to translate WordPress sites, with full support for WooCommerce and site builders.", "paid-member-subscriptions"); ?>
+<?php __("All in one user profile and user registration plugin for WordPress", "paid-member-subscriptions"); ?>
+<?php __("Capture more user information on the registration form with the help of Profile Builder's custom user profile fields.", "paid-member-subscriptions"); ?>
+<?php __("Add an Email Confirmation process to verify your customers accounts.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions comes with an <a href=\"%s\">extensive documentation</a> to assist you.", "paid-member-subscriptions"); ?>
 <?php __("At a glance", "paid-member-subscriptions"); ?>
 <?php __("%s payments are enabled", "paid-member-subscriptions"); ?>

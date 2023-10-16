@@ -121,7 +121,7 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
                     }
                     echo '</select>';
                 } else {
-                    echo '<input name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][name]" id="pms-product-ids" type="text" value="'. implode( ',', esc_html( $discount['name'] ) ).'" />';
+                    echo '<input name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][name]" id="pms-product-ids" type="text" value="'. esc_attr( implode( ',', $discount['name'] ) ).'" />';
 
                     echo '<select name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][name][]" multiple data-placeholder="'.esc_html__( 'Select...', 'paid-member-subscriptions' ).'" class="widefat pms-select-name" style="display:none"></select>';
                 }

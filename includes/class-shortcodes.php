@@ -268,6 +268,8 @@ Class PMS_Shortcodes {
             if( empty( $account_page ) )
                 $account_page = pms_get_current_page_url();
 
+            $account_page = apply_filters( 'pms_member_account_page_link', $account_page, $active_tab, $member );
+
             ?>
 
             <?php if( !empty( $tabs ) && is_array( $tabs ) ) : ?>

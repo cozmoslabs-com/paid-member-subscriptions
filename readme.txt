@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.3
-Stable tag: 2.10.2
+Stable tag: 2.10.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,6 +239,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.10.3 =
+* Feature: Content Restriction for Gutenberg Blocks. You can now restrict any block based on subscription plans
+* Fix: Retry payment button wasn't showing when a subscription plan price was 0 but it had a sign-up fee
+* Fix: A notice triggering from the WooCommerce Discounts functionality in some cases
+* Fix: For PayPal Standard memberships with Free Trial where IPNs were not processed correctly in some cases
+* Fix: License activation messages when site limit is reached
+* Fix: Small corrections and more polishing for the new back-end styles
+* Misc: Filter account page base URL so you can make the shortcode work on multiple pages: pms_member_account_page_link
+
 = 2.10.2 =
 * Feature: Updated Setup Wizard to a more modern interface
 * Feature: New main plugin page `Dashboard` which serves as a quick plugin overview

@@ -53,41 +53,41 @@ msgstr ""
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:1123, index.php:1123, includes/functions-patterns.php:9, includes/functions-user.php:245, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:15, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
+#: index.php:1127, index.php:1127, includes/functions-patterns.php:9, includes/functions-user.php:245, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:15, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
 msgid "Paid Member Subscriptions"
 msgstr ""
 
-#: index.php:1142, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
+#: index.php:1146, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
 msgid "Uninstall"
 msgstr ""
 
-#: index.php:1144, includes/admin/class-admin-settings.php:57, includes/admin/class-admin-settings.php:298, includes/admin/class-admin-settings.php:298, includes/admin/views/view-page-basic-info.php:116, includes/admin/views/view-page-basic-info.php:177
+#: index.php:1148, includes/admin/class-admin-settings.php:57, includes/admin/class-admin-settings.php:298, includes/admin/class-admin-settings.php:298, includes/admin/views/view-page-basic-info.php:116, includes/admin/views/view-page-basic-info.php:177
 msgid "Settings"
 msgstr ""
 
-#: index.php:1146
+#: index.php:1150
 msgid "Docs"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1206
+#: index.php:1214
 msgid "Type %s to confirm deleting your account and all data associated with it:"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1208
+#: index.php:1216
 msgid "You did not type %s. Try again!"
 msgstr ""
 
-#: index.php:1226
+#: index.php:1234
 msgid "Select an option"
 msgstr ""
 
-#: index.php:1227
+#: index.php:1235
 msgid "No results match"
 msgstr ""
 
-#: index.php:1246, index.php:1246
+#: index.php:1254, index.php:1254
 msgid "Get Support"
 msgstr ""
 
@@ -512,7 +512,7 @@ msgstr ""
 msgid "Unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:243, includes/class-merge-tags.php:286, includes/functions-subscription-plan.php:474, includes/admin/class-admin-subscription-plans.php:414, add-ons-pro/group-memberships/includes/class-group-memberships.php:634, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:187, includes/admin/views/view-page-addons.php:259
+#: includes/class-merge-tags.php:243, includes/class-merge-tags.php:286, includes/functions-subscription-plan.php:474, includes/admin/class-admin-subscription-plans.php:414, add-ons-pro/group-memberships/includes/class-group-memberships.php:634, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:188, includes/admin/views/view-page-addons.php:260
 msgid "Free"
 msgstr ""
 
@@ -596,75 +596,75 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: includes/class-shortcodes.php:300
+#: includes/class-shortcodes.php:302
 msgid "You do not have any subscriptions attached to your account."
 msgstr ""
 
-#: includes/class-shortcodes.php:305
+#: includes/class-shortcodes.php:307
 msgid "To purchase a subscription, you can %sclick here%s."
 msgstr ""
 
-#: includes/class-shortcodes.php:366
+#: includes/class-shortcodes.php:368
 msgid "You must be logged in to view this information."
 msgstr ""
 
-#: includes/class-shortcodes.php:450
+#: includes/class-shortcodes.php:452
 msgid "Log out of this account"
 msgstr ""
 
-#: includes/class-shortcodes.php:450
+#: includes/class-shortcodes.php:452
 msgid "Log out"
 msgstr ""
 
-#: includes/class-shortcodes.php:452, includes/class-shortcodes.php:596
+#: includes/class-shortcodes.php:454, includes/class-shortcodes.php:598
 msgid "You are currently logged in as %s."
 msgstr ""
 
-#: includes/class-shortcodes.php:471
+#: includes/class-shortcodes.php:473
 msgid "Username or Email Address"
 msgstr ""
 
-#: includes/class-shortcodes.php:472, includes/views/shortcodes/view-shortcode-edit-profile-form.php:58, includes/views/shortcodes/view-shortcode-new-password-form.php:28
+#: includes/class-shortcodes.php:474, includes/views/shortcodes/view-shortcode-edit-profile-form.php:58, includes/views/shortcodes/view-shortcode-new-password-form.php:28
 msgid "Password"
 msgstr ""
 
-#: includes/class-shortcodes.php:473
+#: includes/class-shortcodes.php:475
 msgid "Remember Me"
 msgstr ""
 
-#: includes/class-shortcodes.php:474
+#: includes/class-shortcodes.php:476
 msgid "Log In"
 msgstr ""
 
-#: includes/class-shortcodes.php:568, extend/elementor/widgets/class-widget-register.php:24, includes/admin/views/view-page-basic-info.php:29, includes/views/shortcodes/view-shortcode-register-form.php:149, extend/beaver-builder/modules/pms-register/pms-register.php:16
+#: includes/class-shortcodes.php:570, extend/elementor/widgets/class-widget-register.php:24, includes/admin/views/view-page-basic-info.php:29, includes/views/shortcodes/view-shortcode-register-form.php:149, extend/beaver-builder/modules/pms-register/pms-register.php:16
 msgid "Register"
 msgstr ""
 
-#: includes/class-shortcodes.php:573
+#: includes/class-shortcodes.php:575
 msgid "Lost your password?"
 msgstr ""
 
-#: includes/class-shortcodes.php:597
+#: includes/class-shortcodes.php:599
 msgid "Log out."
 msgstr ""
 
-#: includes/class-shortcodes.php:634
+#: includes/class-shortcodes.php:636
 msgid "Please check your email for the confirmation link."
 msgstr ""
 
-#: includes/class-shortcodes.php:674
+#: includes/class-shortcodes.php:676
 msgid "The confirmation link has expired. Invalid key."
 msgstr ""
 
-#: includes/class-shortcodes.php:652
+#: includes/class-shortcodes.php:654
 msgid "Your password was successfully changed!"
 msgstr ""
 
-#: includes/class-shortcodes.php:657
+#: includes/class-shortcodes.php:659
 msgid "You will soon be redirected automatically."
 msgstr ""
 
-#: includes/class-shortcodes.php:643
+#: includes/class-shortcodes.php:645
 msgid "You are already logged in."
 msgstr ""
 
@@ -2481,7 +2481,7 @@ msgid "Your <strong>Paid Member Subscriptions</strong> serial number has <strong
 msgstr ""
 
 #: includes/functions-core.php:1245
-msgid "Your <strong>Paid Member Subscriptions Basic</strong> license has reached its activation limit.<br> Upgrade now to <strong>Pro</strong> for unlimited activations and extra features like recurring payments, invoices, taxes and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>"
+msgid "Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like recurring payments, invoices, taxes and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>"
 msgstr ""
 
 #: includes/functions-core.php:1297
@@ -3774,11 +3774,11 @@ msgid_plural "Inactive <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-subscription-plans.php:268, includes/admin/class-admin-subscription-plans.php:661, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:175, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:260, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:167, includes/admin/views/view-page-addons.php:199, includes/admin/views/view-page-addons.php:271, includes/admin/views/view-page-addons.php:303, includes/features/discount-codes/includes/class-admin-discount-codes.php:175
+#: includes/admin/class-admin-subscription-plans.php:268, includes/admin/class-admin-subscription-plans.php:661, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:175, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:260, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:167, includes/admin/views/view-page-addons.php:200, includes/admin/views/view-page-addons.php:272, includes/admin/views/view-page-addons.php:304, includes/features/discount-codes/includes/class-admin-discount-codes.php:175
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/class-admin-subscription-plans.php:266, includes/admin/class-admin-subscription-plans.php:662, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:173, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:258, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:165, includes/admin/views/view-page-addons.php:203, includes/admin/views/view-page-addons.php:275, includes/admin/views/view-page-addons.php:315, includes/features/discount-codes/includes/class-admin-discount-codes.php:173
+#: includes/admin/class-admin-subscription-plans.php:266, includes/admin/class-admin-subscription-plans.php:662, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:173, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:258, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:165, includes/admin/views/view-page-addons.php:204, includes/admin/views/view-page-addons.php:276, includes/admin/views/view-page-addons.php:316, includes/features/discount-codes/includes/class-admin-discount-codes.php:173
 msgid "Deactivate"
 msgstr ""
 
@@ -4994,7 +4994,7 @@ msgstr ""
 msgid "%sClick here%s to go now."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1213, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:688, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:724
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1213, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:688, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:731
 msgid "No request response received."
 msgstr ""
 
@@ -5146,7 +5146,7 @@ msgstr ""
 msgid "More info:"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/functions.php:631, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:954, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:990
+#: add-ons-pro/paypal-express-pro/includes/functions.php:631, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:954, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:997
 msgid "Subscription setup successfully with PayPal."
 msgstr ""
 
@@ -5158,11 +5158,11 @@ msgstr ""
 msgid "PayPal Standard - Trial Payment"
 msgstr ""
 
-#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:643, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:679
+#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:643, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:686
 msgid "PayPal API credentials are missing or are incomplete"
 msgstr ""
 
-#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:649, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:685
+#: add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:649, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:692
 msgid "Payment profile ID is empty, nothing to cancel."
 msgstr ""
 
@@ -5858,67 +5858,67 @@ msgstr ""
 msgid "Recommended Plugins"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:189
+#: includes/admin/views/view-page-addons.php:190
 msgid "Translate your Paid Member Subscriptions checkout with a WordPress translation plugin that anyone can use. It offers a simpler way to translate WordPress sites, with full support for WooCommerce and site builders."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:190, includes/admin/views/view-page-addons.php:262
+#: includes/admin/views/view-page-addons.php:191, includes/admin/views/view-page-addons.php:263
 msgid "More Details"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:215, includes/admin/views/view-page-addons.php:287
+#: includes/admin/views/view-page-addons.php:216, includes/admin/views/view-page-addons.php:288
 msgid "Install Now"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:218, includes/admin/views/view-page-addons.php:290
+#: includes/admin/views/view-page-addons.php:219, includes/admin/views/view-page-addons.php:291
 msgid "Compatible with Paid Member Subscriptions."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:210, includes/admin/views/view-page-addons.php:282
+#: includes/admin/views/view-page-addons.php:211, includes/admin/views/view-page-addons.php:283
 msgid "Plugin is <strong>active</strong>"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:208, includes/admin/views/view-page-addons.php:280
+#: includes/admin/views/view-page-addons.php:209, includes/admin/views/view-page-addons.php:281
 msgid "Plugin is <strong>inactive</strong>"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:223, includes/admin/views/view-page-addons.php:295
+#: includes/admin/views/view-page-addons.php:224, includes/admin/views/view-page-addons.php:296
 msgid "Could not install plugin. Retry or <a href=\"%s\" target=\"_blank\">install manually</a>."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:261
+#: includes/admin/views/view-page-addons.php:262
 msgid "Capture more user information on the registration form with the help of Profile Builder's custom user profile fields and/or add an Email Confirmation process to verify your customers accounts."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:305
+#: includes/admin/views/view-page-addons.php:306
 msgid "Downloading and installing..."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:306
+#: includes/admin/views/view-page-addons.php:307
 msgid "Installation complete"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:308
+#: includes/admin/views/view-page-addons.php:309
 msgid "Add-On is Active"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:309
+#: includes/admin/views/view-page-addons.php:310
 msgid "Add-On has been activated"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:310
+#: includes/admin/views/view-page-addons.php:311
 msgid "Retry Install"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:312
+#: includes/admin/views/view-page-addons.php:313
 msgid "Add-On is <strong>active</strong>"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:313
+#: includes/admin/views/view-page-addons.php:314
 msgid "Add-On is <strong>inactive</strong>"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:316
+#: includes/admin/views/view-page-addons.php:317
 msgid "Add-On has been deactivated."
 msgstr ""
 
@@ -6102,7 +6102,19 @@ msgstr ""
 msgid "It offers a simpler way to translate WordPress sites, with full support for WooCommerce and site builders."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:417
+#: includes/admin/views/view-page-basic-info.php:422
+msgid "All in one user profile and user registration plugin for WordPress"
+msgstr ""
+
+#: includes/admin/views/view-page-basic-info.php:425
+msgid "Capture more user information on the registration form with the help of Profile Builder's custom user profile fields."
+msgstr ""
+
+#: includes/admin/views/view-page-basic-info.php:426
+msgid "Add an Email Confirmation process to verify your customers accounts."
+msgstr ""
+
+#: includes/admin/views/view-page-basic-info.php:432
 msgid "Paid Member Subscriptions comes with an <a href=\"%s\">extensive documentation</a> to assist you."
 msgstr ""
 
@@ -8893,18 +8905,18 @@ msgstr ""
 msgid "Topic Restriction Mode"
 msgstr ""
 
-#: add-ons-basic/bbpress/includes/admin/meta-boxes/views/view-content-restriction-topic-restriction-type.php:16
+#: add-ons-basic/bbpress/includes/admin/meta-boxes/views/view-content-restriction-topic-restriction-type.php:18
 msgid "Forum Default"
 msgstr ""
 
-#: add-ons-basic/bbpress/includes/admin/meta-boxes/views/view-content-restriction-topic-restriction-type.php:23
+#: add-ons-basic/bbpress/includes/admin/meta-boxes/views/view-content-restriction-topic-restriction-type.php:25
 msgid "Hide Topic and Replies"
 msgstr ""
 
-#: add-ons-basic/bbpress/includes/admin/meta-boxes/views/view-content-restriction-topic-restriction-type.php:28
+#: add-ons-basic/bbpress/includes/admin/meta-boxes/views/view-content-restriction-topic-restriction-type.php:30
 msgid "Show Topic, but hide Replies"
 msgstr ""
 
-#: add-ons-basic/bbpress/includes/admin/meta-boxes/views/view-content-restriction-topic-restriction-type.php:32
+#: add-ons-basic/bbpress/includes/admin/meta-boxes/views/view-content-restriction-topic-restriction-type.php:36
 msgid "The option above will work only if the restriction type is Message. Redirects will take effect without regard of this option."
 msgstr ""

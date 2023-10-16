@@ -3,15 +3,15 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.10.2
+ * Version: 2.10.3
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 8.1
- * Elementor tested up to: 3.16.4
- * Elementor Pro tested up to: 3.16.4
+ * WC tested up to: 8.2
+ * Elementor tested up to: 3.16.5
+ * Elementor Pro tested up to: 3.16.5
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.10.2' );
+        define( 'PMS_VERSION', '2.10.3' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -520,17 +520,21 @@ Class Paid_Member_Subscriptions {
          */
         global $wp_version;
         if ( version_compare( $wp_version, "5.0.0", ">=" ) ) {
-            if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/manage-blocks.php' ) )
-                include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/manage-blocks.php';
+            if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg-blocks/manage-blocks.php' ) )
+                include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg-blocks/manage-blocks.php';
         }
 
 	    /*
-		 * Block Editor build
+		 * Block Editor files, block content restriction
 		 */
 	    global $wp_version;
 	    if ( version_compare( $wp_version, "5.0.0", ">=" ) ) {
-		    if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/enqueue-block-editor-assets.php' ) )
+		    if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/enqueue-block-editor-assets.php' ) ) {
 			    include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/enqueue-block-editor-assets.php';
+		    }
+		    if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/block-content-restriction/block-content-restriction.php' ) ) {
+			    include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/block-content-restriction/block-content-restriction.php';
+		    }
 	    }
 
         /*
@@ -1167,7 +1171,11 @@ Class Paid_Member_Subscriptions {
             add_editor_style( PMS_PLUGIN_DIR_URL . 'assets/css/wysiwyg-editor-container-style.css' );
         }
 
-        if ( is_plugin_active('profile-builder/index.php') && ( ( isset( $_GET['page'] ) && strpos( sanitize_text_field( $_GET['page'] ), "pms-") === 0 ) || ( isset( $_GET['post_type'] ) && strpos( sanitize_text_field( $_GET['post_type'] ), "pms-") === 0 ) || ( isset( $_GET['post'] ) && strpos( sanitize_text_field( $_GET['post'] ), "pms-") === 0 ) ) ) {
+        if ( ( is_plugin_active('profile-builder/index.php') || is_plugin_active('profile-builder-dev/index.php') ) && (
+            ( isset( $_GET['page'] ) && strpos( sanitize_text_field( $_GET['page'] ), "pms-") === 0 ) ||
+            ( isset( $_GET['post_type'] ) && strpos( sanitize_text_field( $_GET['post_type'] ), "pms-") === 0 ) ||
+            ( isset( $_GET['post'] ) && strpos( sanitize_text_field( $_GET['post'] ), "pms-") === 0 ) )
+        ) {
             wp_dequeue_style('wppb-back-end-style');
         }
 

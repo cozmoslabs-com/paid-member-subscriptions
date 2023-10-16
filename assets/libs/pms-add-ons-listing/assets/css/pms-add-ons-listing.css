@@ -123,7 +123,7 @@ Style the Add-ons listing page
 }
 
 #pms-add-ons-listing .wp-list-table .column-add_on {
-    flex-basis: 290px;
+    flex-basis: 150px;
     flex-grow: 1;
     padding: 0;
 }
@@ -170,6 +170,27 @@ Style the Add-ons listing page
     margin: 0;
 }
 
+.pms-add-ons-wrap .plugin-card .plugin-card-top a.pms-recommended-plugin-logo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    height: 80px;
+}
+
+.pms-add-ons-wrap .plugin-card .plugin-card-top a.pms-tp-logo {
+    background: #359ED7;
+}
+
+.pms-add-ons-wrap .plugin-card .plugin-card-top a.pms-pb-logo {
+    background: #E8F2FF;
+}
+
+.pms-add-ons-wrap .plugin-card .plugin-card-top a.pms-recommended-plugin-logo img {
+    max-width: 260px;
+}
+
 .pms-add-ons-wrap .plugin-card .pms-add-on-title a {
     color: #1E1E1E;
 }
@@ -204,14 +225,6 @@ Style the Add-ons listing page
 /***********************************************************/
 
 @media screen and (max-width: 782px) {
-    #pms-add-ons-listing .wp-list-table tbody tr {
-        gap: 10px;
-    }
-
-    #pms-add-ons-listing .wp-list-table .column-add_on {
-        flex-basis: 200px;
-    }
-
     #pms-add-ons-listing .wp-list-table .column-icon {
         padding: 0;
     }
@@ -224,19 +237,56 @@ Style the Add-ons listing page
     #pms-add-ons-listing .wp-list-table .column-add_on {
         padding: 0;
         display: block !important;
+        margin-bottom: 10px;
     }
 
     #pms-add-ons-listing .pms-add-on-notice {
         padding: 30px;
     }
 
-    #pms-add-ons-listing .pms-add-on-notice h3,
-    #pms-add-ons-listing .pms-add-on-notice p {
-        text-align: center;
-    }
-
     .pms-add-ons-wrap {
         padding: 0 20px;
         box-sizing: border-box;
+    }
+}
+
+
+
+@media screen and (max-width: 489px) {
+    #pms-add-ons-listing .wp-list-table tbody tr {
+        height: unset;
+        min-height: 220px;
+    }
+}
+
+@media screen and (max-width: 613px) {
+    #pms-add-ons-listing .pms-add-on-notice {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 490px) and (max-width: 1019px) {
+    .pms-add-ons-wrap,
+    #pms-add-ons-listing #pms-addons {
+        max-width: 450px;
+    }
+}
+
+@media screen and (min-width: 1020px) and (max-width: 1119px) {
+    .pms-add-ons-wrap .plugin-card,
+    #pms-add-ons-listing .wp-list-table tbody tr {
+        width: 400px;
+    }
+
+    .pms-add-ons-wrap,
+    #pms-add-ons-listing #pms-addons {
+        max-width: 820px;
+    }
+}
+
+@media screen and (min-width: 1120px) and (max-width: 1589px) {
+    .pms-add-ons-wrap,
+    #pms-add-ons-listing #pms-addons {
+        max-width: 920px;
     }
 }

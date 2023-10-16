@@ -52,8 +52,8 @@ class PMS_Addons_List_Table extends WP_List_Table {
         wp_enqueue_script('wp-pointer');
         wp_localize_script( 'wp-pointer', 'pms_add_ons_pointer', array( 'tooltip_header' => $this->tooltip_header, 'tooltip_content' => $this->tooltip_content ) );
 
-        wp_enqueue_style('pms-add-ons-listing-css', plugin_dir_url(__FILE__) . '/assets/css/pms-add-ons-listing.css', false);
-        wp_enqueue_script('pms-add-ons-listing-js', plugin_dir_url(__FILE__) . '/assets/js/pms-add-ons-listing.js', array('jquery'));
+        wp_enqueue_style('pms-add-ons-listing-css', plugin_dir_url(__FILE__) . 'assets/css/pms-add-ons-listing.css', false);
+        wp_enqueue_script('pms-add-ons-listing-js', plugin_dir_url(__FILE__) . 'assets/js/pms-add-ons-listing.js', array('jquery'));
 
     }
 

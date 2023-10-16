@@ -178,8 +178,9 @@ $ajax_nonce             = wp_create_nonce( 'pms-activate-addon' );
         ?>
         <div class="plugin-card pms-recommended-plugin pms-add-on">
             <div class="plugin-card-top">
-                <a target="_blank" href="https://wordpress.org/plugins/translatepress-multilingual/">
-                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/trp-recommended.png' ); ?>" width="100%">
+                <a target="_blank" class="pms-recommended-plugin-logo pms-tp-logo" href="https://wordpress.org/plugins/translatepress-multilingual/">
+<!--                    <img src="--><?php //echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/trp-recommended.png' ); ?><!--" width="100%">-->
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/translate-press-logo.png' ); ?>" width="100%">
                 </a>
                 <h3 class="pms-add-on-title">
                     <a target="_blank" href="https://wordpress.org/plugins/translatepress-multilingual/">TranslatePress</a>
@@ -250,8 +251,8 @@ $ajax_nonce             = wp_create_nonce( 'pms-activate-addon' );
         ?>
         <div class="plugin-card pms-recommended-plugin pms-add-on">
             <div class="plugin-card-top">
-                <a target="_blank" href="http://wordpress.org/plugins/profile-builder/">
-                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/pb-recommended.png' ); ?>" width="100%">
+                <a target="_blank" class="pms-recommended-plugin-logo pms-pb-logo" href="http://wordpress.org/plugins/profile-builder/">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/pb-banner.svg' ); ?>">
                 </a>
                 <h3 class="pms-add-on-title">
                     <a target="_blank" href="http://wordpress.org/plugins/profile-builder/">Profile Builder</a>
