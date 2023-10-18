@@ -42,6 +42,29 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
         </div>
 
+        <?php if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) ) : ?>
+            <div class="postbox cozmoslabs-form-subsection-wrapper">
+                <h4 class="cozmoslabs-subsection-title"> Have a question? Not sure how to proceed?<span class="dashicons dashicons-editor-help" style="color: #08734C;"> </span></h4>
+
+                <p><strong><span class="dashicons dashicons-plus" style="color: green;"></span> Open a new ticket over at</strong>
+
+                <br>
+
+                <a href="https://wordpress.org/support/plugin/paid-member-subscriptions/" target="_blank" style="display:block;padding-left:24px;margin-top:4px;">https://wordpress.org/support/plugin/paid-member-subscriptions/</a></p>
+
+                <p><strong><span class="dashicons dashicons-welcome-write-blog" style="color: green;"></span> Describe your problem:</strong></p>
+
+                <ul style="padding-left:24px;">
+                    <li>What you tried to do</li><li>What you expected to happen</li>
+                    <li>What actually happened</li>
+                    <li>Screenshots help. Use a service like <a href="https://snipboard.io/">snipboard.io</a> and share the link.</li>
+                </ul>
+
+                <p><strong><span class="dashicons dashicons-yes" style="color: green;"></span>Get help from our team </strong></p>
+
+            </div>
+        <?php endif; ?>
+
         <div class="postbox cozmoslabs-form-subsection-wrapper pms-dashboard-progress">
             <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Setup Progress Review', 'paid-member-subscriptions' ); ?></h4>
 

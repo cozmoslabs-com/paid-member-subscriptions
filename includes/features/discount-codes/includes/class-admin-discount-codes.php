@@ -9,14 +9,12 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
 if ( class_exists('PMS_Custom_Post_Type') ) {
 
-    class PMS_IN_Custom_Post_Type_Discount_Codes extends PMS_Custom_Post_Type
-    {
+    class PMS_IN_Custom_Post_Type_Discount_Codes extends PMS_Custom_Post_Type {
         /*
          * Method to add the needed hooks
          *
          */
-        public function init()
-        {
+        public function init() {
             add_action( 'init', array( $this, 'process_data' ) );
             add_action( 'init', array( $this, 'register_custom_discount_code_statuses' ) );
 
@@ -40,6 +38,9 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
 
             // Set custom bulk updated messages
             add_filter('bulk_post_updated_messages', array($this, 'set_bulk_custom_messages'), 10, 2);
+
+            // Add `Bulk Create Discount Codes` button
+            add_filter( 'admin_footer', array( $this, 'add_bulk_create_discount_codes_button') );
 
         }
 
@@ -155,7 +156,7 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
          * Method for adding new row actions (e.g Activate/Deactivate , Delete).
          *
          */
-        public function add_post_row_actions($actions, $post){
+        public function add_post_row_actions($actions, $post) {
 
             if ($post->post_type != $this->post_type)
                 return $actions;
@@ -259,8 +260,7 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
         * Remove "Move to Trash" bulk action
         *
         */
-        public function remove_bulk_actions($actions)
-        {
+        public function remove_bulk_actions($actions) {
 
             unset($actions['trash']);
             return $actions;
@@ -271,26 +271,23 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
         * Add a delete button where the move to trash was
         *
         */
-        public function submitbox_add_delete_button()
-        {
+        public function submitbox_add_delete_button() {
             global $post_type;
             global $post;
 
-            if ($post_type != $this->post_type)
+            if ( $post_type != $this->post_type )
                 return false;
 
             echo '<div id="pms-delete-action">';
-            echo '<a class="submitdelete deletion" onclick="return confirm( \'' . esc_html__("Are you sure you want to delete this Discount Code?", "paid-member-subscriptions") . ' \' )" href="' . esc_url(wp_nonce_url(add_query_arg(array('pms-action' => 'delete_discount_code', 'post_id' => $post->ID, 'deleted' => 1), admin_url('edit.php?post_type=' . $this->post_type)), 'pms_discount_code_nonce')) . '">' . esc_html__('Delete Discount', 'paid-member-subscriptions') . '</a>';
+                echo '<a class="submitdelete deletion" onclick="return confirm( \'' . esc_html__("Are you sure you want to delete this Discount Code?", "paid-member-subscriptions") . ' \' )" href="' . esc_url(wp_nonce_url(add_query_arg(array('pms-action' => 'delete_discount_code', 'post_id' => $post->ID, 'deleted' => 1), admin_url('edit.php?post_type=' . $this->post_type)), 'pms_discount_code_nonce')) . '">' . esc_html__('Delete Discount', 'paid-member-subscriptions') . '</a>';
             echo '</div>';
-
         }
 
         /*
         * Method to change the default title text "Enter title here"
         *
         */
-        public function change_discount_title_prompt_text($input)
-        {
+        public function change_discount_title_prompt_text($input) {
             global $post_type;
 
             if ($post_type == $this->post_type) {
@@ -304,8 +301,7 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
         * Method that set custom updated messages
         *
         */
-        function set_custom_messages($messages)
-        {
+        function set_custom_messages($messages) {
 
             global $post;
 
@@ -336,8 +332,7 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
         * Method that set custom bulk updated messages
         *
         */
-        public function set_bulk_custom_messages($bulk_messages, $bulk_counts)
-        {
+        public function set_bulk_custom_messages($bulk_messages, $bulk_counts) {
 
             $bulk_messages['pms-discount-codes'] = array(
                 'updated'   => _n('%s Discount Code updated.', '%s Discount Codes updated.', $bulk_counts['updated'], 'paid-member-subscriptions'),
@@ -349,6 +344,17 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
 
             return $bulk_messages;
 
+        }
+
+        public function add_bulk_create_discount_codes_button(){
+            global $pagenow;
+
+            if( $pagenow != 'edit.php' || !isset( $_GET['post_type'] ) || $_GET['post_type'] != 'pms-discount-codes' )
+                return;
+
+            echo '<div id="pms-bulk-add-discounts-wrapper" style="margin-left: 8px;">';
+                echo '<a class="add-new-h2 page-title-action" href="' . esc_url( add_query_arg( array( 'page' => 'pms-discount-codes-bulk-add' ), admin_url('admin.php') ) ) . '" style="margin-left: 10px;">' . esc_html__( 'Bulk Import Discount Codes', 'paid-member-subscriptions' ) . '</a>';
+            echo '</div>';
         }
 
     }

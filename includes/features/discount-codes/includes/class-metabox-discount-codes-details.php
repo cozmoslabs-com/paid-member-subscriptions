@@ -114,6 +114,9 @@ if ( class_exists('PMS_Meta_Box') ){
      */
      public function save_data( $post_id ) {
 
+        if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] == 'pms-discount-codes-bulk-add' )
+            return;
+
          $validation_errors = array(); // here we'll store all the validation errors
 
          // Update discount code if entered promotion code is unique

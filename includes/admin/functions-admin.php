@@ -320,11 +320,15 @@ function pms_output_page_banner( $page_name ) {
     if ( !empty( $page_name ) )
         $page_title = ' ' . $page_name;
 
-    $upgrade_button = '<a class="cozmoslabs-banner-link cozmoslabs-upgrade-link" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=general-settings-link&utm_campaign=PMSFree#pricing-vers" target="_blank">
+    $upgrade_button = '<a class="cozmoslabs-banner-link cozmoslabs-upgrade-link" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=general-settings-link&utm_campaign=PMSFree#pricing" target="_blank">
                          <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/upgrade-link-icon.svg" alt="">
                          Upgrade to PRO
                        </a>';
 
+    $support_url = 'https://www.cozmoslabs.com/support?utm_source=wpbackend&utm_medium=pms-support&utm_campaign=PMSSupport';
+
+    if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) )
+        $support_url = 'https://wordpress.org/support/plugin/paid-member-subscriptions/';
 
     $output = '<div class="cozmoslabs-banner">
                    <div class="cozmoslabs-banner-title">
@@ -332,7 +336,7 @@ function pms_output_page_banner( $page_name ) {
                        <h4>Paid Member Subscriptions'. $page_title .'</h4>
                    </div>
                    <div class="cozmoslabs-banner-buttons">
-                       <a class="cozmoslabs-banner-link cozmoslabs-support-link" href="https://www.cozmoslabs.com/support?utm_source=wpbackend&utm_medium=pms-support&utm_campaign=PMSSupport" target="_blank">
+                       <a class="cozmoslabs-banner-link cozmoslabs-support-link" href="'. $support_url .'" target="_blank">
                            <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/support-link-icon.svg" alt="">
                            Support
                        </a>

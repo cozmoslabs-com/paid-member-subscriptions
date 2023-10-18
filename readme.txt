@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.3
-Stable tag: 2.10.3
+Stable tag: 2.10.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,7 @@ https://www.youtube.com/watch?v=6AEIvvCOZHM&start=0&autoplay=1
  * show content to members only, setup [private pages for subscribers](https://www.cozmoslabs.com/251415-wordpress-private-pages-for-subscribers/)
  * partial content display by using the [pms-restrict][/pms-restrict] shortcode
  * display another template for restricted posts
+ * restrict Gutenberg blocks
 
  Integrates with Elementor page builder allowing you to [restrict content for Elementor](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/elementor/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) sections and widgets based on logged in status or subscription plans, by using the visual interface.
 
@@ -239,6 +240,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.10.4 =
+* Feature: Added the option to Bulk Import Discount Codes through a .csv file
+* Fix: Declare WooCommerce HPOS compatibility
+* Fix: Show correct price in the 3D Secure Authentication window when a plan has sign-up fees and the Profile Builder form is used
+* Misc: Fix some notices coming from the Export page and functionality
+* Misc: Small improvements to the Dashboard page for free users
+
 = 2.10.3 =
 * Feature: Content Restriction for Gutenberg Blocks. You can now restrict any block based on subscription plans
 * Fix: Retry payment button wasn't showing when a subscription plan price was 0 but it had a sign-up fee

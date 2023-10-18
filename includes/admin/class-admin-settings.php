@@ -269,25 +269,27 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
         $misc_settings          = get_option( 'pms_misc_settings', array() );
         $advanced_settings_keys = array( 'payment_renew_button_delay' , 'redirect_after_manual_payment', 'upgrade_downgrade_sign_up_fee', 'disable-dashboard-redirect', 'payment_retry_max_retry_amount', 'payment_retry_retry_interval', 'disable-cancel-button','disable-abandon-button', 'disable-renew-button', 'disable-change-button' );
 
-        foreach ( $misc_settings as $misc_key => $misc_value ) {
+        if( !empty( $misc_settings ) ){
+            foreach ( $misc_settings as $misc_key => $misc_value ) {
 
-            if ( is_array( $misc_value )) {
-                foreach ( $misc_value as $key => $value ) {
-                    if ( !empty( $value ) && in_array( $key, $advanced_settings_keys )) {
-                        $path = 'advanced-settings/' . $key . '.php';
+                if ( is_array( $misc_value )) {
+                    foreach ( $misc_value as $key => $value ) {
+                        if ( !empty( $value ) && in_array( $key, $advanced_settings_keys )) {
+                            $path = 'advanced-settings/' . $key . '.php';
+                            if ( file_exists( $advanced_settings_dir . $path ) )
+                                include_once $path;
+                        }
+                    }
+                }
+                else {
+                    if ( !empty( $misc_value ) && in_array( $misc_key, $advanced_settings_keys )) {
+                        $path = 'advanced-settings/' . $misc_key . '.php';
                         if ( file_exists( $advanced_settings_dir . $path ) )
                             include_once $path;
                     }
                 }
+    
             }
-            else {
-                if ( !empty( $misc_value ) && in_array( $misc_key, $advanced_settings_keys )) {
-                    $path = 'advanced-settings/' . $misc_key . '.php';
-                    if ( file_exists( $advanced_settings_dir . $path ) )
-                        include_once $path;
-                }
-            }
-
         }
 
     }

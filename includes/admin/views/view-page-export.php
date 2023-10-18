@@ -28,7 +28,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div id="post-body">
                 <div id="post-body-content">
 
-
                     <div class="postbox pms-export cozmoslabs-form-subsection-wrapper" id="cozmoslabs-members-export">
                         <h3 class="cozmoslabs-subsection-title"><span><?php esc_html_e( 'Members Export', 'paid-member-subscriptions' ); ?></span></h3>
                         <p class="cozmoslabs-description"><?php esc_html_e( 'Download a CSV with your user subscriptions (an user with multiple subscriptions will have a record for each individual one).', 'paid-member-subscriptions' ); ?></p>
@@ -111,7 +110,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                         <div class="pms-add-meta-key-row cozmoslabs-group-fields-row">
                                             <div class="cozmoslabs-form-field-wrapper">
                                                 <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Column title', 'paid-member-subscriptions' ); ?></label>
-                                                <input type="text" name="pms-filter-user-meta-title[]"?>">
+                                                <input type="text" name="pms-filter-user-meta-title[]">
                                             </div>
 
                                             <div class="cozmoslabs-form-field-wrapper">
@@ -120,7 +119,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                                     <option value="0"><?php esc_html_e( '...Choose', 'paid-member-subscriptions' ); ?></option>
                                                     <?php
                                                     foreach (PMS_Submenu_Page_Export::get_all_user_meta_keys() as $umeta_key){
-                                                        echo "<option ". selected( $key, $umeta_key['meta_key'], true ) ." value='". esc_attr( $umeta_key['meta_key'] ). "'>". esc_html( $umeta_key['meta_key'] ) ."</option>";
+                                                        echo "<option value='". esc_attr( $umeta_key['meta_key'] ). "'>". esc_html( $umeta_key['meta_key'] ) ."</option>";
                                                     }
                                                     ?>
                                                 </select>

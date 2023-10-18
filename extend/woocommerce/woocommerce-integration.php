@@ -358,3 +358,17 @@ function pms_update_user_account_data( $new_data_fields, $user_id, $form_type ) 
     }
 
 }
+
+// Declare HPOS compatibility
+add_action( 'before_woocommerce_init', 'pms_woo_declare_hpos_compatibility' );
+function pms_woo_declare_hpos_compatibility() {
+
+    $plugin_slug = 'paid-member-subscriptions/index.php';
+
+    if( file_exists( PMS_PLUGIN_DIR_PATH . '/index-dev.php' ) )
+        $plugin_slug = 'paid-member-subscriptions-dev/index.php';
+
+	if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) )
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', $plugin_slug, true );
+
+}

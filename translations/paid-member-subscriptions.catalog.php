@@ -2162,6 +2162,15 @@
 <?php __("Create Members-only products or restrict product purchasing, offering your different ways of presenting your products.", "paid-member-subscriptions"); ?>
 <?php __("Sell Subscription Plans as WooCommerce Products", "paid-member-subscriptions"); ?>
 <?php __("Do you want to use another payment gateway or want to offer your customers a Subscription Plan with a Product purchase? Easily associate plans with products and start selling them through the WooCommerce Checkout.", "paid-member-subscriptions"); ?>
+<?php __("Cannot process file.", "paid-member-subscriptions"); ?>
+<?php __("Uploaded file must be a .csv file.", "paid-member-subscriptions"); ?>
+<?php __("Bulk Import Discount Codes", "paid-member-subscriptions"); ?>
+<?php __("Import Discount Codes", "paid-member-subscriptions"); ?>
+<?php __("Quickly create multiple discount codes by importing them.", "paid-member-subscriptions"); ?>
+<?php __("Upload Discount Codes", "paid-member-subscriptions"); ?>
+<?php __("Upload Discount Codes via a CSV file. Use this to select a csv file, then to upload click the \"Import Discount Codes\" button.", "paid-member-subscriptions"); ?>
+<?php __("Download this sample discount codes files", "paid-member-subscriptions"); ?>
+<?php __(" and modify it by adding your own discounts.", "paid-member-subscriptions"); ?>
 <?php __("Stripe Customer ID", "paid-member-subscriptions"); ?>
 <?php __("Stripe Card ID", "paid-member-subscriptions"); ?>
 <?php __("The provided Stripe Customer ID is not valid.", "paid-member-subscriptions"); ?>

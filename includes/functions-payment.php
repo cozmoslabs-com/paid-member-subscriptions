@@ -29,17 +29,18 @@ function pms_get_payments( $args = array() ) {
     global $wpdb;
 
     $defaults = array(
-        'order'                => 'DESC',
-        'orderby'              => 'id',
-        'offset'               => '',
-        'status'               => '',
-        'type'                 => '',
-        'user_id'              => '',
-        'subscription_plan_id' => '',
-        'profile_id'           => '',
-        'transaction_id'       => '',
-        'date'                 => '',
-        'search'               => ''
+        'order'                         => 'DESC',
+        'orderby'                       => 'id',
+        'offset'                        => '',
+        'status'                        => '',
+        'type'                          => '',
+        'user_id'                       => '',
+        'subscription_plan_id'          => '',
+        'exclude_subscription_plan_ids' => '',
+        'profile_id'                    => '',
+        'transaction_id'                => '',
+        'date'                          => '',
+        'search'                        => ''
     );
 
     $args = apply_filters( 'pms_get_payments_args', wp_parse_args( $args, $defaults ), $args, $defaults );
@@ -115,6 +116,11 @@ function pms_get_payments( $args = array() ) {
     if( !empty( $args['subscription_plan_id'] ) ) {
         $subscription_plan_id = (int)trim( $args['subscription_plan_id'] );
         $query_where          = $query_where . " AND " . " pms_payments.subscription_plan_id = {$subscription_plan_id}";
+    }
+
+    if( !empty( $args['exclude_subscription_plan_ids'] ) ) {
+        $subscription_plan_ids = implode( ',', $args['exclude_subscription_plan_ids'] );
+        $query_where          = $query_where . " AND " . " pms_payments.subscription_plan_id NOT IN ({$subscription_plan_ids})";
     }
 
     // Filter by transaction_id

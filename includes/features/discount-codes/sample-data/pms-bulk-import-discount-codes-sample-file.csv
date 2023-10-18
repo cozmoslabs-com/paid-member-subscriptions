@@ -1,0 +1,3 @@
+name,code,type,amount,subscription_plans,max_uses,max_uses_per_user,start_date,expiration_date,status,recurring_payments,new_users_only
+"Summer Discount",SUMMERDISCOUNT,percent,15,"123,321,421",0,0,2023-06-01,2023-08-31,active,0,0
+"One time offer",ONETIME,fixed,35,"1123,127",1,0,,,active,0,0

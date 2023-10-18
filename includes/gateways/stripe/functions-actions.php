@@ -198,6 +198,9 @@ function pms_stripe_filter_request_form_location( $location, $request ){
     if( $request['form_type'] == 'pms' && isset( $request['action'] ) && $request['action'] == 'pms_stripe_connect_process_payment' && empty( $location ) )
         $location = 'register';
 
+    if( $request['form_type'] == 'wppb' && isset( $request['action'] ) && $request['action'] == 'pms_update_payment_intent_connect' && isset( $request['pmstkn_original'] ) && $request['pmstkn_original'] == 'wppb_register' )
+        $location = 'register';
+
     return $location;
 
 }

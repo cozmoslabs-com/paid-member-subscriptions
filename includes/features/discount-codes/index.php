@@ -44,6 +44,10 @@ if( file_exists( PMS_IN_DC_PLUGIN_DIR_PATH . 'includes/class-discount-code.php' 
 if( file_exists( PMS_IN_DC_PLUGIN_DIR_PATH . 'includes/class-admin-discount-codes.php' ) )
     include_once( PMS_IN_DC_PLUGIN_DIR_PATH. 'includes/class-admin-discount-codes.php' );
 
+// Bulk Add Discount Codes
+if( file_exists( PMS_IN_DC_PLUGIN_DIR_PATH . 'includes/class-admin-discount-codes-bulk-add.php' ) )
+    include_once( PMS_IN_DC_PLUGIN_DIR_PATH. 'includes/class-admin-discount-codes-bulk-add.php' );
+
 // Meta box for discount codes cpt
 if( file_exists( PMS_IN_DC_PLUGIN_DIR_PATH . 'includes/class-metabox-discount-codes-details.php' ) )
     include_once( PMS_IN_DC_PLUGIN_DIR_PATH . 'includes/class-metabox-discount-codes-details.php' );

@@ -14,7 +14,8 @@
     flex-direction: column;
 }
 
-.wp-submenu a[href="admin.php?page=pms-export-page"] {
+.wp-submenu a[href="admin.php?page=pms-export-page"],
+.wp-submenu a[href="admin.php?page=pms-discount-codes-bulk-add"] {
     display: none !important;
 }
 

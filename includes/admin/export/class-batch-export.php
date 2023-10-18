@@ -195,7 +195,11 @@ class PMS_Batch_Export extends PMS_Export {
 					// Make sure the column is valid
 					if ( array_key_exists( $col_id, $cols ) ) {
 					    if( !is_array( $column ) ){
-                            $row_data .= '"' . addslashes( preg_replace( "/\"/","'", $column ) ) . '"';
+
+							if( !is_null( $column ) )
+								$column = addslashes( preg_replace( "/\"/","'", $column ) );
+
+                            $row_data .= '"' . $column . '"';
                             $row_data .= $i == count( $cols ) ? '' : ',';
                             $i++;
                         }

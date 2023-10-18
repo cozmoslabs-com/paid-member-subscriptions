@@ -58,6 +58,17 @@ jQuery( function($) {
             }
         });
 
+        /*
+        * Move the "Bulk Add Discount Codes" button from the submit box
+        * next to the "Add New" button next to the title of the page
+        *
+        */
+        $buttonsWrapper = $('#pms-bulk-add-discounts-wrapper');
+        $buttons = $buttonsWrapper.children();
+        
+        $('.wrap .page-title-action').first().after( $buttons );
+        $buttonsWrapper.remove();
+
     });
 
     /**
