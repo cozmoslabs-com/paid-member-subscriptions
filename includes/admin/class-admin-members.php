@@ -876,6 +876,8 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
     // Ajax callback for adding a log entry
     public function ajax_add_log_entry(){
 
+        check_ajax_referer( 'pms_add_log_entry', 'nonce' );
+
         if( empty( $_POST['subscription_id'] ) || empty( $_POST['log'] ) )
             die();
 

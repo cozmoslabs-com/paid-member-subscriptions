@@ -667,8 +667,9 @@ Class PMS_Shortcodes {
                     $login = sanitize_user( $_GET['loginName'] );
 
                     $user = check_password_reset_key( $key, $login );
+                    $pms_field_errors = pms_errors()->get_error_codes() ;
 
-                    if ( !is_wp_error( $user ) )
+                    if ( !is_wp_error( $user ) ||  in_array('pms_new_password', $pms_field_errors ) )
                         // Display the new password form
                         include 'views/shortcodes/view-shortcode-new-password-form.php';
                     else

@@ -160,6 +160,7 @@ Class PMS_Form_Handler {
 
         }
 
+
         /**
          * GDPR
          *
@@ -1456,6 +1457,8 @@ Class PMS_Form_Handler {
 
                 if ($new_pass != $repeat_pass )
                     pms_errors()->add('pms_repeat_password',__( 'The entered passwords don\'t match! Please try again.', 'paid-member-subscriptions'));
+
+                do_action( 'pms_recover_password_form_change_password_validation' );
 
                 $login = sanitize_user( $_GET['loginName'] );
                 $key   = sanitize_text_field( $_GET['key'] );

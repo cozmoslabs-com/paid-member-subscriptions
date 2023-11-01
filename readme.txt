@@ -3,8 +3,8 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
-Tested up to: 6.3
-Stable tag: 2.10.4
+Tested up to: 6.4
+Stable tag: 2.10.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.10.5 = 
+* Feature: Added Password Strength and Length functionalities. Activate them from the Settings -> Misc page
+* Fix: Issue with Stripe Extra fields not showing in some cases
+* Fix: Stripe issue when a 100% discount code is used
+* Fix: Security issue when an admin was manually adding logs
+* Misc: Hide data saved in the PayPal API credential fields
+* Misc: Added a filter that can be used to set the language of the Stripe Payment Element: pms_stripe_elements_locale
+
 = 2.10.4 =
 * Feature: Added the option to Bulk Import Discount Codes through a .csv file
 * Fix: Declare WooCommerce HPOS compatibility

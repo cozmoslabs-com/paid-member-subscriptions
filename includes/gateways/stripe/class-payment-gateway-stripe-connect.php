@@ -699,11 +699,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 ), $payment, $form_location )
             );
 
-            if( !PMS_Form_Handler::checkout_has_trial() && !empty( $payment_intent_id[0] ) ){
+            $amount = pms_stripe_calculate_payment_amount( $subscription_plan );
+
+            if( !PMS_Form_Handler::checkout_has_trial() && !empty( $payment_intent_id[0] ) && !empty( $amount ) ){
 
                 $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
-                $amount            = pms_stripe_calculate_payment_amount( $subscription_plan );
-
+                
                 $this->update_payment_intent( sanitize_text_field( $_POST['pms_stripe_connect_payment_intent'] ), $amount, $subscription_plan );
 
                 try {

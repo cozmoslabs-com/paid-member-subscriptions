@@ -614,7 +614,7 @@
 <?php __("Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate.", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
-<?php __("Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like recurring payments, invoices, taxes and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>", "paid-member-subscriptions"); ?>
+<?php __("Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>", "paid-member-subscriptions"); ?>
 <?php __('<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
@@ -906,8 +906,8 @@
 <?php __("Deactivate License", "paid-member-subscriptions"); ?>
 <?php __("Your license is invalid", "paid-member-subscriptions"); ?>
 <?php __("Active on this site", "paid-member-subscriptions"); ?>
-<?php __("Enter your license key. Your license key can be found in your Cozmoslabs account. ", "paid-member-subscriptions"); ?>
-<?php __("You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required.", "paid-member-subscriptions"); ?>
+<?php __("Enter your license key. Your license key can be found in your %sCozmoslabs account%s. ", "paid-member-subscriptions"); ?>
+<?php __("You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required. %sClick here%s to buy one.", "paid-member-subscriptions"); ?>
 <?php __("Select Month", "paid-member-subscriptions"); ?>
 <?php __("Current month", "paid-member-subscriptions"); ?>
 <?php __("Summary", "paid-member-subscriptions"); ?>
@@ -1002,6 +1002,7 @@
 <?php __("You have successfully activated your license.", "paid-member-subscriptions"); ?>
 <?php __("Completed successfully.", "paid-member-subscriptions"); ?>
 <?php __("Register Website ", "paid-member-subscriptions"); ?>
+<?php __("Enter your license key. Your license key can be found in your %sCozmoslabs account%s.", "paid-member-subscriptions"); ?>
 <?php __("Plan Name", "paid-member-subscriptions"); ?>
 <?php __("Next Payment Date", "paid-member-subscriptions"); ?>
 <?php __("Auto Renewal", "paid-member-subscriptions"); ?>
@@ -1436,6 +1437,14 @@
 <?php __("After you are redirected to your product options, scroll down to <strong>Product data</strong> Section and click on <strong>Subscription Plan</strong> Tab.", "paid-member-subscriptions"); ?>
 <?php __("Synchronize Billing Details", "paid-member-subscriptions"); ?>
 <?php __("By enabling this option the PMS Billing Details and WooCommerce Billing Details will be synchronized.", "paid-member-subscriptions"); ?>
+<?php __("Strength indicator", "paid-member-subscriptions"); ?>
+<?php __("Very Weak", "paid-member-subscriptions"); ?>
+<?php __("Weak", "paid-member-subscriptions"); ?>
+<?php __("Medium", "paid-member-subscriptions"); ?>
+<?php __("Strong", "paid-member-subscriptions"); ?>
+<?php __("Minimum length of %d characters.", "paid-member-subscriptions"); ?>
+<?php __("The password must have a minimum strength of %s", "paid-member-subscriptions"); ?>
+<?php __("The password must have the minimum length of %s characters", "paid-member-subscriptions"); ?>
 <?php __("You do not have permission to export data.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Payments Summary", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plan Details", "paid-member-subscriptions"); ?>
@@ -1722,6 +1731,14 @@
 <?php __("Always show Subscriptions Expiration Date.", "paid-member-subscriptions"); ?>
 <?php __("By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear.", "paid-member-subscriptions"); ?>
 <?php __("You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing.", "paid-member-subscriptions"); ?>
+<?php __("Enable Password Strength", "paid-member-subscriptions"); ?>
+<?php __("Enable the <strong>Password Strength</strong> functionality in order to choose the strength (very weak, weak, good, strong).", "paid-member-subscriptions"); ?>
+<?php __("Minimum Password Length", "paid-member-subscriptions"); ?>
+<?php __("Enter the minimum characters the password should have. Leave empty for no minimum limit", "paid-member-subscriptions"); ?>
+<?php __("Minimum Password Strength", "paid-member-subscriptions"); ?>
+<?php __("Disabled", "paid-member-subscriptions"); ?>
+<?php __("Very weak", "paid-member-subscriptions"); ?>
+<?php __("A stronger password strength will probably force the user to not reuse passwords from other websites.", "paid-member-subscriptions"); ?>
 <?php __("Cron Jobs", "paid-member-subscriptions"); ?>
 <?php __("Reset cron jobs", "paid-member-subscriptions"); ?>
 <?php __("The plugin will try to register the cron jobs that it uses again.", "paid-member-subscriptions"); ?>

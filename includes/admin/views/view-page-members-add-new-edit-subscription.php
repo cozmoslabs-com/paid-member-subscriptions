@@ -314,6 +314,7 @@ if( ! empty( $_POST ) ) {
                         <div class="inside cozmoslabs-form-field-wrapper">
                             <input type="text" name="pms_admin_log" value="" placeholder="<?php esc_html_e( 'Add entry manually...', 'paid-member-subscriptions' ); ?>" />
                             <input type="hidden" name="pms_subscription_id" value="<?php echo esc_attr( $member_subscription->id ) ?>" />
+                            <?php wp_nonce_field( 'pms_add_log_entry', 'pms_nonce' ); ?>
                             <input type="submit" value="Add Log" class="button button-secondary" id="pms_add_log_entry" />
                         </div>
                     </div>

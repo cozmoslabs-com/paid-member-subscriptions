@@ -60,7 +60,7 @@ class PMS_Register_Version {
 
                 <form method="post" action="<?php echo !is_multisite() ? 'options.php' : 'edit.php'; ?>">
                     <?php settings_fields( 'pms_serial_number' ); ?>
-                    <div class="cozmoslabs-form-field-wrapper">
+                    <div class="cozmoslabs-form-field-wrapper cozmoslabs-form-field-serial-number">
                         <label class="cozmoslabs-form-field-label" for="pms_serial_number"><?php esc_html_e( 'License key', 'paid-member-subscriptions' ); ?></label>
                         <div class="cozmoslabs-serial-wrap__holder">
                             <input id="pms_serial_number" name="pms_serial_number" type="password" class="regular-text" value="<?php echo esc_attr( $license ); ?>" />
@@ -81,15 +81,12 @@ class PMS_Register_Version {
                         </div>
 
                         <div class="cozmoslabs-description-container">
-                            <p class="cozmoslabs-description"><?php esc_html_e( 'Enter your license key. Your license key can be found in your Cozmoslabs account. ', 'paid-member-subscriptions' ) ?></p>
-                            <p class="cozmoslabs-description"><?php esc_html_e( 'You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required.', 'paid-member-subscriptions' ) ?></p>
+                            <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Enter your license key. Your license key can be found in your %sCozmoslabs account%s. ', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree" target="_blank">', '</a>' ) ); ?></p>
+                            <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required. %sClick here%s to buy one.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree#pricing" target="_blank">', '</a>' ) ); ?></p>
                         </div>
 
                     </div>
                 </form>
-<!--                <p>-->
-<!--                    --><?php //esc_html_e( 'The serial number is used to access the premium plugin versions, any updates made to them and support.', 'paid-member-subscriptions' ); ?>
-<!--                </p>-->
             </div>
         </div>
         <?php

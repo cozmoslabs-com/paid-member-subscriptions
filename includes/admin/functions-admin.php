@@ -248,7 +248,7 @@ function pms_add_register_version_form() {
                     
                     <form method="post" action="options.php">
 
-                        <div class="cozmoslabs-form-field-wrapper">
+                        <div class="cozmoslabs-form-field-wrapper cozmoslabs-form-field-serial-number">
                             <label class="cozmoslabs-form-field-label" for="pms_serial_number">'. esc_html__( 'License key', 'paid-member-subscriptions' ) .'</label>
             
                             <div class="cozmoslabs-serial-wrap__holder">
@@ -274,8 +274,8 @@ function pms_add_register_version_form() {
                             </div>
             
                             <div class="cozmoslabs-description-container">
-                                <p class="cozmoslabs-description">'. esc_html__( 'Enter your license key. Your license key can be found in your Cozmoslabs account. ', 'paid-member-subscriptions' ) .'</p>
-                                <p class="cozmoslabs-description">'. esc_html__( 'You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required.', 'paid-member-subscriptions' ) .'</p>
+                                <p class="cozmoslabs-description">'. wp_kses_post( sprintf( __( 'Enter your license key. Your license key can be found in your %sCozmoslabs account%s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree" target="_blank">', '</a>' ) ) .'</p>
+                                <p class="cozmoslabs-description">'. wp_kses_post( sprintf( __( 'You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required. %sClick here%s to buy one.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree#pricing" target="_blank">', '</a>' ) ) .'</p>
                             </div>
                         </div>
                     </form>

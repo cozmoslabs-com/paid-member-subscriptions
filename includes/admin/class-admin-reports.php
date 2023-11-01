@@ -131,16 +131,25 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      */
     private function get_filtered_payments() {
 
-        if( empty( $_REQUEST['pms-filter-time'] ) || $_REQUEST['pms-filter-time'] == 'current_month' )
-            $date = date("Y-m");
-        else
-            $date = sanitize_text_field( $_REQUEST['pms-filter-time'] );
+        if( isset( $_REQUEST['pms-filter-time'] ) && $_REQUEST['pms-filter-time'] == 'custom' && !empty( $_REQUEST['pms-filter-time-start-date'] ) && !empty( $_REQUEST['pms-filter-time-end-date'] ) ){
 
-        $date_time        = new DateTime( $date );
-        $month_total_days = $date_time->format( 't' );
+            $this->start_date = sanitize_text_field( $_REQUEST['pms-filter-time-start-date'] );
+            $this->end_date   = sanitize_text_field( $_REQUEST['pms-filter-time-end-date'] ) . ' 23:59:59';
 
-        $this->start_date = $date . '-01';
-        $this->end_date   = $date . '-' . $month_total_days . ' 23:59:59';
+        } else {
+
+            if( empty( $_REQUEST['pms-filter-time'] ) || $_REQUEST['pms-filter-time'] == 'current_month' )
+                $date = date("Y-m");
+            else
+                $date = sanitize_text_field( $_REQUEST['pms-filter-time'] );
+
+            $date_time        = new DateTime( $date );
+            $month_total_days = $date_time->format( 't' );
+
+            $this->start_date = $date . '-01';
+            $this->end_date   = $date . '-' . $month_total_days . ' 23:59:59';
+
+        }
 
         $args = apply_filters( 'pms_reports_get_filtered_payments_args', array( 'status' => 'completed', 'date' => array( $this->start_date, $this->end_date ), 'order' => 'ASC', 'number' => '-1' ) );
 

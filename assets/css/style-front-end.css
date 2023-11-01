@@ -579,3 +579,35 @@ ul.pms-field-section {
     display: inline-block;
     margin-left: 5px;
 }
+
+/*--------------------------------------------------------------
+ Password Strength
+--------------------------------------------------------------*/
+#pms-pass-strength-result {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    display: inline-block;
+    /*float: left;*/
+    margin: 13px 5px 5px 30%;
+    padding: 3px 5px;
+    text-align: center;
+    width: 200px;
+    line-height: 28px;
+    min-height: 36px;
+}
+#pms-pass-strength-result.short {
+    background-color: #FFA0A0;
+    border-color: #F04040;
+}
+#pms-pass-strength-result.bad {
+    background-color: #FFB78C;
+    border-color: #FF853C;
+}
+#pms-pass-strength-result.good {
+    background-color: #FFEC8B;
+    border-color: #fc0;
+}
+#pms-pass-strength-result.strong {
+    background-color: #C3FF88;
+    border-color: #8DFF1C;
+}

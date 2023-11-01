@@ -49,7 +49,7 @@ if( !function_exists('pms_in_settings_gateway_paypal_extra_fields') ) {
 
             echo '<label class="cozmoslabs-form-field-label" for="paypal-' . esc_attr( str_replace('_', '-', $field_slug) ) . '">' . esc_html( $field_details['label'] ) . '</label>';
 
-            echo '<input id="paypal-' . esc_attr( str_replace('_', '-', $field_slug) ) . '" type="text" name="pms_payments_settings[gateways][paypal][' . esc_attr( $field_slug ) . ']" value="' . ( isset($options['gateways']['paypal'][$field_slug]) ? esc_attr( $options['gateways']['paypal'][$field_slug] ) : '' ) . '" class="widefat" />';
+            echo '<input id="paypal-' . esc_attr( str_replace('_', '-', $field_slug) ) . '" type="password" name="pms_payments_settings[gateways][paypal][' . esc_attr( $field_slug ) . ']" value="' . ( isset($options['gateways']['paypal'][$field_slug]) ? esc_attr( $options['gateways']['paypal'][$field_slug] ) : '' ) . '" class="widefat" />';
 
             if( isset( $field_details['desc'] ) )
                 echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html( $field_details['desc'] ) . '</p>';

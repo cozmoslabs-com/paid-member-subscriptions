@@ -23,10 +23,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <?php do_action( 'pms_new_password_form_before_fields' ); ?>
 
         <?php $field_errors = pms_errors()->get_error_messages('pms_repeat_password'); ?>
+        <?php $pms_error_messages = pms_errors()->get_error_messages('pms_new_password'); ?>
 
-        <li class="pms-field">
+        <li class="pms-field <?php echo ( !empty( $pms_error_messages ) ? 'pms-field-error' : '' ); ?>">
             <label for="pms_new_password"><?php echo esc_html( apply_filters( 'pms_recover_password_form_label_new_password', __( 'Password', 'paid-member-subscriptions' ) ) ); ?></label>
             <input id="pms_new_password" name="pms_new_password" class="password" type="password" value="" autocomplete="off" />
+
+            <?php
+
+            pms_display_field_errors( $pms_error_messages );
+            do_action( 'pms_recover_password_form_pass1_extra_content' );
+            ?>
         </li>
 
         <li class="pms-field <?php echo ( !empty( $field_errors ) ? 'pms-field-error' : '' ); ?>">

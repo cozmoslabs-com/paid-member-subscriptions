@@ -354,6 +354,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper select,
 .cozmoslabs-form-field-wrapper input[type="date"],
 .cozmoslabs-form-field-wrapper input[type="number"],
+#cozmoslabs-subsection-paypal-configs .cozmoslabs-form-field-wrapper input[type="password"],
 .cozmoslabs-form-field-wrapper input[type="file"],
 .cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url) {
     flex-basis: 260px;
@@ -1054,6 +1055,10 @@ body[class*="post-type-pms-"] .submitdelete:focus,
     border-radius: 2px;
     padding: 10px 15px;
     margin: 5px 0 0 230px;
+}
+
+.cozmoslabs-form-field-serial-number .cozmoslabs-description {
+    color: inherit !important;
 }
 
 

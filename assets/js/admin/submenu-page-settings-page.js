@@ -86,6 +86,13 @@ jQuery( function($) {
                 $('.pms-scripts-on-specific-pages').hide()
         })
 
+        $('#functions-password-strength-checkbox').on('change', function(){
+            if ($(this).is(':checked') )
+                $('.functions-password-strength-checkbox').show()
+            else
+                $('.functions-password-strength-checkbox').hide()
+        })
+
     });
 
 

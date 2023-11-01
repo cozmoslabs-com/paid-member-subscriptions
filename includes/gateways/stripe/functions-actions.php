@@ -32,6 +32,11 @@ function pms_stripe_enqueue_front_end_scripts(){
     if( !empty( $connected_account ) )
         $pms_stripe_script_vars['stripe_connected_account'] = $connected_account;
 
+    $stripe_locale = apply_filters( 'pms_stripe_elements_locale', '' );
+
+    if( !empty( $stripe_locale ) )
+        $pms_stripe_script_vars['stripe_locale'] = $stripe_locale;
+
     $pms_stripe_script_vars['stripe_return_url']      = add_query_arg( 'pms_stripe_connect_return_url', 1, home_url() );
     $pms_stripe_script_vars['stripe_payment_request'] = pms_stripe_connect_payment_request_enabled();
     $pms_stripe_script_vars['stripe_account_country'] = pms_stripe_connect_get_account_country();

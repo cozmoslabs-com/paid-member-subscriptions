@@ -20,9 +20,14 @@ jQuery( function( $ ) {
     var $client_secret = $('.pms-form input[name="pms_stripe_connect_payment_intent"], .wppb-register-user input[name="pms_stripe_connect_payment_intent"]').val()
     var $client_secret_setup_intent = $('.pms-form input[name="pms_stripe_connect_setup_intent"], .wppb-register-user input[name="pms_stripe_connect_setup_intent"]').val()
 
-    var stripe = Stripe( stripe_pk, {
+    var StripeData = {
         stripeAccount: pms.stripe_connected_account
-    })
+    }
+
+    if( pms.stripe_locale )
+        StripeData.locale = pms.stripe_locale
+
+    var stripe = Stripe( stripe_pk, StripeData )
 
     var elements              = false
     var elements_setup_intent = false
@@ -61,6 +66,14 @@ jQuery( function( $ ) {
 
     // Update Stripe Payment Intent on subscription plan change
     $(document).on('click', subscription_plan_selector, function ( event ) {
+
+        stripeConnectInit()
+        stripeConnectUpdatePaymentIntent()
+
+    })
+
+    // Discount applied
+    $(document).on('pms_discount_success', function ( event ) {
 
         stripeConnectInit()
         stripeConnectUpdatePaymentIntent()

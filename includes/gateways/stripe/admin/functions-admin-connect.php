@@ -126,10 +126,10 @@ function pms_stripe_add_payment_gateway_admin_subscription_fields( $subscription
     if( empty( $gateway_slug ) || empty( $gateway_details ) )
         return;
 
-    if( ! function_exists( 'pms_get_member_subscription_meta' ) )
+    if( !function_exists( 'pms_get_member_subscription_meta' ) )
         return;
 
-    if( $gateway_slug != 'stripe' )
+	if( !in_array( $gateway_slug, array( 'stripe', 'stripe_connect', 'stripe_intents' ) ) )
         return;
 
     // Set card id value

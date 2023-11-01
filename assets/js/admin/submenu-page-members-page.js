@@ -186,9 +186,6 @@ jQuery( function($) {
          */
         var value = $(this).val()
 
-        if( value == 'stripe_intents' || value == 'stripe_connect' )
-            value = 'stripe'
-
         $('#pms-meta-box-fields-wrapper-payment-gateways > div').hide();
         $('#pms-meta-box-fields-wrapper-payment-gateways > div[data-payment-gateway=' + value + ']').show();
 
@@ -382,7 +379,8 @@ jQuery( function($) {
 
     function pms_add_log_entry(){
         var subscription_id = jQuery('#pms-member-subscription-logs input[name="pms_subscription_id"]').val(),
-            log = jQuery('#pms-member-subscription-logs input[name="pms_admin_log"]').val()
+            log             = jQuery('#pms-member-subscription-logs input[name="pms_admin_log"]').val(),
+            nonce           = jQuery('#pms-member-subscription-logs input[name="pms_nonce"]').val()
 
         if( subscription_id && log ){
             jQuery('#pms_add_log_entry').pms_addSpinner( 200 )
@@ -390,6 +388,7 @@ jQuery( function($) {
 
             $.post( ajaxurl, {
                 action: 'add_log_entry',
+                nonce: nonce,
                 subscription_id: subscription_id,
                 log: log }, function( response ) {
 

@@ -97,7 +97,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <input id="pms_pass1" name="pass1" type="password" />
 
             <?php pms_display_field_errors( $field_errors ); ?>
+
+            <?php
+
+            do_action( 'pms_register_form_pass1_extra_content' );
+
+            ?>
         </li>
+
+
 
         <?php $field_errors = pms_errors()->get_error_messages('pass2'); ?>
         <li class="pms-field pms-pass2-field <?php echo ( !empty( $field_errors ) ? 'pms-field-error' : '' ); ?>">

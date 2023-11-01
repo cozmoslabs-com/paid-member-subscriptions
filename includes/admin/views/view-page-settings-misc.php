@@ -173,6 +173,40 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing.', 'paid-member-subscriptions' ); ?></p>
             </div>
 
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                <label class="cozmoslabs-form-field-label" for="functions-password-strength-checkbox" ><?php esc_html_e( 'Enable Password Strength', 'paid-member-subscriptions' ) ?></label>
+
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="functions-password-strength-checkbox" name="pms_misc_settings[functions-password-strength]" value="enabled" <?php echo ( isset( $this->options['functions-password-strength'] ) ? 'checked' : '' ); ?> />
+                    <label class="cozmoslabs-toggle-track" for="functions-password-strength-checkbox"></label>
+                </div>
+
+                <div class="cozmoslabs-toggle-description">
+                    <p class="cozmoslabs-description"><?php echo wp_kses_post( __( 'Enable the <strong>Password Strength</strong> functionality in order to choose the strength (very weak, weak, good, strong).', 'paid-member-subscriptions' ) ); ?></p>
+                </div>
+            </div>
+
+            <div class="functions-password-strength-checkbox cozmoslabs-form-field-wrapper" style="<?php echo !isset( $this->options['functions-password-strength'] ) ? 'display:none' : '' ?>">
+                <label class="cozmoslabs-form-field-label" for="minimumPasswordLength"><?php esc_html_e( 'Minimum Password Length', 'paid-member-subscriptions' ); ?></label>
+                <input type="text" name="pms_misc_settings[minimum_password_length]" class="wppb-text" id="minimumPasswordLength" value="<?php if( !empty( $this->options['minimum_password_length'] ) ) echo esc_attr( $this->options['minimum_password_length'] ); ?>"/>
+
+                <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Enter the minimum characters the password should have. Leave empty for no minimum limit', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div class="functions-password-strength-checkbox cozmoslabs-form-field-wrapper" style="<?php echo !isset( $this->options['functions-password-strength'] ) ? 'display:none' : '' ?>">
+                <label class="cozmoslabs-form-field-label" for="minimumPasswordStrength"><?php esc_html_e( 'Minimum Password Strength', 'paid-member-subscriptions' ); ?></label>
+
+                <select name="pms_misc_settings[minimum_password_strength]" class="wppb-select" id="minimumPasswordStrength">
+                    <option value=""><?php esc_html_e( 'Disabled', 'paid-member-subscriptions' ); ?></option>
+                    <option value="short" <?php if ( !empty( $this->options['minimum_password_strength'] ) && $this->options['minimum_password_strength'] == 'short' ) echo 'selected'; ?>><?php esc_html_e( 'Very weak', 'paid-member-subscriptions' ); ?></option>
+                    <option value="bad" <?php if ( !empty( $this->options['minimum_password_strength'] ) && $this->options['minimum_password_strength'] == 'bad' ) echo 'selected'; ?>><?php esc_html_e( 'Weak', 'paid-member-subscriptions' ); ?></option>
+                    <option value="good" <?php if ( !empty( $this->options['minimum_password_strength'] ) && $this->options['minimum_password_strength'] == 'good' ) echo 'selected'; ?>><?php esc_html_e( 'Medium', 'paid-member-subscriptions' ); ?></option>
+                    <option value="strong" <?php if ( !empty( $this->options['minimum_password_strength'] ) && $this->options['minimum_password_strength'] == 'strong' ) echo 'selected'; ?>><?php esc_html_e( 'Strong', 'paid-member-subscriptions' ); ?></option>
+                </select>
+
+                <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'A stronger password strength will probably force the user to not reuse passwords from other websites.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
             <div class="cozmoslabs-form-field-wrapper">
                 <label class="cozmoslabs-form-field-label" for="cron-jobs"><?php esc_html_e( 'Cron Jobs' , 'paid-member-subscriptions' ) ?></label>
 
@@ -182,6 +216,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <?php esc_html_e( 'The plugin will try to register the cron jobs that it uses again.', 'paid-member-subscriptions' ); ?>
                 </p>
             </div>
+
 
         </div>
 
