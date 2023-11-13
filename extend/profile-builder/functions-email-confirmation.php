@@ -46,7 +46,7 @@ function pms_pb_email_confirmation_payment_form( $message ) {
     // if PB autologin is enabled, don't show the form until the user is logged in
     $wppb_general_settings = get_option( 'wppb_general_settings' );
 
-    if( ( strcasecmp( $wppb_general_settings['automaticallyLogIn'], 'Yes' ) == 0 || strcasecmp( apply_filters( 'wppb_automatically_login_after_register', 'No' ), 'Yes' ) == 0 ) && !is_user_logged_in() )
+    if( ( ( isset( $wppb_general_settings['automaticallyLogIn'] ) && strcasecmp( $wppb_general_settings['automaticallyLogIn'], 'Yes' ) == 0 ) || strcasecmp( apply_filters( 'wppb_automatically_login_after_register', 'No' ), 'Yes' ) == 0 ) && !is_user_logged_in() )
         return $message;
 
     // Get cached user meta-data
@@ -116,6 +116,10 @@ function pms_pb_email_confirmation_payment_form( $message ) {
         // Add user email to form
         $output .= '<input name="user_email" type="hidden" value="' . esc_attr( $member->email ) .'" />';
 
+        // Add activation key to form
+        if( !empty( $_GET['activation_key'] ) )
+            $output .= '<input name="activation_key" type="hidden" value="' . esc_attr( sanitize_text_field( $_GET['activation_key'] ) ) .'" />';
+
         // Submit button
         $output .= '<input name="pms_register" type="submit" value="' . esc_attr( apply_filters( 'pms_register_form_email_confirmation_submit_text', __( 'Subscribe', 'paid-member-subscriptions' ) ) ) . '" />';
 
@@ -150,7 +154,6 @@ function pms_pb_remove_email_confirmation_redirect( $redirect_url ) {
     if( empty( $key ) )
         return $redirect_url;
 
-
     // Get user signup data
     $signup = wppb_get_signup_data( $key );
 
@@ -169,6 +172,29 @@ function pms_pb_remove_email_confirmation_redirect( $redirect_url ) {
 
 }
 add_filter( 'wppb_success_email_confirmation_redirect_url', 'pms_pb_remove_email_confirmation_redirect' );
+
+function pms_pb_remove_email_confirmation_redirect_message( $redirect_message ) {
+
+    if( !empty($_GET['activation_key']) )
+        $key = sanitize_text_field( $_GET['activation_key'] );
+
+    if( empty( $key ) )
+        return $redirect_message;
+
+    // Get user signup data
+    $signup = wppb_get_signup_data( $key );
+
+    if( !is_null( $signup ) && !empty( $signup->meta['subscription_plans'] ) ) {
+
+        // Remove the url
+        $redirect_message = '';
+
+    }
+
+    return $redirect_message;
+
+}
+add_filter( 'wppb_ec_sucess_message_redirect', 'pms_pb_remove_email_confirmation_redirect_message' );
 
 
 /*
@@ -252,8 +278,8 @@ function pms_pb_email_confirmation_handle_form_submission() {
     if( empty( $_POST['pmstkn'] ) || !wp_verify_nonce( sanitize_text_field( $_POST['pmstkn'] ), 'pms_register_form_email_confirmation_nonce' ) )
         return;
 
-    if( !empty( $_GET['activation_key'] ) )
-        $activation_key = sanitize_text_field( $_GET['activation_key'] );
+    if( !empty( $_REQUEST['activation_key'] ) )
+        $activation_key = sanitize_text_field( $_REQUEST['activation_key'] );
 
     if( empty( $activation_key ) )
         return;

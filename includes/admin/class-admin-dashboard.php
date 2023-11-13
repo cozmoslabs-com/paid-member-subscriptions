@@ -116,12 +116,22 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
         } else if( $interval == 'this_month' ){
 
             $args['interval'][] = date( 'Y-m-01', time() );
-            $args['interval'][] = date( 'Y-m-t', time() );
+            $args['interval'][] = date( 'Y-m-d', time() );
 
         } else if( $interval == 'last_month' ){
 
             $args['interval'][] = date( 'Y-m-01', strtotime( '-1 month' ) );
             $args['interval'][] = date( 'Y-m-t', strtotime( '-1 month' ) );
+
+        } else if( $interval == 'this_year' ){
+
+            $args['interval'][] = date( 'Y-01-01', time() );
+            $args['interval'][] = date( 'Y-m-d', time() );
+
+        } else if( $interval == 'last_year' ){
+
+            $args['interval'][] = date( 'Y-01-01', strtotime( '-1 year' ) );
+            $args['interval'][] = date( 'Y-12-31', strtotime( '-1 year' ) );
 
         }
 

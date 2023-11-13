@@ -77,7 +77,7 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
             <?php
             // insert Register Version Form to PMS Settings - General Tab
             if ( !is_multisite() && isset( $_GET['page'] ) && $_GET['page'] === 'pms-settings-page' && ( !isset( $_GET['tab'] ) || $_GET['tab'] === 'general' ) )
-                echo pms_add_register_version_form(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                pms_add_register_version_form(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             ?>
 
             <form method="post" enctype="multipart/form-data" encoding="multipart/form-data" action="options.php">
@@ -196,9 +196,6 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
                 if ( isset( $options['payments']['redirect_after_manual_payment'] ) && filter_var($options['payments']['redirect_after_manual_payment'], FILTER_VALIDATE_URL) === false ) {
                     unset( $options['payments']['redirect_after_manual_payment'] );
                 }
-
-
-
 
             }
         }

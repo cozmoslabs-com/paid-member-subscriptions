@@ -20,6 +20,7 @@ Class PMS_Merge_Tags{
         add_filter( 'pms_merge_tag_subscription_expiration_date', array( $this, 'pms_tag_subscription_expiration_date' ), 10, 3 );
         add_filter( 'pms_merge_tag_subscription_price',           array( $this, 'pms_tag_subscription_price' ), 10, 4 );
         add_filter( 'pms_merge_tag_subscription_plan_price',      array( $this, 'pms_tag_subscription_plan_price' ), 10, 3 );
+        add_filter( 'pms_merge_tag_total_payment_amount',         array( $this, 'pms_tag_total_payment_amount' ), 10, 4 );
         add_filter( 'pms_merge_tag_subscription_duration',        array( $this, 'pms_tag_subscription_duration' ), 10, 3 );
         add_filter( 'pms_merge_tag_username',                     array( $this, 'pms_tag_username' ), 10, 2 );
         add_filter( 'pms_merge_tag_first_name',                   array( $this, 'pms_tag_firstname' ), 10, 2 );
@@ -29,6 +30,9 @@ Class PMS_Merge_Tags{
         add_filter( 'pms_merge_tag_site_url',                     array( $this, 'pms_tag_site_url' ), 10 );
         add_filter( 'pms_merge_tag_automatic_retry_message',      array( $this, 'pms_tag_automatic_retry_message' ), 10, 5 );
         add_filter( 'pms_merge_tag_account_page_url',             array( $this, 'pms_tag_account_page_url' ), 10 );
+        add_filter( 'pms_merge_tag_reset_key',                    array( $this, 'pms_tag_reset_key' ), 10, 6 );
+        add_filter( 'pms_merge_tag_reset_url',                    array( $this, 'pms_tag_reset_url' ), 10, 6 );
+        add_filter( 'pms_merge_tag_reset_link',                   array( $this, 'pms_tag_reset_link' ), 10, 6 );
 
     }
 
@@ -76,6 +80,7 @@ Class PMS_Merge_Tags{
             'subscription_expiration_date',
             'subscription_price',
             'subscription_plan_price',
+            'total_payment_amount',
             'subscription_duration',
             'first_name',
             'last_name',
@@ -84,7 +89,10 @@ Class PMS_Merge_Tags{
             'site_name',
             'site_url',
             'automatic_retry_message',
-            'account_page_url'
+            'account_page_url',
+            'reset_key',
+            'reset_url',
+            'reset_link'
         );
 
         $available_merge_tags = apply_filters( 'pms_merge_tags', $available_merge_tags );
@@ -288,6 +296,33 @@ Class PMS_Merge_Tags{
     }
 
     /**
+     * Replace the {{total_payment_amount}} tag
+     */
+    public function pms_tag_total_payment_amount( $value, $user_info, $subscription_id, $payment_id ){
+
+        if ( empty( $payment_id ) )
+            return;
+
+        $amount = false;
+
+        $payment = pms_get_payment( $payment_id );
+
+        if ( !empty( $payment->id ) )
+            $amount = $payment->amount;
+
+
+        $currency = apply_filters( 'pms_merge_tag_subscription_price_currency', pms_get_active_currency(), $subscription_id );
+
+        if ( class_exists( 'PMS_IN_Tax' ) ) {
+            $pms_tax = new PMS_IN_Tax;
+            $amount = $pms_tax->calculate_tax_rate( $amount );
+        }
+
+        return pms_format_price( $amount, $currency );
+
+    }
+
+    /**
      * Replace the {{subscription_duration}} tag
      */
     public function pms_tag_subscription_duration( $value, $user_info, $subscription_id ){
@@ -414,6 +449,43 @@ Class PMS_Merge_Tags{
 
     }
 
+    /**
+     * Replace the {{reset_key}} tag
+     */
+    public function pms_tag_reset_key( $value, $user_info, $subscription_id, $payment_id, $action, $data ){
+
+        if( is_object( $user_info ) && !empty( $data['password_reset_key'] ) ){
+            $key = $data['password_reset_key'];
+
+            return $key;
+        }
+    }
+
+    /**
+     * Replace the {{reset_url}} tag
+     */
+    public function pms_tag_reset_url( $value, $user_info, $subscription_id, $payment_id, $action, $data ){
+
+        if( is_object( $user_info ) && !empty( $data['password_reset_key'] ) ){
+            $key = $data['password_reset_key'];
+            $requestedUserLogin = $user_info->user_login;
+            $url = esc_url(add_query_arg(array('loginName' => urlencode( $requestedUserLogin ), 'key' => $key), pms_get_current_page_url()));
+
+            return $url;
+        }
+    }/**
+     * Replace the {{reset_link}} tag
+     */
+    public function pms_tag_reset_link( $value, $user_info, $subscription_id, $payment_id, $action, $data ){
+
+        if( is_object( $user_info ) && !empty( $data['password_reset_key'] ) ){
+            $key = $data['password_reset_key'];
+            $requestedUserLogin = $user_info->user_login;
+            $link = '<a href="' . esc_url(add_query_arg(array('loginName' => urlencode( $requestedUserLogin ), 'key' => $key), pms_get_current_page_url())) . '">' . esc_url(add_query_arg(array('loginName' => urlencode( $requestedUserLogin ), 'key' => $key), pms_get_current_page_url())) . '</a>';
+
+            return $link;
+        }
+    }
 }
 
 

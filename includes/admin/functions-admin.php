@@ -240,48 +240,63 @@ function pms_add_register_version_form() {
     if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) && PAID_MEMBER_SUBSCRIPTIONS !== 'Paid Member Subscriptions Dev' )
         return '';
 
-    $status  = pms_get_serial_number_status();
-    $license = pms_get_serial_number();
+    $status          = pms_get_serial_number_status();
+    $license         = pms_get_serial_number();
+    $license_details = get_option( 'pms_license_details', false );
+    ?>
+    
+    <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-register-version">
+        <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Register Version ', 'paid-member-subscriptions' ) ?></h4>
 
-    $output = '<div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-register-version">
-                    <h4 class="cozmoslabs-subsection-title">'. esc_html__( 'Register Website ', 'paid-member-subscriptions' ). '</h4>
-                    
-                    <form method="post" action="options.php">
+        <form method="post" action="<?php echo !is_multisite() ? 'options.php' : 'edit.php'; ?>">
+            <?php settings_fields( 'pms_serial_number' ); ?>
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-form-field-serial-number">
+                <label class="cozmoslabs-form-field-label" for="pms_serial_number"><?php esc_html_e( 'License key', 'paid-member-subscriptions' ); ?></label>
+                <div class="cozmoslabs-serial-wrap__holder">
+                    <input id="pms_serial_number" name="pms_serial_number" type="password" class="regular-text" value="<?php echo esc_attr( $license ); ?>" />
+                    <?php wp_nonce_field( 'pms_license_nonce', 'pms_license_nonce' ); ?>
+                    <?php if( $status !== false && $status == 'valid' ) {
+                        $button_name =  'pms_edd_license_deactivate';
+                        $button_value = __('Deactivate License', 'paid-member-subscriptions' );
+                        if( empty( $details['invalid'] ) )
+                            echo '<span title="'. esc_html__( 'Active on this site', 'paid-member-subscriptions' ) .'" class="pms-active-license dashicons dashicons-yes"></span>';
+                        else
+                            echo '<span title="'. esc_html__( 'Your license is invalid', 'paid-member-subscriptions' ) .'" class="pms-invalid-license dashicons dashicons-warning"></span>';
+                    } else {
+                        $button_name =  'pms_edd_license_activate';
+                        $button_value = __('Activate License', 'paid-member-subscriptions');
+                    }
+                    ?>
+                    <input type="submit" class="button-secondary" name="<?php echo esc_attr( $button_name ); ?>" value="<?php echo esc_attr( $button_value ); ?>"/>
+                </div>
 
-                        <div class="cozmoslabs-form-field-wrapper cozmoslabs-form-field-serial-number">
-                            <label class="cozmoslabs-form-field-label" for="pms_serial_number">'. esc_html__( 'License key', 'paid-member-subscriptions' ) .'</label>
-            
-                            <div class="cozmoslabs-serial-wrap__holder">
-                                <input id="pms_serial_number" name="pms_serial_number" type="password" class="regular-text" value="'. esc_attr( $license ) .'" />
-                                '.  wp_nonce_field( 'pms_license_nonce', 'pms_license_nonce' );
+                <?php if( $status != 'expired' && ( !empty( $license_details ) && !empty( $license_details->expires ) && $license_details->expires !== 'lifetime' ) && ( ( !isset( $license_details->subscription_status ) || $license_details->subscription_status != 'active' ) && strtotime( $license_details->expires ) < strtotime( '+14 days' ) ) ) : ?>
+                    <div class="cozmoslabs-description-container yellow">
+                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Your %s license is about to expire on %s', 'paid-member-subscriptions' ), '<strong>' . PAID_MEMBER_SUBSCRIPTIONS . '</strong>', '<strong>' . date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ) . '</strong>' ) ); ?>
+                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Please %sRenew Your Licence%s to continue receiving access to product downloads, automatic updates and support.', 'paid-member-subscriptions' ), "<a href='https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMS-Renewal' target='_blank'>", "</a>" ) ); ?></p>
+                    </div>
+                <?php elseif( $status == 'expired' ) : ?>
+                    <div class="cozmoslabs-description-container red">
+                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Your %s license has expired.', 'paid-member-subscriptions' ), '<strong>' . PAID_MEMBER_SUBSCRIPTIONS . '</strong>' ) ); ?>
+                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Please %1$sRenew Your Licence%2$s to continue receiving access to product downloads, automatic updates and support.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree" target="_blank">', '</a>' ) ); ?></p>
+                    </div>
+                <?php elseif( $status == 'no_activations_left' ) : ?>
+                    <div class="cozmoslabs-description-container red">
+                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Your %s license has reached its activation limit.', 'paid-member-subscriptions' ), '<strong>' . PAID_MEMBER_SUBSCRIPTIONS . '</strong>' ) ); ?>
+                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( '%sUpgrade now%s for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMS" target="_blank">', '</a>' ) ); ?>
+                    </div>
+                <?php elseif( empty( $license ) || $status != 'valid' ) : ?>
+                    <div class="cozmoslabs-description-container">
+                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Enter your license key. Your license key can be found in your %sCozmoslabs account%s. ', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree" target="_blank">', '</a>' ) ); ?></p>
+                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required. %sClick here%s to buy one.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree#pricing" target="_blank">', '</a>' ) ); ?></p>
+                    </div>
+                <?php endif; ?>
 
+            </div>
+        </form>
+    </div>
 
-   if( $status !== false && $status == 'valid' ) {
-        $button_name =  'pms_edd_license_deactivate';
-        $button_value = __('Deactivate License', 'paid-member-subscriptions' );
-
-        if( empty( $details['invalid'] ) )
-            $output .= '<span title="'. esc_html__( 'Active on this site', 'paid-member-subscriptions' ) .'" class="cozmoslabs-active-license dashicons dashicons-yes"></span>';
-        else
-            $output .= '<span title="'. esc_html__( 'Your license is invalid', 'paid-member-subscriptions' ) .'" class="cozmoslabs-invalid-license dashicons dashicons-warning"></span>';
-
-   } else {
-        $button_name =  'pms_edd_license_activate';
-        $button_value = __('Activate License', 'paid-member-subscriptions');
-   }
-
-    $output .= '                <input type="submit" class="button-secondary" name="'. esc_attr( $button_name ) .'" value="'. esc_attr( $button_value ) .'"/>
-                            </div>
-            
-                            <div class="cozmoslabs-description-container">
-                                <p class="cozmoslabs-description">'. wp_kses_post( sprintf( __( 'Enter your license key. Your license key can be found in your %sCozmoslabs account%s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree" target="_blank">', '</a>' ) ) .'</p>
-                                <p class="cozmoslabs-description">'. wp_kses_post( sprintf( __( 'You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required. %sClick here%s to buy one.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree#pricing" target="_blank">', '</a>' ) ) .'</p>
-                            </div>
-                        </div>
-                    </form>
-                </div>';
-
-    return $output;
+    <?php
 }
 
 

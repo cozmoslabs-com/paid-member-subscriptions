@@ -804,3 +804,25 @@ jQuery( document ).ready(function(){
     }
 
 });
+
+
+/**
+ *  Display initially hidden admin notices, after the scripts have loaded
+ *
+ * */
+jQuery( document ).ready(function(){
+
+    let noticeTypes = [
+        ".error",
+        ".notice"
+    ];
+
+    noticeTypes.forEach(function(notice){
+        let selector = "body[class*='paid-member-subscriptions_page_'] " + notice + ", " + "body[class*='post-type-pms-'] " + notice;
+
+        jQuery(selector).each(function () {
+            jQuery(this).css('display', 'block');
+        });
+    });
+
+});

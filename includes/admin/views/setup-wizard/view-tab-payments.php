@@ -161,7 +161,7 @@
             </div>
         </div>
 
-        <div class="pms-setup-gateway pms-setup-fade">
+        <div class="pms-setup-gateway pms-setup-fade" title="Available with a Pro license.">
             <div class="pms-setup-gateway__logo">
                 <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ) . '/assets/images/pms-paypal-pro-express-logo.png'; ?>" />
             </div>

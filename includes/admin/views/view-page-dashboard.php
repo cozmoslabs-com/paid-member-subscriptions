@@ -82,6 +82,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <option value="30days" selected>30 days</option>
                     <option value="this_month">This Month</option>
                     <option value="last_month">Last Month</option>
+                    <option value="this_year">This Year</option>
+                    <option value="last_year">Last Year</option>
                 </select>
 
                 <input type="hidden" id="pms-dashboard-stats-select__nonce" value="<?php echo esc_html( wp_create_nonce( 'pms_dashboard_get_stats' ) ); ?>" />

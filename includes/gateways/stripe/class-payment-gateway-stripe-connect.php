@@ -320,179 +320,17 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $subscription->id ) )
             return false;
 
-        // If a payment intent id is coming from front-end, a successful payment should've already happened
-        if( isset( $_REQUEST['payment_intent'] ) ){
+        // SetupIntent
+        if( isset( $_REQUEST['setup_intent'] ) && sanitize_text_field( $_REQUEST['setup_intent'] ) == true ){
 
-            // SetupIntent
-            if( isset( $_REQUEST['setup_intent'] ) && sanitize_text_field( $_REQUEST['setup_intent'] ) == true ){
+            $intent = SetupIntent::retrieve( sanitize_text_field( $_REQUEST['payment_intent'] ) );
 
-                $intent = SetupIntent::retrieve( sanitize_text_field( $_REQUEST['payment_intent'] ) );
+            if( $form_location == 'stripe_return_url' ){
 
-                if( $form_location == 'stripe_return_url' ){
+                if( !empty( $intent->metadata->request_location ) )
+                    $form_location = $intent->metadata->request_location;
 
-                    if( !empty( $intent->metadata->request_location ) )
-                        $form_location = $intent->metadata->request_location;
-
-                }
-
-                // Set PaymentMethod as default
-                if( !empty( $intent->customer ) ){
-
-                    // Save Customer and Card for this subscription
-                    pms_update_member_subscription_meta( $subscription_id, '_stripe_customer_id', $intent->customer );
-                    pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $intent->payment_method );
-
-                    // Save Customer to usermeta
-                    update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $intent->customer );
-
-                    $this->update_customer_information( $intent->customer );
-
-                }
-
-                if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
-
-                    // Update subscription
-                    $this->update_subscription( $subscription, $form_location, true );
-
-                    // If subscription had a trial, save card fingerprint
-                    $this->save_trial_card( $subscription_id, $intent->payment_method );
-
-                    // Save card expiration info
-                    $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
-
-                    $data = array(
-                        'success'      => true,
-                        'redirect_url' => $this->get_success_redirect_url( $form_location ),
-                    );
-
-                    if( wp_doing_ajax() ){
-                        echo json_encode( $data );
-                        die();
-                    } else {
-                        return $data;
-                    }
-
-                } else {
-
-                    $data = array(
-                        'success'      => false,
-                        'redirect_url' => $this->get_payment_error_redirect_url(),
-                    );
-
-                    if( wp_doing_ajax() ){
-                        echo json_encode( $data );
-                        die();
-                    } else {
-                        return $data;
-                    }
-
-                }
-
-            // PaymentIntent
-            } else {
-
-                // retrieve intent
-                $intent = PaymentIntent::retrieve( sanitize_text_field( $_REQUEST['payment_intent'] ) );
-
-                if( $form_location == 'stripe_return_url' ){
-
-                    if( !empty( $intent->metadata->request_location ) )
-                        $form_location = $intent->metadata->request_location;
-
-                }
-
-                // Set PaymentMethod as default
-                if( !empty( $intent->customer ) ){
-
-                    // \Stripe\Customer::update(
-                    //     $intent->customer,
-                    //     array(
-                    //         'invoice_settings' => array( 'default_payment_method' => $intent->payment_method )
-                    //     )
-                    // );
-
-                    // Save Customer and Card for this subscription
-                    pms_update_member_subscription_meta( $subscription_id, '_stripe_customer_id', $intent->customer );
-                    pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $intent->payment_method );
-
-                    // Save Customer to usermeta
-                    update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $intent->customer );
-
-                    $this->update_customer_information( $intent->customer );
-
-                }
-
-                if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
-
-                    // Complete Payment
-                    if( $intent->status == 'succeeded' ){
-
-                        $payment->log_data( 'stripe_intent_confirmed' );
-                        $payment->update( array( 'status' => 'completed' ) );
-
-                    } else if ( $intent->status == 'processing' ){
-
-                        $payment->log_data( 'stripe_intent_processing' );
-
-                    }
-
-                    // Update subscription
-                    $this->update_subscription( $subscription, $form_location, false, false, false, $intent->amount );
-
-                    // If subscription had a trial, save card fingerprint
-                    $this->save_trial_card( $subscription_id, $intent->payment_method );
-
-                    // Save card expiration info
-                    $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
-
-                    $data = array(
-                        'success'      => true,
-                        'redirect_url' => $this->get_success_redirect_url( $form_location ),
-                    );
-
-                    if( wp_doing_ajax() ){
-                        echo json_encode( $data );
-                        die();
-                    } else {
-                        return $data;
-                    }
-
-                /**
-                 *
-                 */
-                } else {
-
-                    $intent_error = $this->parse_intent_last_error( $intent );
-                    $error_code   = !empty( $intent_error['data']['decline_code'] ) ? $intent_error['data']['decline_code'] : ( !empty( $intent_error['data']['code'] ) ? $intent_error['data']['code'] : 'card_declined' );
-
-                    $payment->log_data( 'payment_failed', $intent_error, $error_code );
-                    $payment->update( array( 'status' => 'failed' ) );
-
-                    $data = array(
-                        'success'      => false,
-                        'redirect_url' => $this->get_payment_error_redirect_url(),
-                    );
-
-                    if( wp_doing_ajax() ){
-                        echo json_encode( $data );
-                        die();
-                    } else {
-                        return $data;
-                    }
-
-                }
             }
-
-        // WPPB form which is processed old style
-        } else if( isset( $_POST['payment_intent_id'] ) ){
-
-            // Need to update the payment and add relevant info
-            $payment->log_data( 'stripe_intent_created' );
-
-            $intent = PaymentIntent::retrieve( sanitize_text_field( $_POST['payment_intent_id' ] ) );
-
-            // Add transaction ID to payment
-            $payment->update( array( 'transaction_id' => $intent->id ) );
 
             // Set PaymentMethod as default
             if( !empty( $intent->customer ) ){
@@ -508,29 +346,131 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             }
 
-            if( !empty( $intent->status ) && $intent->status == 'succeeded' ){
+            if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
 
-                // Complete Payment
-                $payment->log_data( 'stripe_intent_confirmed' );
-                $payment->update( array( 'status' => 'completed' ) );
+                // Update subscription
+                $this->update_subscription( $subscription, $form_location, true );
 
-                $metadata = apply_filters( 'pms_stripe_transaction_metadata', array(
-                    'payment_id'           => $this->payment_id,
-                    'request_location'     => $form_location,
-                    'subscription_id'      => $subscription_id,
-                    'subscription_plan_id' => $this->subscription_plan->id,
-                    'home_url'             => home_url(),
-                ), $payment, $form_location );
+                // If subscription had a trial, save card fingerprint
+                $this->save_trial_card( $subscription_id, $intent->payment_method );
 
-                PaymentIntent::update( $intent->id, array( 'metadata' => $metadata ) );
+                // Save card expiration info
+                $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
 
-                return true;
+                $data = array(
+                    'success'      => true,
+                    'redirect_url' => $this->get_success_redirect_url( $form_location ),
+                );
+
+                if( wp_doing_ajax() ){
+                    echo json_encode( $data );
+                    die();
+                } else {
+                    return $data;
+                }
+
+            } else {
+
+                $data = array(
+                    'success'      => false,
+                    'redirect_url' => $this->get_payment_error_redirect_url(),
+                );
+
+                if( wp_doing_ajax() ){
+                    echo json_encode( $data );
+                    die();
+                } else {
+                    return $data;
+                }
 
             }
 
-            // Add Customer information
+        // PaymentIntent
+        } else {
 
+            // retrieve intent
+            $intent = PaymentIntent::retrieve( sanitize_text_field( $_REQUEST['payment_intent'] ) );
 
+            if( $form_location == 'stripe_return_url' ){
+
+                if( !empty( $intent->metadata->request_location ) )
+                    $form_location = $intent->metadata->request_location;
+
+            }
+
+            // Set PaymentMethod as default
+            if( !empty( $intent->customer ) ){
+
+                // Save Customer and Card for this subscription
+                pms_update_member_subscription_meta( $subscription_id, '_stripe_customer_id', $intent->customer );
+                pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $intent->payment_method );
+
+                // Save Customer to usermeta
+                update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $intent->customer );
+
+                $this->update_customer_information( $intent->customer );
+
+            }
+
+            if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
+
+                // Complete Payment
+                if( $intent->status == 'succeeded' ){
+
+                    $payment->log_data( 'stripe_intent_confirmed' );
+                    $payment->update( array( 'status' => 'completed' ) );
+
+                } else if ( $intent->status == 'processing' ){
+
+                    $payment->log_data( 'stripe_intent_processing' );
+
+                }
+
+                // Update subscription
+                $this->update_subscription( $subscription, $form_location, false, false, false, $intent->amount );
+
+                // If subscription had a trial, save card fingerprint
+                $this->save_trial_card( $subscription_id, $intent->payment_method );
+
+                // Save card expiration info
+                $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
+
+                $data = array(
+                    'success'      => true,
+                    'redirect_url' => $this->get_success_redirect_url( $form_location ),
+                );
+
+                if( wp_doing_ajax() ){
+                    echo json_encode( $data );
+                    die();
+                } else {
+                    return $data;
+                }
+
+            /**
+             *
+             */
+            } else {
+
+                $intent_error = $this->parse_intent_last_error( $intent );
+                $error_code   = !empty( $intent_error['data']['decline_code'] ) ? $intent_error['data']['decline_code'] : ( !empty( $intent_error['data']['code'] ) ? $intent_error['data']['code'] : 'card_declined' );
+
+                $payment->log_data( 'payment_failed', $intent_error, $error_code );
+                $payment->update( array( 'status' => 'failed' ) );
+
+                $data = array(
+                    'success'      => false,
+                    'redirect_url' => $this->get_payment_error_redirect_url(),
+                );
+
+                if( wp_doing_ajax() ){
+                    echo json_encode( $data );
+                    die();
+                } else {
+                    return $data;
+                }
+
+            }
         }
 
         // Get the customer and card id from the database
@@ -666,18 +606,17 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( !wp_doing_ajax() || !( $subscription instanceof PMS_Member_Subscription ) )
             return;
 
+        if( empty( $_POST['pms_stripe_connect_payment_intent'] ) )
+            return;
+    
         // Save intent ID to Payment
-        if( !empty( $_POST['pms_stripe_connect_payment_intent'] ) ){
+        $payment_intent_id = explode( '_secret_', sanitize_text_field( $_POST['pms_stripe_connect_payment_intent'] ) );
 
-            $payment_intent_id = explode( '_secret_', sanitize_text_field( $_POST['pms_stripe_connect_payment_intent'] ) );
+        if( !empty( $payment ) ){
+            $payment->log_data( 'stripe_intent_created' );
 
-            if( !empty( $payment ) ){
-                $payment->log_data( 'stripe_intent_created' );
-
-                if( !empty( $payment_intent_id[0] ) )
-                    $payment->update( [ 'transaction_id' => $payment_intent_id[0] ] );
-            }
-
+            if( !empty( $payment_intent_id[0] ) )
+                $payment->update( [ 'transaction_id' => $payment_intent_id[0] ] );
         }
 
         // Add metadata to Payment or Setup Intent
@@ -699,12 +638,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 ), $payment, $form_location )
             );
 
+            $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
+
             $amount = pms_stripe_calculate_payment_amount( $subscription_plan );
 
             if( !PMS_Form_Handler::checkout_has_trial() && !empty( $payment_intent_id[0] ) && !empty( $amount ) ){
 
-                $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
-                
                 $this->update_payment_intent( sanitize_text_field( $_POST['pms_stripe_connect_payment_intent'] ), $amount, $subscription_plan );
 
                 try {
@@ -731,6 +670,19 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             }
 
+        }
+
+        if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
+            $wppb_general_settings = get_option( 'wppb_general_settings' );
+
+            if( isset( $_REQUEST['send_credentials_via_email'] ) && ( $_REQUEST['send_credentials_via_email'] == 'sending' ) )
+                $send_credentials_via_email = 'sending';
+            else
+                $send_credentials_via_email = '';
+
+            $user = get_userdata( $subscription->user_id );
+
+            wppb_notify_user_registration_email( get_bloginfo( 'name' ), $user->user_login, $user->user_email, $send_credentials_via_email, '', ( wppb_get_admin_approval_option_value() === 'yes' ? 'yes' : 'no' ) );
         }
 
         $data = array(
@@ -826,7 +778,60 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             if( isset( $_POST['current_page'] ) && ( empty( $redirect_url ) || $redirect_url == $_POST['current_page'] ) ){
 
                 $redirect_url = esc_url_raw( $_POST['current_page'] );
-                $redirect_url = add_query_arg( array( 'pmsscscd' => base64_encode('subscription_plans'), 'pmsscsmsg' => base64_encode( apply_filters( 'pms_register_subscription_success_message', __( 'Congratulations, you have successfully created an account.', 'paid-member-subscriptions' ) ) ) ), $redirect_url );
+
+                // WPPB Form
+                if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
+
+                    $payment = pms_get_payment( $this->payment_id );
+                    $user    = get_userdata( $payment->user_id );
+
+                    // On the WPPB Form also take into account Form and Custom Redirects
+                    $args = array(
+                        'form_type'               => 'register',
+                        'form_name'               => isset( $_REQUEST['form_name'] ) ? sanitize_text_field( $_REQUEST['form_name'] ) : '',
+                        'form_fields'             => '',
+                        'role'                    => get_option( 'default_role' ),
+                        'pms_custom_ajax_request' => true,
+                    );
+
+                    include_once( WPPB_PLUGIN_DIR . '/front-end/class-formbuilder.php' );
+                
+                    $form = new Profile_Builder_Form_Creator( $args );
+
+                    if( ! current_user_can( 'manage_options' ) && $form->args['form_type'] != 'edit_profile' && isset( $_POST['custom_field_user_role'] ) ) {
+                        $user_role = sanitize_text_field( $_POST['custom_field_user_role'] );
+                    } elseif( ! current_user_can( 'manage_options' ) && $form->args['form_type'] != 'edit_profile' && isset( $form->args['role'] ) ) {
+                        $user_role = $form->args['role'];
+                    } else {
+                        $user_role = NULL;
+                    }
+
+                    $wppb_redirect_url = false;
+
+                    if( $form->args['redirect_activated'] == '-' ) {
+                        $wppb_redirect_url = wppb_get_redirect_url( $form->args['redirect_priority'], 'after_registration', $form->args['redirect_url'], $user, $user_role );
+                    } elseif( $form->args['redirect_activated'] == 'Yes' ) {
+                        $wppb_redirect_url = $form->args['redirect_url'];
+                    }
+
+                    if( empty( $wppb_redirect_url ) ){
+                        $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'The account %1s has been successfully created!', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
+
+                        $wppb_admin_approval = wppb_get_admin_approval_option_value();
+    
+                        if( $wppb_admin_approval == 'yes' )
+                            $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'Before you can access your account %1s, an administrator has to approve it. You will be notified via email.', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
+                        
+                        $redirect_url = add_query_arg( 'pms_wppb_custom_success_message', true, $redirect_url );
+                    } else {
+                        $redirect_url = $wppb_redirect_url;
+                    }
+
+
+                } else
+                    $message = apply_filters( 'pms_register_subscription_success_message', __( 'Congratulations, you have successfully created an account.', 'paid-member-subscriptions' ) );
+                
+                $redirect_url = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pmsscsmsg' => base64_encode( $message ) ), $redirect_url );
 
             }
 

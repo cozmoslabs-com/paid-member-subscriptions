@@ -2,7 +2,7 @@
 
 <div class="pms-setup-next">
     <h3><?php esc_html_e( 'You\'re all setup and ready to go!', 'paid-member-subscriptions' ); ?></h3>
-    <p class="cozmoslabs-description"><?php esc_html_e( 'Paid Member Subscriptions is almost ready to run your membership website.<br>You can always change these settings from the plugin settings page.', 'paid-member-subscriptions' ); ?></p>
+    <p class="cozmoslabs-description"><?php echo wp_kses_post( __( 'Paid Member Subscriptions is almost ready to run your membership website.<br>You can always change these settings from the plugin settings page.', 'paid-member-subscriptions' ) ); ?></p>
 
     <?php
     $hide_newsletter = get_user_meta( get_current_user_id(), 'pms_setup_wizard_newsletter', true );

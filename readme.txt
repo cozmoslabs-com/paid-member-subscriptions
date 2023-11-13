@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 2.10.5
+Stable tag: 2.10.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,16 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.10.6 =
+* Feature: Added the ability to customize the Password Reset Email
+* Fix: Added compatibility for the Profile Builder form and Stripe payment methods that redirect the user off site for completion
+* Fix: Issue with Link Popup not showing inside the Email or Content Restriction fields
+* Fix: Some issues with the subscription expiration date tag for Profile Builder
+* Misc: Small styling changes for Setup Wizard page
+* Misc: Added options to see This or Last Year data for the Dashboard stats widget
+* Misc: Fix a Stripe issue when trying to update metadata
+* Misc: More improvements to the settings pages
+
 = 2.10.5 = 
 * Feature: Added Password Strength and Length functionalities. Activate them from the Settings -> Misc page
 * Fix: Issue with Stripe Extra fields not showing in some cases

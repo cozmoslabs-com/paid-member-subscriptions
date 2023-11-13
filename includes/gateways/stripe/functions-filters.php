@@ -7,6 +7,31 @@ if( ! defined( 'ABSPATH' ) ) exit;
 if( ! defined( 'PMS_VERSION' ) ) return;
 
 /**
+ * Remove the Stripe Intents payment gateway from the active gateways list if it's not active already
+ */
+function pms_stripe_filter_active_payment_gateways( $payment_gateways ){
+
+    $pms_payments_settings        = get_option( 'pms_payments_settings', array() );
+    $disabled_base_stripe_gateway = true;
+
+    if( !empty( $pms_payments_settings ) && !empty( $pms_payments_settings['active_pay_gates'] ) ){
+
+        if( in_array( 'stripe_intents', $pms_payments_settings['active_pay_gates'] ) ){
+
+            $disabled_base_stripe_gateway = false;
+        }
+
+    }
+
+    if( $disabled_base_stripe_gateway && isset( $payment_gateways['stripe_intents'] ) )
+        unset( $payment_gateways['stripe_intents'] );
+
+    return $payment_gateways;
+
+}
+add_filter( 'pms_admin_display_payment_gateways', 'pms_stripe_filter_active_payment_gateways', 20, 2 );
+
+/**
  * When Stripe Connect is active and the plugin tries to charge an user through the 
  * regular Charges API or Payment Intents API, switch the charge to the Connect implementation
  */
@@ -148,7 +173,7 @@ add_filter( 'pms_payment_types', 'pms_stripe_payment_types' );
  */
 function pms_stripe_payment_gateway_input_data_type( $value, $payment_gateway ) {
 
-    if( in_array( $payment_gateway, array( 'stripe_connect' ) ) )
+    if( in_array( $payment_gateway, array( 'stripe_connect', 'stripe', 'stripe_intents' ) ) )
         $value = str_replace( '/>', 'data-type="credit_card" />', $value );
 
     return $value;
@@ -172,7 +197,7 @@ function pms_stripe_error_message( $output, $is_register, $payment_id ) {
 
     $payment = new PMS_Payment( $payment_id );
 
-    if ( isset( $payment->payment_gateway ) && !in_array( $payment->payment_gateway, array( 'stripe_connect' ) ) )
+    if ( isset( $payment->payment_gateway ) && !in_array( $payment->payment_gateway, array( 'stripe_connect', 'stripe', 'stripe_intents' ) ) )
         return $output;
 
     if ( empty( $payment->id ) || empty( $payment->logs ) )
@@ -324,7 +349,7 @@ function pms_stripe_payment_logs_modal_header_content( $content, $log, $payment_
 
     $payment = pms_get_payment( $payment_id );
 
-    if ( empty( $payment->id ) || !in_array( $payment->payment_gateway, array( 'stripe_connect' ) ) )
+    if ( empty( $payment->id ) || !in_array( $payment->payment_gateway, array( 'stripe_connect', 'stripe', 'stripe_intents' ) ) )
         return $content;
 
     ob_start(); ?>
@@ -354,4 +379,27 @@ function pms_stripe_payment_logs_modal_header_content( $content, $log, $payment_
     $output = ob_get_clean();
 
     return $output;
+}
+
+add_action( 'plugins_loaded', 'pms_stripe_add_deprecation_notice' );
+function pms_stripe_add_deprecation_notice() {
+
+    if( pms_get_active_stripe_gateway() != 'stripe_intents' )
+        return;
+
+    $message = sprintf( __( '<strong>Action Required!</strong><br><br> The Stripe version you are using right now is being deprecated soon. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. Starting with the second half of next year, Stripe might charge you additional fees if you don\'t migrate. <br><br>Go to the %sSettings -> Payments%s page, enable the Stripe gateway and connect your account. %sMigration instructions%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Migration_from_other_Stripe_gateways_to_Stripe_Connect" target="_blank">', '</a>', '<a href="'. admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) .'" target="_blank">', '</a>' );
+
+    if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
+
+        new PMS_Add_General_Notices( 'pms_stripe_deprecation_notice',
+        '<p>' . $message . '</p>',
+        'notice-error');
+
+    } else {
+
+        new PMS_Add_General_Notices( 'pms_stripe_deprecation_notice',
+        sprintf( '<p>' . $message . '<br>' . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( add_query_arg( 'pms_stripe_deprecation_notice_dismiss_notification', '0' ) ) . "'>", "</a>" ) . '</p>',
+        'notice-error');
+
+    }
 }

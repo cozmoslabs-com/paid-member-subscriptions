@@ -134,7 +134,9 @@
 .pms-setup-content .cozmoslabs-description {
     text-align: center;
     width: 100%;
-    /* line-height: 28px !important; */
+    font-weight: 600;
+    font-size: 14px !important;
+    color: #939393 !important;
 }
 
 .pms-setup-form-user-pages {
@@ -155,6 +157,7 @@
 .pms-setup-user-pages-field h4 {
     margin-top: 0px;
     margin-bottom: 4px !important;
+    text-transform: uppercase;
 }
 
 .pms-setup-user-pages-field__icon {
@@ -467,4 +470,17 @@
 .pms-setup-newsletter__success {
     color: green;
     display: none;
+}
+
+.pms-setup-form-styles {
+    margin-top: 40px;
+}
+
+.pms-setup-form-styles .pms-forms-design {
+    flex: 1;
+    width: auto;
+}
+
+.pms-setup-next .cozmoslabs-description {
+    margin-bottom: 40px !important;
 }

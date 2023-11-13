@@ -24,6 +24,12 @@ Class PMS_Emails {
 
         add_action( 'pms_payment_update', array( 'PMS_Emails', 'send_payment_failed_email' ), 10, 3 );
 
+        $settings = get_option('pms_emails_settings', array() );
+        if( !empty( $settings['reset_password_is_enabled'] ) ){
+            add_filter('pms_recover_password_message_title_sent_to_user1', array('PMS_Emails', 'send_reset_password_email_subject'), 10, 2);
+            add_filter('pms_recover_password_message_content_sent_to_user1', array('PMS_Emails', 'send_reset_password_email_content'), 10, 4);
+        }
+
         add_filter( 'pms_email_content_user',  array( 'PMS_Emails', 'maybe_add_html_tags' ), 20 );
         add_filter( 'pms_email_content_admin', array( 'PMS_Emails', 'maybe_add_html_tags' ), 20 );
 
@@ -230,6 +236,51 @@ Class PMS_Emails {
     }
 
     /**
+     * Returns the reset password email title
+     */
+    static function send_reset_password_email_subject( $content, $user_login ){
+
+        $settings = get_option('pms_emails_settings', array() );
+        $user_data = get_user_by('login', $user_login );
+
+        if( empty( $settings['reset_password_is_enabled'] ) ){
+
+            $email_default_subjects = PMS_Emails::get_default_email_subjects( 'user' );
+            $email_content = PMS_Merge_Tags::process_merge_tags( $email_default_subjects['reset_password'], $user_data );
+        }
+        else{
+            $email_content = PMS_Merge_Tags::process_merge_tags( $settings['reset_password_sub_subject'], $user_data );
+        }
+
+        return $email_content;
+
+    }
+
+    /**
+     * Returns the reset password email content
+     */
+    static function send_reset_password_email_content( $content, $user_id, $user_login, $user_email ){
+
+        $settings = get_option('pms_emails_settings', array() );
+        $user_data = get_userdata( $user_id );
+        $data = array( 'password_reset_key' => get_password_reset_key( $user_data ) );
+
+        if( empty( $settings['reset_password_is_enabled'] ) ){
+
+            $email_default_content = PMS_Emails::get_default_email_content( 'user' );
+            $email_content = PMS_Merge_Tags::process_merge_tags( $email_default_content['reset_password'], $user_data, 0, 0, 'reset_password', $data );
+        }
+        else{
+            $email_content = PMS_Merge_Tags::process_merge_tags( $settings['reset_password_sub'], $user_data, 0, 0, 'reset_password', $data );
+        }
+
+        $email_content = wpautop($email_content);
+        return $email_content;
+    }
+
+
+
+    /**
      * Function that calls wp_mail after we decide what to send
      *
      * @param string $send_to              - the recepient of the email, possible values: user, admin
@@ -398,7 +449,8 @@ Class PMS_Emails {
             'expired'                => __( 'Expired Subscription Email', 'paid-member-subscriptions' ),
             'payment_failed'         => __( 'Failed Payment Email', 'paid-member-subscriptions' ),
             'pending_manual_payment' => __( 'Pending Manual Payment Email', 'paid-member-subscriptions' ),
-            'renew'                  => __( 'Renew Subscription Email', 'paid-member-subscriptions' )
+            'renew'                  => __( 'Renew Subscription Email', 'paid-member-subscriptions' ),
+            'reset_password'         => __('Reset Password Email', 'paid-member-subscriptions')
         );
 
         return apply_filters( 'pms_email_headings', $email_headings );
@@ -427,6 +479,7 @@ Class PMS_Emails {
                 'payment_failed'         => __( 'Your latest payment has failed', 'paid-member-subscriptions' ),
                 'pending_manual_payment' => __( 'Pending manual payment', 'paid-member-subscriptions' ),
                 'renew'                  => __( 'Your Subscription was renewed', 'paid-member-subscriptions' ),
+                'reset_password'         => __( 'Password Reset from {{site_url}}', 'paid-member-subscriptions' ),
             );
 
         }
@@ -471,6 +524,7 @@ Class PMS_Emails {
                 'payment_failed'         => __( 'Your latest payment for the "{{subscription_name}}" plan has failed. You can go to the <a href="{{account_page_url}}">account page</a> and login in order to try again.<br><br>{{automatic_retry_message}}', 'paid-member-subscriptions' ),
                 'pending_manual_payment' => __( 'Hello {{display_name}}!<br>We received your order for "{{subscription_name}}" plan.<br>You can make the payment using the following bank details:', 'paid-member-subscriptions' ),
                 'renew'                  => __( 'Hello {{display_name}}, The "{{subscription_name}}" plan has been renewed.', 'paid-member-subscriptions' ),
+                'reset_password'         => __('Someone has just requested a password reset for the following account: {{site_name}} <br> If this was a mistake, just ignore this email and nothing will happen. <br> To reset your password, visit the following link: {{reset_link}}', 'paid-member-subscriptions'),
             );
 
         }

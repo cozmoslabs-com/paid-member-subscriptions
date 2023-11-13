@@ -127,16 +127,12 @@ class PMS_Add_General_Notices{
 
     function remove_other_plugin_notices() {
 
-        //remove all notifications from start page
-        if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'pms-basic-info-page' ) ) {
+        // remove all notifications from Basic-Info, Dashboard & Add-ons pages
+        if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'pms-basic-info-page'  || $_GET['page'] === 'pms-dashboard-page'  || $_GET['page'] === 'pms-addons-page' ) ) {
             remove_all_actions('admin_notices');
         }
 
-        if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'pms-dashboard-page' ) ) {
-            remove_all_actions('admin_notices');
-        }
-
-        /* remove all other plugin notifications except our own from the rest of the PB pages */
+        // remove all other plugin notifications except our own from the rest of the PB pages
         if( $this->is_plugin_page() ) {
 
             global $wp_filter;

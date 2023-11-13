@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-form-styles">
         <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Design & User Experience', 'paid-member-subscriptions' ); ?></h4>
         <p class="cozmoslabs-description" style="margin-bottom: 5px;"><?php esc_html_e( 'Choose a style that better suits your website.', 'paid-member-subscriptions' ); ?></p>
-        <p class="cozmoslabs-description"><?php esc_html_e( 'The default style is there to let you customize the CSS and in general will receive the look and feel from your own theme’s styling.', 'paid-member-subscriptions' ); ?></p>
+        <p class="cozmoslabs-description"><?php esc_html_e( 'The default style is there to let you customize the CSS and in general will receive the look and feel from your own themes styling.', 'paid-member-subscriptions' ); ?></p>
 
         <div class="cozmoslabs-form-field-wrapper">
 

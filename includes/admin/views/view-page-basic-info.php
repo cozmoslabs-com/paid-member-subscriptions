@@ -203,7 +203,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="cozmoslabs-form-field-wrapper">
             <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Basic Add-ons', 'paid-member-subscriptions' );?></label>
         </div>
-        <p class="cozmoslabs-description"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">Basic and PRO</a> versions.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-link&utm_campaign=PMSFree' ); ?></p>
+        <p class="cozmoslabs-description"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">Basic and PRO</a> versions.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-link&utm_campaign=PMSFree#pricing' ); ?></p>
 
         <div class="cozmoslabs-basic-info-addons">
             <div>
@@ -276,7 +276,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <?php if( pms_is_paid_version_active() ) : ?>
                 <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-addons-page' ) ); ?>" class="button-primary pms-cta"><?php esc_html_e( 'Activate Basic Add-ons', 'paid-member-subscriptions' ); ?></a></p>
             <?php else : ?>
-                <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-btn&utm_campaign=PMSFree" class="button-primary pms-cta"><?php esc_html_e( 'Get Basic Add-ons', 'paid-member-subscriptions' ); ?></a></p>
+                <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-btn&utm_campaign=PMSFree#pricing" class="button-primary pms-cta"><?php esc_html_e( 'Get Basic Add-ons', 'paid-member-subscriptions' ); ?></a></p>
             <?php endif; ?>
         </div>
 
@@ -285,7 +285,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="cozmoslabs-form-field-wrapper">
             <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Pro Add-ons', 'paid-member-subscriptions' );?></label>
         </div>
-        <p class="cozmoslabs-description"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">PRO version</a> only.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-pro-link&utm_campaign=PMSFree' ); ?></p>
+        <p class="cozmoslabs-description"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">PRO version</a> only.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-pro-link&utm_campaign=PMSFree#pricing' ); ?></p>
 
         <div class="cozmoslabs-basic-info-addons">
             <div>
@@ -390,7 +390,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <?php if( pms_is_paid_version_active() ) : ?>
                 <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-addons-page' ) ); ?>" class="button-primary pms-cta"><?php esc_html_e( 'Activate Pro Add-ons', 'paid-member-subscriptions' ); ?></a></p>
             <?php else : ?>
-                <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-pro-btn&utm_campaign=PMSFree" class="button-primary pms-cta"><?php esc_html_e( 'Get Pro Add-ons', 'paid-member-subscriptions' ); ?></a></p>
+                <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-pro-btn&utm_campaign=PMSFree#pricing" class="button-primary pms-cta"><?php esc_html_e( 'Get Pro Add-ons', 'paid-member-subscriptions' ); ?></a></p>
             <?php endif; ?>
         </div>
 

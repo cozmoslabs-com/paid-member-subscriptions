@@ -1099,7 +1099,7 @@ Class PMS_Form_Handler {
 
             $user_data = get_userdata( $member_id );
 
-            if( ! is_wp_error( $user_data ) ) {
+            if( !empty( $user_data ) && !is_wp_error( $user_data ) ) {
                 $member_data['user_email'] = $user_data->user_email;
                 $member_data['user_login'] = $user_data->user_login;
                 $member_data['first_name'] = $user_data->first_name;
@@ -1415,12 +1415,14 @@ Class PMS_Form_Handler {
                     $recoveruserMailMessageTitle1 = sprintf(__('Password Reset from "%s"', 'paid-member-subscriptions'), $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES));
                     $recoveruserMailMessageTitle1 = apply_filters('pms_recover_password_message_title_sent_to_user1', $recoveruserMailMessageTitle1, $requestedUserLogin);
 
+
                     //we add this filter to enable html encoding
                     add_filter('wp_mail_content_type', array( __CLASS__, 'email_content_type' ) );
 
                     // Temporary change the from name and from email
                     add_filter( 'wp_mail_from_name', array( 'PMS_Emails', 'pms_email_website_name' ), 20, 1 );
                     add_filter( 'wp_mail_from', array( 'PMS_Emails', 'pms_email_website_email' ), 20, 1 );
+
 
                     //send mail to the user notifying him of the reset request
                     if (trim($recoveruserMailMessageTitle1) != '') {

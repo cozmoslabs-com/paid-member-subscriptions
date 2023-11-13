@@ -53,6 +53,7 @@
 <?php __("Failed Payment Email", "paid-member-subscriptions"); ?>
 <?php __("Pending Manual Payment Email", "paid-member-subscriptions"); ?>
 <?php __("Renew Subscription Email", "paid-member-subscriptions"); ?>
+<?php __("Reset Password Email", "paid-member-subscriptions"); ?>
 <?php __("You have a new account", "paid-member-subscriptions"); ?>
 <?php __("Your Subscription is now active", "paid-member-subscriptions"); ?>
 <?php __("Your Subscription has been canceled", "paid-member-subscriptions"); ?>
@@ -60,6 +61,7 @@
 <?php __("Your latest payment has failed", "paid-member-subscriptions"); ?>
 <?php __("Pending manual payment", "paid-member-subscriptions"); ?>
 <?php __("Your Subscription was renewed", "paid-member-subscriptions"); ?>
+<?php __("Password Reset from {{site_url}}", "paid-member-subscriptions"); ?>
 <?php __("A New User has registered to your website", "paid-member-subscriptions"); ?>
 <?php __("A Member Subscription is now active", "paid-member-subscriptions"); ?>
 <?php __("A Member Subscription has been canceled", "paid-member-subscriptions"); ?>
@@ -72,6 +74,7 @@
 <?php __("Your latest payment for the \"{{subscription_name}}\" plan has failed. You can go to the <a href=\"{{account_page_url}}\">account page</a> and login in order to try again.<br><br>{{automatic_retry_message}}", "paid-member-subscriptions"); ?>
 <?php __("Hello {{display_name}}!<br>We received your order for \"{{subscription_name}}\" plan.<br>You can make the payment using the following bank details:", "paid-member-subscriptions"); ?>
 <?php __("Hello {{display_name}}, The \"{{subscription_name}}\" plan has been renewed.", "paid-member-subscriptions"); ?>
+<?php __("Someone has just requested a password reset for the following account: {{site_name}} <br> If this was a mistake, just ignore this email and nothing will happen. <br> To reset your password, visit the following link: {{reset_link}}", "paid-member-subscriptions"); ?>
 <?php __("{{display_name}} has just created an account!", "paid-member-subscriptions"); ?>
 <?php __("The \"{{subscription_name}}\" plan has been successfully activated for user {{display_name}}.", "paid-member-subscriptions"); ?>
 <?php __("The \"{{subscription_name}}\" plan has been canceled for user {{display_name}}.", "paid-member-subscriptions"); ?>
@@ -900,14 +903,6 @@
 <?php __("Register Version", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Register", "paid-member-subscriptions"); ?>
 <?php __("Register your version of Paid Member Subscriptions", "paid-member-subscriptions"); ?>
-<?php __("Register Version ", "paid-member-subscriptions"); ?>
-<?php __("License key", "paid-member-subscriptions"); ?>
-<?php __("Activate License", "paid-member-subscriptions"); ?>
-<?php __("Deactivate License", "paid-member-subscriptions"); ?>
-<?php __("Your license is invalid", "paid-member-subscriptions"); ?>
-<?php __("Active on this site", "paid-member-subscriptions"); ?>
-<?php __("Enter your license key. Your license key can be found in your %sCozmoslabs account%s. ", "paid-member-subscriptions"); ?>
-<?php __("You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required. %sClick here%s to buy one.", "paid-member-subscriptions"); ?>
 <?php __("Select Month", "paid-member-subscriptions"); ?>
 <?php __("Current month", "paid-member-subscriptions"); ?>
 <?php __("Summary", "paid-member-subscriptions"); ?>
@@ -1001,8 +996,20 @@
 <?php __("An error occurred, please try again.", "paid-member-subscriptions"); ?>
 <?php __("You have successfully activated your license.", "paid-member-subscriptions"); ?>
 <?php __("Completed successfully.", "paid-member-subscriptions"); ?>
-<?php __("Register Website ", "paid-member-subscriptions"); ?>
-<?php __("Enter your license key. Your license key can be found in your %sCozmoslabs account%s.", "paid-member-subscriptions"); ?>
+<?php __("Register Version ", "paid-member-subscriptions"); ?>
+<?php __("License key", "paid-member-subscriptions"); ?>
+<?php __("Activate License", "paid-member-subscriptions"); ?>
+<?php __("Deactivate License", "paid-member-subscriptions"); ?>
+<?php __("Your license is invalid", "paid-member-subscriptions"); ?>
+<?php __("Active on this site", "paid-member-subscriptions"); ?>
+<?php __("Enter your license key. Your license key can be found in your %sCozmoslabs account%s. ", "paid-member-subscriptions"); ?>
+<?php __("You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required. %sClick here%s to buy one.", "paid-member-subscriptions"); ?>
+<?php __("Your %s license has reached its activation limit.", "paid-member-subscriptions"); ?>
+<?php __("%sUpgrade now%s for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more.", "paid-member-subscriptions"); ?>
+<?php __("Your %s license has expired.", "paid-member-subscriptions"); ?>
+<?php __('Please %1$sRenew Your Licence%2$s to continue receiving access to product downloads, automatic updates and support.', 'paid-member-subscriptions' ); ?>
+<?php __("Your %s license is about to expire on %s", "paid-member-subscriptions"); ?>
+<?php __("Please %sRenew Your Licence%s to continue receiving access to product downloads, automatic updates and support.", "paid-member-subscriptions"); ?>
 <?php __("Plan Name", "paid-member-subscriptions"); ?>
 <?php __("Next Payment Date", "paid-member-subscriptions"); ?>
 <?php __("Auto Renewal", "paid-member-subscriptions"); ?>
@@ -1325,34 +1332,6 @@
 <?php __("The selected gateway is not configured correctly: <strong>API credentials are missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
 <?php __('Your Stripe API settings are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Payments using credit cards directly on your website through Stripe API.", "paid-member-subscriptions"); ?>
-<?php __("Card - One Time", "paid-member-subscriptions"); ?>
-<?php __("Payment could not be processed.", "paid-member-subscriptions"); ?>
-<?php __("Please %slog in%s and try again.", "paid-member-subscriptions"); ?>
-<?php __("The card does not support this type of purchase.", "paid-member-subscriptions"); ?>
-<?php __("The customer has exceeded the balance or credit limit available on their card.", "paid-member-subscriptions"); ?>
-<?php __("The card does not support the specified currency.", "paid-member-subscriptions"); ?>
-<?php __("A transaction with identical amount and credit card information was submitted very recently.", "paid-member-subscriptions"); ?>
-<?php __("The card has expired.", "paid-member-subscriptions"); ?>
-<?php __("The payment has been declined as Stripe suspects it is fraudulent.", "paid-member-subscriptions"); ?>
-<?php __("The card has been declined for an unknown reason.", "paid-member-subscriptions"); ?>
-<?php __("The card number is incorrect.", "paid-member-subscriptions"); ?>
-<?php __("The CVC number is incorrect.", "paid-member-subscriptions"); ?>
-<?php __("The PIN entered is incorrect", "paid-member-subscriptions"); ?>
-<?php __("The ZIP/postal code is incorrect.", "paid-member-subscriptions"); ?>
-<?php __("The card has insufficient funds to complete the purchase.", "paid-member-subscriptions"); ?>
-<?php __("The card, or account the card is connected to, is invalid.", "paid-member-subscriptions"); ?>
-<?php __("The payment amount is invalid, or exceeds the amount that is allowed.", "paid-member-subscriptions"); ?>
-<?php __("The expiration year invalid.", "paid-member-subscriptions"); ?>
-<?php __("The card issuer could not be reached, so the payment could not be authorized.", "paid-member-subscriptions"); ?>
-<?php __("The payment has been declined because the card is reported lost.", "paid-member-subscriptions"); ?>
-<?php __("The payment has been declined because it matches a value on the Stripe user's blocklist.", "paid-member-subscriptions"); ?>
-<?php __("The payment is not permitted.", "paid-member-subscriptions"); ?>
-<?php __("An error occurred while processing the card.", "paid-member-subscriptions"); ?>
-<?php __("The payment could not be processed by the issuer for an unknown reason.", "paid-member-subscriptions"); ?>
-<?php __("The card cannot be used to make this payment (it is possible it has been reported lost or stolen).", "paid-member-subscriptions"); ?>
-<?php __("The payment has been declined because the card is reported stolen.", "paid-member-subscriptions"); ?>
-<?php __("A Stripe test card number was used.", "paid-member-subscriptions"); ?>
-<?php __("The customer has exceeded the balance or credit limit available on their card. ", "paid-member-subscriptions"); ?>
 <?php __("Payment authenticated successfully.", "paid-member-subscriptions"); ?>
 <?php __("EU VAT Number", "paid-member-subscriptions"); ?>
 <?php __("Please fill your company details in Paid Member Subscriptions -> Settings -> Invoices", "paid-member-subscriptions"); ?>
@@ -1674,7 +1653,7 @@
 <?php __("Add a comma-separated list of email addresses to receive member subscription status change notifications.", "paid-member-subscriptions"); ?>
 <?php __("Design & User Experience", "paid-member-subscriptions"); ?>
 <?php __("Choose a style that better suits your website.", "paid-member-subscriptions"); ?>
-<?php __("The default style is there to let you customize the CSS and in general will receive the look and feel from your own theme’s styling.", "paid-member-subscriptions"); ?>
+<?php __("The default style is there to let you customize the CSS and in general will receive the look and feel from your own themes styling.", "paid-member-subscriptions"); ?>
 <?php __('%3$sYou can now beautify your forms using new Styles. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Optimize The login and Registration flow for your members", "paid-member-subscriptions"); ?>
 <?php __("Automatically Log In", "paid-member-subscriptions"); ?>
@@ -1842,12 +1821,43 @@
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __('Your %3$s PayPal API credentials %4$s are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("The account %1s has been successfully created!", "paid-member-subscriptions"); ?>
+<?php __("Before you can access your account %1s, an administrator has to approve it. You will be notified via email.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent is still processing. Subscription was activated until confirmation of success or failure is received.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent has failed.", "paid-member-subscriptions"); ?>
 <?php __('Stripe webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>
 <?php __("Subscription expired because the payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>
 <?php __("User attemped to setup a payment method for this subscription but failed. Reason: %s", "paid-member-subscriptions"); ?>
+<?php __("Card - One Time", "paid-member-subscriptions"); ?>
+<?php __("Payment could not be processed.", "paid-member-subscriptions"); ?>
+<?php __("Please %slog in%s and try again.", "paid-member-subscriptions"); ?>
+<?php __("The card does not support this type of purchase.", "paid-member-subscriptions"); ?>
+<?php __("The customer has exceeded the balance or credit limit available on their card.", "paid-member-subscriptions"); ?>
+<?php __("The card does not support the specified currency.", "paid-member-subscriptions"); ?>
+<?php __("A transaction with identical amount and credit card information was submitted very recently.", "paid-member-subscriptions"); ?>
+<?php __("The card has expired.", "paid-member-subscriptions"); ?>
+<?php __("The payment has been declined as Stripe suspects it is fraudulent.", "paid-member-subscriptions"); ?>
+<?php __("The card has been declined for an unknown reason.", "paid-member-subscriptions"); ?>
+<?php __("The card number is incorrect.", "paid-member-subscriptions"); ?>
+<?php __("The CVC number is incorrect.", "paid-member-subscriptions"); ?>
+<?php __("The PIN entered is incorrect", "paid-member-subscriptions"); ?>
+<?php __("The ZIP/postal code is incorrect.", "paid-member-subscriptions"); ?>
+<?php __("The card has insufficient funds to complete the purchase.", "paid-member-subscriptions"); ?>
+<?php __("The card, or account the card is connected to, is invalid.", "paid-member-subscriptions"); ?>
+<?php __("The payment amount is invalid, or exceeds the amount that is allowed.", "paid-member-subscriptions"); ?>
+<?php __("The expiration year invalid.", "paid-member-subscriptions"); ?>
+<?php __("The card issuer could not be reached, so the payment could not be authorized.", "paid-member-subscriptions"); ?>
+<?php __("The payment has been declined because the card is reported lost.", "paid-member-subscriptions"); ?>
+<?php __("The payment has been declined because it matches a value on the Stripe user's blocklist.", "paid-member-subscriptions"); ?>
+<?php __("The payment is not permitted.", "paid-member-subscriptions"); ?>
+<?php __("An error occurred while processing the card.", "paid-member-subscriptions"); ?>
+<?php __("The payment could not be processed by the issuer for an unknown reason.", "paid-member-subscriptions"); ?>
+<?php __("The card cannot be used to make this payment (it is possible it has been reported lost or stolen).", "paid-member-subscriptions"); ?>
+<?php __("The payment has been declined because the card is reported stolen.", "paid-member-subscriptions"); ?>
+<?php __("A Stripe test card number was used.", "paid-member-subscriptions"); ?>
+<?php __("The customer has exceeded the balance or credit limit available on their card. ", "paid-member-subscriptions"); ?>
+<?php __("<strong>Action Required!</strong><br><br> The Stripe version you are using right now is being deprecated soon. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. Starting with the second half of next year, Stripe might charge you additional fees if you don't migrate. <br><br>Go to the %sSettings -> Payments%s page, enable the Stripe gateway and connect your account. %sMigration instructions%s", "paid-member-subscriptions"); ?>
 <?php __("Update", "paid-member-subscriptions"); ?>
 <?php __("Label added successfully.", "paid-member-subscriptions"); ?>
 <?php __("You must select a label to edit!", "paid-member-subscriptions"); ?>
@@ -2134,11 +2144,15 @@
 <?php __("Create a new User Role from this Subscription Plan or select which User Role to associate with this Subscription Plan.", "paid-member-subscriptions"); ?>
 <?php __("Design & User Experience Settings", "paid-member-subscriptions"); ?>
 <?php __("Customize the way your users interact with the website!", "paid-member-subscriptions"); ?>
-<?php __("Choose a style that better suits your website.<br>The default style is there to let you customize the CSS and in general will receive the look and feel from your own themes styling. ", "paid-member-subscriptions"); ?>
+<?php __("Choose a style that better suits your website.<br>The default style is there to let you customize the CSS and in general will receive the look and feel from your own themes styling.", "paid-member-subscriptions"); ?>
 <?php __("Optimize the login and registration flow for your members!", "paid-member-subscriptions"); ?>
+<?php __("Login users automatically after registration.", "paid-member-subscriptions"); ?>
 <?php __("Automatically log users in after registration", "paid-member-subscriptions"); ?>
+<?php __("The WordPress Admin Bar will only be visible for administrators.", "paid-member-subscriptions"); ?>
 <?php __("Hide the admin bar for members", "paid-member-subscriptions"); ?>
+<?php __("If you enable this option you must log in via the Front-End Login Form as an Admin.", "paid-member-subscriptions"); ?>
 <?php __("Redirect Default WordPress Login Pages", "paid-member-subscriptions"); ?>
+<?php __("If the current user's session has been taken over by a newer session, we will log him out and he will have to login again.", "paid-member-subscriptions"); ?>
 <?php __("Prevent account sharing", "paid-member-subscriptions"); ?>
 <?php __("Continue", "paid-member-subscriptions"); ?>
 <?php __("You're all setup and ready to go!", "paid-member-subscriptions"); ?>

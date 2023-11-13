@@ -7,7 +7,8 @@ jQuery( document ).on( 'change', '#pms-dashboard-stats-select', function(){
 
         response = JSON.parse( response )
 
-        if( response.data.earnings )
+        // if( response.data.earnings )
+        if( response.data.earnings !== undefined && response.data.earnings !== null )
             jQuery('.pms-dashboard-box.earnings .value').html( response.data.earnings )
 
         if( response.data.new_subscriptions )

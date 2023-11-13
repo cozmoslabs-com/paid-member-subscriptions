@@ -111,7 +111,7 @@ jQuery( function( $ ) {
     payment_buttons += '.wppb-register-user input[name=register]';
 
     // Payment Intents
-    $(document).on( 'wppb_invisible_recaptcha_success', stripeConnectWPPBPaymentGatewayHandler )
+    $(document).on( 'wppb_invisible_recaptcha_success', stripeConnectPaymentGatewayHandler )
 
     $(document).on('submit', '.pms-form', function (e) {
 
@@ -122,7 +122,7 @@ jQuery( function( $ ) {
 
         if( typeof form != 'undefined' && form && form.length > 0 && form.hasClass( 'pms-ec-register-form' ) ){
 
-            stripeConnectWPPBPaymentGatewayHandler(e, target_button)
+            stripeConnectPaymentGatewayHandler(e, target_button)
 
         // Skip if the Go Back button was pressed
         } else if ( !e.originalEvent || !e.originalEvent.submitter || $(e.originalEvent.submitter).attr('name') != 'pms_redirect_back' ) {
@@ -142,7 +142,7 @@ jQuery( function( $ ) {
 
             var target_button = $('input[type="submit"], button[type="submit"]', $(this)).not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
 
-            stripeConnectWPPBPaymentGatewayHandler(e, target_button)
+            stripeConnectPaymentGatewayHandler(e, target_button)
 
         }
 
@@ -280,175 +280,6 @@ jQuery( function( $ ) {
 
                 } else {
                     console.log( 'something unexpected happened' )
-                }
-
-            }
-
-        })
-
-    }
-
-    // Profile Builder checkout handler
-    function stripeConnectWPPBPaymentGatewayHandler(e, target_button = false) {
-
-        if ($('input[type=hidden][name=pay_gate]').val() != 'stripe_connect' && $('input[type=radio][name=pay_gate]:checked').val() != 'stripe_connect')
-            return
-
-        if ($('input[type=hidden][name=pay_gate]').is(':disabled') || $('input[type=radio][name=pay_gate]:checked').is(':disabled'))
-            return
-
-        e.preventDefault()
-
-        removeErrors()
-
-        var current_button = $(this)
-
-        // Current submit button can't be determined from `this` context in case of the Invisible reCaptcha handler
-        if (e.type == 'wppb_invisible_recaptcha_success') {
-
-            // target_button is supplied to the handler starting with version 3.5.0 of Profile Builder, we use this for backwards compatibility
-            current_button = target_button == false ? jQuery('input[type="submit"]', jQuery('.wppb-recaptcha-element').closest('form')) : jQuery(target_button)
-
-        } else if (e.type == 'submit') {
-
-            if (target_button != false)
-                current_button = jQuery(target_button)
-
-        }
-
-        //Disable the button
-        current_button.attr('disabled', true)
-
-        // Add error if credit card was not completed
-        if (cardIsEmpty === true) {
-            addValidationErrors([{ target: 'credit_card', message: pms.invalid_card_details_error }], current_button)
-            return
-        }
-
-        // Update Payment Intent
-        //stripeConnectUpdatePaymentIntent()
-
-        var data = stripeConnectGetFormData( current_button, true )
-
-        // cache nonce and change action
-        if (data.pmstkn) {
-            data.pmstkn_original = data.pmstkn
-            data.pmstkn = ''
-        }
-
-        data.action = 'pms_validate_checkout'
-
-        // Validate form
-        $.post( pms.ajax_url, data, function ( response ) {
-
-            if ( response ) {
-                response = JSON.parse( response )
-
-                if ( response.success == true ) {
-
-                    // Handle card setup for a trial subscription
-                    if ( data.setup_intent && data.setup_intent === true ) {
-
-                        // Prompt the user when leaving the page once the payment request has started
-                        var paymentRequestStarted = true
-
-                        window.addEventListener('beforeunload', (event) => {
-                            if (paymentRequestStarted)
-                                event.returnValue = 'Payment is processing, do not close the page'
-                        })
-
-                        stripe.confirmSetup({
-                            elements: elements_setup_intent,
-                            confirmParams: {
-                                return_url: pms.stripe_return_url,
-                                payment_method_data: { billing_details: pms_stripe_get_billing_details() }
-                            },
-                            redirect: 'if_required',
-                        }).then(function (result) {
-
-                            paymentRequestStarted = false
-
-                            if (result.error) {
-
-                                addValidationErrors([{ target: 'credit_card', message: result.error.message }], current_button)
-
-                            } else if (result.setupIntent && result.setupIntent.status == 'succeeded') {
-
-                                // Add PaymentIntent ID to form so we can verify that the payment is already processed
-                                $form = $(current_button).closest('form')
-
-                                $form.append($('<input type="hidden" name="setup_intent_id" />').val(result.setupIntent.id))
-
-                                stripeTokenHandler({ id: result.setupIntent.payment_method }, $form)
-
-                            }
-
-                        })
-
-                        // Take the payment if there's no trial
-                    } else {
-
-                        // Prompt the user when leaving the page once the payment request has started
-                        var paymentRequestStarted = true
-
-                        window.addEventListener('beforeunload', (event) => {
-                            if (paymentRequestStarted)
-                                event.returnValue = 'Payment is processing, do not close the page'
-                        })
-
-                        stripe.confirmPayment({
-                            elements,
-                            confirmParams: {
-                                return_url: pms.stripe_return_url,
-                                payment_method_data: { billing_details: pms_stripe_get_billing_details() }
-                            },
-                            redirect: 'if_required',
-                        }).then(function (result) {
-
-                            paymentRequestStarted = false
-
-                            if (result.error) {
-
-                                addValidationErrors([{ target: 'credit_card', message: result.error.message }], current_button)
-
-                            } else if (result.paymentIntent && result.paymentIntent.status == 'succeeded') {
-
-                                // Add PaymentIntent ID to form so we can verify that the payment is already processed
-                                $form = $(current_button).closest('form')
-
-                                $form.append($('<input type="hidden" name="payment_intent_id" />').val(result.paymentIntent.id))
-
-                                stripeTokenHandler({ id: result.paymentIntent.payment_method }, $form)
-
-                            }
-
-                        })
-
-                    }
-
-                    // Error handling
-                } else if ( response.success == false ) {
-
-                    // Paid Member Subscription forms
-                    if ( response.data && ( data.form_type == 'pms' || data.form_type == 'pms_email_confirmation' ) ) {
-                        addValidationErrors( response.data, current_button )
-                        // Profile Builder form
-                    } else {
-
-                        // Add PMS related errors (Billing Fields)
-                        // These are added first because the form will scroll to the error and these
-                        // are always placed at the end of the WPPB form
-                        if ( response.pms_errors.length > 0 )
-                            addValidationErrors(response.pms_errors, current_button)
-
-                        // Add WPPB related errors
-                        if ( typeof response.wppb_errors == 'object' )
-                            addWPPBValidationErrors(response.wppb_errors, current_button)
-
-                    }
-
-                } else {
-                    console.log('something unexpected happened')
                 }
 
             }
@@ -650,20 +481,23 @@ jQuery( function( $ ) {
             data.form_type            = form_data.form_type ? form_data.form_type : ''
             data.pmstkn_original      = form_data.pmstkn ? form_data.pmstkn : ''
             data.setup_intent         = form_data.setup_intent ? form_data.setup_intent : ''
-    
+
             // to determine actual location for change subscription
             data.form_action          = form_data.form_action ? form_data.form_action : ''
-    
+
             // for member data
             data.pay_gate             = form_data.pay_gate ? form_data.pay_gate : ''
             data.subscription_plans   = form_data.subscription_plans ? form_data.subscription_plans : ''
-    
+
+            // custom profile builder form name
+            data.form_name            = form_data.form_name ? form_data.form_name : ''
+
             if( form_data.pms_default_recurring )
                 data.pms_default_recurring = form_data.pms_default_recurring
-    
+
             if ( form_data.pms_recurring )
                 data.pms_recurring = form_data.pms_recurring
-    
+
             $.post(pms.ajax_url, data, function (response) {
 
                 response = JSON.parse(response)

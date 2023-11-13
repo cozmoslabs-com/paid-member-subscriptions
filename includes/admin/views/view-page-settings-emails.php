@@ -197,6 +197,40 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
         </div>
 
+        <!-- Reset Password Email -->
+        <div class="cozmoslabs-form-subsection-wrapper cozmoslabs-wysiwyg-container" id="cozmoslabs-user-reset-password-email">
+            <div class="cozmoslabs-email-heading-wrap">
+                <h3 class="cozmoslabs-subsection-title"><?php echo esc_html( $email_headings['reset_password'] ); ?></h3>
+
+                <div class="cozmoslabs-toggle-switch">
+                    <div class="cozmoslabs-toggle-container">
+                        <input type="checkbox" id="reset-password-is-enabled" name="pms_emails_settings[reset_password_is_enabled]" value="yes" <?php echo ( isset( $this->options['reset_password_is_enabled'] ) ? 'checked' : '' ); ?> />
+                        <label class="cozmoslabs-toggle-track" for="reset-password-is-enabled"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cozmoslabs-form-field-wrapper">
+                <label class="cozmoslabs-form-field-label" for="email-reset-password-subject"><?php esc_html_e( 'Subject', 'paid-member-subscriptions' ) ?></label>
+                <input type="text" id="email-reset-password-subject" class="widefat" name="pms_emails_settings[reset_password_sub_subject]" value="<?php echo ( isset($this->options['reset_password_sub_subject']) ? esc_attr( $this->options['reset_password_sub_subject'] ) : esc_attr( $email_subjects['reset_password'] ) ) ?>">
+            </div>
+
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-wysiwyg-wrapper">
+                <?php wp_editor( ( isset($this->options['reset_password_sub']) ? $this->options['reset_password_sub'] : $email_content['reset_password'] ), 'reset_password_sub', array( 'textarea_name' => 'pms_emails_settings[reset_password_sub]', 'editor_height' => 180 ) ); ?>
+
+                <?php apply_filters( 'pms_user_reset_password_email_available_tags', $available_merge_tags ); ?>
+                <div class="cozmoslabs-available-tags">
+                    <h3 class="cozmoslabs-tags-list-heading"><?php esc_html_e( 'Available Tags', 'paid-member-subscriptions' ); ?></h3>
+
+                    <div class="cozmoslabs-tags-list">
+                        <?php foreach( $available_merge_tags as $available_merge_tag ):?>
+                            <input readonly spellcheck="false" type="text" class="pms-tag input" value="{{<?php echo esc_attr( $available_merge_tag ); ?>}}">
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <?php do_action( $this->menu_slug . '_tab_emails_after_user_tab', $this->options ); ?>
 

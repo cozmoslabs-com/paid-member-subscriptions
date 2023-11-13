@@ -42,6 +42,7 @@ jQuery( function($) {
         currentURL = pms_remove_query_arg( 'pmsscsmsg', currentURL );
         currentURL = pms_remove_query_arg( 'pms_gateway_payment_action', currentURL );
         currentURL = pms_remove_query_arg( 'pms_gateway_payment_id', currentURL );
+        currentURL = pms_remove_query_arg( 'pms_wppb_custom_success_message', currentURL );
 
         if ( currentURL != window.location.href )
             window.history.replaceState( null, null, currentURL );

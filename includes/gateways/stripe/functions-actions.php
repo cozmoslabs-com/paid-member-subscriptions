@@ -59,6 +59,11 @@ function pms_stripe_process_checkout(){
     // this is simply added so the AJAX request to the website triggers the regular
     // form processing of the plugin
 
+    // Process WPPB form manually based on the request data
+    if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
+        pms_stripe_process_wppb_checkout();
+    }
+
 }
 
 add_action( 'wp_ajax_pms_validate_checkout', 'pms_stripe_validate_checkout_handler' );
@@ -200,12 +205,84 @@ function pms_stripe_filter_request_form_location( $location, $request ){
     if( !isset( $request['form_type'] ) )
         return $location;
 
-    if( $request['form_type'] == 'pms' && isset( $request['action'] ) && $request['action'] == 'pms_stripe_connect_process_payment' && empty( $location ) )
+    if( in_array( $request['form_type'], array( 'pms', 'wppb', 'pms_register' ) ) && isset( $request['action'] ) && $request['action'] == 'pms_stripe_connect_process_payment' && empty( $location ) )
         $location = 'register';
 
     if( $request['form_type'] == 'wppb' && isset( $request['action'] ) && $request['action'] == 'pms_update_payment_intent_connect' && isset( $request['pmstkn_original'] ) && $request['pmstkn_original'] == 'wppb_register' )
         $location = 'register';
 
+    // set form location for wppb register AJAX request
+    if( $request['form_type'] == 'wppb' && isset( $request['action'] ) && $request['action'] == 'pms_process_checkout' )
+        $location = 'register';
+
     return $location;
+
+}
+
+// When the WPPB form uses PMS we reorder the fields in the ajax request so that the Subscription Plans field is last
+// This happens because on the save hook of that field, PMS does the necessary processing to create the payment and
+// subscription. A request which is then intercepted by the same redirect failure action from the Stripe Connect class
+add_filter( 'wppb_change_form_fields', 'pms_stripe_reorder_fields_when_doing_ajax_requests', 20, 2 );
+function pms_stripe_reorder_fields_when_doing_ajax_requests( $fields, $form_args ){
+
+    if( isset( $form_args['pms_custom_ajax_request'] ) && $form_args['pms_custom_ajax_request'] == true ){
+
+        if( !empty( $fields ) ){
+
+            $plans = null;
+
+            foreach( $fields as $key => $field ){
+
+                if( $field['field'] == 'Subscription Plans' ){
+                    $plans[$key] = $field;
+                    unset( $fields[$key] );
+                }
+
+            }
+
+            if( !empty( $plans ) )
+                $fields = array_merge( $fields, $plans );
+            
+        }
+
+    }
+
+    return $fields;
+
+}
+
+function pms_stripe_process_wppb_checkout(){
+
+    if( defined( 'WPPB_PLUGIN_DIR' ) )
+        include_once( WPPB_PLUGIN_DIR . '/front-end/class-formbuilder.php' );
+    else
+        return false;
+
+    $args = array(
+        'form_type'               => 'register',
+        'form_name'               => isset( $_REQUEST['form_name'] ) ? sanitize_text_field( $_REQUEST['form_name'] ) : '',
+        'form_fields'             => '',
+        'role'                    => get_option( 'default_role' ),
+        'pms_custom_ajax_request' => true,
+    );
+
+    $form = new Profile_Builder_Form_Creator( $args );
+
+    // Process is started here, it gets completed by the PMS handler
+    $user_id = $form->wppb_save_form_values( $_REQUEST );
+
+}
+
+add_filter( 'wppb_register_form_content', 'pms_stripe_wppb_register_success_message' );
+function pms_stripe_wppb_register_success_message( $content ){
+
+    if( isset( $_REQUEST['pmsscscd'] ) && isset( $_REQUEST['pmsscsmsg'] ) ){
+        $message_code =  base64_decode( sanitize_text_field( $_REQUEST['pmsscscd'] ) );
+        $message      =  base64_decode( sanitize_text_field( $_REQUEST['pmsscsmsg'] ) );
+        
+        return '<p class="alert wppb-success" id="wppb_form_general_message">' . $message . '</p>';
+    }
+
+    return $content;
 
 }
