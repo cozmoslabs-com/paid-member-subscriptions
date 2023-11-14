@@ -561,7 +561,7 @@ function pms_stripe_add_settings_content( $options ) {
 add_action( 'pms-settings-page_payment_gateways_content', 'pms_stripe_add_settings_content', 9 );
 
 
-function pms_in_stripe_add_backend_warning( $options ){
+function pms_stripe_add_backend_warning( $options ){
 
     if( !isset( $options['active_pay_gates'] ) || !in_array( 'stripe_intents', $options['active_pay_gates'] ) )
         return;
@@ -571,4 +571,4 @@ function pms_in_stripe_add_backend_warning( $options ){
     </div>';
 
 }
-add_action( 'pms-settings-page_payment_general_after_gateway_checkboxes', 'pms_in_stripe_add_backend_warning' );
+add_action( 'pms-settings-page_payment_general_after_gateway_checkboxes', 'pms_stripe_add_backend_warning' );
