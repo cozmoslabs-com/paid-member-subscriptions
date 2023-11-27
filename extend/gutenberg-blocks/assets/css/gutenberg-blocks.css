@@ -31,3 +31,29 @@
 #pms-paygates-wrapper {
     display: none;
 }
+
+.pms-billing-details .pms-field label {
+    font-size: 18px !important;
+    line-height: 26px !important;
+    font-weight: 500 !important;
+    color: #090A0B !important;
+    width: auto !important;
+    margin-bottom: 5px !important;
+    display: block !important;
+}
+
+.pms-billing-details .pms-field input,
+.pms-billing-details .pms-field select {
+    height: 44px !important;
+
+    color: #666 !important;
+    border: 1px solid #ccc !important;
+    border-radius: 3px !important;
+    padding: 0 10px !important;
+}
+
+.pms-billing-details .pms-field label,
+.pms-billing-details .pms-field input,
+.pms-billing-details .pms-field select {
+    flex-basis: 100% !important;
+}

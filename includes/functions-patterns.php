@@ -44,7 +44,7 @@ function pms_patterns_pricing_table(){
     
     <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","verticalAlignment":"bottom"}} -->
     <div class="wp-block-buttons"><!-- wp:button {"textAlign":"center","width":75,"style":{"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="" style="border-radius:0px"><strong>Buy now</strong></a></div>
+    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="1" style="border-radius:0px"><strong>Buy now</strong></a></div>
     <!-- /wp:button --></div>
     <!-- /wp:buttons --></div>
     <!-- /wp:column -->
@@ -68,7 +68,7 @@ function pms_patterns_pricing_table(){
     
     <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","verticalAlignment":"bottom"}} -->
     <div class="wp-block-buttons"><!-- wp:button {"textAlign":"center","width":75,"style":{"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="" style="border-radius:0px"><strong>Buy now</strong></a></div>
+    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="2" style="border-radius:0px"><strong>Buy now</strong></a></div>
     <!-- /wp:button --></div>
     <!-- /wp:buttons --></div>
     <!-- /wp:column -->
@@ -92,7 +92,7 @@ function pms_patterns_pricing_table(){
     
     <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
     <div class="wp-block-buttons"><!-- wp:button {"textAlign":"center","width":75,"style":{"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="" style="border-radius:0px"><strong>Buy now</strong></a></div>
+    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="3" style="border-radius:0px"><strong>Buy now</strong></a></div>
     <!-- /wp:button --></div>
     <!-- /wp:buttons --></div>
     <!-- /wp:column --></div>
@@ -119,7 +119,7 @@ function pms_patterns_pricing_table_two_columns(){
     
     <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","verticalAlignment":"bottom"}} -->
     <div class="wp-block-buttons"><!-- wp:button {"textAlign":"center","width":75,"style":{"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="" style="border-radius:0px"><strong>Buy now</strong></a></div>
+    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="1" style="border-radius:0px"><strong>Buy now</strong></a></div>
     <!-- /wp:button --></div>
     <!-- /wp:buttons --></div>
     <!-- /wp:column -->
@@ -143,7 +143,7 @@ function pms_patterns_pricing_table_two_columns(){
     
     <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","verticalAlignment":"bottom"}} -->
     <div class="wp-block-buttons"><!-- wp:button {"textAlign":"center","width":75,"style":{"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="" style="border-radius:0px"><strong>Buy now</strong></a></div>
+    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="2" style="border-radius:0px"><strong>Buy now</strong></a></div>
     <!-- /wp:button --></div>
     <!-- /wp:buttons --></div>
     <!-- /wp:column -->';
@@ -171,7 +171,7 @@ function pms_patterns_pricing_table_one_column(){
     
     <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","verticalAlignment":"bottom"}} -->
     <div class="wp-block-buttons"><!-- wp:button {"textAlign":"center","width":75,"style":{"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="" style="border-radius:0px"><strong>Buy now</strong></a></div>
+    <div class="wp-block-button has-custom-width wp-block-button__width-75 is-style-outline"><a class="wp-block-button__link has-text-align-center wp-element-button" href="1" style="border-radius:0px"><strong>Buy now</strong></a></div>
     <!-- /wp:button --></div>
     <!-- /wp:buttons --></div>
     <!-- /wp:column -->';

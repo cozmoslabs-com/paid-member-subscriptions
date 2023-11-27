@@ -288,6 +288,9 @@ class PMS_Plugin_Usage_Tracker {
 		if( $this->is_tracking_allowed() )
 			return;
 
+		if( !apply_filters( 'pms_usage_tracking_notice_is_allowed', true ) )
+			return false;
+		
 		$notice = get_option( 'pms_admin_notice_usage_tracking', false );
 
 		if( $notice == '1' )

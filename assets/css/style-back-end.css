@@ -14,6 +14,42 @@
     flex-direction: column;
 }
 
+body[class*="post-type-pms-"].post-php #wpbody-content .wrap {
+    margin: 30px auto;
+}
+
+@media screen and (max-width: 1401px) {
+    body[class*="post-type-pms-"].post-php #wpbody-content .wrap {
+        max-width: 900px;
+    }
+}
+
+@media screen and (min-width: 1402px) and (max-width: 1599px) {
+    body[class*="post-type-pms-"].post-php #wpbody-content .wrap {
+        max-width: 1200px;
+    }
+}
+
+@media screen and ( min-width: 1600px ) {
+    .cozmoslabs-wrap {
+        max-width: 1200px;
+    }
+
+    body[class*="post-type-pms-"].post-php #wpbody-content .wrap {
+        max-width: 1200px;
+    }
+}
+
+@media screen and ( min-width: 1920px ) {
+    .cozmoslabs-wrap {
+        max-width: 1500px;
+    }
+
+    body[class*="post-type-pms-"].post-php #wpbody-content .wrap {
+        max-width: 1500px;
+    }
+}
+
 .wp-submenu a[href="admin.php?page=pms-export-page"],
 .wp-submenu a[href="admin.php?page=pms-discount-codes-bulk-add"] {
     display: none !important;
@@ -1695,11 +1731,6 @@ body[class*="post-type-pms-"] .meta-box-sortables #pms-subscription-plan-trial-d
     flex-basis: 150px;
 }
 
-body[class*="post-type-pms-"] #pms-email-reminder-event {
-    flex-grow: 1;
-    max-width: 520px;
-}
-
 body[class*="post-type-pms-"] .meta-box-sortables .cozmoslabs-form-field-label {
     font-weight: 600;
     font-size: 13px;
@@ -2812,6 +2843,23 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
     position: relative;
 }
 
+/*@media screen and (min-width: 1280px) {*/
+@media screen and (min-width: 1402px) {
+    .paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap:not(#pms-edit-member-page),
+    .paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap {
+        max-width: 1200px;
+        padding-right: 300px;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap:not(#pms-edit-member-page),
+    .paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap {
+        max-width: 1500px;
+        padding-right: 300px;
+    }
+}
+
 .paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap div.submit,
 .paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap div.submit {
     border: 1px solid #CCCCCC;
@@ -2865,7 +2913,8 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 }
 
 /* Mobile */
-@media screen and (max-width:999px) {
+/*@media screen and (max-width:999px) {*/
+@media screen and (max-width:1401px) {
     body[class*="post-type-pms-"] #major-publishing-actions {
         justify-content: flex-end;
         gap: 10px;
@@ -2892,9 +2941,15 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
     body[class*="post-type-pms"] #post-body #postbox-container-2 {
         order: 2;
     }
+
+    body[class*="post-type-pms"] #post-body #postbox-container-1,
+    body[class*="post-type-pms"] #post-body #postbox-container-1 #side-sortables {
+        width: 100%;
+    }
 }
 
-@media screen and (min-width:1000px) {
+/*@media screen and (min-width:1000px) {*/
+@media screen and (min-width: 1402px) {
     .cozmoslabs-publish-metabox-fixed #submitdiv {
         position: fixed !important;
         top: 50px;
@@ -3000,6 +3055,10 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 
 #pms-recommended-profile-builder .cozmoslabs-basic-info-recommended-img a {
     background: #E8F2FF;
+}
+
+#pms-recommended-wp-webhooks .cozmoslabs-basic-info-recommended-img a {
+    background: #00dc9e;
 }
 
 .cozmoslabs-basic-info-recommended .cozmoslabs-basic-info-recommended-img img {
@@ -3612,9 +3671,6 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
     margin-top: 0px;
 }
 
-/* .pms-dashboard-overview {
-    align-items: start;
-} */
 
 /* PROGRESS STEPS DASHBOARD */
 .pms-setup-progress__bar {
@@ -3679,7 +3735,6 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
     content: counter( tab );
     line-height: 30px;
     border: 1px solid #169360;
-    display: block;
     margin-right: 12px;
     border-radius: 50%;
     background-color: white;
@@ -3719,6 +3774,7 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 }
 
 @media screen and (max-width: 1080px) {
+    body[class*="post-type-pms-"].post-php #wpbody-content .wrap,
     .cozmoslabs-wrap {
         margin: 30px 10px;
     }

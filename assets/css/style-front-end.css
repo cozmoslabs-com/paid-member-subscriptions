@@ -465,6 +465,7 @@ form.pms-form ul.pms-form-fields-wrapper {
     box-shadow: none !important;
 }
 
+.pms-account-navigation li.pms-account-navigation-link a:hover,
 .pms-account-navigation li.pms-account-navigation-link .pms-account-navigation-link--active {
     box-shadow: 0 1px 0 0 currentColor !important;
 }

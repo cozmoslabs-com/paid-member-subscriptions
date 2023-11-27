@@ -23,7 +23,7 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
 
     const { pmsContentRestriction } = attributes;
 
-    const subscriptionPlans = JSON.parse(pmsBlockEditorDataBlockContentRestriction.subscriptionPlans);
+    const subscriptionPlans = pmsBlockEditorDataBlockContentRestriction.subscriptionPlans;
 
     // Check if this is one of the Content Restriction blocks so that the 'All Users' option can be hidden
     let contentRestrictionBlock = false;

@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 2.10.7
+Stable tag: 2.10.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,19 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.10.8 =
+* Feature: Added default form styling for block themes
+* Fix: Issue between Content Restriction and Gutenberg Blocks which was causing them to not load in back-end
+* Fix: Issue with Sign-up fee not being taken into consideration by tax breakdown on the Profile Builder form
+* Fix: A notice coming from the Gutenberg integration
+* Fix: Issue with Pricing Tables generation
+* Fix: Javascript error coming from the Subscription Purchase Link generator option from Gutenberg
+* Fix: Use the price of a subscription plan from the website when creating the initial payment intent
+* Fix: Stripe issue with future payment amount when a zero decimal currency was used
+* Misc: Stripe Copy Webhook URL button now works again
+* Misc: Added a filter over the Stripe redirect URL when an error happens: pms_stripe_error_redirect_url
+* Misc: Settings pages width improvements
+
 = 2.10.7 =
 * Fix: Incompatibility issue with older versions of the paid plugin
 

@@ -508,8 +508,9 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                     $duration = " / " . $plan->duration_unit;
                     $details = $price . $duration;
                     $pattern = str_replace( '29$ / month', $details, $pattern );
-                    $url = 'href="' .  get_permalink( pms_get_page('register') );
-                    $pattern = str_replace( 'href=""', $url, $pattern );
+
+                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'"';
+                    $pattern = str_replace( 'href="1"', $url, $pattern );
 
                 } elseif ( $number_of_subscriptions == 1 ) {
 
@@ -520,6 +521,9 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                     $details = $price . $duration;
                     $pattern = str_replace( '49$ / month', $details, $pattern );
 
+                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'"';
+                    $pattern = str_replace( 'href="2"', $url, $pattern );
+
                 } elseif ( $number_of_subscriptions == 2 ) {
 
                     $pattern = str_replace( 'Platinum', $plan->name, $pattern );
@@ -529,16 +533,19 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                     $details = $price . $duration;
                     $pattern = str_replace( '89$ / month', $details, $pattern );
 
+                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'"';
+                    $pattern = str_replace( 'href="3"', $url, $pattern );
+
                 }
                 $number_of_subscriptions++;
             }
 
             $new_post = array(
-                'post_title' => 'Pricing',
+                'post_title'   => 'Pricing',
                 'post_content' => $pattern,
-                'post_type' => 'page',
-                'post_status' => 'publish',
-                'post_author' => 1
+                'post_type'    => 'page',
+                'post_status'  => 'publish',
+                'post_author'  => 1
             );
             $id_page = wp_insert_post( $new_post );
             $link_page = htmlspecialchars_decode( esc_url( add_query_arg( array( 'post' => $id_page, 'action' => 'edit' ), admin_url( 'post.php' ) ) ) );

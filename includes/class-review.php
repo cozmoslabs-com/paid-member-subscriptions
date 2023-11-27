@@ -64,7 +64,7 @@ class PMS_Review_Request {
 
             $user_id = $current_user->ID;
 
-            if ( current_user_can( 'manage_options' ) ) {
+            if ( current_user_can( 'manage_options' ) && apply_filters( 'pms_enable_review_request_notice', true ) ) {
                 // Check that the user hasn't already dismissed the message
                 if ( !get_user_meta( $user_id, $this->notificationId . '_dismiss_notification' ) ) {
                     do_action( $this->notificationId . '_before_notification_displayed', $current_user, $pagenow );

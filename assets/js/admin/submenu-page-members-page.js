@@ -562,11 +562,6 @@ jQuery( function($) {
         }
     });
 
-    // Handle the display of Bulk Actions dropdown to appear only on Members page and not on Bulk Add New Members
-    // if( $('#pms_add_member_bulk_subscription_plan')){
-    //     $('.bulkactions').hide();
-    // }
-
 });
 
 
@@ -575,8 +570,8 @@ jQuery( function($) {
  */
 
 jQuery( document ).ready(setTimeout(function () {
-    let smallMediumScreen  = window.matchMedia("(max-width: 999px)"),
-        largeScreen  = window.matchMedia("(min-width: 1280px)"),
+    let smallMediumScreen  = window.matchMedia("(max-width: 1401px)"),
+        largeScreen  = window.matchMedia("(min-width: 1402px)"),
         pageBody = jQuery('body');
 
     if (pageBody.is('[class*="post-type-pms"]')) {
@@ -641,11 +636,6 @@ function pmsRepositionCptPublishButton() {
             let containerOffsetLeft = buttonWrapper.offset().left;
 
             buttonWrapperContainer.addClass('cozmoslabs-publish-button-fixed');
-
-            // button.css({
-            //     'max-width': buttonWrapper.outerWidth() - 20 + 'px', // 20px is wrapper margin left + right
-            //     'left': containerOffsetLeft + 10 + 'px', // 10px is container padding left
-            // });
 
             button.css({
                 'max-width': buttonWrapper.outerWidth() + 'px',
@@ -748,10 +738,6 @@ function pmsRepositionPagePublishButton() {
             });
         } else {
             cozmoslabsWrapper.addClass('cozmoslabs-publish-button-fixed');
-
-            // button.css({
-            //     'max-width': buttonWrapper.outerWidth() - 20 + 'px', // 20px is margin left + right
-            // });
 
             button.css({
                 'max-width': buttonWrapper.outerWidth() + 'px',

@@ -32,7 +32,7 @@ function PMSBlockContentRestrictionControls(props) {
         <InspectorControls>
             <PanelBody
                 title={__(
-                    "Paid Member Subscriptions Content Restriction",
+                    "Content Restriction",
                     "paid-member-subscriptions",
                 )}
                 className="paid-member-subscriptions-content-restriction-settings"

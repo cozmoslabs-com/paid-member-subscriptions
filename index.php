@@ -3,13 +3,13 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.10.7
+ * Version: 2.10.8
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 8.2
+ * WC tested up to: 8.3
  * Elementor tested up to: 3.17.1
  * Elementor Pro tested up to: 3.17.1
  *
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.10.7' );
+        define( 'PMS_VERSION', '2.10.8' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -1197,6 +1197,17 @@ Class Paid_Member_Subscriptions {
 
         if( !empty( $pms_settings['use_pms_css'] ) && $pms_settings['use_pms_css'] == 1 )
             wp_enqueue_style( 'pms-style-front-end', PMS_PLUGIN_DIR_URL . 'assets/css/style-front-end.css', array(), PMS_VERSION );
+
+        // Load stylesheet for the Default Form Style if the active WP Theme is a Block Theme (Block Themes were introduced in WordPress since the 5.9 release)
+        if ( version_compare( get_bloginfo( 'version' ), '5.9', '>=' ) && function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+            $active_design = function_exists( 'pms_get_active_form_design' ) ? pms_get_active_form_design() : 'form-style-default';
+
+            // Load stylesheet only if the active Form Design is the Default Style
+            if ( $active_design === 'form-style-default' && file_exists( PMS_PLUGIN_DIR_PATH . 'assets/css/style-block-themes-front-end.css' ) ) {
+                wp_register_style( 'pms_block_themes_front_end_stylesheet', PMS_PLUGIN_DIR_URL . 'assets/css/style-block-themes-front-end.css', array(), PMS_VERSION );
+                wp_enqueue_style( 'pms_block_themes_front_end_stylesheet' );
+            }
+        }
 
         wp_register_script( 'pms-front-end', PMS_PLUGIN_DIR_URL . 'assets/js/front-end.js', array( 'jquery' ), PMS_VERSION );
         wp_enqueue_script( 'pms-front-end' );

@@ -297,6 +297,75 @@ $ajax_nonce             = wp_create_nonce( 'pms-activate-addon' );
             </div>
         </div>
 
+
+        <?php
+        $wp_webhook_add_on_exists = 0;
+        $wp_webhook_add_on_is_active = 0;
+        $wp_webhook_add_on_is_network_active = 0;
+        // Check to see if add-on is in the plugins folder
+        foreach ($pms_get_all_plugins as $pms_plugin_key => $pms_plugin) {
+            if( strtolower($pms_plugin['Name']) == strtolower( 'Wp Webhooks' ) && strpos(strtolower($pms_plugin['AuthorName']), strtolower('Ironikus')) !== false) {
+                $wp_webhook_add_on_exists = 1;
+                if (in_array($pms_plugin_key, $pms_get_active_plugins)) {
+                    $wp_webhook_add_on_is_active = 1;
+                }
+                // Consider the add-on active if it's network active
+                if (is_plugin_active_for_network($pms_plugin_key)) {
+                    $wp_webhook_add_on_is_network_active = 1;
+                    $wp_webhook_add_on_is_active = 1;
+                }
+                $plugin_file = $pms_plugin_key;
+            }
+        }
+        ?>
+        <div class="plugin-card pms-recommended-plugin pms-add-on">
+            <div class="plugin-card-top">
+                <a target="_blank" class="pms-recommended-plugin-logo pms-webhooks-logo" href="https://wordpress.org/plugins/wp-webhooks/" style="background: #00dc9e;">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/addons/wp-webhooks-banner.svg' ); ?>" style="max-height: 80px; ">
+                </a>
+                <h3 class="pms-add-on-title">
+                    <a target="_blank" href="https://wordpress.org/plugins/WP Webhooks/">WP Webhooks Automations</a>
+                </h3>
+                <h3 class="pms-add-on-price"><?php  esc_html_e( 'Free', 'paid-member-subscriptions' ) ?></h3>
+                <p class="pms-add-on-description">
+                    <?php esc_html_e( 'Easily create powerful no-code automations that connect your WordPress plugins, sites and apps together.', 'paid-member-subscriptions' ) ?>
+                    <a href="<?php echo esc_url( admin_url() . 'plugin-install.php?tab=plugin-information&plugin=wp-webhooks&TB_iframe=true&width=772&height=875' ); ?>" class="thickbox" aria-label="More information about WP Webhooks" data-title="Wp Webhooks"><?php esc_html_e( 'More Details', 'paid-member-subscriptions' ); ?></a>
+                </p>
+            </div>
+            <div class="plugin-card-bottom pms-add-on-compatible">
+                <?php
+                if ($wp_webhook_add_on_exists) {
+
+                    // Display activate/deactivate buttons
+                    if (!$wp_webhook_add_on_is_active) {
+                        echo '<a class="pms-add-on-activate right button button-secondary" href="' . esc_attr( $plugin_file ) . '" data-nonce="' . esc_attr( $ajax_nonce ) . '">' . esc_html__('Activate', 'paid-member-subscriptions') . '</a>';
+
+                        // If add-on is network activated don't allow deactivation
+                    } elseif (!$trp_add_on_is_network_active) {
+                        echo '<a class="pms-add-on-deactivate right button button-secondary" href="' . esc_attr( $plugin_file ) . '" data-nonce="' . esc_attr( $ajax_nonce ) . '">' . esc_html__('Deactivate', 'paid-member-subscriptions') . '</a>';
+                    }
+
+                    // Display message to the user
+                    if( !$wp_webhook_add_on_is_active ){
+                        echo '<span class="dashicons dashicons-no-alt"></span><span class="pms-add-on-message">' . wp_kses_post( __('Plugin is <strong>inactive</strong>', 'paid-member-subscriptions') ) . '</span>';
+                    } else {
+                        echo '<span class="dashicons dashicons-yes"></span><span class="pms-add-on-message">' . wp_kses_post( __('Plugin is <strong>active</strong>', 'paid-member-subscriptions') ) . '</span>';
+                    }
+
+                } else {
+                    // handles the in-page download
+                    $pms_paid_link_text = esc_html__('Install Now', 'paid-member-subscriptions');
+
+                    echo '<a class="right install-now button button-secondary" href="'. esc_url( wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=wp-webhooks'), 'install-plugin_wp-webhooks') ) .'" data-add-on-slug="wp-webhooks" data-add-on-name="WP Webhooks" data-nonce="' . esc_attr( $ajax_nonce ) . '">' . esc_html( $pms_paid_link_text ) . '</a>';
+                    echo '<span class="dashicons dashicons-yes"></span><span class="pms-add-on-message">' . esc_html__('Compatible with Paid Member Subscriptions.', 'paid-member-subscriptions') . '</span>';
+
+                }
+                ?>
+                <div class="spinner"></div>
+                <span class="pms-add-on-user-messages pms-error-manual-install"><?php printf(esc_html__('Could not install plugin. Retry or <a href="%s" target="_blank">install manually</a>.', 'paid-member-subscriptions'), esc_url( 'https://www.wordpress.org/plugins/translatepress-multilingual' )) ?></a>.</span>
+            </div>
+        </div>
+
     </div>
 
     <div class="clear"></div>

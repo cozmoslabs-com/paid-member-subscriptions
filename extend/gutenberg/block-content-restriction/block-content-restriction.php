@@ -26,6 +26,59 @@ function pms_render_blocks( $block_content, $block ) {
                 : ( $block_attrs['enable_message_logged_in']  ? $block_attrs['message_logged_in']  : '' ),
         );
 
-    return PMS_Shortcodes::restrict_content( $atts, $block_content );
+    return '<div>' . PMS_Shortcodes::restrict_content( $atts, $block_content ) . '</div>';
 }
 add_filter( 'render_block', 'pms_render_blocks', 10, 2 );
+
+/**
+ * Adds the `pmsContentRestriction` attribute to all blocks
+ */
+add_action( 'wp_loaded', 'pms_add_custom_attributes_to_blocks', 199 );
+function pms_add_custom_attributes_to_blocks() {
+
+	$registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
+
+	foreach( $registered_blocks as $name => $block ) {
+
+		$block->attributes['pmsContentRestriction'] = array(
+			'type'    => 'object',
+            'properties' => array(
+                'subscription_plans' => array(
+                    'type' => 'array',
+                ),
+                'display_to' => array(
+                    'type' => 'string',
+                ),
+                'not_subscribed' => array(
+                    'type' => 'bool',
+                ),
+                'enable_message_logged_in' => array(
+                    'type' => 'bool',
+                ),
+                'enable_message_logged_out' => array(
+                    'type' => 'bool',
+                ),
+                'message_logged_in' => array(
+                    'type' => 'string',
+                ),
+                'message_logged_out' => array(
+                    'type' => 'string',
+                ),
+                'panel_open' => array(
+                    'type' => 'bool',
+                ),
+            ),
+			'default' => array(
+                'subscription_plans'       => array(),
+                'display_to'               => 'all',
+                'not_subscribed'           => false,
+                'enable_message_logged_in' => false,
+                'enable_message_logged_out'=> false,
+                'message_logged_in'        => '',
+                'message_logged_out'       => '',
+                'panel_open'               => false,
+            ),
+		);
+	}
+
+}

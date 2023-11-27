@@ -88,13 +88,15 @@ function pms_add_plugin_notification( $notification_id = '', $notification_messa
 
 function pms_add_plugin_notification_new_add_on() {
 
-	$notification_id = 'pms_free_stripe_connect';
-	$message = '<img style="float: right; margin: 20px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/pms-stripe.png" />';
-	$message .= '<p style="margin-top: 16px;">' . wp_kses_post( __( '<strong>New payment gateway!</strong><br><br><strong>Stripe</strong> payment gateway is now available in the free version. <br>Your users can pay using credit and debit cards without leaving your website and you can also offer them additional payment methods like Bancontact, iDeal, Giropay and more. <br><br>Get started now by going to <strong>Paid Member Subscriptions -> Settings -> Payments</strong>!', 'paid-member-subscriptions' ) ) . '</p>';
-	$message .= '<p><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/?utm_source=wp-backend&utm_medium=addon-notification&utm_campaign=PMSFree" class="button-primary">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
-	$message .= '<a href="' . esc_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
-
-	pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );
+	if( pms_get_active_stripe_gateway() == false ){
+		$notification_id = 'pms_free_stripe_connect';
+		$message = '<img style="float: right; margin: 20px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/pms-stripe.png" />';
+		$message .= '<p style="margin-top: 16px;">' . wp_kses_post( __( '<strong>New payment gateway!</strong><br><br><strong>Stripe</strong> payment gateway is now available in the free version. <br>Your users can pay using credit and debit cards without leaving your website and you can also offer them additional payment methods like Bancontact, iDeal, Giropay and more. <br><br>Get started now by going to <strong>Paid Member Subscriptions -> Settings -> Payments</strong>!', 'paid-member-subscriptions' ) ) . '</p>';
+		$message .= '<p><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/?utm_source=wp-backend&utm_medium=addon-notification&utm_campaign=PMSFree" class="button-primary">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
+		$message .= '<a href="' . esc_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
+	
+		pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );
+	}
 
 }
 add_action( 'admin_init', 'pms_add_plugin_notification_new_add_on' );

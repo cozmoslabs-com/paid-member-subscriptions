@@ -427,6 +427,21 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <p><a href="https://wordpress.org/plugins/profile-builder/" class="button" target="_blank">Find out how</a></p>
             </div>
         </div>
+
+        <div class="pms-1-3-col cozmoslabs-basic-info-recommended" id="pms-recommended-wp-webhooks">
+            <div class="cozmoslabs-basic-info-recommended-img">
+                <a href="https://www.wp-webhooks.com/" target="_blank"><img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ) . 'assets/images/addons/wp-webhooks-banner.svg'; ?>" alt="TranslatePress Logo"/></a>
+            </div>
+            <div class="cozmoslabs-basic-info-recommended-info">
+                <div class="cozmoslabs-form-field-wrapper">
+                    <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Save time and money using automations', 'paid-member-subscriptions' ); ?></label>
+                </div>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Create no-code automations and workflows on your WordPress site.', 'paid-member-subscriptions' ); ?></p>
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Integrates with Profile Builder or Paid Member Subscriptions, depending on which plugin it\'s for.', 'paid-member-subscriptions' ); ?></p>
+                <p><a href="https://www.wp-webhooks.com/" class="button" target="_blank">Find out how</a></p>
+            </div>
+        </div>
     </div>
 
     <p class="cozmoslabs-notice-message"><i><?php printf( wp_kses_post( __( 'Paid Member Subscriptions comes with an <a href="%s">extensive documentation</a> to assist you.', 'paid-member-subscriptions' ) ),'http://www.cozmoslabs.com/docs/paid-member-subscriptions/' ); ?></i></p>

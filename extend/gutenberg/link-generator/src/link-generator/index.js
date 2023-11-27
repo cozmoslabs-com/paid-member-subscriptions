@@ -79,9 +79,10 @@ const LinkGenerator = ({
             ),
         []
     );
-    const subscriptionPlans = JSON.parse( pmsBlockEditorDataLinkGenerator.subscriptionPlans );
 
-    const registerPageID = JSON.parse( pmsBlockEditorDataLinkGenerator.registerPageID ) ? JSON.parse( pmsBlockEditorDataLinkGenerator.registerPageID ).toString() : false;
+    const subscriptionPlans = pmsBlockEditorDataLinkGenerator.subscriptionPlans;
+
+    const registerPageID = pmsBlockEditorDataLinkGenerator.registerPageID ? pmsBlockEditorDataLinkGenerator.registerPageID.toString() : false;
 
     const activeAttributes = getObjectFromQueryString( props.attributes[ enableLinkGeneratorOnBlocks[ props.name ].link ] || '' );
 

@@ -1186,7 +1186,7 @@ Class PMS_Form_Handler {
              *
              * @since 2.0.5
              */
-            if( function_exists( 'wp_doing_ajax') && wp_doing_ajax() && isset( $_REQUEST['pmstkn'] ) && $_REQUEST['pmstkn'] === 'pb_form' )
+            if( function_exists( 'wp_doing_ajax') && wp_doing_ajax() && isset( $_REQUEST[$nonce_name] ) && $_REQUEST[$nonce_name] === 'pb_form' )
                 $location = 'register';
 
         }

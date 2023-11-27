@@ -232,11 +232,11 @@ jQuery( function($) {
 
 
 /**
- *  PayPal IPN URL Copy Button functionality
+ *  PayPal IPN URL && Stripe Webhooks URL - Copy Button functionality
  *
  * */
 jQuery( document ).ready(function(){
-    jQuery('.paypal-connect__copy').click(function (e) {
+    jQuery('.paypal-connect__copy, .stripe-connect__copy').click(function (e) {
         e.preventDefault();
 
         var inputId = jQuery(this).data('id');

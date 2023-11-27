@@ -1467,6 +1467,7 @@
 <?php __("Plugin is <strong>inactive</strong>", "paid-member-subscriptions"); ?>
 <?php __("Could not install plugin. Retry or <a href=\"%s\" target=\"_blank\">install manually</a>.", "paid-member-subscriptions"); ?>
 <?php __("Capture more user information on the registration form with the help of Profile Builder's custom user profile fields and/or add an Email Confirmation process to verify your customers accounts.", "paid-member-subscriptions"); ?>
+<?php __("Easily create powerful no-code automations that connect your WordPress plugins, sites and apps together.", "paid-member-subscriptions"); ?>
 <?php __("Downloading and installing...", "paid-member-subscriptions"); ?>
 <?php __("Installation complete", "paid-member-subscriptions"); ?>
 <?php __("Add-On is Active", "paid-member-subscriptions"); ?>
@@ -1523,6 +1524,9 @@
 <?php __("All in one user profile and user registration plugin for WordPress", "paid-member-subscriptions"); ?>
 <?php __("Capture more user information on the registration form with the help of Profile Builder's custom user profile fields.", "paid-member-subscriptions"); ?>
 <?php __("Add an Email Confirmation process to verify your customers accounts.", "paid-member-subscriptions"); ?>
+<?php __("Save time and money using automations", "paid-member-subscriptions"); ?>
+<?php __("Create no-code automations and workflows on your WordPress site.", "paid-member-subscriptions"); ?>
+<?php __("Integrates with Profile Builder or Paid Member Subscriptions, depending on which plugin it's for.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions comes with an <a href=\"%s\">extensive documentation</a> to assist you.", "paid-member-subscriptions"); ?>
 <?php __("At a glance", "paid-member-subscriptions"); ?>
 <?php __("%s payments are enabled", "paid-member-subscriptions"); ?>

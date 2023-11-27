@@ -147,7 +147,10 @@ function pms_in_dc_apply_discount_success_message( $code, $subscription, $user_c
         return;
 
     //Determine form location
-    $form_location = PMS_Form_Handler::get_request_form_location();
+    if( isset( $_REQUEST['pmstkn'] ) )
+        $form_location = PMS_Form_Handler::get_request_form_location();
+    elseif( isset( $_REQUEST['pmstkn_original'] ) )
+        $form_location = PMS_Form_Handler::get_request_form_location( 'pmstkn_original' );
 
     //Get Discount object
     $discount = pms_in_get_discount_by_code( $code );

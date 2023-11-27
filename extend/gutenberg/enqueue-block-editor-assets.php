@@ -19,8 +19,8 @@ add_action(
 		$settings_pages     = get_option( 'pms_general_settings' );
 
 		$vars_array_link_generator = array(
-			'subscriptionPlans' => json_encode( $subscription_plans ),
-			'registerPageID'    => json_encode( ( isset( $settings_pages['register_page'] ) && $settings_pages['register_page'] !== -1 ) ? $settings_pages['register_page'] : false ),
+			'subscriptionPlans' => $subscription_plans,
+			'registerPageID'    => ( isset( $settings_pages['register_page'] ) && $settings_pages['register_page'] !== -1 ) ? $settings_pages['register_page'] : false,
 		);
 
 		wp_localize_script( 'pms-block-editor-assets-link-generator', 'pmsBlockEditorDataLinkGenerator', $vars_array_link_generator );
@@ -39,20 +39,9 @@ add_action(
 			require_once ABSPATH . 'wp-admin/includes/user.php';
 		}
 
-		$user_roles_initial = get_editable_roles();
-
-		foreach ($user_roles_initial as $key => $role) {
-			$user_roles[] = [
-				"slug" => $key,
-				"name" => $role['name'],
-			];
-		}
-
-
 		$vars_array_block_content_restriction = array(
-			'subscriptionPlans' => json_encode( $subscription_plans ),
-			'userRoles' => json_encode($user_roles),
-			'registerPageID'    => json_encode( ( $settings_pages && $settings_pages[ 'register_page' ] !==-1 ) ? $settings_pages[ 'register_page' ] : false ),
+			'subscriptionPlans' => $subscription_plans,
+			'registerPageID'    => ( isset( $settings_pages['register_page'] ) && $settings_pages['register_page'] !== -1 ) ? $settings_pages[ 'register_page' ] : false,
 		);
 
 		wp_localize_script('pms-block-editor-assets-block-content-restriction', 'pmsBlockEditorDataBlockContentRestriction', $vars_array_block_content_restriction);
