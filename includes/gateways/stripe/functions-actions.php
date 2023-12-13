@@ -268,7 +268,7 @@ function pms_stripe_process_wppb_checkout(){
 
     $form = new Profile_Builder_Form_Creator( $args );
 
-    // Process is started here, it gets completed by the PMS handler
+    // Process is started here, it gets completed by the PMS handler that gets triggered when the Subscription Plans field is saved
     $user_id = $form->wppb_save_form_values( $_REQUEST );
 
 }

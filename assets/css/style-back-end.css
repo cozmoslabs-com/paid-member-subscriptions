@@ -62,6 +62,11 @@ body[class*="post-type-pms-"] .notice {
     display: none; /* hide admin notices until scripts are loaded */
 }
 
+body[class*="post-type-pms-"] #lost-connection-notice,
+body[class*="post-type-pms-"] #local-storage-notice {
+    display: none !important;
+}
+
 /***********************************************************/
 /* Page Banner
 /***********************************************************/
@@ -398,7 +403,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper input[type="number"],
 #cozmoslabs-subsection-paypal-configs .cozmoslabs-form-field-wrapper input[type="password"],
 .cozmoslabs-form-field-wrapper input[type="file"],
-.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url) {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, .cozmoslabs-tags-list input) {
     flex-basis: 260px;
     width: 100%;
 }
@@ -437,7 +442,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper input[type="date"],
 .cozmoslabs-form-field-wrapper input[type="number"],
 .cozmoslabs-form-field-wrapper input[type="email"],
-.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url) {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, .cozmoslabs-tags-list input) {
     border: 1px solid #949494;
     border-radius: 2px;
     font-size: 13px;
@@ -461,7 +466,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper input[type="date"],
 .cozmoslabs-form-field-wrapper input[type="number"],
 .cozmoslabs-form-field-wrapper input[type="email"],
-.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url) {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, .cozmoslabs-tags-list input) {
     height: 40px;
 }
 
@@ -487,7 +492,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper input[type="password"]:not(:disabled):hover,
 .cozmoslabs-form-field-wrapper input[type="date"]:not(:disabled):hover,
 .cozmoslabs-form-field-wrapper input[type="number"]:not(:disabled):hover,
-.cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url):hover {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url, .cozmoslabs-tags-list input):hover {
     border-color: #3858E9;
     color: #1E1E1E;
 }
@@ -498,7 +503,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper input[type="password"]:not(:disabled):focus,
 .cozmoslabs-form-field-wrapper input[type="date"]:not(:disabled):focus,
 .cozmoslabs-form-field-wrapper input[type="number"]:not(:disabled):focus,
-.cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url):focus {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url, .cozmoslabs-tags-list input):focus {
     border-color: #3858E9;
     box-shadow: 0 0 0 1px #3858E9;
 }
@@ -949,10 +954,19 @@ body[class*="post-type-pms-"] .submitdelete:focus,
 }
 
 .cozmoslabs-wysiwyg-indented {
-    margin-left: 20px;
-    margin-right: 20px;
-    border: 1px solid #CCCCCC;
-    padding: 20px;
+    display: grid;
+    grid-template-columns: 220px calc( 100% - 230px ); /* Two columns */
+    grid-gap: 0;
+    align-items: start;
+}
+
+.cozmoslabs-wysiwyg-indented > label {
+    grid-column: 1;
+    margin-right: 10px;
+}
+
+.cozmoslabs-wysiwyg-indented > *:not(label) {
+    grid-column: 2;
 }
 
 .tmce-active .quicktags-toolbar {
@@ -962,8 +976,7 @@ body[class*="post-type-pms-"] .submitdelete:focus,
 .cozmoslabs-wysiwyg-wrapper .wp-editor-container .mce-toolbar-grp,
 .cozmoslabs-wysiwyg-wrapper .quicktags-toolbar {
     background-color: #ffffff;
-    padding: 0 30px;
-
+    padding: 0 15px;
     height: 90px;
     display: flex;
     align-items: center;
@@ -1432,26 +1445,19 @@ body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp .mce-btn.
 .cozmoslabs-available-tags .cozmoslabs-tags-list {
     padding: 5px 15px 15px 15px ;
     display: none;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 15px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 5px;
 }
 
 .cozmoslabs-available-tags .cozmoslabs-tags-list input {
-    flex-basis: 23%;
-
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
-    line-height: 20px;
+    line-height: 30px;
     color: #000000;
-
-    border: none !important;
-    box-shadow: none !important;
+    border: none;
+    box-shadow: none;
     background: none;
-    margin: 0 5px 0 0;
     padding: 0;
     height: unset;
     min-height: unset;
@@ -1761,7 +1767,7 @@ body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chose
 body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi:not(.chosen-disabled) .chosen-choices:hover,
 body[class*="post-type-pms-"] .meta-box-sortables select:hover,
 body[class*="post-type-pms-"] .meta-box-sortables input[type="search"]:hover,
-body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:hover {
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input):hover {
     border-color: #3858E9 !important;
     color: #1E1E1E;
 }
@@ -1770,7 +1776,7 @@ body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:hover {
 body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices:focus,
 body[class*="post-type-pms-"] .meta-box-sortables select:focus,
 body[class*="post-type-pms-"] .meta-box-sortables input[type="search"]:focus,
-body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:focus {
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input):focus {
     border-color: #3858E9 !important;
     box-shadow: 0 0 0 1px #3858E9 !important;
     color: #1E1E1E;
@@ -2843,20 +2849,29 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
     position: relative;
 }
 
-/*@media screen and (min-width: 1280px) {*/
 @media screen and (min-width: 1402px) {
     .paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap:not(#pms-edit-member-page),
     .paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap {
         max-width: 1200px;
         padding-right: 300px;
     }
+
+    .cozmoslabs-available-tags .cozmoslabs-tags-list:not(.cozmoslabs-wysiwyg-indented .cozmoslabs-tags-list) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
 }
 
 @media screen and (min-width: 1920px) {
     .paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap:not(#pms-edit-member-page),
     .paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap {
-        max-width: 1500px;
+        max-width: 1500px !important;
         padding-right: 300px;
+    }
+
+
+    .cozmoslabs-available-tags .cozmoslabs-tags-list {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }
 
@@ -2913,7 +2928,6 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 }
 
 /* Mobile */
-/*@media screen and (max-width:999px) {*/
 @media screen and (max-width:1401px) {
     body[class*="post-type-pms-"] #major-publishing-actions {
         justify-content: flex-end;
@@ -2948,7 +2962,6 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
     }
 }
 
-/*@media screen and (min-width:1000px) {*/
 @media screen and (min-width: 1402px) {
     .cozmoslabs-publish-metabox-fixed #submitdiv {
         position: fixed !important;
@@ -2957,9 +2970,7 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
         width: 280px;
         box-shadow: 0 3px 10px 0 #bbb;
     }
-}
 
-@media screen and (min-width: 1280px) {
     .paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap:not(#pms-edit-member-page),
     .paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap {
         max-width: 1200px;
@@ -3136,6 +3147,12 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 /* Mobile
 /***********************************************************/
 
+@media screen and (max-width: 500px) {
+    .cozmoslabs-available-tags .cozmoslabs-tags-list {
+        grid-template-columns: 1fr !important;
+    }
+}
+
 @media screen and (max-width: 600px) {
     body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner,
     body[class*="post-type-pms-"] .cozmoslabs-banner {
@@ -3247,13 +3264,12 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
         font-size: 13px;
     }
 
-    .cozmoslabs-wysiwyg-indented {
-        margin-left: 0;
-        margin-right: 0;
+    .cozmoslabs-available-tags .cozmoslabs-tags-list {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .cozmoslabs-wysiwyg-indented .mce-toolbar .mce-btn-group > div {
-        gap: 2px;
+    .cozmoslabs-wysiwyg-indented {
+        display: block;
     }
 
     #pms_custom_tax_rates thead th,
@@ -3361,19 +3377,6 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 
     #cozmoslabs-subsection-payment-logs .payment-logs td.column-modal_data .pms-modal__halfrow .pms-modal__half {
         width: 100%;
-    }
-
-    /* available tags */
-    .cozmoslabs-available-tags .cozmoslabs-tags-list {
-        display: none;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 5px;
-    }
-
-    .cozmoslabs-available-tags .cozmoslabs-tags-list input {
-        flex-basis: 40px !important;
     }
 
     /* CPTs */
@@ -3849,4 +3852,12 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 
 #pms_stripe_deprecation_notice strong {
     font-size: 110%;
+}
+
+/***********************************************************/
+/* Shortcode Copy / Click to Copy functionality
+/***********************************************************/
+
+.pms-shortcode_copy-text{
+    cursor: pointer;
 }

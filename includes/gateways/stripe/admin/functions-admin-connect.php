@@ -492,7 +492,7 @@ function pms_stripe_add_settings_content( $options ) {
 									'pms_stripe_connect_action' => 'disconnect',
 									'environment'               => $environment,
 									'pms_stripe_account_id'     => get_option( 'pms_stripe_connect_'. $environment .'_account_id', false ),
-									'home_url'                  => home_url(),
+									'home_url'                  => site_url(),
 								],
 								$stripe_connect_base_url
 							);
@@ -533,7 +533,7 @@ function pms_stripe_add_settings_content( $options ) {
 							[
 								'pms_stripe_connect_action' => 'connect',
 								'environment'               => $environment,
-								'home_url'                  => home_url(),
+								'home_url'                  => site_url(),
 							],
 							$stripe_connect_base_url
 						);

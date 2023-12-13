@@ -6,10 +6,12 @@
 jQuery( function($) {
 
     $(document).ready( function(){
-        $('.datepicker').datepicker({
-            dateFormat: 'mm/dd/yy',
-        })
-        pms_handle_fixed_membership_display();
+        if( $('.datepicker').length > 0 ){
+            $('.datepicker').datepicker({
+                dateFormat: 'mm/dd/yy',
+            })
+            pms_handle_fixed_membership_display();
+        }
     });
 
     /*

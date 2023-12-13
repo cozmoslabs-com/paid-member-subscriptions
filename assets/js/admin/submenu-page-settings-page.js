@@ -165,7 +165,7 @@ jQuery( function($) {
 
             // Hide/Show Tags List
             if (tagsList.css('display') === 'none') {
-                tagsList.css('display', 'flex');
+                tagsList.css('display', 'grid');
             } else {
                 tagsList.css('display', 'none');
             }

@@ -688,7 +688,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $user = get_userdata( $subscription->user_id );
 
-            wppb_notify_user_registration_email( get_bloginfo( 'name' ), $user->user_login, $user->user_email, $send_credentials_via_email, '', ( wppb_get_admin_approval_option_value() === 'yes' ? 'yes' : 'no' ) );
+            // Necessary for the function definition. Filter is added for the Auto-Generate password functionality from PB
+            $password = apply_filters( 'pms_stripe_wppb_password', '' );
+
+            wppb_notify_user_registration_email( get_bloginfo( 'name' ), $user->user_login, $user->user_email, $send_credentials_via_email, $password, ( wppb_get_admin_approval_option_value() === 'yes' ? 'yes' : 'no' ) );
         }
 
         $data = array(
@@ -840,6 +843,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $redirect_url = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pmsscsmsg' => base64_encode( $message ) ), $redirect_url );
 
             }
+
+            $redirect_url = add_query_arg(
+                array(
+                    'pmsscscd'                   => base64_encode( 'subscription_plans' ),
+                    'pms_gateway_payment_action' => base64_encode( $form_location ),
+                    'pms_gateway_payment_id'     => !empty( $this->payment_id ) ? base64_encode( $this->payment_id ) : '',
+                ),
+            $redirect_url );
 
         }
 

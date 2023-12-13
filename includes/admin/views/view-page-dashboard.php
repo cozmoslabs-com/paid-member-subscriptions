@@ -150,9 +150,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <p>Add registration forms where members can sign-up for a subscription plan.</p>
                     </div>
 
-                    <div class="pms-dashboard-shortcodes__row__input">
+                    <div title='Click to copy' class="pms-shortcode_copy-text pms-dashboard-shortcodes__row__input">
                         [pms-register]
                     </div>
+                    <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
                 </div>
                 <div class="pms-dashboard-shortcodes__row">
                     <div class="pms-dashboard-shortcodes__row__wrap">
@@ -160,9 +161,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <p>Allow members to login.</p>
                     </div>
 
-                    <div class="pms-dashboard-shortcodes__row__input">
+                    <div title='Click to copy' class="pms-shortcode_copy-text pms-dashboard-shortcodes__row__input">
                         [pms-login]
                     </div>
+                    <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
                 </div>
                 <div class="pms-dashboard-shortcodes__row">
                     <div class="pms-dashboard-shortcodes__row__wrap">
@@ -170,9 +172,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <p>Allow members to edit their account information and manage their subscription plans.</p>
                     </div>
 
-                    <div class="pms-dashboard-shortcodes__row__input">
+                    <div title='Click to copy' class="pms-shortcode_copy-text pms-dashboard-shortcodes__row__input">
                         [pms-account]
                     </div>
+                    <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
                 </div>
                 <div class="pms-dashboard-shortcodes__row">
                     <div class="pms-dashboard-shortcodes__row__wrap">
@@ -180,9 +183,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <p>Restrict pieces of content on individual posts and pages based on subscription ID.</p>
                     </div>
 
-                    <div class="pms-dashboard-shortcodes__row__input">
+                    <div title='Click to copy' class="pms-shortcode_copy-text pms-dashboard-shortcodes__row__input">
                         [pms-restrict subscription_plans="9,10"]
                     </div>
+                    <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
                 </div>
             </div>
 

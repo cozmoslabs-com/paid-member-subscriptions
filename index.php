@@ -3,15 +3,15 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.10.8
+ * Version: 2.10.9
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 8.3
- * Elementor tested up to: 3.17.1
- * Elementor Pro tested up to: 3.17.1
+ * WC tested up to: 8.4
+ * Elementor tested up to: 3.18.2
+ * Elementor Pro tested up to: 3.18.2
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -38,7 +38,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.10.8' );
+        define( 'PMS_VERSION', '2.10.9' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -916,6 +916,12 @@ Class Paid_Member_Subscriptions {
 
         }
 
+	    /*
+		 * Divi Extension
+		 */
+	    if ( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/divi/paid-member-subscriptions-divi-extension.php' ) )
+		    include_once PMS_PLUGIN_DIR_PATH . 'extend/divi/paid-member-subscriptions-divi-extension.php';
+
         /*
          * SiteOrigin Widgets
          */
@@ -1100,7 +1106,7 @@ Class Paid_Member_Subscriptions {
 
         // Enqueue scripts on the admin side
         if( is_admin() )
-            add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ), 20 );
 
         // Initialize shortcodes
         add_action( 'init', array( 'PMS_Shortcodes', 'init' ) );
@@ -1172,9 +1178,9 @@ Class Paid_Member_Subscriptions {
         }
 
         if ( ( is_plugin_active('profile-builder/index.php') || is_plugin_active('profile-builder-dev/index.php') ) && (
-            ( isset( $_GET['page'] ) && strpos( sanitize_text_field( $_GET['page'] ), "pms-") === 0 ) ||
-            ( isset( $_GET['post_type'] ) && strpos( sanitize_text_field( $_GET['post_type'] ), "pms-") === 0 ) ||
-            ( isset( $_GET['post'] ) && strpos( sanitize_text_field( $_GET['post'] ), "pms-") === 0 ) )
+                ( isset( $_GET['page'] ) && strpos( sanitize_text_field( $_GET['page'] ), "pms-") === 0 ) ||
+                ( isset( $_GET['post_type'] ) && strpos( sanitize_text_field( $_GET['post_type'] ), "pms-") === 0 ) ||
+                ( isset( $_GET['post'] ) && ( strpos( sanitize_text_field( $_GET['post'] ), "pms-") === 0 || strpos( get_post_type( sanitize_text_field( $_GET['post'] ) ), "pms-") === 0 ) ) )
         ) {
             wp_dequeue_style('wppb-back-end-style');
         }

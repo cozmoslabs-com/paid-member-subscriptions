@@ -53,41 +53,41 @@ msgstr ""
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:1127, index.php:1127, includes/functions-patterns.php:9, includes/functions-user.php:245, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:15, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
+#: index.php:1133, index.php:1133, includes/functions-patterns.php:9, includes/functions-user.php:245, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/views/view-page-basic-info.php:15, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18
 msgid "Paid Member Subscriptions"
 msgstr ""
 
-#: index.php:1146, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
+#: index.php:1152, includes/admin/class-admin-uninstall.php:79, includes/admin/class-admin-uninstall.php:79, includes/admin/views/view-page-uninstall.php:44, includes/admin/views/view-page-uninstall.php:60
 msgid "Uninstall"
 msgstr ""
 
-#: index.php:1148, includes/admin/class-admin-settings.php:57, includes/admin/class-admin-settings.php:297, includes/admin/class-admin-settings.php:297, includes/admin/views/view-page-basic-info.php:116, includes/admin/views/view-page-basic-info.php:177
+#: index.php:1154, includes/admin/class-admin-settings.php:57, includes/admin/class-admin-settings.php:297, includes/admin/class-admin-settings.php:297, includes/admin/views/view-page-basic-info.php:122, includes/admin/views/view-page-basic-info.php:183
 msgid "Settings"
 msgstr ""
 
-#: index.php:1150
+#: index.php:1156
 msgid "Docs"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1225
+#: index.php:1231
 msgid "Type %s to confirm deleting your account and all data associated with it:"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1227
+#: index.php:1233
 msgid "You did not type %s. Try again!"
 msgstr ""
 
-#: index.php:1245
+#: index.php:1251
 msgid "Select an option"
 msgstr ""
 
-#: index.php:1246
+#: index.php:1252
 msgid "No results match"
 msgstr ""
 
-#: index.php:1265, index.php:1265
+#: index.php:1271, index.php:1271
 msgid "Get Support"
 msgstr ""
 
@@ -463,7 +463,7 @@ msgstr ""
 msgid "Both fields are empty."
 msgstr ""
 
-#: includes/class-form-handler.php:1250, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:838
+#: includes/class-form-handler.php:1250, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:841
 msgid "Congratulations, you have successfully created an account."
 msgstr ""
 
@@ -600,7 +600,7 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: includes/class-shortcodes.php:255, includes/admin/class-admin-dashboard.php:264, includes/admin/class-admin-payments.php:537, includes/admin/class-admin-payments.php:537, includes/admin/class-admin-settings.php:223, includes/admin/class-admin-setup-wizard.php:38, includes/admin/views/view-page-basic-info.php:108, includes/admin/views/view-page-settings-misc.php:19
+#: includes/class-shortcodes.php:255, includes/admin/class-admin-dashboard.php:264, includes/admin/class-admin-payments.php:537, includes/admin/class-admin-payments.php:537, includes/admin/class-admin-settings.php:223, includes/admin/class-admin-setup-wizard.php:38, includes/admin/views/view-page-basic-info.php:114, includes/admin/views/view-page-settings-misc.php:19
 msgid "Payments"
 msgstr ""
 
@@ -2848,7 +2848,7 @@ msgstr ""
 msgid "Paid Member Subscriptions Shortcodes"
 msgstr ""
 
-#: extend/elementor/class-elementor.php:138, extend/wpbakery/class-wpbakery.php:28, includes/admin/class-admin-subscription-plans.php:1255, extend/elementor/widgets/class-widget-register.php:60, includes/admin/views/view-page-basic-info.php:89, extend/beaver-builder/modules/pms-register/pms-register.php:35, extend/beaver-builder/modules/pms-register/pms-register.php:47, extend/siteorigin/widgets/pms-register/pms-register.php:23
+#: extend/elementor/class-elementor.php:138, extend/wpbakery/class-wpbakery.php:28, includes/admin/class-admin-subscription-plans.php:1255, extend/elementor/widgets/class-widget-register.php:60, includes/admin/views/view-page-basic-info.php:95, extend/beaver-builder/modules/pms-register/pms-register.php:35, extend/beaver-builder/modules/pms-register/pms-register.php:47, extend/siteorigin/widgets/pms-register/pms-register.php:23
 msgid "Subscription Plans"
 msgstr ""
 
@@ -2897,7 +2897,7 @@ msgstr ""
 msgid "You need the proper subscription plan to be able to purchase this product."
 msgstr ""
 
-#: extend/woocommerce/woocommerce-integration.php:18, includes/admin/views/view-page-basic-info.php:150
+#: extend/woocommerce/woocommerce-integration.php:18, includes/admin/views/view-page-basic-info.php:156
 msgid "WooCommerce Integration"
 msgstr ""
 
@@ -3478,7 +3478,7 @@ msgstr ""
 msgid "The <strong>Trial Period</strong> for this Subscription has already been used."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:906, includes/admin/class-admin-members.php:906, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:97, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:14, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
+#: includes/admin/class-admin-members.php:906, includes/admin/class-admin-members.php:906, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:103, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:14, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
 msgid "Members"
 msgstr ""
 
@@ -4205,7 +4205,7 @@ msgstr[1] ""
 msgid "Discount Code"
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:371, includes/admin/views/view-page-basic-info.php:134, includes/features/discount-codes/includes/class-admin-discount-codes.php:377
+#: add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:371, includes/admin/views/view-page-basic-info.php:140, includes/features/discount-codes/includes/class-admin-discount-codes.php:377
 msgid "Discount Codes"
 msgstr ""
 
@@ -4313,31 +4313,31 @@ msgstr ""
 msgid "Amount to be charged after %1$s is %2$s %3$s, then %4$s repeated yearly."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:505, includes/features/discount-codes/includes/functions-discount.php:508
+#: add-ons-basic/discount-codes/includes/functions-discount.php:505, includes/features/discount-codes/includes/functions-discount.php:511
 msgid "The discount code you entered is invalid."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:456, includes/features/discount-codes/includes/functions-discount.php:459
+#: add-ons-basic/discount-codes/includes/functions-discount.php:456, includes/features/discount-codes/includes/functions-discount.php:462
 msgid "Please select a subscription plan and try again."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:460, includes/features/discount-codes/includes/functions-discount.php:463
+#: add-ons-basic/discount-codes/includes/functions-discount.php:460, includes/features/discount-codes/includes/functions-discount.php:466
 msgid "The discount is not valid for this subscription plan."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:465, includes/features/discount-codes/includes/functions-discount.php:468
+#: add-ons-basic/discount-codes/includes/functions-discount.php:465, includes/features/discount-codes/includes/functions-discount.php:471
 msgid "The discount code you entered is not active yet."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:470, includes/features/discount-codes/includes/functions-discount.php:473
+#: add-ons-basic/discount-codes/includes/functions-discount.php:470, includes/features/discount-codes/includes/functions-discount.php:476
 msgid "The discount code you entered has expired."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:475, includes/features/discount-codes/includes/functions-discount.php:478
+#: add-ons-basic/discount-codes/includes/functions-discount.php:475, includes/features/discount-codes/includes/functions-discount.php:481
 msgid "The discount code maximum uses have been reached."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:485, includes/features/discount-codes/includes/functions-discount.php:488
+#: add-ons-basic/discount-codes/includes/functions-discount.php:485, includes/features/discount-codes/includes/functions-discount.php:491
 msgid "The discount code maximum uses for this user have been reached."
 msgstr ""
 
@@ -4401,7 +4401,7 @@ msgstr ""
 msgid "Select discount code status."
 msgstr ""
 
-#: add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:149, includes/admin/views/view-page-basic-info.php:126, includes/features/discount-codes/views/view-meta-box-discount-codes.php:156
+#: add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:149, includes/admin/views/view-page-basic-info.php:132, includes/features/discount-codes/views/view-meta-box-discount-codes.php:156
 msgid "Recurring Payments"
 msgstr ""
 
@@ -4549,7 +4549,7 @@ msgstr[1] ""
 msgid "Email Reminder"
 msgstr ""
 
-#: add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:392, includes/admin/views/view-page-addons.php:40, includes/admin/views/view-page-basic-info.php:222
+#: add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:392, includes/admin/views/view-page-addons.php:40, includes/admin/views/view-page-basic-info.php:228
 msgid "Email Reminders"
 msgstr ""
 
@@ -4597,7 +4597,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:427, includes/admin/views/view-page-addons.php:54, includes/admin/views/view-page-basic-info.php:211
+#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:427, includes/admin/views/view-page-addons.php:54, includes/admin/views/view-page-basic-info.php:217
 msgid "Global Content Restriction"
 msgstr ""
 
@@ -4726,7 +4726,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: add-ons-basic/pay-what-you-want/includes/functions-admin.php:19, add-ons-basic/pay-what-you-want/includes/functions-admin.php:26, includes/admin/views/view-page-addons.php:68, includes/admin/views/view-page-basic-info.php:265
+#: add-ons-basic/pay-what-you-want/includes/functions-admin.php:19, add-ons-basic/pay-what-you-want/includes/functions-admin.php:26, includes/admin/views/view-page-addons.php:68, includes/admin/views/view-page-basic-info.php:271
 msgid "Pay What You Want"
 msgstr ""
 
@@ -4946,7 +4946,7 @@ msgstr ""
 msgid "Member removed successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:917, add-ons-pro/group-memberships/includes/class-group-memberships.php:945, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1516, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:951, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:990
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:917, add-ons-pro/group-memberships/includes/class-group-memberships.php:945, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1516, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:962, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1001
 msgid "Something went wrong, please try again."
 msgstr ""
 
@@ -4974,7 +4974,7 @@ msgstr ""
 msgid "Please select the [pms-account] page under Settings -> General -> Membership Pages in order for Group Owners to be able to invite members and manage their group."
 msgstr ""
 
-#: add-ons-pro/invoices/includes/functions-admin.php:21, includes/admin/views/view-page-addons.php:103, includes/admin/views/view-page-basic-info.php:341
+#: add-ons-pro/invoices/includes/functions-admin.php:21, includes/admin/views/view-page-addons.php:103, includes/admin/views/view-page-basic-info.php:347
 msgid "Invoices"
 msgstr ""
 
@@ -5286,7 +5286,7 @@ msgstr ""
 msgid "User returned to the website for authentication."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1525, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:999
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1525, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1010
 msgid "Payment method updated successfully."
 msgstr ""
 
@@ -5450,7 +5450,7 @@ msgstr ""
 msgid "The %1$sRegister Page%2$s is not selected in  %3$sPaid Member Subscriptions --> Settings%4$s"
 msgstr ""
 
-#: extend/elementor/widgets/class-widget-account.php:24, includes/admin/views/view-page-basic-info.php:47, includes/admin/views/view-page-settings-general.php:174, extend/beaver-builder/modules/pms-account/pms-account.php:16, includes/admin/views/setup-wizard/view-tab-user-pages.php:83
+#: extend/elementor/widgets/class-widget-account.php:24, includes/admin/views/view-page-basic-info.php:49, includes/admin/views/view-page-settings-general.php:174, extend/beaver-builder/modules/pms-account/pms-account.php:16, includes/admin/views/setup-wizard/view-tab-user-pages.php:83
 msgid "Account"
 msgstr ""
 
@@ -5470,7 +5470,7 @@ msgstr ""
 msgid "Enter URL"
 msgstr ""
 
-#: extend/elementor/widgets/class-widget-login.php:24, includes/admin/views/view-page-basic-info.php:38, includes/admin/views/view-page-settings-general.php:146, extend/beaver-builder/modules/pms-login/pms-login.php:16, includes/admin/views/setup-wizard/view-tab-user-pages.php:59
+#: extend/elementor/widgets/class-widget-login.php:24, includes/admin/views/view-page-basic-info.php:39, includes/admin/views/view-page-settings-general.php:146, extend/beaver-builder/modules/pms-login/pms-login.php:16, includes/admin/views/setup-wizard/view-tab-user-pages.php:59
 msgid "Login"
 msgstr ""
 
@@ -5506,7 +5506,7 @@ msgstr ""
 msgid "This message will be displayed to <strong>logged out</strong> or <strong>non-member</strong> users if a product has a Membership Discount.<br><br>If you leave this <strong>empty</strong>, the %1$sProduct Discounted - Membership Required Custom Message%2$s will be displayed."
 msgstr ""
 
-#: extend/elementor/widgets/class-widget-recover-password.php:24, includes/admin/views/view-page-basic-info.php:69, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:16
+#: extend/elementor/widgets/class-widget-recover-password.php:24, includes/admin/views/view-page-basic-info.php:74, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:16
 msgid "Recover Password"
 msgstr ""
 
@@ -5606,7 +5606,7 @@ msgstr ""
 msgid "Message displayed to non-members if the product has a membership discount. Displays below add to cart buttons. Leave blank to disable."
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:72, includes/admin/views/view-page-basic-info.php:184
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:72, includes/admin/views/view-page-basic-info.php:190
 msgid "Product Memberships"
 msgstr ""
 
@@ -5694,7 +5694,7 @@ msgstr ""
 msgid "You must first purchase this version to have access to the addon %1$shere%2$s"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:28, includes/admin/views/view-page-basic-info.php:204
+#: includes/admin/views/view-page-addons.php:28, includes/admin/views/view-page-basic-info.php:210
 msgid "Basic Add-ons"
 msgstr ""
 
@@ -5702,7 +5702,7 @@ msgstr ""
 msgid "These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Agency plans."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:33, includes/admin/views/view-page-basic-info.php:244
+#: includes/admin/views/view-page-addons.php:33, includes/admin/views/view-page-basic-info.php:250
 msgid "bbPress"
 msgstr ""
 
@@ -5710,11 +5710,11 @@ msgstr ""
 msgid "Integrate Paid Member Subscriptions with the popular forums plugin, bbPress. Restrict your forums and topics and allow only premium members to have access to them."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:41, includes/admin/views/view-page-basic-info.php:229
+#: includes/admin/views/view-page-addons.php:41, includes/admin/views/view-page-basic-info.php:235
 msgid "Create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:47, includes/admin/views/view-page-basic-info.php:254
+#: includes/admin/views/view-page-addons.php:47, includes/admin/views/view-page-basic-info.php:260
 msgid "Fixed Period Membership"
 msgstr ""
 
@@ -5722,23 +5722,23 @@ msgstr ""
 msgid "The Fixed Period Membership Add-On allows your Subscriptions to end at a specific date, no matter when a client subscribes to it."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:55, includes/admin/views/view-page-basic-info.php:218
+#: includes/admin/views/view-page-addons.php:55, includes/admin/views/view-page-basic-info.php:224
 msgid "Easy way to add global content restriction rules to subscription plans, based on post type, taxonomy and terms."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:61, includes/admin/views/view-page-basic-info.php:233
+#: includes/admin/views/view-page-addons.php:61, includes/admin/views/view-page-basic-info.php:239
 msgid "Navigation Menu Filtering"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:62, includes/admin/views/view-page-basic-info.php:240
+#: includes/admin/views/view-page-addons.php:62, includes/admin/views/view-page-basic-info.php:246
 msgid "Dynamically display menu items based on logged-in status as well as selected subscription plans."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:69, includes/admin/views/view-page-basic-info.php:272
+#: includes/admin/views/view-page-addons.php:69, includes/admin/views/view-page-basic-info.php:278
 msgid "Let subscribers pay what they want by offering a variable pricing option when they purchase a membership plan."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:77, includes/admin/views/view-page-basic-info.php:286
+#: includes/admin/views/view-page-addons.php:77, includes/admin/views/view-page-basic-info.php:292
 msgid "Pro Add-ons"
 msgstr ""
 
@@ -5750,19 +5750,19 @@ msgstr ""
 msgid "Pro-Rate"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:83, includes/admin/views/view-page-basic-info.php:385
+#: includes/admin/views/view-page-addons.php:83, includes/admin/views/view-page-basic-info.php:391
 msgid "Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:89, includes/admin/views/view-page-basic-info.php:317
+#: includes/admin/views/view-page-addons.php:89, includes/admin/views/view-page-basic-info.php:323
 msgid "Content Dripping"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:90, includes/admin/views/view-page-basic-info.php:324
+#: includes/admin/views/view-page-addons.php:90, includes/admin/views/view-page-basic-info.php:330
 msgid "Create schedules for your content, making posts or categories available for your members only after a certain time has passed since they signed up for a subscription plan."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:96, includes/admin/views/view-page-basic-info.php:354
+#: includes/admin/views/view-page-addons.php:96, includes/admin/views/view-page-basic-info.php:360
 msgid "Group Memberships"
 msgstr ""
 
@@ -5778,11 +5778,11 @@ msgstr ""
 msgid "Multiple Subscriptions Per User"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:111, includes/admin/views/view-page-basic-info.php:336
+#: includes/admin/views/view-page-addons.php:111, includes/admin/views/view-page-basic-info.php:342
 msgid "Setup multiple subscription level blocks and allow members to sign up for more than one subscription plan (one per block)."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:117, includes/admin/views/view-page-basic-info.php:293
+#: includes/admin/views/view-page-addons.php:117, includes/admin/views/view-page-basic-info.php:299
 msgid "PayPal Express"
 msgstr ""
 
@@ -5790,15 +5790,15 @@ msgstr ""
 msgid "Accept one-time or recurring payments through PayPal Express."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:124, includes/admin/views/view-page-basic-info.php:305, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:39, includes/gateways/stripe/admin/functions-admin-connect.php:400
+#: includes/admin/views/view-page-addons.php:124, includes/admin/views/view-page-basic-info.php:311, add-ons-pro/stripe/includes/admin/functions-admin-pages.php:39, includes/gateways/stripe/admin/functions-admin-connect.php:400
 msgid "Stripe"
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:125, includes/admin/views/view-page-basic-info.php:312
+#: includes/admin/views/view-page-addons.php:125, includes/admin/views/view-page-basic-info.php:318
 msgid "Accept credit card payments, both one-time and recurring, directly on your website via Stripe."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:131, includes/admin/views/view-page-basic-info.php:366
+#: includes/admin/views/view-page-addons.php:131, includes/admin/views/view-page-basic-info.php:372
 msgid "Tax & EU VAT"
 msgstr ""
 
@@ -5806,7 +5806,7 @@ msgstr ""
 msgid "Helps you collect tax or vat from your users depending on their location, with full control over tax rates and who to charge."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:156, includes/admin/views/view-page-basic-info.php:400
+#: includes/admin/views/view-page-addons.php:156, includes/admin/views/view-page-basic-info.php:406
 msgid "Recommended Plugins"
 msgstr ""
 
@@ -5894,195 +5894,195 @@ msgstr ""
 msgid "Membership Made Easy"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:32
+#: includes/admin/views/view-page-basic-info.php:33
 msgid "Add basic registration forms where members can sign-up for a subscription plan. "
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:33, includes/admin/views/view-page-basic-info.php:42, includes/admin/views/view-page-basic-info.php:51, includes/admin/views/view-page-basic-info.php:64, includes/admin/views/view-page-basic-info.php:73, includes/admin/views/view-page-basic-info.php:92, includes/admin/views/view-page-basic-info.php:100, includes/admin/views/view-page-basic-info.php:111, includes/admin/views/view-page-basic-info.php:119, includes/admin/views/view-page-basic-info.php:129, includes/admin/views/view-page-basic-info.php:137, includes/admin/views/view-page-basic-info.php:153
+#: includes/admin/views/view-page-basic-info.php:34, includes/admin/views/view-page-basic-info.php:44, includes/admin/views/view-page-basic-info.php:54, includes/admin/views/view-page-basic-info.php:69, includes/admin/views/view-page-basic-info.php:79, includes/admin/views/view-page-basic-info.php:98, includes/admin/views/view-page-basic-info.php:106, includes/admin/views/view-page-basic-info.php:117, includes/admin/views/view-page-basic-info.php:125, includes/admin/views/view-page-basic-info.php:135, includes/admin/views/view-page-basic-info.php:143, includes/admin/views/view-page-basic-info.php:159
 msgid "Learn more"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:41
+#: includes/admin/views/view-page-basic-info.php:43
 msgid "Allow members to login."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:50
+#: includes/admin/views/view-page-basic-info.php:53
 msgid "Allow members to edit their account information and manage their subscription plans."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:56
+#: includes/admin/views/view-page-basic-info.php:59
 msgid "Restrict Content"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:59
+#: includes/admin/views/view-page-basic-info.php:63
 msgid "Special content for members subscribed to the subscription plans that have the ID 9 and 10!"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:63
+#: includes/admin/views/view-page-basic-info.php:68
 msgid "Restrict content using the shortcode or directly from individual posts and pages."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:72
+#: includes/admin/views/view-page-basic-info.php:78
 msgid "Add a recover password form for your members."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:82
+#: includes/admin/views/view-page-basic-info.php:88
 msgid "Membership Modules"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:91
+#: includes/admin/views/view-page-basic-info.php:97
 msgid "Create hierarchical subscription plans allowing your members to upgrade from an existing subscription. Shortcode based, offering many options to customize your subscriptions listing."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:99
+#: includes/admin/views/view-page-basic-info.php:105
 msgid "Overview of all your members and their subscription plans. Easily add/remove members or edit their subscription details."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:110
+#: includes/admin/views/view-page-basic-info.php:116
 msgid "Keep track of all member payments, payment statuses, purchased subscription plans but also figure out why a Payment failed."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:118
+#: includes/admin/views/view-page-basic-info.php:124
 msgid "Set the payment gateway used to accept payments, select messages seen by users when accessing a restricted content page or customize default member emails. Everything is just a few clicks away."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:128
+#: includes/admin/views/view-page-basic-info.php:134
 msgid "Setup recurring payments for your subscription plans."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:136
+#: includes/admin/views/view-page-basic-info.php:142
 msgid "Friction-less discount code creation for running promotions, making price reductions or simply rewarding your users."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:152
+#: includes/admin/views/view-page-basic-info.php:158
 msgid "Integrates beautifully with WooCommerce, for extended functionality."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:161
+#: includes/admin/views/view-page-basic-info.php:167
 msgid "Restrict Product Viewing & Purchasing"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:163
+#: includes/admin/views/view-page-basic-info.php:169
 msgid "Control who can see or purchase a WooCommerce product based on logged in status and subscription plan. Easily create products available to members only."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:168
+#: includes/admin/views/view-page-basic-info.php:174
 msgid "Offer Membership Discounts"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:170
+#: includes/admin/views/view-page-basic-info.php:176
 msgid "Offer product discounts to members based on their active subscription. Set discounts globally per subscription plan, or individually per product."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:179
+#: includes/admin/views/view-page-basic-info.php:185
 msgid "Make use of the extra flexibility by setting custom restriction messages per product, excluding products on sale from membership discounts, allowing cumulative discounts & more."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:186
+#: includes/admin/views/view-page-basic-info.php:192
 msgid "You can associate Subscription Plans with Products in order to sell them through WooCommerce."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:199
+#: includes/admin/views/view-page-basic-info.php:205
 msgid "Featured Add-ons"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:200
+#: includes/admin/views/view-page-basic-info.php:206
 msgid "Get more functionality by using dedicated Add-ons and tailor Paid Member Subscriptions to your project needs."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:206
+#: includes/admin/views/view-page-basic-info.php:212
 msgid "These addons extend your WordPress Membership Plugin and are available with the <a href=\"%s\">Basic and PRO</a> versions."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:250
+#: includes/admin/views/view-page-basic-info.php:256
 msgid "Integrate Paid Member Subscriptions with the popular forums plugin, bbPress."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:261
+#: includes/admin/views/view-page-basic-info.php:267
 msgid "The Fixed Period Membership Add-On allows your Subscriptions to end at a specific date."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:279
+#: includes/admin/views/view-page-basic-info.php:285
 msgid "Get Basic Add-ons"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:277
+#: includes/admin/views/view-page-basic-info.php:283
 msgid "Activate Basic Add-ons"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:288
+#: includes/admin/views/view-page-basic-info.php:294
 msgid "These addons extend your WordPress Membership Plugin and are available with the <a href=\"%s\">PRO version</a> only."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:300
+#: includes/admin/views/view-page-basic-info.php:306
 msgid "Accept one time or recurring payments through PayPal Express Checkout."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:329
+#: includes/admin/views/view-page-basic-info.php:335
 msgid "Multiple Subscriptions / User"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:348
+#: includes/admin/views/view-page-basic-info.php:354
 msgid "This add-on allows you and your members to download PDF invoices for each payment that has been completed."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:361
+#: includes/admin/views/view-page-basic-info.php:367
 msgid "Sell group subscriptions that contain multiple member seats but are managed and purchased by a single account."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:373
+#: includes/admin/views/view-page-basic-info.php:379
 msgid "Collect tax or vat from your users depending on their location, with full control over tax rates and who to charge."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:378
+#: includes/admin/views/view-page-basic-info.php:384
 msgid "Pro Rate"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:393
+#: includes/admin/views/view-page-basic-info.php:399
 msgid "Get Pro Add-ons"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:391
+#: includes/admin/views/view-page-basic-info.php:397
 msgid "Activate Pro Add-ons"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:407
+#: includes/admin/views/view-page-basic-info.php:413
 msgid "Easily translate your entire WordPress website"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:410
+#: includes/admin/views/view-page-basic-info.php:416
 msgid "Translate your Paid Member Subscriptions checkout with a WordPress translation plugin that anyone can use."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:411
+#: includes/admin/views/view-page-basic-info.php:417
 msgid "It offers a simpler way to translate WordPress sites, with full support for WooCommerce and site builders."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:422
+#: includes/admin/views/view-page-basic-info.php:428
 msgid "All in one user profile and user registration plugin for WordPress"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:425
+#: includes/admin/views/view-page-basic-info.php:431
 msgid "Capture more user information on the registration form with the help of Profile Builder's custom user profile fields."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:426
+#: includes/admin/views/view-page-basic-info.php:432
 msgid "Add an Email Confirmation process to verify your customers accounts."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:437
+#: includes/admin/views/view-page-basic-info.php:443
 msgid "Save time and money using automations"
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:440
+#: includes/admin/views/view-page-basic-info.php:446
 msgid "Create no-code automations and workflows on your WordPress site."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:441
+#: includes/admin/views/view-page-basic-info.php:447
 msgid "Integrates with Profile Builder or Paid Member Subscriptions, depending on which plugin it's for."
 msgstr ""
 
-#: includes/admin/views/view-page-basic-info.php:447
+#: includes/admin/views/view-page-basic-info.php:453
 msgid "Paid Member Subscriptions comes with an <a href=\"%s\">extensive documentation</a> to assist you."
 msgstr ""
 
@@ -6130,7 +6130,7 @@ msgstr ""
 msgid "Use these shortcodes to quickly setup and customize your membership website."
 msgstr ""
 
-#: includes/admin/views/view-page-dashboard.php:189
+#: includes/admin/views/view-page-dashboard.php:193
 msgid "Learn more about shortcodes"
 msgstr ""
 
@@ -6418,7 +6418,7 @@ msgstr ""
 msgid "Add New Payment"
 msgstr ""
 
-#: includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1713
+#: includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1724
 msgid "Payment Details"
 msgstr ""
 
@@ -7274,11 +7274,11 @@ msgstr ""
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:824
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:827
 msgid "The account %1s has been successfully created!"
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:829
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:832
 msgid "Before you can access your account %1s, an administrator has to approve it. You will be notified via email."
 msgstr ""
 

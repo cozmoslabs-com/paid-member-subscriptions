@@ -449,7 +449,10 @@ function pms_in_dc_get_discount_error( $code, $subscription ){
         if ( !empty($discount_meta) ) { //discount is active
 
             //Determine form location
-            $form_location = PMS_Form_Handler::get_request_form_location();
+            if( isset( $_REQUEST['pmstkn'] ) )
+                $form_location = PMS_Form_Handler::get_request_form_location();
+            elseif( isset( $_REQUEST['pmstkn_original'] ) )
+                $form_location = PMS_Form_Handler::get_request_form_location( 'pmstkn_original' );
 
             $discount_subscriptions = array();
             if (!empty($discount_meta['pms_discount_subscriptions']))

@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 2.10.8
+Stable tag: 2.10.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,18 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.10.9 =
+* Feature: Added Divi Modules that can be used to create the pages with the plugin shortcodes
+* Fix: Issue with form location when validating Discount Codes request
+* Fix: Issue with doing it wrong notice relating to Gutenberg Content Restriction blocks
+* Fix: When using Stripe make sure usual URL parameters are retained when redirecting to the Register Success Page
+* Fix: Use site_url() when determining the location to return the admin when a Stripe connect account request is made
+* Fix: Issue with the Automatically Generate Password for users feature from Profile Builder when using Stripe
+* Misc: Hide Lost Connection notice from the plugin custom post type pages
+* Misc: Updated Stripe PHP bindings to the latest version
+* Misc: Added click to copy functionality for shortcodes displayed on the back-end pages
+* Misc: Fix javascript custom post types error showing in back-end
+
 = 2.10.8 =
 * Feature: Added default form styling for block themes
 * Fix: Issue between Content Restriction and Gutenberg Blocks which was causing them to not load in back-end

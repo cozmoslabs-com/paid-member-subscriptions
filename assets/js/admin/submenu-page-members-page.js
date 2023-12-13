@@ -589,7 +589,7 @@ jQuery( document ).ready(setTimeout(function () {
 
 function pmsRepositionCptPublishBox() {
     let buttonWrapperContainer = jQuery('#side-sortables'),
-        containerOffsetTop = buttonWrapperContainer.offset().top;
+        containerOffsetTop = buttonWrapperContainer.length > 0 ? buttonWrapperContainer.offset().top : 0;
 
     // set initial position
     pmsSetCptPublishBoxPosition();
