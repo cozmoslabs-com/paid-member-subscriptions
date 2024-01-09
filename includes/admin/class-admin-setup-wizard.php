@@ -298,7 +298,11 @@ class PMS_Setup_Wizard {
                 'url'    => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/content-restriction/?utm_source=wpbackend&utm_medium=pms-dashboard-page&utm_campaign=PMSPro',
                 'target' => '_blank',
             ),
-            //'pricing_table' => __( 'Placeholder', 'paid-member-subscriptions' ),
+            'pricing_page' => array(
+                    'label' => __( 'Create a Pricing Page to sell your plans.', 'paid-member-subscriptions' ),
+                    'url'   => '',
+                    'id'    => 'pms-popup2',
+            ),
         );
 
         if ( ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) || ( is_plugin_active_for_network('woocommerce/woocommerce.php') ) ){
@@ -338,6 +342,10 @@ class PMS_Setup_Wizard {
         if( !isset( $steps_completion['restrict_content'] ) && self::website_has_restricted_content() )
             $steps_completion['restrict_content'] = 1;
 
+        // Pricing Page Completion
+        if( !isset( $steps_completion['pricing_page'] ) && self::website_has_pricing_page() )
+            $steps_completion['pricing_page'] = 1;
+
         // WooCommerce
         if( !isset( $steps_completion['woocommerce'] ) && self::website_has_restricted_purchase_products() )
             $steps_completion['woocommerce'] = 1;
@@ -361,18 +369,24 @@ class PMS_Setup_Wizard {
 
             <div class="pms-setup-progress__steps">
                 <?php foreach( $steps as $slug => $step ) : ?>
-                    <a class="pms-setup-progress__step <?php echo isset( $steps_completion[$slug] ) && $steps_completion[$slug] == 1 ? 'completed' : ''; ?>" href="<?php echo esc_url( $step['url'] ) ?>" target="<?php echo isset( $step['target'] ) ? esc_html( $step['target'] ) : '' ?>">
+                    <a class="pms-setup-progress__step <?php echo isset( $steps_completion[$slug] ) && $steps_completion[$slug] == 1 ? 'completed' : ''; ?>" href="<?php echo esc_url( $step['url'] ) ?>" target="<?php echo isset( $step['target'] ) ? esc_html( $step['target'] ) : '' ?>" id="<?php echo isset( $step['id'] ) ? esc_html( $step['id'] ) : '' ?>">
                          <?php echo esc_html( $step['label'] ); ?>
                     </a>
                 <?php endforeach; ?>
             </div>
         </div>
 
+
         <?php
         $output = ob_get_clean();
 
         echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
+    }
+
+    public static function output_modal_progress_steps(){
+
+        pms_output_modal_create_pricing_page();
     }
 
     public function check_value( $slug ){
@@ -444,6 +458,14 @@ class PMS_Setup_Wizard {
         
         return false;
 
+    }
+
+    public static function website_has_pricing_page(){
+        if( get_option('pms_create_pricing_page_complete') === 'pricing_page_exist'){
+            return true;
+        }
+
+        return false;
     }
 
     public static function website_has_restricted_content(){

@@ -10,7 +10,7 @@ class PMS_Plugin_Usage_Tracker {
 
 	public function init() {
 
-		add_action( 'admin_init',              array( $this, 'register_admin_notice' ) );
+		//add_action( 'admin_init',              array( $this, 'register_admin_notice' ) );
 		add_action( 'admin_init',              array( $this, 'allow_deny_tracking' ) );
 
 		if( $this->is_tracking_allowed() ){

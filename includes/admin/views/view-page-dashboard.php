@@ -192,6 +192,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             <a class="button button-secondary" href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/"><?php esc_html_e( 'Learn more about shortcodes', 'paid-member-subscriptions' ); ?></a>
         </div>
+
+        <?php PMS_Setup_Wizard::output_modal_progress_steps(); ?>
+
     </div>
 
 </div>

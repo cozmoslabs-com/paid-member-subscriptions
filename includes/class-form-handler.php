@@ -2428,8 +2428,10 @@ Class PMS_Form_Handler {
                 $subscription_data['billing_next_payment']  = '';
             }
 
-            if( ( !$subscription_plan->is_fixed_period_membership() && $has_trial ) || ( $has_trial && strtotime( $subscription_plan->get_expiration_date() ) > strtotime( $subscription_plan->get_trial_expiration_date() ) ) )
-                $subscription_data['billing_next_payment'] = $subscription_plan->get_trial_expiration_date();
+            if( ( !$subscription_plan->is_fixed_period_membership() && $has_trial ) || ( $has_trial && strtotime( $subscription_plan->get_expiration_date() ) > strtotime( $subscription_plan->get_trial_expiration_date() ) ) ){
+                $trial_expiration_date = $subscription_plan->get_trial_expiration_date();
+                $subscription_data['billing_next_payment'] = !empty( $trial_expiration_date ) ? $trial_expiration_date : $subscription_data['billing_next_payment'];
+            }
 
         }
 

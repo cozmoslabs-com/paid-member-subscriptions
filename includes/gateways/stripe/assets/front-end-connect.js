@@ -27,6 +27,11 @@ jQuery( function( $ ) {
     if( pms.stripe_locale )
         StripeData.locale = pms.stripe_locale
 
+    var stripe_appearance = ''
+
+    if( pms.pms_elements_appearance_api )
+        stripe_appearance = pms.pms_elements_appearance_api
+
     var stripe = Stripe( stripe_pk, StripeData )
 
     var elements              = false
@@ -34,11 +39,11 @@ jQuery( function( $ ) {
 
     // This only exists on payment pages that display the payment element
     if( $client_secret && $client_secret.length > 0 )
-        elements = stripe.elements({ clientSecret: $client_secret })
+        elements = stripe.elements({ clientSecret: $client_secret, appearance: stripe_appearance })
     
     // This exists on payment pages and also on the Update Payment Method page
     if ( $client_secret_setup_intent && $client_secret_setup_intent.length > 0 )
-        elements_setup_intent = stripe.elements({ clientSecret: $client_secret_setup_intent })
+        elements_setup_intent = stripe.elements({ clientSecret: $client_secret_setup_intent, appearance: stripe_appearance })
 
     var $payment_element        = ''
     var $elements_instance_slug = ''
@@ -498,6 +503,9 @@ jQuery( function( $ ) {
             if ( form_data.pms_recurring )
                 data.pms_recurring = form_data.pms_recurring
 
+            if ( form_data.discount_code )
+                data.discount_code = form_data.discount_code
+
             $.post(pms.ajax_url, data, function (response) {
 
                 response = JSON.parse(response)
@@ -644,7 +652,7 @@ jQuery( function( $ ) {
         if ( verify_captcha && typeof data['g-recaptcha-response'] != 'undefined' && data['g-recaptcha-response'] == '' ) {
 
             if (data.form_type == 'wppb')
-                addWPPBValidationErrors({ recaptcha: { field: 'recaptcha', error: '<span class="wppb-form-error">This field is required</span>' } }, current_button)
+                addWPPBValidationErrors_old({ recaptcha: { field: 'recaptcha', error: '<span class="wppb-form-error">This field is required</span>' } }, current_button)
             else
                 addValidationErrors({ 'recaptcha-register': { target: 'recaptcha-register', message: 'Please complete the reCaptcha.' } }, current_button)
 
@@ -1026,7 +1034,7 @@ jQuery( function( $ ) {
 
         let selected_plan = $( subscription_plan_selector + '[type=radio]' ).length > 0 ? $( subscription_plan_selector + '[type=radio]:checked' ) : $( subscription_plan_selector + '[type=hidden]' )
 
-        if ( typeof selected_plan.data('trial') != 'undefined' && selected_plan.data('trial') == '1' )
+        if ( typeof selected_plan.data('trial') != 'undefined' && selected_plan.data('trial') == '1' && !$.pms_plan_has_signup_fee( selected_plan ) )
             return true
         // If a 100% discount code is used, initial amount will be 0
         else if ( $('input[name="discount_code"]' ).length > 0 && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0' )
@@ -1119,8 +1127,29 @@ jQuery( function( $ ) {
 
     }
 
-    // Taken from MultiStep Forms code
     function addWPPBValidationErrors( errors, current_button ){
+
+        let scroll = false
+
+        // errors is of the form: FIELD_ID => FIELD_ERROR
+        jQuery.each( errors, function( key, value ) {
+
+            let field = jQuery('#wppb-form-element-' + key )
+
+            field.addClass( 'wppb-field-error' )
+            field.append( value )
+
+            scroll = true
+
+        })
+
+        if( scroll )
+            scrollTo( '.wppb-register-user', current_button )
+
+    }
+
+    // Taken from MultiStep Forms code
+    function addWPPBValidationErrors_old( errors, current_button ){
 
         let form   = $(current_button).closest('form')
         let scroll = false

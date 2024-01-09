@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 2.10.9
+Stable tag: 2.10.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,18 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.10.10 =
+* Fix: Don't show Cancel subscription button for Unlimited subscriptions
+* Fix: An issue where there expiration date wasn't correctly set when a 100% discount code was used
+* Fix: Issue with Profile Builder form not being validated properly when Stripe was used
+* Fix: Issue with Sign-up fees being added to every Stripe recurring payment
+* Fix: Issue with free trial subscriptions that also had a sign-up fee not being properly activated through Stripe
+* Fix: Register form sidebar issue when it was placed alongside a login form on the same page
+* Misc: Added a shortcode that can be used to get a member count: [pms-count-members plan_id="" status=""]
+* Misc: Enable support for the Stripe Elements Appearance API. Rules can be added through the: pms_stripe_connect_elements_styling filter
+* Misc: Correct display for Payment Logs View Details modal
+* Misc: Added a new initial recommended step: Create Pricing Page
+
 = 2.10.9 =
 * Feature: Added Divi Modules that can be used to create the pages with the plugin shortcodes
 * Fix: Issue with form location when validating Discount Codes request

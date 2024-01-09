@@ -1218,8 +1218,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 if( in_array( $currency, $zero_decimal_currencies ) ){
                     $subscription_data['billing_amount'] = $checkout_amount;
-                } else {
-                    $subscription_data['billing_amount'] = $checkout_amount / 100;
                 }
             }
 

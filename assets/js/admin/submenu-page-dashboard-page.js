@@ -21,7 +21,6 @@ jQuery( document ).on( 'change', '#pms-dashboard-stats-select', function(){
             jQuery('.pms-dashboard-box.payments_count .value').html( response.data.payments_count )
 
     });
-
 });
 
 // Function that copies the shortcode from a text
@@ -37,3 +36,20 @@ jQuery(document).ready(function() {
 
     })
 });
+
+/*
+   * Showing and closing the modal
+   */
+
+jQuery(document).on( 'click', '#pms-popup2', function(e) {
+    e.preventDefault();
+    jQuery( '.pms-modal' ).show();
+    jQuery('.overlay').show();
+});
+
+jQuery(document).on( 'click', '.pms-button-close', function(e) {
+    e.preventDefault();
+    jQuery( '.pms-modal' ).hide();
+    jQuery('.overlay').hide();
+});
+

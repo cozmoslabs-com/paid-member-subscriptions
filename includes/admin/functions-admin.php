@@ -369,3 +369,106 @@ function pms_output_page_banner( $page_name ) {
 
     echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
+
+/* Function that displays the modal for the create pricing page*/
+
+    function pms_output_modal_create_pricing_page(){
+        global $pagenow;
+
+        ?>
+        <div class="overlay"></div>
+
+        <div id="" class="pms-modal <?php if( $pagenow === 'admin.php' && isset( $_GET['page'] ) && $_GET['page'] === 'pms-dashboard-page' ) { echo 'pms-modal-dashboard'; } ?>">
+            <div class="pms-modal__holder">
+                <h2 class="cozmoslabs-page-title"><?php esc_html_e( 'Create Pricing Page', 'paid-member-subscriptions' ); ?></h2>
+                <a class="pms-button-close" id="pms-button-close" href="#">&times;</a>
+                <div class="pms-content">
+                    <?php
+                    if( empty( pms_get_page( 'register' ) ) || pms_get_page( 'register' ) == false ){
+
+                        $pms_url_settings_page = esc_url( add_query_arg( array( 'page' => 'pms-settings-page' ), admin_url( 'admin.php' ) ) . '#cozmoslabs-subsection-membership-pages' );
+                        $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS -> Settings -> Membership Pages -> Registration', 'paid-member-subscriptions' ) . '</a>';
+                        $pms_register_page_set_error = sprintf( __('%sError:%s It seems that you do not have the register page set. To solve the problem, please navigate to %s and select the page containing the %s shortcode.', 'paid-member-subscriptions'),
+                            '<strong>', '</strong>', $pms_url, '<strong>[pms-register]</strong>');
+                        echo '<div class="pms-error-box">';
+                        echo '<p class="pms-error-message">' . wp_kses_post( $pms_register_page_set_error ) . '</p>';
+                        echo '</div>';
+                        return;
+                    }
+
+                    $subscriptions = pms_get_subscription_plans();
+
+                    if( empty( $subscriptions ) || $subscriptions === null || count( $subscriptions ) === 0){
+
+                        $pms_url_settings_page = esc_url( admin_url( 'post-new.php?post_type=pms-subscription' ) );
+                        $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS -> Subscription Plans-> Add New', 'paid-member-subscriptions' ) . '</a>';
+                        $pms_register_page_set_error = sprintf( __('%sError:%s It seems that you do not have any subscriptions plans set. To solve the problem, please navigate to %s and add a new subscription plan.', 'paid-member-subscriptions'),
+                            '<strong>', '</strong>', $pms_url);
+                        echo '<div class="pms-error-box">';
+                        echo '<p class="pms-error-message">' . wp_kses_post( $pms_register_page_set_error ) . '</p>';
+                        echo '</div>';
+                        return;
+                    }
+                    ?>
+                    <p><?php esc_html_e( 'Select the subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans.', 'paid-member-subscriptions' ); ?></p>
+                    <form action="<?php echo  esc_url( admin_url( 'admin-post.php') ); ?>" method="post" class="pms-form">
+                        <table class="pms-select-container">
+                            <tr>
+                                <th>
+                                    <label for="pms-silver-subscription-plan"><?php esc_html_e( 'First plan:', 'paid-member-subscriptions' ); ?></label>
+                                </th>
+                                <td>
+                                    <select id="pms-silver-subscription-plan" name="pms-silver-subscription-plan"  class="pms-chosen-modal" >
+                                        <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
+                                        <?php
+                                        foreach ( $subscriptions as $subscription ){
+                                            echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="pms-gold-subscription-plan"><?php esc_html_e( 'Second plan:', 'paid-member-subscriptions' ); ?></label>
+                                </th>
+                                <td>
+                                    <select id="pms-gold-subscription-plan" name="pms-gold-subscription-plan"  class="pms-chosen-modal" >
+                                        <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
+                                        <?php
+                                        $subscriptions = pms_get_subscription_plans();
+                                        foreach ( $subscriptions as $subscription ){
+                                            echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="pms-platinum-subscription-plan"><?php esc_html_e( 'Third plan:', 'paid-member-subscriptions' ); ?></label>
+                                </th>
+                                <td>
+                                    <select id="pms-platinum-subscription-plan" name="pms-platinum-subscription-plan"  class="pms-chosen-modal" >
+                                        <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
+                                        <?php
+                                        $subscriptions = pms_get_subscription_plans();
+                                        foreach ( $subscriptions as $subscription ){
+                                            echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="margin-top: 10px;">
+                            <input type="hidden" name="action" value="pms_create_pricing_table_page">
+                            <input type="submit" class="button button-primary" value="Submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <?php
+    }

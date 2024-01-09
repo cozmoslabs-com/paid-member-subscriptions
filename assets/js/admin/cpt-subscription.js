@@ -75,10 +75,12 @@ jQuery( function($) {
 
     $(document).on( 'click', '#pms-popup1', function() {
         $( '.pms-modal' ).show();
+        jQuery('.overlay').show();
     });
 
-    $(document).on( 'click', '#pms-button-close', function() {
+    $(document).on( 'click', '.pms-button-close', function() {
         $( '.pms-modal' ).hide();
+        jQuery('.overlay').hide();
     });
 
     /*

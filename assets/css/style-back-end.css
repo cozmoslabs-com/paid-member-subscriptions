@@ -12,6 +12,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 body[class*="post-type-pms-"].post-php #wpbody-content .wrap {
@@ -2129,6 +2130,8 @@ body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .chosen-
 
     -webkit-box-shadow: 0 11px 15px -7px rgba(0,0,0,.2),0 24px 38px 3px rgba(0,0,0,.14),0 9px 46px 8px rgba(0,0,0,.12);
     box-shadow: 0 11px 15px -7px rgba(0,0,0,.2),0 24px 38px 3px rgba(0,0,0,.14),0 9px 46px 8px rgba(0,0,0,.12);
+
+    z-index: 2;
 }
 
 .pms-modal__holder {
@@ -2180,6 +2183,10 @@ body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .chosen-
 .pms-modal__wrapped-list li {
     display: inline-block;
     width: 48%;
+}
+
+.pms-modal__fullrow {
+    margin-bottom: 16px;
 }
 
 .pms-modal__fullrow p {
@@ -3789,6 +3796,11 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 /***********************************************************/
 
 /* Settings for Create Pricing Table button*/
+.pms-modal-dashboard{
+    width: 75%;
+    min-height: 350px;
+    top: 35%;
+}
 .pms-modal__holder h2 {
     margin-top: 0;
 }
@@ -3834,7 +3846,7 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
     border: 2px solid #f5c6cb;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 900px;
+    max-width: 100%;
     margin: 20px auto;
     text-align: center;
 }
@@ -3848,6 +3860,17 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 .post-type-pms-subscription .pms-modal {
     top: 25%;
     min-height: 25%;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
 }
 
 #pms_stripe_deprecation_notice strong {

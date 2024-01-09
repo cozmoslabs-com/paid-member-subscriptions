@@ -23,6 +23,7 @@ Class PMS_Shortcodes {
             'pms-restrict'         => __CLASS__ . '::restrict_content',
             'pms-payment-history'  => __CLASS__ . '::payment_history',
             'pms-action'           => __CLASS__ . '::action_link',
+            'pms-count-members'    => __CLASS__ . '::count_members',
         );
 
         foreach( $shortcodes as $shortcode_tag => $shortcode_func ) {
@@ -898,6 +899,59 @@ Class PMS_Shortcodes {
 
         return apply_filters( 'pms_action_link', $content, $url, $current_action );
 
+    }
+
+    /* Count members shortcode*/
+    public static function count_members( $atts, $content = null ){
+
+        $args = shortcode_atts( array(
+            'plan_id' => '',
+            'status' => '',
+        ), $atts );
+
+        /**
+         * Filter the content
+         *
+         * @param string $content   - content that is being filtered
+         * @param array  $args      - the shortcode attributes
+         *
+         */
+        $content = apply_filters( 'pms_count_members_output', $content, $args );
+        $total_users = 0;
+
+        if( empty( $args['status'] ) ){
+            $status = array( 'active' );
+        }
+        else{
+            $status = explode(',', $args['status'] );
+        }
+        $plan_id = $args['plan_id'];
+        $subscriptions = pms_get_member_subscriptions();
+
+        if( empty( $plan_id ) ){
+            foreach ( $subscriptions as $subscription )
+                if( self::verify_status( $subscription->status, $status ) )
+                    $total_users++;
+
+        }
+        else{
+            foreach ( $subscriptions as $subscription )
+                if( self::verify_status( $subscription->status, $status ) && $subscription->subscription_plan_id === $plan_id )
+                    $total_users++;
+        }
+
+        $content = $total_users;
+        return do_shortcode( $content );
+
+    }
+
+    public static function verify_status( $subscription_status, $status )
+    {
+        foreach ( $status as $stat )
+            if( $subscription_status === $stat )
+                return true;
+
+        return false;
     }
 
 }

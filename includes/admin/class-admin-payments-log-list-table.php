@@ -361,7 +361,7 @@ Class PMS_Payments_Log_List_Table extends WP_List_Table {
 
             <?php if ( !empty( $header ) ) : ?>
                 <div class="pms-modal__fullrow">
-                    <?php echo esc_html( $header ); ?>
+                    <?php echo wp_kses_post( $header ); ?>
                 </div>
             <?php elseif ( !empty( $data['message'] ) ) : ?>
                 <div class="pms-modal__fullrow">

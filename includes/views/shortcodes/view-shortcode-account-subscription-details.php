@@ -169,7 +169,7 @@ foreach( $subscriptions as $subscription ) :
 
                             if( !pms_is_https() )
                                 echo wp_kses_post( apply_filters( 'pms_output_subscription_plan_action_cancel', '<span class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" title="'. __( 'This action is not available because your website doesn\'t have https enabled.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</span>', $subscription_plan, $subscription->to_array(), $member->user_id ) );
-                            elseif( $subscription->status == 'active' && ( $subscription->is_auto_renewing() || ! $subscription->is_auto_renewing() ) )
+                            elseif( $subscription->status == 'active' && $subscription_plan->duration != '0' )
                                 echo wp_kses_post( apply_filters( 'pms_output_subscription_plan_action_cancel', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'cancel_subscription', 'subscription_id' => $subscription->id  ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '" title="'. __( 'Cancels recurring payments for this subscription, letting it expire at the end of the current peiod.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id ) );
 
 
@@ -184,7 +184,7 @@ foreach( $subscriptions as $subscription ) :
 
 					if( !pms_is_https() )
 						echo wp_kses_post( apply_filters( 'pms_output_subscription_plan_action_abandon', '<span class="pms-account-subscription-action-link pms-account-subscription-action-link__abandon" title="'. __( 'This action is not available because your website doesn\'t have https enabled.', 'paid-member-subscriptions' ) .'">' . __( 'Abandon', 'paid-member-subscriptions' ) . '</span>', $subscription_plan, $subscription->to_array(), $member->user_id ) );
-					elseif( $subscription->is_auto_renewing() || ! $subscription->is_auto_renewing() )
+					else
                         echo wp_kses_post( apply_filters( 'pms_output_subscription_plan_action_abandon', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__abandon" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'abandon_subscription', 'subscription_id' => $subscription->id  ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '" title="'. __( 'Cancels recurring payments and then removes the subscription from your account immediately.', 'paid-member-subscriptions' ) .'">' . __( 'Abandon', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id ) );
 
                     ?>

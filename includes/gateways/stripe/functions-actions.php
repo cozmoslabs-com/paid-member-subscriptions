@@ -37,14 +37,13 @@ function pms_stripe_enqueue_front_end_scripts(){
     if( !empty( $stripe_locale ) )
         $pms_stripe_script_vars['stripe_locale'] = $stripe_locale;
 
-    $pms_stripe_script_vars['stripe_return_url']      = add_query_arg( 'pms_stripe_connect_return_url', 1, home_url() );
-    $pms_stripe_script_vars['stripe_payment_request'] = pms_stripe_connect_payment_request_enabled();
-    $pms_stripe_script_vars['stripe_account_country'] = pms_stripe_connect_get_account_country();
-    $pms_stripe_script_vars['pms_active_currency']    = strtolower( pms_get_active_currency() );
+    $pms_stripe_script_vars['stripe_return_url']           = add_query_arg( 'pms_stripe_connect_return_url', 1, home_url() );
+    $pms_stripe_script_vars['stripe_payment_request']      = pms_stripe_connect_payment_request_enabled();
+    $pms_stripe_script_vars['stripe_account_country']      = pms_stripe_connect_get_account_country();
+    $pms_stripe_script_vars['pms_active_currency']         = strtolower( pms_get_active_currency() );
+    $pms_stripe_script_vars['pms_elements_appearance_api'] = apply_filters( 'pms_stripe_connect_elements_styling', array( 'theme' => 'stripe' ) );
 
     wp_localize_script( 'pms-stripe-script', 'pms', $pms_stripe_script_vars );
-
-    wp_localize_script( 'pms-stripe-script', 'pms_elements_styling', apply_filters( 'pms_stripe_elements_styling', array( 'base' => array(), 'invalid' => array() ) ) );
 
 }
 
@@ -268,8 +267,28 @@ function pms_stripe_process_wppb_checkout(){
 
     $form = new Profile_Builder_Form_Creator( $args );
 
-    // Process is started here, it gets completed by the PMS handler that gets triggered when the Subscription Plans field is saved
-    $user_id = $form->wppb_save_form_values( $_REQUEST );
+    $field_check_errors = $form->wppb_test_required_form_values( $_REQUEST );
+
+    if( empty( $field_check_errors ) ){
+
+        do_action( 'wppb_before_saving_form_values', $_REQUEST, $form->args );
+
+        // Process is started here, it gets completed by the PMS handler that gets triggered when the Subscription Plans field is saved
+        $user_id = $form->wppb_save_form_values( $_REQUEST );
+    
+        do_action( 'wppb_after_saving_form_values', $_REQUEST, $form->args );
+
+    } else {
+
+        $data = array(
+            'success'     => false,
+            'wppb_errors' => $field_check_errors,
+        );
+
+        echo json_encode( $data );
+        die();
+
+    }
 
 }
 

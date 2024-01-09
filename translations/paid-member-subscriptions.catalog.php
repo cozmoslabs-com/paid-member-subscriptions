@@ -926,6 +926,7 @@
 <?php __("Setup how your currency is displayed and choose & configure a payment gateway.", "paid-member-subscriptions"); ?>
 <?php __("Create a subscription plan and start registering new members.", "paid-member-subscriptions"); ?>
 <?php __("Restrict your content based on the newly created subscription plans.", "paid-member-subscriptions"); ?>
+<?php __("Create a Pricing Page to sell your plans.", "paid-member-subscriptions"); ?>
 <?php __("Integrate with WooCommerce: discount for members, restrict products or sell subscriptions.", "paid-member-subscriptions"); ?>
 <?php __("Progress Review", "paid-member-subscriptions"); ?>
 <?php __("Follow these steps to start a membership site quickly. %1s out of %2s complete.", "paid-member-subscriptions"); ?>
@@ -948,13 +949,6 @@
 <?php __("for %d seat", "paid-member-subscriptions"); ?>
 <?php __("for %d seats", "paid-member-subscriptions"); ?>
 <?php __("Create Pricing Page", "paid-member-subscriptions"); ?>
-<?php __("PMS -> Settings -> Membership Pages -> Registration", "paid-member-subscriptions"); ?>
-<?php __("%sError:%s It seems that you do not have the register page set. To solve the problem, please navigate to %s and select the page containing the %s shortcode.", "paid-member-subscriptions"); ?>
-<?php __("Select rhe subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans.", "paid-member-subscriptions"); ?>
-<?php __("First plan:", "paid-member-subscriptions"); ?>
-<?php __("Select a plan...", "paid-member-subscriptions"); ?>
-<?php __("Second plan:", "paid-member-subscriptions"); ?>
-<?php __("Third plan:", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Subscription Plan?", "paid-member-subscriptions"); ?>
 <?php __("Delete Plan", "paid-member-subscriptions"); ?>
 <?php __("a downgrade", "paid-member-subscriptions"); ?>
@@ -1010,6 +1004,15 @@
 <?php __('Please %1$sRenew Your Licence%2$s to continue receiving access to product downloads, automatic updates and support.', 'paid-member-subscriptions' ); ?>
 <?php __("Your %s license is about to expire on %s", "paid-member-subscriptions"); ?>
 <?php __("Please %sRenew Your Licence%s to continue receiving access to product downloads, automatic updates and support.", "paid-member-subscriptions"); ?>
+<?php __("PMS -> Settings -> Membership Pages -> Registration", "paid-member-subscriptions"); ?>
+<?php __("%sError:%s It seems that you do not have the register page set. To solve the problem, please navigate to %s and select the page containing the %s shortcode.", "paid-member-subscriptions"); ?>
+<?php __("PMS -> Subscription Plans-> Add New", "paid-member-subscriptions"); ?>
+<?php __("%sError:%s It seems that you do not have any subscriptions plans set. To solve the problem, please navigate to %s and add a new subscription plan.", "paid-member-subscriptions"); ?>
+<?php __("Select the subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans.", "paid-member-subscriptions"); ?>
+<?php __("First plan:", "paid-member-subscriptions"); ?>
+<?php __("Select a plan...", "paid-member-subscriptions"); ?>
+<?php __("Second plan:", "paid-member-subscriptions"); ?>
+<?php __("Third plan:", "paid-member-subscriptions"); ?>
 <?php __("Plan Name", "paid-member-subscriptions"); ?>
 <?php __("Next Payment Date", "paid-member-subscriptions"); ?>
 <?php __("Auto Renewal", "paid-member-subscriptions"); ?>

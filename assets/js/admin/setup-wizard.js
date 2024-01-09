@@ -203,4 +203,7 @@ jQuery( function($){
         return re.test(String(email).toLowerCase());
     
     }
+
 })
+
+
