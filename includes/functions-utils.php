@@ -319,7 +319,19 @@ function pms_is_autologin_active() {
  * @return string|bool
  */
 function pms_get_serial_number() {
-    return get_option( 'pms_serial_number' ) === false ? false : get_option( 'pms_serial_number' );
+
+    if( is_multisite() ){
+        $serial_number = get_site_option( 'pms_serial_number' );
+
+        // fallback to regular option if this is empty
+        if( empty( $serial_number ) )
+            $serial_number = get_option( 'pms_serial_number' );
+
+    } else
+        $serial_number = get_option( 'pms_serial_number' );
+
+    return $serial_number === false ? false : $serial_number;
+
 }
 
 /**
@@ -330,7 +342,10 @@ function pms_get_serial_number() {
  */
 function pms_get_serial_number_status() {
 
-    return get_option( 'pms_license_status' );
+    if( is_multisite() )
+        return get_site_option( 'pms_license_status' );
+    else
+        return get_option( 'pms_license_status' );
 
 }
 

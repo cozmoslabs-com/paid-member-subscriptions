@@ -86,13 +86,18 @@ function pms_in_dc_add_frontend_scripts(){
 
         wp_enqueue_script('pms-frontend-discount-code-js', PMS_IN_DC_PLUGIN_DIR_URL . 'assets/js/frontend-discount-code.js', array('jquery'), PMS_VERSION );
 
-        // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-        wp_localize_script( 'pms-frontend-discount-code-js', 'pms_discount_object',
-            array(
-                'ajax_url'                 => admin_url( 'admin-ajax.php' ),
-                'discounted_subscriptions' => json_encode( pms_in_dc_get_discounted_subscriptions(), JSON_FORCE_OBJECT ),
-            )
+        $js_data = array(
+            'ajax_url' => admin_url( 'admin-ajax.php' ),
         );
+
+        $discounted_subscriptions = pms_in_dc_get_discounted_subscriptions();
+
+        if ( $discount_subscriptions != false ){
+            $js_data['discounted_subscriptions'] = json_encode( $discounted_subscriptions, JSON_FORCE_OBJECT );
+        }
+
+        wp_localize_script( 'pms-frontend-discount-code-js', 'pms_discount_object', $js_data );
+
     }
 
     // add front-end CSS for discount code box

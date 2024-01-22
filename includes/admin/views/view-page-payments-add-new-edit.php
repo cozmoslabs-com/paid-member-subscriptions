@@ -250,6 +250,27 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
             <?php endif; ?>
 
+            <!-- Payment Download Invoice -->
+            <?php if ( $action == 'edit_payment' && function_exists('pms_in_inv_get_generate_invoice_pdf_link') ) :
+
+                    // Get generate PDF invoice link
+                    if( pms_in_inv_is_invoice_allowed( $payment_id ) )
+                        $invoice_link = pms_in_inv_get_generate_invoice_pdf_link( $payment_id );
+                    else
+                        $invoice_link = '';
+
+                    if( !empty( $invoice_link ) ){
+                        ?>
+                        <div class="cozmoslabs-form-field-wrapper">
+
+                            <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Invoice', 'paid-member-subscriptions' ); ?></label>
+                            <span class="readonly medium"><a target="_blank" href="<?php echo esc_html( $invoice_link ); ?>"><?php echo esc_html( 'Download', 'paid-member-subscriptions' ); ?></a></span>
+
+                        </div>
+                        <?php
+                    }
+                  endif; ?>
+
             <?php
             if ( $action == 'edit_payment' )
                 do_action( 'pms_payment_edit_form_field', $payment, $member );

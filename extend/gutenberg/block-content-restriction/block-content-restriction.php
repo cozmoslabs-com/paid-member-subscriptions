@@ -50,13 +50,13 @@ function pms_add_custom_attributes_to_blocks() {
                     'type' => 'string',
                 ),
                 'not_subscribed' => array(
-                    'type' => 'bool',
+                    'type' => 'boolean',
                 ),
                 'enable_message_logged_in' => array(
-                    'type' => 'bool',
+                    'type' => 'boolean',
                 ),
                 'enable_message_logged_out' => array(
-                    'type' => 'bool',
+                    'type' => 'boolean',
                 ),
                 'message_logged_in' => array(
                     'type' => 'string',
@@ -65,7 +65,7 @@ function pms_add_custom_attributes_to_blocks() {
                     'type' => 'string',
                 ),
                 'panel_open' => array(
-                    'type' => 'bool',
+                    'type' => 'boolean',
                 ),
             ),
 			'default' => array(

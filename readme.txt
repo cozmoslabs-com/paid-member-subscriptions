@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 2.10.10
+Stable tag: 2.11.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.11.0 =
+* Fix: Issue with plugin logo from Basic Information page not being displayed correctly on multisite
+* Fix: Notice coming from the Gutenberg Content Restriction functionality
+* Fix: Issue with serial number detection on certain multisite WordPress setups
+* Misc: Disable auto hide discount codes box functionality when the website has too many discount codes defined
+* Misc: Display future subscription billing amount when viewing a subscription in the back-end
+
 = 2.10.10 =
 * Fix: Don't show Cancel subscription button for Unlimited subscriptions
 * Fix: An issue where there expiration date wasn't correctly set when a 100% discount code was used

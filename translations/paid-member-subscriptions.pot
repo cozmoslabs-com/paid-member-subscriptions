@@ -532,7 +532,7 @@ msgstr ""
 msgid "unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:337, add-ons-basic/discount-codes/includes/functions-discount.php:243, includes/features/discount-codes/includes/functions-discount.php:246
+#: includes/class-merge-tags.php:337, add-ons-basic/discount-codes/includes/functions-discount.php:243, includes/features/discount-codes/includes/functions-discount.php:254
 msgid "until %s"
 msgstr ""
 
@@ -680,7 +680,7 @@ msgstr ""
 msgid "You are already logged in."
 msgstr ""
 
-#: includes/deprecated-functions.php:22, includes/functions-member-subscriptions.php:239, extend/woocommerce/woocommerce-integration.php:130, includes/admin/class-admin-members-add-new-bulk-list-table.php:169, includes/admin/class-admin-subscription-plans.php:381, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:248, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:136, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:211, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:258, includes/admin/views/view-page-export.php:60, includes/admin/views/view-page-members-add-new-edit-subscription.php:422, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:157, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:31, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:157, includes/features/discount-codes/includes/class-admin-discount-codes.php:249, includes/features/discount-codes/views/view-meta-box-discount-codes.php:143, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:44, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:124, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php:144
+#: includes/deprecated-functions.php:22, includes/functions-member-subscriptions.php:239, extend/woocommerce/woocommerce-integration.php:130, includes/admin/class-admin-members-add-new-bulk-list-table.php:169, includes/admin/class-admin-subscription-plans.php:381, add-ons-basic/discount-codes/includes/class-admin-discount-codes.php:248, add-ons-basic/discount-codes/views/view-meta-box-discount-codes.php:136, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:211, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:258, includes/admin/views/view-page-export.php:60, includes/admin/views/view-page-members-add-new-edit-subscription.php:424, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:157, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:31, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:157, includes/features/discount-codes/includes/class-admin-discount-codes.php:249, includes/features/discount-codes/views/view-meta-box-discount-codes.php:143, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:44, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:124, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php:144
 msgid "Active"
 msgstr ""
 
@@ -2672,19 +2672,19 @@ msgstr ""
 msgid "bbPress needs to be installed and activated for Paid Member Subscriptions - bbPress Add-on to work as expected!"
 msgstr ""
 
-#: add-ons-basic/discount-codes/index.php:173, includes/features/discount-codes/index.php:178
+#: add-ons-basic/discount-codes/index.php:173, includes/features/discount-codes/index.php:183
 msgid "Discount Code: "
 msgstr ""
 
-#: add-ons-basic/discount-codes/index.php:174, includes/features/discount-codes/index.php:179
+#: add-ons-basic/discount-codes/index.php:174, includes/features/discount-codes/index.php:184
 msgid "Enter discount"
 msgstr ""
 
-#: add-ons-basic/discount-codes/index.php:175, includes/features/discount-codes/index.php:180
+#: add-ons-basic/discount-codes/index.php:175, includes/features/discount-codes/index.php:185
 msgid "Apply"
 msgstr ""
 
-#: add-ons-basic/discount-codes/index.php:185, includes/features/discount-codes/index.php:190
+#: add-ons-basic/discount-codes/index.php:185, includes/features/discount-codes/index.php:195
 msgid "Applying discount code. Please wait..."
 msgstr ""
 
@@ -2752,7 +2752,7 @@ msgstr ""
 msgid "Your VAT Number is too short."
 msgstr ""
 
-#: add-ons-pro/tax/index.php:134, add-ons-pro/tax/includes/class-tax.php:338
+#: add-ons-pro/tax/index.php:134, add-ons-pro/tax/includes/class-tax.php:346
 msgid "VAT"
 msgstr ""
 
@@ -2945,7 +2945,7 @@ msgstr ""
 msgid "Enter the Product IDs"
 msgstr ""
 
-#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:19, extend/woocommerce/woocommerce-product-membership-subscriptions.php:54, includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-members-add-new-bulk-list-table.php:150, includes/admin/class-admin-subscription-plans.php:1176, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:586, extend/elementor/tags/class-subscription-plan-url.php:89, includes/admin/views/view-page-export.php:40, includes/admin/views/view-page-members-add-new-edit-subscription.php:151, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, includes/views/shortcodes/view-shortcode-payment-history.php:38, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:229
+#: extend/woocommerce/woocommerce-product-membership-subscriptions.php:19, extend/woocommerce/woocommerce-product-membership-subscriptions.php:54, includes/admin/class-admin-member-subscription-list-table.php:68, includes/admin/class-admin-members-add-new-bulk-list-table.php:150, includes/admin/class-admin-subscription-plans.php:1176, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:203, add-ons-pro/tax/includes/class-tax.php:594, extend/elementor/tags/class-subscription-plan-url.php:89, includes/admin/views/view-page-export.php:40, includes/admin/views/view-page-members-add-new-edit-subscription.php:151, includes/views/shortcodes/view-shortcode-account-subscription-details.php:30, includes/views/shortcodes/view-shortcode-payment-history.php:38, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:9, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:13, add-ons-pro/invoices/includes/templates/default.php:229
 msgid "Subscription Plan"
 msgstr ""
 
@@ -3922,35 +3922,35 @@ msgstr ""
 msgid "You do not have permission to install plugin updates"
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:692
+#: includes/admin/class-edd-sl-plugin-updater.php:710
 msgid "Your license key expired on %s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:697
+#: includes/admin/class-edd-sl-plugin-updater.php:715
 msgid "Your license key has been disabled."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:700
+#: includes/admin/class-edd-sl-plugin-updater.php:718
 msgid "Invalid license."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:704
+#: includes/admin/class-edd-sl-plugin-updater.php:722
 msgid "Your license is not active for this URL."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:707
+#: includes/admin/class-edd-sl-plugin-updater.php:725
 msgid "This appears to be an invalid license key for %s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:710
+#: includes/admin/class-edd-sl-plugin-updater.php:728
 msgid "Your license key has reached its activation limit."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:713, includes/admin/class-edd-sl-plugin-updater.php:681, includes/admin/class-edd-sl-plugin-updater.php:823
+#: includes/admin/class-edd-sl-plugin-updater.php:731, includes/admin/class-edd-sl-plugin-updater.php:699, includes/admin/class-edd-sl-plugin-updater.php:841
 msgid "An error occurred, please try again."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:743
+#: includes/admin/class-edd-sl-plugin-updater.php:761
 msgid "You have successfully activated your license."
 msgstr ""
 
@@ -4253,103 +4253,103 @@ msgstr ""
 msgid "Discount Code Details"
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:199, add-ons-basic/discount-codes/includes/functions-discount.php:215, add-ons-basic/discount-codes/includes/functions-discount.php:224, includes/features/discount-codes/includes/functions-discount.php:202, includes/features/discount-codes/includes/functions-discount.php:218, includes/features/discount-codes/includes/functions-discount.php:227
+#: add-ons-basic/discount-codes/includes/functions-discount.php:199, add-ons-basic/discount-codes/includes/functions-discount.php:215, add-ons-basic/discount-codes/includes/functions-discount.php:224, includes/features/discount-codes/includes/functions-discount.php:210, includes/features/discount-codes/includes/functions-discount.php:226, includes/features/discount-codes/includes/functions-discount.php:235
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:202, add-ons-basic/discount-codes/includes/functions-discount.php:227, includes/features/discount-codes/includes/functions-discount.php:205, includes/features/discount-codes/includes/functions-discount.php:230
+#: add-ons-basic/discount-codes/includes/functions-discount.php:202, add-ons-basic/discount-codes/includes/functions-discount.php:227, includes/features/discount-codes/includes/functions-discount.php:213, includes/features/discount-codes/includes/functions-discount.php:238
 msgid "%s week"
 msgid_plural "%s weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:205, add-ons-basic/discount-codes/includes/functions-discount.php:230, includes/features/discount-codes/includes/functions-discount.php:208, includes/features/discount-codes/includes/functions-discount.php:233
+#: add-ons-basic/discount-codes/includes/functions-discount.php:205, add-ons-basic/discount-codes/includes/functions-discount.php:230, includes/features/discount-codes/includes/functions-discount.php:216, includes/features/discount-codes/includes/functions-discount.php:241
 msgid "%s month"
 msgid_plural "%s months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:208, add-ons-basic/discount-codes/includes/functions-discount.php:233, includes/features/discount-codes/includes/functions-discount.php:211, includes/features/discount-codes/includes/functions-discount.php:236
+#: add-ons-basic/discount-codes/includes/functions-discount.php:208, add-ons-basic/discount-codes/includes/functions-discount.php:233, includes/features/discount-codes/includes/functions-discount.php:219, includes/features/discount-codes/includes/functions-discount.php:244
 msgid "%s year"
 msgid_plural "%s years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:257, add-ons-pro/pro-rate/includes/class-pro-rate.php:427, includes/features/discount-codes/includes/functions-discount.php:260
+#: add-ons-basic/discount-codes/includes/functions-discount.php:257, add-ons-pro/pro-rate/includes/class-pro-rate.php:427, includes/features/discount-codes/includes/functions-discount.php:268
 msgid "Discount successfully applied! "
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:301, includes/features/discount-codes/includes/functions-discount.php:304
+#: add-ons-basic/discount-codes/includes/functions-discount.php:301, includes/features/discount-codes/includes/functions-discount.php:312
 msgid "Amount to be charged is %s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:299, includes/features/discount-codes/includes/functions-discount.php:302
+#: add-ons-basic/discount-codes/includes/functions-discount.php:299, includes/features/discount-codes/includes/functions-discount.php:310
 msgid "Amount to be charged now is %1$s, then after %2$s %3$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:297, includes/features/discount-codes/includes/functions-discount.php:300
+#: add-ons-basic/discount-codes/includes/functions-discount.php:297, includes/features/discount-codes/includes/functions-discount.php:308
 msgid "Amount to be charged after %1$s is %2$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:289, includes/features/discount-codes/includes/functions-discount.php:292
+#: add-ons-basic/discount-codes/includes/functions-discount.php:289, includes/features/discount-codes/includes/functions-discount.php:300
 msgid "Amount to be charged now is %1$s, then %2$s every %3$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:287, includes/features/discount-codes/includes/functions-discount.php:290
+#: add-ons-basic/discount-codes/includes/functions-discount.php:287, includes/features/discount-codes/includes/functions-discount.php:298
 msgid "Amount to be charged %1$s is %2$s, then %3$s yearly."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:283, includes/features/discount-codes/includes/functions-discount.php:286
+#: add-ons-basic/discount-codes/includes/functions-discount.php:283, includes/features/discount-codes/includes/functions-discount.php:294
 msgid "Amount to be charged is %1$s every %2$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:281, includes/features/discount-codes/includes/functions-discount.php:284
+#: add-ons-basic/discount-codes/includes/functions-discount.php:281, includes/features/discount-codes/includes/functions-discount.php:292
 msgid "Amount to be charged is %1$s %2$s and repeated yearly."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:274, includes/features/discount-codes/includes/functions-discount.php:277
+#: add-ons-basic/discount-codes/includes/functions-discount.php:274, includes/features/discount-codes/includes/functions-discount.php:285
 msgid "Amount to be charged now is %1$s, then after %2$s %3$s every %4$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:272, includes/features/discount-codes/includes/functions-discount.php:275
+#: add-ons-basic/discount-codes/includes/functions-discount.php:272, includes/features/discount-codes/includes/functions-discount.php:283
 msgid "Amount to be charged now is %1$s, then after %2$s %3$s %4$s and repeated yearly."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:267, includes/features/discount-codes/includes/functions-discount.php:270
+#: add-ons-basic/discount-codes/includes/functions-discount.php:267, includes/features/discount-codes/includes/functions-discount.php:278
 msgid "Amount to be charged after %1$s is %2$s, then %3$s every %4$s."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:265, includes/features/discount-codes/includes/functions-discount.php:268
+#: add-ons-basic/discount-codes/includes/functions-discount.php:265, includes/features/discount-codes/includes/functions-discount.php:276
 msgid "Amount to be charged after %1$s is %2$s %3$s, then %4$s repeated yearly."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:505, includes/features/discount-codes/includes/functions-discount.php:511
+#: add-ons-basic/discount-codes/includes/functions-discount.php:505, includes/features/discount-codes/includes/functions-discount.php:519
 msgid "The discount code you entered is invalid."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:456, includes/features/discount-codes/includes/functions-discount.php:462
+#: add-ons-basic/discount-codes/includes/functions-discount.php:456, includes/features/discount-codes/includes/functions-discount.php:470
 msgid "Please select a subscription plan and try again."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:460, includes/features/discount-codes/includes/functions-discount.php:466
+#: add-ons-basic/discount-codes/includes/functions-discount.php:460, includes/features/discount-codes/includes/functions-discount.php:474
 msgid "The discount is not valid for this subscription plan."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:465, includes/features/discount-codes/includes/functions-discount.php:471
+#: add-ons-basic/discount-codes/includes/functions-discount.php:465, includes/features/discount-codes/includes/functions-discount.php:479
 msgid "The discount code you entered is not active yet."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:470, includes/features/discount-codes/includes/functions-discount.php:476
+#: add-ons-basic/discount-codes/includes/functions-discount.php:470, includes/features/discount-codes/includes/functions-discount.php:484
 msgid "The discount code you entered has expired."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:475, includes/features/discount-codes/includes/functions-discount.php:481
+#: add-ons-basic/discount-codes/includes/functions-discount.php:475, includes/features/discount-codes/includes/functions-discount.php:489
 msgid "The discount code maximum uses have been reached."
 msgstr ""
 
-#: add-ons-basic/discount-codes/includes/functions-discount.php:485, includes/features/discount-codes/includes/functions-discount.php:491
+#: add-ons-basic/discount-codes/includes/functions-discount.php:485, includes/features/discount-codes/includes/functions-discount.php:499
 msgid "The discount code maximum uses for this user have been reached."
 msgstr ""
 
@@ -4888,7 +4888,7 @@ msgstr ""
 msgid "<p>Hello,</p> <p>{{owner_email}} has invited you to join {{site_name}}.</p> <p>Click on the following link in order to register: {{invite_link}}</p>"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:204, includes/admin/views/view-page-payments-add-new-edit.php:272
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:204, includes/admin/views/view-page-payments-add-new-edit.php:293
 msgid "Go Back"
 msgstr ""
 
@@ -4994,7 +4994,7 @@ msgstr ""
 msgid "Company Details are required in order to create invoices."
 msgstr ""
 
-#: add-ons-pro/invoices/includes/functions-admin.php:91, add-ons-pro/invoices/includes/functions-invoices.php:198, add-ons-pro/invoices/includes/functions-invoices.php:379, add-ons-pro/invoices/includes/functions-invoices.php:462, add-ons-pro/tax/includes/class-tax.php:372, add-ons-pro/tax/includes/class-tax.php:507, add-ons-pro/invoices/includes/templates/default.php:24, add-ons-pro/invoices/includes/templates/default.php:151, add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:69
+#: add-ons-pro/invoices/includes/functions-admin.php:91, add-ons-pro/invoices/includes/functions-invoices.php:198, add-ons-pro/invoices/includes/functions-invoices.php:379, add-ons-pro/invoices/includes/functions-invoices.php:462, add-ons-pro/tax/includes/class-tax.php:380, add-ons-pro/tax/includes/class-tax.php:515, includes/admin/views/view-page-payments-add-new-edit.php:266, add-ons-pro/invoices/includes/templates/default.php:24, add-ons-pro/invoices/includes/templates/default.php:151, add-ons-pro/invoices/includes/views/view-settings-tab-invoices.php:69
 msgid "Invoice"
 msgstr ""
 
@@ -5322,63 +5322,63 @@ msgstr ""
 msgid "EU VAT Number"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:371, add-ons-pro/invoices/includes/templates/default.php:23
+#: add-ons-pro/tax/includes/class-tax.php:379, add-ons-pro/invoices/includes/templates/default.php:23
 msgid "Please fill your company details in Paid Member Subscriptions -> Settings -> Invoices"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:480
+#: add-ons-pro/tax/includes/class-tax.php:488
 msgid "VAT Number: "
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:485, add-ons-pro/invoices/includes/templates/default.php:129
+#: add-ons-pro/tax/includes/class-tax.php:493, add-ons-pro/invoices/includes/templates/default.php:129
 msgid "E-mail: "
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:524, add-ons-pro/invoices/includes/templates/default.php:167
+#: add-ons-pro/tax/includes/class-tax.php:532, add-ons-pro/invoices/includes/templates/default.php:167
 msgid "Invoice number: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:527, add-ons-pro/invoices/includes/templates/default.php:170
+#: add-ons-pro/tax/includes/class-tax.php:535, add-ons-pro/invoices/includes/templates/default.php:170
 msgid "Payment ID: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:530, add-ons-pro/invoices/includes/templates/default.php:173
+#: add-ons-pro/tax/includes/class-tax.php:538, add-ons-pro/invoices/includes/templates/default.php:173
 msgid "Payment date: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:533, add-ons-pro/invoices/includes/templates/default.php:176
+#: add-ons-pro/tax/includes/class-tax.php:541, add-ons-pro/invoices/includes/templates/default.php:176
 msgid "Payment status: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:537, add-ons-pro/invoices/includes/templates/default.php:180
+#: add-ons-pro/tax/includes/class-tax.php:545, add-ons-pro/invoices/includes/templates/default.php:180
 msgid "Payment gateway: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:551, add-ons-pro/invoices/includes/templates/default.php:194
+#: add-ons-pro/tax/includes/class-tax.php:559, add-ons-pro/invoices/includes/templates/default.php:194
 msgid "Provided by:"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:555, add-ons-pro/invoices/includes/templates/default.php:198
+#: add-ons-pro/tax/includes/class-tax.php:563, add-ons-pro/invoices/includes/templates/default.php:198
 msgid "Provided to:"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:592, includes/admin/views/view-page-payments-add-new-edit.php:138, add-ons-pro/invoices/includes/templates/default.php:235
+#: add-ons-pro/tax/includes/class-tax.php:600, includes/admin/views/view-page-payments-add-new-edit.php:138, add-ons-pro/invoices/includes/templates/default.php:235
 msgid "Amount (%s)"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:636, add-ons-pro/tax/includes/class-tax.php:633
+#: add-ons-pro/tax/includes/class-tax.php:644, add-ons-pro/tax/includes/class-tax.php:641
 msgid "%s%% %s: %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:641, add-ons-pro/invoices/includes/templates/default.php:273
+#: add-ons-pro/tax/includes/class-tax.php:649, add-ons-pro/invoices/includes/templates/default.php:273
 msgid "Total (%s): %s"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:651, add-ons-pro/tax/includes/class-tax.php:662
+#: add-ons-pro/tax/includes/class-tax.php:659, add-ons-pro/tax/includes/class-tax.php:670
 msgid "TAX/VAT"
 msgstr ""
 
-#: add-ons-pro/tax/includes/class-tax.php:674
+#: add-ons-pro/tax/includes/class-tax.php:682
 msgid "* Taxes might be applied at the end of the checkout."
 msgstr ""
 
@@ -6254,7 +6254,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-bulk.php:81, includes/admin/views/view-page-members-add-new-edit-subscription.php:445
+#: includes/admin/views/view-page-members-add-new-bulk.php:81, includes/admin/views/view-page-members-add-new-edit-subscription.php:447
 msgid "Add Subscription"
 msgstr ""
 
@@ -6318,15 +6318,20 @@ msgstr ""
 msgid "Next Payment"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:381
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:375
+msgctxt "This is part of a payment amount: 100$ on 12/10/2025"
+msgid "on"
+msgstr ""
+
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:383
 msgid "Payment Gateway"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:420, includes/admin/views/view-page-settings-misc.php:362
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:422, includes/admin/views/view-page-settings-misc.php:362
 msgid "Payment Retry"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:424
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:426
 msgid "A new payment attempt will be made on %s. After %s more attempts, the subscription will remain expired."
 msgstr ""
 
@@ -6338,19 +6343,19 @@ msgstr ""
 msgid "The subscription payment schedule is handled by the payment gateway."
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:443
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:445
 msgid "Update Member Subscription"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:445
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:447
 msgid "Save Subscription"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:448
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:450
 msgid "Are you sure you want to delete this Subscription? \nThis action is irreversible."
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:448
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:450
 msgid "Delete Subscription"
 msgstr ""
 
@@ -6446,15 +6451,15 @@ msgstr ""
 msgid "Gateway"
 msgstr ""
 
-#: includes/admin/views/view-page-payments-add-new-edit.php:264
+#: includes/admin/views/view-page-payments-add-new-edit.php:285
 msgid "Save Payment"
 msgstr ""
 
-#: includes/admin/views/view-page-payments-add-new-edit.php:264
+#: includes/admin/views/view-page-payments-add-new-edit.php:285
 msgid "Add Payment"
 msgstr ""
 
-#: includes/admin/views/view-page-payments-add-new-edit.php:281
+#: includes/admin/views/view-page-payments-add-new-edit.php:302
 msgid "Payment Logs"
 msgstr ""
 

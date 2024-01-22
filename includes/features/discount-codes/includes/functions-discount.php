@@ -90,6 +90,14 @@ function pms_in_calculate_discounted_amount( $amount, $discount ) {
 
 function pms_in_dc_get_discounted_subscriptions(){
 
+    // First count number of rows, abort if > 500
+    global $wpdb;
+
+    $dicounts_count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE `post_type` = 'pms-discount-codes'" );    
+
+    if( $dicounts_count > 500 )
+        return false;
+
     $discounts = new WP_Query( array(
         'post_type'      => 'pms-discount-codes',
         'fields'         => 'ids',

@@ -1586,6 +1586,7 @@
 <?php __("Recurring Once Every", "paid-member-subscriptions"); ?>
 <?php __("Year(s)", "paid-member-subscriptions"); ?>
 <?php __("Next Payment", "paid-member-subscriptions"); ?>
+<?php __("on", "paid-member-subscriptions"); ?>
 <?php __("Payment Gateway", "paid-member-subscriptions"); ?>
 <?php __("Payment Retry", "paid-member-subscriptions"); ?>
 <?php __("A new payment attempt will be made on %s. After %s more attempts, the subscription will remain expired.", "paid-member-subscriptions"); ?>
