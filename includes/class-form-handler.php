@@ -1140,6 +1140,10 @@ Class PMS_Form_Handler {
             if( wp_verify_nonce( $nonce, 'pms_register_form_nonce') )
                 $location = 'register';
 
+            // Profile Builder Email Confirmation form
+            if( wp_verify_nonce( $nonce, 'pms_register_form_email_confirmation_nonce') )
+                $location = 'register_email_confirmation';
+
             // Cancel subscription
             if( wp_verify_nonce( $nonce, 'pms_edit_profile_form_nonce' ) )
                 $location = 'edit_profile';

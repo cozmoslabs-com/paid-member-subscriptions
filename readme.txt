@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 2.11.0
+Stable tag: 2.11.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,16 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.11.1 =
+* Fix: Issue with subscription not activating correctly when Stripe was used after a Profile Builder Email Confirmation
+* Fix: Add nonce check when dismissing SSL notice. Thanks to Dhabaleshwar Das for the report
+* Fix: A notice regarding the Discounts functionality
+* Fix: Back-end pages styling when plugin name is localized
+* Fix: An issue with Password Strength functionality not loading correctly
+* Fix: Issue with PSP notice not appearing for Stripe gateway
+* Misc: Added actions after the plugin adds or removes a user role from a member: pms_add_user_role and pms_remove_user_role
+* Misc: Small styling change for Setup Wizard active tabs
+
 = 2.11.0 =
 * Fix: Issue with plugin logo from Basic Information page not being displayed correctly on multisite
 * Fix: Notice coming from the Gutenberg Content Restriction functionality

@@ -90,7 +90,7 @@
 }
 
 .pms-setup-steps li.active, .pms-setup-steps li.active a {
-    color: #1E1E1E;
+    color: #1E1E1E !important;
 }
 
 .pms-setup-steps li.active:after {

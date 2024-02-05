@@ -398,7 +398,7 @@ function pms_stripe_add_deprecation_notice() {
     } else {
 
         new PMS_Add_General_Notices( 'pms_stripe_deprecation_notice',
-        sprintf( '<p>' . $message . '<br>' . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( add_query_arg( 'pms_stripe_deprecation_notice_dismiss_notification', '0' ) ) . "'>", "</a>" ) . '</p>',
+        sprintf( '<p>' . $message . '<br>' . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_stripe_deprecation_notice_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>" ) . '</p>',
         'notice-error');
 
     }

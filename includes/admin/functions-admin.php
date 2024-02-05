@@ -370,6 +370,31 @@ function pms_output_page_banner( $page_name ) {
     echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
+/*
+ * Add the "Add New Subscription" button on members edit list table only when abandoned subscriptions are present
+ *
+ */
+    function pms_extend_edit_add_new_subscription( $which, $member, $existing_subscriptions ){
+
+        if( $which == 'bottom' && !function_exists('pms_in_msu_member_subscription_list_table_add_new_button') ){
+
+            $subscriptions = pms_get_member_subscriptions( array( 'user_id' => $member->user_id, 'include_abandoned' => true ) );
+            $only_abandoned_subscriptions = true;
+            foreach ( $subscriptions as $subscription ){
+                if( $subscription->status !== "abandoned" ){
+                    $only_abandoned_subscriptions = false;
+                    break;
+                }
+            }
+            if( $only_abandoned_subscriptions ){
+                echo '<a href="' . esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'add_subscription', 'member_id' => $member->user_id ), admin_url( 'admin.php' ) ) ) . '" class="button-primary">' . esc_html__( 'Add New Subscription', 'paid-member-subscriptions' ) . '</a>';
+            }
+        }
+
+    }
+
+add_action( 'pms_member_subscription_list_table_extra_tablenav', 'pms_extend_edit_add_new_subscription', 10, 3 );
+
 /* Function that displays the modal for the create pricing page*/
 
     function pms_output_modal_create_pricing_page(){

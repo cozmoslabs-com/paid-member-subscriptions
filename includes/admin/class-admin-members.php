@@ -289,8 +289,26 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
                     $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $user_id ) );
 
-                    if( ! empty( $member_subscriptions ) )
+                    if( ! empty( $member_subscriptions ) && apply_filters( 'pms_add_new_members_bulk_existing_subscriptions_check', true ) ){
+
                         continue;
+
+                    } else if( !empty( $member_subscriptions ) ){
+
+                        // check that the user is not already subscribed to the given plan
+                        $already_subscribed = false;
+
+                        foreach( $member_subscriptions as $subscription ){
+                            if( $subscription->subscription_plan_id === $subscription_plan->id ){
+                                $already_subscribed = true;
+                                break;
+                            }
+                        }
+
+                        if( $already_subscribed )
+                            continue;
+
+                    }
 
                     $data = array(
                         'user_id'              => $user_id,

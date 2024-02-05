@@ -689,7 +689,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             $user = get_userdata( $subscription->user_id );
 
             // Necessary for the function definition. Filter is added for the Auto-Generate password functionality from PB
-            $password = apply_filters( 'pms_stripe_wppb_password', '' );
+            $password = apply_filters( 'pms_stripe_wppb_password', '', $user->ID );
 
             wppb_notify_user_registration_email( get_bloginfo( 'name' ), $user->user_login, $user->user_email, $send_credentials_via_email, $password, ( wppb_get_admin_approval_option_value() === 'yes' ? 'yes' : 'no' ) );
         }
@@ -1189,7 +1189,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( $is_recurring == false )
             $is_recurring = PMS_Form_Handler::checkout_is_recurring();
 
-        if( !in_array( $form_location, array( 'register', 'new_subscription' ) ) ){
+        if( !in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) ){
 
             $subscription_plan_id = !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : false;
 
@@ -1739,7 +1739,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             return $args;
 
         $account_country      = pms_stripe_connect_get_account_country();
-        $restricted_countries = array( 'IN', 'MX', 'MY', );
+        $restricted_countries = array( 'IN', 'MX', 'MY', 'BR', 'RO' );
 
         if( in_array( $account_country, $restricted_countries ) )
             return $args;

@@ -121,6 +121,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         $user = new WP_User( $user_id );
         $user->add_role( $user_role );
 
+        do_action( 'pms_add_user_role', $user_id, $user_role );
+
     }
 
 
@@ -145,6 +147,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         if( empty( $user->roles ) )
             $user->add_role( get_option( 'default_role' ) );
+
+        do_action( 'pms_remove_user_role', $user_id, $user_role );
 
     }
 

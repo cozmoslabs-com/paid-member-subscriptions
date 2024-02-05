@@ -56,8 +56,8 @@ body[class*="post-type-pms-"].post-php #wpbody-content .wrap {
     display: none !important;
 }
 
-body[class*="paid-member-subscriptions_page_"] .error,
-body[class*="paid-member-subscriptions_page_"] .notice,
+body[class*="_page_pms-"] .error,
+body[class*="_page_pms-"] .notice,
 body[class*="post-type-pms-"] .error,
 body[class*="post-type-pms-"] .notice {
     display: none; /* hide admin notices until scripts are loaded */
@@ -71,8 +71,7 @@ body[class*="post-type-pms-"] #local-storage-notice {
 /***********************************************************/
 /* Page Banner
 /***********************************************************/
-
-body[class*="paid-member-subscriptions_page"] #wpcontent {
+body[class*="_page_pms-"] #wpcontent {
     padding-left: 0;
 }
 
@@ -81,7 +80,7 @@ body.paid-member-subscriptions_page_pms-payments-page #wpbody-content > .wrap:no
     padding-left: 20px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner,
+body[class*="_page_pms-"] .cozmoslabs-banner,
 body[class*="post-type-pms-"] .cozmoslabs-banner {
     display: flex;
     flex-direction: row;
@@ -96,7 +95,7 @@ body[class*="post-type-pms-"] .cozmoslabs-banner {
     padding: 15px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner-title,
+body[class*="_page_pms-"] .cozmoslabs-banner-title,
 body[class*="post-type-pms-"] .cozmoslabs-banner-title {
     display: flex;
     flex-direction: row;
@@ -105,7 +104,7 @@ body[class*="post-type-pms-"] .cozmoslabs-banner-title {
     gap: 10px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner-title h4,
+body[class*="_page_pms-"] .cozmoslabs-banner-title h4,
 body[class*="post-type-pms-"] .cozmoslabs-banner-title h4 {
     font-family: 'Poppins', sans-serif;
     font-style: normal;
@@ -118,13 +117,13 @@ body[class*="post-type-pms-"] .cozmoslabs-banner-title h4 {
     color: #212121;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner-title img,
+body[class*="_page_pms-"] .cozmoslabs-banner-title img,
 body[class*="post-type-pms-"] .cozmoslabs-banner-title img {
     width: 30px;
     height: 30px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner-buttons,
+body[class*="_page_pms-"] .cozmoslabs-banner-buttons,
 body[class*="post-type-pms-"] .cozmoslabs-banner-buttons {
     display: flex;
     flex-direction: row;
@@ -134,7 +133,7 @@ body[class*="post-type-pms-"] .cozmoslabs-banner-buttons {
     gap: 15px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner-link,
+body[class*="_page_pms-"] .cozmoslabs-banner-link,
 body[class*="post-type-pms-"] .cozmoslabs-banner-link {
     display: flex;
     flex-direction: row;
@@ -150,14 +149,14 @@ body[class*="post-type-pms-"] .cozmoslabs-banner-link {
     text-decoration: none;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner-link:focus,
+body[class*="_page_pms-"] .cozmoslabs-banner-link:focus,
 body[class*="post-type-pms-"] .cozmoslabs-banner-link:focus {
     outline: none;
     box-shadow: none;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-support-link,
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-documentation-link,
+body[class*="_page_pms-"] .cozmoslabs-support-link,
+body[class*="_page_pms-"] .cozmoslabs-documentation-link,
 body[class*="post-type-pms-"] .cozmoslabs-support-link,
 body[class*="post-type-pms-"] .cozmoslabs-documentation-link {
     background: #FFFFFF;
@@ -165,28 +164,28 @@ body[class*="post-type-pms-"] .cozmoslabs-documentation-link {
     font-weight: 400;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-support-link:hover,
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-documentation-link:hover,
+body[class*="_page_pms-"] .cozmoslabs-support-link:hover,
+body[class*="_page_pms-"] .cozmoslabs-documentation-link:hover,
 body[class*="post-type-pms-"] .cozmoslabs-support-link:hover,
 body[class*="post-type-pms-"] .cozmoslabs-documentation-link:hover,
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-support-link:focus,
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-documentation-link:focus,
+body[class*="_page_pms-"] .cozmoslabs-support-link:focus,
+body[class*="_page_pms-"] .cozmoslabs-documentation-link:focus,
 body[class*="post-type-pms-"] .cozmoslabs-support-link:focus,
 body[class*="post-type-pms-"] .cozmoslabs-documentation-link:focus {
     background: #F0F0F0;
     color: #1E1E1E;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-upgrade-link,
+body[class*="_page_pms-"] .cozmoslabs-upgrade-link,
 body[class*="post-type-pms-"] .cozmoslabs-upgrade-link {
     background: #08734C;
     color: #FFFFFF;
     font-weight: 600;
 }
 
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-upgrade-link:hover,
+body[class*="_page_pms-"] .cozmoslabs-upgrade-link:hover,
 body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:hover,
-body[class*="paid-member-subscriptions_page_"] .cozmoslabs-upgrade-link:focus,
+body[class*="_page_pms-"] .cozmoslabs-upgrade-link:focus,
 body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     background: #076945;
     color: #FFFFFF;
@@ -1077,12 +1076,12 @@ body[class*="post-type-pms-"] .submitdelete:focus,
 
 /* add link popup */
 body[class*="post-type-pms-"] .mce-inline-toolbar-grp,
-body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp {
+body[class*="_page_pms-"] .mce-inline-toolbar-grp {
     padding: 5px 10px;
 }
 
 body[class*="post-type-pms-"] .mce-inline-toolbar-grp .wp-link-input input[type="text"],
-body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp .wp-link-input input[type="text"] {
+body[class*="_page_pms-"] .mce-inline-toolbar-grp .wp-link-input input[type="text"] {
     border: 1px solid #949494;
     border-radius: 2px;
     font-size: 13px;
@@ -1095,14 +1094,14 @@ body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp .wp-link-
 
 body[class*="post-type-pms-"] .mce-inline-toolbar-grp .wp-link-input input[type="text"]:hover,
 body[class*="post-type-pms-"] .mce-inline-toolbar-grp .wp-link-input input[type="text"]:focus,
-body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp .wp-link-input input[type="text"]:hover,
-body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp .wp-link-input input[type="text"]:focus {
+body[class*="_page_pms-"] .mce-inline-toolbar-grp .wp-link-input input[type="text"]:hover,
+body[class*="_page_pms-"] .mce-inline-toolbar-grp .wp-link-input input[type="text"]:focus {
     border-color: #3858E9;
     color: #1E1E1E;
 }
 
 body[class*="post-type-pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary,
-body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp .mce-btn.mce-primary {
+body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary {
     background: #3858E9 !important;
     border: 1px solid #3858E9 !important;
     border-radius: 2px !important;
@@ -1118,8 +1117,8 @@ body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp .mce-btn.
 
 body[class*="post-type-pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:hover,
 body[class*="post-type-pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus,
-body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp .mce-btn.mce-primary:hover,
-body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
+body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:hover,
+body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
     background: #1D35B4 !important;
     border-color: #1D35B4 !important;
     box-shadow: none;
@@ -1604,7 +1603,7 @@ body[class*="paid-member-subscriptions_page_"] .mce-inline-toolbar-grp .mce-btn.
 /***********************************************************/
 
 .meta-box-sortables #pms_post_content_restriction h2.hndle,
-body[class*="paid-member-subscriptions_page_"] .meta-box-sortables h2.hndle,
+body[class*="_page_pms-"] .meta-box-sortables h2.hndle,
 body[class*="post-type-pms-"] .meta-box-sortables h2.hndle {
     font-weight: 600;
     font-size: 11px !important;
@@ -1798,25 +1797,25 @@ body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:disabled {
 /* Links
 /***********************************************************/
 
-body[class*="paid-member-subscriptions_page_"] a:not(.button-secondary, .button-primary, .submitdelete, .chosen-single, .pms-add-taxonomy, .pms-add-rule, .cozmoslabs-remove-item, .page-title-action, .cozmoslabs-banner-link, .nav-tab, .nav-sub-tab),
+body[class*="_page_pms-"] a:not(.button-secondary, .button-primary, .submitdelete, .chosen-single, .pms-add-taxonomy, .pms-add-rule, .cozmoslabs-remove-item, .page-title-action, .cozmoslabs-banner-link, .nav-tab, .nav-sub-tab),
 body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .submitdelete, .chosen-single, .pms-add-taxonomy, .pms-add-rule, .cozmoslabs-remove-item, .page-title-action, .cozmoslabs-banner-link, .nav-tab, .nav-sub-tab) {
     color: #3858E9;
     text-decoration: none;
 }
 
-body[class*="paid-member-subscriptions_page_"] .delete a,
+body[class*="_page_pms-"] .delete a,
 body[class*="post-type-pms-"] .delete a,
-body[class*="paid-member-subscriptions_page_"] .delete a:hover,
+body[class*="_page_pms-"] .delete a:hover,
 body[class*="post-type-pms-"] .delete a:hover {
     color: #e76054;
 }
 
-body[class*="paid-member-subscriptions_page_"] a:not(.button-secondary, .button-primary, .submitdelete, .chosen-single, .pms-add-taxonomy, .pms-add-rule, .cozmoslabs-remove-item, .page-title-action, .cozmoslabs-banner-link, .nav-tab, .nav-sub-tab):hover,
+body[class*="_page_pms-"] a:not(.button-secondary, .button-primary, .submitdelete, .chosen-single, .pms-add-taxonomy, .pms-add-rule, .cozmoslabs-remove-item, .page-title-action, .cozmoslabs-banner-link, .nav-tab, .nav-sub-tab):hover,
 body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .submitdelete, .chosen-single, .pms-add-taxonomy, .pms-add-rule, .cozmoslabs-remove-item, .page-title-action, .cozmoslabs-banner-link, .nav-tab, .nav-sub-tab):hover {
     text-decoration: underline;
 }
 
-body[class*="paid-member-subscriptions_page_"] a:not(.button-secondary, .button-primary, .submitdelete, .chosen-single, .pms-add-taxonomy, .pms-add-rule, .cozmoslabs-remove-item, .page-title-action, .cozmoslabs-banner-link, .nav-tab, .nav-sub-tab):focus,
+body[class*="_page_pms-"] a:not(.button-secondary, .button-primary, .submitdelete, .chosen-single, .pms-add-taxonomy, .pms-add-rule, .cozmoslabs-remove-item, .page-title-action, .cozmoslabs-banner-link, .nav-tab, .nav-sub-tab):focus,
 body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .chosen-single, .submitdelete, .pms-add-taxonomy, .pms-add-rule, .cozmoslabs-remove-item, .page-title-action, .cozmoslabs-banner-link, .nav-tab, .nav-sub-tab):focus {
     box-shadow: none;
     outline: none;
@@ -2200,7 +2199,7 @@ body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .chosen-
 /**************************************************/
 
 /* page title */
-body[class*="paid-member-subscriptions_page_"] .wp-heading-inline,
+body[class*="_page_pms-"] .wp-heading-inline,
 body[class*="post-type-pms-"] .wp-heading-inline {
     font-style: normal;
     font-weight: 400;
@@ -2214,9 +2213,9 @@ body[class*="post-type-pms-"] .wp-heading-inline {
 }
 
 /* buttons */
-body[class*="paid-member-subscriptions_page_"] .button:not(.button-primary),
+body[class*="_page_pms-"] .button:not(.button-primary),
 body[class*="post-type-pms-"] .button:not(.button-primary),
-body[class*="paid-member-subscriptions_page_"] .page-title-action,
+body[class*="_page_pms-"] .page-title-action,
 body[class*="post-type-pms-"] .page-title-action {
     background: #FFFFFF;
     border: 1px solid #3858E9;
@@ -2233,25 +2232,25 @@ body[class*="post-type-pms-"] .page-title-action {
     cursor: pointer;
 }
 
-body[class*="paid-member-subscriptions_page_"] .button:not(.button-primary, .cozmoslabs-wysiwyg-wrapper .insert-media, .pagination-links .button),
+body[class*="_page_pms-"] .button:not(.button-primary, .cozmoslabs-wysiwyg-wrapper .insert-media, .pagination-links .button),
 body[class*="post-type-pms-"] .button:not(.button-primary, .cozmoslabs-wysiwyg-wrapper .insert-media, .pagination-links .button) {
     height: 40px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .page-title-action,
+body[class*="_page_pms-"] .page-title-action,
 body[class*="post-type-pms-"] .page-title-action {
     height: 30px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .button:not(.button-primary):hover,
-body[class*="paid-member-subscriptions_page_"] .button:not(.button-primary):focus,
-body[class*="paid-member-subscriptions_page_"] .button:not(.button-primary):active,
+body[class*="_page_pms-"] .button:not(.button-primary):hover,
+body[class*="_page_pms-"] .button:not(.button-primary):focus,
+body[class*="_page_pms-"] .button:not(.button-primary):active,
 body[class*="post-type-pms-"] .button:not(.button-primary):hover,
 body[class*="post-type-pms-"] .button:not(.button-primary):focus,
 body[class*="post-type-pms-"] .button:not(.button-primary):active,
-body[class*="paid-member-subscriptions_page_"] .page-title-action:hover,
-body[class*="paid-member-subscriptions_page_"] .page-title-action:focus,
-body[class*="paid-member-subscriptions_page_"] .page-title-action:active,
+body[class*="_page_pms-"] .page-title-action:hover,
+body[class*="_page_pms-"] .page-title-action:focus,
+body[class*="_page_pms-"] .page-title-action:active,
 body[class*="post-type-pms-"] .page-title-action:hover,
 body[class*="post-type-pms-"] .page-title-action:focus,
 body[class*="post-type-pms-"] .page-title-action:active {
@@ -2263,7 +2262,7 @@ body[class*="post-type-pms-"] .page-title-action:active {
     margin: 0;
 }
 
-body[class*="paid-member-subscriptions_page_"] .button-primary,
+body[class*="_page_pms-"] .button-primary,
 body[class*="post-type-pms-"] .button-primary {
     background: #3858E9;
     border: 1px solid #3858E9;
@@ -2282,8 +2281,8 @@ body[class*="post-type-pms-"] .button-primary {
     cursor: pointer;
 }
 
-body[class*="paid-member-subscriptions_page_"] .button-primary:hover,
-body[class*="paid-member-subscriptions_page_"] .button-primary:focus,
+body[class*="_page_pms-"] .button-primary:hover,
+body[class*="_page_pms-"] .button-primary:focus,
 body[class*="post-type-pms-"] .button-primary:hover,
 body[class*="post-type-pms-"] .button-primary:focus {
     background: #1D35B4;
@@ -2291,7 +2290,7 @@ body[class*="post-type-pms-"] .button-primary:focus {
     box-shadow: none;
 }
 
-body[class*="paid-member-subscriptions_page_"] .button-primary.button-disabled,
+body[class*="_page_pms-"] .button-primary.button-disabled,
 body[class*="post-type-pms-"] .button-primary.button-disabled {
     background: #1D35B4 !important;
     border: 1px solid #1D35B4;
@@ -2313,7 +2312,7 @@ body[class*="post-type-pms-"] .button-primary.button-disabled {
 }
 
 /* table page navigation */
-body[class*="paid-member-subscriptions_page_"] .tablenav-pages,
+body[class*="_page_pms-"] .tablenav-pages,
 body[class*="post-type-pms-"] .tablenav-pages {
     display: flex;
     align-items: center;
@@ -2321,7 +2320,7 @@ body[class*="post-type-pms-"] .tablenav-pages {
     gap: 10px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .tablenav-pages .pagination-links,
+body[class*="_page_pms-"] .tablenav-pages .pagination-links,
 body[class*="post-type-pms-"] .tablenav-pages .pagination-links {
     display: flex;
     flex-direction: row;
@@ -2330,14 +2329,14 @@ body[class*="post-type-pms-"] .tablenav-pages .pagination-links {
     gap: 5px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .tablenav-pages.one-page .pagination-links,
+body[class*="_page_pms-"] .tablenav-pages.one-page .pagination-links,
 body[class*="post-type-pms-"] .tablenav-pages.one-page .pagination-links,
-body[class*="paid-member-subscriptions_page_"] .tablenav-pages.no-pages .pagination-links,
+body[class*="_page_pms-"] .tablenav-pages.no-pages .pagination-links,
 body[class*="post-type-pms-"] .tablenav-pages.no-pages .pagination-links {
     display: none !important;
 }
 
-body[class*="paid-member-subscriptions_page_"] .pagination-links .button,
+body[class*="_page_pms-"] .pagination-links .button,
 body[class*="post-type-pms-"] .pagination-links .button {
     height: 30px;
     background: #FFFFFF;
@@ -2355,8 +2354,8 @@ body[class*="post-type-pms-"] .pagination-links .button {
     cursor: pointer;
 }
 
-body[class*="paid-member-subscriptions_page_"] .pagination-links .button:hover,
-body[class*="paid-member-subscriptions_page_"] .pagination-links .button:focus,
+body[class*="_page_pms-"] .pagination-links .button:hover,
+body[class*="_page_pms-"] .pagination-links .button:focus,
 body[class*="post-type-pms-"] .pagination-links .button:hover,
 body[class*="post-type-pms-"] .pagination-links .button:focus {
     background: #F0F0F0;
@@ -2366,7 +2365,7 @@ body[class*="post-type-pms-"] .pagination-links .button:focus {
     text-decoration: none;
 }
 
-body[class*="paid-member-subscriptions_page_"] .pagination-links .button.disabled,
+body[class*="_page_pms-"] .pagination-links .button.disabled,
 body[class*="post-type-pms-"] .pagination-links .button.disabled {
     background: #F0F0F0 !important;
     border-color: #3858E9 !important;
@@ -2375,7 +2374,7 @@ body[class*="post-type-pms-"] .pagination-links .button.disabled {
     opacity: 0.5;
 }
 
-body[class*="paid-member-subscriptions_page_"] .pagination-links .paging-input,
+body[class*="_page_pms-"] .pagination-links .paging-input,
 body[class*="post-type-pms-"] .pagination-links .paging-input {
     display: flex;
     flex-direction: row;
@@ -2384,7 +2383,7 @@ body[class*="post-type-pms-"] .pagination-links .paging-input {
     gap: 5px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .pagination-links .current-page,
+body[class*="_page_pms-"] .pagination-links .current-page,
 body[class*="post-type-pms-"] .pagination-links .current-page {
     border: 1px solid #949494;
     border-radius: 2px;
@@ -2396,33 +2395,33 @@ body[class*="post-type-pms-"] .pagination-links .current-page {
     min-height: 30px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .pagination-links .current-page:hover,
+body[class*="_page_pms-"] .pagination-links .current-page:hover,
 body[class*="post-type-pms-"] .pagination-links .current-page:hover {
     border-color: #3858E9;
     color: #1E1E1E;
 }
 
-body[class*="paid-member-subscriptions_page_"] .pagination-links .current-page:focus,
+body[class*="_page_pms-"] .pagination-links .current-page:focus,
 body[class*="post-type-pms-"] .pagination-links .current-page:focus {
     border-color: #3858E9;
     box-shadow: 0 0 0 1px #3858e9;
 }
 
 /* Fields */
-body[class*="paid-member-subscriptions_page_"] .tablenav,
+body[class*="_page_pms-"] .tablenav,
 body[class*="post-type-pms-"] .tablenav {
     height: 40px;
     padding: 10px 0;
     margin: 0;
 }
 
-body[class*="paid-member-subscriptions_page_"] #major-publishing-actions select,
-body[class*="paid-member-subscriptions_page_"] #major-publishing-actions input[type="text"],
-body[class*="paid-member-subscriptions_page_"] .wp-list-table input[type="text"],
+body[class*="_page_pms-"] #major-publishing-actions select,
+body[class*="_page_pms-"] #major-publishing-actions input[type="text"],
+body[class*="_page_pms-"] .wp-list-table input[type="text"],
 body[class*="post-type-pms-"] .wp-list-table input[type="text"],
-body[class*="paid-member-subscriptions_page_"] .search-box input[type="search"],
+body[class*="_page_pms-"] .search-box input[type="search"],
 body[class*="post-type-pms-"] .search-box input[type="search"],
-body[class*="paid-member-subscriptions_page_"] .tablenav select,
+body[class*="_page_pms-"] .tablenav select,
 body[class*="post-type-pms-"] .tablenav select {
     height: 40px;
     border: 1px solid #949494;
@@ -2434,46 +2433,46 @@ body[class*="post-type-pms-"] .tablenav select {
     max-width: 100%;
 }
 
-body[class*="paid-member-subscriptions_page_"] #major-publishing-actions select:hover,
-body[class*="paid-member-subscriptions_page_"] #major-publishing-actions input[type="text"]:hover,
-body[class*="paid-member-subscriptions_page_"] .wp-list-table input[type="text"]:hover,
+body[class*="_page_pms-"] #major-publishing-actions select:hover,
+body[class*="_page_pms-"] #major-publishing-actions input[type="text"]:hover,
+body[class*="_page_pms-"] .wp-list-table input[type="text"]:hover,
 body[class*="post-type-pms-"] .wp-list-table input[type="text"]:hover,
-body[class*="paid-member-subscriptions_page_"] .search-box input[type="search"]:hover,
+body[class*="_page_pms-"] .search-box input[type="search"]:hover,
 body[class*="post-type-pms-"] .search-box input[type="search"]:hover,
-body[class*="paid-member-subscriptions_page_"] .tablenav select:hover,
+body[class*="_page_pms-"] .tablenav select:hover,
 body[class*="post-type-pms-"] .tablenav select:hover {
     border-color: #3858E9;
 }
 
-body[class*="paid-member-subscriptions_page_"] #major-publishing-actions select:focus,
-body[class*="paid-member-subscriptions_page_"] #major-publishing-actions input[type="text"]:focus,
-body[class*="paid-member-subscriptions_page_"] .wp-list-table input[type="text"]:focus,
+body[class*="_page_pms-"] #major-publishing-actions select:focus,
+body[class*="_page_pms-"] #major-publishing-actions input[type="text"]:focus,
+body[class*="_page_pms-"] .wp-list-table input[type="text"]:focus,
 body[class*="post-type-pms-"] .wp-list-table input[type="text"]:focus,
-body[class*="paid-member-subscriptions_page_"] .search-box input[type="search"]:focus,
+body[class*="_page_pms-"] .search-box input[type="search"]:focus,
 body[class*="post-type-pms-"] .search-box input[type="search"]:focus,
-body[class*="paid-member-subscriptions_page_"] .tablenav select:focus,
+body[class*="_page_pms-"] .tablenav select:focus,
 body[class*="post-type-pms-"] .tablenav select:focus {
     border-color: #3858E9;
     box-shadow: 0 0 0 1px #3858e9 !important;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table input[type="text"]:disabled,
+body[class*="_page_pms-"] .wp-list-table input[type="text"]:disabled,
 body[class*="post-type-pms-"] .wp-list-table input[type="text"]:disabled,
-body[class*="paid-member-subscriptions_page_"] .search-box input[type="search"]:disabled,
+body[class*="_page_pms-"] .search-box input[type="search"]:disabled,
 body[class*="post-type-pms-"] .search-box input[type="search"]:disabled,
-body[class*="paid-member-subscriptions_page_"] .tablenav select:disabled,
+body[class*="_page_pms-"] .tablenav select:disabled,
 body[class*="post-type-pms-"] .tablenav select:disabled {
     opacity: 0.5;
     pointer-events: none;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table input[type="text"][readonly],
+body[class*="_page_pms-"] .wp-list-table input[type="text"][readonly],
 body[class*="post-type-pms-"] .wp-list-table input[type="text"][readonly] {
     opacity: 0.8;
 }
 
 /* Tables */
-body[class*="paid-member-subscriptions_page_"] .wp-list-table th,
+body[class*="_page_pms-"] .wp-list-table th,
 body[class*="post-type-pms-"] .wp-list-table th,
 .cozmoslabs-form-subsection-wrapper th {
     font-weight: 600;
@@ -2482,7 +2481,7 @@ body[class*="post-type-pms-"] .wp-list-table th,
     color: #1E1E1E !important;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table td,
+body[class*="_page_pms-"] .wp-list-table td,
 body[class*="post-type-pms-"] .wp-list-table td,
 .cozmoslabs-form-subsection-wrapper td {
     font-style: normal;
@@ -2493,21 +2492,21 @@ body[class*="post-type-pms-"] .wp-list-table td,
     vertical-align: middle;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table:not(.member-payments) .column-status,
+body[class*="_page_pms-"] .wp-list-table:not(.member-payments) .column-status,
 body[class*="post-type-pms-"] .wp-list-table:not(.member-payments) .column-status {
     width: 10%;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .column-price,
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .column-sign_up_fee,
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .column-free_trial,
+body[class*="_page_pms-"] .wp-list-table .column-price,
+body[class*="_page_pms-"] .wp-list-table .column-sign_up_fee,
+body[class*="_page_pms-"] .wp-list-table .column-free_trial,
 body[class*="post-type-pms-"] .wp-list-table .column-price,
 body[class*="post-type-pms-"] .wp-list-table .column-sign_up_fee,
 body[class*="post-type-pms-"] .wp-list-table .column-free_trial {
     width: 11%;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .column-id,
+body[class*="_page_pms-"] .wp-list-table .column-id,
 body[class*="post-type-pms-"] .wp-list-table .column-id {
     width: 50px;
     padding-right:0;
@@ -2515,29 +2514,29 @@ body[class*="post-type-pms-"] .wp-list-table .column-id {
     text-align: center;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table th.sortable a,
+body[class*="_page_pms-"] .wp-list-table th.sortable a,
 body[class*="post-type-pms-"] .wp-list-table th.sortable a {
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table th.sortable a .sorting-indicator,
+body[class*="_page_pms-"] .wp-list-table th.sortable a .sorting-indicator,
 body[class*="post-type-pms-"] .wp-list-table th.sortable a .sorting-indicator {
     margin: 0;
 }
 
 /* Memebers List Table */
-body[class*="paid-member-subscriptions_page_"] .wp-list-table.members .column-user_id {
+body[class*="_page_pms-"] .wp-list-table.members .column-user_id {
     width: 7%;
     text-align: left;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table.members th#subscriptions {
+body[class*="_page_pms-"] .wp-list-table.members th#subscriptions {
     width: 30%;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table.members td.column-subscriptions {
+body[class*="_page_pms-"] .wp-list-table.members td.column-subscriptions {
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -2546,28 +2545,28 @@ body[class*="paid-member-subscriptions_page_"] .wp-list-table.members td.column-
     justify-content: center;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .pms-member-list-subscription {
+body[class*="_page_pms-"] .wp-list-table .pms-member-list-subscription {
     display: inline-block;
     margin-right: 15px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .pms-member-list-subscription .pms-bubble div:after {
+body[class*="_page_pms-"] .wp-list-table .pms-member-list-subscription .pms-bubble div:after {
     content: '';
     display: block;
     clear: both;
     height: 0;
 }
 
-body[class*="paid-member-subscriptions_page_"] .filter-members-sidebox .tablenav-pages {
+body[class*="_page_pms-"] .filter-members-sidebox .tablenav-pages {
     display: none;
 }
 
-body[class*="paid-member-subscriptions_page_"] .filter-members-sidebox {
+body[class*="_page_pms-"] .filter-members-sidebox {
     margin-top: 60px;
 }
 
-body[class*="paid-member-subscriptions_page_"] #major-publishing-actions .cozmoslabs-custom-interval,
-body[class*="paid-member-subscriptions_page_"] #major-publishing-actions {
+body[class*="_page_pms-"] #major-publishing-actions .cozmoslabs-custom-interval,
+body[class*="_page_pms-"] #major-publishing-actions {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -2591,13 +2590,13 @@ body[class*="paid-member-subscriptions_page_"] #major-publishing-actions {
 }
 
 /* table checkboxes */
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .check-column,
+body[class*="_page_pms-"] .wp-list-table .check-column,
 body[class*="post-type-pms-"] .wp-list-table .check-column {
     vertical-align: middle;
     padding: 0 5px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .check-column input[type="checkbox"],
+body[class*="_page_pms-"] .wp-list-table .check-column input[type="checkbox"],
 body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"] {
     display: flex;
     justify-content: center;
@@ -2608,13 +2607,13 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
     height: 20px;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .check-column input[type="checkbox"]:checked,
+body[class*="_page_pms-"] .wp-list-table .check-column input[type="checkbox"]:checked,
 body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"]:checked {
     background: #3858E9;
     border-color: #3858E9;
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .check-column input[type="checkbox"]:checked::before,
+body[class*="_page_pms-"] .wp-list-table .check-column input[type="checkbox"]:checked::before,
 body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"]:checked::before {
     content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' viewBox='0 0 24 24'><title>check</title><path d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' fill='rgb(255, 255, 255)' /></svg>");
     width: 15px;
@@ -2623,9 +2622,9 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
     transform: rotate(-8deg);
 }
 
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .check-column input[type="checkbox"]:hover,
+body[class*="_page_pms-"] .wp-list-table .check-column input[type="checkbox"]:hover,
 body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"]:hover,
-body[class*="paid-member-subscriptions_page_"] .wp-list-table .check-column input[type="checkbox"]:focus,
+body[class*="_page_pms-"] .wp-list-table .check-column input[type="checkbox"]:focus,
 body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"]:focus {
     outline: none;
     box-shadow: none;
@@ -2822,7 +2821,7 @@ body[class*="post-type-pms-"] .cozmoslabs-banner {
     margin-left: -20px;
 }
 
-body[class*="paid-member-subscriptions_page_"] #screen-meta {
+body[class*="_page_pms-"] #screen-meta {
     margin-left: 20px;
 }
 
@@ -3161,12 +3160,12 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 }
 
 @media screen and (max-width: 600px) {
-    body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner,
+    body[class*="_page_pms-"] .cozmoslabs-banner,
     body[class*="post-type-pms-"] .cozmoslabs-banner {
         padding-top: 60px !important;
     }
 
-    body[class*="paid-member-subscriptions_page_"] #wpbody,
+    body[class*="_page_pms-"] #wpbody,
     body[class*="post-type-pms-"] #wpbody,
     body[class*="post-type-pms-"] #wpcontent {
         padding: 0;
@@ -3176,7 +3175,7 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
         margin: 0 10px;
     }
 
-    body[class*="paid-member-subscriptions_page_"] .wp-heading-inline,
+    body[class*="_page_pms-"] .wp-heading-inline,
     body[class*="post-type-pms-"] .wp-heading-inline {
         display: flex;
         flex-direction: column;
@@ -3187,7 +3186,7 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
 }
 
 @media screen and (max-width: 782px) {
-    body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner,
+    body[class*="_page_pms-"] .cozmoslabs-banner,
     body[class*="post-type-pms-"] .cozmoslabs-banner {
         margin-left: 0 !important;
         padding: 15px 8px;
@@ -3197,7 +3196,7 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
         gap: 15px;
     }
 
-    body[class*="paid-member-subscriptions_page_"] .cozmoslabs-banner-buttons,
+    body[class*="_page_pms-"] .cozmoslabs-banner-buttons,
     body[class*="post-type-pms-"] .cozmoslabs-banner-buttons {
         gap: 5px;
     }
@@ -3387,7 +3386,7 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
     }
 
     /* CPTs */
-    body[class*="paid-member-subscriptions_page_"] .pagination-links .button,
+    body[class*="_page_pms-"] .pagination-links .button,
     body[class*="post-type-pms-"] .pagination-links .button {
         padding: 0;
     }
@@ -3460,33 +3459,33 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
     }
 
     /*Custom Pages Members/Payments */
-    body[class*="paid-member-subscriptions_page_"] .wp-list-table.members,
-    body[class*="paid-member-subscriptions_page_"] .wp-list-table.payments {
+    body[class*="_page_pms-"] .wp-list-table.members,
+    body[class*="_page_pms-"] .wp-list-table.payments {
         table-layout: unset;
     }
 
-    body[class*="paid-member-subscriptions_page_"] .wp-list-table.members tbody tr .check-column,
-    body[class*="paid-member-subscriptions_page_"] .wp-list-table.payments tbody tr .check-column {
+    body[class*="_page_pms-"] .wp-list-table.members tbody tr .check-column,
+    body[class*="_page_pms-"] .wp-list-table.payments tbody tr .check-column {
         vertical-align: top;
         padding-top: 8px;
     }
 
-    body[class*="paid-member-subscriptions_page_"] .wp-list-table.members tbody tr td:before,
-    body[class*="paid-member-subscriptions_page_"] .wp-list-table.payments tbody tr td:before {
+    body[class*="_page_pms-"] .wp-list-table.members tbody tr td:before,
+    body[class*="_page_pms-"] .wp-list-table.payments tbody tr td:before {
         font-weight: 600;
         font-size: 13px;
         line-height: 16px;
         color: #1E1E1E;
     }
 
-    body[class*="paid-member-subscriptions_page_"] .wp-list-table.members .column-user_id,
-    body[class*="paid-member-subscriptions_page_"] .wp-list-table.payments .column-id {
+    body[class*="_page_pms-"] .wp-list-table.members .column-user_id,
+    body[class*="_page_pms-"] .wp-list-table.payments .column-id {
         width: unset;
         text-align: left;
     }
 
-    body[class*="paid-member-subscriptions_page_"] #major-publishing-actions select,
-    body[class*="paid-member-subscriptions_page_"] #major-publishing-actions input[type="text"] {
+    body[class*="_page_pms-"] #major-publishing-actions select,
+    body[class*="_page_pms-"] #major-publishing-actions input[type="text"] {
         width: 100%;
     }
 
@@ -3516,7 +3515,7 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
-    }    
+    }
 
 }
 
@@ -3639,7 +3638,7 @@ body[class*="paid-member-subscriptions_page_"] #screen-meta {
     margin-bottom: 24px;
 }
 
-.pms-dashboard-shortcodes__row__wrap { 
+.pms-dashboard-shortcodes__row__wrap {
     flex: 1;
     margin-right: 12px;
 }

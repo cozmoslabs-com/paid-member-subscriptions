@@ -97,6 +97,10 @@ class PMS_Add_General_Notices{
     }
 
     function dismiss_notification() {
+
+        if( empty( $_GET['_wpnonce'] ) || !wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'pms_general_notice_dismiss' ) )
+            return;
+
         global $current_user;
 
         $user_id = $current_user->ID;
@@ -108,6 +112,7 @@ class PMS_Add_General_Notices{
             add_user_meta( $user_id, $this->notificationId.'_dismiss_notification', 'true', true );
 
         do_action( $this->notificationId.'_after_notification_dismissed', $current_user );
+
     }
 
     protected function is_plugin_page() {

@@ -634,7 +634,6 @@
 <?php __("Subscription Upgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Downgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Retry Payment", "paid-member-subscriptions"); ?>
-<?php __("If you have issues with the styling of the submit button on <strong>Paid Member Subscriptions</strong> forms, <a href=\"%s\" target=\"_blank\">click here</a> for more info.", "paid-member-subscriptions"); ?>
 <?php __("<strong>New payment gateway!</strong><br><br><strong>Stripe</strong> payment gateway is now available in the free version. <br>Your users can pay using credit and debit cards without leaving your website and you can also offer them additional payment methods like Bancontact, iDeal, Giropay and more. <br><br>Get started now by going to <strong>Paid Member Subscriptions -> Settings -> Payments</strong>!", "paid-member-subscriptions"); ?>
 <?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("%s Day", "paid-member-subscriptions"); ?>
@@ -1004,6 +1003,7 @@
 <?php __('Please %1$sRenew Your Licence%2$s to continue receiving access to product downloads, automatic updates and support.', 'paid-member-subscriptions' ); ?>
 <?php __("Your %s license is about to expire on %s", "paid-member-subscriptions"); ?>
 <?php __("Please %sRenew Your Licence%s to continue receiving access to product downloads, automatic updates and support.", "paid-member-subscriptions"); ?>
+<?php __("Add New Subscription", "paid-member-subscriptions"); ?>
 <?php __("PMS -> Settings -> Membership Pages -> Registration", "paid-member-subscriptions"); ?>
 <?php __("%sError:%s It seems that you do not have the register page set. To solve the problem, please navigate to %s and select the page containing the %s shortcode.", "paid-member-subscriptions"); ?>
 <?php __("PMS -> Subscription Plans-> Add New", "paid-member-subscriptions"); ?>
@@ -1257,12 +1257,10 @@
 <?php __("Company Details are required in order to create invoices.", "paid-member-subscriptions"); ?>
 <?php __("Invoice", "paid-member-subscriptions"); ?>
 <?php __("The {{number}} tag is required under Format.", "paid-member-subscriptions"); ?>
-<?php __("Your <strong>Paid Member Subscriptions</strong> version is not 100%% compatible with this version of the <strong>Invoices</strong> add-on.<br>Please go to the <a href=\"%s\">plugins</a> page and <strong>update Paid Member Subscriptions</strong> to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Invoice-%d", "paid-member-subscriptions"); ?>
 <?php __("Download Invoice", "paid-member-subscriptions"); ?>
 <?php __("Payments & Invoices", "paid-member-subscriptions"); ?>
 <?php __("Select subscription plan", "paid-member-subscriptions"); ?>
-<?php __("Add New Subscription", "paid-member-subscriptions"); ?>
 <?php __("Subscription plan", "paid-member-subscriptions"); ?>
 <?php __('You will soon be redirected automatically. If you see this page for more than 5 seconds, please click <a href=\%1$s\>here</a>', 'paid-member-subscriptions' ); ?>
 <?php __("%sClick here%s to go now.", "paid-member-subscriptions"); ?>

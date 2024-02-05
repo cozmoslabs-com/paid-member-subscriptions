@@ -88,21 +88,3 @@ if ( ! defined( 'ABSPATH' ) ) exit;
          }
      }
  }
-
- add_action( 'after_setup_theme', 'pms_plugin_compatibility_notices' );
- function pms_plugin_compatibility_notices() {
-
-    /**
-    * Add a notice if the Avada theme is used
-    */
-    if ( defined( 'AVADA_VERSION' ) ) {
-
-        $message = sprintf( __( 'If you have issues with the styling of the submit button on <strong>Paid Member Subscriptions</strong> forms, <a href="%s" target="_blank">click here</a> for more info.', 'paid-member-subscriptions' ), 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/developer-knowledge-base/style-submit-buttons-when-using-avada-theme/' );
-        $message .= sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( add_query_arg('pms_avada_styling_compatibility_dismiss_notification', '0') ) . "'>", "</a>" );
-
-        new PMS_Add_General_Notices(
-            'pms_avada_styling_compatibility',
-            $message,
-            'notice-warning' );
-    }
- }

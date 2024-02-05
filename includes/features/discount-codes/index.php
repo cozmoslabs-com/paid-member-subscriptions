@@ -92,7 +92,7 @@ function pms_in_dc_add_frontend_scripts(){
 
         $discounted_subscriptions = pms_in_dc_get_discounted_subscriptions();
 
-        if ( $discount_subscriptions != false ){
+        if ( $discounted_subscriptions != false ){
             $js_data['discounted_subscriptions'] = json_encode( $discounted_subscriptions, JSON_FORCE_OBJECT );
         }
 
