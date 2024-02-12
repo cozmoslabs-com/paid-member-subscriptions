@@ -476,14 +476,30 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
 
     public function creating_pricing_table_page(){
 
-            if( isset( $_POST ) ){
-                $id_subscriptions = array_filter( $_POST,'wp_kses_post' );
-            }
-            else{
-                return;
+            if( !isset( $_POST['pms_nonce'] ) || !wp_verify_nonce( sanitize_text_field( $_POST['pms_nonce'] ), 'pms_create_pricing_table_page' ) ){
+                wp_redirect( admin_url( 'edit.php?post_type=pms-subscription' ) );
+                die();
             }
 
-            $count_ids = count( $id_subscriptions ) - 1;
+            $target_plan_keys = array(
+                'pms-silver-subscription-plan',
+                'pms-gold-subscription-plan',
+                'pms-platinum-subscription-plan'
+            );
+
+            $id_subscriptions = array();
+
+            foreach( $target_plan_keys as $key ){
+                if( isset( $_POST[ $key ] ) )
+                    $id_subscriptions[] = absint( $_POST[ $key ] );
+            }
+
+            if( empty( $id_subscriptions ) ){
+                wp_redirect( admin_url( 'edit.php?post_type=pms-subscription' ) );
+                die();
+            }
+
+            $count_ids = count( $id_subscriptions );
             if( $count_ids == 3 ){
                 $pattern = pms_patterns_pricing_table();
             }
@@ -547,9 +563,12 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                 'post_status'  => 'publish',
                 'post_author'  => 1
             );
-            $id_page = wp_insert_post( $new_post );
+
+            $id_page   = wp_insert_post( $new_post );
             $link_page = htmlspecialchars_decode( esc_url( add_query_arg( array( 'post' => $id_page, 'action' => 'edit' ), admin_url( 'post.php' ) ) ) );
-            update_option('pms_create_pricing_page_complete', 'pricing_page_exist');
+
+            update_option( 'pms_create_pricing_page_complete', 'pricing_page_exist' );
+
             wp_redirect( $link_page );
             exit;
     }

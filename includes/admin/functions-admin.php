@@ -488,6 +488,7 @@ add_action( 'pms_member_subscription_list_table_extra_tablenav', 'pms_extend_edi
                         </table>
                         <div style="margin-top: 10px;">
                             <input type="hidden" name="action" value="pms_create_pricing_table_page">
+                            <input type="hidden" name="pms_nonce" value="<?php echo esc_attr( wp_create_nonce( 'pms_create_pricing_table_page' ) ); ?>">
                             <input type="submit" class="button button-primary" value="Submit">
                         </div>
                     </form>

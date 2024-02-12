@@ -7,11 +7,16 @@ if( ! defined( 'ABSPATH' ) ) exit;
 if( ! defined( 'PMS_VERSION' ) ) return;
 
 add_action( 'admin_post_pms_stripe_connect_platform_authorization_return', 'pms_stripe_connect_handle_authorization_return' );
-add_action( 'admin_post_nopriv_pms_stripe_connect_platform_authorization_return', 'pms_stripe_connect_handle_authorization_return' );
 function pms_stripe_connect_handle_authorization_return(){
 
-    if( !isset( $_POST['environment'] ) )
-        return;
+	if( !isset( $_POST['environment'] ) || !isset( $_POST['pms_nonce'] ) )
+		return;
+
+	if( !wp_verify_nonce( sanitize_text_field( $_POST['pms_nonce'] ), 'stripe_connnect_account' ) )
+		return;
+
+	if( !current_user_can( 'manage_options' ) )
+		return;
 
     $environment = sanitize_text_field( $_POST['environment'] );
 
@@ -71,8 +76,14 @@ function pms_stripe_connect_handle_authorization_return(){
 add_action( 'admin_init', 'pms_stripe_connect_platform_disconnect' );
 function pms_stripe_connect_platform_disconnect(){
 
-    if( !isset( $_GET['pms_stripe_connect_platform_disconnect'] ) || $_GET['pms_stripe_connect_platform_disconnect'] != 1 || !isset( $_GET['environment' ] ) )
+    if( !isset( $_GET['pms_nonce'] ) || !isset( $_GET['pms_stripe_connect_platform_disconnect'] ) || $_GET['pms_stripe_connect_platform_disconnect'] != 1 || !isset( $_GET['environment' ] ) )
         return;
+
+	if( !current_user_can( 'manage_options' ) )
+		return;
+
+	if( !wp_verify_nonce( sanitize_text_field( $_GET['pms_nonce'] ), 'pms_stripe_disconnect' ) )
+		return;
 
     $environment = sanitize_text_field( $_GET['environment'] );
 
@@ -493,6 +504,7 @@ function pms_stripe_add_settings_content( $options ) {
 									'environment'               => $environment,
 									'pms_stripe_account_id'     => get_option( 'pms_stripe_connect_'. $environment .'_account_id', false ),
 									'home_url'                  => site_url(),
+									'pms_nonce'                 => wp_create_nonce( 'stripe_disconnect_account' ),
 								],
 								$stripe_connect_base_url
 							);
@@ -534,6 +546,7 @@ function pms_stripe_add_settings_content( $options ) {
 								'pms_stripe_connect_action' => 'connect',
 								'environment'               => $environment,
 								'home_url'                  => site_url(),
+								'pms_nonce'                 => wp_create_nonce( 'stripe_connnect_account' ),
 							],
 							$stripe_connect_base_url
 						);

@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 2.11.1
+Stable tag: 2.11.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,11 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.11.2 =
+* Fix: Security issue. Thanks to Lucio Sá
+* Fix: Add nonce check when creating pricing pages. Thanks to Lucio Sá
+* Misc: Declare translations domain path so the .pot file with translations can be identified properly
+
 = 2.11.1 =
 * Fix: Issue with subscription not activating correctly when Stripe was used after a Profile Builder Email Confirmation
 * Fix: Add nonce check when dismissing SSL notice. Thanks to Dhabaleshwar Das for the report
