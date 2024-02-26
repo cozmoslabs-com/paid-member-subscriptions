@@ -158,6 +158,9 @@ function pms_in_dc_output_discount_box( $output, $include, $exclude_id_group, $m
     if( empty( $subscription_plans ) )
         return $output;
 
+    if( !( pms_in_are_active_discounts_defined() > 0 ) )
+        return $output;
+    
     // Calculate the total price of the subscription plans
     $total_price = 0;
     foreach( $subscription_plans as $subscription_plan ) {

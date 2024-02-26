@@ -403,7 +403,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper input[type="number"],
 #cozmoslabs-subsection-paypal-configs .cozmoslabs-form-field-wrapper input[type="password"],
 .cozmoslabs-form-field-wrapper input[type="file"],
-.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, .cozmoslabs-tags-list input) {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input) {
     flex-basis: 260px;
     width: 100%;
 }
@@ -442,7 +442,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper input[type="date"],
 .cozmoslabs-form-field-wrapper input[type="number"],
 .cozmoslabs-form-field-wrapper input[type="email"],
-.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, .cozmoslabs-tags-list input) {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input) {
     border: 1px solid #949494;
     border-radius: 2px;
     font-size: 13px;
@@ -458,21 +458,44 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     padding: 10px !important;
 }
 
-
-
 .cozmoslabs-form-field-wrapper .chosen-container .chosen-single,
 .cozmoslabs-form-field-wrapper select,
 .cozmoslabs-form-field-wrapper input[type="password"],
 .cozmoslabs-form-field-wrapper input[type="date"],
 .cozmoslabs-form-field-wrapper input[type="number"],
 .cozmoslabs-form-field-wrapper input[type="email"],
-.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, .cozmoslabs-tags-list input) {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input) {
     height: 40px;
 }
 
 .cozmoslabs-form-field-wrapper .chosen-container-multi .chosen-choices {
     min-height: 40px;
     line-height: 40px;
+
+    padding: 5px 10px;
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.cozmoslabs-form-field-wrapper .chosen-container-multi .chosen-choices .search-field {
+    display: none;
+}
+
+.cozmoslabs-form-field-wrapper .chosen-container-multi .chosen-choices .search-field,
+.cozmoslabs-form-field-wrapper .chosen-container-multi .chosen-choices .search-field input[type="text"] {
+    height: 25px !important;
+    min-height: 25px !important;
+    line-height: 20px;
+}
+
+.cozmoslabs-form-field-wrapper .chosen-container-multi .chosen-choices .search-choice {
+    background: #ffffff !important;
+}
+
+.cozmoslabs-form-field-wrapper .chosen-container-multi.chosen-container-active .search-field {
+    display: list-item;
 }
 
 .cozmoslabs-form-field-wrapper .chosen-container .chosen-single {
@@ -492,7 +515,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper input[type="password"]:not(:disabled):hover,
 .cozmoslabs-form-field-wrapper input[type="date"]:not(:disabled):hover,
 .cozmoslabs-form-field-wrapper input[type="number"]:not(:disabled):hover,
-.cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url, .cozmoslabs-tags-list input):hover {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input):hover {
     border-color: #3858E9;
     color: #1E1E1E;
 }
@@ -503,7 +526,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper input[type="password"]:not(:disabled):focus,
 .cozmoslabs-form-field-wrapper input[type="date"]:not(:disabled):focus,
 .cozmoslabs-form-field-wrapper input[type="number"]:not(:disabled):focus,
-.cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url, .cozmoslabs-tags-list input):focus {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input, #pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input, #scripts_on_specific_pages_chosen .chosen-choices .search-field input):focus {
     border-color: #3858E9;
     box-shadow: 0 0 0 1px #3858E9;
 }
@@ -518,7 +541,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 .cozmoslabs-form-field-wrapper input[type="password"]:disabled,
 .cozmoslabs-form-field-wrapper input[type="date"]:disabled,
 .cozmoslabs-form-field-wrapper input[type="number"]:disabled,
-.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url):disabled {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url):disabled {
     opacity: 0.5;
     pointer-events: none;
 }
@@ -639,6 +662,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
 }
 
 /* secondary */
+body.post-type-pms-subscription .pms_learndash-url__copy,
 .cozmoslabs-wrap input[type="file"]::file-selector-button,
 .cozmoslabs-wrap .button-secondary {
     height: 40px;
@@ -656,6 +680,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     margin-right: 10px;
 }
 
+body.post-type-pms-subscription .pms_learndash-url__copy,
 .cozmoslabs-wrap .button-secondary {
     display: flex;
     align-items: center;
@@ -663,8 +688,10 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     cursor: pointer;
 }
 
+body.post-type-pms-subscription .pms_learndash-url__copy:hover,
 .cozmoslabs-wrap input[type="file"]::file-selector-button:hover,
 .cozmoslabs-wrap .button-secondary:hover,
+body.post-type-pms-subscription .pms_learndash-url__copy:focus,
 .cozmoslabs-wrap input[type="file"]::file-selector-button:focus,
 .cozmoslabs-wrap .button-secondary:focus {
     background: #F0F0F0;
@@ -1367,11 +1394,17 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
     text-align: center;
 }
 
+/* hide LearnDash Stripe admin notifications */
+.cozmoslabs-wrap #learndash-stripe-webhook-validation-error,
+.cozmoslabs-wrap #learndash-stripe-webhook-validation-success {
+    display: none !important;
+}
 
 /***********************************************************/
-/* PayPal & Stripe  Webhooks URL
+/* PayPal & Stripe Webhooks URL and LearDash Button URL
 /***********************************************************/
 
+.cozmoslabs-form-field-wrapper #pms-subscription-plan-learndash-url,
 .cozmoslabs-form-field-wrapper #stripe-connect-webhook-url,
 .cozmoslabs-form-field-wrapper #paypal-ipn-url {
     flex-basis: 260px;
@@ -1748,16 +1781,16 @@ body[class*="post-type-pms-"] .meta-box-sortables #pms-woo-subscription-product-
     width: 100% !important;
 }
 
-body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices {
+body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices:not(#pms_subscription_plan_learndash_courses_chosen .chosen-choices) {
     min-height: 38px;
     line-height: 38px;
 }
 
-body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices .search-field {
+body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices .search-field:not(#pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field) {
     width: 100%;
 }
 
-body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices .search-field input {
+body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices .search-field input:not(#pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input) {
     width: 100% !important;
     box-shadow: none !important;
     border: none !important;
@@ -1776,7 +1809,7 @@ body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmos
 body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices:focus,
 body[class*="post-type-pms-"] .meta-box-sortables select:focus,
 body[class*="post-type-pms-"] .meta-box-sortables input[type="search"]:focus,
-body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input):focus {
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input, #pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input, #scripts_on_specific_pages_chosen .chosen-choices .search-field input):focus {
     border-color: #3858E9 !important;
     box-shadow: 0 0 0 1px #3858E9 !important;
     color: #1E1E1E;
@@ -1785,7 +1818,7 @@ body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmos
 #titlediv #title:disabled,
 body[class*="post-type-pms-"] .meta-box-sortables select:disabled,
 body[class*="post-type-pms-"] .meta-box-sortables input[type="search"]:disabled,
-body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:disabled {
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(#pms-subscription-plan-learndash-url):disabled {
     opacity: 0.5;
     pointer-events: none;
     color: #1E1E1E;
@@ -1877,6 +1910,7 @@ body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .chosen-
     border-bottom: 1px solid #c3c4c7;
 }
 
+#pms-meta-box-field-learndash,
 #pms-meta-box-fields-wrapper-restriction-redirect-url,
 .pms-meta-box-field-wrapper-custom-messages,
 .pms-meta-box-field-wrapper-custom-redirect-url {
@@ -1888,6 +1922,7 @@ body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .chosen-
     display: block;
 }
 
+#pms-meta-box-field-learndash.pms-enabled,
 .pms-meta-box-field-wrapper-custom-redirect-url.pms-enabled {
     display: flex;
 }
@@ -2789,6 +2824,14 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
 
 .pms-notice#pms_free_stripe_connect {
     position: relative;
+}
+
+.pms-notice a.button-secondary {
+    min-width: auto !important;
+    height: 30px !important;
+    display: inline-block;
+    padding: 0 10px;
+    line-height: 2.15384615;
 }
 
 /* Publish Box */
@@ -3882,4 +3925,152 @@ body[class*="_page_pms-"] #screen-meta {
 
 .pms-shortcode_copy-text{
     cursor: pointer;
+}
+
+/* plugin optin */
+.pms-optin-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.pms-optin-page__wrap {
+    width: 400px;
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 8px;
+    margin-top: 120px;
+}
+
+.pms-optin-page__content {
+    padding: 16px;
+}
+
+.pms-optin-page__message {
+    font-size: 110%;
+}
+
+.pms-optin-page__bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pms-optin-page__bottom .button-secondary {
+    color: #555;
+    border-color: #555;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+}
+
+.pms-optin-page__footer {
+    background-color: #f2f2f2;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.pms-optin-page__extra {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.pms-optin-page__extra.hidden {
+    display: none;
+}
+
+.pms-optin-page__extra-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.pms-optin-page__extra-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    margin-right: 12px;
+    padding-top: 4px;
+}
+
+.pms-optin-page__extra-content h4 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    text-transform: uppercase;
+}
+
+.pms-optin-page__extra-content p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #646970;
+}
+
+.pms-optin-page__more-wrap {
+    display: flex;
+    justify-content: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.pms-optin-page__more {
+    font-size: 90%;
+    opacity: 0.8;
+    text-decoration: none;
+}
+
+.pms-optin-page__more:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+.pms-optin-page__footer-links {
+    display: flex;
+    justify-content: center;
+    font-size: 90%;
+    padding-bottom: 12px;
+    color: #555;
+}
+
+.pms-optin-page__footer-links a {
+    color: #555;
+    text-decoration: none;
+}
+
+.pms-optin-page__footer-links a:hover {
+    color: black;
+}
+
+.pms-optin-page__footer-links a:first-child {
+    margin-right: 8px;
+}
+
+.pms-optin-page__footer-links a:last-child {
+    margin-left: 8px;
+}
+
+.pms-optin-page__top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pms-optin-page__top img {
+    width: 90px;
+    border-radius: 50%;
+}
+
+.pms-optin-page__top svg {
+    width: 90px;
+    height: 90px;
+}
+
+.pms-optin-page__top .pms-optin-page__extra-icon {
+    margin-left: 12px;
+    color: rgba(100, 100, 111, 0.3);
+}
+
+.admin_page_pms-optin-page .notice {
+    display: none !important;
 }

@@ -89,7 +89,7 @@ class PMS_Add_General_Notices{
         if ( current_user_can( 'manage_options' ) ){
             // Check that the user hasn't already clicked to ignore the message
             if ( ! get_user_meta($user_id, $this->notificationId.'_dismiss_notification' ) || $this->forceShow) {
-                echo wp_kses_post( apply_filters($this->notificationId.'_notification_message','<div id="'.$this->notificationId.'" class="notice '. $this->notificationClass .' notice-'. $this->notificationClass .'" ><p>'.$this->notificationMessage.'</p></div>', $this->notificationMessage) );
+                echo wp_kses_post( apply_filters($this->notificationId.'_notification_message','<div id="'.$this->notificationId.'" class="notice '. $this->notificationClass .' notice-'. $this->notificationClass .'" style="position: relative"><p>'.$this->notificationMessage.'</p></div>', $this->notificationMessage) );
             }
             do_action( $this->notificationId.'_notification_displayed', $current_user, $pagenow );
         }
@@ -133,7 +133,7 @@ class PMS_Add_General_Notices{
     function remove_other_plugin_notices() {
 
         // remove all notifications from Basic-Info, Dashboard & Add-ons pages
-        if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'pms-basic-info-page'  || $_GET['page'] === 'pms-dashboard-page'  || $_GET['page'] === 'pms-addons-page' ) ) {
+        if ( isset( $_GET['page'] ) && ( $_GET['page'] === 'pms-basic-info-page'  || $_GET['page'] === 'pms-dashboard-page' ) ) {
             remove_all_actions('admin_notices');
         }
 

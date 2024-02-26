@@ -10,15 +10,15 @@ class PMS_Plugin_Usage_Tracker {
 
 	public function init() {
 
-		//add_action( 'admin_init',              array( $this, 'register_admin_notice' ) );
-		add_action( 'admin_init',              array( $this, 'allow_deny_tracking' ) );
+		// //add_action( 'admin_init',              array( $this, 'register_admin_notice' ) );
+		// add_action( 'admin_init',              array( $this, 'allow_deny_tracking' ) );
 
-		if( $this->is_tracking_allowed() ){
-			add_filter( 'cron_schedules',          array( $this, 'custom_cron_schedule') );
-			add_action( 'init',                    array( $this, 'schedule_event' ) );
-			add_action( 'pms_usage_tracker_event', array( $this, 'send_usage_data' ) );
-		} else if( wp_next_scheduled ( 'pms_usage_tracker_event' ) )
-			wp_clear_scheduled_hook( 'pms_usage_tracker_event' );
+		// if( $this->is_tracking_allowed() ){
+		// 	add_filter( 'cron_schedules',          array( $this, 'custom_cron_schedule') );
+		// 	add_action( 'init',                    array( $this, 'schedule_event' ) );
+		// 	add_action( 'pms_usage_tracker_event', array( $this, 'send_usage_data' ) );
+		// } else if( wp_next_scheduled ( 'pms_usage_tracker_event' ) )
+		// 	wp_clear_scheduled_hook( 'pms_usage_tracker_event' );
 
 		//add_action( 'init', array( $this, 'send_usage_data' ) );
 

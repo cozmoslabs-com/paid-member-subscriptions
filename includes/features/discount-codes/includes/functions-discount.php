@@ -93,9 +93,9 @@ function pms_in_dc_get_discounted_subscriptions(){
     // First count number of rows, abort if > 500
     global $wpdb;
 
-    $dicounts_count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE `post_type` = 'pms-discount-codes'" );    
+    $discounts_count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE `post_type` = 'pms-discount-codes'" );    
 
-    if( $dicounts_count > 500 )
+    if( $discounts_count > 500 )
         return false;
 
     $discounts = new WP_Query( array(
@@ -545,4 +545,12 @@ function pms_in_dc_get_discount_uses_per_user( $code ){
     }
 
     return $user_discount_uses;
+}
+
+function pms_in_are_active_discounts_defined(){
+
+    global $wpdb;
+
+    return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts as a INNER JOIN $wpdb->postmeta as b ON a.ID = b.post_id WHERE a.post_type = 'pms-discount-codes' AND b.meta_key = 'pms_discount_status' AND b.meta_value = 'active'" );    
+
 }

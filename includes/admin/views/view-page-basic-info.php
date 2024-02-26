@@ -213,6 +213,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <div class="cozmoslabs-basic-info-addons">
             <div>
+                <a href="https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                    <h4 class="pms-add-on-name"><?php esc_html_e( 'LearnDash', 'paid-member-subscriptions' ); ?></h4>
+                </a>
+
+                <a href="https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-learndash.png" alt="Learndash" class="pms-addon-image" />
+                </a>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Generate revenue from your LMS website by selling access to courses through single or recurring payments. Restrict content of courses, lessons and quizzes to members.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+            <div>
                 <a href="https://www.cozmoslabs.com/add-ons/global-content-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Global Content Restriction', 'paid-member-subscriptions' ); ?></h4>
                 </a>

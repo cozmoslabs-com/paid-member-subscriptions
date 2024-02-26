@@ -78,17 +78,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </h4>
 
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
-                <label class="cozmoslabs-form-field-label" for="allow-usage-tracking"><?php esc_html_e( 'Usage Tracking' , 'paid-member-subscriptions' ) ?></label>
+                <label class="cozmoslabs-form-field-label" for="pms-plugin-optin"><?php esc_html_e( 'Marketing Optin' , 'paid-member-subscriptions' ) ?></label>
 
                 <div class="cozmoslabs-toggle-container">
-                    <input type="checkbox" id="allow-usage-tracking" name="pms_misc_settings[allow-usage-tracking]" value="1" <?php echo ( isset( $this->options['allow-usage-tracking'] ) ? 'checked' : '' ); ?> />
-                    <label class="cozmoslabs-toggle-track" for="allow-usage-tracking"></label>
+                    <input type="checkbox" id="pms-plugin-optin" name="pms_misc_settings[plugin-optin]" value="yes" <?php echo ( isset( $this->options['plugin-optin'] ) && $this->options['plugin-optin'] == 'yes' ? 'checked' : '' ); ?> />
+                    <label class="cozmoslabs-toggle-track" for="pms-plugin-optin"></label>
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'Allow Paid Member Subscriptions to anonymously track the plugin\'s usage.', 'paid-member-subscriptions' ) ?></p>
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'Data provided by this tracking helps us improve the plugin.', 'paid-member-subscriptions' ) ?></p>
-                    <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'No sensitive data is shared. %sLearn More%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/usage-tracking/" target="_blank">', '</a>' ) ); ?></p>
+                    <p class="cozmoslabs-description"><?php esc_html_e( 'Opt in to our security and feature updates notifications, and non-sensitive diagnostic tracking.', 'paid-member-subscriptions' ); ?></p>
                 </div>
             </div>
 

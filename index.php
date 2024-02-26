@@ -3,14 +3,14 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.11.2
+ * Version: 2.11.3
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * Domain Path: /translations
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 8.5
+ * WC tested up to: 8.6
  * Elementor tested up to: 3.19.2
  * Elementor Pro tested up to: 3.19.2
  *
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.11.2' );
+        define( 'PMS_VERSION', '2.11.3' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -332,7 +332,7 @@ Class Paid_Member_Subscriptions {
         $already_installed = get_option( 'pms_already_installed' );
 
         //Run Setup Wizard ?
-        if( !$already_installed && !pms_get_paypal_email() && !pms_is_paid_version_active() )
+        if( !$already_installed && !pms_get_paypal_email() )
             set_transient( 'pms_run_setup_wizard', 'true', 120 );
 
         //General
@@ -541,13 +541,13 @@ Class Paid_Member_Subscriptions {
         /*
          * Patterns
         */
-        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-patterns.php' ) )
+        if( function_exists( 'register_block_pattern' ) && file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-patterns.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-patterns.php';
 
         /*
          * Email files
          */
-        if( function_exists( 'register_block_pattern' ) && file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-emails.php' ) )
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-emails.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/class-emails.php';
 
         /*
@@ -668,6 +668,9 @@ Class Paid_Member_Subscriptions {
 
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-dashboard.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-dashboard.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/plugin-optin/class-admin-plugin-optin.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/plugin-optin/class-admin-plugin-optin.php';
 
         /*
          * WooCommerce Compatibility
@@ -968,8 +971,8 @@ Class Paid_Member_Subscriptions {
         /**
          * Load usage tracker
          */
-        if ( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-plugin-usage-tracker.php' ) )
-            include_once PMS_PLUGIN_DIR_PATH . 'includes/class-plugin-usage-tracker.php';
+        // if ( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-plugin-usage-tracker.php' ) )
+        //     include_once PMS_PLUGIN_DIR_PATH . 'includes/class-plugin-usage-tracker.php';
 
 
         /**

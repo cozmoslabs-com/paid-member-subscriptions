@@ -49,14 +49,14 @@ class PMS_EditProfile extends ET_Builder_Module {
 
 		return array(
 			'hide_tabs'           => array(
-				'label'           => esc_html__( 'Hide Tabs', 'profile-builder' ),
+				'label'           => esc_html__( 'Hide Tabs', 'paid-member-subscriptions' ),
 				'type'            => 'yes_no_button',
 				'options'         => array(
-					'on'          => esc_html__( 'Yes', 'profile-builder'),
-					'off'         => esc_html__( 'No', 'profile-builder'),
+					'on'          => esc_html__( 'Yes', 'paid-member-subscriptions'),
+					'off'         => esc_html__( 'No', 'paid-member-subscriptions'),
 				),
 				'option_category' => 'basic_option',
-				'description'     => esc_html__( 'Select whether to hide the Account form tabs.', 'profile-builder' ),
+				'description'     => esc_html__( 'Select whether to hide the Account form tabs.', 'paid-member-subscriptions' ),
 				'toggle_slug'     => 'main_content',
 			),
             'redirect_url'        => array(

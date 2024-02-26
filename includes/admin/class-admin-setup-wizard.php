@@ -222,7 +222,7 @@ class PMS_Setup_Wizard {
     }
 
     public static function get_completed_progress_steps(){
-        return get_option( 'pms_setup_wizard_steps', false );
+        return get_option( 'pms_setup_wizard_steps', array() );
     }
 
     private function get_next_step_link( $step = '' ){

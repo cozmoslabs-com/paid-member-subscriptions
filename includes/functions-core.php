@@ -1168,7 +1168,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             } else {
     
                 new PMS_Add_General_Notices( 'pms_psp_disabled',
-                    sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( add_query_arg('pms_psp_disabled_dismiss_notification', '0') ) . "'>", "</a>"),
+                    sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . wp_nonce_url( add_query_arg( 'pms_psp_disabled_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) . "'>", "</a>"),
                     'notice-warning');
     
             }
@@ -1267,7 +1267,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     
         /**
          * Adds a dismissable admin notice on all WordPress pages and a non-dismissable admin notice on PMS's
-         * NOtify users that old addon-on plugins will no longer be maintained
+         * Notify users that old addon-on plugins will no longer be maintained
          *
          */
         //if it's triggered in the frontend we need this include

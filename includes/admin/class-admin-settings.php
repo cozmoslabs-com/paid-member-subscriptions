@@ -122,7 +122,7 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
             // If no active payment gateways are checked, add paypal_standard as default
             if( $option_page == 'pms_payments_settings' && !isset( $options['active_pay_gates'] ) )
-                $options['active_pay_gates'] = array( 'paypal_standard' );
+                $options['active_pay_gates'] = array( 'stripe_connect' );
 
             if ( $option_page == 'pms_general_settings' ) {
 

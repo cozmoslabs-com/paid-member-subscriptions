@@ -1703,7 +1703,7 @@ Class PMS_Form_Handler {
                     // Get subscription plan
                     $subscription_plan = pms_get_subscription_plan(absint($_POST['subscription_plans']));
 
-                    if (!empty($subscription_plan->trial_duration)) {
+                    if ( $subscription_plan->has_trial() ) {
                         $has_trial = true;
                     }
                 }

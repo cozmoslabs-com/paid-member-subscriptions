@@ -38,41 +38,6 @@ Class PMS_Submenu_Page_Addons extends PMS_Submenu_Page {
 
     }
 
-    /*
-    * Function that returns the array of add-ons from cozmoslabs.com if it finds the file
-    * If something goes wrong it returns false
-    *
-    * @since v.2.1.0
-    */
-    static function add_ons_get_remote_content() {
-        $slug = 'pms_add_ons_remote_content';
-
-        if ( false === ( $pms_add_ons = get_transient( $slug ) ) ) {
-            global $wp_version;
-
-            $args = array(
-                'user-agent'  => 'PMS/WordPress/' . $wp_version . '; ' . pms_get_current_page_url(),
-            );
-
-            $response = wp_remote_get( 'https://www.cozmoslabs.com/wp-content/plugins/cozmoslabs-products-add-ons/paid-member-subscriptions-add-ons.json', $args );
-
-            if( is_wp_error( $response ) ) {
-                return false;
-            } else {
-                $json_file_contents = $response['body'];
-                $pms_add_ons        = json_decode( $json_file_contents, true );
-            }
-
-            if( !is_object( $pms_add_ons ) && !is_array( $pms_add_ons ) )
-                return false;
-
-            set_transient( $slug, $pms_add_ons, 60 * MINUTE_IN_SECONDS );
-        }
-
-        return $pms_add_ons;
-    }
-
-
     /**
      * Function that is triggered through Ajax to activate an add-on
      *

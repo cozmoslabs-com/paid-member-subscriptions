@@ -1,10 +1,21 @@
 jQuery( function(){
     /* Display custom redirect URL section if type of restriction is "Redirect" */
     jQuery( 'input[type=radio][name=pms-content-restrict-type]' ).click( function() {
-        if( jQuery(this).is(':checked') && jQuery(this).val() == 'redirect' )
-            jQuery('#pms-meta-box-fields-wrapper-restriction-redirect-url').addClass('pms-enabled');
-        else
-            jQuery('#pms-meta-box-fields-wrapper-restriction-redirect-url').removeClass('pms-enabled');
+
+        if( jQuery(this).is(':checked') ) {
+
+            if( jQuery(this).val() === 'redirect' )
+                jQuery('#pms-meta-box-fields-wrapper-restriction-redirect-url').addClass('pms-enabled');
+            else
+                jQuery('#pms-meta-box-fields-wrapper-restriction-redirect-url').removeClass('pms-enabled');
+
+            if( jQuery(this).val() === 'message' )
+                jQuery('#pms-meta-box-field-learndash').addClass('pms-enabled');
+            else
+                jQuery('#pms-meta-box-field-learndash').removeClass('pms-enabled');
+
+        }
+
     });
 
     /* Display custom redirect URL field */

@@ -49,21 +49,21 @@ class PMS_Login extends ET_Builder_Module {
 
 		return array(
 			'register_url'        => array(
-				'label'           => esc_html__( 'Registration Page', 'profile-builder' ),
+				'label'           => esc_html__( 'Registration Page', 'paid-member-subscriptions' ),
 				'type'            => 'select',
 				'options'         => $pages,
 				'default'         => 'default',
 				'option_category' => 'basic_option',
-				'description'     => esc_html__( 'Add a link to a Registration Page.', 'profile-builder' ),
+				'description'     => esc_html__( 'Add a link to a Registration Page.', 'paid-member-subscriptions' ),
 				'toggle_slug'     => 'main_content',
 			),
 			'lostpassword_url'        => array(
-				'label'           => esc_html__( 'Recover Password Page', 'profile-builder' ),
+				'label'           => esc_html__( 'Recover Password Page', 'paid-member-subscriptions' ),
 				'type'            => 'select',
 				'options'         => $pages,
 				'default'         => 'default',
 				'option_category' => 'basic_option',
-				'description'     => esc_html__( 'Add a link to a Recover Password Page.', 'profile-builder' ),
+				'description'     => esc_html__( 'Add a link to a Recover Password Page.', 'paid-member-subscriptions' ),
 				'toggle_slug'     => 'main_content',
 			),
             'redirect_url'        => array(

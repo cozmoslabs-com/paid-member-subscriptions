@@ -160,7 +160,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <label class="cozmoslabs-toggle-track" for="pms-content-restrict-messages-enabled"></label>
         </div>
         <div class="cozmoslabs-toggle-description">
-            <p class="cozmoslabs-description"><?php printf( esc_html__( 'Check if you wish to add custom messages for this %s.', 'paid-member-subscriptions' ), esc_html( $post->post_type ) ); ?></p>
+            <p class="cozmoslabs-description"><?php printf( esc_html__( 'Enable if you wish to add custom restriction messages for this %s.', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_content_restrict_custom_messages_description_cpt', $post->post_type ) ) ); ?></p>
         </div>
     </div>
 

@@ -79,6 +79,8 @@ Class PMS_Submenu_Page {
      */
     protected $options;
 
+    public $admin_notices;
+
 
     public function __construct( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $priority = 10, $settings_slug = '', $screen_option = '' ) {
 

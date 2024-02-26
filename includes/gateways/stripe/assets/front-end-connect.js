@@ -180,7 +180,7 @@ jQuery( function( $ ) {
 
         }
 
-        //Disable the button
+        // Disable the button
         current_button.attr( 'disabled', true )
 
         // Add error if credit card was not completed
@@ -317,7 +317,7 @@ jQuery( function( $ ) {
         stripe.confirmSetup({
             elements: elements_setup_intent,
             confirmParams: {
-                return_url: 'http://pms.ddev.site/register',
+                return_url: pms.stripe_return_url,
                 payment_method_data: { billing_details: pms_stripe_get_billing_details() }
             },
             redirect: 'if_required',

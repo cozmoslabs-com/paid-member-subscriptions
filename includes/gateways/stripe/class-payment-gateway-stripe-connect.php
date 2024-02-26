@@ -648,7 +648,20 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $amount = pms_stripe_calculate_payment_amount( $subscription_plan );
 
-            if( !PMS_Form_Handler::checkout_has_trial() && !empty( $payment_intent_id[0] ) && !empty( $amount ) ){
+            if( ( !PMS_Form_Handler::checkout_has_trial() || ( PMS_Form_Handler::checkout_has_trial() && $subscription_plan->has_sign_up_fee() ) ) && !empty( $payment_intent_id[0] ) && !empty( $amount ) ){
+
+                // Set Customer if necessary
+                try {
+
+                    $payment_intent_data = PaymentIntent::retrieve( $payment_intent_id[0] );
+        
+                } catch( Exception $e ){ die(); }
+
+                if( empty( $payment_intent_data->customer ) ){
+                    $customer = $this->create_customer();
+
+                    $args['customer'] = $customer->id;
+                }
 
                 $this->update_payment_intent( sanitize_text_field( $_POST['pms_stripe_connect_payment_intent'] ), $amount, $subscription_plan );
 
@@ -656,22 +669,33 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                     $payment_intent = PaymentIntent::update( $payment_intent_id[0], $args );
 
-                } catch( Exception $e ){
-                    die();
-                }
+                } catch( Exception $e ){ die(); }
 
             } else if( !empty( $_POST['pms_stripe_connect_setup_intent'] ) ) {
 
                 $setup_intent_id = explode( '_secret_', sanitize_text_field( $_POST['pms_stripe_connect_setup_intent'] ) );
 
+                // Set Customer if necessary
+                try {
+
+                    $payment_intent_data = SetupIntent::retrieve( $setup_intent_id[0] );
+        
+                } catch( Exception $e ){ die(); }
+
+                if( empty( $payment_intent_data->customer ) ){
+                    $customer = $this->create_customer();
+
+                    $args['customer'] = $customer->id;
+                }
+
                 if( !empty( $setup_intent_id[0] ) ){
+
                     try {
 
                         $payment_intent = SetupIntent::update( $setup_intent_id[0], $args );
 
-                    } catch( Exception $e ){
-                        die();
-                    }
+                    } catch( Exception $e ){ die(); }
+
                 }
 
             }
@@ -1034,13 +1058,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( is_user_logged_in() )
             $customer = $this->get_customer( get_current_user_id() );
 
-        if( !isset( $customer ) || !isset( $customer->id ) )
-            $customer = $this->create_customer();
+        // if( !isset( $customer ) || !isset( $customer->id ) )
+        //     $customer = $this->create_customer();
 
         $args = array(
             'amount'             => $this->get_initial_intent_amount(),
             'currency'           => $this->currency,
-            'customer'           => $customer->id,
+            //'customer'           => $customer->id,
             'setup_future_usage' => 'off_session',
             'metadata'           => array(
                 'home_url'             => home_url(),
@@ -1049,6 +1073,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 'enabled' => 'true',
             ],
         );
+
+        if( is_user_logged_in() && !empty( $customer->id ) ){
+            $args['customer'] = $customer->id;
+        }
 
         // Remove setup future usage when recurring payments are disabled
         // NOTE:  Should explore if we can change this setting through a Payment Intent update. In that case we should update it all the time
@@ -1093,15 +1121,19 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( is_user_logged_in() )
             $customer = $this->get_customer( get_current_user_id() );
 
-        if( !isset( $customer ) || !isset( $customer->id ) )
-            $customer = $this->create_customer();
+        // if( !isset( $customer ) || !isset( $customer->id ) )
+        //     $customer = $this->create_customer();
 
         $args = array(
-            'customer' => $customer->id,
+            //'customer' => $customer->id,
             'metadata' => array(
                 'home_url' => home_url(),
             ),
         );
+
+        if( is_user_logged_in() && !empty( $customer->id ) ){
+            $args['customer'] = $customer->id;
+        }
 
         try {
 
@@ -1309,6 +1341,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 break;
 
         }
+
+        do_action( 'pms_after_checkout_is_processed', $subscription, $form_location );
 
         return true;
 

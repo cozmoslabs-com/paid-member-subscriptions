@@ -7,17 +7,22 @@ add_action( 'show_user_profile', 'pms_display_subscriptions_details' );
 add_action( 'edit_user_profile', 'pms_display_subscriptions_details' );
 
 function pms_display_subscriptions_details( $user ){
-?>
 
-    <h2>Subscriptions</h2>
+    echo '<h2>' . esc_html__( 'Subscriptions', 'paid-member-subscriptions' ) . '</h2>';
 
-<?php
     $all_data = pms_get_member( $user->ID );
     $subscriptions = $all_data->get_subscriptions();
 
+    if( empty( $subscriptions ) ){
+
+        echo '<p>' . esc_html__('User does not have any subscriptions.', 'paid-member-subscriptions' ) . '</p>';
+        echo '<a href="' . esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'add_subscription', 'member_id' => $user->ID ), admin_url( 'admin.php' ) ) ) . '" class="button-primary">' . esc_html__( 'Add New Subscription', 'paid-member-subscriptions' ) . '</a>';
+    }
+    else{
+
         foreach ( $subscriptions as $subscription ){
 
-            $all_subscription_plan_info = pms_get_subscription_plan($subscription['subscription_plan_id']);
+            $all_subscription_plan_info = pms_get_subscription_plan( $subscription['subscription_plan_id'] );
             $all_subscription_member_info = pms_get_member_subscription( $subscription['id'] );
 ?>
             <table class="form-table">
@@ -83,9 +88,10 @@ function pms_display_subscriptions_details( $user ){
 
         <table class="form-table">
             <tr>
-                <th><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'edit_member', 'member_id' => $user->ID ), admin_url( 'admin.php' ) ) ) ?>" title="<?php __( 'Edit Member', 'paid-member-subscriptions' ) ?>"><?php echo esc_html__( 'Edit Member', 'paid-member-subscriptions' ); ?></a></th>
+                <th><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'edit_member', 'member_id' => $user->ID ), admin_url( 'admin.php' ) ) ) ?>" title="<?php esc_attr_e( 'Edit Member', 'paid-member-subscriptions' ) ?>" class="button-secondary"><?php echo esc_html__( 'Edit Member', 'paid-member-subscriptions' ); ?></a></th>
             </tr>
         </table>
 
 <?php
+    }
 }

@@ -335,7 +335,12 @@ function pms_output_page_banner( $page_name ) {
     if ( !empty( $page_name ) )
         $page_title = ' ' . $page_name;
 
-    $upgrade_button = '<a class="cozmoslabs-banner-link cozmoslabs-upgrade-link" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=general-settings-link&utm_campaign=PMSFree#pricing" target="_blank">
+    $upgrade_button = '<a class="cozmoslabs-banner-link cozmoslabs-upgrade-link" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=upgrade-link&utm_campaign=PMSFree#pricing" target="_blank">
+                         <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/upgrade-link-icon.svg" alt="">
+                         Upgrade to PRO
+                       </a>';
+
+    $upgrade_button_basic = '<a class="cozmoslabs-banner-link cozmoslabs-upgrade-link" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=upgrade-link&utm_campaign=PMSBasic#pricing" target="_blank">
                          <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/upgrade-link-icon.svg" alt="">
                          Upgrade to PRO
                        </a>';
@@ -361,8 +366,14 @@ function pms_output_page_banner( $page_name ) {
                            Documentation
                        </a>';
 
+    // Add free version upgrade button
     if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) )
         $output .= $upgrade_button;
+
+    // Add Basic version upgrade button (not to account, to plugin purchase page)
+    if( defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) && PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Basic' ){
+        $output .= $upgrade_button_basic;
+    }
 
     $output .= '    </div>
                 </div>';

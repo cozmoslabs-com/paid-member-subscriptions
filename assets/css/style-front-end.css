@@ -441,6 +441,7 @@ form.pms-form ul.pms-form-fields-wrapper {
 .pms-account-navigation ul {
     list-style-type: none !important;
     display: flex;
+    flex-wrap: wrap;
     margin: 0 !important;
     padding: 0 !important;
 }

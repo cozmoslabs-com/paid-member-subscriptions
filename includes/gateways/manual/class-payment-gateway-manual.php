@@ -37,15 +37,19 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         add_filter( 'pms_message_gateway_payment_action', array( $this, 'success_messages' ), 10, 4 );
 
         // Automatically activate the member's subscription when completing the payment
-        add_action( 'pms_payment_update', array( $this, 'activate_member_subscription' ), 10, 3 );
+        if( !$this->check_filter_from_class_exists( 'pms_payment_update', 'PMS_Payment_Gateway_Manual', 'activate_member_subscription' ) )
+            add_action( 'pms_payment_update', array( $this, 'activate_member_subscription' ), 10, 3 );
 
         // Send email notification for pending manual payment
-        add_action( 'pms_payment_insert', array( $this, 'send_pending_manual_payment_email' ), 10, 2 );
+        if( !$this->check_filter_from_class_exists( 'pms_payment_insert', 'PMS_Payment_Gateway_Manual', 'send_pending_manual_payment_email' ) )
+            add_action( 'pms_payment_insert', array( $this, 'send_pending_manual_payment_email' ), 10, 2 );
 
         // Remove the Retry payment action for this gateway
-        add_action( 'pms_output_subscription_plan_pending_retry_payment', array( $this, 'remove_retry_payment' ), 10, 3 );
+        if( !$this->check_filter_from_class_exists( 'pms_output_subscription_plan_pending_retry_payment', 'PMS_Payment_Gateway_Manual', 'remove_retry_payment' ) )
+            add_action( 'pms_output_subscription_plan_pending_retry_payment', array( $this, 'remove_retry_payment' ), 10, 3 );
 
-        add_action( 'pms_output_subscription_plan_action_renewal', array( $this, 'remove_renewal_action' ), 10, 4 );
+        if( !$this->check_filter_from_class_exists( 'pms_output_subscription_plan_action_renewal', 'PMS_Payment_Gateway_Manual', 'remove_renewal_action' ) )
+            add_action( 'pms_output_subscription_plan_action_renewal', array( $this, 'remove_renewal_action' ), 10, 4 );
 
         // Change payment type in case of payment generated after a Free Trial
         add_filter( 'pms_cron_process_member_subscriptions_payment_data', array( $this, 'change_free_trial_payment_type' ), 20, 2 );
@@ -398,6 +402,34 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
             update_user_meta( $payment_data['user_id'], 'pending_manual_payment_'. $payment_id .'_email_sent', true );
         }
+
+    }
+
+    public function check_filter_from_class_exists( $hook, $className, $methodName ){
+
+        global $wp_filter;
+    
+        if( !isset( $wp_filter[$hook] ) )
+            return false;
+    
+        foreach( $wp_filter[$hook] as $priority => $realhook ){
+    
+            foreach( $realhook as $hook_k => $hook_v ){
+    
+                if( is_array( $hook_v['function'] ) ){
+    
+                    if( isset( $hook_v['function'][0], $hook_v['function'][1] ) && $hook_v['function'][0] == $className && $hook_v['function'][1] == $methodName ) {
+    
+                        return true;
+    
+                    }
+                }
+    
+            }
+    
+        }
+    
+        return false;
 
     }
 

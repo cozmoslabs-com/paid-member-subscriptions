@@ -99,6 +99,7 @@
                                 'environment'               => $environment,
                                 'home_url'                  => home_url(),
                                 'pms_return_location'       => 'setup_new',
+                                'pms_nonce'                 => wp_create_nonce( 'stripe_connnect_account' ),
                             ],
                             $stripe_connect_base_url
                         );

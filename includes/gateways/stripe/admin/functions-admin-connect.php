@@ -457,6 +457,18 @@ function pms_stripe_add_settings_content( $options ) {
 							elseif( !pms_is_paid_version_active() && empty( $serial_number ) )
 								echo '<p class="cozmoslabs-description cozmoslabs-stripe-connect__notice">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments done through Stripe include a <strong>2%% fee</strong> because you\'re using the free version of Paid Member Subscriptions. <br>This fee goes to the Paid Member Subscriptions team and is used to continue supporting the development of this gateway and the plugin in general. <br>Users with an active license key will not be charged this fee, %sclick here%s to purchase one.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=stripe-connect-fee-notice#pricing" target="_blank">', '</a>' ) ) . '</p>';
 
+
+							$account_id = pms_is_payment_test_mode() ? get_option( 'pms_stripe_connect_test_account_id', '-' ) :  get_option( 'pms_stripe_connect_account_id', '-' );
+							$country    = get_option( 'pms_stripe_connect_account_country' );
+
+							echo '<div class="cozmoslabs-form-field-wrapper">';
+
+								echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-account">' . esc_html__( 'Connected Account', 'paid-member-subscriptions' ) . '</label>';
+
+								echo '<span><strong>'. esc_html( $account_id ) .'</strong> ('. esc_html( $country ) .')</span>';
+
+							echo '</div>';
+
 						}
 
 						echo '<div class="pms-stripe-connect__settings">';

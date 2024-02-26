@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 2.11.2
+Stable tag: 2.11.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,14 +130,15 @@ Paid Member Subscriptions integrates beautifully with [WooCommerce](https://www.
 
 Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslabs.com/paid-member-subscriptions-add-ons/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) that allow you to extend the power of the membership plugin:
 
-**Basic Add-ons** (available in the [Agency, PRO or Basic](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) versions)
+**Basic Add-ons** (available in the [Agency, PRO or Basic](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree#pricing) versions)
 
-* [bbPress](https://www.cozmoslabs.com/add-ons/bbpress-2/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - integrate Paid Member Subscriptions with the popular forums plugin, bbPress, to [restrict your forums and topics](https://www.cozmoslabs.com/104619-restrict-bbpress-forum-membership-subscription/).
 * [Global Content Restriction](https://www.cozmoslabs.com/add-ons/global-content-restriction/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - add global content restriction rules to subscription plans, based on post type, taxonomy and terms
 * [Email Reminders](https://www.cozmoslabs.com/add-ons/email-reminders/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)
+* [LearnDash](https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)
 * [Navigation Menu Filtering](https://www.cozmoslabs.com/add-ons/navigation-menu-filtering/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - dynamically display menu items based on logged-in status as well as selected subscription plans
 * [Fixed Period Membership](https://www.cozmoslabs.com/add-ons/fixed-period-membership/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create subscriptions plans that end at a specific date, no matter when a member subscribes to it.
 * [Pay What You Want](https://www.cozmoslabs.com/add-ons/pay-what-you-want/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept donations and let subscribers pay what they want when purchasing a subscription plan
+* [bbPress](https://www.cozmoslabs.com/add-ons/bbpress-2/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - integrate Paid Member Subscriptions with the popular forums plugin, bbPress, to [restrict your forums and topics](https://www.cozmoslabs.com/104619-restrict-bbpress-forum-membership-subscription/).
 
 **Pro Add-ons** (available in the [Agency & PRO versions](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) only)
 
@@ -240,6 +241,19 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.11.3 =
+* Feature: Added Content Restriction options for Divi Builder modules
+* Fix: Issue with Stripe connection when it was initialized from the Setup Wizard
+* Fix: Improvements to how Stripe Customer objects are created and handled by the plugin
+* Fix: Issue with child memberships when a group membership owner renewed or upgraded his subscription through Stripe
+* Fix: Issue with Discount Codes field displaying when no disocunts were defined
+* Fix: Dismiss action for the PSP notice
+* Fix: Make sure certain Manual gateway functionality is only hooked once
+* Misc: Show a button to go to the Add Member Subscriptions page directly from the Edit User page
+* Misc: Show connected Stripe Account ID and Country on the admin page
+* Misc: Added plugin marketing optin process
+* Misc: Compatibility with new LearnDash add-on
+
 = 2.11.2 =
 * Fix: Security issue. Thanks to Lucio Sá
 * Fix: Add nonce check when creating pricing pages. Thanks to Lucio Sá
