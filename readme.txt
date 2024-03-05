@@ -8,7 +8,7 @@ Stable tag: 2.11.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Feature-packed membership plugin for creating subscription plans, adding recurring payments & content restriction on your membership site. WooCommerce integration.
+Feature-packed membership plugin for creating subscription plans, adding recurring payments & content restriction on your membership site.
 
 == Description ==
 
@@ -207,6 +207,8 @@ Any type of content can be restricted including posts, pages, and custom post ty
 
 We also offer an [Elementor integration](https://www.cozmoslabs.com/392394-restrict-content-elementor/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) which lets you restrict any Section or Widget and make it available only to paid users.
 
+You can also restrict [Gutenberg blocks](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/gutenberg/#Block_Content_Restriction?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) and [Divi Modules](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-divi/#Restrict_Divi_Modules_and_Sections?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree)
+
 = Can I customize the registration form? =
 
 Yes, the registration form can be customized using [Profile Builder](https://wordpress.org/plugins/profile-builder/). You can change the order of the form fields, remove fields that aren't required and also add extra fields to the form like Inputs, Checkboxes, Selects, Radio buttons, and more. [Learn More](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree)
@@ -218,6 +220,8 @@ Yes, this is possible through [Profile Builder](https://www.cozmoslabs.com/wordp
 = Can my members pay using a credit card ? =
 
 Yes! Users can pay with a credit or debit card without leaving your website through the Stripe payment gateway.
+
+Through Stripe you can also access additional payment gateways like iDeal, Bancontact, Giropay and more.
 
 = Where can I find out more information? =
 
