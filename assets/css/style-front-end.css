@@ -8,7 +8,8 @@
 
 #pms_login input[type=text],
 #pms_login input[type=password],
-#pms_login input[type=email] {
+#pms_login input[type=email],
+textarea {
     width: 100%;
 }
 

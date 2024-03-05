@@ -27,9 +27,11 @@
             </div>
 
             <div class="cozmoslabs-toggle-description">
-                <p class="cozmoslabs-description"><?php echo wp_kses_post( __( 'By enabling this option we will cumulate all discounts that apply to a specific product.', 'paid-member-subscriptions' )); ?></p>
-                <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( '%sBy default we\'re applying only the highest discount.%s', 'paid-member-subscriptions' ), '<strong>', '</strong>' ) ); ?></p>
+                <label for="woocommerce-cumulative-discounts" class="cozmoslabs-description"><?php echo wp_kses_post( __( 'By enabling this option we will cumulate all discounts that apply to a specific product.', 'paid-member-subscriptions' )); ?></label>
+<!--                <p class="cozmoslabs-description">--><?php //echo wp_kses_post( sprintf( __( '%sBy default we\'re applying only the highest discount.%s', 'paid-member-subscriptions' ), '<strong>', '</strong>' ) ); ?><!--</p>-->
             </div>
+
+            <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php echo wp_kses_post( sprintf( __( '%sBy default we\'re applying only the highest discount.%s', 'paid-member-subscriptions' ), '<strong>', '</strong>' ) ); ?></p>
         </div>
 
         <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
@@ -41,7 +43,7 @@
             </div>
 
             <div class="cozmoslabs-toggle-description">
-                <p class="cozmoslabs-description"><?php esc_html_e( 'Do not apply any member discounts to products that are currently on sale.', 'paid-member-subscriptions' ); ?></p>
+                <label for="woocommerce-exclude-on-sale" class="cozmoslabs-description"><?php esc_html_e( 'Do not apply any member discounts to products that are currently on sale.', 'paid-member-subscriptions' ); ?></label>
             </div>
         </div>
 
@@ -82,11 +84,15 @@
             </div>
 
             <div class="cozmoslabs-toggle-description">
-                <p class="cozmoslabs-description"><?php echo wp_kses_post( __( 'By enabling this option we will activate the <strong>Subscription Plan</strong> Tab.', 'paid-member-subscriptions' ) ); ?></p>
-                <p class="cozmoslabs-description"><?php echo wp_kses_post( __( 'To link a Subscription Plan to a Product go to: <strong>Administration Panel</strong> --> <strong>Products</strong>.', 'paid-member-subscriptions' ) ); ?></p>
-                <p class="cozmoslabs-description"><?php echo wp_kses_post( __( '<strong>Edit</strong> an existing product or click on <strong>Add New</strong> to add a new product.', 'paid-member-subscriptions' ) ); ?></p>
-                <p class="cozmoslabs-description"><?php echo wp_kses_post( __( 'After you are redirected to your product options, scroll down to <strong>Product data</strong> Section and click on <strong>Subscription Plan</strong> Tab.', 'paid-member-subscriptions' ) ); ?></p>
+                <label for="woocommerce-product-subscriptions" class="cozmoslabs-description"><?php echo wp_kses_post( __( 'By enabling this option we will activate the <strong>Subscription Plan</strong> Tab.', 'paid-member-subscriptions' ) ); ?></label>
+<!--                <p class="cozmoslabs-description">--><?php //echo wp_kses_post( __( 'To link a Subscription Plan to a Product go to: <strong>Administration Panel</strong> --> <strong>Products</strong>.', 'paid-member-subscriptions' ) ); ?><!--</p>-->
+<!--                <p class="cozmoslabs-description">--><?php //echo wp_kses_post( __( '<strong>Edit</strong> an existing product or click on <strong>Add New</strong> to add a new product.', 'paid-member-subscriptions' ) ); ?><!--</p>-->
+<!--                <p class="cozmoslabs-description">--><?php //echo wp_kses_post( __( 'After you are redirected to your product options, scroll down to <strong>Product data</strong> Section and click on <strong>Subscription Plan</strong> Tab.', 'paid-member-subscriptions' ) ); ?><!--</p>-->
             </div>
+
+            <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php echo wp_kses_post( __( 'To link a Subscription Plan to a Product go to: <strong>Administration Panel</strong> --> <strong>Products</strong>.', 'paid-member-subscriptions' ) ); ?></p>
+            <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php echo wp_kses_post( __( '<strong>Edit</strong> an existing product or click on <strong>Add New</strong> to add a new product.', 'paid-member-subscriptions' ) ); ?></p>
+            <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php echo wp_kses_post( __( 'After you are redirected to your product options, scroll down to <strong>Product data</strong> Section and click on <strong>Subscription Plan</strong> Tab.', 'paid-member-subscriptions' ) ); ?></p>
         </div>
 
     </div>
@@ -104,7 +110,7 @@
             </div>
 
             <div class="cozmoslabs-toggle-description">
-                <p class="cozmoslabs-description"><?php echo wp_kses_post( __( 'By enabling this option the PMS Billing Details and WooCommerce Billing Details will be synchronized.', 'paid-member-subscriptions' ) ); ?></p>
+                <label for="woocommerce-add-pms-billing-details" class="cozmoslabs-description"><?php echo wp_kses_post( __( 'By enabling this option the PMS Billing Details and WooCommerce Billing Details will be synchronized.', 'paid-member-subscriptions' ) ); ?></label>
             </div>
         </div>
 

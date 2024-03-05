@@ -423,8 +423,8 @@ add_action( 'pms_member_subscription_list_table_extra_tablenav', 'pms_extend_edi
                     if( empty( pms_get_page( 'register' ) ) || pms_get_page( 'register' ) == false ){
 
                         $pms_url_settings_page = esc_url( add_query_arg( array( 'page' => 'pms-settings-page' ), admin_url( 'admin.php' ) ) . '#cozmoslabs-subsection-membership-pages' );
-                        $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS -> Settings -> Membership Pages -> Registration', 'paid-member-subscriptions' ) . '</a>';
-                        $pms_register_page_set_error = sprintf( __('%sError:%s It seems that you do not have the register page set. To solve the problem, please navigate to %s and select the page containing the %s shortcode.', 'paid-member-subscriptions'),
+                        $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS → Settings → Membership Pages → Registration', 'paid-member-subscriptions' ) . '</a>';
+                        $pms_register_page_set_error = sprintf( __('%sAlert:%s It appears that the register page is not configured. To address this, please navigate to %s and choose the page containing the %s shortcode.', 'paid-member-subscriptions'),
                             '<strong>', '</strong>', $pms_url, '<strong>[pms-register]</strong>');
                         echo '<div class="pms-error-box">';
                         echo '<p class="pms-error-message">' . wp_kses_post( $pms_register_page_set_error ) . '</p>';
@@ -437,8 +437,8 @@ add_action( 'pms_member_subscription_list_table_extra_tablenav', 'pms_extend_edi
                     if( empty( $subscriptions ) || $subscriptions === null || count( $subscriptions ) === 0){
 
                         $pms_url_settings_page = esc_url( admin_url( 'post-new.php?post_type=pms-subscription' ) );
-                        $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS -> Subscription Plans-> Add New', 'paid-member-subscriptions' ) . '</a>';
-                        $pms_register_page_set_error = sprintf( __('%sError:%s It seems that you do not have any subscriptions plans set. To solve the problem, please navigate to %s and add a new subscription plan.', 'paid-member-subscriptions'),
+                        $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS → Subscription Plans → Add New', 'paid-member-subscriptions' ) . '</a>';
+                        $pms_register_page_set_error = sprintf( __('%sAlert:%s It seems that you do not have any subscriptions plans set. To resolve this, please navigate to %s and create a new subscription plan.', 'paid-member-subscriptions'),
                             '<strong>', '</strong>', $pms_url);
                         echo '<div class="pms-error-box">';
                         echo '<p class="pms-error-message">' . wp_kses_post( $pms_register_page_set_error ) . '</p>';
@@ -448,7 +448,7 @@ add_action( 'pms_member_subscription_list_table_extra_tablenav', 'pms_extend_edi
                     ?>
                     <p><?php esc_html_e( 'Select the subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans.', 'paid-member-subscriptions' ); ?></p>
                     <form action="<?php echo  esc_url( admin_url( 'admin-post.php') ); ?>" method="post" class="pms-form">
-                        <table class="pms-select-container">
+                        <table class="pms-select-container" style="margin-bottom: 20px">
                             <tr>
                                 <th>
                                     <label for="pms-silver-subscription-plan"><?php esc_html_e( 'First plan:', 'paid-member-subscriptions' ); ?></label>
@@ -497,6 +497,17 @@ add_action( 'pms_member_subscription_list_table_extra_tablenav', 'pms_extend_edi
                                 </td>
                             </tr>
                         </table>
+
+                        <p class="cozmoslabs-description" style="margin-bottom: 5px;"><?php esc_html_e( 'Choose a style that better suits your pricing page.', 'paid-member-subscriptions' ); ?></p>
+
+                        <div class="cozmoslabs-form-field-wrapper">
+
+                            <?php
+                                echo pms_render_pricing_tables_design_selector(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            ?>
+
+                        </div>
+
                         <div style="margin-top: 10px;">
                             <input type="hidden" name="action" value="pms_create_pricing_table_page">
                             <input type="hidden" name="pms_nonce" value="<?php echo esc_attr( wp_create_nonce( 'pms_create_pricing_table_page' ) ); ?>">
@@ -509,3 +520,44 @@ add_action( 'pms_member_subscription_list_table_extra_tablenav', 'pms_extend_edi
 
         <?php
     }
+
+
+/* Function that displays the modal for the create pricing page*/
+
+function pms_output_modal_style_pricing_page(){
+    global $pagenow;
+    $post_id = isset( $_GET['post'] ) ? sanitize_text_field( $_GET['post'] ) : '';
+
+    ?>
+    <div class="overlay"></div>
+
+    <div id="" class="pms-modal">
+        <div class="pms-modal__holder">
+            <h2 class="cozmoslabs-page-title"><?php esc_html_e( 'Choose a style for Pricing Page', 'paid-member-subscriptions' ); ?></h2>
+            <a class="pms-button-close" id="pms-button-close" href="#">&times;</a>
+            <div class="pms-content">
+                <form action="<?php echo  esc_url( admin_url( 'admin-post.php') ); ?>" method="post" class="pms-form">
+
+                    <p class="cozmoslabs-description" style="margin-bottom: 5px;"><?php esc_html_e( 'Choose a style that better suits your pricing page.', 'paid-member-subscriptions' ); ?></p>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+
+                        <?php
+                        echo pms_render_pricing_tables_design_selector(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        ?>
+
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                        <input type="hidden" name="action" value="pms_update_pricing_table_style">
+                        <input type="hidden" name="post_id" value="<?php echo esc_attr( $post_id ); ?>">
+                        <input type="hidden" name="pms_nonce" value="<?php echo esc_attr( wp_create_nonce( 'pms_update_pricing_table_style' ) ); ?>">
+                        <input type="submit" class="button button-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <?php
+}

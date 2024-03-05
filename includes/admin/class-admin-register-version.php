@@ -18,7 +18,7 @@ class PMS_Register_Version {
 
     public function pms_multisite_register_your_version_page(){
         if ( pms_is_paid_version_active() )
-            add_menu_page( __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), 'manage_options', 'pms-register-page', array( $this, 'pms_register_your_version_content' ), PMS_PLUGIN_DIR_URL . 'assets/images/pms-menu-icon.png' );
+            add_menu_page( __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), __( 'Paid Member Subscriptions Register', 'paid-member-subscriptions' ), 'manage_options', 'pms-register-page', array( $this, 'pms_register_your_version_content' ), PMS_PLUGIN_DIR_URL . 'assets/images/pms-wp-menu-icon.svg' );
 
     }
 

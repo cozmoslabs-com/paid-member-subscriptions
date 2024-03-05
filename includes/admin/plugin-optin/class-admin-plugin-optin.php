@@ -3,7 +3,7 @@
 class Cozmoslabs_Plugin_Optin_PMS {
 
     public static $user_name           = '';
-    public static $base_url            = 'https://staging.cozmoslabs.com/wp-json/cozmos-api/';
+    public static $base_url            = 'https://www.cozmoslabs.com/wp-json/cozmos-api/';
     public static $plugin_optin_status = '';
     public static $plugin_optin_email  = '';
 

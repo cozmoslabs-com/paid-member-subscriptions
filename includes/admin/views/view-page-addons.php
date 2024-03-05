@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             'name'        => __( 'LearnDash', 'paid-member-subscriptions' ),
             'description' => __( 'Generate revenue from your LMS website by selling access to courses through single or recurring payments. Restrict content of courses, lessons and quizzes to members.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-learndash.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/pay-what-you-want-variable-pricing/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/learndash/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
         ),
         array(  'slug' => 'pms-add-on-global-content-restriction/index.php',
             'type'        => 'add-on',

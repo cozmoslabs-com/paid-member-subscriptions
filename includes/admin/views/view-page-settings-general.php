@@ -38,13 +38,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
             <label class="cozmoslabs-form-field-label" for="automatically-log-in"><?php esc_html_e( 'Automatically Log In', 'paid-member-subscriptions' ) ?></label>
 
-
             <div class="cozmoslabs-toggle-container">
                 <input type="checkbox" id="automatically-log-in" name="pms_general_settings[automatically_log_in]" value="1" <?php echo isset( $this->options['automatically_log_in'] ) ? 'checked' : '' ?> />
                 <label class="cozmoslabs-toggle-track" for="automatically-log-in"></label>
             </div>
             <div class="cozmoslabs-toggle-description">
-                <p class="cozmoslabs-description"><?php esc_html_e( 'Select "Yes" to automatically log in new members after successful registration.', 'paid-member-subscriptions' ); ?></p>
+                <label for="automatically-log-in" class="cozmoslabs-description"><?php esc_html_e( 'Select "Yes" to automatically log in new members after successful registration.', 'paid-member-subscriptions' ); ?></label>
             </div>
         </div>
 
@@ -58,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <label class="cozmoslabs-toggle-track" for="prevent-account-sharing"></label>
             </div>
             <div class="cozmoslabs-toggle-description">
-                <p class="cozmoslabs-description"><?php esc_html_e( 'Prevent users from being logged in with the same account from multiple places at the same time. ', 'paid-member-subscriptions' ); ?></p>
+                <label for="prevent-account-sharing" class="cozmoslabs-description"><?php esc_html_e( 'Prevent users from being logged in with the same account from multiple places at the same time. ', 'paid-member-subscriptions' ); ?></label>
             </div>
             <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'If the current user\'s session has been taken over by a newer session, we will log him out and he will have to login again. This will make it inconvenient for members to share their login credentials.', 'paid-member-subscriptions' ); ?></p>
         </div>
@@ -67,13 +66,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
             <label class="cozmoslabs-form-field-label" for="redirect-default-wp"><?php esc_html_e( 'Redirect Default WordPress Pages' , 'paid-member-subscriptions' ) ?></label>
 
-
             <div class="cozmoslabs-toggle-container">
                 <input type="checkbox" id="redirect-default-wp" name="pms_general_settings[redirect_default_wp]" value="1" <?php echo ( isset( $this->options['redirect_default_wp'] ) ? 'checked' : '' ); ?> />
                 <label class="cozmoslabs-toggle-track" for="redirect-default-wp"></label>
             </div>
             <div class="cozmoslabs-toggle-description">
-                <p class="cozmoslabs-description"><?php esc_html_e( 'Redirect users from the default WordPress login ( wp-login.php ), register and lost password forms to the front-end ones created with Paid Member Subscriptions.', 'paid-member-subscriptions' ); ?></p>
+                <label for="redirect-default-wp" class="cozmoslabs-description"><?php esc_html_e( 'Redirect users from the default WordPress login ( wp-login.php ), register and lost password forms to the front-end ones created with Paid Member Subscriptions.', 'paid-member-subscriptions' ); ?></label>
             </div>
             <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php printf( esc_html__( 'This option can be bypassed by adding the %s parameter to your login page URL: %s', 'paid-member-subscriptions' ), '<strong>pms_force_wp_login=true</strong>', '<a href="'.esc_url( home_url( 'wp-login.php?pms_force_wp_login=true' ) ).'">'. esc_url( home_url( 'wp-login.php?pms_force_wp_login=true' ) ) .'</a>' ) ?></p>
         </div>
@@ -82,12 +80,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <!-- Load CSS -->
         <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
             <label class="cozmoslabs-form-field-label" for="use-pms-css"><?php esc_html_e( 'Load CSS' , 'paid-member-subscriptions' ) ?></label>
+
             <div class="cozmoslabs-toggle-container">
                 <input type="checkbox" id="use-pms-css" name="pms_general_settings[use_pms_css]" value="1" <?php echo ( isset( $this->options['use_pms_css'] ) ? 'checked' : '' ); ?> >
                 <label class="cozmoslabs-toggle-track" for="use-pms-css"></label>
             </div>
             <div class="cozmoslabs-toggle-description">
-                <p class="cozmoslabs-description"><?php esc_html_e( 'Use Paid Member Subscriptions\'s own CSS in the front-end.', 'paid-member-subscriptions' ); ?></p>
+                <label for="use-pms-css" class="cozmoslabs-description"><?php esc_html_e( 'Use Paid Member Subscriptions\'s own CSS in the front-end.', 'paid-member-subscriptions' ); ?></label>
             </div>
         </div>
 

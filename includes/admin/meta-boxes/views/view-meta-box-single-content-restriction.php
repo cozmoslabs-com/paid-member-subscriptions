@@ -81,13 +81,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <?php endforeach; ?>
         </div>
             <p class="cozmoslabs-description cozmoslabs-description-space-left">
-                <?php printf( esc_html__( 'Checking only "Logged In Users" will show this %s to all logged in users, regardless of subscription plan.', 'paid-member-subscriptions' ), esc_html( $post->post_type ) ); ?>
+                <?php printf( esc_html__( 'Checking only "Logged In Users" will show this %s to all logged in users, regardless of subscription plan.', 'paid-member-subscriptions' ), esc_html(  apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?>
             </p>
             <p class="cozmoslabs-description cozmoslabs-description-space-left">
-                <?php printf( esc_html__( 'Checking "All Subscription Plans" will show this %s to users that are subscribed any of the plans.', 'paid-member-subscriptions' ), esc_html( $post->post_type ) ); ?>
+                <?php printf( esc_html__( 'Checking "All Subscription Plans" will show this %s to users that are subscribed any of the plans.', 'paid-member-subscriptions' ), esc_html(  apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?>
             </p>
             <p class="cozmoslabs-description cozmoslabs-description-space-left">
-                <?php printf( esc_html__( 'Checking any subscription plan will show this %s only to users that are subscribed to those particular plans.', 'paid-member-subscriptions' ), esc_html( $post->post_type ) ); ?>
+                <?php printf( esc_html__( 'Checking any subscription plan will show this %s only to users that are subscribed to those particular plans.', 'paid-member-subscriptions' ), esc_html(  apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?>
             </p>
         <?php endif; ?>
 
@@ -116,7 +116,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <label class="cozmoslabs-toggle-track" for="pms-content-restrict-custom-redirect-url-enabled"></label>
         </div>
         <div class="cozmoslabs-toggle-description">
-            <p class="cozmoslabs-description"><?php printf( esc_html__( 'Check if you wish to add a custom redirect URL for this %s.', 'paid-member-subscriptions' ), esc_html( $post->post_type ) ); ?></p>
+            <label for="pms-content-restrict-custom-redirect-url-enabled" class="cozmoslabs-description"><?php printf( esc_html__( 'Check if you wish to add a custom redirect URL for this %s.', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?></label>
         </div>
     </div>
 
@@ -128,7 +128,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <label class="pms-meta-box-field-label cozmoslabs-form-field-label" for="pms-content-restrict-custom-redirect-url"><?php esc_html_e( 'Custom Redirect URL', 'paid-member-subscriptions' ); ?></label>
 
         <input type="text" value="<?php echo ( ! empty( $custom_redirect_url ) ? esc_attr( $custom_redirect_url ) : '' ); ?>" name="pms-content-restrict-custom-redirect-url" id="pms-content-restrict-custom-redirect-url" class="widefat">
-        <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php printf( esc_html__( 'Add a URL where you wish to redirect users that do not have access to this %s and try to access it directly.', 'paid-member-subscriptions' ), esc_html( $post->post_type ) ); ?></p>
+        <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php printf( esc_html__( 'Add a URL where you wish to redirect users that do not have access to this %s and try to access it directly.', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?></p>
 
     </div>
 
@@ -139,7 +139,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <label class="pms-meta-box-field-label cozmoslabs-form-field-label" for="pms-content-restrict-custom-non-member-redirect-url"><?php esc_html_e( 'Custom Non-Member Redirect URL', 'paid-member-subscriptions' ); ?></label>
 
         <input type="text" value="<?php echo ( ! empty( $custom_non_member_redirect_url ) ? esc_attr( $custom_non_member_redirect_url ) : '' ); ?>" name="pms-content-restrict-custom-non-member-redirect-url" id="pms-content-restrict-custom-non-member-redirect-url" class="widefat">
-        <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php printf( esc_html__( 'Add a URL where you wish to redirect logged-in non-members that do not have access to this %s and try to access it directly.', 'paid-member-subscriptions' ), esc_html( $post->post_type ) ); ?></p>
+        <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php printf( esc_html__( 'Add a URL where you wish to redirect logged-in non-members that do not have access to this %s and try to access it directly.', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?></p>
         <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php printf( esc_html__( 'Leave this field empty if you want all users to be redirected to the same URL.', 'paid-member-subscriptions' ) ); ?></p>
 
     </div>
@@ -160,7 +160,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <label class="cozmoslabs-toggle-track" for="pms-content-restrict-messages-enabled"></label>
         </div>
         <div class="cozmoslabs-toggle-description">
-            <p class="cozmoslabs-description"><?php printf( esc_html__( 'Enable if you wish to add custom restriction messages for this %s.', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_content_restrict_custom_messages_description_cpt', $post->post_type ) ) ); ?></p>
+            <label for="pms-content-restrict-messages-enabled" class="cozmoslabs-description"><?php printf( esc_html__( 'Enable if you wish to add custom restriction messages for this %s.', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?></label>
         </div>
     </div>
 

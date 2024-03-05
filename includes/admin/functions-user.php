@@ -4,7 +4,10 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_action( 'show_user_profile', 'pms_display_subscriptions_details' );
+add_action( 'show_user_profile', 'pms_gdpr_agreement' );
+
 add_action( 'edit_user_profile', 'pms_display_subscriptions_details' );
+add_action( 'edit_user_profile', 'pms_gdpr_agreement' );
 
 function pms_display_subscriptions_details( $user ){
 
@@ -94,4 +97,38 @@ function pms_display_subscriptions_details( $user ){
 
 <?php
     }
+}
+
+function pms_gdpr_agreement( $user ){
+
+    $gdpr_settings = pms_get_gdpr_settings();
+
+    if( !empty( $gdpr_settings ) &&  !empty( $gdpr_settings['gdpr_checkbox'] ) && $gdpr_settings['gdpr_checkbox'] === 'enabled' ){
+
+        $gdpr_agreement_time = get_user_meta( $user->ID, 'pms_gdpr_user_consent_time',true );
+
+        if( $gdpr_agreement_time ){
+
+            $gdpr_formated_time = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ),  $gdpr_agreement_time  + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
+            ?>
+            <table class="form-table">
+                <tr>
+                    <th><?php echo esc_html__( 'GDPR', 'paid-member-subscriptions' ); ?></th>
+                    <td><?php echo esc_html__( 'Agreed on ', 'paid-member-subscriptions' ) . esc_html( $gdpr_formated_time ); ?></td>
+                </tr>
+            </table>
+            <?php
+        }
+        else{
+            ?>
+            <table class="form-table">
+                <tr>
+                    <th><?php echo esc_html__( 'GDPR', 'paid-member-subscriptions' ); ?></th>
+                    <td><?php echo esc_html__( 'Not Agreed', 'paid-member-subscriptions' ); ?></td>
+                </tr>
+            </table>
+            <?php
+        }
+    }
+
 }

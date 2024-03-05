@@ -308,12 +308,14 @@ function pms_divi_content_restriction_filter_no_message () {
 }
 
 function pms_divi_content_restriction_get_attrs ( $attrs_unprocessed ) {
-	$attrs_unprocessed['pms_display_to']            = $attrs_unprocessed['pms_display_to']             ?? '';
-	$attrs_unprocessed['pms_subscriptions']         = $attrs_unprocessed['pms_subscriptions']          ?? '';
-	$attrs_unprocessed['pms_toggle_not_subscribed'] = $attrs_unprocessed['pms_toggle_not_subscribed']  ?? '';
-	$attrs_unprocessed['pms_toggle_custom_message'] = $attrs_unprocessed['pms_toggle_custom_message']  ?? '';
-	$attrs_unprocessed['pms_message_logged_in']     = $attrs_unprocessed['pms_message_logged_in']      ?? '';
-	$attrs_unprocessed['pms_message_logged_out']    = $attrs_unprocessed['pms_message_logged_out']     ?? '';
+
+	$attrs_unprocessed['pms_display_to']            = isset( $attrs_unprocessed['pms_display_to'] ) ? $attrs_unprocessed['pms_display_to'] : '';
+	$attrs_unprocessed['pms_subscriptions']         = isset( $attrs_unprocessed['pms_subscriptions'] ) ? $attrs_unprocessed['pms_subscriptions'] : '';
+	$attrs_unprocessed['pms_toggle_not_subscribed'] = isset( $attrs_unprocessed['pms_toggle_not_subscribed'] ) ? $attrs_unprocessed['pms_toggle_not_subscribed'] : '';
+	$attrs_unprocessed['pms_toggle_custom_message'] = isset( $attrs_unprocessed['pms_toggle_custom_message'] ) ? $attrs_unprocessed['pms_toggle_custom_message'] : '';
+	$attrs_unprocessed['pms_message_logged_in']     = isset( $attrs_unprocessed['pms_message_logged_in'] ) ? $attrs_unprocessed['pms_message_logged_in'] : '';
+	$attrs_unprocessed['pms_message_logged_out']    = isset( $attrs_unprocessed['pms_message_logged_out'] ) ? $attrs_unprocessed['pms_message_logged_out'] : '';
+
 
 	return array(
 		'subscription_plans' => $attrs_unprocessed['pms_subscriptions'],

@@ -647,9 +647,13 @@
 <?php __("%s Years", "paid-member-subscriptions"); ?>
 <?php __("until", "paid-member-subscriptions"); ?>
 <?php __("day", "paid-member-subscriptions"); ?>
+<?php __("days", "paid-member-subscriptions"); ?>
 <?php __("week", "paid-member-subscriptions"); ?>
+<?php __("weeks", "paid-member-subscriptions"); ?>
 <?php __("month", "paid-member-subscriptions"); ?>
+<?php __("months", "paid-member-subscriptions"); ?>
 <?php __("year", "paid-member-subscriptions"); ?>
+<?php __("years", "paid-member-subscriptions"); ?>
 <?php __(' with a %1$s %2$s free trial', 'paid-member-subscriptions' ); ?>
 <?php __(' and a %1$s sign-up fee', 'paid-member-subscriptions' ); ?>
 <?php __("Automatically renew subscription", "paid-member-subscriptions"); ?>
@@ -946,6 +950,7 @@
 <?php __("for %d seat", "paid-member-subscriptions"); ?>
 <?php __("for %d seats", "paid-member-subscriptions"); ?>
 <?php __("Create Pricing Page", "paid-member-subscriptions"); ?>
+<?php __("Pricing Page Style", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Subscription Plan?", "paid-member-subscriptions"); ?>
 <?php __("Delete Plan", "paid-member-subscriptions"); ?>
 <?php __("a downgrade", "paid-member-subscriptions"); ?>
@@ -1002,20 +1007,25 @@
 <?php __("Your %s license is about to expire on %s", "paid-member-subscriptions"); ?>
 <?php __("Please %sRenew Your Licence%s to continue receiving access to product downloads, automatic updates and support.", "paid-member-subscriptions"); ?>
 <?php __("Add New Subscription", "paid-member-subscriptions"); ?>
-<?php __("PMS -> Settings -> Membership Pages -> Registration", "paid-member-subscriptions"); ?>
-<?php __("%sError:%s It seems that you do not have the register page set. To solve the problem, please navigate to %s and select the page containing the %s shortcode.", "paid-member-subscriptions"); ?>
-<?php __("PMS -> Subscription Plans-> Add New", "paid-member-subscriptions"); ?>
-<?php __("%sError:%s It seems that you do not have any subscriptions plans set. To solve the problem, please navigate to %s and add a new subscription plan.", "paid-member-subscriptions"); ?>
+<?php __("PMS → Settings → Membership Pages → Registration", "paid-member-subscriptions"); ?>
+<?php __("%sAlert:%s It appears that the register page is not configured. To address this, please navigate to %s and choose the page containing the %s shortcode.", "paid-member-subscriptions"); ?>
+<?php __("PMS → Subscription Plans → Add New", "paid-member-subscriptions"); ?>
+<?php __("%sAlert:%s It seems that you do not have any subscriptions plans set. To resolve this, please navigate to %s and create a new subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Select the subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans.", "paid-member-subscriptions"); ?>
 <?php __("First plan:", "paid-member-subscriptions"); ?>
 <?php __("Select a plan...", "paid-member-subscriptions"); ?>
 <?php __("Second plan:", "paid-member-subscriptions"); ?>
 <?php __("Third plan:", "paid-member-subscriptions"); ?>
+<?php __("Choose a style that better suits your pricing page.", "paid-member-subscriptions"); ?>
+<?php __("Choose a style for Pricing Page", "paid-member-subscriptions"); ?>
 <?php __("Plan Name", "paid-member-subscriptions"); ?>
 <?php __("Next Payment Date", "paid-member-subscriptions"); ?>
 <?php __("Auto Renewal", "paid-member-subscriptions"); ?>
 <?php __("On", "paid-member-subscriptions"); ?>
 <?php __("User does not have any subscriptions.", "paid-member-subscriptions"); ?>
+<?php __("GDPR", "paid-member-subscriptions"); ?>
+<?php __("Not Agreed", "paid-member-subscriptions"); ?>
+<?php __("Agreed on ", "paid-member-subscriptions"); ?>
 <?php __("Manual/Offline", "paid-member-subscriptions"); ?>
 <?php __("Manually collect payments from  Checks, Direct Bank Transfers or in person cash.", "paid-member-subscriptions"); ?>
 <?php __("PayPal", "paid-member-subscriptions"); ?>
@@ -1042,6 +1052,7 @@
 <?php __("after Subscription Expires", "paid-member-subscriptions"); ?>
 <?php __("before Subscription Renews Automatically", "paid-member-subscriptions"); ?>
 <?php __("since Last Login", "paid-member-subscriptions"); ?>
+<?php __("Instant on %s", "paid-member-subscriptions"); ?>
 <?php __("All Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Email Reminder?", "paid-member-subscriptions"); ?>
 <?php __("Enter Email Reminder name here", "paid-member-subscriptions"); ?>
@@ -1067,6 +1078,13 @@
 <?php __("Please fill in the Content for the Email Reminder", "paid-member-subscriptions"); ?>
 <?php __("Please select at least one Subscription plan", "paid-member-subscriptions"); ?>
 <?php __("Email Reminder Details", "paid-member-subscriptions"); ?>
+<?php __("Account Creation", "paid-member-subscriptions"); ?>
+<?php __("Subscription Active", "paid-member-subscriptions"); ?>
+<?php __("Subscription Expired", "paid-member-subscriptions"); ?>
+<?php __("Subscription Canceled", "paid-member-subscriptions"); ?>
+<?php __("Payment Completed", "paid-member-subscriptions"); ?>
+<?php __("Payment Pending", "paid-member-subscriptions"); ?>
+<?php __("Payment Failed", "paid-member-subscriptions"); ?>
 <?php __("Post Type", "paid-member-subscriptions"); ?>
 <?php __("Choose a post type.", "paid-member-subscriptions"); ?>
 <?php __("Add Taxonomy", "paid-member-subscriptions"); ?>
@@ -1635,7 +1653,6 @@
 <?php __("Default Paid Member Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Default Profile Builder", "paid-member-subscriptions"); ?>
 <?php __("<b>Profile Builder</b> is enabled. <b>You can replace the edit profile in the [pms-account] page</b> with the Profile Builder alternative.", "paid-member-subscriptions"); ?>
-<?php __("GDPR", "paid-member-subscriptions"); ?>
 <?php __("Others", "paid-member-subscriptions"); ?>
 <?php __("reCaptcha", "paid-member-subscriptions"); ?>
 <?php __("GDPR Settings", "paid-member-subscriptions"); ?>
@@ -1887,11 +1904,16 @@
 <?php __("Send Reminder To", "paid-member-subscriptions"); ?>
 <?php __("Select who will receive the emails sent by this reminder.", "paid-member-subscriptions"); ?>
 <?php __("Enter a list of administrator emails, separated by comma, that you want to receive this email reminder.", "paid-member-subscriptions"); ?>
+<?php __("Trigger Type", "paid-member-subscriptions"); ?>
+<?php __("Delayed", "paid-member-subscriptions"); ?>
+<?php __("Instant", "paid-member-subscriptions"); ?>
+<?php __("Choose how you want to send the messages: instant or with a delay.", "paid-member-subscriptions"); ?>
 <?php __("Enter the trigger event for the email reminder. For example: 10 Days before Subscription Expires.", "paid-member-subscriptions"); ?>
 <?php __("Email Subject", "paid-member-subscriptions"); ?>
 <?php __('Enter the email reminder subject. You can use the %1$savailable tags%2$s. ', 'paid-member-subscriptions' ); ?>
 <?php __("Email Content", "paid-member-subscriptions"); ?>
 <?php __('Enter the email reminder content. You can set the From Name and From Email in under %1$sGeneral Email Options%2$s. ', 'paid-member-subscriptions' ); ?>
+<?php __("Shortcodes are also accepted, both in the content and in the subject of the email.", "paid-member-subscriptions"); ?>
 <?php __("Subscription(s)", "paid-member-subscriptions"); ?>
 <?php __("You do not have any active Subscription Plans yet. Please create them <a href=\"%s\">here</a>.", "paid-member-subscriptions"); ?>
 <?php __("Select the subscription(s) to which this email reminder should be sent.", "paid-member-subscriptions"); ?>

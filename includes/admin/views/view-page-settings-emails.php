@@ -254,13 +254,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
                 <label class="cozmoslabs-form-field-label" for="emails-admin-on"><?php esc_html_e( 'Send Administrator Emails', 'paid-member-subscriptions' ) ?></label>
 
-
                 <div class="cozmoslabs-toggle-container">
                     <input type="checkbox" id="emails-admin-on" name="pms_emails_settings[admin_emails_on]" value="1" <?php echo ( isset( $this->options['admin_emails_on'] ) ? 'checked' : '' ); ?> />
                     <label class="cozmoslabs-toggle-track" for="emails-admin-on"></label>
                 </div>
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'By checking this option administrator emails are enabled.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="emails-admin-on" class="cozmoslabs-description"><?php esc_html_e( 'By checking this option administrator emails are enabled.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 

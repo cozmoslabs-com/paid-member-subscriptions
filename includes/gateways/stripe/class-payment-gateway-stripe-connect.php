@@ -298,6 +298,21 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         $payment = pms_get_payment( $this->payment_id );
 
+        if( $payment->status == 'completed' ){
+
+            $data = array(
+                'success'      => true,
+                'redirect_url' => $this->get_success_redirect_url( $form_location ),
+            );
+
+            if( wp_doing_ajax() ){
+                echo json_encode( $data );
+                die();
+            } else
+                return $data;
+
+        }
+
         // Set subscription plan
         if( empty( $this->subscription_plan ) ){
 
@@ -1406,6 +1421,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( !isset( $_GET['pay_gate_listener'] ) || $_GET['pay_gate_listener'] != 'stripe' )
             return;
 
+        if( function_exists( 'sleep' ) )
+            sleep(3);
+
         // Get the input
         $input = @file_get_contents("php://input");
         $event = json_decode( $input );
@@ -1449,10 +1467,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
+                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.succeeded', 'data' => $data->metadata ) );
+
                 if( $payment->status == 'completed' )
                     die();
-
-                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.succeeded', 'data' => $data->metadata ) );
 
                 $payment->log_data( 'stripe_intent_confirmed' );
 
@@ -1494,10 +1512,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
+                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.payment_failed', 'data' => $data->metadata ) );
+
                 if( $payment->status == 'failed' )
                     die();
-
-                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.payment_failed', 'data' => $data->metadata ) );
 
                 $payment->log_data( 'payment_failed', $this->parse_intent_last_error( $data ) );
 

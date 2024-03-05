@@ -160,7 +160,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
         <label class="cozmoslabs-toggle-track" for="pms-discount-recurring-payments"></label>
     </div>
     <div class="cozmoslabs-toggle-description">
-        <p class="cozmoslabs-description"><?php esc_html_e( 'Apply discount to all future recurring payments (not just the first one).', 'paid-member-subscriptions' ); ?></p>
+        <label for="pms-discount-recurring-payments" class="cozmoslabs-description"><?php esc_html_e( 'Apply discount to all future recurring payments (not just the first one).', 'paid-member-subscriptions' ); ?></label>
     </div>
 
 </div>
@@ -175,7 +175,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
         <label class="cozmoslabs-toggle-track" for="pms-discount-new-users-only"></label>
     </div>
     <div class="cozmoslabs-toggle-description">
-        <p class="cozmoslabs-description"><?php esc_html_e( 'Apply discount only for new users.', 'paid-member-subscriptions' ); ?></p>
+        <label for="pms-discount-new-users-only" class="cozmoslabs-description"><?php esc_html_e( 'Apply discount only for new users.', 'paid-member-subscriptions' ); ?></label>
     </div>
 
 

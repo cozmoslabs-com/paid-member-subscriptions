@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'Select whether to show a GDPR checkbox on our forms.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="gdpr-checkbox" class="cozmoslabs-description"><?php esc_html_e( 'Select whether to show a GDPR checkbox on our forms.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 
@@ -59,7 +59,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'Select whether to show a GDPR Delete button on our forms.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="gdpr-delete-button" class="cozmoslabs-description"><?php esc_html_e( 'Select whether to show a GDPR Delete button on our forms.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 
@@ -86,7 +86,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'Opt in to our security and feature updates notifications, and non-sensitive diagnostic tracking.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="pms-plugin-optin" class="cozmoslabs-description"><?php esc_html_e( 'Opt in to our security and feature updates notifications, and non-sensitive diagnostic tracking.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 
@@ -99,7 +99,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'Remove the admin bar from all logged in users except Administrators.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="hide-admin-bar" class="cozmoslabs-description"><?php esc_html_e( 'Remove the admin bar from all logged in users except Administrators.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 
@@ -112,7 +112,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'Add the honeypot field to the PMS Registration form to prevent spambot attacks.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="honeypot-field" class="cozmoslabs-description"><?php esc_html_e( 'Add the honeypot field to the PMS Registration form to prevent spambot attacks.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 
@@ -125,7 +125,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php echo wp_kses_post( __( 'Enable the <strong>Labels Edit</strong> functionality in order to change any string that is shown by the plugin.', 'paid-member-subscriptions' ) ); ?></p>
+                    <label for="labels-edit-checkbox" class="cozmoslabs-description"><?php echo wp_kses_post( __( 'Enable the <strong>Labels Edit</strong> functionality in order to change any string that is shown by the plugin.', 'paid-member-subscriptions' ) ); ?></label>
                 </div>
             </div>
 
@@ -138,7 +138,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'By default, regular users cannot access the admin dashboard. This option disables that redirect.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="disable-dashboard-redirect" class="cozmoslabs-description"><?php esc_html_e( 'By default, regular users cannot access the admin dashboard. This option disables that redirect.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 
@@ -151,7 +151,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'The date format selected in WordPress Settings --> General will be used for displaying dates.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="match-wp-date-format" class="cozmoslabs-description"><?php esc_html_e( 'The date format selected in WordPress Settings --> General will be used for displaying dates.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 
@@ -164,7 +164,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'Always show Subscriptions Expiration Date.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="force-subscriptions-expiration-date" class="cozmoslabs-description"><?php esc_html_e( 'Always show Subscriptions Expiration Date.', 'paid-member-subscriptions' ); ?></label>
                 </div>
 
                 <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear.', 'paid-member-subscriptions' ); ?></p>
@@ -180,7 +180,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php echo wp_kses_post( __( 'Enable the <strong>Password Strength</strong> functionality in order to choose the strength (very weak, weak, good, strong).', 'paid-member-subscriptions' ) ); ?></p>
+                    <label for="functions-password-strength-checkbox" class="cozmoslabs-description"><?php echo wp_kses_post( __( 'Enable the <strong>Password Strength</strong> functionality in order to choose the strength (very weak, weak, good, strong).', 'paid-member-subscriptions' ) ); ?></label>
                 </div>
             </div>
 
@@ -230,7 +230,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="scripts-on-specific-pages" class="cozmoslabs-description"><?php esc_html_e( 'Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 
@@ -291,7 +291,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <p class="cozmoslabs-description"><?php esc_html_e( 'Charge users sign-up fees for Subscription Upgrades and Downgrades.', 'paid-member-subscriptions' ); ?></p>
+                    <label for="upgrade-downgrade-sign-up-fee" class="cozmoslabs-description"><?php esc_html_e( 'Charge users sign-up fees for Subscription Upgrades and Downgrades.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
         </div>
@@ -311,7 +311,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     </div>
 
                     <div class="cozmoslabs-toggle-description">
-                        <p class="cozmoslabs-description"><?php esc_html_e( 'Disable CHANGE Subscription Action.', 'paid-member-subscriptions' ); ?></p>
+                        <label for="disable-change-button" class="cozmoslabs-description"><?php esc_html_e( 'Disable CHANGE Subscription Action.', 'paid-member-subscriptions' ); ?></label>
                     </div>
                 </div>
 
@@ -324,7 +324,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     </div>
 
                     <div class="cozmoslabs-toggle-description">
-                        <p class="cozmoslabs-description"><?php esc_html_e( 'Disable RENEW Subscription Action.', 'paid-member-subscriptions' ); ?></p>
+                        <label for="disable-renew-button" class="cozmoslabs-description"><?php esc_html_e( 'Disable RENEW Subscription Action.', 'paid-member-subscriptions' ); ?></label>
                     </div>
                 </div>
 
@@ -337,7 +337,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     </div>
 
                     <div class="cozmoslabs-toggle-description">
-                        <p class="cozmoslabs-description"><?php esc_html_e( 'Disable CANCEL Subscription Action.', 'paid-member-subscriptions' ); ?></p>
+                        <label for="disable-cancel-button" class="cozmoslabs-description"><?php esc_html_e( 'Disable CANCEL Subscription Action.', 'paid-member-subscriptions' ); ?></label>
                     </div>
                 </div>
 
@@ -350,7 +350,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     </div>
 
                     <div class="cozmoslabs-toggle-description">
-                        <p class="cozmoslabs-description"><?php esc_html_e( 'Disable ABANDON Subscription Action.', 'paid-member-subscriptions' ); ?></p>
+                        <label for="disable-abandon-button" class="cozmoslabs-description"><?php esc_html_e( 'Disable ABANDON Subscription Action.', 'paid-member-subscriptions' ); ?></label>
                     </div>
                 </div>
 

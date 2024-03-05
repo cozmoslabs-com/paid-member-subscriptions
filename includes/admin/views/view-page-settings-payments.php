@@ -20,9 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div class="cozmoslabs-toggle-description">
-                <p class="cozmoslabs-description">
+                <label for="payment-test-mode" class="cozmoslabs-description">
                     <?php printf( wp_kses_post( __( 'Use with test accounts from your payment processors. <a href="%s">More Details</a>', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/payments/#Test_Mode' ); ?>
-                </p>
+                </label>
             </div>
         </div>
     </div>
@@ -90,7 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         echo '</div>';
 
                         echo '<div class="cozmoslabs-toggle-description">';
-                            echo '<p class="cozmoslabs-description">'. esc_html( $payment_gateways_details['description'] ) .'</p>';
+                            echo '<label for="' . esc_attr( $payment_gateway_slug ) . '" class="cozmoslabs-description">'. esc_html( $payment_gateways_details['description'] ) .'</label>';
                         echo '</div>';
 
                     echo '</div>';
@@ -156,7 +156,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <label class="cozmoslabs-toggle-track" for="retry-payments"></label>
                     </div>
                     <div class="cozmoslabs-toggle-description">
-                        <p class="cozmoslabs-description"><?php printf( esc_html__( 'If a payment fails, the plugin will try to charge the user again after %s days for %s maximum retries. ', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_retry_payment_interval', 3, '' ) ), esc_html( apply_filters( 'pms_retry_payment_count', 3, '' ) ) );?>                        </p>
+                        <label for="retry-payments" class="cozmoslabs-description"><?php printf( esc_html__( 'If a payment fails, the plugin will try to charge the user again after %s days for %s maximum retries. ', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_retry_payment_interval', 3, '' ) ), esc_html( apply_filters( 'pms_retry_payment_count', 3, '' ) ) );?>                        </label>
                     </div>
 
                     <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Valid for the Stripe and PayPal Express with Reference Transactions payment gateways. ', 'paid-member-subscriptions' ); ?></p>
@@ -176,7 +176,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <label class="cozmoslabs-toggle-track" for="allow-downgrades"></label>
                 </div>
                 <div class="cozmoslabs-toggle-description">
-                      <p class="cozmoslabs-description"><?php esc_html_e( 'Allow members to downgrade their subscription plan to a lower one from the same tier.', 'paid-member-subscriptions' ); ?></p>
+                      <label for="allow-downgrades" class="cozmoslabs-description"><?php esc_html_e( 'Allow members to downgrade their subscription plan to a lower one from the same tier.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 
@@ -189,7 +189,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <label class="cozmoslabs-toggle-track" for="allow-change"></label>
                 </div>
                 <div class="cozmoslabs-toggle-description">
-                      <p class="cozmoslabs-description"><?php esc_html_e( 'Allow members to change their subscription to one from another tier.', 'paid-member-subscriptions' ); ?></p>
+                      <label for="allow-change" class="cozmoslabs-description"><?php esc_html_e( 'Allow members to change their subscription to one from another tier.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 

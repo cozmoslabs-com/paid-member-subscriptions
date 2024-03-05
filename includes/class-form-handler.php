@@ -1292,6 +1292,7 @@ Class PMS_Form_Handler {
 
         do_action( 'login_init' );
         do_action( 'login_form_login' );
+        do_action( 'pms_process_login_start' );
 
         $secure_cookie = '';
         // If the user wants ssl but the session is not ssl, force a secure cookie.
@@ -1330,6 +1331,8 @@ Class PMS_Form_Handler {
          * Filters the login redirect URL.
          */
         $redirect_to = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user );
+
+        do_action( 'pms_process_login_end' );
 
         if ( !is_wp_error($user) ) {
             if ( $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) {

@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.11.3
+ * Version: 2.11.4
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -11,8 +11,8 @@
  * License: GPL2
  * WC requires at least: 3.0.0
  * WC tested up to: 8.6
- * Elementor tested up to: 3.19.2
- * Elementor Pro tested up to: 3.19.2
+ * Elementor tested up to: 3.19.4
+ * Elementor Pro tested up to: 3.19.4
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.11.3' );
+        define( 'PMS_VERSION', '2.11.4' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -869,6 +869,15 @@ Class Paid_Member_Subscriptions {
 
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/functions-user.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/functions-user.php';
+
+        /*
+         * Pricing Table Designs
+         * */
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/pricing-table-designs/pricing-table-designs.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/pricing-table-designs/pricing-table-designs.php';
+
+
         /*
          * bbPress
          */
@@ -1134,7 +1143,7 @@ Class Paid_Member_Subscriptions {
      */
     public function add_menu_page() {
 
-        add_menu_page( __( 'Paid Member Subscriptions', 'paid-member-subscriptions' ), __( 'Paid Member Subscriptions', 'paid-member-subscriptions' ), apply_filters( 'pms_submenu_page_capability', 'manage_options', 'paid-member-subscriptions' ), 'paid-member-subscriptions', null, plugin_dir_url( __FILE__ ).'/assets/images/pms-menu-icon.png', '71.1' );
+        add_menu_page( __( 'Paid Member Subscriptions', 'paid-member-subscriptions' ), __( 'Paid Member Subscriptions', 'paid-member-subscriptions' ), apply_filters( 'pms_submenu_page_capability', 'manage_options', 'paid-member-subscriptions' ), 'paid-member-subscriptions', null, plugin_dir_url( __FILE__ ).'/assets/images/pms-wp-menu-icon.svg', '71.1' );
 
     }
 

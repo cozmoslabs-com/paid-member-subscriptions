@@ -506,6 +506,12 @@ jQuery( function( $ ) {
             if ( form_data.discount_code )
                 data.discount_code = form_data.discount_code
 
+            if ( form_data.group_name )
+                data.group_name = form_data.group_name
+
+            if ( form_data.group_description )
+                data.group_description = form_data.group_description
+
             $.post(pms.ajax_url, data, function (response) {
 
                 response = JSON.parse(response)

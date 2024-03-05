@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 2.11.3
+Stable tag: 2.11.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -241,6 +241,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.11.4 =
+* Feature: Pricing Tables templates. Easily create a pricing page for your subscription plans. Go to Subscription Plans -> Create Pricing Page to get started
+* Fix: Issue with Group Memberships extra fields not being updated when changing a membership through Stripe
+* Fix: Double activation messages from payments and subscriptions when Stripe Webhooks were configured
+* Fix: An issue with login errors not being displayed when LearnDash was active
+* Misc: GDPR field will now show the agreement time on the back-end Users -> Edit User page
+* Misc: Change plugin icon from admin menu
+* Misc: Random changes for back-end pages design
+
 = 2.11.3 =
 * Feature: Added Content Restriction options for Divi Builder modules
 * Fix: Issue with Stripe connection when it was initialized from the Setup Wizard

@@ -36,6 +36,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
         //Create Pricing Page button
         add_action('admin_footer', array( $this, 'admin_footer_add_create_pricing_page_button') );
         add_action('admin_post_pms_create_pricing_table_page', array( $this, 'creating_pricing_table_page' ) );
+        add_action('admin_post_pms_update_pricing_table_style', array( $this, 'update_pricing_table_page' ) );
 
 
         // Bulk actions
@@ -476,7 +477,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
 
     public function creating_pricing_table_page(){
 
-            if( !isset( $_POST['pms_nonce'] ) || !wp_verify_nonce( sanitize_text_field( $_POST['pms_nonce'] ), 'pms_create_pricing_table_page' ) ){
+            if( !isset( $_POST['pms_nonce'] ) || !wp_verify_nonce( sanitize_text_field( $_POST['pms_nonce'] ), 'pms_create_pricing_table_page' ) || !current_user_can( 'manage_options' ) ){
                 wp_redirect( admin_url( 'edit.php?post_type=pms-subscription' ) );
                 die();
             }
@@ -490,9 +491,11 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
             $id_subscriptions = array();
 
             foreach( $target_plan_keys as $key ){
-                if( isset( $_POST[ $key ] ) )
+                if( isset( $_POST[ $key ] ) && !empty( $_POST[ $key ] ) )
                     $id_subscriptions[] = absint( $_POST[ $key ] );
             }
+
+            $pricing_page_style = isset( $_POST['pms_general_settings']['pricing_tables_design'] ) ? sanitize_text_field( $_POST['pms_general_settings']['pricing_tables_design'] ) : '';
 
             if( empty( $id_subscriptions ) ){
                 wp_redirect( admin_url( 'edit.php?post_type=pms-subscription' ) );
@@ -521,11 +524,29 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                     $pattern = str_replace('Silver', $plan->name, $pattern );
                     $currency = pms_get_currency_symbol( pms_get_active_currency() );
                     $price = $plan->price . $currency;
-                    $duration = " / " . $plan->duration_unit;
-                    $details = $price . $duration;
+                    $duration = pms_get_output_subscription_plan_duration( $plan );
+                    $details = $price . '<span class="pms-pt-text-duration">' . $duration . "</span>";
                     $pattern = str_replace( '29$ / month', $details, $pattern );
 
-                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'"';
+                    if( $plan->trial_duration !== 0){
+
+                        $duration_free_trial = pms_get_output_subscription_plan_trial( $plan );
+                        $pattern = str_replace( 'Free trial 1', $duration_free_trial, $pattern );
+                    }
+                    else{
+                        $pattern = preg_replace('/<!--\s*wp:paragraph\s*{"align":"center"}\s*-->\s*<span class="pms-pt-text-price pms-pt-text-duration">Free trial 1<\/span>\s*<!--\s*\/wp:paragraph\s*-->/s', '', $pattern);
+                    }
+
+                    if( $plan->sign_up_fee !== 0){
+
+                        $price_sign_up_fee = pms_get_output_subscription_plan_sign_up_fee( $plan );
+                        $pattern = str_replace( 'Sign-up fee 1', $price_sign_up_fee, $pattern );
+                    }
+                    else{
+                        $pattern = preg_replace('/<!--\s*wp:paragraph\s*{"align":"center"}\s*-->\s*<span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 1<\/span>\s*<!--\s*\/wp:paragraph\s*-->/s', '', $pattern);
+                    }
+
+                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'&single_plan=yes"';
                     $pattern = str_replace( 'href="1"', $url, $pattern );
 
                 } elseif ( $number_of_subscriptions == 1 ) {
@@ -533,11 +554,29 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                     $pattern = str_replace( 'Gold', $plan->name, $pattern );
                     $currency = pms_get_currency_symbol( pms_get_active_currency() );
                     $price = $plan->price . $currency;
-                    $duration = " / " . $plan->duration_unit;
-                    $details = $price . $duration;
+                    $duration = pms_get_output_subscription_plan_duration( $plan );
+                    $details = $price . '<span class="pms-pt-text-duration">' . $duration . "</span>";
                     $pattern = str_replace( '49$ / month', $details, $pattern );
 
-                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'"';
+                    if( $plan->trial_duration !== 0){
+
+                        $duration_free_trial = pms_get_output_subscription_plan_trial( $plan );
+                        $pattern = str_replace( 'Free trial 2', $duration_free_trial, $pattern );
+                    }
+                    else{
+                        $pattern = preg_replace('/<!--\s*wp:paragraph\s*{"align":"center"}\s*-->\s*<span class="pms-pt-text-price pms-pt-text-duration">Free trial 2<\/span>\s*<!--\s*\/wp:paragraph\s*-->/s', '', $pattern);
+                    }
+
+                    if( $plan->sign_up_fee !== 0){
+
+                        $price_sign_up_fee = pms_get_output_subscription_plan_sign_up_fee( $plan );
+                        $pattern = str_replace( 'Sign-up fee 2', $price_sign_up_fee, $pattern );
+                    }
+                    else{
+                        $pattern = preg_replace('/<!--\s*wp:paragraph\s*{"align":"center"}\s*-->\s*<span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 2<\/span>\s*<!--\s*\/wp:paragraph\s*-->/s', '', $pattern);
+                    }
+
+                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'&single_plan=yes"';
                     $pattern = str_replace( 'href="2"', $url, $pattern );
 
                 } elseif ( $number_of_subscriptions == 2 ) {
@@ -545,11 +584,29 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                     $pattern = str_replace( 'Platinum', $plan->name, $pattern );
                     $currency = pms_get_currency_symbol( pms_get_active_currency() );
                     $price = $plan->price . $currency;
-                    $duration = " / " . $plan->duration_unit;
-                    $details = $price . $duration;
+                    $duration = pms_get_output_subscription_plan_duration( $plan );
+                    $details = $price . '<span class="pms-pt-text-duration">' . $duration . "</span>";
                     $pattern = str_replace( '89$ / month', $details, $pattern );
 
-                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'"';
+                    if( $plan->trial_duration !== 0){
+
+                        $duration_free_trial = pms_get_output_subscription_plan_trial( $plan );
+                        $pattern = str_replace( 'Free trial 3', $duration_free_trial, $pattern );
+                    }
+                    else{
+                        $pattern = preg_replace('/<!--\s*wp:paragraph\s*{"align":"center"}\s*-->\s*<span class="pms-pt-text-price pms-pt-text-duration">Free trial 3<\/span>\s*<!--\s*\/wp:paragraph\s*-->/s', '', $pattern);
+                    }
+
+                    if( $plan->sign_up_fee !== 0){
+
+                        $price_sign_up_fee = pms_get_output_subscription_plan_sign_up_fee( $plan );
+                        $pattern = str_replace( 'Sign-up fee 3', $price_sign_up_fee, $pattern );
+                    }
+                    else{
+                        $pattern = preg_replace('/<!--\s*wp:paragraph\s*{"align":"center"}\s*-->\s*<span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 3<\/span>\s*<!--\s*\/wp:paragraph\s*-->/s', '', $pattern);
+                    }
+
+                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'&single_plan=yes"';
                     $pattern = str_replace( 'href="3"', $url, $pattern );
 
                 }
@@ -564,16 +621,44 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                 'post_author'  => 1
             );
 
-            $id_page   = wp_insert_post( $new_post );
+            $id_page = wp_insert_post( $new_post );
             $link_page = htmlspecialchars_decode( esc_url( add_query_arg( array( 'post' => $id_page, 'action' => 'edit' ), admin_url( 'post.php' ) ) ) );
 
-            update_option( 'pms_create_pricing_page_complete', 'pricing_page_exist' );
+            update_option('pms_create_pricing_page_complete', 'pricing_page_exist');
+            if( empty( $pricing_page_style )){
+                $pricing_page_style = 'pricing-table-style-default';
+            }
+
+            add_metadata( 'post', $id_page, 'pms_pricing_page_design', $pricing_page_style );
 
             wp_redirect( $link_page );
             exit;
     }
+
+    public function update_pricing_table_page(){
+
+        $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';
+
+        if( !isset( $_POST['pms_nonce'] ) || !wp_verify_nonce( sanitize_text_field( $_POST['pms_nonce'] ), 'pms_update_pricing_table_style' ) || !current_user_can( 'manage_options' ) || empty( $post_id ) ){
+            $link_page = htmlspecialchars_decode( esc_url( add_query_arg( array( 'post' => $post_id, 'action' => 'edit' ), admin_url( 'post.php' ) ) ) );
+            wp_redirect( $link_page );
+            die();
+        }
+
+        $selected_design = isset( $_POST['pms_general_settings']['pricing_tables_design'] ) ? sanitize_text_field( $_POST['pms_general_settings']['pricing_tables_design'] ): 'pricing-table-style-default';
+
+        update_post_meta( $post_id, 'pms_pricing_page_design', $selected_design );
+
+        $link_page = htmlspecialchars_decode( esc_url( add_query_arg( array( 'post' => $post_id, 'action' => 'edit' ), admin_url( 'post.php' ) ) ) );
+        wp_redirect( $link_page );
+        die();
+    }
+
     public function admin_footer_add_create_pricing_page_button(){
         global $pagenow;
+        $post_id = isset( $_POST['post_id'] ) ? sanitize_text_field( $_POST['post_id'] ) : '';
+        $post_content = get_post_field( 'post_content', $post_id );
+        $logo = PMS_PLUGIN_DIR_URL.'assets/images/pms-wp-menu-icon-white.svg';
 
         if( $pagenow === 'edit.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'pms-subscription' ) {
             echo '<div id="pms-create-pricing-page-button-wrapper">';
@@ -581,6 +666,18 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
             echo '</div>';
             pms_output_modal_create_pricing_page();
         }
+
+        if( $pagenow === 'post.php' && isset( $_GET['action'] ) && $_GET['action'] === 'edit' && $this->pms_has_pricing_table( $post_content ) ) {
+            echo '<div id="pms-create-pricing-page-style-wrapper" style="display: none;">';
+            echo '<a class="button button-primary" id="pms-popup-style" href="#"><img class="pms-icon-style" src="' . esc_html( $logo ) . '">' . esc_html__('Pricing Page Style', 'paid-member-subscriptions') . '</a>';
+            echo '</div>';
+            pms_output_modal_style_pricing_page();
+        }
+    }
+
+    public function pms_has_pricing_table( $content ){
+
+        return strpos( $content, 'pms-pt-gap' ) !== false ? true : false;
     }
 
 

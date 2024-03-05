@@ -572,16 +572,16 @@ function pms_get_output_subscription_plan_trial( $subscription_plan = null, $for
 
     switch ( $subscription_plan->trial_duration_unit ) {
         case 'day':
-            $trial_duration_unit = __( 'day', 'paid-member-subscriptions' );
+            $trial_duration_unit = _n( 'day', 'days', $subscription_plan->trial_duration, 'paid-member-subscriptions' );
             break;
         case 'week':
-            $trial_duration_unit = __( 'week', 'paid-member-subscriptions' );
+            $trial_duration_unit = _n( 'week', 'weeks', $subscription_plan->trial_duration,'paid-member-subscriptions' );
             break;
         case 'month':
-            $trial_duration_unit = __( 'month', 'paid-member-subscriptions' );
+            $trial_duration_unit = _n( 'month', 'months', $subscription_plan->trial_duration,'paid-member-subscriptions' );
             break;
         case 'year':
-            $trial_duration_unit = __( 'year', 'paid-member-subscriptions' );
+            $trial_duration_unit = _n( 'year', 'years', $subscription_plan->trial_duration, 'paid-member-subscriptions' );
             break;
         default:
             $trial_duration_unit = '';

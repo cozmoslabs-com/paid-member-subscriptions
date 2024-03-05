@@ -57,7 +57,7 @@ function pms_recaptcha_settings_tab( $options ) {
                         </div>
 
                         <div class="cozmoslabs-toggle-description">
-                            <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Display reCaptcha on %s', 'paid-member-subscriptions' ), '<strong>' . esc_html( $value ) . '</strong>' ) ); ?></p>
+                            <label for="<?php echo esc_attr( $key ); ?>" class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Display reCaptcha on %s', 'paid-member-subscriptions' ), '<strong>' . esc_html( $value ) . '</strong>' ) ); ?></label>
                         </div>
                     </div>
 

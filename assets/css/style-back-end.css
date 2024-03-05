@@ -397,6 +397,10 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     color: #1E1E1E;
 }
 
+body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-field-wrapper label.cozmoslabs-form-field-label {
+    cursor: pointer;
+}
+
 .cozmoslabs-form-field-wrapper .chosen-container,
 .cozmoslabs-form-field-wrapper select,
 .cozmoslabs-form-field-wrapper input[type="date"],
@@ -1195,6 +1199,16 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
 
 #cozmoslabs-subsection-register-version .cozmoslabs-description-container.yellow {
     background: #FDFBE6;
+}
+
+#cozmoslabs-subsection-register-version .pms-active-license::before {
+    color: green;
+}
+
+#cozmoslabs-subsection-register-version .pms-active-license {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
 }
 
 
@@ -3080,11 +3094,15 @@ body[class*="_page_pms-"] #screen-meta {
     height: 250px;
 }
 
+.cozmoslabs-basic-info-addons div > a:not(.pms-addon-image-container) {
+    color: #1E1E1E;
+}
+
 .cozmoslabs-basic-info-addons div .pms-addon-image-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100px;
+    /*height: 100px;*/
     overflow: hidden;
     margin-bottom: 5px;
 }
@@ -3097,20 +3115,25 @@ body[class*="_page_pms-"] #screen-meta {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 40px;
     margin-top: 35px;
 }
 
 .cozmoslabs-basic-info-recommended .cozmoslabs-basic-info-recommended-img {
-    flex-basis: 37%;
+    flex-basis: 30%;
 }
 
 .cozmoslabs-basic-info-recommended .cozmoslabs-basic-info-recommended-img a {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 160px;
+    height: 130px;
     overflow: hidden;
+}
+
+#pms-recommended-translate-press .cozmoslabs-basic-info-recommended-img a {
+    background: #009ad8;
 }
 
 #pms-recommended-profile-builder .cozmoslabs-basic-info-recommended-img a {
@@ -3122,12 +3145,11 @@ body[class*="_page_pms-"] #screen-meta {
 }
 
 .cozmoslabs-basic-info-recommended .cozmoslabs-basic-info-recommended-img img {
-    width: 100%;
+    width: 85%;
 }
 
 .cozmoslabs-basic-info-recommended .cozmoslabs-basic-info-recommended-info {
-    flex-basis: 60%;
-
+    flex-basis: 70%;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -3426,6 +3448,14 @@ body[class*="_page_pms-"] #screen-meta {
 
     #cozmoslabs-subsection-payment-logs .payment-logs td.column-modal_data .pms-modal__halfrow .pms-modal__half {
         width: 100%;
+    }
+
+    .cozmoslabs-basic-info-addons div .pms-addon-image-container {
+        max-width: 200px;
+    }
+
+    .cozmoslabs-basic-info-recommended .cozmoslabs-basic-info-recommended-img a {
+        max-width: 240px;
     }
 
     /* CPTs */
@@ -3904,6 +3934,10 @@ body[class*="_page_pms-"] #screen-meta {
     min-height: 25%;
 }
 
+.post-php .pms-modal{
+    width: auto;
+}
+
 .overlay {
     display: none;
     position: fixed;
@@ -3915,9 +3949,14 @@ body[class*="_page_pms-"] #screen-meta {
     z-index: 1;
 }
 
+.pms-icon-style{
+    height: 16px !important;
+}
+
 #pms_stripe_deprecation_notice strong {
     font-size: 110%;
 }
+
 
 /***********************************************************/
 /* Shortcode Copy / Click to Copy functionality
@@ -4074,3 +4113,163 @@ body[class*="_page_pms-"] #screen-meta {
 .admin_page_pms-optin-page .notice {
     display: none !important;
 }
+
+/**************************************************/
+/* Pricing Table Designs - Admin UI styles
+/**************************************************/
+
+#pms-pricing-tables-design-browser {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: start;
+    padding-bottom: 20px;
+}
+
+.pms-pricing-tables-design {
+    width: 180px;
+    flex-basis: unset;
+}
+
+.pms-pricing-tables-design label {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: #1E1E1E;
+}
+
+.pms-pricing-tables-design label input[type="radio"] {
+    margin-left: 10px;
+}
+
+.pms-pricing-tables-design-preview {
+    position: absolute;
+    display: none !important;
+    height: 32px !important;
+}
+
+.pms-pricing-tables-design:hover .pms-pricing-tables-design-screenshot .pms-pricing-tables-design-preview {
+    display: flex !important;
+}
+
+.pms-pricing-tables-design-screenshot {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFF;
+    border: 1px solid #cccccc;
+    border-radius: 2px;
+    box-sizing: border-box;
+    position: relative;
+    margin-top: 10px;
+}
+
+.pms-pricing-tables-design:not(#pricing-table-style-default) .pms-pricing-tables-design-screenshot:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pms-pricing-tables-design:not(#pricing-table-style-default):hover .pms-pricing-tables-design-screenshot:before {
+    opacity: 1;
+}
+
+.pms-pricing-tables-design-screenshot:not(#pricing-table-style-default .pms-pricing-tables-design-screenshot) img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#pricing-table-style-default .pms-pricing-tables-design-screenshot img {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+#pricing-table-style-default .pms-pricing-tables-design-screenshot {
+    overflow: hidden;
+}
+
+.pms-pricing-tables-design-modal {
+    display: none;
+    padding: 16px 24px;
+}
+
+.pms-pricing-tables-design-modal .pms-pricing-tables-design-preview-image {
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+.pms-pricing-tables-design-modal .pms-pricing-tables-design-preview-image.active {
+    display: block;
+}
+
+
+.pms-pricing-tables-design-modal .pms-slideshow-button {
+    font-size: 50px;
+    cursor: pointer;
+    color: #6E7A86;
+}
+
+.pms-pricing-tables-design-modal .pms-slideshow-button.disabled {
+    visibility: hidden;
+}
+
+.pms-pricing-tables-design-modal .pms-pricing-tables-design-modal-slideshow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.ui-dialog[aria-describedby^='pms-modal-pricing-table-style'] .ui-widget-header {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #dcdcde;
+}
+
+.ui-dialog[aria-describedby^='pms-modal-pricing-table-style'] .ui-button,
+.ui-dialog[aria-describedby^='pms-modal-pricing-table-style'] .ui-button:focus,
+.ui-dialog[aria-describedby^='pms-modal-pricing-table-style'] .ui-button:hover {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+
+/***********************************************************/
+/* WordPress Admin Menu Item
+/***********************************************************/
+
+body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.opensub a.menu-top .wp-menu-image img,
+body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions:not(.wp-menu-open) a.menu-top:hover .wp-menu-image img {
+    opacity: 0;
+}
+
+body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.opensub a.menu-top .wp-menu-image:after,
+body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions:not(.wp-menu-open) a.menu-top:hover .wp-menu-image:after {
+    content: url("../images/pms-wp-menu-icon-hover.svg");
+    position: absolute;
+    top: 9px;
+    left: 6px;
+}
+
+@media screen and (max-width: 960px) {
+    body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.opensub a.menu-top .wp-menu-image:after,
+    body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions a.menu-top:hover .wp-menu-image:after {
+        left: 5px;
+    }
+}
+
+
+
+
