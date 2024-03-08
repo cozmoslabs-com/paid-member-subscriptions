@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.4
-Stable tag: 2.11.4
+Stable tag: 2.11.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -245,6 +245,9 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.11.5 =
+* Fix an issue where the plugin couldn't be activated in some scenarios
+
 = 2.11.4 =
 * Feature: Pricing Tables templates. Easily create a pricing page for your subscription plans. Go to Subscription Plans -> Create Pricing Page to get started
 * Fix: Issue with Group Memberships extra fields not being updated when changing a membership through Stripe

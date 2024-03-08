@@ -89,10 +89,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
      }
  }
 
-/****************************************************
- * Plugin Name: LearnDash LMS
- * This plugin hijacks the 'wp_login_failed' hook not allowing the PB login form to show errors
- ****************************************************/
 if( is_plugin_active( 'sfwd-lms/sfwd_lms.php' ) ){
     add_action( 'pms_process_login_start', 'pms_learndash_compatibility_login_start' );
     function pms_learndash_compatibility_login_start (){
