@@ -187,7 +187,9 @@ function pms_display_form_designs_preview() {
 
         $output .= '
                 <div class="pms-forms-design" id="'. $form_design['id'] .'">
-                    <label>' . $form_design['name'] . '</label>
+                <label>
+                    <input type="radio" id="wppb-fd-option-' . $form_design['id'] . '" value="' . $form_design['id'] . '" name="" disabled ' . ( $form_design['id'] == 'form-style-default' ? 'checked' : '' ) .'>
+                    ' . $form_design['name'] . '</label>
                    <div class="pms-forms-design-screenshot">
                         <img src="' . $form_design['images']['main'] . '" alt="Form Design">
                         '. $preview_button .'

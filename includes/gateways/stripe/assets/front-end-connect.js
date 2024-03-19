@@ -525,85 +525,79 @@ jQuery( function( $ ) {
 
     }
 
-//     function stripeConnectPaymentRequestInit(){
+    // function stripeConnectPaymentRequestInit(){
 
-//         if ( !pms || !pms.stripe_payment_request || pms.stripe_payment_request != 1 )
-//             return
+    //     if ( !pms || !pms.stripe_payment_request || pms.stripe_payment_request != 1 )
+    //         return
 
-//         if ( !pms.pms_active_currency || !pms.stripe_account_country )
-//             return
+    //     if ( !pms.pms_active_currency || !pms.stripe_account_country )
+    //         return
 
-//         if ( !( $('#payment-request-button').length > 0 ) )
-//             return
+    //     if ( !( $('#payment-request-button').length > 0 ) )
+    //         return
 
-//         paymentRequest = stripe.paymentRequest({
-//             country : pms.stripe_account_country,
-//             currency: pms.pms_active_currency,
-//             total   : {
-//                 label: 'Placeholder',
-//                 amount: 100,
-//             },
-//             requestPayerName : true,
-//             requestPayerEmail: true,
-//         })
+    //     paymentRequest = stripe.paymentRequest({
+    //         country : pms.stripe_account_country,
+    //         currency: pms.pms_active_currency,
+    //         total   : {
+    //             label: 'Placeholder',
+    //             amount: 100,
+    //         },
+    //         requestPayerName : true,
+    //         requestPayerEmail: true,
+    //     })
 
-//         var paymentRequestButton = elements.create('paymentRequestButton', {
-//             paymentRequest,
-//         })
+    //     var paymentRequestButton = elements.create('paymentRequestButton', {
+    //         paymentRequest,
+    //     })
 
-//         paymentRequest.canMakePayment().then( function (response) {
+    //     paymentRequest.canMakePayment().then( function (response) {
 
-//             if ( response ) 
-//                 paymentRequestButton.mount('#payment-request-button')
-//             else 
-//                 $('#payment-request-button').hide()
+    //         if ( response ) 
+    //             paymentRequestButton.mount('#payment-request-button')
+    //         else 
+    //             $('#payment-request-button').hide()
             
-//         })
+    //     })
 
-//         paymentRequest.on('paymentmethod', function (event) {
+    //     paymentRequest.on('paymentmethod', function (event) {
         
 
-//             console.log( event )
+    //         console.log( event )
 
-//             event.complete('success');
+    //         event.complete('success');
 
-//         })
+    //     })
 
-//         paymentRequestButton.on('click', function (event) {
-//             event.preventDefault()
+    //     paymentRequestButton.on('click', function (event) {
+    //         event.preventDefault()
 
-//             stripeConnectValidateForm().done(function( response ){
+    //         stripeConnectValidateForm().done(function( response ){
 
-//                 if( response ){
-//                     response = JSON.parse( response )
-// console.log(response)
-//                     if( response.success != true ){
-// console.log( event )                        
-//                         event.continuePropagation()
-//                         return
-//                     }
+    //             if( response ){
+    //                 response = JSON.parse( response )
 
-//                 }
+    //                 if( response.success != true ){
+                   
+    //                     event.continuePropagation()
+    //                     return
+    //                 }
 
-//             })
+    //             }
 
-//             console.log( 'form is valid' )
-//             // console.log(stripeConnectValidateForm())
-//             // // validate form before opening popup
-//             // if( !stripeConnectValidateForm() ){
-//             //     event.preventDefault()
-//             //     return
-//             // }
-//             // console.log(event)
-//             // first we need to validate the form
-//             // if valid, open popup
-//             // when popup is shown, disable the form completely 
+    //         })
 
-//             // after popup is closed => make registration request on the website and everything (but this is the old way)
+    //         console.log( 'form is valid' )
+    //         // console.log(stripeConnectValidateForm())
+    //         // // validate form before opening popup
+    //         // if( !stripeConnectValidateForm() ){
+    //         //     event.preventDefault()
+    //         //     return
+    //         // }
+    //         // console.log(event)
+    //     })
 
-//         })
-
-//     }
+    // }
 
     function stripeConnectGetFormData( current_button, verify_captcha = false ) {
 

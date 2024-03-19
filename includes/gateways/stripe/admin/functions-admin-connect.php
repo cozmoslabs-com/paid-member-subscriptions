@@ -9,10 +9,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 add_action( 'admin_post_pms_stripe_connect_platform_authorization_return', 'pms_stripe_connect_handle_authorization_return' );
 function pms_stripe_connect_handle_authorization_return(){
 
-	if( !isset( $_POST['environment'] ) || !isset( $_POST['pms_nonce'] ) )
-		return;
-
-	if( !wp_verify_nonce( sanitize_text_field( $_POST['pms_nonce'] ), 'stripe_connnect_account' ) )
+	if( !isset( $_POST['environment'] ) )
 		return;
 
 	if( !current_user_can( 'manage_options' ) )
@@ -62,11 +59,19 @@ function pms_stripe_connect_handle_authorization_return(){
 
 	}
 
+	// flush rules to make sure apple domain verification file can be served
+	flush_rewrite_rules();
+
     // set account country
     $gateway = new PMS_Payment_Gateway_Stripe_Connect();
     $gateway->init();
 
     $gateway->set_account_country();
+
+	if( !$gateway->domain_is_registered() ){
+		$gateway->register_domain();
+	}
+
 
     wp_redirect( $redirect_url );
     die();
@@ -92,37 +97,6 @@ function pms_stripe_connect_platform_disconnect(){
     delete_option( 'pms_stripe_connect_'. $environment .'_secret_key' );
 
 }
-
-/**
- * Register domain with Apple Pay when the Payment Request functionality is enabled
- */
-function pms_stripe_connect_process_payment_request_setting( $settings ){
-
-    if( !isset( $settings['stripe_connect_payment_request'] ) || empty( $settings['active_pay_gates'] ) )
-        return $settings;
-
-    if( !in_array( 'stripe_connect', $settings['active_pay_gates'] ) )
-        return $settings;
-
-    if( isset( $settings['stripe_connect_payment_request'] ) && $settings['stripe_connect_payment_request'] == 'enabled' ){
-
-        $gateway = new PMS_Payment_Gateway_Stripe_Connect();
-        $gateway->init();
-
-        if( !$gateway->apple_pay_domain_is_registered() ){
-            // TODO: maybe do some error handling here, but need to figure out what those errors could be
-            $gateway->apple_pay_register_domain();
-        }
-
-        // attempt to set country again when activating in case it isn't saved
-        $gateway->set_account_country();
-        
-    }
-
-    return $settings;
-
-}
-add_filter( 'pms_sanitize_settings', 'pms_stripe_connect_process_payment_request_setting' );
 
 /**
  * Adds extra fields for the member's subscription in the add new / edit subscription screen
@@ -516,7 +490,6 @@ function pms_stripe_add_settings_content( $options ) {
 									'environment'               => $environment,
 									'pms_stripe_account_id'     => get_option( 'pms_stripe_connect_'. $environment .'_account_id', false ),
 									'home_url'                  => site_url(),
-									'pms_nonce'                 => wp_create_nonce( 'stripe_disconnect_account' ),
 								],
 								$stripe_connect_base_url
 							);
@@ -530,6 +503,22 @@ function pms_stripe_add_settings_content( $options ) {
 								echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Disconnecting your account will stop all payments from being processed.', 'paid-member-subscriptions' ) . '</p>';
 
 							echo '</div>';
+							
+							// if( !pms_stripe_is_domain_registered_for_payment_methods() ){
+							// 	echo '<h3 class="cozmoslabs-subsection-title" style="margin-top:16px !important;">' , esc_html__( 'Domain Registration', 'paid-member-subscriptions' ) . '</h3>';
+
+							// 	echo '<div class="cozmoslabs-form-field-wrapper">';
+		
+							// 		echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-payment-request">' . esc_html__( 'Status', 'paid-member-subscriptions' ) . '</label>';
+
+							// 		echo '<span class="cozmoslabs-stripe-connect__settings-warning">'. esc_html__( 'Not registered', 'paid-member-subscriptions' ) .'</span>';
+
+							// 		echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'This domain is not registered with Stripe. In order to enable payment gateways like Apple Pay, Google Pay or Link in your payment forms, your domain needs to be registered and verified.', 'paid-member-subscriptions' ) . '</p>';
+							// 		echo '<p class="cozmoslabs-description">' . esc_html__( 'Press the button below to register and validate the current domain.', 'paid-member-subscriptions' ) . '</p>';
+	
+							// 	echo '</div>';
+							// }
+
 
 						echo '</div>';
 

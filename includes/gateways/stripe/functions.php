@@ -66,16 +66,16 @@ function pms_stripe_get_connect_account(){
 
 }
 
-function pms_stripe_connect_payment_request_enabled(){
+// function pms_stripe_connect_payment_request_enabled(){
 
-    $payments_settings = get_option( 'pms_payments_settings' );
+//     $payments_settings = get_option( 'pms_payments_settings' );
 
-    if( isset( $payments_settings['stripe_connect_payment_request'] ) && $payments_settings['stripe_connect_payment_request'] == 'enabled' )
-        return true;
+//     if( isset( $payments_settings['stripe_connect_payment_request'] ) && $payments_settings['stripe_connect_payment_request'] == 'enabled' )
+//         return true;
 
-    return false;
+//     return false;
     
-}
+// }
 
 function pms_stripe_connect_get_account_country(){
 
@@ -486,4 +486,16 @@ function pms_wppb_msf_get_field_options( $needle, $haystack, $type = 'meta-name'
 
     return false;
 
+}
+
+function pms_stripe_is_domain_registered_for_payment_methods(){
+
+    if( !is_admin() )
+        return;
+
+    $gateway = new PMS_Payment_Gateway_Stripe_Connect();
+    $gateway->init();
+
+    return $gateway->domain_is_registered();
+    
 }

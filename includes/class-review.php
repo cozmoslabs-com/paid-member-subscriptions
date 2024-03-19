@@ -85,7 +85,7 @@ class PMS_Review_Request {
                                 <?php esc_html_e('Ok, I will gladly help!', 'paid-member-subscriptions'); ?>
                             </a>
                             <a href="<?php echo esc_url( add_query_arg(array($this->query_arg => $this->notificationId)) ) ?>"
-                               class="button-secondary">
+                               class="button button-secondary">
                                 <?php esc_html_e('No, thanks.', 'paid-member-subscriptions'); ?>
                             </a>
                         </p>

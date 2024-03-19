@@ -6,17 +6,24 @@ add_action(
 	'enqueue_block_editor_assets',
 	function () {
 
+		global $pagenow;
+
+		$arrDeps = ($pagenow === 'widgets.php') ?
+			array( 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-widgets', 'lodash' )
+			: array( 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post', 'lodash', );
+
+		$subscription_plans = pms_get_subscription_plans();
+		$settings_pages     = get_option( 'pms_general_settings' );
+
+
 		// Register the Link Generator assets
 		wp_register_script(
 			'pms-block-editor-assets-link-generator',
 			PMS_PLUGIN_DIR_URL . 'extend/gutenberg/link-generator/build/index.js',
-			[ 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post', 'lodash' ],
+			$arrDeps,
 			PMS_VERSION
 		);
 		wp_enqueue_script( 'pms-block-editor-assets-link-generator' );
-
-		$subscription_plans = pms_get_subscription_plans();
-		$settings_pages     = get_option( 'pms_general_settings' );
 
 		$vars_array_link_generator = array(
 			'subscriptionPlans' => $subscription_plans,
@@ -30,7 +37,7 @@ add_action(
 		wp_register_script(
 			'pms-block-editor-assets-block-content-restriction',
 			PMS_PLUGIN_DIR_URL . 'extend/gutenberg/block-content-restriction/build/index.js',
-			['wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post', 'lodash'],
+			$arrDeps,
 			PMS_VERSION
 		);
 		wp_enqueue_script('pms-block-editor-assets-block-content-restriction');

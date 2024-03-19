@@ -12,7 +12,7 @@ add_action(
         wp_register_script(
             'pms-block-register',
             add_query_arg( [ 'action' => 'pms-block-register.js', ], admin_url( 'admin-ajax.php' ) ),
-            [ 'wp-blocks', 'wp-element', 'wp-editor' ],
+            [ 'wp-blocks', 'wp-element' ],
             microtime(),
             true
         );
@@ -287,7 +287,7 @@ add_action(
             var TextControl = components.TextControl;
             var Text = components.__experimentalText;
             var Button = components.Button;
-            var InspectorControls = wp.editor.InspectorControls;
+            var InspectorControls = blockEditor.InspectorControls;
 
             var subscription_plans_names = [ 'Africa', 'America', 'Antarctica', 'Asia', 'Europe', 'Oceania' ];
 

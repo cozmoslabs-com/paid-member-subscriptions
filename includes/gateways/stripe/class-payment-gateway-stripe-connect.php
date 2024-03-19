@@ -8,7 +8,6 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
 use Stripe\Stripe;
 use Stripe\Account;
-use Stripe\ApplePayDomain;
 use Stripe\Customer;
 use Stripe\PaymentMethod;
 use Stripe\PaymentIntent;
@@ -653,13 +652,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     'payment_id'           => !empty( $payment ) ? $payment->id : '0',
                     'request_location'     => $form_location,
                     'subscription_id'      => $subscription->id,
-                    'subscription_plan_id' => !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ): $subscription->subscription_plan_id,
+                    'subscription_plan_id' => !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id,
                     'home_url'             => home_url(),
                     'is_recurring'         => PMS_Form_Handler::checkout_is_recurring(),
                 ), $payment, $form_location )
             );
 
-            $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
+            $subscription_plan = pms_get_subscription_plan( !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id );
 
             $amount = pms_stripe_calculate_payment_amount( $subscription_plan );
 
@@ -1085,7 +1084,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 'home_url'             => home_url(),
             ),
             'automatic_payment_methods' => [
-                'enabled' => 'true',
+                'enabled' => true,
             ],
         );
 
@@ -1375,8 +1374,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $output = '';
 
-            if( pms_stripe_connect_payment_request_enabled() )
-                $output .= '<div id="payment-request-button"></div>';
+            // if( pms_stripe_connect_payment_request_enabled() )
+            //     $output .= '<div id="payment-request-button"></div>';
 
             $output .= '<div id="'. esc_attr( $id ) .'"></div>';
 
@@ -1459,7 +1458,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         switch( $event->type ) {
             case 'payment_intent.succeeded':
 
-                $data       = $event->data->object;
+                $data = $event->data->object;
+
+                if( !empty( $data->metadata->home_url ) ){
+                    if( $data->metadata->home_url != home_url() )
+                        die();
+                }
+
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
                 if ( $payment_id === 0 )
@@ -1482,7 +1487,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 break;
             case 'payment_intent.processing':
 
-                $data       = $event->data->object;
+                $data = $event->data->object;
+
+                if( !empty( $data->metadata->home_url ) ){
+                    if( $data->metadata->home_url != home_url() )
+                        die();
+                }
+
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
                 if ( $payment_id === 0 )
@@ -1504,7 +1515,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             case 'payment_intent.payment_failed':
 
-                $data       = $event->data->object;
+                $data = $event->data->object;
+
+                if( !empty( $data->metadata->home_url ) ){
+                    if( $data->metadata->home_url != home_url() )
+                        die();
+                }
+
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
                 if ( $payment_id === 0 )
@@ -1531,7 +1548,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             case 'setup_intent.succeeded':
 
-                $data            = $event->data->object;
+                $data = $event->data->object;
+
+                if( !empty( $data->metadata->home_url ) ){
+                    if( $data->metadata->home_url != home_url() )
+                        die();
+                }
+
                 $subscription_id = isset( $data->metadata->subscription_id ) ? absint( $data->metadata->subscription_id ) : 0;
 
                 if ( $subscription_id === 0 )
@@ -1550,7 +1573,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             case 'setup_intent.setup_failed':
 
-                $data            = $event->data->object;
+                $data = $event->data->object;
+
+                if( !empty( $data->metadata->home_url ) ){
+                    if( $data->metadata->home_url != home_url() )
+                        die();
+                }
+
                 $subscription_id = isset( $data->metadata->subscription_id ) ? absint( $data->metadata->subscription_id ) : 0;
 
                 if ( $subscription_id === 0 )
@@ -1565,7 +1594,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             case 'charge.refunded':
 
                 //get payment id from metadata
-                $data       = $event->data->object;
+                $data = $event->data->object;
+
+                if( !empty( $data->metadata->home_url ) ){
+                    if( $data->metadata->home_url != home_url() )
+                        die();
+                }
+
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
                 if( $payment_id === 0 )
@@ -1968,19 +2003,19 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
-    // Apple Pay
-    public function apple_pay_domain_is_registered(){
+    // Apple Pay, Google Pay, Link
+    public function domain_is_registered(){
 
         if( empty( $this->secret_key ) )
             return false;
 
         // set API key
-        Stripe::setApiKey( $this->secret_key );
+        $stripe = new \Stripe\StripeClient( $this->secret_key );
 
         // get domains
         try {
 
-            $domains = ApplePayDomain::all();
+            $domains = $stripe->paymentMethodDomains->all();
 
         } catch ( Exception $e ) {
 
@@ -1991,37 +2026,56 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $domains ) )
             return false;
 
+        $current_domain = false;
+
         // verify if domain exists
         foreach( $domains as $domain ) {
 
-            if ( !empty( $_SERVER['HTTP_HOST'] ) && $domain->domain_name === $_SERVER['HTTP_HOST'] )
-                return true;
+            if ( !empty( $_SERVER['HTTP_HOST'] ) && $domain->domain_name === $_SERVER['HTTP_HOST'] ){
+                $current_domain = $domain;
+                break;
+            }
 
         }
+
+        if( empty( $current_domain ) ){
+            $current_domain = $this->register_domain();
+        }
+
+        // check if domain is validated with Apple Pay
+        if( $current_domain->apple_pay->status != 'active' ){
+            $current_domain = $stripe->paymentMethodDomains->validate( $current_domain->id );
+        }
+
+        if( $current_domain->enabled == true )
+            return true;
 
         return false;
 
     }
 
-    public function apple_pay_register_domain(){
+    public function register_domain(){
 
         if( empty( $this->secret_key ) || empty( $_SERVER['HTTP_HOST'] ) )
             return false;
 
         // set API key
-        Stripe::setApiKey( $this->secret_key );
+        $stripe = new \Stripe\StripeClient( $this->secret_key );
 
         try {
 
-            $domain = ApplePayDomain::create( array(
+            $domain = $stripe->paymentMethodDomains->create( array(
                 'domain_name' => sanitize_text_field( $_SERVER['HTTP_HOST'] ),
-            ));
+            ) );
 
         } catch ( Exception $e ) {
 
             return false;
 
         }
+
+        if( !empty( $domain->id ) )
+            $stripe->paymentMethodDomains->validate( $domain->id );
 
         return $domain;
 

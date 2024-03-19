@@ -20,6 +20,7 @@ Class PMS_Merge_Tags{
         add_filter( 'pms_merge_tag_subscription_expiration_date', array( $this, 'pms_tag_subscription_expiration_date' ), 10, 3 );
         add_filter( 'pms_merge_tag_subscription_price',           array( $this, 'pms_tag_subscription_price' ), 10, 4 );
         add_filter( 'pms_merge_tag_subscription_plan_price',      array( $this, 'pms_tag_subscription_plan_price' ), 10, 3 );
+        add_filter( 'pms_merge_tag_subscription_plan_id',         array( $this, 'pms_tag_subscription_plan_id' ), 10, 3 );
         add_filter( 'pms_merge_tag_total_payment_amount',         array( $this, 'pms_tag_total_payment_amount' ), 10, 4 );
         add_filter( 'pms_merge_tag_subscription_duration',        array( $this, 'pms_tag_subscription_duration' ), 10, 3 );
         add_filter( 'pms_merge_tag_username',                     array( $this, 'pms_tag_username' ), 10, 2 );
@@ -80,6 +81,7 @@ Class PMS_Merge_Tags{
             'subscription_expiration_date',
             'subscription_price',
             'subscription_plan_price',
+            'subscription_plan_id',
             'total_payment_amount',
             'subscription_duration',
             'first_name',
@@ -292,6 +294,27 @@ Class PMS_Merge_Tags{
             return pms_format_price( $amount, $currency );
         }
         else return apply_filters( 'pms_merge_tag_no_subscription_plan_price_message', __( 'Free', 'paid-member-subscriptions' ));
+
+    }
+
+    /**
+     * Replace the {{subscription_plan_id}} tag
+     */
+    public function pms_tag_subscription_plan_id( $value, $user_info, $subscription_id ){
+
+        $subscription_plan_id = '';
+
+        if( !empty( $subscription_id ) ){
+            $subscription = pms_get_member_subscription( $subscription_id );
+
+            if( !empty( $subscription ) && !empty( $subscription->subscription_plan_id ) )
+                $subscription_plan_id = $subscription->subscription_plan_id;
+        }
+        elseif ( !empty( $user_info ) && !empty( $user_info->data ) && !empty( $user_info->data->subscription_plan_id )) {
+            $subscription_plan_id = $user_info->data->subscription_plan_id;
+        }
+
+        return $subscription_plan_id;
 
     }
 

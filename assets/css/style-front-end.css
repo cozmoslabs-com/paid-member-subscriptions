@@ -20,6 +20,8 @@ textarea {
 #pms_login .login-remember {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    gap: 7px;
 }
 
 #pms_login .login-remember input {
@@ -410,7 +412,13 @@ form.pms-form ul.pms-form-fields-wrapper {
 .pms-subscription-plan-auto-renew label {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    gap: 7px;
     cursor: pointer;
+}
+
+.pms-subscription-plan-auto-renew label input[type="checkbox"] {
+    margin: 0 !important;
 }
 
 /**************************************************/

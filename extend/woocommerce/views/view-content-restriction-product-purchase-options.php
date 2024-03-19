@@ -14,7 +14,7 @@
     $selected_subscription_plans = get_post_meta( $post_id, 'pms-purchase-restrict-subscription-plan' );
     ?>
 
-    <div class="cozmoslabs-checkbox-list cozmoslabs-checkbox-4-col-list">
+    <div class="cozmoslabs-checkbox-list cozmoslabs-checkbox-multi-col-list">
 
         <div class="cozmoslabs-chckbox-container">
             <input type="checkbox" value="loggedin" <?php if( ! empty( $user_status ) ) checked($user_status, 'loggedin' ); ?> name="pms-purchase-restrict-user-status" id="pms-purchase-restrict-user-status">

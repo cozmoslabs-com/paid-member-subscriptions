@@ -3,16 +3,16 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.11.5
+ * Version: 2.11.6
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * Domain Path: /translations
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 8.6
- * Elementor tested up to: 3.19.4
- * Elementor Pro tested up to: 3.19.4
+ * WC tested up to: 8.7
+ * Elementor tested up to: 3.20.1
+ * Elementor Pro tested up to: 3.20.1
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.11.5' );
+        define( 'PMS_VERSION', '2.11.6' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -795,12 +795,8 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/functions-filters.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/functions-filters.php';
 
-        if( pms_stripe_connect_payment_request_enabled() ){
-
-            if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/apple-pay/functions-apple-pay.php' ) )
-                include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/apple-pay/functions-apple-pay.php';
-
-        }
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/apple-pay/functions-apple-pay.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/apple-pay/functions-apple-pay.php';
 
         /*
          * Content restriction

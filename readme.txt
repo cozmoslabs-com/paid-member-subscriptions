@@ -3,8 +3,8 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
-Tested up to: 6.4
-Stable tag: 2.11.5
+Tested up to: 6.5
+Stable tag: 2.11.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -245,6 +245,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.11.6 =
+* Feature: Enabled support for Apple Pay and Google Pay through Stripe. Enable these payment gateways by going to your Stripe Dashboard -> Payment Methods page
+* Fix: Notice appearing in some cases relating to Gutenberg blocks
+* Misc: Added a new merge tag for emails: subscription_plan_id
+* Misc: Update the Uninstall page to the new plugin styles
+* Misc: Fix a small CSS error regarding the Pricing Tables templates
+* Misc: Random adjustments for back-end pages
+
 = 2.11.5 =
 * Fix an issue where the plugin couldn't be activated in some scenarios
 

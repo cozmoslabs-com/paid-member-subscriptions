@@ -513,6 +513,14 @@ body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-f
     background-size: 16px 16px !important;
 }
 
+.cozmoslabs-form-field-wrapper .chosen-container-multi .chosen-choices {
+    max-height: 200px;
+    overflow-y: scroll;
+    background: url('data:image/svg+xml;charset=US-ASCII,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 6l5 5 5-5 2 1-7 7-7-7 2-1z" fill="%23555"/></svg>') no-repeat right 20px top 55% !important;
+    background-size: 16px 16px !important;
+    padding-right: 25px;
+}
+
 .cozmoslabs-form-field-wrapper textarea:hover,
 .cozmoslabs-form-field-wrapper .chosen-container .chosen-single:hover,
 .cozmoslabs-form-field-wrapper select:hover,
@@ -538,6 +546,17 @@ body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-f
 .cozmoslabs-form-field-wrapper .chosen-container-active,
 .cozmoslabs-form-field-wrapper select:focus {
     color: #3858E9;
+}
+
+.cozmoslabs-form-field-wrapper .chosen-container-active .chosen-single div b,
+.cozmoslabs-form-field-wrapper select:active {
+    background: url('data:image/svg+xml;charset=US-ASCII,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 14l5-5 5 5 2-1-7-7-7 7 2 1z" fill="%23555"/></svg>') no-repeat right 5px top 55% !important;
+    background-size: 16px 16px !important;
+}
+
+.cozmoslabs-form-field-wrapper .chosen-container-multi.chosen-container-active .chosen-choices {
+    background: url('data:image/svg+xml;charset=US-ASCII,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 14l5-5 5 5 2-1-7-7-7 7 2 1z" fill="%23555"/></svg>') no-repeat right 20px top 55% !important;
+    background-size: 16px 16px !important;
 }
 
 .cozmoslabs-form-field-wrapper textarea:disabled,
@@ -624,6 +643,14 @@ body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-f
     opacity: 0.5;
 }
 
+.cozmoslabs-description-upsell {
+    color: #1E1E1E !important;
+    text-align: center;
+    width: 100%;
+    background: #fdf9d1;
+    padding: 14px;
+    font-size: 110%;
+}
 
 /***********************************************************/
 /* Buttons
@@ -942,6 +969,10 @@ body[class*="post-type-pms-"] .submitdelete:focus,
     width: 23%;
 }
 
+.cozmoslabs-checkbox-multi-col-list .cozmoslabs-chckbox-container {
+    width: 200px;
+}
+
 .cozmoslabs-checkbox-list input[type="checkbox"] {
     display: flex;
     justify-content: center;
@@ -1206,9 +1237,9 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
 }
 
 #cozmoslabs-subsection-register-version .pms-active-license {
-    width: 30px;
-    height: 30px;
-    font-size: 30px;
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
 }
 
 
@@ -2330,6 +2361,13 @@ body[class*="post-type-pms-"] .button-primary {
     cursor: pointer;
 }
 
+body[class*="_page_pms-"] div.notice > p > .button-primary,
+body[class*="post-type-pms-"] div.notice > p > .button-primary {
+    min-width: auto !important;
+    height: 30px;
+    margin-right: 12px
+}
+
 body[class*="_page_pms-"] .button-primary:hover,
 body[class*="_page_pms-"] .button-primary:focus,
 body[class*="post-type-pms-"] .button-primary:hover,
@@ -2705,7 +2743,7 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
     position: absolute;
     z-index: 100;
     top: 130%;
-    left: 50%;
+    left: 10%;
     width: 300px;
     margin-left: -150px;
     border-radius: 3px;
@@ -2845,7 +2883,7 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
     height: 30px !important;
     display: inline-block;
     padding: 0 10px;
-    line-height: 2.15384615;
+    line-height: 28px;
 }
 
 /* Publish Box */
@@ -3595,6 +3633,11 @@ body[class*="_page_pms-"] #screen-meta {
 /***********************************************************/
 /* Dashboard Page
 /***********************************************************/
+
+body.paid-member-subscriptions_page_pms-dashboard-page #wpbody-content {
+    float: none !important;
+}
+
 .cozmoslabs-page-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -3860,6 +3903,114 @@ body[class*="_page_pms-"] #screen-meta {
     .cozmoslabs-wrap {
         margin: 30px 10px;
     }
+}
+
+
+/***********************************************************/
+/* Uninstall Page
+/***********************************************************/
+
+body.admin_page_pms-uninstall-page #cozmoslabs-uninstall-pms-header {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 40px 0;
+}
+
+body.admin_page_pms-uninstall-page #cozmoslabs-uninstall-pms-header .cozmoslabs-description {
+    font-size: 15px !important;
+}
+
+body.admin_page_pms-uninstall-page .pms-uninstall-warning {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: center;
+    width: 90%;
+    max-width: 930px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #FDFBE6;
+}
+
+body.admin_page_pms-uninstall-page .pms-uninstall-warning h4 {
+    margin: 0;
+}
+
+body.admin_page_pms-uninstall-page .pms-uninstall-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+body.admin_page_pms-uninstall-page .pms-uninstall-actions .button-secondary {
+    height: 45px !important;
+    min-width: 140px;
+}
+
+/* uninstall confirmation popup */
+body.admin_page_pms-uninstall-page .pms-uninstall-confirmation-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+body.admin_page_pms-uninstall-page #pms-confirm-uninstall {
+    border: 1px solid #949494;
+    border-radius: 2px;
+    font-size: 13px;
+    line-height: 20px;
+    color: #1E1E1E;
+    padding: 0 10px;
+    margin: 0;
+    height: 40px;
+}
+
+body.admin_page_pms-uninstall-page #pms-confirm-uninstall:hover {
+    border-color: #3858E9;
+    color: #1E1E1E;
+}
+
+body.admin_page_pms-uninstall-page #pms-confirm-uninstall:focus {
+    border-color: #3858E9;
+    box-shadow: 0 0 0 1px #3858E9;
+}
+
+body.admin_page_pms-uninstall-page .pms-uninstall-thickbox-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+body.admin_page_pms-uninstall-page .pms-uninstall-thickbox-footer .button-primary {
+    height: 40px;
+    min-width: 100px;
+}
+
+body.admin_page_pms-uninstall-page .pms-uninstall-thickbox-footer .button-secondary {
+    min-width: 100px
+}
+
+
+body.admin_page_pms-uninstall-page #TB_ajaxContent {
+    box-sizing: border-box;
+}
+
+body.admin_page_pms-uninstall-page #TB_closeWindowButton:hover .tb-close-icon,
+body.admin_page_pms-uninstall-page #TB_closeWindowButton:focus .tb-close-icon {
+    color: #3858E9 !important;
+    box-shadow: none !important;
 }
 
 
@@ -4250,24 +4401,26 @@ body[class*="_page_pms-"] #screen-meta {
 /* WordPress Admin Menu Item
 /***********************************************************/
 
-body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.opensub a.menu-top .wp-menu-image img,
-body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions:not(.wp-menu-open) a.menu-top:hover .wp-menu-image img {
-    opacity: 0;
+body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions a.menu-top .wp-menu-image img {
+    display: none;
+}
+
+body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions a.menu-top .wp-menu-image:after {
+    content: url("../images/pms-wp-menu-icon.svg");
+    position: absolute;
+    top: 13px;
+    left: 6px;
+    opacity: 0.6;
 }
 
 body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.opensub a.menu-top .wp-menu-image:after,
 body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions:not(.wp-menu-open) a.menu-top:hover .wp-menu-image:after {
     content: url("../images/pms-wp-menu-icon-hover.svg");
-    position: absolute;
-    top: 9px;
-    left: 6px;
+    opacity: 1;
 }
 
-@media screen and (max-width: 960px) {
-    body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.opensub a.menu-top .wp-menu-image:after,
-    body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions a.menu-top:hover .wp-menu-image:after {
-        left: 5px;
-    }
+body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-menu-open a.menu-top .wp-menu-image:after {
+    opacity: 1;
 }
 
 

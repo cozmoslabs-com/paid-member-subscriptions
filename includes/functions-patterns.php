@@ -42,7 +42,7 @@ function pms_patterns_pricing_table(){
      <span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 1</span> 
     <!-- /wp:paragraph -->
     
-    <!-- wp:paragraph {"align":"center"} -->
+    <!-- wp:paragraph {"align":"left"} -->
      <span class="pms-pt-text-description">The description of the tier list will go here, it should be concise and impactful.</span> 
     <!-- /wp:paragraph -->
     
@@ -92,7 +92,7 @@ function pms_patterns_pricing_table(){
      <span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 2</span> 
     <!-- /wp:paragraph -->
     
-    <!-- wp:paragraph {"align":"center"} -->
+    <!-- wp:paragraph {"align":"left"} -->
      <span class="pms-pt-text-description">The description of the tier list will go here, it should be concise and impactful.</span> 
     <!-- /wp:paragraph -->
     
@@ -100,7 +100,7 @@ function pms_patterns_pricing_table(){
     <hr class="pms-pt-separator wp-block-separator has-alpha-channel-opacity is-style-dots"/>
     <!-- /wp:separator -->
     
-    <!-- wp:paragraph {"align":"center"} -->
+    <!-- wp:paragraph {"align":"left"} -->
      <span class="pms-pt-text-description">Everything in the Gold plan, plus</span> 
     <!-- /wp:paragraph -->
     
@@ -154,7 +154,7 @@ function pms_patterns_pricing_table(){
      <span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 3</span> 
     <!-- /wp:paragraph -->
     
-    <!-- wp:paragraph {"align":"center"} -->
+    <!-- wp:paragraph {"align":"left"} -->
      <span class="pms-pt-text-description">The description of the tier list will go here, it should be concise and impactful.</span> 
     <!-- /wp:paragraph -->
     
@@ -162,7 +162,7 @@ function pms_patterns_pricing_table(){
     <hr class="pms-pt-separator wp-block-separator has-alpha-channel-opacity is-style-dots"/>
     <!-- /wp:separator -->
     
-    <!-- wp:paragraph {"align":"center"} -->
+    <!-- wp:paragraph {"align":"left"} -->
      <span class="pms-pt-text-description">Everything in the Platinum plan, plus</span> 
     <!-- /wp:paragraph -->
    
@@ -211,7 +211,7 @@ function pms_patterns_pricing_table_two_columns(){
      <span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 1</span> 
     <!-- /wp:paragraph -->
     
-    <!-- wp:paragraph {"align":"center"} -->
+    <!-- wp:paragraph {"align":"left"} -->
      <span class="pms-pt-text-description">The description of the tier list will go here, it should be concise and impactful.</span> 
     <!-- /wp:paragraph -->
     
@@ -261,7 +261,7 @@ function pms_patterns_pricing_table_two_columns(){
      <span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 2</span> 
     <!-- /wp:paragraph -->
     
-    <!-- wp:paragraph {"align":"center"} -->
+    <!-- wp:paragraph {"align":"left"} -->
      <span class="pms-pt-text-description">The description of the tier list will go here, it should be concise and impactful.</span> 
     <!-- /wp:paragraph -->
     
@@ -269,7 +269,7 @@ function pms_patterns_pricing_table_two_columns(){
     <hr class="pms-pt-separator wp-block-separator has-alpha-channel-opacity is-style-dots"/>
     <!-- /wp:separator -->
     
-    <!-- wp:paragraph {"align":"center"} -->
+    <!-- wp:paragraph {"align":"left"} -->
      <span class="pms-pt-text-description">Everything in the Gold plan, plus</span> 
     <!-- /wp:paragraph -->
   
@@ -324,7 +324,7 @@ function pms_patterns_pricing_table_one_column(){
      <span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 1</span> 
     <!-- /wp:paragraph -->
     
-    <!-- wp:paragraph {"align":"center"} -->
+    <!-- wp:paragraph {"align":"left"} -->
      <span class="pms-pt-text-description">The description of the tier list will go here, it should be concise and impactful.</span> 
     <!-- /wp:paragraph -->
     

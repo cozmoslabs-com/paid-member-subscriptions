@@ -1103,6 +1103,7 @@
 <?php __("Copy", "paid-member-subscriptions"); ?>
 <?php __("This URL can be used as the LearnDash Course Button URL, directing users to the PMS Registration page, where only the associated Subscription Plan is available.", "paid-member-subscriptions"); ?>
 <?php __("My Courses", "paid-member-subscriptions"); ?>
+<?php __("Take this Course", "paid-member-subscriptions"); ?>
 <?php __("LearnDash Course Lessons", "paid-member-subscriptions"); ?>
 <?php __("Enable if you wish to display the Lessons List for this Course.", "paid-member-subscriptions"); ?>
 <?php __("By enabling this option a list of the Course Lessons will be displayed under the Content Restriction message! .", "paid-member-subscriptions"); ?>
@@ -1626,7 +1627,7 @@
 <?php __("Design & User Experience", "paid-member-subscriptions"); ?>
 <?php __("Choose a style that better suits your website.", "paid-member-subscriptions"); ?>
 <?php __("The default style is there to let you customize the CSS and in general will receive the look and feel from your own themes styling.", "paid-member-subscriptions"); ?>
-<?php __('%3$sYou can now beautify your forms using new Styles. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s', 'paid-member-subscriptions' ); ?>
+<?php __('%3$sYou can now beautify your forms using pre-made templates. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Optimize The login and Registration flow for your members", "paid-member-subscriptions"); ?>
 <?php __("Automatically Log In", "paid-member-subscriptions"); ?>
 <?php __("Select \"Yes\" to automatically log in new members after successful registration.", "paid-member-subscriptions"); ?>
@@ -1749,13 +1750,18 @@
 <?php __("Skip Setup", "paid-member-subscriptions"); ?>
 <?php __("Uninstall Paid Member Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("We're sad to see you leave, but we understand that sometimes things don't work out as planned.", "paid-member-subscriptions"); ?>
-<?php __("Below you have information about what will be removed from your database. Please be advised that once this information is removed it cannot be recovered.", "paid-member-subscriptions"); ?>
+<?php __("DataBase cleanup information", "paid-member-subscriptions"); ?>
+<?php __("Below you have information about what will be removed from your database.", "paid-member-subscriptions"); ?>
+<?php __("Please be advised that once this information is removed it cannot be recovered.", "paid-member-subscriptions"); ?>
 <?php __("Custom Options", "paid-member-subscriptions"); ?>
-<?php __("Removes all custom options, used by Paid Member Subscriptions, from the <em>options</em> table of the database.", "paid-member-subscriptions"); ?>
+<?php __("Removes all custom options, used by Paid Member Subscriptions, from the \"Options\" table of the database.", "paid-member-subscriptions"); ?>
 <?php __("Custom User Roles", "paid-member-subscriptions"); ?>
 <?php __("Removes all custom user roles created by Paid Member Subscriptions. These user roles will be removed for all users that have them.", "paid-member-subscriptions"); ?>
 <?php __("Custom Database Tables", "paid-member-subscriptions"); ?>
 <?php __("Removes all information stored in our custom database tables and deletes these tables from your database.", "paid-member-subscriptions"); ?>
+<?php __("WARNING", "paid-member-subscriptions"); ?>
+<?php __("All information stored by Paid Member Subscriptions will be removed from your database in the Uninstall process and cannot be recovered.", "paid-member-subscriptions"); ?>
+<?php __("Please do a backup of your database before proceeding.", "paid-member-subscriptions"); ?>
 <?php __("Confirm Uninstall", "paid-member-subscriptions"); ?>
 <?php __("To confirm the Uninstall process please type the word <strong>REMOVE</strong> in the field below and then click the Uninstall button.", "paid-member-subscriptions"); ?>
 <?php __("Discount Code: ", "paid-member-subscriptions"); ?>

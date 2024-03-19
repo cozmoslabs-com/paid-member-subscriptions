@@ -57,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         $all_plans_selected   = get_post_meta( $post->ID, 'pms-content-restrict-all-subscription-plans');
         ?>
 
-        <div class="cozmoslabs-checkbox-list cozmoslabs-checkbox-4-col-list">
+        <div class="cozmoslabs-checkbox-list cozmoslabs-checkbox-multi-col-list">
 
             <div class="cozmoslabs-chckbox-container">
                 <input type="checkbox" value="loggedin" <?php if( ! empty( $user_status ) && $user_status == 'loggedin' ) echo 'checked="checked"'; ?> name="pms-content-restrict-user-status" id="pms-content-restrict-user-status">

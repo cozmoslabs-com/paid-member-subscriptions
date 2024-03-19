@@ -299,7 +299,7 @@ class PMS_Plugin_Usage_Tracker {
 		$message = '<strong>' . __( 'Help us improve Paid Member Subscriptions', 'paid-member-subscriptions' ) . '</strong><br>';
 		$message .= __( 'Allow Paid Member Subscriptions to anonymously track the plugin\'s usage. Data provided by this tracking helps us improve the plugin.<br>', 'paid-member-subscriptions' );
 		$message .= sprintf( __( 'No sensitive data is shared. %sLearn More%s', 'paid-member-subscriptions' ) . '<br><br>', '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/usage-tracking/" target="_blank">', '</a>' );
-		$message .= '<a href="' .wp_nonce_url( add_query_arg( 'pms_action', 'allow_tracking' ), 'pms_admin_notice_allow_tracking', 'pmstkn' ). '" class="button-primary">Allow Tracking</a> <a href="' .wp_nonce_url( add_query_arg( 'pms_action', 'deny_tracking' ), 'pms_admin_notice_deny_tracking', 'pmstkn' ). '" class="button">Don\'t allow</a>';
+		$message .= '<a href="' .wp_nonce_url( add_query_arg( 'pms_action', 'allow_tracking' ), 'pms_admin_notice_allow_tracking', 'pmstkn' ). '" class="button-primary">Allow Tracking</a> <a href="' .wp_nonce_url( add_query_arg( 'pms_action', 'deny_tracking' ), 'pms_admin_notice_deny_tracking', 'pmstkn' ). '" class="button button-secondary">Don\'t allow</a>';
 
         new PMS_Add_General_Notices( 'pms_usage_tracking',
             $message,

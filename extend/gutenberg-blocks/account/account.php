@@ -12,7 +12,7 @@ add_action(
         wp_register_script(
             'pms-block-account',
             add_query_arg( [ 'action' => 'pms-block-account.js', ], admin_url( 'admin-ajax.php' ) ),
-            [ 'wp-blocks', 'wp-element', 'wp-editor' ],
+            [ 'wp-blocks', 'wp-element' ],
             microtime(),
             true
         );
@@ -316,7 +316,7 @@ add_action(
             var SelectControl = components.SelectControl;
             var ToggleControl = components.ToggleControl;
             var TextControl = components.TextControl;
-            var InspectorControls = wp.editor.InspectorControls;
+            var InspectorControls = blockEditor.InspectorControls;
 
             blocks.registerBlockType( 'pms/account', {
                 icon:

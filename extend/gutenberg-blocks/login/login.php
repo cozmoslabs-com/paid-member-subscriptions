@@ -12,7 +12,7 @@ add_action(
         wp_register_script(
             'pms-block-login',
             add_query_arg( [ 'action' => 'pms-block-login.js', ], admin_url( 'admin-ajax.php' ) ),
-            [ 'wp-blocks', 'wp-element', 'wp-editor' ],
+            [ 'wp-blocks', 'wp-element' ],
             microtime(),
             true
         );
@@ -148,7 +148,7 @@ add_action(
             var PanelBody = components.PanelBody;
             var SelectControl = components.SelectControl;
             var TextControl = components.TextControl;
-            var InspectorControls = wp.editor.InspectorControls;
+            var InspectorControls = blockEditor.InspectorControls;
 
             blocks.registerBlockType( 'pms/login', {
                 icon:
