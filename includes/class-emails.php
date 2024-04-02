@@ -371,7 +371,9 @@ Class PMS_Emails {
         $email_subject = PMS_Merge_Tags::process_merge_tags( $email_subject, $user_info, $subscription_id, $payment_id, $action );
         $email_content = PMS_Merge_Tags::process_merge_tags( $email_content, $user_info, $subscription_id, $payment_id, $action );
 
-        $email_content = wpautop( $email_content );
+        if( apply_filters( 'pms_emails_auto_format', true, $action ) )
+            $email_content = wpautop( $email_content );
+
         $email_content = do_shortcode( $email_content );
 
         /**

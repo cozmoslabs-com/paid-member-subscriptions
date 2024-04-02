@@ -101,4 +101,16 @@ jQuery( function($) {
         }
     });
 
+    $('#pms-reports-filter-month').on('change', function(){
+        if ( $(this).val() === 'custom_date' )
+            $('.pms-custom-date-range-options').show();
+        else
+            $('.pms-custom-date-range-options').hide();
+    });
+
+ // Date picker for report start and expiration date
+
+    $(document).ready( function() {
+        $("input.pms_datepicker").datepicker({dateFormat: 'yy-mm-dd'});
+    });
 });

@@ -1187,6 +1187,10 @@ jQuery( function( $ ) {
         if( event.complete == true )
             cardIsEmpty = false
 
+        if( typeof paymentSidebarPosition == 'function' ){
+            setTimeout( paymentSidebarPosition, 300 )
+        }
+
     }
 
 });

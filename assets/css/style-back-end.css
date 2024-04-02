@@ -483,7 +483,7 @@ body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-f
     align-items: center;
 }
 
-.cozmoslabs-form-field-wrapper .chosen-container-multi .chosen-choices .search-field {
+.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen) .chosen-choices .search-field {
     display: none;
 }
 
@@ -538,7 +538,7 @@ body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-f
 .cozmoslabs-form-field-wrapper input[type="password"]:not(:disabled):focus,
 .cozmoslabs-form-field-wrapper input[type="date"]:not(:disabled):focus,
 .cozmoslabs-form-field-wrapper input[type="number"]:not(:disabled):focus,
-.cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input, #pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input, #scripts_on_specific_pages_chosen .chosen-choices .search-field input):focus {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input, #pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input, #scripts_on_specific_pages_chosen .chosen-choices .search-field input, #pms-container-specific-subs .chosen-choices .search-field input):focus {
     border-color: #3858E9;
     box-shadow: 0 0 0 1px #3858E9;
 }
@@ -1975,6 +1975,46 @@ body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .chosen-
 #pms-meta-box-fields-wrapper-restriction-redirect-url input[type="text"] {
     flex-grow: 1;
     max-width: 900px;
+}
+
+/* LearnDash meta-box */
+#pms_post_content_restriction_learndash .pms-icon-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+#pms_post_content_restriction_learndash .pms-icon-wrapper img#pms-icon {
+    height: 40px;
+}
+
+#pms_post_content_restriction_learndash .pms-icon-wrapper img#learndash-logo {
+    height: 35px;
+}
+
+body.learndash-post-type #pms_post_content_restriction_learndash .button-primary {
+    background: #3858E9;
+    border: 1px solid #3858E9;
+    border-radius: 2px;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+body.learndash-post-type #pms_post_content_restriction_learndash .button-primary:hover,
+body.learndash-post-type #pms_post_content_restriction_learndash .button-primary:focus {
+    background: #1D35B4;
+    border-color: #1D35B4;
+    box-shadow: none;
 }
 
 
@@ -4423,6 +4463,57 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
     opacity: 1;
 }
 
+/***********************************************************/
+/* Reports Page
+/***********************************************************/
 
+.pms-custom-date-range-options{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 20px;
+}
 
+#pms-container-select-date{
+    margin-top: 0 !important;
+    margin-bottom: 20px;
+    justify-content: flex-start !important;
+}
 
+.pms-container-date-range{
+    display: flex;
+    justify-content: flex-start;
+    width: 420px;
+}
+
+#pms-container-specific-subs .cozmoslabs-description-space-left{
+    padding-left: 194px;
+}
+
+#pms-container-specific-subs .cozmoslabs-form-field-label{
+    flex-basis: 181px;
+}
+
+#pms-custom-date-range-options .cozmoslabs-form-field-label{
+    flex-basis: 140px;
+}
+
+#pms-container-specific-subs .chosen-container{
+    flex-basis: 229px;
+}
+
+#pms-custom-date-range-options input[type="text"]{
+    flex-basis: 352px !important;
+}
+
+#pms-reports-expiration-date-label{
+    margin-left: 20px;
+}
+
+#pms-reports-start-date-label{
+    margin-right: 10px;
+}
+@media (max-width: 782px) {
+    #pms-container-specific-subs .cozmoslabs-description-space-left{
+        padding-left: 0;
+    }
+}

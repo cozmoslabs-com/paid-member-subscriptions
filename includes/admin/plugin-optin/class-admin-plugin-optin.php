@@ -29,7 +29,7 @@ class Cozmoslabs_Plugin_Optin_PMS {
         add_action( 'activate_plugin', array( $this, 'process_paid_plugin_activation' ) );
         add_action( 'deactivated_plugin', array( $this, 'process_paid_plugin_deactivation' ) );
 
-        add_filter( 'pms_sanitize_settings', array( $this, 'process_plugin_optin_advanced_setting' ) );
+        add_filter( 'pms_sanitize_settings', array( $this, 'process_plugin_optin_advanced_setting' ), 20, 2 );
 
     }
 
@@ -196,9 +196,9 @@ class Cozmoslabs_Plugin_Optin_PMS {
     }
 
     // Advanced settings
-    public function process_plugin_optin_advanced_setting( $settings ){
+    public function process_plugin_optin_advanced_setting( $settings, $previous_settings ){
 
-        if( ( !isset( $settings['plugin-optin'] ) && ( !isset( $_GET['subpage'] ) || $_GET['subpage'] != 'pms-setup' ) ) || $settings['plugin-optin'] == 'no' ){
+        if( ( !isset( $settings['plugin-optin'] ) && ( !isset( $_GET['subpage'] ) || $_GET['subpage'] != 'pms-setup' ) ) || ( isset( $settings['plugin-optin'] ) && $settings['plugin-optin'] == 'no' ) ){
 
             update_option( self::$plugin_option_key, 'no' );
 
@@ -215,7 +215,7 @@ class Cozmoslabs_Plugin_Optin_PMS {
 
             $request = wp_remote_post( self::$base_url . 'pluginOptinArchiveSubscriber/', $args );
 
-        } else if ( isset( $settings['plugin-optin'] ) && $settings['plugin-optin'] == 'yes' ) {
+        } else if ( isset( $settings['plugin-optin'] ) && $settings['plugin-optin'] == 'yes' && ( !isset( $previous_settings['plugin-optin'] ) || $settings['plugin-optin'] != $previous_settings['plugin-optin'] ) ) {
 
             $existing_option = get_option( self::$plugin_option_key, false );
 
@@ -324,7 +324,7 @@ class Cozmoslabs_Plugin_Optin_PMS {
                 'email'          => self::$plugin_optin_email,
                 'name'           => self::get_user_name(),
                 'version'        => pms_get_product_version(),
-                'license'        => wppb_get_serial_number(),
+                'license'        => pms_get_serial_number(),
                 'active_plugins' => json_encode( get_option( 'active_plugins', array() ) ),
             ),
         );
@@ -373,6 +373,8 @@ class Cozmoslabs_Plugin_Optin_PMS {
                 $args['body']['taxes'] = 1;
             else
                 $args['body']['taxes'] = 0;
+
+            $args['body']['addons'] = get_option( 'pms_add_ons_settings', array() );
 
         }
 

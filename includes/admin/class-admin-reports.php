@@ -27,6 +27,14 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      */
     public $end_date;
 
+    /*
+     * The total of days in a month
+     *
+     * @var string
+     *
+     */
+    public $month_total_days = 0;
+
 
     /*
      * Array of payments retrieved from the database given the user filters
@@ -81,6 +89,24 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
         wp_enqueue_script( 'pms-chart-js', PMS_PLUGIN_DIR_URL . 'assets/js/admin/libs/chart/chart.min.js' );
 
+        wp_enqueue_script( 'jquery-ui-datepicker' );
+        wp_enqueue_style( 'jquery-style', PMS_PLUGIN_DIR_URL . 'assets/css/admin/jquery-ui.min.css', array(), PMS_VERSION );
+
+        global $wp_scripts;
+
+        // Try to detect if chosen has already been loaded
+        $found_chosen = false;
+
+        foreach( $wp_scripts as $wp_script ) {
+            if( !empty( $wp_script['src'] ) && strpos($wp_script['src'], 'chosen') !== false )
+                $found_chosen = true;
+        }
+
+        if( !$found_chosen ) {
+            wp_enqueue_script( 'pms-chosen', PMS_PLUGIN_DIR_URL . 'assets/libs/chosen/chosen.jquery.min.js', array( 'jquery' ), PMS_VERSION );
+            wp_enqueue_style( 'pms-chosen', PMS_PLUGIN_DIR_URL . 'assets/libs/chosen/chosen.css', array(), PMS_VERSION );
+        }
+
     }
 
 
@@ -131,27 +157,114 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      */
     private function get_filtered_payments() {
 
-        if( isset( $_REQUEST['pms-filter-time'] ) && $_REQUEST['pms-filter-time'] == 'custom' && !empty( $_REQUEST['pms-filter-time-start-date'] ) && !empty( $_REQUEST['pms-filter-time-end-date'] ) ){
+        if( isset( $_REQUEST['pms-filter-time'] ) && $_REQUEST['pms-filter-time'] == 'custom_date' && !empty( $_REQUEST['pms-filter-time-start-date'] ) && !empty( $_REQUEST['pms-filter-time-end-date'] ) ){
 
             $this->start_date = sanitize_text_field( $_REQUEST['pms-filter-time-start-date'] );
             $this->end_date   = sanitize_text_field( $_REQUEST['pms-filter-time-end-date'] ) . ' 23:59:59';
 
         } else {
 
-            if( empty( $_REQUEST['pms-filter-time'] ) || $_REQUEST['pms-filter-time'] == 'current_month' )
-                $date = date("Y-m");
+            if( empty( $_REQUEST['pms-filter-time'] ) || $_REQUEST['pms-filter-time'] == 'today' )
+                $date = date("Y-m-d");
             else
                 $date = sanitize_text_field( $_REQUEST['pms-filter-time'] );
 
-            $date_time        = new DateTime( $date );
-            $month_total_days = $date_time->format( 't' );
+            if( $date === 'today' || $date === 'yesterday'){
 
-            $this->start_date = $date . '-01';
-            $this->end_date   = $date . '-' . $month_total_days . ' 23:59:59';
+                $date = new DateTime( $date );
+                $date = $date->format('Y-m-d');
+                $this->start_date = $date . ' 00:00:00';
+                $this->end_date   = $date . ' 23:59:59';
+
+            }
+            else if( $date === 'this_week'){
+
+                $this->start_date = new DateTime('this week monday');
+                $this->month_total_days = $this->start_date->format( 't' );
+                $this->start_date = $this->start_date->format('Y-m-d');
+
+                $this->end_date = new DateTime('this week sunday');
+                $this->end_date = $this->end_date->format('Y-m-d');
+            }
+            else if( $date === 'last_week' ){
+
+                $this->start_date = new DateTime('last week monday');
+                $this->month_total_days = $this->start_date->format( 't' );
+                $this->start_date = $this->start_date->format('Y-m-d');
+
+                $this->end_date = new DateTime('last week sunday');
+                $this->end_date = $this->end_date->format('Y-m-d');
+
+            }
+            else if( $date === '30days' ){
+
+                $this->start_date = new DateTime('today - 30 days');
+                $this->month_total_days = $this->start_date->format( 't' );
+                $this->start_date = $this->start_date->format('Y-m-d');
+
+                $this->end_date = new DateTime('today');
+                $this->end_date = $this->end_date->format('Y-m-d');
+            }
+            else if( $date === 'this_month' ){
+
+                $this->start_date = new DateTime('first day of this month');
+                $this->start_date = $this->start_date->format('Y-m-d');
+
+                $this->end_date = new DateTime('last day of this month');
+                $this->end_date = $this->end_date->format('Y-m-d');
+            }
+            else if( $date === 'last_month' ){
+
+                $this->start_date = new DateTime('first day of last month');
+                $this->start_date = $this->start_date->format('Y-m-d');
+
+                $this->end_date = new DateTime('last day of last month');
+                $this->end_date = $this->end_date->format('Y-m-d');
+            }
+            else if ( $date === 'this_year' ){
+
+                $this->start_date = new DateTime('first day of January this year');
+                $this->start_date = $this->start_date->format('Y-m-d');
+
+                $this->end_date = new DateTime('last day of December this year');
+                $this->end_date = $this->end_date->format('Y-m-d');
+            }
+            else if ( $date === 'last_year' ){
+
+                $this->start_date = new DateTime('first day of January last year');
+                $this->start_date = $this->start_date->format('Y-m-d');
+
+                $this->end_date = new DateTime('last day of December last year');
+                $this->end_date = $this->end_date->format('Y-m-d');
+            }
+            else if( $date === 'custom_date' ){
+
+                if( empty( $_GET['pms-filter-time-start-date'] ) || empty( $_GET['pms-filter-time-end-date'] ) )
+                {
+                    $this->start_date = '0000-00-00';
+                    $this->end_date = '0000-00-00';
+                }
+            }
+            else{
+
+                $date = new DateTime( $date );
+                $date = $date->format('Y-m-d');
+                $this->start_date = $date . ' 00:00:00';
+                $this->end_date   = $date . ' 23:59:59';
+            }
 
         }
 
-        $args = apply_filters( 'pms_reports_get_filtered_payments_args', array( 'status' => 'completed', 'date' => array( $this->start_date, $this->end_date ), 'order' => 'ASC', 'number' => '-1' ) );
+        $specific_subs = array();
+
+        if( isset( $_REQUEST['pms-filter-subscription-plans'] ) && !empty( $_GET['pms-filter-subscription-plans'] ) ){
+            $specific_subs = array_map('absint', $_GET['pms-filter-subscription-plans'] );
+            $args = apply_filters( 'pms_reports_get_filtered_payments_args', array( 'status' => 'completed', 'date' => array( $this->start_date, $this->end_date ), 'order' => 'ASC', 'number' => '-1', 'subscription_plan_id' => $specific_subs ) );
+        }
+        else
+        {
+            $args = apply_filters( 'pms_reports_get_filtered_payments_args', array( 'status' => 'completed', 'date' => array( $this->start_date, $this->end_date ), 'order' => 'ASC', 'number' => '-1' ) );
+        }
 
         $payments = pms_get_payments( $args );
 
@@ -173,23 +286,217 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
         $results = array();
 
-        $first_day = new DateTime( $this->start_date );
-        $first_day = $first_day->format('j');
+        if( empty( $_REQUEST['pms-filter-time'] ) )
+            $date = date("Y-m-d");
+        else
+            $date = sanitize_text_field( $_REQUEST['pms-filter-time'] );
 
-        $last_day  = new DateTime( $this->end_date );
-        $last_day  = $last_day->format('j');
+        if( $date === 'today' || $date === 'yesterday' ){
 
-        for( $i = $first_day; $i <= $last_day; $i++ ) {
-            if( !isset( $results[$i] ) )
-                $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+            $first_hour = new DateTime( $this->start_date );
+            $first_hour = $first_hour->format('G');
+
+            $last_hour = new DateTime( $this->end_date );
+            $last_hour = $last_hour->format('G');
+
+            for( $i = $first_hour; $i <= $last_hour; $i++ ) {
+                if( !isset( $results[$i] ) )
+                    $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+            }
+        }
+        else if( $date === 'this_week' || $date === 'last_week' || $date === '30days' || $date === 'this_month' || $date === 'last_month' ){
+
+            $first_day = new DateTime( $this->start_date );
+            $first_month = $first_day->format('n');
+            $first_day = $first_day->format('j');
+
+            $last_day  = new DateTime( $this->end_date );
+            $last_month = $last_day->format('n');
+            $last_day  = $last_day->format('j');
+
+            if( $first_day >= $last_day || ( $first_day < $last_day && $first_month < $last_month ) ){
+                for( $i = $first_day; $i <= $this->month_total_days; $i++ ) {
+                    if( !isset( $results[$i] ) )
+                        $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+                }
+
+                for( $i = 1; $i <= $last_day; $i++ ) {
+                    if( !isset( $results[$i] ) )
+                        $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+                }
+            }
+            else{
+                for( $i = $first_day; $i <= $last_day; $i++ ) {
+                    if( !isset( $results[$i] ) )
+                        $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+                }
+            }
+        }
+        else if( $date === 'this_year' || $date === 'last_year' ){
+
+            $first_month = 1;
+            $last_month = 12;
+
+            for( $i = $first_month; $i <= $last_month; $i++ ) {
+                if( !isset( $results[$i] ) )
+                    $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+            }
+        }
+        else if( $date === 'custom_date' ){
+
+            $first = new DateTime( $this->start_date );
+
+            $first_year = $first->format('Y');
+            $first_month = $first->format('n');
+            $first_day = $first->format('j');
+
+            $last = new DateTime( $this->end_date );
+
+            $last_year = $last->format('Y');
+            $last_month = $last->format('n');
+            $last_day = $last->format('j');
+
+            $gap_between_years = $last_year - $first_year;
+            $number_year = 1;
+
+            if( $gap_between_years > 0 )
+            {
+                for( $i = $first_year; $i <= $last_year && $number_year <= $gap_between_years + 1; $i++ ){
+                    if( $number_year === 1 ){
+                        for( $j = $first_month; $j <= 12; $j++ ){
+                            if( !isset( $results[$j] ) )
+                                $results[$j] = array( 'earnings' => 0, 'payments' => 0 );
+                        }
+                    }
+                    else{
+                        $end_month = 12 * $number_year;
+                        $start_month = $end_month - 11;
+
+                        if( $i == $last_year ){
+                            $end_month = $last_month + 12 * ( $number_year - 1 );
+                        }
+
+                        for( $j = $start_month; $j <= $end_month; $j++ ){
+                            if( !isset( $results[$j] ) )
+                                $results[$j] = array( 'earnings' => 0, 'payments' => 0 );
+                        }
+                    }
+                    $number_year++;
+                }
+            }
+            else{
+                $gap_between_months = $last_month - $first_month;
+
+                if( $gap_between_months > 0 ){
+
+                        for( $i = $first_month; $i <= $last_month; $i++ ) {
+                            if( !isset( $results[$i] ) )
+                                $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+                        }
+                }
+                else{
+                    if( $first_day === $last_day ){
+                        for( $i = 0; $i <= 23; $i++ ) {
+                            if( !isset( $results[$i] ) )
+                                $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+                        }
+                    }
+                    else{
+                        for( $i = $first_day; $i <= $last_day; $i++ ) {
+                            if( !isset( $results[$i] ) )
+                                $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+                        }
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            $first_hour = new DateTime( $this->start_date );
+            $first_hour = $first_hour->format('G');
+
+            $last_hour = new DateTime( $this->end_date );
+            $last_hour = $last_hour->format('G');
+
+            for( $i = $first_hour; $i <= $last_hour; $i++ ) {
+                if( !isset( $results[$i] ) )
+                    $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+            }
         }
 
         if( !empty( $payments ) ) {
             foreach( $payments as $payment ) {
                 $payment_date = new DateTime( $payment->date );
 
-                $results[ $payment_date->format('j') ]['earnings'] += $payment->amount;
-                $results[ $payment_date->format('j') ]['payments'] += 1;
+                if( $date === 'today' || $date === 'yesterday' ){
+                    $results[ $payment_date->format('G') ]['earnings'] += $payment->amount;
+                    $results[ $payment_date->format('G') ]['payments'] += 1;
+                }
+                else if( $date === 'this_week' || $date === 'last_week' || $date === '30days' || $date === 'this_month' || $date === 'last_month' ){
+                        $results[ $payment_date->format('j') ]['earnings'] += $payment->amount;
+                        $results[ $payment_date->format('j') ]['payments'] += 1;
+                }
+                else if( $date === 'this_year' || $date === 'last_year'){
+                        $results[ $payment_date->format('n') ]['earnings'] += $payment->amount;
+                        $results[ $payment_date->format('n') ]['payments'] += 1;
+                }
+                else if( $date === 'custom_date' ){
+
+                    $first = new DateTime( $this->start_date );
+
+                    $first_year = $first->format('Y');
+                    $first_month = $first->format('n');
+                    $first_day = $first->format('j');
+
+                    $last = new DateTime( $this->end_date );
+
+                    $last_year = $last->format('Y');
+                    $last_month = $last->format('n');
+                    $last_day = $last->format('j');
+
+                    $gap_between_years = $last_year - $first_year;
+
+                    if( $gap_between_years > 0 ){
+
+                        foreach ( $results as $key => $data ){
+
+                            if( $key > 12 ){
+
+                                $current_year = $first_year + (int)floor( ( $key - 1 ) / 12 );
+                                $current_month = (int)( $key - 1 ) % 12 + 1;
+
+                                if ( $payment_date->format('Y') == $current_year &&  $payment_date->format('n') == $current_month )
+                                {
+                                    $results[ $key ]['earnings'] += $payment->amount;
+                                    $results[ $key ]['payments'] += 1;
+                                }
+                            }
+                        }
+                    }
+                    else{
+                        $gap_between_months = $last_month - $first_month;
+
+                        if( $gap_between_months > 0 ){
+                                $results[ $payment_date->format('n') ]['earnings'] += $payment->amount;
+                                $results[ $payment_date->format('n') ]['payments'] += 1;
+                        }
+                        else{
+                            if( $first_day === $last_day ){
+                                $results[ $payment_date->format('G') ]['earnings'] += $payment->amount;
+                                $results[ $payment_date->format('G') ]['payments'] += 1;
+                            }
+                            else{
+                                $results[ $payment_date->format('j') ]['earnings'] += $payment->amount;
+                                $results[ $payment_date->format('j') ]['payments'] += 1;
+                            }
+                        }
+                    }
+                }
+                else{
+                    $results[ $payment_date->format('G') ]['earnings'] += $payment->amount;
+                    $results[ $payment_date->format('G') ]['payments'] += 1;
+                }
             }
         }
 
@@ -214,19 +521,66 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      *
      */
     public function output_filters() {
+        ?>
 
-        echo '<label class="cozmoslabs-form-field-label" for="pms-reports-filter-month">' . esc_html__( 'Select Month', 'paid-member-subscriptions' ) . '</label>';
+        <div class="cozmoslabs-form-field-wrapper" id="pms-container-select-date">
+            <div class="pms-container-date-range">
+                    <label class="cozmoslabs-form-field-label" for="pms-reports-filter-month"><?php esc_html_e( 'Interval', 'paid-member-subscriptions' ) ?></label>
+                <?php
 
-        echo '<select name="pms-filter-time" id="pms-reports-filter-month">';
+                echo '<select name="pms-filter-time" id="pms-reports-filter-month">';
 
-            echo '<option value="current_month">' . esc_html__( 'Current month', 'paid-member-subscriptions' ) . '</option>';
+                      echo '<option value="today"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'today', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Today', 'paid-member-subscriptions') . '</option>';
+                      echo '<option value="yesterday"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'yesterday', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Yesterday', 'paid-member-subscriptions') . '</option>';
+                      echo '<option value="this_week"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'this_week', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('This Week', 'paid-member-subscriptions') . '</option>';
+                      echo '<option value="last_week"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'last_week', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Last Week', 'paid-member-subscriptions') . '</option>';
+                      echo '<option value="30days"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( '30days', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Last 30 days', 'paid-member-subscriptions') . '</option>';
+                      echo '<option value="this_month"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'this_month', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('This Month', 'paid-member-subscriptions') . '</option>';
+                      echo '<option value="last_month"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'last_month', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Last Month', 'paid-member-subscriptions') . '</option>';
+                      echo '<option value="this_year"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'this_year', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('This Year', 'paid-member-subscriptions') . '</option>';
+                      echo '<option value="last_year"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'last_year', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Last Year', 'paid-member-subscriptions') . '</option>';
+                      echo '<option value="custom_date"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'custom_date', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Custom Range', 'paid-member-subscriptions') . '</option>';
 
-            for ($i = 1; $i <= 12; $i++) {
-                $month = date("Y-m", strtotime( date( 'Y-m-01' ) . " -$i months"));
-                echo '<option value="' . esc_attr( $month ) . '" ' . ( !empty( $_GET['pms-filter-time'] ) ? selected( $month, sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html( date( 'F', strtotime( $month ) ) ) . ' ' . esc_html( date( 'Y', strtotime( $month ) ) ) . '</option>';
-            }
+                echo '</select>';
 
-        echo '</select>';
+                ?>
+            </div>
+            <div class="pms-custom-date-range-options" id="pms-custom-date-range-options" style="<?php echo !empty( $_GET['pms-filter-time'] ) && $_GET['pms-filter-time'] === 'custom_date' ? '' : 'display:none' ?>">
+                <label for="pms-reports-start-date" id="pms-reports-start-date-label" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Start Date','paid-member-subscriptions' ); ?></label>
+
+                <input type="text" id="pms-reports-start-date" name="pms-filter-time-start-date" class="pms_datepicker" value="<?php echo esc_attr( isset( $_GET['pms-filter-time-start-date'] ) ? sanitize_text_field( $_GET['pms-filter-time-start-date'] ) : '' ); ?>">
+
+
+                <label for="pms-reports-expiration-date" id="pms-reports-expiration-date-label" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'End Date','paid-member-subscriptions' ); ?></label>
+
+                <input type="text" id="pms-reports-expiration-date" name="pms-filter-time-end-date" class="pms_datepicker" value="<?php echo esc_attr( isset( $_GET['pms-filter-time-end-date'] ) ? sanitize_text_field( $_GET['pms-filter-time-end-date'] ) : '' ); ?>">
+
+            </div>
+        </div>
+
+        <div class="cozmoslabs-form-field-wrapper" id="pms-container-specific-subs" style="margin-top: 0 !important; margin-bottom: 20px;">
+            <label class="cozmoslabs-form-field-label" for="specific-subscriptions"><?php esc_html_e( 'Select Subscription Plans', 'paid-member-subscriptions' ) ?></label>
+
+            <select id="specific-subscriptions" class="pms-chosen" name="pms-filter-subscription-plans[]" multiple style="width:200px" data-placeholder="<?php echo esc_attr__( 'All', 'paid-member-subscriptions' ); ?>">
+                <?php
+                $subscription_plans = pms_get_subscription_plans();
+                $specific_subs = array();
+
+                if( isset( $_GET['pms-filter-subscription-plans'] ) && !empty( $_GET['pms-filter-subscription-plans'] ) ){
+                    $specific_subs = array_map('absint', $_GET['pms-filter-subscription-plans'] );
+                }
+
+                foreach ( $subscription_plans as $subscription ){
+                    echo '<option value="' . esc_attr( $subscription->id ) . '"' . ( !empty( $specific_subs ) && in_array( $subscription->id, $specific_subs ) ? ' selected' : '') . '>' . esc_html( $subscription->name ) . '</option>';
+                }
+                ?>
+            </select>
+
+            <p class="cozmoslabs-description cozmoslabs-description-space-left">
+                <?php esc_html_e( 'Select only the Subscriptions Plans you want to see the statistics for.', 'paid-member-subscriptions' ); ?>
+            </p>
+        </div>
+        <?php
 
     }
 
@@ -250,15 +604,13 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
             echo '<div class="inside">';
 
                 echo '<div class="cozmoslabs-form-field-wrapper">';
-                    echo '<label class="pms-form-field-label cozmoslabs-form-field-label" for="pms-reports-total-earnings">' . esc_html__( 'Total Earnings', 'paid-member-subscriptions' ) . '</label>';
-                    echo '<input id="pms-reports-total-earnings" type="text" value="' . esc_html( pms_format_price( $payments_amount, pms_get_active_currency() ) ) . '" disabled />';
-                    echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Total earnings for the selected period', 'paid-member-subscriptions' ) . '</p>';
+                    echo '<label class="pms-form-field-label cozmoslabs-form-field-label" for="pms-reports-total-earnings" title="' . esc_html__( 'Total earnings for the selected period', 'paid-member-subscriptions' ) . '">' . esc_html__( 'Total Earnings', 'paid-member-subscriptions' ) . '</label>';
+                    echo '<span>' . esc_html( pms_format_price( $payments_amount, pms_get_active_currency() ) ) . '</span>';
                 echo '</div>';
 
                 echo '<div class="cozmoslabs-form-field-wrapper">';
-                    echo '<label class="pms-form-field-label cozmoslabs-form-field-label" for="pms-reports-total-payments">' . esc_html__( 'Total Payments', 'paid-member-subscriptions' ) . '</label>';
-                    echo '<input id="pms-reports-total-payments" type="text" value="' . esc_html( $payments_count ) . '" disabled />';
-                    echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Total number of payments for the selected period', 'paid-member-subscriptions' ) . '</p>';
+                    echo '<label class="pms-form-field-label cozmoslabs-form-field-label" for="pms-reports-total-payments" title="' . esc_html__( 'Total number of payments for the selected period', 'paid-member-subscriptions' ) . '">' . esc_html__( 'Total Payments', 'paid-member-subscriptions' ) . '</label>';
+                    echo '<span>' . esc_html( $payments_count ) . '</span>';
                 echo '</div>';
 
             echo '</div>';

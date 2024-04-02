@@ -6,7 +6,7 @@
 <?php __("Install & Activate", "paid-member-subscriptions"); ?>
 <?php __("This Paid Member Subscriptions add-on has been migrated to the main plugin and is no longer used. You can delete it.", "paid-member-subscriptions"); ?>
 <?php __("To enable updates, your licence needs to be renewed. Please go to the <a href=\"%s\" target=\"_blank\">Cozmoslabs Account</a> page and login to renew.", "paid-member-subscriptions"); ?>
-<?php __("To enable updates, please enter your serial number on the <a href=\"%s\">Add-ons</a> page. If you don't have a serial number, please see <a href=\"%s\" target=\"_blank\">details & pricing</a>.", "paid-member-subscriptions"); ?>
+<?php __("To enable updates, please enter your serial number on the %sSettings%s page. If you don't have a serial number, please see %sdetails & pricing%s.", "paid-member-subscriptions"); ?>
 <?php __("You must be logged in to view this content.", "paid-member-subscriptions"); ?>
 <?php __("This content is restricted for your membership level.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions", "paid-member-subscriptions"); ?>
@@ -710,6 +710,9 @@
 <?php __("Select Template", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Shortcodes", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plans", "paid-member-subscriptions"); ?>
+<?php __("Create member only content with just a few clicks.", "paid-member-subscriptions"); ?>
+<?php __("Allow only members to have access to courses, lessons and quizzes with Paid Member Subscriptions PRO.", "paid-member-subscriptions"); ?>
+<?php __("Upgrade to PRO", "paid-member-subscriptions"); ?>
 <?php __("Subscribe", "paid-member-subscriptions"); ?>
 <?php __("You will soon be redirected to complete the payment.", "paid-member-subscriptions"); ?>
 <?php __("You are being redirected to PayPal to complete the payment...", "paid-member-subscriptions"); ?>
@@ -808,11 +811,11 @@
 <?php __('%1$s %2$s abandoned subscription, "paid-member-subscriptions"); ?>
 <?php __(%1$s %2$s abandoned subscriptions', 'paid-member-subscriptions' ); ?>
 <?php __("No members found", "paid-member-subscriptions"); ?>
+<?php __("Are you sure you want to delete these Subscriptions? \nThis action is irreversible.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. Could not process your request.", "paid-member-subscriptions"); ?>
 <?php __("Member Subscription added successfully.", "paid-member-subscriptions"); ?>
 <?php __("Member Subscription updated successfully.", "paid-member-subscriptions"); ?>
 <?php __("Member Subscription deleted successfully.", "paid-member-subscriptions"); ?>
-<?php __("Are you sure you want to delete these Subscriptions? \nThis action is irreversible.", "paid-member-subscriptions"); ?>
 <?php __("%d Member Subscription successfully deleted.", "paid-member-subscriptions"); ?>
 <?php __("%d Member Subscriptions successfully deleted.", "paid-member-subscriptions"); ?>
 <?php __("%d members successfully added.", "paid-member-subscriptions"); ?>
@@ -904,13 +907,26 @@
 <?php __("Register Version", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Register", "paid-member-subscriptions"); ?>
 <?php __("Register your version of Paid Member Subscriptions", "paid-member-subscriptions"); ?>
-<?php __("Select Month", "paid-member-subscriptions"); ?>
-<?php __("Current month", "paid-member-subscriptions"); ?>
+<?php __("Interval", "paid-member-subscriptions"); ?>
+<?php __("Today", "paid-member-subscriptions"); ?>
+<?php __("Yesterday", "paid-member-subscriptions"); ?>
+<?php __("This Week", "paid-member-subscriptions"); ?>
+<?php __("Last Week", "paid-member-subscriptions"); ?>
+<?php __("Last 30 days", "paid-member-subscriptions"); ?>
+<?php __("This Month", "paid-member-subscriptions"); ?>
+<?php __("Last Month", "paid-member-subscriptions"); ?>
+<?php __("This Year", "paid-member-subscriptions"); ?>
+<?php __("Last Year", "paid-member-subscriptions"); ?>
+<?php __("Custom Range", "paid-member-subscriptions"); ?>
+<?php __("End Date", "paid-member-subscriptions"); ?>
+<?php __("Select Subscription Plans", "paid-member-subscriptions"); ?>
+<?php __("All", "paid-member-subscriptions"); ?>
+<?php __("Select only the Subscriptions Plans you want to see the statistics for.", "paid-member-subscriptions"); ?>
 <?php __("Summary", "paid-member-subscriptions"); ?>
-<?php __("Total Earnings", "paid-member-subscriptions"); ?>
 <?php __("Total earnings for the selected period", "paid-member-subscriptions"); ?>
-<?php __("Total Payments", "paid-member-subscriptions"); ?>
+<?php __("Total Earnings", "paid-member-subscriptions"); ?>
 <?php __("Total number of payments for the selected period", "paid-member-subscriptions"); ?>
+<?php __("Total Payments", "paid-member-subscriptions"); ?>
 <?php __("Reports", "paid-member-subscriptions"); ?>
 <?php __("Test Payments are enabled", "paid-member-subscriptions"); ?>
 <?php __("Live Payments are enabled", "paid-member-subscriptions"); ?>
@@ -921,6 +937,7 @@
 <?php __("Misc", "paid-member-subscriptions"); ?>
 <?php __("User Pages", "paid-member-subscriptions"); ?>
 <?php __("Design & UI", "paid-member-subscriptions"); ?>
+<?php __("Addons", "paid-member-subscriptions"); ?>
 <?php __("Ready!", "paid-member-subscriptions"); ?>
 <?php __("Create user pages for registration, login, account and password reset.", "paid-member-subscriptions"); ?>
 <?php __("Choose a design and optimize the login and registration flow for your users.", "paid-member-subscriptions"); ?>
@@ -1391,7 +1408,6 @@
 <?php __("Title, slug, version and is active", "paid-member-subscriptions"); ?>
 <?php __("Privacy Policy", "paid-member-subscriptions"); ?>
 <?php __("Terms of Service", "paid-member-subscriptions"); ?>
-<?php __("Addons", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Add-ons", "paid-member-subscriptions"); ?>
 <?php __('You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Basic Add-ons", "paid-member-subscriptions"); ?>
@@ -1526,7 +1542,6 @@
 <?php __("All Payments", "paid-member-subscriptions"); ?>
 <?php __("Choose the payment status", "paid-member-subscriptions"); ?>
 <?php __("Choose export data Start Date", "paid-member-subscriptions"); ?>
-<?php __("End Date", "paid-member-subscriptions"); ?>
 <?php __("Choose export data End Date", "paid-member-subscriptions"); ?>
 <?php __("NOTE: Leave dates empty for an export of all payments.", "paid-member-subscriptions"); ?>
 <?php __("Bulk Add Subscription Plans to Users", "paid-member-subscriptions"); ?>
@@ -1568,15 +1583,11 @@
 <?php __("Start Date...", "paid-member-subscriptions"); ?>
 <?php __("Last 7 Days", "paid-member-subscriptions"); ?>
 <?php __("Last 30 Days", "paid-member-subscriptions"); ?>
-<?php __("Last Year", "paid-member-subscriptions"); ?>
 <?php __("Custom", "paid-member-subscriptions"); ?>
 <?php __("Start of Interval", "paid-member-subscriptions"); ?>
 <?php __("End of Interval", "paid-member-subscriptions"); ?>
 <?php __("Expiration Date...", "paid-member-subscriptions"); ?>
-<?php __("Today", "paid-member-subscriptions"); ?>
 <?php __("Tomorrow", "paid-member-subscriptions"); ?>
-<?php __("This Week", "paid-member-subscriptions"); ?>
-<?php __("This Month", "paid-member-subscriptions"); ?>
 <?php __("Payment #%s", "paid-member-subscriptions"); ?>
 <?php __("Add New Payment", "paid-member-subscriptions"); ?>
 <?php __("Payment Details", "paid-member-subscriptions"); ?>
@@ -1589,7 +1600,7 @@
 <?php __("Payment Logs", "paid-member-subscriptions"); ?>
 <?php __("Search Payments", "paid-member-subscriptions"); ?>
 <?php __("Filters", "paid-member-subscriptions"); ?>
-<?php __("Report Chart", "paid-member-subscriptions"); ?>
+<?php __("Sales and earnings", "paid-member-subscriptions"); ?>
 <?php __("Type of Restriction", "paid-member-subscriptions"); ?>
 <?php __("Redirect", "paid-member-subscriptions"); ?>
 <?php __("If you select \"Messages\" the post's content will be protected by being replaced with a custom message.", "paid-member-subscriptions"); ?>
@@ -1837,7 +1848,7 @@
 <?php __("The payment has been declined because the card is reported stolen.", "paid-member-subscriptions"); ?>
 <?php __("A Stripe test card number was used.", "paid-member-subscriptions"); ?>
 <?php __("The customer has exceeded the balance or credit limit available on their card. ", "paid-member-subscriptions"); ?>
-<?php __("<strong>Action Required!</strong><br><br> The Stripe version you are using right now is being deprecated soon. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. Starting with the second half of next year, Stripe might charge you additional fees if you don't migrate. <br><br>Go to the %sSettings -> Payments%s page, enable the Stripe gateway and connect your account. %sMigration instructions%s", "paid-member-subscriptions"); ?>
+<?php __("<strong>Action Required!</strong><br><br> The Stripe version you are using right now is being deprecated soon. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. Starting with the second half of this year, Stripe might charge you additional fees if you don't migrate. <br><br>Go to the %sSettings -> Payments%s page, enable the Stripe gateway and connect your account. %sMigration instructions%s", "paid-member-subscriptions"); ?>
 <?php __("Update", "paid-member-subscriptions"); ?>
 <?php __("Label added successfully.", "paid-member-subscriptions"); ?>
 <?php __("You must select a label to edit!", "paid-member-subscriptions"); ?>
@@ -1915,6 +1926,7 @@
 <?php __("Instant", "paid-member-subscriptions"); ?>
 <?php __("Choose how you want to send the messages: instant or with a delay.", "paid-member-subscriptions"); ?>
 <?php __("Enter the trigger event for the email reminder. For example: 10 Days before Subscription Expires.", "paid-member-subscriptions"); ?>
+<?php __("Select the trigger event for the email reminder.", "paid-member-subscriptions"); ?>
 <?php __("Email Subject", "paid-member-subscriptions"); ?>
 <?php __('Enter the email reminder subject. You can use the %1$savailable tags%2$s. ', 'paid-member-subscriptions' ); ?>
 <?php __("Email Content", "paid-member-subscriptions"); ?>
@@ -2129,6 +2141,17 @@
 <?php __("User role", "paid-member-subscriptions"); ?>
 <?php __("... Create new User Role", "paid-member-subscriptions"); ?>
 <?php __("Create a new User Role from this Subscription Plan or select which User Role to associate with this Subscription Plan.", "paid-member-subscriptions"); ?>
+<?php __("Grow your membership website with these proven tools", "paid-member-subscriptions"); ?>
+<?php __("Enable addons and add extra features to your website", "paid-member-subscriptions"); ?>
+<?php __("Generate downloadable PDF Invoices for payments. Available to admins and users.", "paid-member-subscriptions"); ?>
+<?php __("Available in the Pro version", "paid-member-subscriptions"); ?>
+<?php __("Set up multiple subscription level blocks and allow members to sign up for more than one subscription plan.", "paid-member-subscriptions"); ?>
+<?php __("Setup global content restriction rules based on Post Type, Taxonomies and Terms.", "paid-member-subscriptions"); ?>
+<?php __("Available in the Basic and Pro versions", "paid-member-subscriptions"); ?>
+<?php __("Accept donations or let subscribers pay what they want by offering a variable pricing option when they purchase a membership plan.", "paid-member-subscriptions"); ?>
+<?php __("Get access to 14+ premimum add-ons with a %sPro%s license. %sBuy Now%s", "paid-member-subscriptions"); ?>
+<?php __('Explore 14+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete.', 'paid-member-subscriptions' ); ?>
+<?php __("Continue", "paid-member-subscriptions"); ?>
 <?php __("Design & User Experience Settings", "paid-member-subscriptions"); ?>
 <?php __("Customize the way your users interact with the website!", "paid-member-subscriptions"); ?>
 <?php __("Choose a style that better suits your website.<br>The default style is there to let you customize the CSS and in general will receive the look and feel from your own themes styling.", "paid-member-subscriptions"); ?>
@@ -2141,7 +2164,6 @@
 <?php __("Redirect Default WordPress Login Pages", "paid-member-subscriptions"); ?>
 <?php __("If the current user's session has been taken over by a newer session, we will log him out and he will have to login again.", "paid-member-subscriptions"); ?>
 <?php __("Prevent account sharing", "paid-member-subscriptions"); ?>
-<?php __("Continue", "paid-member-subscriptions"); ?>
 <?php __("You're all setup and ready to go!", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions is almost ready to run your membership website.<br>You can always change these settings from the plugin settings page.", "paid-member-subscriptions"); ?>
 <?php __("Get valuable insights, tips, and strategies on how to create, grow and monetize your own membership and community websites with WordPress.", "paid-member-subscriptions"); ?>

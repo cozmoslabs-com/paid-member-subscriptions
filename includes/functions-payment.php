@@ -114,12 +114,19 @@ function pms_get_payments( $args = array() ) {
 
     // Filter by subscription_plan_id
     if( !empty( $args['subscription_plan_id'] ) ) {
-        $subscription_plan_id = (int)trim( $args['subscription_plan_id'] );
-        $query_where          = $query_where . " AND " . " pms_payments.subscription_plan_id = {$subscription_plan_id}";
+        if( is_array( $args['subscription_plan_id'] ) ){
+            $subscription_plan_ids = implode( ',', array_map('absint', $args['subscription_plan_id'] ) );
+            $query_where          = $query_where . " AND " . " pms_payments.subscription_plan_id IN ({$subscription_plan_ids})";
+
+        } else {
+            $subscription_plan_id = (int)trim( $args['subscription_plan_id'] );
+            $query_where          = $query_where . " AND " . " pms_payments.subscription_plan_id = {$subscription_plan_id}";
+
+        }
     }
 
     if( !empty( $args['exclude_subscription_plan_ids'] ) ) {
-        $subscription_plan_ids = implode( ',', $args['exclude_subscription_plan_ids'] );
+        $subscription_plan_ids = implode( ',', array_map('absint', $args['exclude_subscription_plan_ids'] ) );
         $query_where          = $query_where . " AND " . " pms_payments.subscription_plan_id NOT IN ({$subscription_plan_ids})";
     }
 

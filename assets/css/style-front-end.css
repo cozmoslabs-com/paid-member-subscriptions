@@ -417,8 +417,10 @@ form.pms-form ul.pms-form-fields-wrapper {
     cursor: pointer;
 }
 
-.pms-subscription-plan-auto-renew label input[type="checkbox"] {
-    margin: 0 !important;
+.pms-subscription-plan-auto-renew label input[type="checkbox"],
+.wppb-form-field.wppb-subscription-plans .pms-subscription-plan-auto-renew label input[type="checkbox"] {
+    margin: 0px !important;
+    margin-right: 4px !important;
 }
 
 /**************************************************/

@@ -313,6 +313,11 @@ add_action( 'edit_user_profile_update', 'pms_pb_admin_user_update_form_field_sav
  * Match the Subscription start and expiration date format with the one set in WordPress General Settings
  */
 function pms_change_sub_date_to_wp_format( $date ) {
-    return date_i18n( get_option('date_format') . ' ' . get_option('time_format'), strtotime( $date ) );
+
+    if( !empty( $date ) )
+        $date = date_i18n( get_option('date_format') . ' ' . get_option('time_format'), strtotime( $date ) );
+
+    return $date;
+
 }
 add_filter('pms_change_userlisting_expiration_date_format', 'pms_change_sub_date_to_wp_format');

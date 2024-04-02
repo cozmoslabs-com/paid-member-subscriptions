@@ -78,6 +78,13 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             wp_enqueue_style( 'pms-chosen', PMS_PLUGIN_DIR_URL . 'assets/libs/chosen/chosen.css', array(), PMS_VERSION );
         }
 
+        // Register script to display confirmation message in case of bulk delete
+        wp_register_script( 'pms-members-bulk-actions-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-members-page.js', array('jquery'), PMS_VERSION );
+        $confirmation_message = array(
+            'message'   => __( 'Are you sure you want to delete these Subscriptions? \nThis action is irreversible.', 'paid-member-subscriptions' )
+        );
+        wp_localize_script( 'pms-members-bulk-actions-script', 'pms_confirmation_message', $confirmation_message );
+        wp_enqueue_script( 'pms-members-bulk-actions-script' );
     }
 
 
@@ -112,14 +119,6 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
         // These processes should be handled only by an admin
         if( ! ( current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' ) ) )
             return;
-
-        // Register script to display confirmation message in case of bulk delete
-        wp_register_script( 'pms-members-bulk-actions-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-members-page.js', array('jquery'), PMS_VERSION );
-        $confirmation_message = array(
-            'message'   => __( 'Are you sure you want to delete these Subscriptions? \nThis action is irreversible.', 'paid-member-subscriptions' )
-        );
-        wp_localize_script( 'pms-members-bulk-actions-script', 'pms_confirmation_message', $confirmation_message );
-        wp_enqueue_script( 'pms-members-bulk-actions-script' );
 
         /**
          * Handle add new subscription

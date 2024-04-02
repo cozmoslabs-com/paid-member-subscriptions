@@ -116,6 +116,15 @@ function pms_initialize_content_restrict_metabox() {
 	$post_types = get_post_types( array( 'public' => true ) );
 
 	if( ! empty( $post_types ) ) {
+
+        /**
+         * Filter WordPress Posts where the Content Restriction meta-box is displayed
+         *
+         * @param array $post_types -> a list with all defined post_types
+         *
+         */
+        $post_types = apply_filters( 'pms_post_content_restriction_post_types', $post_types );
+
 		foreach( $post_types as $post_type ){
 
             // Exclude bbPress cpts as the default functionality is not working with bbPress

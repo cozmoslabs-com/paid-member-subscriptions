@@ -822,6 +822,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $redirect_url = pms_get_register_success_url();
 
+            // Add a success message if we should stay on the same page
             if( isset( $_POST['current_page'] ) && ( empty( $redirect_url ) || $redirect_url == $_POST['current_page'] ) ){
 
                 $redirect_url = esc_url_raw( $_POST['current_page'] );
@@ -874,11 +875,42 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                         $redirect_url = $wppb_redirect_url;
                     }
 
+                    // Automatic login
+                    if( !empty( $redirect_url ) ){
+                        if( !empty( $form->args['login_after_register'] ) && strtolower( $form->args['login_after_register'] ) == 'yes' ){
+                            $redirect_url = $this->get_wppb_autologin_url( $redirect_url );
+                        }
+                    }
+
 
                 } else
                     $message = apply_filters( 'pms_register_subscription_success_message', __( 'Congratulations, you have successfully created an account.', 'paid-member-subscriptions' ) );
                 
                 $redirect_url = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pmsscsmsg' => base64_encode( $message ) ), $redirect_url );
+
+            // Redirecting to a new page
+            } else {
+
+                // Take into account autologin from the WPPB form
+                if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
+        
+                    $args = array(
+                        'form_type'               => 'register',
+                        'form_name'               => isset( $_REQUEST['form_name'] ) ? sanitize_text_field( $_REQUEST['form_name'] ) : '',
+                        'form_fields'             => '',
+                        'role'                    => get_option( 'default_role' ),
+                        'pms_custom_ajax_request' => true,
+                    );
+
+                    include_once( WPPB_PLUGIN_DIR . '/front-end/class-formbuilder.php' );
+                
+                    $form = new Profile_Builder_Form_Creator( $args );
+
+                    if( !empty( $form->args['login_after_register'] ) && strtolower( $form->args['login_after_register'] ) == 'yes' ){
+                        $redirect_url = $this->get_wppb_autologin_url( $redirect_url );
+                    }
+
+                }
 
             }
 
@@ -894,6 +926,49 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         // Same filter as PMS_Form_Handler::process_checkout()
         return apply_filters( 'pms_get_redirect_url', $redirect_url, $form_location );
+
+    }
+
+    protected function get_wppb_autologin_url( $redirect_url ){
+
+        if( is_user_logged_in() || !function_exists( 'wppb_get_admin_approval_option_value' ) ) {
+            return $redirect_url;
+        }
+
+        $wppb_general_settings = get_option( 'wppb_general_settings' );
+
+        if ( isset( $wppb_general_settings['emailConfirmation'] ) && ( $wppb_general_settings['emailConfirmation'] == 'yes' ) ) {
+            return $redirect_url;
+        }
+
+        $payment = pms_get_payment( $this->payment_id );
+
+        if( empty( $payment->user_id ) )
+            return $redirect_url;        
+
+        $user = get_userdata( $payment->user_id );
+
+        if( !$user )
+        return $redirect_url;   
+
+        $nonce = wp_create_nonce( 'autologin-'. $user->ID .'-'. (int)( time() / 60 ) );
+
+        if ( wppb_get_admin_approval_option_value() === 'yes' ) {
+            if( !empty( $wppb_general_settings['adminApprovalOnUserRole'] ) ) {
+                foreach ($user->roles as $role) {
+                    if ( in_array( $role, $wppb_general_settings['adminApprovalOnUserRole'] ) ) {
+                        return $redirect_url;
+                    }
+                }
+            }
+            else {
+                return $redirect_url;
+            }
+        }
+
+        $redirect_url = add_query_arg( array( 'autologin' => 'true', 'uid' => $user->ID, '_wpnonce' => $nonce ), $redirect_url );
+
+		return $redirect_url;
 
     }
 
@@ -1826,7 +1901,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             return $args;
 
         $account_country      = pms_stripe_connect_get_account_country();
-        $restricted_countries = array( 'IN', 'MX', 'MY', 'BR', 'RO' );
+        $restricted_countries = array( 
+            'AG', 'AL', 'AM', 'AO', 'AR', 'AZ', 'BA', 'BB', 'BD', 'BF', 'BH', 'BJ', 'BN', 'BO', 'BR', 'BS', 'BT', 'BW', 'BZ', 'CI', 
+            'CL', 'CO', 'CR', 'CV', 'DJ', 'DM', 'DO', 'DZ', 'EC', 'EG', 'ET', 'FJ', 'FM', 'GA', 'GD', 'GE', 'GH', 'GM', 'GN', 'GQ', 
+            'GT', 'GY', 'HN', 'ID', 'IL', 'IN', 'IS', 'JM', 'JO', 'KE', 'KG', 'KH', 'KI', 'KR', 'KW', 'KZ', 'LA', 'LC', 'LK', 'LS', 
+            'MA', 'MC', 'MD', 'ME', 'MG', 'MH', 'MK', 'MN', 'MO', 'MR', 'MU', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NE', 'NG', 'OM', 'PA', 
+            'PE', 'PG', 'PH', 'PK', 'PY', 'QA', 'RS', 'RW', 'SA', 'SB', 'SC', 'SL', 'SM', 'SN', 'SR', 'SV', 'TG', 'TH', 'TJ', 'TL', 
+            'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UY', 'UZ', 'VC', 'VN', 'WS', 'ZA', 'ZM' );
 
         if( in_array( $account_country, $restricted_countries ) )
             return $args;

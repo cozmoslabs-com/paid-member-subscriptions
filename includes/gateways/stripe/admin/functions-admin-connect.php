@@ -581,7 +581,7 @@ function pms_stripe_add_backend_warning( $options ){
         return;
 
     echo '<div class="pms-form-field-wrapper pms-stripe-admin-warning" style="background: #fde0dd;padding: 10px 15px; margin-top: 10px;">
-        <strong>Action Required!</strong><br> The Stripe version you are using right now is being deprecated soon. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. <br>Starting with the second half of next year, Stripe might charge you additional fees if you don\'t migrate. <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Migration_from_other_Stripe_gateways_to_Stripe_Connect" target="_blank">Migration instructions</a>
+        <strong>Action Required!</strong><br> The Stripe version you are using right now is being deprecated soon. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. <br>Starting with the second half of this year, Stripe might charge you additional fees if you don\'t migrate. <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Migration_from_other_Stripe_gateways_to_Stripe_Connect" target="_blank">Migration instructions</a>
     </div>';
 
 }

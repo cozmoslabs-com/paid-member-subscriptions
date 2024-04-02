@@ -484,3 +484,71 @@
 .pms-setup-next .cozmoslabs-description {
     margin-bottom: 40px !important;
 }
+
+/* Addons Tab */
+.pms-setup-addons-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.pms-setup-addon {
+    border-radius: 2px;
+    border: 1px solid #CCC;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pms-setup-addon__content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 20px 15px 15px 20px;
+}
+
+.pms-setup-addon__logo {
+    width: 40px;
+}
+
+.pms-setup-addon__details h3 {
+    color: #1E1E1E;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 16px;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+.pms-setup-addon__details p {
+    color: #1E1E1E;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    margin: 0;
+}
+
+.pms-setup-addon__selector {
+    border-top: 1px solid #CCC;
+    box-sizing: border-box;
+    background: #F8FBFF;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.pms-setup-addons-info {
+    text-align: center;
+    margin: 30px 0 25px 0;
+}
+
+.pms-setup-addon.disabled {
+    opacity: 0.6;
+    cursor: default;
+}

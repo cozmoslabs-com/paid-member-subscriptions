@@ -120,6 +120,8 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
         if ( isset( $_REQUEST['option_page'] ) ) {
             $option_page = sanitize_text_field( $_REQUEST['option_page'] );
 
+            $previous_options = get_option( $option_page, array() );
+
             // If no active payment gateways are checked, add paypal_standard as default
             if( $option_page == 'pms_payments_settings' && !isset( $options['active_pay_gates'] ) )
                 $options['active_pay_gates'] = array( 'stripe_connect' );
@@ -206,7 +208,7 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
          * @param array $options
          *
          */
-        $options = apply_filters( 'pms_sanitize_settings', $options );
+        $options = apply_filters( 'pms_sanitize_settings', $options, $previous_options );
 
         return $options;
     }

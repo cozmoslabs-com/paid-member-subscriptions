@@ -33,19 +33,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="postbox cozmoslabs-form-subsection-wrapper">
             <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Filters', 'paid-member-subscriptions' ); ?></h4>
             <div class="inside">
-                    <div class="cozmoslabs-form-field-wrapper">
+                    <div class="" style="margin-top: 20px !important; margin-bottom: 20px !important;">
 
                     <?php do_action( 'pms_reports_filters' ); ?>
 
-                    <button name="pms-action" type="submit" class="button-secondary" value="filter_results"><?php echo esc_html__( 'Filter', 'paid-member-subscriptions' ); ?></button>
-                </div>
+                    </div>
+                <button name="pms-action" type="submit" class="button-secondary" value="filter_results"><?php echo esc_html__( 'Filter', 'paid-member-subscriptions' ); ?></button>
             </div>
         </div>
 
         <!-- Chart and details -->
         <div class="postbox cozmoslabs-form-subsection-wrapper">
             <div class="inside"">
-            <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Report Chart', 'paid-member-subscriptions' ); ?></h4>
+            <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Sales and earnings', 'paid-member-subscriptions' ); ?></h4>
                 <div class="cozmoslabs-form-field-wrapper">
                     <canvas id="payment-report-chart" width="1000" height="250"></canvas>
                 </div>

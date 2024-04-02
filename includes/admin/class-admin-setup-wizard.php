@@ -36,6 +36,7 @@ class PMS_Setup_Wizard {
             'user-pages' => __( 'User Pages', 'paid-member-subscriptions' ),
             'general'    => __( 'Design & UI', 'paid-member-subscriptions' ),
             'payments'   => __( 'Payments', 'paid-member-subscriptions' ),
+            'addons'     => __( 'Addons', 'paid-member-subscriptions' ),
             'next'       => __( 'Ready!', 'paid-member-subscriptions' ),
         );
     }
@@ -154,8 +155,8 @@ class PMS_Setup_Wizard {
             if( !empty( $misc_settings ) )
                 update_option( 'pms_misc_settings', $misc_settings );
 
-
         } else if( $this->step === 'payments' ){
+
             $settings = get_option( 'pms_payments_settings', array() );
 
             if( isset( $_POST['pms_payments_currency'] ) )
@@ -195,6 +196,23 @@ class PMS_Setup_Wizard {
 
             if( !empty( $settings ) )
                 update_option( 'pms_payments_settings', $settings );
+
+        } else if ( $this->step == 'addons' ){
+
+            $target_addons = array(
+                'pms-add-on-invoices',
+                'pms-add-on-multiple-subscriptions-per-user',
+                'pms-add-on-global-content-restriction',
+                'pms-add-on-pay-what-you-want',
+            );
+
+            foreach( $target_addons as $addon ){
+                if( isset( $_POST[ $addon ] ) && $_POST[ $addon ] == 'yes' )
+                    do_action( 'pms_add_ons_activate', $addon . '/index.php' );
+                else
+                    do_action( 'pms_add_ons_deactivate', $addon . '/index.php' );
+            }
+
         }
 
         // step completion for setup

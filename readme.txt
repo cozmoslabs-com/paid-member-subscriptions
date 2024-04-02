@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.5
-Stable tag: 2.11.6
+Stable tag: 2.11.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -223,6 +223,8 @@ Yes! Users can pay with a credit or debit card without leaving your website thro
 
 Through Stripe you can also access additional payment gateways like iDeal, Bancontact, Giropay and more.
 
+You can also enable Apple Pay and Google Pay.
+
 = Where can I find out more information? =
 
 For more information please check out [Paid Member Subscriptions documentation](https://www.cozmoslabs.com/docs/paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
@@ -245,6 +247,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.11.7 =
+* Feature: Added the ability to select predefined or custom date intervals for the Reports page
+* Feature: Added subscription plans filter to the Reports page
+* Fix: Issue with the automatically login option from Profile Builder forms not working with Stripe
+* Fix: Notice that could appear in some scenarios
+* Misc: Make sure back-end members page script only loads on the page that needs it
+* Misc: Added a filter that can be set to false to disable the automatic paragraph formatting when sending emails: pms_emails_auto_format
+
 = 2.11.6 =
 * Feature: Enabled support for Apple Pay and Google Pay through Stripe. Enable these payment gateways by going to your Stripe Dashboard -> Payment Methods page
 * Fix: Notice appearing in some cases relating to Gutenberg blocks

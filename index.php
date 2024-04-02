@@ -3,16 +3,16 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.11.6
+ * Version: 2.11.7
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * Domain Path: /translations
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 8.7
- * Elementor tested up to: 3.20.1
- * Elementor Pro tested up to: 3.20.1
+ * WC tested up to: 8.8
+ * Elementor tested up to: 3.20.3
+ * Elementor Pro tested up to: 3.20.3
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.11.6' );
+        define( 'PMS_VERSION', '2.11.7' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -84,6 +84,9 @@ Class Paid_Member_Subscriptions {
 
             if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
                 define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions Dev');
+
+            define('PMS_PAID_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+            define('PMS_PAID_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
         } else if( !defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) )
             define('PAID_MEMBER_SUBSCRIPTIONS', 'Paid Member Subscriptions');
@@ -232,15 +235,16 @@ Class Paid_Member_Subscriptions {
                     require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
                 }
 
-                $plugin_data       = get_plugin_data( PMS_PAID_PLUGIN_DIR . '/index.php', false );
+                $plugin_data    = get_plugin_data( PMS_PAID_PLUGIN_DIR . '/index.php', false );
                 $plugin_version = ( $plugin_data && $plugin_data['Version'] ) ? $plugin_data['Version'] : '1.0.0' ;
+                $cl_plugin_id   = '';
 
                 if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Pro' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Pro' )
                     $cl_plugin_id = '51100';
                 else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Basic' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Basic' )
                     $cl_plugin_id = '60833';
                 else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Agency' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Agency' )
-                    $cl_plugin_id = '416191'; // @TODO: needs to be updated
+                    $cl_plugin_id = '1376909';
                 else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Unlimited' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Unlimited' )
                     $cl_plugin_id = '62920';
 
@@ -265,14 +269,14 @@ Class Paid_Member_Subscriptions {
 
                 if( pms_get_serial_number() === false ){
 
-                    echo '<br />' . wp_kses_post( sprintf( __('To enable updates, please enter your serial number on the <a href="%s">Add-ons</a> page. If you don\'t have a serial number, please see <a href="%s" target="_blank">details & pricing</a>.', 'paid-member-subscriptions' ), esc_url( admin_url('admin.php?page=pms-addons-page') ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-plugins-page&utm_campaign=PMSPro' ) );
+                    echo '<br />' . wp_kses_post( sprintf( __('To enable updates, please enter your serial number on the %sSettings%s page. If you don\'t have a serial number, please see %sdetails & pricing%s.', 'paid-member-subscriptions' ), '<a href="'. esc_url( admin_url('admin.php?page=pms-settings-page') ). '">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
 
                 } else {
 
                     $serial_number_status = pms_get_serial_number_status();
 
                     if( $serial_number_status == 'expired' )
-                        echo '<br />' . wp_kses_post( sprintf( __('To enable updates, your licence needs to be renewed. Please go to the <a href="%s" target="_blank">Cozmoslabs Account</a> page and login to renew.', 'paid-member-subscriptions' ), 'https://www.cozmoslabs.com/account/' ) );
+                        echo '<br />' . wp_kses_post( sprintf( __('To enable updates, your licence needs to be renewed. Please go to the <a href="%s" target="_blank">Cozmoslabs Account</a> page and login to renew.', 'paid-member-subscriptions' ), 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-plugins-page&utm_campaign=PMSPro' ) );
 
                 }
 
@@ -880,14 +884,17 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/bbpress/functions.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'extend/bbpress/functions.php';
 
+        /*
+         * LearnDash
+         */
+        if( ! defined( 'PMS_PAID_PLUGIN_DIR' ) && PAID_MEMBER_SUBSCRIPTIONS !== 'Paid Member Subscriptions Dev' && file_exists( PMS_PLUGIN_DIR_PATH . 'extend/learndash/functions.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'extend/learndash/functions.php';
+
         /**
          * Form Designs
          */
-        if ( defined( 'PMS_PAID_PLUGIN_DIR' ) && file_exists( PMS_PAID_PLUGIN_DIR . '/add-ons-basic/form-designs/form-designs.php' ) ) {
-            include_once(PMS_PAID_PLUGIN_DIR . '/add-ons-basic/form-designs/form-designs.php');
-        }
-        elseif ( PAID_MEMBER_SUBSCRIPTIONS === 'Paid Member Subscriptions Dev' && file_exists( PMS_PLUGIN_DIR_PATH . '/add-ons-basic/form-designs/form-designs.php' ) )
-            include_once(PMS_PLUGIN_DIR_PATH . '/add-ons-basic/form-designs/form-designs.php');
+        if ( defined( 'PMS_PAID_PLUGIN_DIR' ) && file_exists( PMS_PAID_PLUGIN_DIR . '/add-ons-basic/form-designs/form-designs.php' ) )
+            include_once( PMS_PAID_PLUGIN_DIR . '/add-ons-basic/form-designs/form-designs.php' );
 
         /*
          * Profile Builder Compatibility
