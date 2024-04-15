@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.5
-Stable tag: 2.11.7
+Stable tag: 2.11.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.11.8 =
+* Fix: Add support to Stripe for recurring payments done through SEPA Direct Debit. Also applies to payment methods which use SEPA Direct Debit for recurring (iDeal for example)
+* Fix: A notice happening in the Setup Wizard
+* Fix: Properly initialize chosen on the Reports page when it's missing
+* Misc: Remove before unload event for Stripe so payments which redirect off-site don't require an extra click
+* Misc: Updated Stripe PHP bindings to the latest version (13.17.0)
+* Misc: Bumped the minimum supported version of Stripe PHP bindings to 7.33.0 when other plugins are loading this library
+
 = 2.11.7 =
 * Feature: Added the ability to select predefined or custom date intervals for the Reports page
 * Feature: Added subscription plans filter to the Reports page

@@ -61,10 +61,10 @@ class PMS_Add_General_Notices{
     public $endDate = '';
 
     function __construct( $notificationId, $notificationMessage, $notificationClass = 'updated' , $startDate = '', $endDate = '', $forceShow = false ){
-        $this->notificationId = $notificationId;
+        $this->notificationId      = $notificationId;
         $this->notificationMessage = $notificationMessage;
-        $this->notificationClass = $notificationClass;
-        $this->forceShow = $forceShow;
+        $this->notificationClass   = $notificationClass . ' pms-notice';
+        $this->forceShow           = $forceShow;
 
         if( !empty( $startDate ) && time() < strtotime( $startDate ) )
             return;

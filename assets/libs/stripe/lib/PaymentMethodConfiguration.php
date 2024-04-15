@@ -37,6 +37,7 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $card
  * @property null|\Stripe\StripeObject $cartes_bancaires
  * @property null|\Stripe\StripeObject $cashapp
+ * @property null|\Stripe\StripeObject $customer_balance
  * @property null|\Stripe\StripeObject $eps
  * @property null|\Stripe\StripeObject $fpx
  * @property null|\Stripe\StripeObject $giropay
@@ -60,11 +61,13 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $paynow
  * @property null|\Stripe\StripeObject $paypal
  * @property null|\Stripe\StripeObject $promptpay
+ * @property null|\Stripe\StripeObject $revolut_pay
  * @property null|\Stripe\StripeObject $sepa_debit
  * @property null|\Stripe\StripeObject $sofort
  * @property null|\Stripe\StripeObject $upi
  * @property null|\Stripe\StripeObject $us_bank_account
  * @property null|\Stripe\StripeObject $wechat_pay
+ * @property null|\Stripe\StripeObject $zip
  */
 class PaymentMethodConfiguration extends ApiResource
 {

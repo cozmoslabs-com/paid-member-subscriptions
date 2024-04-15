@@ -1,11 +1,11 @@
 <?php
 
 if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
-    version_compare( Stripe\Stripe::VERSION, '6.40.0' ) >= 0 
+    version_compare( Stripe\Stripe::VERSION, '7.33.0' ) >= 0 
   ){
     // using already existing class
 } else {
-   
+
   require __DIR__ . '/lib/Util/ApiVersion.php';
 
   // Stripe singleton
@@ -91,12 +91,17 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/AccountLink.php';
   require __DIR__ . '/lib/AccountSession.php';
   require __DIR__ . '/lib/ApplePayDomain.php';
+  require __DIR__ . '/lib/Application.php';
   require __DIR__ . '/lib/ApplicationFee.php';
   require __DIR__ . '/lib/ApplicationFeeRefund.php';
   require __DIR__ . '/lib/Apps/Secret.php';
   require __DIR__ . '/lib/Balance.php';
   require __DIR__ . '/lib/BalanceTransaction.php';
   require __DIR__ . '/lib/BankAccount.php';
+  require __DIR__ . '/lib/Billing/Meter.php';
+  require __DIR__ . '/lib/Billing/MeterEvent.php';
+  require __DIR__ . '/lib/Billing/MeterEventAdjustment.php';
+  require __DIR__ . '/lib/Billing/MeterEventSummary.php';
   require __DIR__ . '/lib/BillingPortal/Configuration.php';
   require __DIR__ . '/lib/BillingPortal/Session.php';
   require __DIR__ . '/lib/Capability.php';
@@ -107,6 +112,8 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Climate/Order.php';
   require __DIR__ . '/lib/Climate/Product.php';
   require __DIR__ . '/lib/Climate/Supplier.php';
+  require __DIR__ . '/lib/ConfirmationToken.php';
+  require __DIR__ . '/lib/ConnectCollectionTransfer.php';
   require __DIR__ . '/lib/CountrySpec.php';
   require __DIR__ . '/lib/Coupon.php';
   require __DIR__ . '/lib/CreditNote.php';
@@ -114,6 +121,7 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Customer.php';
   require __DIR__ . '/lib/CustomerBalanceTransaction.php';
   require __DIR__ . '/lib/CustomerCashBalanceTransaction.php';
+  require __DIR__ . '/lib/CustomerSession.php';
   require __DIR__ . '/lib/Discount.php';
   require __DIR__ . '/lib/Dispute.php';
   require __DIR__ . '/lib/EphemeralKey.php';
@@ -125,6 +133,8 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/FinancialConnections/AccountOwner.php';
   require __DIR__ . '/lib/FinancialConnections/AccountOwnership.php';
   require __DIR__ . '/lib/FinancialConnections/Session.php';
+  require __DIR__ . '/lib/FinancialConnections/Transaction.php';
+  require __DIR__ . '/lib/Forwarding/Request.php';
   require __DIR__ . '/lib/FundingInstructions.php';
   require __DIR__ . '/lib/Identity/VerificationReport.php';
   require __DIR__ . '/lib/Identity/VerificationSession.php';
@@ -135,6 +145,8 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Issuing/Card.php';
   require __DIR__ . '/lib/Issuing/Cardholder.php';
   require __DIR__ . '/lib/Issuing/Dispute.php';
+  require __DIR__ . '/lib/Issuing/PersonalizationDesign.php';
+  require __DIR__ . '/lib/Issuing/PhysicalBundle.php';
   require __DIR__ . '/lib/Issuing/Token.php';
   require __DIR__ . '/lib/Issuing/Transaction.php';
   require __DIR__ . '/lib/LineItem.php';
@@ -148,6 +160,7 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Payout.php';
   require __DIR__ . '/lib/Person.php';
   require __DIR__ . '/lib/Plan.php';
+  require __DIR__ . '/lib/PlatformTaxFee.php';
   require __DIR__ . '/lib/Price.php';
   require __DIR__ . '/lib/Product.php';
   require __DIR__ . '/lib/PromotionCode.php';
@@ -158,6 +171,7 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Refund.php';
   require __DIR__ . '/lib/Reporting/ReportRun.php';
   require __DIR__ . '/lib/Reporting/ReportType.php';
+  require __DIR__ . '/lib/ReserveTransaction.php';
   require __DIR__ . '/lib/Review.php';
   require __DIR__ . '/lib/Service/AccountLinkService.php';
   require __DIR__ . '/lib/Service/AccountService.php';
@@ -168,6 +182,10 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Service/Apps/SecretService.php';
   require __DIR__ . '/lib/Service/BalanceService.php';
   require __DIR__ . '/lib/Service/BalanceTransactionService.php';
+  require __DIR__ . '/lib/Service/Billing/BillingServiceFactory.php';
+  require __DIR__ . '/lib/Service/Billing/MeterEventAdjustmentService.php';
+  require __DIR__ . '/lib/Service/Billing/MeterEventService.php';
+  require __DIR__ . '/lib/Service/Billing/MeterService.php';
   require __DIR__ . '/lib/Service/BillingPortal/BillingPortalServiceFactory.php';
   require __DIR__ . '/lib/Service/BillingPortal/ConfigurationService.php';
   require __DIR__ . '/lib/Service/BillingPortal/SessionService.php';
@@ -178,11 +196,13 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Service/Climate/OrderService.php';
   require __DIR__ . '/lib/Service/Climate/ProductService.php';
   require __DIR__ . '/lib/Service/Climate/SupplierService.php';
+  require __DIR__ . '/lib/Service/ConfirmationTokenService.php';
   require __DIR__ . '/lib/Service/CoreServiceFactory.php';
   require __DIR__ . '/lib/Service/CountrySpecService.php';
   require __DIR__ . '/lib/Service/CouponService.php';
   require __DIR__ . '/lib/Service/CreditNoteService.php';
   require __DIR__ . '/lib/Service/CustomerService.php';
+  require __DIR__ . '/lib/Service/CustomerSessionService.php';
   require __DIR__ . '/lib/Service/DisputeService.php';
   require __DIR__ . '/lib/Service/EphemeralKeyService.php';
   require __DIR__ . '/lib/Service/EventService.php';
@@ -192,6 +212,9 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Service/FinancialConnections/AccountService.php';
   require __DIR__ . '/lib/Service/FinancialConnections/FinancialConnectionsServiceFactory.php';
   require __DIR__ . '/lib/Service/FinancialConnections/SessionService.php';
+  require __DIR__ . '/lib/Service/FinancialConnections/TransactionService.php';
+  require __DIR__ . '/lib/Service/Forwarding/ForwardingServiceFactory.php';
+  require __DIR__ . '/lib/Service/Forwarding/RequestService.php';
   require __DIR__ . '/lib/Service/Identity/IdentityServiceFactory.php';
   require __DIR__ . '/lib/Service/Identity/VerificationReportService.php';
   require __DIR__ . '/lib/Service/Identity/VerificationSessionService.php';
@@ -202,6 +225,8 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Service/Issuing/CardholderService.php';
   require __DIR__ . '/lib/Service/Issuing/DisputeService.php';
   require __DIR__ . '/lib/Service/Issuing/IssuingServiceFactory.php';
+  require __DIR__ . '/lib/Service/Issuing/PersonalizationDesignService.php';
+  require __DIR__ . '/lib/Service/Issuing/PhysicalBundleService.php';
   require __DIR__ . '/lib/Service/Issuing/TokenService.php';
   require __DIR__ . '/lib/Service/Issuing/TransactionService.php';
   require __DIR__ . '/lib/Service/MandateService.php';
@@ -240,16 +265,19 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Service/Tax/TaxServiceFactory.php';
   require __DIR__ . '/lib/Service/Tax/TransactionService.php';
   require __DIR__ . '/lib/Service/TaxCodeService.php';
+  require __DIR__ . '/lib/Service/TaxIdService.php';
   require __DIR__ . '/lib/Service/TaxRateService.php';
   require __DIR__ . '/lib/Service/Terminal/ConfigurationService.php';
   require __DIR__ . '/lib/Service/Terminal/ConnectionTokenService.php';
   require __DIR__ . '/lib/Service/Terminal/LocationService.php';
   require __DIR__ . '/lib/Service/Terminal/ReaderService.php';
   require __DIR__ . '/lib/Service/Terminal/TerminalServiceFactory.php';
+  require __DIR__ . '/lib/Service/TestHelpers/ConfirmationTokenService.php';
   require __DIR__ . '/lib/Service/TestHelpers/CustomerService.php';
   require __DIR__ . '/lib/Service/TestHelpers/Issuing/AuthorizationService.php';
   require __DIR__ . '/lib/Service/TestHelpers/Issuing/CardService.php';
   require __DIR__ . '/lib/Service/TestHelpers/Issuing/IssuingServiceFactory.php';
+  require __DIR__ . '/lib/Service/TestHelpers/Issuing/PersonalizationDesignService.php';
   require __DIR__ . '/lib/Service/TestHelpers/Issuing/TransactionService.php';
   require __DIR__ . '/lib/Service/TestHelpers/RefundService.php';
   require __DIR__ . '/lib/Service/TestHelpers/Terminal/ReaderService.php';
@@ -282,6 +310,7 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/ShippingRate.php';
   require __DIR__ . '/lib/Sigma/ScheduledQueryRun.php';
   require __DIR__ . '/lib/Source.php';
+  require __DIR__ . '/lib/SourceMandateNotification.php';
   require __DIR__ . '/lib/SourceTransaction.php';
   require __DIR__ . '/lib/Subscription.php';
   require __DIR__ . '/lib/SubscriptionItem.php';
@@ -293,6 +322,7 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   require __DIR__ . '/lib/Tax/Transaction.php';
   require __DIR__ . '/lib/Tax/TransactionLineItem.php';
   require __DIR__ . '/lib/TaxCode.php';
+  require __DIR__ . '/lib/TaxDeductedAtSource.php';
   require __DIR__ . '/lib/TaxId.php';
   require __DIR__ . '/lib/TaxRate.php';
   require __DIR__ . '/lib/Terminal/Configuration.php';
@@ -329,5 +359,5 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
   // Webhooks
   require __DIR__ . '/lib/Webhook.php';
   require __DIR__ . '/lib/WebhookSignature.php';
-    
+
 }

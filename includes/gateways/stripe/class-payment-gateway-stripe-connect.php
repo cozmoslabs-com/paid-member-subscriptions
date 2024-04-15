@@ -9,6 +9,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 use Stripe\Stripe;
 use Stripe\Account;
 use Stripe\Customer;
+use Stripe\Charge;
 use Stripe\PaymentMethod;
 use Stripe\PaymentIntent;
 use Stripe\SetupIntent;
@@ -347,7 +348,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 }
 
-                // Set PaymentMethod as default
+                // Set PaymentMethod
                 if( !empty( $intent->customer ) ){
 
                     // Save Customer and Card for this subscription
@@ -413,12 +414,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 }
 
-                // Set PaymentMethod as default
+                // Set PaymentMethod
                 if( !empty( $intent->customer ) ){
 
                     // Save Customer and Card for this subscription
                     pms_update_member_subscription_meta( $subscription_id, '_stripe_customer_id', $intent->customer );
                     pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $intent->payment_method );
+
 
                     // Save Customer to usermeta
                     update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $intent->customer );
@@ -536,7 +538,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 //add transaction ID to payment
                 $payment->update( array( 'transaction_id' => $intent->id ) );
 
-                if( $intent->status == 'succeeded' ){
+                if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
 
                     $payment->log_data( 'stripe_intent_confirmed' );
                     $payment->update( array( 'status' => 'completed' ) );
@@ -1290,7 +1292,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         try {
 
-            $payment_intent = PaymentIntent::update( $payment_intent_id, apply_filters( 'pms_stripe_connect_update_payment_intent_args', $args, $payment_intent ) );
+            $payment_intent = PaymentIntent::update( $payment_intent_id, apply_filters( 'pms_stripe_connect_update_payment_intent_args', $args, $subscription_plan, $payment_intent ) );
 
         } catch( Exception $e ){
 
@@ -1549,8 +1551,28 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.succeeded', 'data' => $data->metadata ) );
 
-                if( $payment->status == 'completed' )
+                if( $payment->status == 'completed' ){
+                    
+                    // Verify if we need to update the SEPA Direct Debit payment method at this point
+                    if( !empty( $data->latest_charge ) ){
+                        
+                        $subscription_id = isset( $data->metadata->subscription_id ) ? absint( $data->metadata->subscription_id ) : 0;
+
+                        if ( $subscription_id === 0 )
+                            die();
+
+                        // Set correct payment method for SEPA Direct Debit recurring transactions.
+                        // The initial charge can be made through iDEAL for example, but for subsequent charges, the generated SEPA Debit payment method needs to be used
+                        $payment_method = $this->get_alternative_payment_method( $data->latest_charge );
+    
+                        if( !empty( $payment_method ) )
+                            pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', sanitize_text_field( $payment_method ) );
+    
+                    }
+
+
                     die();
+                }
 
                 $payment->log_data( 'stripe_intent_confirmed' );
 
@@ -1641,6 +1663,17 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 if( $member_subscription->status != 'active' && !empty( $data->metadata->request_location ) ){
 
                     $this->update_subscription( $member_subscription, sanitize_text_field( $data->metadata->request_location ), false, sanitize_text_field( $data->metadata->is_recurring ) );
+
+                }
+
+                if( !empty( $data->latest_charge ) ){
+
+                    // Set correct payment method for SEPA Direct Debit recurring transactions.
+                    // The initial charge can be made through iDEAL for example, but for subsequent charges, the generated SEPA Debit payment method needs to be used
+                    $payment_method = $this->get_alternative_payment_method( $data->latest_charge );
+
+                    if( !empty( $payment_method ) )
+                        pms_update_member_subscription_meta( $member_subscription->id, '_stripe_card_id', sanitize_text_field( $payment_method ) );
 
                 }
 
@@ -1744,14 +1777,58 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             }
 
-            // Update subscription Payment Method
-            if( !empty( $data->payment_method ) ){
-                pms_update_member_subscription_meta( $subscription->id, '_stripe_card_id', sanitize_text_field( $data->payment_method ) );
+            $payment_method = !empty( $data->payment_method ) ? $data->payment_method : '';
 
-                $this->save_payment_method_expiration_data( $subscription->id, $data->payment_method );
+            // Update subscription Payment Method
+            if( !empty( $data->latest_charge ) ){
+
+                // Set correct payment method for SEPA Direct Debit recurring transactions.
+                // The initial charge can be made through iDEAL for example, but for subsequent charges, the generated SEPA Debit payment method needs to be used
+                $alternative_payment_method = $this->get_alternative_payment_method( $data->latest_charge );
+
+                if( !empty( $alternative_payment_method ) )
+                    $payment_method = $alternative_payment_method;
+                
+            }
+
+
+            if( !empty( $payment_method ) ){
+                pms_update_member_subscription_meta( $subscription->id, '_stripe_card_id', sanitize_text_field( $payment_method ) );
+
+                $this->save_payment_method_expiration_data( $subscription->id, $payment_method );
             }
 
         }
+
+    }
+
+    /**
+     * This method checks the payment methods of a charge and if it's different than card, 
+     * it returns the payment method that can be used for future payments
+     */
+    private function get_alternative_payment_method( $latest_charge ){
+
+        // We always expect one charge per payment intent
+        if( empty( $latest_charge ) )
+            return false;
+
+        $charge = Charge::retrieve( $latest_charge );
+
+        if( empty( $charge->payment_method_details ) )
+            return false;
+
+        $payment_method_details = $charge->payment_method_details;
+
+        if( empty( $payment_method_details->type ) || $payment_method_details->type == 'card' )
+            return false;
+
+        // We always expect one charge per payment intent
+        $payment_method_type = $payment_method_details->type;
+
+        if( empty( $payment_method_details->$payment_method_type ) || empty( $payment_method_details->$payment_method_type->generated_sepa_debit ) )
+            return false;
+
+        return $payment_method_details->$payment_method_type->generated_sepa_debit;
 
     }
 
@@ -2092,6 +2169,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         // set API key
         $stripe = new \Stripe\StripeClient( $this->secret_key );
+
+        if( empty( $stripe->paymentMethodDomains ) )
+            return false;
 
         // get domains
         try {

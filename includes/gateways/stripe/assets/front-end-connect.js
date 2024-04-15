@@ -210,12 +210,12 @@ jQuery( function( $ ) {
                     if( data.setup_intent && data.setup_intent === true ){
 
                         // Prompt the user when leaving the page once the payment request has started
-                        var paymentRequestStarted = true
+                        //var paymentRequestStarted = true
 
-                        window.addEventListener('beforeunload', (event) => {
-                            if (paymentRequestStarted)
-                                event.returnValue = 'Payment is processing, do not close the page'
-                        })
+                        // window.addEventListener('beforeunload', (event) => {
+                        //     if (paymentRequestStarted)
+                        //         event.returnValue = 'Payment is processing, do not close the page'
+                        // })
 
                         stripe.confirmSetup({ 
                             elements: elements_setup_intent, 
@@ -226,7 +226,7 @@ jQuery( function( $ ) {
                             redirect: 'if_required', 
                         }).then(function(result) {
 
-                            paymentRequestStarted = false
+                            //paymentRequestStarted = false
 
                             // Make request to process payment
                             stripeConnectProcessPayment( result, response, data )
@@ -237,12 +237,12 @@ jQuery( function( $ ) {
                     } else {
 
                         // Prompt the user when leaving the page once the payment request has started
-                        var paymentRequestStarted = true
+                        //var paymentRequestStarted = true
 
-                        window.addEventListener('beforeunload', (event) => {
-                            if ( paymentRequestStarted )
-                                event.returnValue = 'Payment is processing, do not close the page'
-                        })
+                        // window.addEventListener('beforeunload', (event) => {
+                        //     if ( paymentRequestStarted )
+                        //         event.returnValue = 'Payment is processing, do not close the page'
+                        // })
 
                         stripe.confirmPayment({
                             elements,
@@ -252,7 +252,7 @@ jQuery( function( $ ) {
                             },
                             redirect : 'if_required',
                         }).then(function(result){
-                            paymentRequestStarted = false
+                            //paymentRequestStarted = false
 
                             // Make request to process payment
                             stripeConnectProcessPayment( result, response, data )

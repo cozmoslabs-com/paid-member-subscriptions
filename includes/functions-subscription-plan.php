@@ -289,6 +289,8 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
     if( empty( $include ) )
         $subscription_plans = pms_get_subscription_plans();
     else {
+        $include = array_values( $include );
+        
         if( !is_object( $include[0] ) )
             $subscription_plans = pms_get_subscription_plans( true, $include );
         else

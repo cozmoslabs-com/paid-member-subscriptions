@@ -244,6 +244,11 @@ function pms_add_register_version_form() {
 
     $status          = pms_get_serial_number_status();
     $license         = pms_get_serial_number();
+
+    // process license so it doesn't get displayed in back-end
+    $license_length = strlen( $license );
+    $license        = substr_replace( $license, '***************', 7, $license_length - 14 );
+
     $license_details = get_option( 'pms_license_details', false );
     ?>
     
@@ -255,7 +260,7 @@ function pms_add_register_version_form() {
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-form-field-serial-number">
                 <label class="cozmoslabs-form-field-label" for="pms_serial_number"><?php esc_html_e( 'License key', 'paid-member-subscriptions' ); ?></label>
                 <div class="cozmoslabs-serial-wrap__holder">
-                    <input id="pms_serial_number" name="pms_serial_number" type="password" class="regular-text" value="<?php echo esc_attr( $license ); ?>" />
+                    <input id="pms_serial_number" name="pms_serial_number" type="text" class="regular-text" value="<?php echo esc_attr( $license ); ?>" />
                     <?php wp_nonce_field( 'pms_license_nonce', 'pms_license_nonce' ); ?>
                     <?php if( $status !== false && $status == 'valid' ) {
                         $button_name =  'pms_edd_license_deactivate';

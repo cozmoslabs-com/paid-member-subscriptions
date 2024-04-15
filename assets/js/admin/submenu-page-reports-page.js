@@ -113,4 +113,14 @@ jQuery( function($) {
     $(document).ready( function() {
         $("input.pms_datepicker").datepicker({dateFormat: 'yy-mm-dd'});
     });
+
+    /*
+    * Initialise chosen
+    *
+    */
+    if( $.fn.chosen != undefined ) {
+
+        $('.pms-chosen').chosen();
+
+    }
 });

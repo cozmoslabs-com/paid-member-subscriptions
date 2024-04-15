@@ -117,7 +117,10 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
         // Sanitize all option values
         $options = pms_array_strip_script_tags( $options );
 
+        $previous_options = array();
+
         if ( isset( $_REQUEST['option_page'] ) ) {
+
             $option_page = sanitize_text_field( $_REQUEST['option_page'] );
 
             $previous_options = get_option( $option_page, array() );

@@ -4,13 +4,19 @@
 
 namespace Stripe\Service\Tax;
 
+/**
+ * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ */
+/**
+ * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ */
 class RegistrationService extends \Stripe\Service\AbstractService
 {
     /**
      * Returns a list of Tax <code>Registration</code> objects.
      *
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
@@ -25,7 +31,7 @@ class RegistrationService extends \Stripe\Service\AbstractService
      * Creates a new Tax <code>Registration</code> object.
      *
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
@@ -37,6 +43,22 @@ class RegistrationService extends \Stripe\Service\AbstractService
     }
 
     /**
+     * Returns a Tax <code>Registration</code> object.
+     *
+     * @param string $id
+     * @param null|array $params
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Tax\Registration
+     */
+    public function retrieve($id, $params = null, $opts = null)
+    {
+        return $this->request('get', $this->buildPath('/v1/tax/registrations/%s', $id), $params, $opts);
+    }
+
+    /**
      * Updates an existing Tax <code>Registration</code> object.
      *
      * A registration cannot be deleted after it has been created. If you wish to end a
@@ -44,7 +66,7 @@ class RegistrationService extends \Stripe\Service\AbstractService
      *
      * @param string $id
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *

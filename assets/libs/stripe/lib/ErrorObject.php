@@ -85,10 +85,16 @@ class ErrorObject extends StripeObject
     const CODE_COUPON_EXPIRED = 'coupon_expired';
     const CODE_CUSTOMER_MAX_PAYMENT_METHODS = 'customer_max_payment_methods';
     const CODE_CUSTOMER_MAX_SUBSCRIPTIONS = 'customer_max_subscriptions';
+    const CODE_CUSTOMER_TAX_LOCATION_INVALID = 'customer_tax_location_invalid';
     const CODE_DEBIT_NOT_AUTHORIZED = 'debit_not_authorized';
     const CODE_EMAIL_INVALID = 'email_invalid';
     const CODE_EXPIRED_CARD = 'expired_card';
     const CODE_FINANCIAL_CONNECTIONS_ACCOUNT_INACTIVE = 'financial_connections_account_inactive';
+    const CODE_FINANCIAL_CONNECTIONS_NO_SUCCESSFUL_TRANSACTION_REFRESH = 'financial_connections_no_successful_transaction_refresh';
+    const CODE_FORWARDING_API_INACTIVE = 'forwarding_api_inactive';
+    const CODE_FORWARDING_API_INVALID_PARAMETER = 'forwarding_api_invalid_parameter';
+    const CODE_FORWARDING_API_UPSTREAM_CONNECTION_ERROR = 'forwarding_api_upstream_connection_error';
+    const CODE_FORWARDING_API_UPSTREAM_CONNECTION_TIMEOUT = 'forwarding_api_upstream_connection_timeout';
     const CODE_IDEMPOTENCY_KEY_IN_USE = 'idempotency_key_in_use';
     const CODE_INCORRECT_ADDRESS = 'incorrect_address';
     const CODE_INCORRECT_CVC = 'incorrect_cvc';

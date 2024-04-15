@@ -61,7 +61,7 @@ msgstr ""
 msgid "Uninstall"
 msgstr ""
 
-#: index.php:1170, includes/admin/class-admin-settings.php:57, includes/admin/class-admin-settings.php:299, includes/admin/class-admin-settings.php:299, includes/admin/views/view-page-basic-info.php:122, includes/admin/views/view-page-basic-info.php:183
+#: index.php:1170, includes/admin/class-admin-settings.php:57, includes/admin/class-admin-settings.php:302, includes/admin/class-admin-settings.php:302, includes/admin/views/view-page-basic-info.php:122, includes/admin/views/view-page-basic-info.php:183
 msgid "Settings"
 msgstr ""
 
@@ -463,7 +463,7 @@ msgstr ""
 msgid "Both fields are empty."
 msgstr ""
 
-#: includes/class-form-handler.php:1254, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:887
+#: includes/class-form-handler.php:1254, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:889
 msgid "Congratulations, you have successfully created an account."
 msgstr ""
 
@@ -524,7 +524,7 @@ msgstr ""
 msgid "Unlimited"
 msgstr ""
 
-#: includes/class-merge-tags.php:253, includes/class-merge-tags.php:296, includes/functions-subscription-plan.php:474, includes/admin/class-admin-subscription-plans.php:415, add-ons-pro/group-memberships/includes/class-group-memberships.php:634, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:195, includes/admin/views/view-page-addons.php:267, includes/admin/views/view-page-addons.php:336
+#: includes/class-merge-tags.php:253, includes/class-merge-tags.php:296, includes/functions-subscription-plan.php:476, includes/admin/class-admin-subscription-plans.php:415, add-ons-pro/group-memberships/includes/class-group-memberships.php:634, add-ons-pro/pro-rate/includes/class-pro-rate.php:114, includes/admin/views/view-page-addons.php:195, includes/admin/views/view-page-addons.php:267, includes/admin/views/view-page-addons.php:336
 msgid "Free"
 msgstr ""
 
@@ -600,7 +600,7 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: includes/class-shortcodes.php:256, includes/admin/class-admin-dashboard.php:264, includes/admin/class-admin-payments.php:537, includes/admin/class-admin-payments.php:537, includes/admin/class-admin-settings.php:225, includes/admin/class-admin-setup-wizard.php:38, includes/admin/views/view-page-basic-info.php:114, includes/admin/views/view-page-settings-misc.php:19
+#: includes/class-shortcodes.php:256, includes/admin/class-admin-dashboard.php:264, includes/admin/class-admin-payments.php:537, includes/admin/class-admin-payments.php:537, includes/admin/class-admin-settings.php:228, includes/admin/class-admin-setup-wizard.php:38, includes/admin/views/view-page-basic-info.php:114, includes/admin/views/view-page-settings-misc.php:19
 msgid "Payments"
 msgstr ""
 
@@ -2476,7 +2476,7 @@ msgstr ""
 msgid "In order to restore it, you need to put the plugin into <strong>Test Mode</strong>."
 msgstr ""
 
-#: includes/functions-core.php:1171, includes/functions-core.php:1198, includes/functions-core.php:1238, includes/functions-core.php:1219, includes/functions-core.php:1252, includes/functions-core.php:1302, includes/functions-core.php:1345, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:289, add-ons-pro/group-memberships/includes/functions.php:309, includes/gateways/stripe/functions-filters.php:401
+#: includes/functions-core.php:1171, includes/functions-core.php:1198, includes/functions-core.php:1279, includes/functions-core.php:1260, includes/functions-core.php:1293, includes/functions-core.php:1343, includes/functions-core.php:1386, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:289, add-ons-pro/group-memberships/includes/functions.php:309, includes/gateways/stripe/functions-filters.php:401
 msgid " %1$sDismiss%2$s"
 msgstr ""
 
@@ -2484,23 +2484,39 @@ msgstr ""
 msgid "Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate."
 msgstr ""
 
-#: includes/functions-core.php:1237
+#: includes/functions-core.php:1278
 msgid "Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>"
 msgstr ""
 
-#: includes/functions-core.php:1214
+#: includes/functions-core.php:1255
 msgid "Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class=\"button-primary\" href=\"%s\">Renew now</a>"
 msgstr ""
 
-#: includes/functions-core.php:1248
+#: includes/functions-core.php:1240
+msgid "Your <strong>Paid Member Subscriptions</strong> license is not activated. <br/>Please %1$sactivate%2$s your license in order to receive access to automatic updates and support. Need a license key? %3$sPurchase one now%4$s"
+msgstr ""
+
+#: includes/functions-core.php:1243
+msgid "Your <strong>Paid Member Subscriptions</strong> license is not activated. <br/>Please %1$sactivate%2$s your license in order to receive access to automatic updates, waive the Stripe fees and support. Need a license key? %3$sPurchase one now%4$s"
+msgstr ""
+
+#: includes/functions-core.php:1220
+msgid "Your <strong>Paid Member Subscriptions</strong> license is invalid or missing. <br/>Please %1$sregister your copy%2$s to receive access to automatic updates and support. Need a license key? %3$sPurchase one now%4$s"
+msgstr ""
+
+#: includes/functions-core.php:1223
+msgid "Your <strong>Paid Member Subscriptions</strong> license is invalid or missing. <br/>Please %1$sregister your copy%2$s to receive access to automatic updates, waive the Stripe fees and support. Need a license key? %3$sPurchase one now%4$s"
+msgstr ""
+
+#: includes/functions-core.php:1289
 msgid "Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>"
 msgstr ""
 
-#: includes/functions-core.php:1300
+#: includes/functions-core.php:1341
 msgid "<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\"%1$s\" target=\"_blank\">have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\"%2$s\" target=\"_blank\">account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>"
 msgstr ""
 
-#: includes/functions-core.php:1334
+#: includes/functions-core.php:1375
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s"
 msgstr ""
 
@@ -2572,75 +2588,75 @@ msgstr ""
 msgid "Buy now"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:511, includes/admin/class-admin-subscription-plans.php:394, includes/admin/class-admin-subscription-plans.php:452
+#: includes/functions-subscription-plan.php:513, includes/admin/class-admin-subscription-plans.php:394, includes/admin/class-admin-subscription-plans.php:452
 msgid "%s Day"
 msgid_plural "%s Days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:514, includes/admin/class-admin-subscription-plans.php:397, includes/admin/class-admin-subscription-plans.php:455
+#: includes/functions-subscription-plan.php:516, includes/admin/class-admin-subscription-plans.php:397, includes/admin/class-admin-subscription-plans.php:455
 msgid "%s Week"
 msgid_plural "%s Weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:517, includes/admin/class-admin-subscription-plans.php:400, includes/admin/class-admin-subscription-plans.php:458
+#: includes/functions-subscription-plan.php:519, includes/admin/class-admin-subscription-plans.php:400, includes/admin/class-admin-subscription-plans.php:458
 msgid "%s Month"
 msgid_plural "%s Months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:520, includes/admin/class-admin-subscription-plans.php:403, includes/admin/class-admin-subscription-plans.php:461
+#: includes/functions-subscription-plan.php:522, includes/admin/class-admin-subscription-plans.php:403, includes/admin/class-admin-subscription-plans.php:461
 msgid "%s Year"
 msgid_plural "%s Years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:500, includes/admin/class-admin-subscription-plans.php:410
+#: includes/functions-subscription-plan.php:502, includes/admin/class-admin-subscription-plans.php:410
 msgid "until"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:575, includes/functions-subscription-plan.php:594
+#: includes/functions-subscription-plan.php:577, includes/functions-subscription-plan.php:596
 msgid "day"
 msgid_plural "days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:578
+#: includes/functions-subscription-plan.php:580
 msgid "week"
 msgid_plural "weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:581
+#: includes/functions-subscription-plan.php:583
 msgid "month"
 msgid_plural "months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:584
+#: includes/functions-subscription-plan.php:586
 msgid "year"
 msgid_plural "years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/functions-subscription-plan.php:598
+#: includes/functions-subscription-plan.php:600
 msgid " with a %1$s %2$s free trial"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:637
+#: includes/functions-subscription-plan.php:639
 msgid " and a %1$s sign-up fee"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:710
+#: includes/functions-subscription-plan.php:712
 msgid "Automatically renew subscription"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:834
+#: includes/functions-subscription-plan.php:836
 msgid "You need to create Subscription Plans before you can use this form. Go to your <strong>Dashboard -> Paid Member Subscriptions -> Subscriptions Plans</strong> to do this."
 msgstr ""
 
-#: includes/functions-subscription-plan.php:835, add-ons-pro/stripe/includes/functions-actions.php:25, includes/gateways/paypal_standard/functions-paypal-standard.php:91, includes/gateways/paypal_standard/functions-paypal-standard.php:119, includes/gateways/paypal_standard/functions-paypal-standard.php:257, includes/gateways/paypal_standard/functions-paypal-standard.php:285
+#: includes/functions-subscription-plan.php:837, add-ons-pro/stripe/includes/functions-actions.php:25, includes/gateways/paypal_standard/functions-paypal-standard.php:91, includes/gateways/paypal_standard/functions-paypal-standard.php:119, includes/gateways/paypal_standard/functions-paypal-standard.php:257, includes/gateways/paypal_standard/functions-paypal-standard.php:285
 msgid "This message is visible only by Administrators."
 msgstr ""
 
@@ -2752,7 +2768,7 @@ msgstr ""
 msgid "VAT"
 msgstr ""
 
-#: extend/bbpress/functions.php:16, extend/elementor/class-elementor.php:122, extend/learndash/functions.php:38, includes/admin/class-admin-settings.php:226, includes/admin/meta-boxes/class-meta-box-single-content-restriction.php:134, add-ons-basic/bbpress/includes/admin/meta-boxes/functions-meta-box-content-restriction.php:28
+#: extend/bbpress/functions.php:16, extend/elementor/class-elementor.php:122, extend/learndash/functions.php:38, includes/admin/class-admin-settings.php:229, includes/admin/meta-boxes/class-meta-box-single-content-restriction.php:134, add-ons-basic/bbpress/includes/admin/meta-boxes/functions-meta-box-content-restriction.php:28
 msgid "Content Restriction"
 msgstr ""
 
@@ -3736,15 +3752,15 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
-#: includes/admin/class-admin-settings.php:224, includes/admin/views/view-page-settings-content_restriction.php:14, extend/beaver-builder/modules/pms-account/pms-account.php:29, extend/beaver-builder/modules/pms-login/pms-login.php:29, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:29, extend/beaver-builder/modules/pms-register/pms-register.php:29
+#: includes/admin/class-admin-settings.php:227, includes/admin/views/view-page-settings-content_restriction.php:14, extend/beaver-builder/modules/pms-account/pms-account.php:29, extend/beaver-builder/modules/pms-login/pms-login.php:29, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:29, extend/beaver-builder/modules/pms-register/pms-register.php:29
 msgid "General"
 msgstr ""
 
-#: includes/admin/class-admin-settings.php:227
+#: includes/admin/class-admin-settings.php:230
 msgid "E-Mails"
 msgstr ""
 
-#: includes/admin/class-admin-settings.php:228, includes/admin/views/view-page-settings-content_restriction.php:127
+#: includes/admin/class-admin-settings.php:231, includes/admin/views/view-page-settings-content_restriction.php:127
 msgid "Misc"
 msgstr ""
 
@@ -3868,7 +3884,7 @@ msgid_plural "for %d seats"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-subscription-plans.php:665, includes/admin/functions-admin.php:421
+#: includes/admin/class-admin-subscription-plans.php:665, includes/admin/functions-admin.php:426
 msgid "Create Pricing Page"
 msgstr ""
 
@@ -4026,107 +4042,107 @@ msgstr ""
 msgid "Completed successfully."
 msgstr ""
 
-#: includes/admin/functions-admin.php:251
+#: includes/admin/functions-admin.php:256
 msgid "Register Version "
 msgstr ""
 
-#: includes/admin/functions-admin.php:256
+#: includes/admin/functions-admin.php:261
 msgid "License key"
 msgstr ""
 
-#: includes/admin/functions-admin.php:269
+#: includes/admin/functions-admin.php:274
 msgid "Activate License"
 msgstr ""
 
-#: includes/admin/functions-admin.php:262
+#: includes/admin/functions-admin.php:267
 msgid "Deactivate License"
 msgstr ""
 
-#: includes/admin/functions-admin.php:266
+#: includes/admin/functions-admin.php:271
 msgid "Your license is invalid"
 msgstr ""
 
-#: includes/admin/functions-admin.php:264
+#: includes/admin/functions-admin.php:269
 msgid "Active on this site"
 msgstr ""
 
-#: includes/admin/functions-admin.php:292
+#: includes/admin/functions-admin.php:297
 msgid "Enter your license key. Your license key can be found in your %sCozmoslabs account%s. "
 msgstr ""
 
-#: includes/admin/functions-admin.php:293
+#: includes/admin/functions-admin.php:298
 msgid "You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required. %sClick here%s to buy one."
 msgstr ""
 
-#: includes/admin/functions-admin.php:287
+#: includes/admin/functions-admin.php:292
 msgid "Your %s license has reached its activation limit."
 msgstr ""
 
-#: includes/admin/functions-admin.php:288
+#: includes/admin/functions-admin.php:293
 msgid "%sUpgrade now%s for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more."
 msgstr ""
 
-#: includes/admin/functions-admin.php:282
+#: includes/admin/functions-admin.php:287
 msgid "Your %s license has expired."
 msgstr ""
 
-#: includes/admin/functions-admin.php:283
+#: includes/admin/functions-admin.php:288
 msgid "Please %1$sRenew Your Licence%2$s to continue receiving access to product downloads, automatic updates and support."
 msgstr ""
 
-#: includes/admin/functions-admin.php:277
+#: includes/admin/functions-admin.php:282
 msgid "Your %s license is about to expire on %s"
 msgstr ""
 
-#: includes/admin/functions-admin.php:278
+#: includes/admin/functions-admin.php:283
 msgid "Please %sRenew Your Licence%s to continue receiving access to product downloads, automatic updates and support."
 msgstr ""
 
-#: includes/admin/functions-admin.php:403, includes/admin/functions-user.php:22, add-ons-pro/multiple-subscriptions-per-user/includes/functions.php:83
+#: includes/admin/functions-admin.php:408, includes/admin/functions-user.php:22, add-ons-pro/multiple-subscriptions-per-user/includes/functions.php:83
 msgid "Add New Subscription"
 msgstr ""
 
-#: includes/admin/functions-admin.php:428
+#: includes/admin/functions-admin.php:433
 msgid "PMS → Settings → Membership Pages → Registration"
 msgstr ""
 
-#: includes/admin/functions-admin.php:429
+#: includes/admin/functions-admin.php:434
 msgid "%sAlert:%s It appears that the register page is not configured. To address this, please navigate to %s and choose the page containing the %s shortcode."
 msgstr ""
 
-#: includes/admin/functions-admin.php:442
+#: includes/admin/functions-admin.php:447
 msgid "PMS → Subscription Plans → Add New"
 msgstr ""
 
-#: includes/admin/functions-admin.php:443
+#: includes/admin/functions-admin.php:448
 msgid "%sAlert:%s It seems that you do not have any subscriptions plans set. To resolve this, please navigate to %s and create a new subscription plan."
 msgstr ""
 
-#: includes/admin/functions-admin.php:451
+#: includes/admin/functions-admin.php:456
 msgid "Select the subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans."
 msgstr ""
 
-#: includes/admin/functions-admin.php:456
+#: includes/admin/functions-admin.php:461
 msgid "First plan:"
 msgstr ""
 
-#: includes/admin/functions-admin.php:460, includes/admin/functions-admin.php:475, includes/admin/functions-admin.php:491
+#: includes/admin/functions-admin.php:465, includes/admin/functions-admin.php:480, includes/admin/functions-admin.php:496
 msgid "Select a plan..."
 msgstr ""
 
-#: includes/admin/functions-admin.php:471
+#: includes/admin/functions-admin.php:476
 msgid "Second plan:"
 msgstr ""
 
-#: includes/admin/functions-admin.php:487
+#: includes/admin/functions-admin.php:492
 msgid "Third plan:"
 msgstr ""
 
-#: includes/admin/functions-admin.php:503, includes/admin/functions-admin.php:543
+#: includes/admin/functions-admin.php:508, includes/admin/functions-admin.php:548
 msgid "Choose a style that better suits your pricing page."
 msgstr ""
 
-#: includes/admin/functions-admin.php:538
+#: includes/admin/functions-admin.php:543
 msgid "Choose a style for Pricing Page"
 msgstr ""
 
@@ -4827,7 +4843,7 @@ msgstr ""
 msgid "Member removed successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:917, add-ons-pro/group-memberships/includes/class-group-memberships.php:945, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1516, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1075, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1114
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:917, add-ons-pro/group-memberships/includes/class-group-memberships.php:945, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1516, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1077, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1116
 msgid "Something went wrong, please try again."
 msgstr ""
 
@@ -5163,7 +5179,7 @@ msgstr ""
 msgid "User returned to the website for authentication."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1525, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1123
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1525, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1125
 msgid "Payment method updated successfully."
 msgstr ""
 
@@ -6344,7 +6360,7 @@ msgstr ""
 msgid "Add New Payment"
 msgstr ""
 
-#: includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1884
+#: includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1961
 msgid "Payment Details"
 msgstr ""
 
@@ -7232,11 +7248,11 @@ msgstr ""
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:866
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:868
 msgid "The account %1s has been successfully created!"
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:871
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:873
 msgid "Before you can access your account %1s, an administrator has to approve it. You will be notified via email."
 msgstr ""
 
@@ -8687,11 +8703,11 @@ msgstr ""
 msgid "Accept payments directly on your website using a wide range of payment methods allowing for a faster checkout directly on your website. Enable users to pay using debit or credit cards, Bancontact, Giropay, iDEAL, Sofort and many more."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/view-tab-payments.php:87, includes/gateways/stripe/admin/functions-admin-connect.php:538
+#: includes/admin/views/setup-wizard/view-tab-payments.php:87, includes/gateways/stripe/admin/functions-admin-connect.php:550
 msgid "Something went wrong, please attempt the connection again."
 msgstr ""
 
-#: includes/admin/views/setup-wizard/view-tab-payments.php:108, includes/gateways/stripe/admin/functions-admin-connect.php:557
+#: includes/admin/views/setup-wizard/view-tab-payments.php:108, includes/gateways/stripe/admin/functions-admin-connect.php:569
 msgid "Connect your existing Stripe account or create a new one to start accepting payments. Press the button above to start."
 msgstr ""
 
@@ -9134,7 +9150,7 @@ msgstr ""
 msgid "The provided Stripe Card ID is not valid."
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:559
+#: includes/gateways/stripe/admin/functions-admin-connect.php:571
 msgid "You will be redirected back here once the process is completed."
 msgstr ""
 
@@ -9154,15 +9170,23 @@ msgstr ""
 msgid "Your account is connected successfully in %s mode. You can start accepting test payments."
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:432
+#: includes/gateways/stripe/admin/functions-admin-connect.php:444
 msgid "<strong>NOTE</strong>: All payments done through Stripe include a <strong>2%% fee</strong> because you're using the free version of Paid Member Subscriptions. <br>This fee goes to the Paid Member Subscriptions team and is used to continue supporting the development of this gateway and the plugin in general. <br>Users with an active license key will not be charged this fee, %sclick here%s to purchase one."
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:430
+#: includes/gateways/stripe/admin/functions-admin-connect.php:439
 msgid "<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is expired. Go to your %sCozmoslabs Account%s page in order to renew."
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:440
+#: includes/gateways/stripe/admin/functions-admin-connect.php:436
+msgid "<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is not activated. Go to your %sSettings%s page in order to activated it."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:433
+msgid "<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because you don't have a license. %sClick here%s to purchase a license now."
+msgstr ""
+
+#: includes/gateways/stripe/admin/functions-admin-connect.php:452
 msgid "Connected Account"
 msgstr ""
 
@@ -9174,47 +9198,47 @@ msgstr ""
 msgid "Please reload the page and connect your account again in order to receive payments."
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:451
+#: includes/gateways/stripe/admin/functions-admin-connect.php:463
 msgid "Webhooks Status"
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:470
+#: includes/gateways/stripe/admin/functions-admin-connect.php:482
 msgid "Connected"
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:471
+#: includes/gateways/stripe/admin/functions-admin-connect.php:483
 msgid "Webhooks are connected successfully. Last webhook received at: %s"
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:462
+#: includes/gateways/stripe/admin/functions-admin-connect.php:474
 msgid "Unknown"
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:463
+#: includes/gateways/stripe/admin/functions-admin-connect.php:475
 msgid "Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Stripe Account."
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:457
+#: includes/gateways/stripe/admin/functions-admin-connect.php:469
 msgid "Waiting for data"
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:458
+#: includes/gateways/stripe/admin/functions-admin-connect.php:470
 msgid "When the status changes to Connected, the website has started processing webhook data from Stripe."
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:479
+#: includes/gateways/stripe/admin/functions-admin-connect.php:491
 msgid "Webhooks URL"
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:483
+#: includes/gateways/stripe/admin/functions-admin-connect.php:495
 msgid "Copy this URL and configure it in your Stripe Account under Developers -> Webhooks -> Add Endpoint. %sClick here%s to see the list of necessary events and learn more. "
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:499
+#: includes/gateways/stripe/admin/functions-admin-connect.php:511
 msgid "Disconnect"
 msgstr ""
 
-#: includes/gateways/stripe/admin/functions-admin-connect.php:503
+#: includes/gateways/stripe/admin/functions-admin-connect.php:515
 msgid "Disconnecting your account will stop all payments from being processed."
 msgstr ""
 
