@@ -1155,157 +1155,183 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         $payments_settings = get_option( 'pms_payments_settings', array() );
 
         if( pms_website_was_previously_initialized() && ( !empty( $payments_settings ) && ( in_array( 'stripe_intents', $payments_settings['active_pay_gates'] ) || in_array( 'stripe_connect', $payments_settings['active_pay_gates'] ) || ( in_array( 'paypal_express', $payments_settings['active_pay_gates'] ) && isset( $payments_settings['gateways']['paypal'] ) && isset( $payments_settings['gateways']['paypal']['reference_transactions'] ) && $payments_settings['gateways']['paypal']['reference_transactions'] == '1' ) ) ) ) {
-    
+
             $message = sprintf( __( 'It looks like this website is a clone of another one. In order to not generate errors like double payments, the Plugin Scheduled Payments functionality from <strong>Paid Member Subscriptions</strong> has been disabled. %sLearn More%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/payments/#Duplicate_Website_Message" target="_blank">', '</a><br>' ) ;
             $message .= __( 'In order to restore it, you need to put the plugin into <strong>Test Mode</strong>.', 'paid-member-subscriptions' );
-    
+
             if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
-    
+
                 new PMS_Add_General_Notices( 'pms_psp_disabled_on_pms_pages',
                     $message,
                     'notice-warning');
-    
+
             } else {
-    
+
                 new PMS_Add_General_Notices( 'pms_psp_disabled',
                     sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . wp_nonce_url( add_query_arg( 'pms_psp_disabled_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) . "'>", "</a>"),
                     'notice-warning');
-    
+
             }
-    
+
             add_filter( 'pre_update_option_pms_payments_settings', 'pms_remove_psp_restriction', 20, 2 );
-    
+
         }
-    
+
         /**
          * Adds a dismissable admin notice on all WordPress pages and a non-dismissable admin notice on PMS's
          * Settings page requiring SSL to be enabled in order for all functionality to be available
          *
          */
         if( ! pms_is_https() ) {
-    
+
             $message = __( 'Your website doesn\'t seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate.', 'paid-member-subscriptions' );
-    
+
             if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
-    
+
                 new PMS_Add_General_Notices( 'pms_force_website_https_on_pms_pages',
                     $message,
                     'notice-warning');
-    
+
             } else {
-    
+
                 new PMS_Add_General_Notices( 'pms_force_website_https',
                     sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_force_website_https_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>"),
                     'notice-warning');
-    
+
             }
-    
+
         }
-    
-        /**
-         * Add a notice if the serial number is expired
-         *
-         */
-        $pms_serial_number        = pms_get_serial_number();
-        $pms_serial_number_status = pms_get_serial_number_status();
-        $license_details          = get_option( 'pms_license_details', false );
 
-        if( empty( $pms_serial_number ) || $pms_serial_number_status == 'missing' ) {
+        if( defined( 'PMS_PAID_PLUGIN_DIR' ) ){
 
-            if( !is_multisite() )
-                $register_url = 'admin.php?page=pms-settings-page&tab=general';
-            else
-                $register_url = network_admin_url( 'admin.php?page=pms-register-page' );
+            /**
+             * Add a notice if the serial number is expired
+             *
+             */
+            $pms_serial_number        = pms_get_serial_number();
+            $pms_serial_number_status = pms_get_serial_number_status();
+            $license_details          = get_option( 'pms_license_details', false );
 
-            $message = __( 'Your <strong>Paid Member Subscriptions</strong> license is invalid or missing. <br/>Please %1$sregister your copy%2$s to receive access to automatic updates and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' );
+            if( empty( $pms_serial_number ) || $pms_serial_number_status == 'missing' ) {
 
-            if( in_array( 'stripe_connect', pms_get_active_payment_gateways() ) )
-                $message = __( 'Your <strong>Paid Member Subscriptions</strong> license is invalid or missing. <br/>Please %1$sregister your copy%2$s to receive access to automatic updates, waive the Stripe fees and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' );
+                if( !is_multisite() )
+                    $register_url = 'admin.php?page=pms-settings-page&tab=general';
+                else
+                    $register_url = network_admin_url( 'admin.php?page=pms-register-page' );
 
-            new PMS_Add_General_Notices( 'pms_no_license', 
-                sprintf( '<p>' . $message . '</p>', "<a href='". esc_url( $register_url ) ."'>", "</a>", "<a href='https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=PMS&utm_medium=dashboard&utm_campaign=license_key_notification#pricing' target='_blank' class='button-primary'>", "</a>" ), 
-                'error',
-                '',
-                '',
-                true
-            );
+                $message = __( 'Your <strong>Paid Member Subscriptions</strong> license is invalid or missing. <br/>Please %1$sregister your copy%2$s to receive access to automatic updates and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' );
 
-        } else if( !empty( $pms_serial_number ) && $pms_serial_number_status == false ){
+                if( in_array( 'stripe_connect', pms_get_active_payment_gateways() ) )
+                    $message .= '<br>' . __( 'Without an active license you are also paying additional <strong>Stripe fees</strong>.', 'paid-member-subscriptions' );
 
-            if( !is_multisite() )
-                $register_url = 'admin.php?page=pms-settings-page&tab=general';
-            else
-                $register_url = network_admin_url( 'admin.php?page=pms-register-page' );
+                $message = sprintf( '<p>' . $message . '</p>', "<a href='". esc_url( $register_url ) ."'>", "</a>", "<a href='https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=PMS&utm_medium=dashboard&utm_campaign=license_key_notification#pricing' target='_blank' class='button-primary'>", "</a>" );
 
-            $message = __( 'Your <strong>Paid Member Subscriptions</strong> license is not activated. <br/>Please %1$sactivate%2$s your license in order to receive access to automatic updates and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' );
-
-            if( in_array( 'stripe_connect', pms_get_active_payment_gateways() ) )
-                $message = __( 'Your <strong>Paid Member Subscriptions</strong> license is not activated. <br/>Please %1$sactivate%2$s your license in order to receive access to automatic updates, waive the Stripe fees and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' );
-
-            new PMS_Add_General_Notices( 'pms_license_not_activated', 
-                sprintf( '<p>' . $message . '</p>', "<a href='". esc_url( $register_url ) ."'>", "</a>", "<a href='https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=PMS&utm_medium=dashboard&utm_campaign=license_key_notification#pricing' target='_blank' class='button-primary'>", "</a>" ), 
-                'error',
-                '',
-                '',
-                true
-            );
-
-        } elseif ( $pms_serial_number_status == 'expired' ) {
-    
-            $pms_expired_message = sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) );
-
-            /* if we are on our own plugin pages make the expired license notification non dismissible */
-            $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
-            if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
-                $pms_expired_message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_expired_licence_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>");
-                $pms_force_show = false;
-            } else {
-                $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
-            }
-
-            new PMS_Add_General_Notices( 'pms_expired_licence',
-                $pms_expired_message,
-                'error',
-                '',
-                '',
-                $pms_force_show );
-    
-        } elseif( !empty( $license_details ) && !empty( $license_details->expires ) && $license_details->expires !== 'lifetime' ) {
-    
-            // Maybe add about to expire notice
-            if( ( !isset( $license_details->subscription_status ) || $license_details->subscription_status != 'active' ) && strtotime( $license_details->expires ) < strtotime( '+14 days' ) ){
-                new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
-                    sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) ).
-                    sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_about_to_expire_licence_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>"), 
-                    'notice-warning' );
-            }
-    
-        }
-    
-        if( isset( $license_details->license ) && $license_details->license == 'invalid' ){
-    
-            if( isset( $license_details->error ) && $license_details->error == 'no_activations_left' ){
-    
-                $pms_activations_limit_message = sprintf( __( 'Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class="button-primary" href="%s">Upgrade now</a>', 'paid-member-subscriptions' ), PAID_MEMBER_SUBSCRIPTIONS, esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-license-activation-limit' ) );
-    
+                /* if we are on our own plugin pages make the expired license notification non dismissible */
                 $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
                 if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
-                    $pms_activations_limit_message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_basic_activations_limit_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>");
+                    $message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_no_license_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>");
                     $pms_force_show = false;
                 } else {
                     $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
                 }
-    
-                new PMS_Add_General_Notices( 'pms_basic_activations_limit',
-                    $pms_activations_limit_message,
+
+                new PMS_Add_General_Notices( 'pms_no_license',
+                    $message,
+                    'error',
+                    '',
+                    '',
+                    $pms_force_show
+                );
+
+            } else if( !empty( $pms_serial_number ) && $pms_serial_number_status == false ){
+
+                if( !is_multisite() )
+                    $register_url = 'admin.php?page=pms-settings-page&tab=general';
+                else
+                    $register_url = network_admin_url( 'admin.php?page=pms-register-page' );
+
+                $message = __( 'Your <strong>Paid Member Subscriptions</strong> license is not activated. <br/>Please %1$sactivate%2$s your license in order to receive access to automatic updates and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' );
+
+                if( in_array( 'stripe_connect', pms_get_active_payment_gateways() ) )
+                    $message .= '<br>' . __( 'Without an active license you are also paying additional <strong>Stripe fees</strong>.', 'paid-member-subscriptions' );
+
+                $message = sprintf( '<p>' . $message . '</p>', "<a href='". esc_url( $register_url ) ."'>", "</a>", "<a href='https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=PMS&utm_medium=dashboard&utm_campaign=license_key_notification#pricing' target='_blank' class='button-primary'>", "</a>" );
+
+                /* if we are on our own plugin pages make the expired license notification non dismissible */
+                $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
+                if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
+                    $message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_license_not_activated_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>");
+                    $pms_force_show = false;
+                } else {
+                    $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
+                }
+
+                new PMS_Add_General_Notices( 'pms_license_not_activated',
+                    $message,
+                    'error',
+                    '',
+                    '',
+                    $pms_force_show
+                );
+
+            } elseif ( $pms_serial_number_status == 'expired' ) {
+
+                $pms_expired_message = sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) );
+
+                /* if we are on our own plugin pages make the expired license notification non dismissible */
+                $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
+                if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
+                    $pms_expired_message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_expired_licence_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>");
+                    $pms_force_show = false;
+                } else {
+                    $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
+                }
+
+                new PMS_Add_General_Notices( 'pms_expired_licence',
+                    $pms_expired_message,
                     'error',
                     '',
                     '',
                     $pms_force_show );
+
+            } elseif( !empty( $license_details ) && !empty( $license_details->expires ) && $license_details->expires !== 'lifetime' ) {
+
+                // Maybe add about to expire notice
+                if( ( !isset( $license_details->subscription_status ) || $license_details->subscription_status != 'active' ) && strtotime( $license_details->expires ) < strtotime( '+14 days' ) ){
+                    new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
+                        sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-expired-serial-number-notification' ) ).
+                        sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_about_to_expire_licence_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>"),
+                        'notice-warning' );
                 }
-    
+
+            }
+
+            if( isset( $license_details->license ) && $license_details->license == 'invalid' ){
+
+                if( isset( $license_details->error ) && $license_details->error == 'no_activations_left' ){
+
+                    $pms_activations_limit_message = sprintf( __( 'Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class="button-primary" href="%s">Upgrade now</a>', 'paid-member-subscriptions' ), PAID_MEMBER_SUBSCRIPTIONS, esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=add-on-page-license-activation-limit' ) );
+
+                    $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
+                    if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
+                        $pms_activations_limit_message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_basic_activations_limit_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>");
+                        $pms_force_show = false;
+                    } else {
+                        $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
+                    }
+
+                    new PMS_Add_General_Notices( 'pms_basic_activations_limit',
+                        $pms_activations_limit_message,
+                        'error',
+                        '',
+                        '',
+                        $pms_force_show );
+                    }
+
+            }
+
         }
-    
+
         /**
          * Adds a dismissable admin notice on all WordPress pages and a non-dismissable admin notice on PMS's
          * Notify users that old addon-on plugins will no longer be maintained
@@ -1314,7 +1340,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         //if it's triggered in the frontend we need this include
         if( !function_exists('is_plugin_active') )
             include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-    
+
         $old_addon_list = array(
             'pms-add-on-bbpress/index.php',
             'pms-add-on-content-dripping/index.php',
@@ -1333,7 +1359,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             'pms-add-on-stripe/index.php',
             'pms-add-on-tax/index.php',
         );
-    
+
         foreach( $old_addon_list as $addon_slug ) {
             if (is_plugin_active($addon_slug)) {
                 $url_info = 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/basic-information-and-installation/upgrade-to-version-2-5-0-or-newer/';
@@ -1347,7 +1373,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         }
 
     }
-    
+
     add_filter( 'pms_add_ons_repackage_notification_message', 'pms_notices_remove_repackage_notice_wrapper', 20, 2 );
     function pms_notices_remove_repackage_notice_wrapper( $processed_message, $original_message ){
 

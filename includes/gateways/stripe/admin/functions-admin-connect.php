@@ -22,7 +22,7 @@ function pms_stripe_connect_handle_authorization_return(){
 
     if( !empty( $_POST['stripe_publishable_key'] ) )
         update_option( 'pms_stripe_connect_'. $environment .'_publishable_key', sanitize_text_field( $_POST['stripe_publishable_key'] ) );
-    
+
     if( !empty( $_POST['stripe_secret_key'] ) )
         update_option( 'pms_stripe_connect_'. $environment .'_secret_key', sanitize_text_field( $_POST['stripe_secret_key'] ) );
 
@@ -72,6 +72,77 @@ function pms_stripe_connect_handle_authorization_return(){
 		$gateway->register_domain();
 	}
 
+
+    wp_redirect( $redirect_url );
+    die();
+
+}
+
+add_action( 'init', 'pms_stripe_connect_handle_authorization_return_admin_init' );
+function pms_stripe_connect_handle_authorization_return_admin_init(){
+
+	if( !isset( $_GET['environment'] ) || !isset( $_GET['pms_stripe_connect_platform_authorization_return'] ) )
+		return;
+
+	if( !current_user_can( 'manage_options' ) )
+		return;
+
+    $environment = sanitize_text_field( $_GET['environment'] );
+
+    if( !empty( $_GET['account_id'] ) )
+        update_option( 'pms_stripe_connect_'. $environment .'_account_id', sanitize_text_field( $_GET['account_id'] ) );
+
+    if( !empty( $_GET['stripe_publishable_key'] ) )
+        update_option( 'pms_stripe_connect_'. $environment .'_publishable_key', sanitize_text_field( $_GET['stripe_publishable_key'] ) );
+
+    if( !empty( $_GET['stripe_secret_key'] ) )
+        update_option( 'pms_stripe_connect_'. $environment .'_secret_key', sanitize_text_field( $_GET['stripe_secret_key'] ) );
+
+	// flush rules to make sure apple domain verification file can be served
+	flush_rewrite_rules();
+
+    // set account country
+    $gateway = new PMS_Payment_Gateway_Stripe_Connect();
+    $gateway->init();
+
+    $gateway->set_account_country();
+
+	if( !$gateway->domain_is_registered() ){
+		$gateway->register_domain();
+	}
+
+	if( isset( $_POST['return_location'] ) && $_POST['return_location'] == 'setup' ){
+
+		$redirect_url = add_query_arg( array(
+            'page'                       => 'pms-setup',
+            'step'                       => 'payments',
+            'pms_stripe_connect_success' => 1,
+        ),
+			admin_url( 'index.php' )
+		);
+
+	} elseif( isset( $_POST['return_location'] ) && $_POST['return_location'] == 'setup_new' ) {
+
+		$redirect_url = add_query_arg( array(
+			'page'                       => 'pms-dashboard-page',
+			'subpage'                    => 'pms-setup',
+			'step'                       => 'payments',
+			'pms_stripe_connect_success' => 1,
+        ),
+			admin_url( 'admin.php' )
+		);
+
+	} else {
+
+		$redirect_url = add_query_arg( array(
+            'page'                       => 'pms-settings-page',
+            'tab'                        => 'payments',
+            'pms_stripe_connect_success' => 1,
+        ),
+			admin_url( 'admin.php#pms-stripe__gateway-settings' )
+		);
+
+	}
 
     wp_redirect( $redirect_url );
     die();
@@ -389,7 +460,7 @@ function pms_stripe_add_settings_content( $options ) {
 			if( in_array( 'stripe_connect', $options['active_pay_gates'] ) ) :
 
 				// Display link to connect Stripe Account
-				$stripe_connect_base_url = 'https://cozmoslabs.com/?pms_stripe_connect_handle_authorization';
+				$stripe_connect_base_url = 'https://www.cozmoslabs.com/?pms_stripe_connect_handle_authorization';
 				$environment             = pms_is_payment_test_mode() ? 'test' : 'live';
 				$account                 = pms_stripe_get_connect_account();
 
@@ -433,7 +504,7 @@ function pms_stripe_add_settings_content( $options ) {
 									echo '<p class="cozmoslabs-description cozmoslabs-stripe-connect__notice">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because you don\'t have a license. %sClick here%s to purchase a license now.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=stripe-connect-fee-notice#pricing">', '</a>' ) ) . '</p>';
 								// serial is not empty but it's not activated
 								} else if ( !empty( $serial_number ) && $serial_number_status == false ) {
-									echo '<p class="cozmoslabs-description cozmoslabs-stripe-connect__notice">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is not activated. Go to your %sSettings%s page in order to activated it.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) ) . '</p>';								
+									echo '<p class="cozmoslabs-description cozmoslabs-stripe-connect__notice">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is not activated. Go to your %sSettings%s page in order to activated it.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) ) . '</p>';
 								// serial is activated but it's expired
 								} else if ( !empty( $serial_number ) && $serial_number_status != 'valid' ) {
 									echo '<p class="cozmoslabs-description cozmoslabs-stripe-connect__notice">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is expired. Go to your %sCozmoslabs Account%s page in order to renew.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMS&utm_content=stripe-connect-fee-notice">', '</a>' ) ) . '</p>';
@@ -505,7 +576,7 @@ function pms_stripe_add_settings_content( $options ) {
 								],
 								$stripe_connect_base_url
 							);
-							
+
 							echo '<div class="cozmoslabs-form-field-wrapper">';
 
 								echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-webhook-url">' . esc_html__( 'Disconnect', 'paid-member-subscriptions' ) . '</label>';
@@ -515,19 +586,19 @@ function pms_stripe_add_settings_content( $options ) {
 								echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Disconnecting your account will stop all payments from being processed.', 'paid-member-subscriptions' ) . '</p>';
 
 							echo '</div>';
-							
+
 							// if( !pms_stripe_is_domain_registered_for_payment_methods() ){
 							// 	echo '<h3 class="cozmoslabs-subsection-title" style="margin-top:16px !important;">' , esc_html__( 'Domain Registration', 'paid-member-subscriptions' ) . '</h3>';
 
 							// 	echo '<div class="cozmoslabs-form-field-wrapper">';
-		
+
 							// 		echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-payment-request">' . esc_html__( 'Status', 'paid-member-subscriptions' ) . '</label>';
 
 							// 		echo '<span class="cozmoslabs-stripe-connect__settings-warning">'. esc_html__( 'Not registered', 'paid-member-subscriptions' ) .'</span>';
 
 							// 		echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'This domain is not registered with Stripe. In order to enable payment gateways like Apple Pay, Google Pay or Link in your payment forms, your domain needs to be registered and verified.', 'paid-member-subscriptions' ) . '</p>';
 							// 		echo '<p class="cozmoslabs-description">' . esc_html__( 'Press the button below to register and validate the current domain.', 'paid-member-subscriptions' ) . '</p>';
-	
+
 							// 	echo '</div>';
 							// }
 
@@ -560,6 +631,7 @@ function pms_stripe_add_settings_content( $options ) {
 								'environment'               => $environment,
 								'home_url'                  => site_url(),
 								'pms_nonce'                 => wp_create_nonce( 'stripe_connnect_account' ),
+								'version'                   => 'v2'
 							],
 							$stripe_connect_base_url
 						);
@@ -574,14 +646,14 @@ function pms_stripe_add_settings_content( $options ) {
 					}
 
 				echo '</div>';
-					
+
 			endif;
 
 			do_action( 'pms_settings_page_payment_gateway_stripe_extra_fields', $options );
 
 		echo '</div>';
 
-	endif; 
+	endif;
 
 }
 add_action( 'pms-settings-page_payment_gateways_content', 'pms_stripe_add_settings_content', 9 );

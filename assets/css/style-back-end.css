@@ -2930,6 +2930,16 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
     line-height: 28px;
 }
 
+.pms-notice {
+    position: relative;
+}
+
+.pms-notice .dismiss-right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
 /* Publish Box */
 body[class*="post-type-pms-"] #major-publishing-actions {
     display: flex;
@@ -3165,15 +3175,12 @@ body[class*="_page_pms-"] #screen-meta {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: flex-start;
     gap: 30px;
-    margin: 10px;
 }
 
 .cozmoslabs-basic-info-addons div {
     flex-basis: 30%;
-    height: 250px;
 }
 
 .cozmoslabs-basic-info-addons div > a:not(.pms-addon-image-container) {

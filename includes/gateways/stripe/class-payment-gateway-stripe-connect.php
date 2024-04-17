@@ -978,10 +978,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         $account_page = pms_get_page( 'account', true );
 
+        $pms_is_register = is_user_logged_in() ? 0 : 1;
+
         $redirect_url = !empty( $_POST['current_page'] ) ? esc_url_raw( $_POST['current_page'] ) : $account_page;
         $redirect_url = apply_filters( 'pms_stripe_error_redirect_url', $redirect_url, $this->payment_id, $pms_is_register );
-
-        $pms_is_register = is_user_logged_in() ? 0 : 1;
 
         return add_query_arg( array( 'pms_payment_error' => '1', 'pms_is_register' => $pms_is_register, 'pms_payment_id' => $this->payment_id ), $redirect_url );
 

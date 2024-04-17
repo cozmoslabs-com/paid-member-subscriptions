@@ -217,10 +217,15 @@ function pms_handle_merge_tag_subscription_expiration_date( $value, $name, $chil
  */
 function pms_pb_output_payment_gateways( $content, $form_id, $form_type ){
 
+    // ignore WooCommerce Checkout
     if( function_exists( 'is_checkout' ) && is_checkout() )
         return $content;
         
     if( $form_type != 'register' )
+        return $content;
+
+    // don't add payment gateways when PB form is displayed for admins
+    if( is_user_logged_in() )
         return $content;
 
     $found_plans = false;

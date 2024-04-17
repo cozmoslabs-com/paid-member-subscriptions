@@ -62,37 +62,37 @@
 
             <div class="pms-setup-gateway__description pms-setup-gateway__description-extra">
                 <?php
-                
+
                 $connection_status = pms_stripe_connect_get_account_status();
-                
+
                 if( $connection_status != false ){
                     echo '<p style="text-align:center; font-size: 110%; color: green;">' . sprintf( __('You are connected in %s mode. You can start accepting payments', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? 'Test' : 'Live' ) . '</p>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 } else {
                     if( isset( $_GET['pms_stripe_connect_success'] ) && $_GET['pms_stripe_connect_success'] == 1 ){
 
                         echo '<p style="text-align:center; font-size: 110%; color: green;">' . sprintf( __('You are connected in %s mode. You can start accepting payments', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? 'Test' : 'Live' ) . '</p>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                        
+
                     } else {
                         if( isset( $_GET['pms_stripe_connect_platform_error'] ) && !empty( $_GET['code'] ) ){
-    
+
                             if( !empty( $_GET['error'] ) ){
                                 $error = sanitize_text_field( $_GET['error'] );
-        
+
                                 echo '<p class="pms-stripe-connect__settings-error">'. esc_html( $error ) . '</p>';
                             } else {
-        
+
                                 $error_code = sanitize_text_field( $_GET['code'] );
-        
+
                                 if( $error_code == 'generic_error' ){
                                     echo '<p class="pms-stripe-connect__settings-error">' . esc_html__( 'Something went wrong, please attempt the connection again.', 'paid-member-subscriptions' ) . '</p>';
                                 }
-        
+
                             }
                         }
-        
-                        $stripe_connect_base_url = 'https://cozmoslabs.com/?pms_stripe_connect_handle_authorization';
+
+                        $stripe_connect_base_url = 'https://www.cozmoslabs.com/?pms_stripe_connect_handle_authorization';
                         $environment             = pms_is_payment_test_mode() ? 'test' : 'live';
-        
+
                         $stripe_connect_link = add_query_arg(
                             [
                                 'pms_stripe_connect_action' => 'connect',
@@ -100,10 +100,11 @@
                                 'home_url'                  => home_url(),
                                 'pms_return_location'       => 'setup_new',
                                 'pms_nonce'                 => wp_create_nonce( 'stripe_connnect_account' ),
+                                'version'                   => 'v2'
                             ],
                             $stripe_connect_base_url
                         );
-        
+
                         echo '<a href="'. esc_url( $stripe_connect_link ) .'" class="pms-stripe-connect__button"><img src="' . esc_attr( PMS_PLUGIN_DIR_URL ) . 'includes/gateways/stripe/assets/img/stripe-connect.png" /></a>';
                         echo '<p style="text-align: center; width: 100%;">' . esc_html__( 'Connect your existing Stripe account or create a new one to start accepting payments. Press the button above to start.', 'paid-member-subscriptions' ) . '</p>';
                     }

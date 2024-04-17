@@ -193,7 +193,7 @@ function pms_display_form_designs_preview() {
                    <div class="pms-forms-design-screenshot">
                         <img src="' . $form_design['images']['main'] . '" alt="Form Design">
                         '. $preview_button .'
-                   </div>                       
+                   </div>
                 </div>
         ';
 
@@ -239,19 +239,21 @@ function pms_display_form_designs_preview() {
  */
 function pms_add_register_version_form() {
 
-    if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) && PAID_MEMBER_SUBSCRIPTIONS !== 'Paid Member Subscriptions Dev' )
+    if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) )
         return '';
 
     $status          = pms_get_serial_number_status();
     $license         = pms_get_serial_number();
 
-    // process license so it doesn't get displayed in back-end
-    $license_length = strlen( $license );
-    $license        = substr_replace( $license, '***************', 7, $license_length - 14 );
+    if( !empty( $license ) ){
+        // process license so it doesn't get displayed in back-end
+        $license_length = strlen( $license );
+        $license        = substr_replace( $license, '***************', 7, $license_length - 14 );
+    }
 
     $license_details = get_option( 'pms_license_details', false );
     ?>
-    
+
     <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-register-version">
         <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Register Version ', 'paid-member-subscriptions' ) ?></h4>
 
@@ -367,7 +369,7 @@ function pms_output_page_banner( $page_name ) {
                            <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/support-link-icon.svg" alt="">
                            Support
                        </a>
-               
+
                        <a class="cozmoslabs-banner-link cozmoslabs-documentation-link" href="https://www.cozmoslabs.com/docs/paid-member-subscriptions?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank">
                            <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/docs-link-icon.svg" alt="">
                            Documentation
