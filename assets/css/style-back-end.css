@@ -4487,7 +4487,6 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
 #pms-container-select-date{
     margin-top: 0 !important;
     margin-bottom: 20px;
-    justify-content: flex-start !important;
 }
 
 .pms-container-date-range{
@@ -4500,7 +4499,8 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
     padding-left: 194px;
 }
 
-#pms-container-specific-subs .cozmoslabs-form-field-label{
+#pms-container-specific-subs .cozmoslabs-form-field-label,
+#pms-container-date .cozmoslabs-form-field-label{
     flex-basis: 181px;
 }
 
@@ -4523,8 +4523,114 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
 #pms-reports-start-date-label{
     margin-right: 10px;
 }
+
+#pms-general-link, #pms-subscription-plans-link,
+#pms-discount-codes-link, #pms-general-link-previous,
+#pms-subscription-plans-link-previous, #pms-discount-codes-link-previous{
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.cozmoslabs-form-subsection-wrapper .inside a.active{
+    font-weight: bold;
+}
+
+.pms-general-section .pms-gateway-revenue, .pms-general-section .pms-payment-retries,
+.pms-general-section-previous .pms-gateway-revenue, .pms-general-section-previous .pms-payment-retries{
+    display: block !important;
+}
+
+.pms-general-section .pms-gateway-revenue ul, .pms-general-section .pms-payment-retries ul,
+.pms-general-section-previous .pms-gateway-revenue ul, .pms-general-section-previous .pms-payment-retries ul{
+    margin-left: 30px;
+}
+
+#pms_subscription_plans_section .cozmoslabs-form-field-wrapper,
+#pms_discount_codes_section .cozmoslabs-form-field-wrapper{
+    margin-top: 0 !important;
+    margin-bottom: 16px !important;
+}
+
+#pms_subscription_plans_section .cozmoslabs-form-field-wrapper:last-child,
+#pms_discount_codes_section .cozmoslabs-form-field-wrapper:last-child{
+    margin-bottom: 0 !important;
+}
+
+#pms_subscription_plans_section .pms-subscription-plans-header,
+#pms_discount_codes_section .pms-discount-codes-header{
+    margin-bottom: 16px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    border-bottom: 1px solid #dcdcde;
+    padding-bottom: 8px;
+}
+
+#pms_subscription_plans_section .pms-subscription-plans-header label.cozmoslabs-form-field-label,
+#pms_discount_codes_section .pms-discount-codes-header label.cozmoslabs-form-field-label{
+    flex-basis: 220px;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1E1E1E;
+}
+
+#pms-container-select-date .pms-container-date-range{
+    margin-top: 0 !important;
+}
+
+#pms-container-select-date .pms-container-date-range #pms-reports-filter-month{
+    flex-basis: 229px !important;
+    flex-grow: 0 !important;
+}
+
+#pms-container-specific-subs{
+    margin-top: 0 !important;
+    margin-bottom: 20px;
+}
+
+#pms-container-specific-subs #specific-subscriptions{
+    width: 200px;
+}
+
+.pms-arrow{
+    width: 20px;
+    height: 20px;
+}
+
+.pms-general-section .cozmoslabs-form-field-wrapper, .pms-general-section-previous .cozmoslabs-form-field-wrapper{
+    margin-top: 16px !important;
+}
+
+.pms-general-section .pms-gateway-revenue, .pms-general-section-previous .pms-gateway-revenue,
+.pms-general-section .pms-payment-retries, .pms-general-section-previous .pms-payment-retries{
+    margin-top: 24px !important;
+}
+
+.pms-reports-summary-section{
+    display: flex;
+    flex-direction: row;
+    /*align-items: center;*/
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.pms-reports-summary-section .cozmoslabs-form-subsection-wrapper{
+    flex: 1;
+}
 @media (max-width: 782px) {
     #pms-container-specific-subs .cozmoslabs-description-space-left{
         padding-left: 0;
+    }
+
+    #pms-custom-date-range-options .cozmoslabs-form-field-label {
+        flex-basis: 140px !important;
     }
 }

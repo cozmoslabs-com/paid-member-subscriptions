@@ -351,9 +351,10 @@ form.pms-form ul.pms-form-fields-wrapper {
     border: 1px solid #CFD4DE;
     width: 136px;
     height: 56px;
-    line-height: 56px;
-    text-align: center;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #pms-paygates-inner input + span:hover,
@@ -361,9 +362,9 @@ form.pms-form ul.pms-form-fields-wrapper {
     border-color: #0056ba;
 }
 
-#pms-paygates-inner input:checked + span {
+/* #pms-paygates-inner input:checked + span {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
+} */
 
 #pms-paygates-inner input[value="manual"] + span {
     font-style: normal;

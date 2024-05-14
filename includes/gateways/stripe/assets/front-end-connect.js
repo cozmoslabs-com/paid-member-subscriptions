@@ -229,7 +229,7 @@ jQuery( function( $ ) {
                             //paymentRequestStarted = false
 
                             // Make request to process payment
-                            stripeConnectProcessPayment( result, response, data )
+                            stripeConnectProcessPayment( result, response, data, current_button )
 
                         })
 
@@ -255,7 +255,7 @@ jQuery( function( $ ) {
                             //paymentRequestStarted = false
 
                             // Make request to process payment
-                            stripeConnectProcessPayment( result, response, data )
+                            stripeConnectProcessPayment( result, response, data, current_button )
                         })
 
                     }
@@ -445,9 +445,9 @@ jQuery( function( $ ) {
 
     }
 
-    function stripeConnectProcessPayment( result, user_data, form_data ){
+    function stripeConnectProcessPayment( result, user_data, form_data, target_button ){
 
-        let payment_intent 
+        let payment_intent = ''
 
         if( result.error ){
 
@@ -460,11 +460,6 @@ jQuery( function( $ ) {
             payment_intent = result.paymentIntent
         else if( result.setupIntent )
             payment_intent = result.setupIntent
-
-        if( !payment_intent || !payment_intent.id ){
-            console.log('could not find an intent for this request')
-            return
-        }
 
         // update nonce
         nonce_data = {}
@@ -1186,6 +1181,8 @@ jQuery( function( $ ) {
 
         if( event.complete == true )
             cardIsEmpty = false
+        else
+            cardIsEmpty = true
 
         if( typeof paymentSidebarPosition == 'function' ){
             setTimeout( paymentSidebarPosition, 300 )

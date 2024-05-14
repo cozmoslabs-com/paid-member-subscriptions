@@ -136,7 +136,7 @@ Class PMS_Emails {
 
     static function send_renewal_email( $subscription_id = 0, $subscription_data = array(), $old_subscription_data = array() ) {
 
-        if( is_admin() ){
+        if( is_admin() && !wp_doing_ajax() ){
 
             if( $old_subscription_data['payment_gateway'] != 'manual' )
                 return;

@@ -507,6 +507,51 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
     }
 
+    /**
+     * Return data that will be displayed in the transaction_id column
+     *
+     * @param array $item   - data of the current row
+     *
+     * @return string
+     *
+     */
+    public function column_transaction_id( $item ) {
+
+        if( empty( $item['transaction_id'] ) )
+            return '-';
+
+        if( !empty( $item['payment_gateway'] ) ){
+
+            $test_mode = pms_is_payment_test_mode();
+
+            if( in_array( $item['payment_gateway'], array( 'PayPal', 'PayPal Standard', 'PayPal Express' ) ) ){
+
+                if( $test_mode ){
+                    $url = 'https://www.sandbox.paypal.com/activity/payment/' . $item['transaction_id'];
+                } else {
+                    $url = 'https://www.paypal.com/activity/payment/' . $item['transaction_id'];
+                }
+
+            } else if( in_array( $item['payment_gateway'], array( 'stripe', 'Stripe' ) ) ){
+
+                if( $test_mode ){
+                    $url = 'https://dashboard.stripe.com/test/payments/' . $item['transaction_id'];
+                } else {
+                    $url = 'https://dashboard.stripe.com/payments/' . $item['transaction_id'];
+                }
+
+            }
+
+        } 
+
+        if( !empty( $url ) ){
+            return '<a href="'. $url .'" target="_blank">'. $item['transaction_id'] . '</a>';
+        } else {
+            return $item['transaction_id']; 
+        }
+
+    }
+
 
     /**
      * Display if no items are found

@@ -72,6 +72,11 @@ Class PMS_Shortcodes {
             $atts['exclude'] = apply_filters( 'pms_register_form_excluded_subscription_plans', array_map( 'trim', explode(',', $atts['exclude'] ) ) );
 
         /*
+         * Filter the preselected Subscription Plan
+         */
+        $atts['selected'] = apply_filters( 'pms_register_form_selected_subscription_plan', $atts['selected'], $atts );
+
+        /*
          * Detect if all went well on a registration and display a message to the user
          */
         if( isset( $_POST['pms_register'] ) ) {

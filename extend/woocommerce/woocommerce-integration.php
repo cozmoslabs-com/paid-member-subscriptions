@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function pms_woo_add_woocommerce_tab( $pms_tabs ) {
 
-    $pms_tabs['woocommerce'] = __( 'WooCommerce Integration', 'paid-member-subscriptions' );
+    $pms_tabs['woocommerce'] = __( 'WooCommerce', 'paid-member-subscriptions' );
 
     return $pms_tabs;
 

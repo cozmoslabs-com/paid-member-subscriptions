@@ -108,19 +108,86 @@ jQuery( function($) {
             $('.pms-custom-date-range-options').hide();
     });
 
- // Date picker for report start and expiration date
+    // Date picker for report start and expiration date
 
     $(document).ready( function() {
         $("input.pms_datepicker").datepicker({dateFormat: 'yy-mm-dd'});
     });
 
     /*
-    * Initialise chosen
-    *
-    */
+   * Initialise chosen
+   *
+   */
     if( $.fn.chosen != undefined ) {
-
         $('.pms-chosen').chosen();
-
     }
+
+    // General and Subscription Plans links
+
+    $('.pms-subscription-plans-section').hide();
+    $('.pms-subscription-plans-section-previous').hide();
+
+    $('.pms-discount-codes-section').hide();
+    $('.pms-discount-codes-section-previous').hide();
+
+    $('#pms-general-link').addClass('active');
+    $('#pms-general-link-previous').addClass('active');
+
+    $('#pms-general-link').click(function(){
+
+        $('.present .inside a').removeClass('active');
+        $(this).addClass('active');
+
+        $('.pms-subscription-plans-section').hide();
+        $('.pms-discount-codes-section').hide();
+        $('.pms-general-section').show();
+    });
+
+    $('#pms-general-link-previous').click(function(){
+
+        $('.previous .inside a').removeClass('active');
+        $(this).addClass('active');
+
+        $('.pms-subscription-plans-section-previous').hide();
+        $('.pms-discount-codes-section-previous').hide();
+        $('.pms-general-section-previous').show();
+    });
+
+    $('#pms-subscription-plans-link').click(function(){
+
+        $('.present .inside a').removeClass('active');
+        $(this).addClass('active');
+
+        $('.pms-general-section').hide();
+        $('.pms-discount-codes-section').hide();
+        $('.pms-subscription-plans-section').show();
+    });
+
+    $('#pms-subscription-plans-link-previous').click(function(){
+
+        $('.previous .inside a').removeClass('active');
+        $(this).addClass('active');
+
+        $('.pms-general-section-previous').hide();
+        $('.pms-discount-codes-section-previous').hide();
+        $('.pms-subscription-plans-section-previous').show();
+    });
+
+    $('#pms-discount-codes-link').click(function(){
+        $('.present .inside a').removeClass('active');
+        $(this).addClass('active');
+
+        $('.pms-general-section').hide();
+        $('.pms-subscription-plans-section').hide();
+        $('.pms-discount-codes-section').show();
+    });
+
+    $('#pms-discount-codes-link-previous').click(function(){
+        $('.previous .inside a').removeClass('active');
+        $(this).addClass('active');
+
+        $('.pms-general-section-previous').hide();
+        $('.pms-subscription-plans-section-previous').hide();
+        $('.pms-discount-codes-section-previous').show();
+    });
 });

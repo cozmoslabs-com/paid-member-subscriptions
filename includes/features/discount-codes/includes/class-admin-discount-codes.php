@@ -221,8 +221,12 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
             }
 
             // Information shown in discount "Uses" column
-            if ($column == 'uses')
-                echo esc_html( $discount_code->uses ) . '/' . ( ! empty( $discount_code->max_uses ) ? esc_html( $discount_code->max_uses ) : '&infin;' );
+            if ( $column == 'uses' ){
+
+                echo '<a href="'. esc_url( admin_url( 'admin.php?page=pms-payments-page&s=' . $discount_code->code ) ) . '" title="' . esc_attr( __( 'View payments with this discount code', 'paid-member-subscriptions' ) ) . '">';
+                    echo esc_html( $discount_code->uses ) . '/' . ( ! empty( $discount_code->max_uses ) ? esc_html( $discount_code->max_uses ) : '&infin;' );
+                echo '</a>';
+            }
 
             // Information shown in discount "Start date" column
             if ($column == 'start-date') {

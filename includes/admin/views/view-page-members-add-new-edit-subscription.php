@@ -379,12 +379,29 @@ if( ! empty( $_POST ) ) {
 
                         <!-- Payment Gateway -->
                         <?php $payment_gateways = pms_get_payment_gateways(); ?>
-                        <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
-                            <label class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Payment Gateway', 'paid-member-subscriptions' ); ?></label>
+                        <?php if( !apply_filters( 'pms_edit_subscription_enable_payment_gateway_editing', false ) ) : ?>
+                            <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                                <label class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Payment Gateway', 'paid-member-subscriptions' ); ?></label>
 
-                            <span class="readonly medium"><strong><?php echo !empty( $payment_gateways[$form_data['payment_gateway']]['display_name_admin'] ) ? esc_html( $payment_gateways[$form_data['payment_gateway']]['display_name_admin'] ) : esc_html( $form_data['payment_gateway'] ); ?></strong></span>
-                            <input type="hidden" name="payment_gateway" value="<?php echo !empty( $form_data['payment_gateway'] ) ? esc_attr( $form_data['payment_gateway'] ) : ''; ?>" />
-                        </div>
+                                <span class="readonly medium"><strong><?php echo !empty( $payment_gateways[$form_data['payment_gateway']]['display_name_admin'] ) ? esc_html( $payment_gateways[$form_data['payment_gateway']]['display_name_admin'] ) : esc_html( $form_data['payment_gateway'] ); ?></strong></span>
+                                <input type="hidden" name="payment_gateway" value="<?php echo !empty( $form_data['payment_gateway'] ) ? esc_attr( $form_data['payment_gateway'] ) : ''; ?>" />
+                            </div>
+                        <?php else : ?>
+                            <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                                <label class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Payment Gateway', 'paid-member-subscriptions' ); ?></label>
+                                <input type="hidden" name="payment_gateway" value="<?php echo !empty( $form_data['payment_gateway'] ) ? esc_attr( $form_data['payment_gateway'] ) : ''; ?>" />
+
+                                <select id="pms-payment-gateway" name="payment_gateway" class="pms-payment-gateway-field" required>
+
+                                    <?php
+                                    foreach( pms_get_active_payment_gateways() as $gateway ) {
+                                        echo '<option value="' . esc_attr( $gateway ) . '"' . selected( $gateway, $form_data['payment_gateway'], false ) . '>' . esc_html( $payment_gateways[$gateway]['display_name_admin'] ) . '</option>';
+                                    }
+                                    ?>
+
+                                </select>
+                            </div>
+                        <?php endif; ?>
 
                         <!-- Payment gateway extra custom fields -->
                         <?php

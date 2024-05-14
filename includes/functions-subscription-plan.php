@@ -499,7 +499,7 @@ function pms_get_output_subscription_plan_duration( $subscription_plan = null, $
 
     if( $subscription_plan->is_fixed_period_membership() ){
         if( $subscription_plan->fixed_expiration_date != '' )
-            $duration_output = '<span class="pms-divider">' . ' ' . esc_html__( 'until', 'paid-member-subscriptions' ) . ' ' . '</span>' . esc_html( date_i18n( get_option( 'date_format' ), strtotime( $subscription_plan->get_expiration_date() ) ) );
+            $duration_output = '<span class="pms-divider">' . ' ' . esc_html__( 'until', 'paid-member-subscriptions' ) . ' ' . '</span>' . '<span class="pms-subscription-plan-duration">' . esc_html( date_i18n( get_option( 'date_format' ), strtotime( $subscription_plan->get_expiration_date() ) ) ) . '</span>';
         else
             $duration_output = '';
     } else {
@@ -523,7 +523,7 @@ function pms_get_output_subscription_plan_duration( $subscription_plan = null, $
                     break;
             }
 
-            $duration_output = apply_filters('pms_subscription_plan_output_duration_limited', '<span class="pms-divider"> / </span>' . $duration, $subscription_plan );
+            $duration_output = apply_filters('pms_subscription_plan_output_duration_limited', '<span class="pms-divider"> / </span>' . '<span class="pms-subscription-plan-duration">' . $duration . '</span>', $subscription_plan );
         }
 
     }

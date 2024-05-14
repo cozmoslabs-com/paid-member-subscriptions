@@ -390,149 +390,182 @@ function pms_output_page_banner( $page_name ) {
     echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
-/*
+
+/**
+ * Include Script for repositioning the Publish Box/Button in Admin Dashboard --> PMS CPTs & Custom Pages
+ *
+ */
+function pms_enqueue_reposition_submit_box_script( $hook ) {
+    $enqueue_script = false;
+
+    if ( $hook === 'post.php' && isset( $_GET['post'] ) ) {
+        $pms_cpts = array( 'pms-subscription', 'pms-content-dripping', 'pms-email-reminders', 'pms-discount-codes' );
+        $post_type = get_post_type( (int)$_GET['post'] );
+
+        if ( in_array( $post_type, $pms_cpts ) )
+            $enqueue_script = true;
+    }
+    else {
+        $pms_custom_pages = array( 'paid-member-subscriptions_page_pms-members-page', 'paid-member-subscriptions_page_pms-settings-page' );
+
+        if ( in_array( $hook, $pms_custom_pages ) )
+            $enqueue_script = true;
+    }
+
+    if ( $enqueue_script )
+        wp_enqueue_script( 'pms-submit-meta-box-position-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submit-meta-box-position.js', array( 'jquery' ), PMS_VERSION );
+
+}
+add_action( 'admin_enqueue_scripts', 'pms_enqueue_reposition_submit_box_script' );
+
+
+/**
  * Add the "Add New Subscription" button on members edit list table only when abandoned subscriptions are present
  *
  */
-    function pms_extend_edit_add_new_subscription( $which, $member, $existing_subscriptions ){
+function pms_extend_edit_add_new_subscription( $which, $member, $existing_subscriptions ){
 
-        if( $which == 'bottom' && !function_exists('pms_in_msu_member_subscription_list_table_add_new_button') ){
+    if( $which == 'bottom' && !function_exists('pms_in_msu_member_subscription_list_table_add_new_button') ){
 
-            $subscriptions = pms_get_member_subscriptions( array( 'user_id' => $member->user_id, 'include_abandoned' => true ) );
-            $only_abandoned_subscriptions = true;
-            foreach ( $subscriptions as $subscription ){
-                if( $subscription->status !== "abandoned" ){
-                    $only_abandoned_subscriptions = false;
-                    break;
-                }
-            }
-            if( $only_abandoned_subscriptions ){
-                echo '<a href="' . esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'add_subscription', 'member_id' => $member->user_id ), admin_url( 'admin.php' ) ) ) . '" class="button-primary">' . esc_html__( 'Add New Subscription', 'paid-member-subscriptions' ) . '</a>';
+        $subscriptions = pms_get_member_subscriptions( array( 'user_id' => $member->user_id, 'include_abandoned' => true ) );
+        $only_abandoned_subscriptions = true;
+        foreach ( $subscriptions as $subscription ){
+            if( $subscription->status !== "abandoned" ){
+                $only_abandoned_subscriptions = false;
+                break;
             }
         }
-
+        if( $only_abandoned_subscriptions ){
+            echo '<a href="' . esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'add_subscription', 'member_id' => $member->user_id ), admin_url( 'admin.php' ) ) ) . '" class="button-primary">' . esc_html__( 'Add New Subscription', 'paid-member-subscriptions' ) . '</a>';
+        }
     }
 
+}
 add_action( 'pms_member_subscription_list_table_extra_tablenav', 'pms_extend_edit_add_new_subscription', 10, 3 );
 
-/* Function that displays the modal for the create pricing page*/
 
-    function pms_output_modal_create_pricing_page(){
-        global $pagenow;
+/**
+ * Function that displays the modal for the create pricing page
+ *
+ */
+function pms_output_modal_create_pricing_page(){
+    global $pagenow;
 
-        ?>
-        <div class="overlay"></div>
+    ?>
+    <div class="overlay"></div>
 
-        <div id="" class="pms-modal <?php if( $pagenow === 'admin.php' && isset( $_GET['page'] ) && $_GET['page'] === 'pms-dashboard-page' ) { echo 'pms-modal-dashboard'; } ?>">
-            <div class="pms-modal__holder">
-                <h2 class="cozmoslabs-page-title"><?php esc_html_e( 'Create Pricing Page', 'paid-member-subscriptions' ); ?></h2>
-                <a class="pms-button-close" id="pms-button-close" href="#">&times;</a>
-                <div class="pms-content">
-                    <?php
-                    if( empty( pms_get_page( 'register' ) ) || pms_get_page( 'register' ) == false ){
+    <div id="" class="pms-modal <?php if( $pagenow === 'admin.php' && isset( $_GET['page'] ) && $_GET['page'] === 'pms-dashboard-page' ) { echo 'pms-modal-dashboard'; } ?>">
+        <div class="pms-modal__holder">
+            <h2 class="cozmoslabs-page-title"><?php esc_html_e( 'Create Pricing Page', 'paid-member-subscriptions' ); ?></h2>
+            <a class="pms-button-close" id="pms-button-close" href="#">&times;</a>
+            <div class="pms-content">
+                <?php
+                if( empty( pms_get_page( 'register' ) ) || pms_get_page( 'register' ) == false ){
 
-                        $pms_url_settings_page = esc_url( add_query_arg( array( 'page' => 'pms-settings-page' ), admin_url( 'admin.php' ) ) . '#cozmoslabs-subsection-membership-pages' );
-                        $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS → Settings → Membership Pages → Registration', 'paid-member-subscriptions' ) . '</a>';
-                        $pms_register_page_set_error = sprintf( __('%sAlert:%s It appears that the register page is not configured. To address this, please navigate to %s and choose the page containing the %s shortcode.', 'paid-member-subscriptions'),
-                            '<strong>', '</strong>', $pms_url, '<strong>[pms-register]</strong>');
-                        echo '<div class="pms-error-box">';
-                        echo '<p class="pms-error-message">' . wp_kses_post( $pms_register_page_set_error ) . '</p>';
-                        echo '</div>';
-                        return;
-                    }
+                    $pms_url_settings_page = esc_url( add_query_arg( array( 'page' => 'pms-settings-page' ), admin_url( 'admin.php' ) ) . '#cozmoslabs-subsection-membership-pages' );
+                    $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS → Settings → Membership Pages → Registration', 'paid-member-subscriptions' ) . '</a>';
+                    $pms_register_page_set_error = sprintf( __('%sAlert:%s It appears that the register page is not configured. To address this, please navigate to %s and choose the page containing the %s shortcode.', 'paid-member-subscriptions'),
+                        '<strong>', '</strong>', $pms_url, '<strong>[pms-register]</strong>');
+                    echo '<div class="pms-error-box">';
+                    echo '<p class="pms-error-message">' . wp_kses_post( $pms_register_page_set_error ) . '</p>';
+                    echo '</div>';
+                    return;
+                }
 
-                    $subscriptions = pms_get_subscription_plans();
+                $subscriptions = pms_get_subscription_plans();
 
-                    if( empty( $subscriptions ) || $subscriptions === null || count( $subscriptions ) === 0){
+                if( empty( $subscriptions ) || $subscriptions === null || count( $subscriptions ) === 0){
 
-                        $pms_url_settings_page = esc_url( admin_url( 'post-new.php?post_type=pms-subscription' ) );
-                        $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS → Subscription Plans → Add New', 'paid-member-subscriptions' ) . '</a>';
-                        $pms_register_page_set_error = sprintf( __('%sAlert:%s It seems that you do not have any subscriptions plans set. To resolve this, please navigate to %s and create a new subscription plan.', 'paid-member-subscriptions'),
-                            '<strong>', '</strong>', $pms_url);
-                        echo '<div class="pms-error-box">';
-                        echo '<p class="pms-error-message">' . wp_kses_post( $pms_register_page_set_error ) . '</p>';
-                        echo '</div>';
-                        return;
-                    }
-                    ?>
-                    <p><?php esc_html_e( 'Select the subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans.', 'paid-member-subscriptions' ); ?></p>
-                    <form action="<?php echo  esc_url( admin_url( 'admin-post.php') ); ?>" method="post" class="pms-form">
-                        <table class="pms-select-container" style="margin-bottom: 20px">
-                            <tr>
-                                <th>
-                                    <label for="pms-silver-subscription-plan"><?php esc_html_e( 'First plan:', 'paid-member-subscriptions' ); ?></label>
-                                </th>
-                                <td>
-                                    <select id="pms-silver-subscription-plan" name="pms-silver-subscription-plan"  class="pms-chosen-modal" >
-                                        <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
-                                        <?php
-                                        foreach ( $subscriptions as $subscription ){
-                                            echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <label for="pms-gold-subscription-plan"><?php esc_html_e( 'Second plan:', 'paid-member-subscriptions' ); ?></label>
-                                </th>
-                                <td>
-                                    <select id="pms-gold-subscription-plan" name="pms-gold-subscription-plan"  class="pms-chosen-modal" >
-                                        <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
-                                        <?php
-                                        $subscriptions = pms_get_subscription_plans();
-                                        foreach ( $subscriptions as $subscription ){
-                                            echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <label for="pms-platinum-subscription-plan"><?php esc_html_e( 'Third plan:', 'paid-member-subscriptions' ); ?></label>
-                                </th>
-                                <td>
-                                    <select id="pms-platinum-subscription-plan" name="pms-platinum-subscription-plan"  class="pms-chosen-modal" >
-                                        <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
-                                        <?php
-                                        $subscriptions = pms_get_subscription_plans();
-                                        foreach ( $subscriptions as $subscription ){
-                                            echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
+                    $pms_url_settings_page = esc_url( admin_url( 'post-new.php?post_type=pms-subscription' ) );
+                    $pms_url = '<a href="' . $pms_url_settings_page . '">' . __( 'PMS → Subscription Plans → Add New', 'paid-member-subscriptions' ) . '</a>';
+                    $pms_register_page_set_error = sprintf( __('%sAlert:%s It seems that you do not have any subscriptions plans set. To resolve this, please navigate to %s and create a new subscription plan.', 'paid-member-subscriptions'),
+                        '<strong>', '</strong>', $pms_url);
+                    echo '<div class="pms-error-box">';
+                    echo '<p class="pms-error-message">' . wp_kses_post( $pms_register_page_set_error ) . '</p>';
+                    echo '</div>';
+                    return;
+                }
+                ?>
+                <p><?php esc_html_e( 'Select the subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans.', 'paid-member-subscriptions' ); ?></p>
+                <form action="<?php echo  esc_url( admin_url( 'admin-post.php') ); ?>" method="post" class="pms-form">
+                    <table class="pms-select-container" style="margin-bottom: 20px">
+                        <tr>
+                            <th>
+                                <label for="pms-silver-subscription-plan"><?php esc_html_e( 'First plan:', 'paid-member-subscriptions' ); ?></label>
+                            </th>
+                            <td>
+                                <select id="pms-silver-subscription-plan" name="pms-silver-subscription-plan"  class="pms-chosen-modal" >
+                                    <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
+                                    <?php
+                                    foreach ( $subscriptions as $subscription ){
+                                        echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="pms-gold-subscription-plan"><?php esc_html_e( 'Second plan:', 'paid-member-subscriptions' ); ?></label>
+                            </th>
+                            <td>
+                                <select id="pms-gold-subscription-plan" name="pms-gold-subscription-plan"  class="pms-chosen-modal" >
+                                    <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
+                                    <?php
+                                    $subscriptions = pms_get_subscription_plans();
+                                    foreach ( $subscriptions as $subscription ){
+                                        echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="pms-platinum-subscription-plan"><?php esc_html_e( 'Third plan:', 'paid-member-subscriptions' ); ?></label>
+                            </th>
+                            <td>
+                                <select id="pms-platinum-subscription-plan" name="pms-platinum-subscription-plan"  class="pms-chosen-modal" >
+                                    <option value=""><?php esc_html_e( 'Select a plan...', 'paid-member-subscriptions' ); ?></option>
+                                    <?php
+                                    $subscriptions = pms_get_subscription_plans();
+                                    foreach ( $subscriptions as $subscription ){
+                                        echo '<option value="' . esc_attr( $subscription->id ) . '">' . esc_html( $subscription->name ) . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
 
-                        <p class="cozmoslabs-description" style="margin-bottom: 5px;"><?php esc_html_e( 'Choose a style that better suits your pricing page.', 'paid-member-subscriptions' ); ?></p>
+                    <p class="cozmoslabs-description" style="margin-bottom: 5px;"><?php esc_html_e( 'Choose a style that better suits your pricing page.', 'paid-member-subscriptions' ); ?></p>
 
-                        <div class="cozmoslabs-form-field-wrapper">
+                    <div class="cozmoslabs-form-field-wrapper">
 
-                            <?php
-                                echo pms_render_pricing_tables_design_selector(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                            ?>
+                        <?php
+                            echo pms_render_pricing_tables_design_selector(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        ?>
 
-                        </div>
+                    </div>
 
-                        <div style="margin-top: 10px;">
-                            <input type="hidden" name="action" value="pms_create_pricing_table_page">
-                            <input type="hidden" name="pms_nonce" value="<?php echo esc_attr( wp_create_nonce( 'pms_create_pricing_table_page' ) ); ?>">
-                            <input type="submit" class="button button-primary" value="Submit">
-                        </div>
-                    </form>
-                </div>
+                    <div style="margin-top: 10px;">
+                        <input type="hidden" name="action" value="pms_create_pricing_table_page">
+                        <input type="hidden" name="pms_nonce" value="<?php echo esc_attr( wp_create_nonce( 'pms_create_pricing_table_page' ) ); ?>">
+                        <input type="submit" class="button button-primary" value="Submit">
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 
-        <?php
-    }
+    <?php
+}
 
 
-/* Function that displays the modal for the create pricing page*/
-
+/**
+ * Function that displays the modal for the create pricing page
+ *
+ */
 function pms_output_modal_style_pricing_page(){
     global $pagenow;
     $post_id = isset( $_GET['post'] ) ? sanitize_text_field( $_GET['post'] ) : '';

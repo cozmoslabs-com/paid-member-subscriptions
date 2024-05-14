@@ -21,13 +21,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     else
         $pms_addons_listing->current_version = 'Paid Member Subscriptions';//in free version we do not define the constant as free version needs to be active always
     $pms_addons_listing->tooltip_header = __( 'Paid Member Subscriptions Add-ons', 'paid-member-subscriptions' );
-    $pms_addons_listing->tooltip_content = sprintf( __( 'You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ), '<a target="_blank" href="'. 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS#pricing'.'">', '</a>' );
+    $pms_addons_listing->tooltip_content = sprintf( __( 'You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ), '<a target="_blank" href="'. 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMSFree#pricing'.'">', '</a>' );
 
 
     //Add Basic section
-    $pms_addons_listing->section_header = array( 'title' => __('Basic Add-ons', 'paid-member-subscriptions' ), 'description' => __('These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Agency plans.', 'paid-member-subscriptions')  );
-    $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Basic', 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Agency', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Basic', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Agency', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
-    $pms_addons_listing->items = array(
+    $pms_addons_listing->section_header      = array( 'title' => __('Basic Add-ons', 'paid-member-subscriptions' ), 'description' => __( 'These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Agency plans.', 'paid-member-subscriptions' )  );
+    $pms_addons_listing->section_header_free = array( 'title' => __('Basic Add-ons', 'paid-member-subscriptions' ), 'description' => sprintf( __( 'Get access to these Add-ons with a Basic, Pro or Agency license. %sBuy now%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page-notice&utm_campaign=PMS#pricing" taget="_blank">', '</a>' )  );
+    $pms_addons_listing->section_versions    = array( 'Paid Member Subscriptions - Basic', 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Agency', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Basic', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Agency', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
+    $pms_addons_listing->items               = array(
         array(  'slug' => 'pms-add-on-learndash/index.php',
             'type'        => 'add-on',
             'name'        => __( 'LearnDash', 'paid-member-subscriptions' ),
@@ -82,6 +83,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     //Add Pro Section
     $pms_addons_listing->section_header = array( 'title' => __('Pro Add-ons', 'paid-member-subscriptions' ), 'description' => __('These addons extend Paid Member Subscriptions and are available in the Pro and Agency plans.', 'paid-member-subscriptions')  );
+    $pms_addons_listing->section_header_free = array( 'title' => __('Pro Add-ons', 'paid-member-subscriptions' ), 'description' => sprintf( __( 'Get access to these Add-ons with a Pro or Agency license. %sBuy now%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page-notice&utm_campaign=PMS#pricing" taget="_blank">', '</a>' )  );
     $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Agency', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Agency', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
     $pms_addons_listing->items = array(
         array(  'slug' => 'pms-add-on-pro-rate/index.php',

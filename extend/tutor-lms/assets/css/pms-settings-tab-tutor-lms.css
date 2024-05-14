@@ -1,0 +1,34 @@
+
+/* initially hide fields */
+#tutor-lms-access-type,
+#tutor-lms-subscription-plans,
+#tutor-lms-auto-enroll {
+    display: none;
+}
+
+/* initially hide descriptions */
+#individual-information,
+#category-information,
+#full-course-description,
+#category-description,
+#individual-description {
+    display: none;
+}
+
+.pms-restriction-type-information {
+    align-items: flex-start !important;
+}
+
+.pms-restriction-type-information p {
+    margin: 0 0 5px 0;
+}
+
+.pms-restriction-type-information ul {
+    padding-left: 10px;
+}
+
+.tutor-lms-settings-notice {
+    padding: 15px;
+    background: #FDFBE6;
+    border: 1px solid #ffb900;
+}

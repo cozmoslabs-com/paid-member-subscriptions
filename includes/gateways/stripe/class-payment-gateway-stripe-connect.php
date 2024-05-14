@@ -298,18 +298,29 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         $payment = pms_get_payment( $this->payment_id );
 
-        if( $payment->status == 'completed' ){
+        $target = isset( $_REQUEST['pmstkn_original'] ) ? 'pmstkn_original' : 'pmstkn';
 
-            $data = array(
-                'success'      => true,
-                'redirect_url' => $this->get_success_redirect_url( $form_location ),
-            );
+        $form_location = PMS_Form_Handler::get_request_form_location( $target );
 
-            if( wp_doing_ajax() ){
-                echo json_encode( $data );
-                die();
-            } else
-                return $data;
+        if( isset( $_REQUEST['payment_intent'] ) && isset( $_GET['pms_stripe_connect_return_url'] ) && $_GET['pms_stripe_connect_return_url'] == 1 )
+            $form_location = 'stripe_return_url';
+
+        if( isset( $payment->status ) && $payment->status == 'completed' ){
+
+            // If the payment is completed because the webhook was received already we don't want to touch it
+            // But the payment can also be completed when a 100% discount code is used and in that scenario we need to continue
+            if( empty( $_REQUEST['discount_code'] ) || ( !empty( $_REQUEST['discount_code'] ) && $payment->amount != 0 ) ){
+                $data = array(
+                    'success'      => true,
+                    'redirect_url' => $this->get_success_redirect_url( $form_location ),
+                );
+    
+                if( wp_doing_ajax() ){
+                    echo json_encode( $data );
+                    die();
+                } else
+                    return $data;
+            }
 
         }
 
@@ -322,13 +333,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $this->subscription_plan = pms_get_subscription_plan( absint( $_POST['subscription_plan_id'] ) );
 
         }
-
-        $target = isset( $_POST['pmstkn_original'] ) ? 'pmstkn_original' : 'pmstkn';
-
-        $form_location = PMS_Form_Handler::get_request_form_location( $target );
-
-        if( isset( $_REQUEST['payment_intent'] ) && isset( $_GET['pms_stripe_connect_return_url'] ) && $_GET['pms_stripe_connect_return_url'] == 1 )
-            $form_location = 'stripe_return_url';
 
         $subscription = pms_get_member_subscription( $subscription_id );
 
@@ -488,6 +492,21 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     }
 
                 }
+            }
+        } else {
+            // NOTE: When Apple Pay or Google Pay payment window is closed, Stripe returns an incomplete error, but the status of the payment intent does not change
+            // This needs to be treated as an error by the plugin because an account is created regardless if this window is closed or not
+
+            if( wp_doing_ajax() && isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'pms_stripe_connect_process_payment' && empty( $_REQUEST['payment_intent'] ) ){
+                
+                $data = array(
+                    'success'      => false,
+                    'redirect_url' => $this->get_payment_error_redirect_url(),
+                );
+
+                echo json_encode( $data );
+                die();
+
             }
         }
 
@@ -663,6 +682,17 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             $subscription_plan = pms_get_subscription_plan( !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id );
 
             $amount = pms_stripe_calculate_payment_amount( $subscription_plan );
+
+            // Setup necessary class data
+            if( empty( $this->user_id ) ){
+                $this->user_id = $subscription->user_id;
+            }
+
+            if( empty( $this->user_email ) ){
+                $user = get_userdata( $subscription->user_id );
+
+                $this->user_email = $user->user_email;
+            }
 
             if( ( !PMS_Form_Handler::checkout_has_trial() || ( PMS_Form_Handler::checkout_has_trial() && $subscription_plan->has_sign_up_fee() ) ) && !empty( $payment_intent_id[0] ) && !empty( $amount ) ){
 
@@ -2188,11 +2218,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             return false;
 
         $current_domain = false;
+        $home_url       = home_url();
 
         // verify if domain exists
         foreach( $domains as $domain ) {
 
-            if ( !empty( $_SERVER['HTTP_HOST'] ) && $domain->domain_name === $_SERVER['HTTP_HOST'] ){
+            if ( !empty( $home_url ) && $domain->domain_name === $home_url ){
                 $current_domain = $domain;
                 break;
             }
@@ -2217,7 +2248,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     public function register_domain(){
 
-        if( empty( $this->secret_key ) || empty( $_SERVER['HTTP_HOST'] ) )
+        if( empty( $this->secret_key ) )
             return false;
 
         // set API key
@@ -2226,7 +2257,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         try {
 
             $domain = $stripe->paymentMethodDomains->create( array(
-                'domain_name' => sanitize_text_field( $_SERVER['HTTP_HOST'] ),
+                'domain_name' => home_url(),
             ) );
 
         } catch ( Exception $e ) {

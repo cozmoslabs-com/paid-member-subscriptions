@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.5
-Stable tag: 2.11.9
+Stable tag: 2.12.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,22 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.12.0 =
+* Feature: Added integration with TutorLMS to allow admins to setup paid courses that can be accessed after buying a subscription
+* Feature: Improvements to the Reports page: added more stats like new revenue, recurring revenue, subscription plan earnings, payment gateway revenue etc. Also added a comparison area showing the same stats but from last year.
+* Fix: Sending of the Renewal Email when the Stripe gateway is used
+* Fix: Issue with Apple Pay verification not working properly on subdomains
+* Fix: Position for Save button on plugin pages
+* Fix: Change initial payment type for PayPal Standard Recurring payments
+* Fix: Issue with Upgrades, Downgrades when a 100% discount code was used with Stripe
+* Fix: A scenario with Apple Pay, Google Pay in which the form was getting stuck
+* Fix: Issue with the Pricing Tables preview modal not opening
+* Misc: Allow admins to edit the payment gateway of a subscription through a filter that needs to be enabled: pms_edit_subscription_enable_payment_gateway_editing
+* Misc: Allow payments to be searched by a discount code
+* Misc: Add a link to see who used a discount code over the Uses column of the Discount Codes listing
+* Misc: Add a class over the duration of a subscription plan in front-end
+* Misc: Added a link over the transaction ID for payments linking to the payment gateway dashboard
+
 = 2.11.9 =
 * Fix: Made some changes to the Stripe account onboarding process to make it more reliable
 * Fix: Hide license notification in cases where it was being shown incorrectly

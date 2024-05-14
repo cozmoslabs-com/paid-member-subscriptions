@@ -724,10 +724,26 @@
 <?php __("Subscription Status", "paid-member-subscriptions"); ?>
 <?php __("Subscription Start Date", "paid-member-subscriptions"); ?>
 <?php __("Subscription Expiration Date", "paid-member-subscriptions"); ?>
+<?php __("Tutor LMS", "paid-member-subscriptions"); ?>
+<?php __("Restriction Settings", "paid-member-subscriptions"); ?>
+<?php __('%1$s Registration Page %2$s is not correctly set or missing. ', 'paid-member-subscriptions' ); ?>
+<?php __('Go to %1$s Settings --> General --> Membership Pages %2$s and select the required pages accordingly.', 'paid-member-subscriptions' ); ?>
+<?php __('%1$s Paid Member Subscriptions %2$s is not the currently active Monetization Engine for TutorLMS. ', 'paid-member-subscriptions' ); ?>
+<?php __('You can easily enable it by navigating to %3$s TutorLMS --> Settings --> Monetization %4$s and selecting %1$s Paid Member Subscriptions %2$s as the eCommerce Engine.', 'paid-member-subscriptions' ); ?>
+<?php __("TutorLMS Categories", "paid-member-subscriptions"); ?>
+<?php __("No TutorLMS Categories have been created yet!", "paid-member-subscriptions"); ?>
+<?php __('Go to %1$s Tutor LMS Pro -> Categories %2$s to start adding your own.', 'paid-member-subscriptions' ); ?>
+<?php __("Select the categories you want to associate with this Subscription Plan.", "paid-member-subscriptions"); ?>
+<?php __("TutorLMS Recommended", "paid-member-subscriptions"); ?>
+<?php __("Highlight this Subscription Plan in the required plans list on the Course Page.", "paid-member-subscriptions"); ?>
+<?php __("Registration page is not correctly set or missing.", "paid-member-subscriptions"); ?>
+<?php __('Go to %1$s Settings -> General -> Membership Pages %2$s and select the required pages accordingly.', 'paid-member-subscriptions' ); ?>
+<?php __("Select Your Plan", "paid-member-subscriptions"); ?>
+<?php __("Subscribe For Access", "paid-member-subscriptions"); ?>
 <?php __("Messages for restricted product purchase", "paid-member-subscriptions"); ?>
 <?php __("WooCommerce Restriction Messages", "paid-member-subscriptions"); ?>
 <?php __("You need the proper subscription plan to be able to purchase this product.", "paid-member-subscriptions"); ?>
-<?php __("WooCommerce Integration", "paid-member-subscriptions"); ?>
+<?php __("WooCommerce", "paid-member-subscriptions"); ?>
 <?php __("Inactive", "paid-member-subscriptions"); ?>
 <?php __("There are no discounts yet. Click below to add one.", "paid-member-subscriptions"); ?>
 <?php __("Products", "paid-member-subscriptions"); ?>
@@ -911,12 +927,12 @@
 <?php __("Paid Member Subscriptions Register", "paid-member-subscriptions"); ?>
 <?php __("Register your version of Paid Member Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Interval", "paid-member-subscriptions"); ?>
+<?php __("This Month", "paid-member-subscriptions"); ?>
 <?php __("Today", "paid-member-subscriptions"); ?>
 <?php __("Yesterday", "paid-member-subscriptions"); ?>
 <?php __("This Week", "paid-member-subscriptions"); ?>
 <?php __("Last Week", "paid-member-subscriptions"); ?>
 <?php __("Last 30 days", "paid-member-subscriptions"); ?>
-<?php __("This Month", "paid-member-subscriptions"); ?>
 <?php __("Last Month", "paid-member-subscriptions"); ?>
 <?php __("This Year", "paid-member-subscriptions"); ?>
 <?php __("Last Year", "paid-member-subscriptions"); ?>
@@ -925,17 +941,42 @@
 <?php __("Select Subscription Plans", "paid-member-subscriptions"); ?>
 <?php __("All", "paid-member-subscriptions"); ?>
 <?php __("Select only the Subscriptions Plans you want to see the statistics for.", "paid-member-subscriptions"); ?>
-<?php __("Summary", "paid-member-subscriptions"); ?>
+<?php __("General", "paid-member-subscriptions"); ?>
+<?php __("Discount Codes", "paid-member-subscriptions"); ?>
 <?php __("Total earnings for the selected period", "paid-member-subscriptions"); ?>
 <?php __("Total Earnings", "paid-member-subscriptions"); ?>
 <?php __("Total number of payments for the selected period", "paid-member-subscriptions"); ?>
 <?php __("Total Payments", "paid-member-subscriptions"); ?>
+<?php __("Total earnings of completed payments for the selected period", "paid-member-subscriptions"); ?>
+<?php __("New Revenue", "paid-member-subscriptions"); ?>
+<?php __("Total earnings of reccuring payments for the selected period", "paid-member-subscriptions"); ?>
+<?php __("Recurring Revenue", "paid-member-subscriptions"); ?>
+<?php __("The plan with the most income for the selected period", "paid-member-subscriptions"); ?>
+<?php __("Best Performing Plan", "paid-member-subscriptions"); ?>
+<?php __("There are no payments for the selected period.", "paid-member-subscriptions"); ?>
+<?php __("Payment Gateways Revenue", "paid-member-subscriptions"); ?>
+<?php __("There aren't any gateways activated.", "paid-member-subscriptions"); ?>
+<?php __("There aren't any incomes for the activated gateways.", "paid-member-subscriptions"); ?>
+<?php __("Payment Retries", "paid-member-subscriptions"); ?>
+<?php __("Total number of attempts payments for the selected period", "paid-member-subscriptions"); ?>
+<?php __("Attempts Retries", "paid-member-subscriptions"); ?>
+<?php __("Total number of successful attempts payments for the selected period", "paid-member-subscriptions"); ?>
+<?php __("Successful Retries", "paid-member-subscriptions"); ?>
+<?php __("Total number of recovered payments for the selected period", "paid-member-subscriptions"); ?>
+<?php __("Recovered Revenue", "paid-member-subscriptions"); ?>
+<?php __("Total earnings for the selected subscription plan", "paid-member-subscriptions"); ?>
+<?php __("The selected subscription plans have no revenue.", "paid-member-subscriptions"); ?>
+<?php __("Discount Code", "paid-member-subscriptions"); ?>
+<?php __("Uses", "paid-member-subscriptions"); ?>
+<?php __("No discount codes were used in the selected period.", "paid-member-subscriptions"); ?>
+<?php __("Total earnings for the type of discount", "paid-member-subscriptions"); ?>
+<?php __("Summary", "paid-member-subscriptions"); ?>
+<?php __("Summary - Previous Year", "paid-member-subscriptions"); ?>
 <?php __("Reports", "paid-member-subscriptions"); ?>
 <?php __("Test Payments are enabled", "paid-member-subscriptions"); ?>
 <?php __("Live Payments are enabled", "paid-member-subscriptions"); ?>
 <?php __("Update Settings", "paid-member-subscriptions"); ?>
 <?php __("Save Settings", "paid-member-subscriptions"); ?>
-<?php __("General", "paid-member-subscriptions"); ?>
 <?php __("E-Mails", "paid-member-subscriptions"); ?>
 <?php __("Misc", "paid-member-subscriptions"); ?>
 <?php __("User Pages", "paid-member-subscriptions"); ?>
@@ -1367,6 +1408,33 @@
 <?php __("Selected Subscription Plan", "paid-member-subscriptions"); ?>
 <?php __("Select which plan will be by default selected when the front-end form loads.", "paid-member-subscriptions"); ?>
 <?php __("You will be able to complete the payment after you have confirmed your e-mail address.", "paid-member-subscriptions"); ?>
+<?php __("Restriction Type", "paid-member-subscriptions"); ?>
+<?php __("Full Courses Restriction", "paid-member-subscriptions"); ?>
+<?php __("Category Restriction", "paid-member-subscriptions"); ?>
+<?php __("Individual Restriction", "paid-member-subscriptions"); ?>
+<?php __("Choose the restriction type that best aligns with your needs.", "paid-member-subscriptions"); ?>
+<?php __("Full Course restriction enables access for members of any Subscription Plan or those specifically selected below.", "paid-member-subscriptions"); ?>
+<?php __("Category restriction enables access for members of a Subscription Plan which grants access to a category the Course is in.", "paid-member-subscriptions"); ?>
+<?php __("Individual restriction enables access for members of specific Subscription Plans.", "paid-member-subscriptions"); ?>
+<?php __("Access Type", "paid-member-subscriptions"); ?>
+<?php __("Allow any member to access courses", "paid-member-subscriptions"); ?>
+<?php __("Allow members of the selected Subscription Plans to access courses", "paid-member-subscriptions"); ?>
+<?php __("Choose if any members or only members of selected Subscription Plans can access courses.", "paid-member-subscriptions"); ?>
+<?php __("There are no active Subscription Plans!", "paid-member-subscriptions"); ?>
+<?php __('Go to %1$s Paid Member Subscriptions --> Subscription Plans %2$s and activate or create a Plan.', 'paid-member-subscriptions' ); ?>
+<?php __("Select Subscription Plans...", "paid-member-subscriptions"); ?>
+<?php __("Select the Subscription Plans users must be members of to access Courses.", "paid-member-subscriptions"); ?>
+<?php __("Auto Enroll", "paid-member-subscriptions"); ?>
+<?php __("Automatically enroll users to Courses when a membership is created, updated or changed.", "paid-member-subscriptions"); ?>
+<?php __("Information", "paid-member-subscriptions"); ?>
+<?php __("Select the required Subscription Plans for a specific Course:", "paid-member-subscriptions"); ?>
+<?php __('Go to the Course edit page and look for the %1$s Content Restriction %2$s meta-box.', 'paid-member-subscriptions' ); ?>
+<?php __('Select the %1$s Type Of Restriction%2$s: Message.', 'paid-member-subscriptions' ); ?>
+<?php __('Select the required %1$s Subscription Plans %2$s in the %1$s Display For %2$s field.', 'paid-member-subscriptions' ); ?>
+<?php __("Associate TurorLMS Categories with PMS Subscription Plans:", "paid-member-subscriptions"); ?>
+<?php __('Go to the Subscription Plan edit page and look for the %1$s TutorLMS Categories %2$s settings field.', 'paid-member-subscriptions' ); ?>
+<?php __('Select the %1$s TutorLMS Categories %2$s you want to associate with this Subscription Plan.', 'paid-member-subscriptions' ); ?>
+<?php __('Members of this Subscription Plan will be able to access Courses within the %1$s selected categories%2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Member discount!", "paid-member-subscriptions"); ?>
 <?php __("Who can purchase?", "paid-member-subscriptions"); ?>
 <?php __("Select who can purchase this product.", "paid-member-subscriptions"); ?>
@@ -1415,6 +1483,7 @@
 <?php __('You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Basic Add-ons", "paid-member-subscriptions"); ?>
 <?php __("These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Agency plans.", "paid-member-subscriptions"); ?>
+<?php __("Get access to these Add-ons with a Basic, Pro or Agency license. %sBuy now%s", "paid-member-subscriptions"); ?>
 <?php __("Generate revenue from your LMS website by selling access to courses through single or recurring payments. Restrict content of courses, lessons and quizzes to members.", "paid-member-subscriptions"); ?>
 <?php __("Easy way to add global content restriction rules to subscription plans, based on post type, taxonomy and terms.", "paid-member-subscriptions"); ?>
 <?php __("Create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)", "paid-member-subscriptions"); ?>
@@ -1427,6 +1496,7 @@
 <?php __("Dynamically display menu items based on logged-in status as well as selected subscription plans.", "paid-member-subscriptions"); ?>
 <?php __("Pro Add-ons", "paid-member-subscriptions"); ?>
 <?php __("These addons extend Paid Member Subscriptions and are available in the Pro and Agency plans.", "paid-member-subscriptions"); ?>
+<?php __("Get access to these Add-ons with a Pro or Agency license. %sBuy now%s", "paid-member-subscriptions"); ?>
 <?php __("Pro-Rate", "paid-member-subscriptions"); ?>
 <?php __("Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription.", "paid-member-subscriptions"); ?>
 <?php __("Content Dripping", "paid-member-subscriptions"); ?>
@@ -1479,8 +1549,8 @@
 <?php __("Set the payment gateway used to accept payments, select messages seen by users when accessing a restricted content page or customize default member emails. Everything is just a few clicks away.", "paid-member-subscriptions"); ?>
 <?php __("Recurring Payments", "paid-member-subscriptions"); ?>
 <?php __("Setup recurring payments for your subscription plans.", "paid-member-subscriptions"); ?>
-<?php __("Discount Codes", "paid-member-subscriptions"); ?>
 <?php __("Friction-less discount code creation for running promotions, making price reductions or simply rewarding your users.", "paid-member-subscriptions"); ?>
+<?php __("WooCommerce Integration", "paid-member-subscriptions"); ?>
 <?php __("Integrates beautifully with WooCommerce, for extended functionality.", "paid-member-subscriptions"); ?>
 <?php __("Restrict Product Viewing & Purchasing", "paid-member-subscriptions"); ?>
 <?php __("Control who can see or purchase a WooCommerce product based on logged in status and subscription plan. Easily create products available to members only.", "paid-member-subscriptions"); ?>
@@ -1595,7 +1665,6 @@
 <?php __("Add New Payment", "paid-member-subscriptions"); ?>
 <?php __("Payment Details", "paid-member-subscriptions"); ?>
 <?php __("Enter the username you wish to associate a payment with. You can create a new user <a href=\"%s\">here</a>.", "paid-member-subscriptions"); ?>
-<?php __("Discount Code", "paid-member-subscriptions"); ?>
 <?php __("The Transaction ID will be provided by the payment gateway when the payment is registered within their system.", "paid-member-subscriptions"); ?>
 <?php __("Gateway", "paid-member-subscriptions"); ?>
 <?php __("Save Payment", "paid-member-subscriptions"); ?>
@@ -2214,8 +2283,8 @@
 <?php __("Expired <span class=\"count\">(%s)</span>", "paid-member-subscriptions"); ?>
 <?php __("Expired <span class=\"count\">(%s)</span>", "paid-member-subscriptions"); ?>
 <?php __("Code", "paid-member-subscriptions"); ?>
-<?php __("Uses", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Discount Code?", "paid-member-subscriptions"); ?>
+<?php __("View payments with this discount code", "paid-member-subscriptions"); ?>
 <?php __("No start date", "paid-member-subscriptions"); ?>
 <?php __("No expiration date", "paid-member-subscriptions"); ?>
 <?php __("Delete Discount", "paid-member-subscriptions"); ?>
@@ -2350,7 +2419,6 @@
 <?php __("ID / Name", "paid-member-subscriptions"); ?>
 <?php __("Product Discounts", "paid-member-subscriptions"); ?>
 <?php __("Rescan Labels", "paid-member-subscriptions"); ?>
-<?php __("Information", "paid-member-subscriptions"); ?>
 <?php __("Edit Labels", "paid-member-subscriptions"); ?>
 <?php __("Import and Export Labels", "paid-member-subscriptions"); ?>
 <?php __("Register Form", "paid-member-subscriptions"); ?>

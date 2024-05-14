@@ -17,6 +17,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      *
      */
     public $start_date;
+    public $start_previous_date;
 
 
     /*
@@ -26,6 +27,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      *
      */
     public $end_date;
+    public $end_previous_date;
 
     /*
      * The total of days in a month
@@ -43,6 +45,9 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      *
      */
     public $queried_payments = array();
+    public $queried_payments_attempts = array();
+    public $queried_previous_payments = array();
+    public $queried_previous_attempts = array();
 
 
     /*
@@ -150,7 +155,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
 
     /*
-     * Return an array of payments payments depending on the user's input filters
+     * Return an array of payments, payments depending on the user's input filters
      *
      * @return array
      *
@@ -162,19 +167,27 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
             $this->start_date = sanitize_text_field( $_REQUEST['pms-filter-time-start-date'] );
             $this->end_date   = sanitize_text_field( $_REQUEST['pms-filter-time-end-date'] ) . ' 23:59:59';
 
+            $this->start_previous_date = DateTime::createFromFormat('Y-m-d', $this->start_date);
+            $this->start_previous_date->modify('-1 year');
+            $this->start_previous_date = $this->start_previous_date->format('Y-m-d');
+
+            $this->end_previous_date = DateTime::createFromFormat('Y-m-d H:i:s', $this->end_date);
+            $this->end_previous_date->modify('-1 year');
+            $this->end_previous_date = $this->end_previous_date->format('Y-m-d') . ' 23:59:59';
+
         } else {
 
-            if( empty( $_REQUEST['pms-filter-time'] ) || $_REQUEST['pms-filter-time'] == 'today' )
+            if( empty( $_REQUEST['pms-filter-time'] ) || $_REQUEST['pms-filter-time'] == 'this_month' )
                 $date = date("Y-m-d");
             else
                 $date = sanitize_text_field( $_REQUEST['pms-filter-time'] );
 
             if( $date === 'today' || $date === 'yesterday'){
 
-                $date = new DateTime( $date );
-                $date = $date->format('Y-m-d');
-                $this->start_date = $date . ' 00:00:00';
-                $this->end_date   = $date . ' 23:59:59';
+                $data = new DateTime( $date );
+                $data = $data->format('Y-m-d');
+                $this->start_date = $data . ' 00:00:00';
+                $this->end_date   = $data . ' 23:59:59';
 
             }
             else if( $date === 'this_week'){
@@ -185,6 +198,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                 $this->end_date = new DateTime('this week sunday');
                 $this->end_date = $this->end_date->format('Y-m-d');
+                $this->end_date = $this->end_date . ' 23:59:59';
             }
             else if( $date === 'last_week' ){
 
@@ -194,6 +208,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                 $this->end_date = new DateTime('last week sunday');
                 $this->end_date = $this->end_date->format('Y-m-d');
+                $this->end_date = $this->end_date . ' 23:59:59';
 
             }
             else if( $date === '30days' ){
@@ -204,6 +219,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                 $this->end_date = new DateTime('today');
                 $this->end_date = $this->end_date->format('Y-m-d');
+                $this->end_date = $this->end_date . ' 23:59:59';
             }
             else if( $date === 'this_month' ){
 
@@ -212,6 +228,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                 $this->end_date = new DateTime('last day of this month');
                 $this->end_date = $this->end_date->format('Y-m-d');
+                $this->end_date = $this->end_date . ' 23:59:59';
             }
             else if( $date === 'last_month' ){
 
@@ -220,6 +237,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                 $this->end_date = new DateTime('last day of last month');
                 $this->end_date = $this->end_date->format('Y-m-d');
+                $this->end_date = $this->end_date . ' 23:59:59';
             }
             else if ( $date === 'this_year' ){
 
@@ -228,6 +246,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                 $this->end_date = new DateTime('last day of December this year');
                 $this->end_date = $this->end_date->format('Y-m-d');
+                $this->end_date = $this->end_date . ' 23:59:59';
             }
             else if ( $date === 'last_year' ){
 
@@ -236,6 +255,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                 $this->end_date = new DateTime('last day of December last year');
                 $this->end_date = $this->end_date->format('Y-m-d');
+                $this->end_date = $this->end_date . ' 23:59:59';
             }
             else if( $date === 'custom_date' ){
 
@@ -247,12 +267,28 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
             }
             else{
 
-                $date = new DateTime( $date );
-                $date = $date->format('Y-m-d');
-                $this->start_date = $date . ' 00:00:00';
-                $this->end_date   = $date . ' 23:59:59';
+                $this->start_date = new DateTime('first day of this month');
+                $this->start_date = $this->start_date->format('Y-m-d');
+
+                $this->end_date = new DateTime('last day of this month');
+                $this->end_date = $this->end_date->format('Y-m-d');
+                $this->end_date = $this->end_date . ' 23:59:59';
             }
 
+            if( $date === 'today' || $date === 'yesterday'){
+                $this->start_previous_date = DateTime::createFromFormat('Y-m-d H:i:s', $this->start_date);
+                $this->start_previous_date->modify('-1 year');
+                $this->start_previous_date = $this->start_previous_date->format('Y-m-d');
+            }
+            else{
+                $this->start_previous_date = DateTime::createFromFormat('Y-m-d', $this->start_date);
+                $this->start_previous_date->modify('-1 year');
+                $this->start_previous_date = $this->start_previous_date->format('Y-m-d');
+            }
+
+            $this->end_previous_date = DateTime::createFromFormat('Y-m-d H:i:s', $this->end_date);
+            $this->end_previous_date->modify('-1 year');
+            $this->end_previous_date = $this->end_previous_date->format('Y-m-d') . ' 23:59:59';
         }
 
         $specific_subs = array();
@@ -260,13 +296,49 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         if( isset( $_REQUEST['pms-filter-subscription-plans'] ) && !empty( $_GET['pms-filter-subscription-plans'] ) ){
             $specific_subs = array_map('absint', $_GET['pms-filter-subscription-plans'] );
             $args = apply_filters( 'pms_reports_get_filtered_payments_args', array( 'status' => 'completed', 'date' => array( $this->start_date, $this->end_date ), 'order' => 'ASC', 'number' => '-1', 'subscription_plan_id' => $specific_subs ) );
+            $args_attempts = array(
+                    'status' => array( 'completed', 'pending', 'failed' ),
+                    'date' => array( $this->start_date, $this->end_date ),
+                    'order' => 'ASC',
+                    'number' => '-1',
+                    'subscription_plan_id' => $specific_subs );
+            $args_previous_period = array(
+                    'status' => 'completed',
+                    'date' => array( $this->start_previous_date, $this->end_previous_date ),
+                    'order' => 'ASC',
+                    'number' => '-1',
+                    'subscription_plan_id' => $specific_subs );
+            $args_previous_attempts = array(
+                'status' => array( 'completed', 'pending', 'failed' ),
+                'date' => array( $this->start_previous_date, $this->end_previous_date ),
+                'order' => 'ASC',
+                'number' => '-1',
+                'subscription_plan_id' => $specific_subs );
         }
         else
         {
             $args = apply_filters( 'pms_reports_get_filtered_payments_args', array( 'status' => 'completed', 'date' => array( $this->start_date, $this->end_date ), 'order' => 'ASC', 'number' => '-1' ) );
+            $args_attempts = array(
+                    'status' => array( 'completed', 'pending', 'failed' ),
+                    'date' => array( $this->start_date, $this->end_date ),
+                    'order' => 'ASC',
+                    'number' => '-1' );
+            $args_previous_period = array(
+                    'status' => 'completed',
+                    'date' => array( $this->start_previous_date, $this->end_previous_date ),
+                    'order' => 'ASC',
+                    'number' => '-1');
+            $args_previous_attempts = array(
+                'status' => array( 'completed', 'pending', 'failed' ),
+                'date' => array( $this->start_previous_date, $this->end_previous_date ),
+                'order' => 'ASC',
+                'number' => '-1' );
         }
 
         $payments = pms_get_payments( $args );
+        $this->queried_payments_attempts = pms_get_payments( $args_attempts );
+        $this->queried_previous_payments = pms_get_payments( $args_previous_period );
+        $this->queried_previous_attempts = pms_get_payments( $args_previous_attempts );
 
         return $payments;
 
@@ -413,15 +485,30 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         }
         else
         {
-            $first_hour = new DateTime( $this->start_date );
-            $first_hour = $first_hour->format('G');
+            $first_day = new DateTime( $this->start_date );
+            $first_month = $first_day->format('n');
+            $first_day = $first_day->format('j');
 
-            $last_hour = new DateTime( $this->end_date );
-            $last_hour = $last_hour->format('G');
+            $last_day  = new DateTime( $this->end_date );
+            $last_month = $last_day->format('n');
+            $last_day  = $last_day->format('j');
 
-            for( $i = $first_hour; $i <= $last_hour; $i++ ) {
-                if( !isset( $results[$i] ) )
-                    $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+            if( $first_day >= $last_day || ( $first_day < $last_day && $first_month < $last_month ) ){
+                for( $i = $first_day; $i <= $this->month_total_days; $i++ ) {
+                    if( !isset( $results[$i] ) )
+                        $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+                }
+
+                for( $i = 1; $i <= $last_day; $i++ ) {
+                    if( !isset( $results[$i] ) )
+                        $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+                }
+            }
+            else{
+                for( $i = $first_day; $i <= $last_day; $i++ ) {
+                    if( !isset( $results[$i] ) )
+                        $results[$i] = array( 'earnings' => 0, 'payments' => 0 );
+                }
             }
         }
 
@@ -494,8 +581,8 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                     }
                 }
                 else{
-                    $results[ $payment_date->format('G') ]['earnings'] += $payment->amount;
-                    $results[ $payment_date->format('G') ]['payments'] += 1;
+                    $results[ $payment_date->format('j') ]['earnings'] += $payment->amount;
+                    $results[ $payment_date->format('j') ]['payments'] += 1;
                 }
             }
         }
@@ -524,18 +611,18 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         ?>
 
         <div class="cozmoslabs-form-field-wrapper" id="pms-container-select-date">
-            <div class="pms-container-date-range">
+            <div class="pms-container-date-range cozmoslabs-form-field-wrapper" id="pms-container-date">
                     <label class="cozmoslabs-form-field-label" for="pms-reports-filter-month"><?php esc_html_e( 'Interval', 'paid-member-subscriptions' ) ?></label>
                 <?php
 
                 echo '<select name="pms-filter-time" id="pms-reports-filter-month">';
 
+                      echo '<option value="this_month"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'this_month', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('This Month', 'paid-member-subscriptions') . '</option>';
                       echo '<option value="today"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'today', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Today', 'paid-member-subscriptions') . '</option>';
                       echo '<option value="yesterday"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'yesterday', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Yesterday', 'paid-member-subscriptions') . '</option>';
                       echo '<option value="this_week"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'this_week', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('This Week', 'paid-member-subscriptions') . '</option>';
                       echo '<option value="last_week"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'last_week', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Last Week', 'paid-member-subscriptions') . '</option>';
                       echo '<option value="30days"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( '30days', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Last 30 days', 'paid-member-subscriptions') . '</option>';
-                      echo '<option value="this_month"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'this_month', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('This Month', 'paid-member-subscriptions') . '</option>';
                       echo '<option value="last_month"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'last_month', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Last Month', 'paid-member-subscriptions') . '</option>';
                       echo '<option value="this_year"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'this_year', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('This Year', 'paid-member-subscriptions') . '</option>';
                       echo '<option value="last_year"' . ( !empty( $_GET['pms-filter-time'] ) ? selected( 'last_year', sanitize_text_field( $_GET['pms-filter-time'] ), false ) : '' ) . '>' . esc_html__('Last Year', 'paid-member-subscriptions') . '</option>';
@@ -558,12 +645,12 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
             </div>
         </div>
 
-        <div class="cozmoslabs-form-field-wrapper" id="pms-container-specific-subs" style="margin-top: 0 !important; margin-bottom: 20px;">
+        <div class="cozmoslabs-form-field-wrapper" id="pms-container-specific-subs">
             <label class="cozmoslabs-form-field-label" for="specific-subscriptions"><?php esc_html_e( 'Select Subscription Plans', 'paid-member-subscriptions' ) ?></label>
 
-            <select id="specific-subscriptions" class="pms-chosen" name="pms-filter-subscription-plans[]" multiple style="width:200px" data-placeholder="<?php echo esc_attr__( 'All', 'paid-member-subscriptions' ); ?>">
+            <select id="specific-subscriptions" class="pms-chosen" name="pms-filter-subscription-plans[]" multiple style="/*width:200px*/" data-placeholder="<?php echo esc_attr__( 'All', 'paid-member-subscriptions' ); ?>">
                 <?php
-                $subscription_plans = pms_get_subscription_plans();
+                $subscription_plans = pms_get_subscription_plans(false);
                 $specific_subs = array();
 
                 if( isset( $_GET['pms-filter-subscription-plans'] ) && !empty( $_GET['pms-filter-subscription-plans'] ) ){
@@ -584,6 +671,470 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
     }
 
+    /*
+         *
+         * Count any type of payment
+         */
+    public function pms_counting_type_of_payment( $payment_type, $types_wanted, &$count )
+    {
+        if ( in_array( $payment_type, $types_wanted ) )
+            $count++;
+
+        return $count;
+    }
+
+    /*
+         *
+         * Gather any type of payment
+         */
+    public function pms_sum_type_of_payment( $payment_type, $types_wanted, $payment_amount, &$total )
+    {
+        if ( in_array( $payment_type, $types_wanted ) )
+            $total += $payment_amount;
+
+        return $total;
+    }
+
+    /*
+         *
+         * Gather any type and status of payment
+         */
+    public function pms_sum_type_and_status_of_payment( $payment_type, $types_wanted, $payment_status, $payment_wanted, $payment_amount, &$total )
+    {
+        if ( in_array( $payment_type, $types_wanted ) && in_array( $payment_status, $payment_wanted ) )
+            $total += $payment_amount;
+
+        return $total;
+    }
+
+    /*
+         *
+         * Counting any type and status of payment
+         */
+    public function pms_count_type_and_status_of_payment( $payment_type, $types_wanted, $payment_status, $payment_wanted, &$count )
+    {
+        if ( in_array( $payment_type, $types_wanted ) && in_array( $payment_status, $payment_wanted ) )
+            $count++;
+
+        return $count;
+    }
+
+    /*
+         *
+         * Counting payments with any status but type of 'subscription_retry_payment'
+         */
+    public function pms_return_counting_attempts( $queried ){
+        $attempts_payments = ['subscription_retry_payment'];
+        $count_attempts_payments = 0;
+
+        if( !empty( $queried ) ) {
+            foreach( $queried as $payment ){
+                $count_attempts_payments = $this->pms_counting_type_of_payment( $payment->type, $attempts_payments, $count_attempts_payments );
+            }
+        }
+
+        return $count_attempts_payments;
+    }
+
+    /*
+     * Returns the discount code array prepared
+     *
+     */
+
+    public function pms_prepare_discount_codes( $discount_codes_result, $queried_payments ){
+        if( !empty( $queried_payments ) ) {
+            foreach( $queried_payments as $payment ){
+                if( !isset( $discount_codes_result[ $payment->discount_code ] ) )
+                    $discount_codes_result[ $payment->discount_code ] = array( 'name' => $payment->discount_code, 'count' => 0 );
+            }
+        }
+
+        return $discount_codes_result;
+    }
+
+    /*
+     * Returns the payment gateway array prepared
+     *
+     */
+
+    public function pms_prepare_payment_gateway( $payment_gateways_result ){
+        $all_gateways = pms_get_payment_gateways();
+
+        if( !empty( $all_gateways ) ){
+            foreach ( $all_gateways as $gateway_key => $gateway_data ){
+                if( !isset( $payment_gateways_result[$gateway_key] ) ){
+                    $payment_gateways_result[ $gateway_key ] = array( 'name' => $gateway_data['display_name_admin'], 'earnings' => 0, 'percent' => 0 );
+                }
+            }
+        }
+
+        return $payment_gateways_result;
+    }
+
+    public function get_summary_data( $queried_payments ){
+
+        $payments_count  = count( $queried_payments );
+        $payments_amount = 0;
+
+        $subscriptions_plans_result = array();
+        $discount_codes_result = array();
+        $payment_gateways_result = array();
+        $specific_subs = array();
+
+        $completed_payments = ['subscription_initial_payment', 'recurring_payment_profile_created', 'expresscheckout', 'subscription_renewal_payment', 'subscription_upgrade_payment', 'subscription_downgrade_payment'];
+        $reccuring_payments = ['subscription_recurring_payment', 'recurring_payment', 'subscr_payment'];
+        $attempts_payments = ['subscription_retry_payment'];
+        $status = ['completed'];
+        $total_completed_payments = $total_reccuring_payments = $total_recovered_payments = $total_successful_retries = 0;
+
+        $discount_codes_result = $this->pms_prepare_discount_codes( $discount_codes_result, $queried_payments );
+        $payment_gateways_result = $this->pms_prepare_payment_gateway( $payment_gateways_result );
+
+        if( isset( $_GET['pms-filter-subscription-plans'] ) && !empty( $_GET['pms-filter-subscription-plans'] ) ){
+            $specific_subs = array_map('absint', $_GET['pms-filter-subscription-plans'] );
+
+            foreach ( $specific_subs as $sub_id ){
+                if( !isset( $subscriptions_plans_result[$sub_id] ) )
+                    $subscriptions_plans_result[$sub_id] = array( 'name' => '', 'earnings' => 0 );
+            }
+        }
+        else{
+            $specific_subs = pms_get_subscription_plans(false);
+
+            foreach ( $specific_subs as $plan ){
+                if( !isset( $subscriptions_plans_result[$plan->id] ) )
+                    $subscriptions_plans_result[$plan->id] = array( 'name' => '', 'earnings' => 0 );
+            }
+        }
+
+        if( !empty( $queried_payments ) ) {
+
+            foreach( $queried_payments as $payment )
+            {
+                $payments_amount += $payment->amount;
+
+                $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['earnings'] += $payment->amount;
+
+                if( empty( $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['name'] ) ){
+                    $plan = pms_get_subscription_plan( $payment->subscription_id );
+                    $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['name'] = $plan->name;
+                }
+
+                $discount_codes_result[ $payment->discount_code ]['count']++;
+                if( isset( $payment_gateways_result[ $payment->payment_gateway ]['earnings'] ) ){
+                    $payment_gateways_result[ $payment->payment_gateway ]['earnings'] += $payment->amount;
+                }
+
+                $total_completed_payments = $this->pms_sum_type_of_payment( $payment->type, $completed_payments, $payment->amount, $total_completed_payments );
+                $total_reccuring_payments = $this->pms_sum_type_of_payment( $payment->type, $reccuring_payments, $payment->amount, $total_reccuring_payments );
+                $total_recovered_payments = $this->pms_sum_type_and_status_of_payment( $payment->type, $attempts_payments, $payment->status, $status, $payment->amount, $total_recovered_payments );
+                $total_successful_retries = $this->pms_count_type_and_status_of_payment( $payment->type, $attempts_payments, $payment->status, $status, $total_successful_retries );
+            }
+
+            //Sorting the plans after best performing earnings
+            usort($subscriptions_plans_result, function( $first_plan, $second_plan ) {
+                return $second_plan['earnings'] - $first_plan['earnings'];
+            });
+
+            //Sorting the discount codes after the most used
+            usort($discount_codes_result, function( $first_plan, $second_plan ) {
+                return $second_plan['count'] - $first_plan['count'];
+            });
+        }
+
+        $summary_data = array(
+            'payments_amount' => $payments_amount,
+            'payments_count' => $payments_count,
+            'total_completed_payments' => $total_completed_payments,
+            'total_reccuring_payments' => $total_reccuring_payments,
+            'subscriptions_plans_result' => $subscriptions_plans_result,
+            'payment_gateways_result' => $payment_gateways_result,
+            'total_successful_retries' => $total_successful_retries,
+            'total_recovered_payments' => $total_recovered_payments,
+            'discount_codes_result' => $discount_codes_result
+        );
+
+        return $summary_data;
+    }
+
+
+    public function output_summary_area( $summary_data, $title, $results_arrow, $previous = false ){
+
+        $payments_amount = $summary_data['payments_amount'];
+        $payments_count = $summary_data['payments_count'];
+        $total_completed_payments = $summary_data['total_completed_payments'];
+        $total_reccuring_payments = $summary_data['total_reccuring_payments'];
+        $subscriptions_plans_result = $summary_data['subscriptions_plans_result'];
+        $payment_gateways_result = $summary_data['payment_gateways_result'];
+        $total_successful_retries = $summary_data['total_successful_retries'];
+        $total_recovered_payments = $summary_data['total_recovered_payments'];
+        $discount_codes_result = $summary_data['discount_codes_result'];
+
+        $id_general = 'pms-general-link';
+        $id_subscription_plans = 'pms-subscription-plans-link';
+        $id_discount_codes = 'pms-discount-codes-link';
+
+        $class_general_section = 'pms-general-section';
+        $class_subscription_plans_section = 'pms-subscription-plans-section';
+        $class_discount_codes_section = 'pms-discount-codes-section';
+        $class_section = 'present';
+
+        if( $previous ){
+            $id_general .= '-previous';
+            $id_subscription_plans .= '-previous';
+            $id_discount_codes .= '-previous';
+            $class_general_section .= '-previous';
+            $class_subscription_plans_section .= '-previous';
+            $class_discount_codes_section .= '-previous';
+            $class_section = 'previous';
+        }
+
+        ?>
+        <div class="postbox cozmoslabs-form-subsection-wrapper <?php echo esc_html( $class_section ); ?>">
+            <h4 class="cozmoslabs-subsection-title"><?php echo esc_html( $title ); ?></h4>
+
+            <div class="inside">
+                <a id="<?php echo esc_html( $id_general ); ?>"><?php echo esc_html__( 'General', 'paid-member-subscriptions' ); ?></a>
+                <a id="<?php echo esc_html( $id_subscription_plans ); ?>"><?php echo esc_html__( 'Subscription Plans', 'paid-member-subscriptions' ); ?></a>
+                <a id="<?php echo esc_html( $id_discount_codes ); ?>"><?php echo esc_html__( 'Discount Codes', 'paid-member-subscriptions' ); ?></a>
+
+                <div class="<?php echo esc_html( $class_general_section ); ?>">
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total earnings for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Total Earnings', 'paid-member-subscriptions' ); ?></label>
+                        <span><?php echo esc_html( pms_format_price( $payments_amount, pms_get_active_currency() ) ); ?></span>
+                        <?php if( !empty( $results_arrow['payments_amount']['present'] ) && !$previous ){ ?>
+                        <span class="pms-arrow"><img class="pms-arrow" src="<?php echo esc_html( $results_arrow['payments_amount']['present'] ); ?>"></span>
+                        <span style="<?php
+                            if( $results_arrow['payments_amount']['difference'] > 0 )
+                                echo 'color: red';
+                            elseif( $results_arrow['payments_amount']['difference'] < 0 )
+                                echo 'color: green';
+                                ?>"><?php echo '(' . esc_html( number_format( $results_arrow['payments_amount']['percent'], 2 ) ) . '%)'; ?></span>
+                        <?php } ?>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Total Payments', 'paid-member-subscriptions' ); ?></label>
+                        <span><?php echo esc_html( $payments_count ); ?></span>
+                        <?php if( !empty( $results_arrow['payments_count']['present'] ) && !$previous ){ ?>
+                            <span class="pms-arrow"><img class="pms-arrow" src="<?php echo esc_html( $results_arrow['payments_count']['present'] ); ?>"></span>
+                            <span style="<?php
+                            if( $results_arrow['payments_count']['difference'] > 0 )
+                                echo 'color: red';
+                            elseif( $results_arrow['payments_count']['difference'] < 0 )
+                                echo 'color: green';
+                            ?>"><?php echo '(' . esc_html( number_format( $results_arrow['payments_count']['percent'], 2 ) ) . '%)'; ?></span>
+                        <?php } ?>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total earnings of completed payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'New Revenue', 'paid-member-subscriptions' ); ?></label>
+                        <span title="<?php
+                        if( $payments_amount != 0) {
+                            $completed_payments_percent = ( 100 * $total_completed_payments ) / $payments_amount;
+                            echo '(' . esc_html( number_format( $completed_payments_percent, 2 ) ) . '%)';
+                        }
+                        else{
+                            $completed_payments_percent = 0;
+                            echo '(' . esc_html( number_format( $completed_payments_percent, 2 ) ) . '%)';
+                        }
+                        ?>"><?php echo esc_html( pms_format_price( $total_completed_payments, pms_get_active_currency() ) ); ?></span>
+                        <?php if( !empty( $results_arrow['total_completed_payments']['present'] ) && !$previous ){ ?>
+                            <span class="pms-arrow"><img class="pms-arrow" src="<?php echo esc_html( $results_arrow['total_completed_payments']['present'] ); ?>"></span>
+                            <span style="<?php
+                            if( $results_arrow['total_completed_payments']['difference'] > 0 )
+                                echo 'color: red';
+                            elseif( $results_arrow['total_completed_payments']['difference'] < 0 )
+                                echo 'color: green';
+                            ?>"><?php echo '(' . esc_html( number_format( $results_arrow['total_completed_payments']['percent'], 2 ) ) . '%)'; ?></span>
+                        <?php } ?>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total earnings of reccuring payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Recurring Revenue', 'paid-member-subscriptions' ); ?></label>
+                        <span title="<?php
+                        if( $payments_amount != 0) {
+                            $reccuring_payments_percent = ( 100 * $total_reccuring_payments ) / $payments_amount;
+                            echo '(' . esc_html( number_format( $reccuring_payments_percent, 2 ) ) . '%)';
+                        }
+                        else{
+                            $reccuring_payments_percent = 0;
+                            echo '(' . esc_html( number_format( $reccuring_payments_percent, 2 ) ) . '%)';
+                        }
+                        ?>"><?php echo esc_html( pms_format_price( $total_reccuring_payments, pms_get_active_currency() ) ); ?></span>
+                        <?php if( !empty( $results_arrow['total_reccuring_payments']['present'] ) && !$previous ){ ?>
+                            <span class="pms-arrow"><img class="pms-arrow" src="<?php echo esc_html( $results_arrow['total_reccuring_payments']['present'] ); ?>"></span>
+                            <span style="<?php
+                            if( $results_arrow['total_reccuring_payments']['difference'] > 0 )
+                                echo 'color: red';
+                            elseif( $results_arrow['total_reccuring_payments']['difference'] < 0 )
+                                echo 'color: green';
+                            ?>"><?php echo '(' . esc_html( number_format( $results_arrow['total_reccuring_payments']['percent'], 2 ) ) . '%)'; ?></span>
+                        <?php } ?>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'The plan with the most income for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Best Performing Plan', 'paid-member-subscriptions' ); ?></label>
+                        <?php if( !empty( $subscriptions_plans_result ) && isset( $subscriptions_plans_result[0] ) ){ ?>
+                            <span><?php echo esc_html( $subscriptions_plans_result[0]['name'] ); ?></span>
+                            <span><?php echo esc_html( '-' ); ?></span>
+                            <span><?php echo esc_html( pms_format_price( $subscriptions_plans_result[0]['earnings'], pms_get_active_currency() ) ); ?></span>
+                        <?php }
+                        else{
+                            ?>
+                            <span><?php echo esc_html__( 'There are no payments for the selected period.', 'paid-member-subscriptions'); ?></span>
+                            <?php
+                        }?>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper pms-gateway-revenue">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Payment Gateways Revenue', 'paid-member-subscriptions' ); ?></label>
+                        <ul>
+                            <?php
+                            $nr_payment_gateways = 0;
+                            if( !empty( $payment_gateways_result ) ){
+                                foreach ( $payment_gateways_result as $payment_gateway ){
+                                    if( $payment_gateway['earnings'] > 0){
+                                        $nr_payment_gateways++;
+                                        ?>
+                                        <li>
+                                            <div class="cozmoslabs-form-field-wrapper">
+                                                <label class="pms-form-field-label cozmoslabs-form-field-label"><?php echo esc_html( $payment_gateway['name'] ); ?></label>
+                                                <span title="<?php
+                                                if( $payments_amount != 0) {
+                                                    $payment_gateway['percent'] = ( 100 * $payment_gateway['earnings'] ) / $payments_amount;
+                                                    echo '(' . esc_html( number_format( $payment_gateway['percent'], 2 ) ) . '%)';
+                                                }
+                                                else{
+                                                    $payment_gateway['percent'] = 0;
+                                                    echo '(' . esc_html( number_format( $payment_gateway['percent'], 2 ) ) . '%)';
+                                                }?>"><?php echo esc_html( pms_format_price( $payment_gateway['earnings'], pms_get_active_currency() ) ); ?></span>
+                                            </div>
+                                        </li>
+                                        <?php
+                                    }
+                                }
+
+                                if( $nr_payment_gateways === 0 ){
+                                    ?>
+                                    <div class="cozmoslabs-form-field-wrapper">
+                                        <label class="pms-form-field-label"><?php echo esc_html__( 'There aren\'t any incomes for the activated gateways.', 'paid-member-subscriptions'); ?></label>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            else{
+                                ?>
+                                <div class="cozmoslabs-form-field-wrapper">
+                                    <label class="pms-form-field-label"><?php echo esc_html__( 'There aren\'t any gateways activated.', 'paid-member-subscriptions'); ?></label>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </ul>
+                    </div>
+
+                <?php if( pms_is_payment_retry_enabled() ){ ?>
+                    <div class="cozmoslabs-form-field-wrapper pms-payment-retries">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Payment Retries', 'paid-member-subscriptions' ); ?></label>
+                        <ul>
+                            <li>
+                                <div class="cozmoslabs-form-field-wrapper">
+                                    <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of attempts payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Attempts Retries', 'paid-member-subscriptions' ); ?></label>
+                                    <span><?php if( $previous ){
+                                            echo esc_html( $this->pms_return_counting_attempts( $this->queried_previous_attempts ) );
+                                        }
+                                        else{
+                                            echo esc_html( $this->pms_return_counting_attempts( $this->queried_payments_attempts ) );
+                                        }
+                                    ?></span>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="cozmoslabs-form-field-wrapper">
+                                    <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of successful attempts payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Successful Retries', 'paid-member-subscriptions' ); ?></label>
+                                    <span><?php echo esc_html( $total_successful_retries ); ?></span>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="cozmoslabs-form-field-wrapper">
+                                    <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of recovered payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Recovered Revenue', 'paid-member-subscriptions' ); ?></label>
+                                    <span><?php echo esc_html( pms_format_price( $total_recovered_payments, pms_get_active_currency() ) ); ?></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                <?php } ?>
+                </div>
+
+                <div class="<?php echo esc_html( $class_subscription_plans_section ); ?>" id="pms_subscription_plans_section">
+                    <div class="pms-subscription-plans-header">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Subscription Plan', 'paid-member-subscriptions' ); ?></label>
+                        <label class="pms-form-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Earnings', 'paid-member-subscriptions' ); ?></label>
+                    </div>
+                    <?php
+                    $nr_plans = 0;
+                    foreach ( $subscriptions_plans_result as $plan ){
+                        if( $plan['earnings'] > 0 ){
+                            $nr_plans++; ?>
+                            <div class="cozmoslabs-form-field-wrapper">
+                                <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total earnings for the selected subscription plan', 'paid-member-subscriptions' ); ?>"><?php echo esc_html( $plan['name'] ); ?></label>
+                                <span><?php echo esc_html( pms_format_price( $plan['earnings'], pms_get_active_currency() ) ); ?></span>
+                            </div>
+                        <?php   }
+                    }
+                    if( $nr_plans === 0 ){
+                        ?>
+                        <div class="cozmoslabs-form-field-wrapper">
+                            <label class="pms-form-field-label"><?php echo esc_html__( 'The selected subscription plans have no revenue.', 'paid-member-subscriptions'); ?></label>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+
+                <div class="<?php echo esc_html( $class_discount_codes_section ); ?>" id="pms_discount_codes_section">
+                    <div class="pms-discount-codes-header">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Discount Code', 'paid-member-subscriptions' ); ?></label>
+                        <label class="pms-form-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Uses', 'paid-member-subscriptions' ); ?></label>
+                    </div>
+                    <?php
+                    $nr_discounts = 0;
+                    if( !empty( $discount_codes_result ) ){
+                        foreach ( $discount_codes_result as $discount_code ){
+                            if( !empty( $discount_code['name'] ) ){
+                                $nr_discounts++;
+                                ?>
+                                <div class="cozmoslabs-form-field-wrapper">
+                                    <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total earnings for the type of discount', 'paid-member-subscriptions' ); ?>"><?php echo esc_html( $discount_code['name'] ); ?></label>
+                                    <span><?php echo esc_html( $discount_code['count'] ); ?></span>
+                                </div>
+                                <?php
+                            }
+                        }
+                        if( $nr_discounts === 0 ){
+                            ?>
+                            <div class="cozmoslabs-form-field-wrapper">
+                                <label class="pms-form-field-label"><?php echo esc_html__( 'No discount codes were used in the selected period.', 'paid-member-subscriptions'); ?></label>
+                            </div>
+                            <?php
+                        }
+                    }
+                    else{
+                        ?>
+                        <div class="cozmoslabs-form-field-wrapper">
+                            <label class="pms-form-field-label"><?php echo esc_html__( 'No discount codes were used in the selected period.', 'paid-member-subscriptions'); ?></label>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
 
     /*
      * Outputs a summary with the payments and earnings for the selected period
@@ -591,33 +1142,98 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      */
     public function output_reports_table() {
 
-        $payments_count  = count( $this->queried_payments );
-        $payments_amount = 0;
+        $summary_data = $this->get_summary_data( $this->queried_payments );
+        $summary_previous_data = $this->get_summary_data( $this->queried_previous_payments );
 
-        if( !empty( $this->queried_payments ) ) {
-            foreach( $this->queried_payments as $payment )
-                $payments_amount += $payment->amount;
+        $arrows = array(
+                'up' => PMS_PLUGIN_DIR_URL.'assets/images/pms-caret-up.svg',
+                'down' => PMS_PLUGIN_DIR_URL.'assets/images/pms-caret-down.svg'
+        );
+
+        $results_arrow = array(
+                'payments_amount' => array( 'present' => '', 'previous' => '', 'difference' => 0, 'percent' => 0 ),
+                'payments_count' => array( 'present' => '', 'previous' => '', 'difference' => 0, 'percent' => 0 ),
+                'total_completed_payments' => array( 'present' => '', 'previous' => '', 'difference' => 0, 'percent' => 0 ),
+                'total_reccuring_payments' => array( 'present' => '', 'previous' => '', 'difference' => 0, 'percent' => 0 )
+        );
+
+        $results_arrow['payments_amount']['difference'] = $summary_previous_data['payments_amount'] - $summary_data['payments_amount'];
+        if( $summary_previous_data['payments_amount'] != 0 ){
+            $results_arrow['payments_amount']['percent'] = ( abs( $results_arrow['payments_amount']['difference'] ) * 100 ) / $summary_previous_data['payments_amount'];
+        }
+        else{
+            $results_arrow['payments_amount']['percent'] = 100;
         }
 
-        echo '<div class="postbox cozmoslabs-form-subsection-wrapper">';
-        echo '<h4 class="cozmoslabs-subsection-title">' . esc_html__( 'Summary', 'paid-member-subscriptions' ) . '</h4>';
-            echo '<div class="inside">';
+        $results_arrow['payments_count']['difference'] = $summary_previous_data['payments_count'] - $summary_data['payments_count'];
+        if( $summary_previous_data['payments_count'] != 0 ){
+            $results_arrow['payments_count']['percent'] = ( abs( $results_arrow['payments_count']['difference'] ) * 100 ) / $summary_previous_data['payments_count'];
+        }
+        else{
+            $results_arrow['payments_amount']['percent'] = 100;
+        }
 
-                echo '<div class="cozmoslabs-form-field-wrapper">';
-                    echo '<label class="pms-form-field-label cozmoslabs-form-field-label" for="pms-reports-total-earnings" title="' . esc_html__( 'Total earnings for the selected period', 'paid-member-subscriptions' ) . '">' . esc_html__( 'Total Earnings', 'paid-member-subscriptions' ) . '</label>';
-                    echo '<span>' . esc_html( pms_format_price( $payments_amount, pms_get_active_currency() ) ) . '</span>';
-                echo '</div>';
+        $results_arrow['total_completed_payments']['difference'] = $summary_previous_data['total_completed_payments'] - $summary_data['total_completed_payments'];
+        if( $summary_previous_data['total_completed_payments'] != 0 ){
+            $results_arrow['total_completed_payments']['percent'] = ( abs( $results_arrow['total_completed_payments']['difference'] ) * 100 ) / $summary_previous_data['total_completed_payments'];
+        }
+        else{
+            $results_arrow['total_completed_payments']['percent'] = 100;
+        }
 
-                echo '<div class="cozmoslabs-form-field-wrapper">';
-                    echo '<label class="pms-form-field-label cozmoslabs-form-field-label" for="pms-reports-total-payments" title="' . esc_html__( 'Total number of payments for the selected period', 'paid-member-subscriptions' ) . '">' . esc_html__( 'Total Payments', 'paid-member-subscriptions' ) . '</label>';
-                    echo '<span>' . esc_html( $payments_count ) . '</span>';
-                echo '</div>';
+        $results_arrow['total_reccuring_payments']['difference'] = $summary_previous_data['total_reccuring_payments'] - $summary_data['total_reccuring_payments'];
+        if( $summary_previous_data['total_reccuring_payments'] != 0 ){
+            $results_arrow['total_reccuring_payments']['percent'] = ( abs( $results_arrow['total_reccuring_payments']['difference'] ) * 100 ) / $summary_previous_data['total_reccuring_payments'];
+        }
+        else{
+            $results_arrow['total_reccuring_payments']['percent'] = 100;
+        }
 
-            echo '</div>';
-        echo '</div>';
+        if( $summary_data['payments_amount'] > $summary_previous_data['payments_amount'] ){
+            $results_arrow['payments_amount']['present'] = $arrows['up'];
+            $results_arrow['payments_amount']['previous'] = $arrows['down'];
+        }
+        else if( $summary_data['payments_amount'] < $summary_previous_data['payments_amount'] ){
+            $results_arrow['payments_amount']['present'] = $arrows['down'];
+            $results_arrow['payments_amount']['previous'] = $arrows['up'];
+        }
+
+        if( $summary_data['payments_count'] > $summary_previous_data['payments_count'] ){
+            $results_arrow['payments_count']['present'] = $arrows['up'];
+            $results_arrow['payments_count']['previous'] = $arrows['down'];
+        }
+        else if( $summary_data['payments_count'] < $summary_previous_data['payments_count'] ){
+            $results_arrow['payments_count']['present'] = $arrows['down'];
+            $results_arrow['payments_count']['previous'] = $arrows['up'];
+        }
+
+        if( $summary_data['total_completed_payments'] > $summary_previous_data['total_completed_payments'] ){
+            $results_arrow['total_completed_payments']['present'] = $arrows['up'];
+            $results_arrow['total_completed_payments']['previous'] = $arrows['down'];
+        }
+        else if( $summary_data['total_completed_payments'] < $summary_previous_data['total_completed_payments'] ){
+            $results_arrow['total_completed_payments']['present'] = $arrows['down'];
+            $results_arrow['total_completed_payments']['previous'] = $arrows['up'];
+        }
+
+        if( $summary_data['total_reccuring_payments'] > $summary_previous_data['total_reccuring_payments'] ){
+            $results_arrow['total_reccuring_payments']['present'] = $arrows['up'];
+            $results_arrow['total_reccuring_payments']['previous'] = $arrows['down'];
+        }
+        else if( $summary_data['total_reccuring_payments'] < $summary_previous_data['total_reccuring_payments'] ){
+            $results_arrow['total_reccuring_payments']['present'] = $arrows['down'];
+            $results_arrow['total_reccuring_payments']['previous'] = $arrows['up'];
+        }
+        ?>
+        <div class="pms-reports-summary-section">
+        <?php
+            $this->output_summary_area( $summary_data, esc_html__( 'Summary', 'paid-member-subscriptions' ), $results_arrow, false );
+            $this->output_summary_area( $summary_previous_data, esc_html__( 'Summary - Previous Year', 'paid-member-subscriptions' ), $results_arrow, true );
+        ?>
+        </div>
+        <?php
 
     }
-
 
     /*
      * Output the javascript data as variables

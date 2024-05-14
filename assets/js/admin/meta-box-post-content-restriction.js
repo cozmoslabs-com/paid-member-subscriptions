@@ -53,3 +53,105 @@ jQuery( function(){
     });
 
 });
+
+/**
+ * Pricing Table Designs Feature --> Admin UI
+ *
+ *  - Activate new Design
+ *  - Preview Modal
+ *  - Modal Image Slider controls
+ *
+ * */
+jQuery( document ).ready(function(){
+
+    // Activate Design
+    jQuery('.pms-pricing-tables-design-activate button.activate').click(function ( element ) {
+        let themeID, i, allDesigns;
+
+        themeID = jQuery(element.target).data('theme-id');
+
+        jQuery('#pms-active-pricing-table-design').val(themeID);
+
+        allDesigns = jQuery('.pms-pricing-tables-design');
+        for (i = 0; i < allDesigns.length; i++) {
+            if ( jQuery(allDesigns[i]).hasClass('active')) {
+                jQuery('.pms-pricing-tables-design-title strong', allDesigns[i] ).hide();
+                jQuery(allDesigns[i]).removeClass('active');
+            }
+        }
+        jQuery('#pms-pricing-tables-design-browser .pms-forms-design#'+themeID).addClass('active');
+
+    });
+
+    jQuery('.pms-pricing-tables-design-preview').click(function (e) {
+        let themeID = e.target.id.replace('-info', '');
+        displayPreviewModal(themeID);
+    });
+
+    jQuery('.pms-slideshow-button').click(function (e) {
+        let themeID = jQuery(e.target).data('theme-id'),
+            direction = jQuery(e.target).data('slideshow-direction'),
+            currentSlide = jQuery('#pms-modal-' + themeID + ' .pms-pricing-tables-design-preview-image.active'),
+            changeSlideshowImage = window[direction+'Slide'];
+
+        changeSlideshowImage(currentSlide,themeID);
+    });
+
+});
+
+function displayPreviewModal( themeID ) {
+    jQuery('#pms-modal-' + themeID).dialog({
+        resizable: false,
+        height: 'auto',
+        width: 1200,
+        modal: true,
+        closeOnEscape: true,
+        open: function () {
+            jQuery('.ui-widget-overlay').bind('click',function () {
+                jQuery('#pms-modal-' + themeID).dialog('close');
+            })
+        },
+        close: function () {
+            let allImages = jQuery('.pms-pricing-tables-design-preview-image');
+
+            allImages.each( function() {
+                if ( jQuery(this).is(':first-child') && !jQuery(this).hasClass('active') ) {
+                    jQuery(this).addClass('active');
+                }
+                else if ( !jQuery(this).is(':first-child') ) {
+                    jQuery(this).removeClass('active');
+                }
+            });
+
+            jQuery('.pms-pricing-tables-design-sildeshow-previous').addClass('disabled');
+            jQuery('.pms-pricing-tables-design-sildeshow-next').removeClass('disabled');
+        }
+    });
+    return false;
+}
+
+function nextSlide( currentSlide, themeID ){
+    if ( currentSlide.next().length > 0 ) {
+        currentSlide.removeClass('active');
+        currentSlide.next().addClass('active');
+
+        jQuery('#pms-modal-' + themeID + ' .pms-pricing-tables-design-sildeshow-previous').removeClass('disabled');
+
+        if ( currentSlide.next().next().length <= 0 )
+            jQuery('#pms-modal-' + themeID + ' .pms-pricing-tables-design-sildeshow-next').addClass('disabled');
+
+    }
+}
+
+function previousSlide( currentSlide, themeID ){
+    if ( currentSlide.prev().length > 0 ) {
+        currentSlide.removeClass('active');
+        currentSlide.prev().addClass('active');
+
+        jQuery('#pms-modal-' + themeID + ' .pms-pricing-tables-design-sildeshow-next').removeClass('disabled');
+
+        if ( currentSlide.prev().prev().length <= 0 )
+            jQuery('#pms-modal-' + themeID + ' .pms-pricing-tables-design-sildeshow-previous').addClass('disabled');
+
+    }
+}

@@ -1,0 +1,120 @@
+#pms-subscription-plans-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.pms-title {
+    color: var(--tutor-color-primary);
+    margin: 16px 0;
+    font-size: 24px;
+}
+
+.pms-subscription-plan-container {
+    box-sizing: border-box;
+    border: 1px solid var(--tutor-border-color);
+    border-radius: 6px;
+    background-color: #f6f8fd;
+    padding: 16px;
+    margin: 16px 0;
+    cursor: pointer;
+}
+
+.pms-subscription-plan-container:hover {
+    background-color: #fbfcff;
+}
+
+.pms-subscription-plan-container.selected-plan {
+    border: 1px solid var(--tutor-color-primary);
+}
+
+.pms-subscription-plan-container .pms-subscribe-button {
+    display: none;
+}
+
+.pms-subscription-plan-container.selected-plan .pms-subscribe-button {
+    display: flex;
+}
+
+.pms-subscription-plan-details {
+    line-height: 24px;
+}
+
+.pms-subscription-plan-name {
+    font-weight: 500;
+    font-size: 1.25rem;
+}
+
+.pms-subscription-plan-price {
+    float: right;
+    color: #757c8e;
+    font-size: 13px;
+}
+
+.pms-subscription-plan-price > .pms-divider:first-child {
+    display: none;
+}
+
+.pms-subscription-plan-price .pms_pwyw_pricing {
+    display: none;
+}
+
+.pms-subscription-plan-price .pms-subscription-plan-currency,
+.pms-subscription-plan-price .pms-subscription-plan-price-value{
+    font-weight: 700;
+    color: #000;
+    font-size: 15px;
+}
+
+.pms-subscribe-button {
+    margin-top: 20px;
+    display: none;
+}
+
+input.pms-subscription-plan {
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--tutor-border-color);
+    border-radius: 50%;
+    outline: none;
+    margin: 0 10px 0 0;
+}
+
+input.pms-subscription-plan:checked {
+    border-color: var(--tutor-color-primary);
+    background-color: var(--tutor-color-primary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+    background-position: 50% 50%;
+}
+
+.pms-subscription-plan-container.pms_recommended {
+    position: relative;
+}
+
+.pms-subscription-plan-container.pms_recommended:after {
+    content: "";
+    font-family: "tutor";
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    height: 28px;
+    width: 28px;
+    padding: 3px 2px 0 0;
+    background: linear-gradient(225deg, var(--tutor-color-primary) 0%, var(--tutor-color-primary) 50%, transparent 50%, transparent 100%);
+    border-top-right-radius: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+

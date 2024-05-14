@@ -89,8 +89,9 @@ add_filter( 'pms_payment_gateway_paypal_standard_supports', 'pms_in_ppsrp_add_pa
  */
 function pms_in_ppsrp_add_payment_types( $types = array() ) {
 
-    $types['subscr_payment']                = __( 'PayPal Standard - Subscription Payment', 'paid-member-subscriptions' );
-    $types['paypal_standard_trial_payment'] = __( 'PayPal Standard - Trial Payment', 'paid-member-subscriptions' );
+    $types['recurring_payment_profile_created'] = __( 'PayPal Recurring Initial Payment', 'paid-member-subscriptions' );
+    $types['subscr_payment']                    = __( 'PayPal Standard - Subscription Payment', 'paid-member-subscriptions' );
+    $types['paypal_standard_trial_payment']     = __( 'PayPal Standard - Trial Payment', 'paid-member-subscriptions' );
 
 
     return $types;
@@ -106,7 +107,7 @@ add_filter( 'pms_payment_types', 'pms_in_ppsrp_add_payment_types' );
 function pms_in_ppsrp_change_payment_type( $payment_type, $gateway_object, $settings ) {
 
     if( $gateway_object->recurring == 1 )
-        return 'subscr_payment';
+        return 'recurring_payment_profile_created';
 
     return $payment_type;
 

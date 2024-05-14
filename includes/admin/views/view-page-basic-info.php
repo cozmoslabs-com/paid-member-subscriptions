@@ -206,11 +206,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <p class="cozmoslabs-description"><?php esc_html_e( 'Get more functionality by using dedicated Add-ons and tailor Paid Member Subscriptions to your project needs.', 'paid-member-subscriptions' ); ?></p>
         </div>
         <br />
-        <div class="cozmoslabs-form-field-wrapper">
+        <div class="cozmoslabs-form-field-wrapper" style="margin-bottom:12px;">
             <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Basic Add-ons', 'paid-member-subscriptions' );?></label>
         </div>
-        <p class="cozmoslabs-description"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">Basic and PRO</a> versions.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-link&utm_campaign=PMSFree#pricing' ); ?></p>
-
+        <?php if( !pms_is_paid_version_active() ) : ?>
+            <p class="cozmoslabs-description cozmoslabs-description-upsell" style="width: auto;"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">Basic and PRO</a> versions.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-link&utm_campaign=PMSFree#pricing' ); ?></p>
+        <?php endif; ?>
+        
         <div class="cozmoslabs-basic-info-addons">
             <div>
                 <a href="https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
@@ -299,10 +301,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <br />
 
-        <div class="cozmoslabs-form-field-wrapper">
+        <div class="cozmoslabs-form-field-wrapper" style="margin-bottom:12px;">
             <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Pro Add-ons', 'paid-member-subscriptions' );?></label>
         </div>
-        <p class="cozmoslabs-description"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">PRO version</a> only.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-pro-link&utm_campaign=PMSFree#pricing' ); ?></p>
+        <?php if( !pms_is_paid_version_active() ) : ?>
+            <p class="cozmoslabs-description cozmoslabs-description-upsell" style="width: auto;"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">PRO version</a> only.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-pro-link&utm_campaign=PMSFree#pricing' ); ?></p>
+        <?php endif; ?>
 
         <div class="cozmoslabs-basic-info-addons">
             <div>
