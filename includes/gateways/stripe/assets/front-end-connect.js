@@ -17,33 +17,50 @@ jQuery( function( $ ) {
         return false
     }
 
-    var $client_secret = $('.pms-form input[name="pms_stripe_connect_payment_intent"], .wppb-register-user input[name="pms_stripe_connect_payment_intent"]').val()
-    var $client_secret_setup_intent = $('.pms-form input[name="pms_stripe_connect_setup_intent"], .wppb-register-user input[name="pms_stripe_connect_setup_intent"]').val()
-
-    var StripeData = {
-        stripeAccount: pms.stripe_connected_account
-    }
-
-    if( pms.stripe_locale )
-        StripeData.locale = pms.stripe_locale
-
-    var stripe_appearance = ''
-
-    if( pms.pms_elements_appearance_api )
-        stripe_appearance = pms.pms_elements_appearance_api
-
-    var stripe = Stripe( stripe_pk, StripeData )
+    var $client_secret              = ''
+    var $client_secret_setup_intent = ''
 
     var elements              = false
     var elements_setup_intent = false
+    var stripe                = false
 
-    // This only exists on payment pages that display the payment element
-    if( $client_secret && $client_secret.length > 0 )
-        elements = stripe.elements({ clientSecret: $client_secret, appearance: stripe_appearance })
+    // Grab intents so we can generate the payment form
+    pms_stripe_get_payment_intents().then( function( result ){
+
+        let intents = JSON.parse( result )
+
+        $client_secret              = intents.payment_intent
+        $client_secret_setup_intent = intents.setup_intent
+
+        $('.pms-form input[name="pms_stripe_connect_payment_intent"], .wppb-register-user input[name="pms_stripe_connect_payment_intent"]').val( $client_secret )
+        $('.pms-form input[name="pms_stripe_connect_setup_intent"], .wppb-register-user input[name="pms_stripe_connect_setup_intent"]').val( $client_secret_setup_intent )
+
+        var StripeData = {
+            stripeAccount: pms.stripe_connected_account
+        }
     
-    // This exists on payment pages and also on the Update Payment Method page
-    if ( $client_secret_setup_intent && $client_secret_setup_intent.length > 0 )
-        elements_setup_intent = stripe.elements({ clientSecret: $client_secret_setup_intent, appearance: stripe_appearance })
+        if( pms.stripe_locale )
+            StripeData.locale = pms.stripe_locale
+    
+        var stripe_appearance = ''
+    
+        if( pms.pms_elements_appearance_api )
+            stripe_appearance = pms.pms_elements_appearance_api
+    
+        stripe = Stripe( stripe_pk, StripeData )
+    
+        // This only exists on payment pages that display the payment element
+        if( $client_secret && $client_secret.length > 0 )
+            elements = stripe.elements({ clientSecret: $client_secret, appearance: stripe_appearance })
+        
+        // This exists on payment pages and also on the Update Payment Method page
+        if ( $client_secret_setup_intent && $client_secret_setup_intent.length > 0 )
+            elements_setup_intent = stripe.elements({ clientSecret: $client_secret_setup_intent, appearance: stripe_appearance })
+    
+        stripeConnectInit()
+        stripeConnectUpdatePaymentIntent()
+
+    })
 
     var $payment_element        = ''
     var $elements_instance_slug = ''
@@ -56,18 +73,7 @@ jQuery( function( $ ) {
     var subscription_plan_selector = 'input[name=subscription_plans]'
     var pms_checked_subscription   = $( subscription_plan_selector + '[type=radio]' ).length > 0 ? $( subscription_plan_selector + '[type=radio]:checked' ) : $( subscription_plan_selector + '[type=hidden]' )
 
-    var payment_request = false
-
-    // Initialize Stripe Payment Element
-    if( pms_checked_subscription.val() == '' ){
-        console.log( 'No subscription plan selected' )
-        return false
-    }
-
-    stripeConnectInit()
-    stripeConnectUpdatePaymentIntent()
-
-    //stripeConnectPaymentRequestInit()
+    
 
     // Update Stripe Payment Intent on subscription plan change
     $(document).on('click', subscription_plan_selector, function ( event ) {
@@ -430,17 +436,6 @@ jQuery( function( $ ) {
                 })
             }
 
-            // if( paymentRequest != false ){
-
-            //     paymentRequest.update({
-            //         total: {
-            //             label : response.data.plan_name,
-            //             amount: response.data.amount,
-            //         },
-            //     })
-
-            // }
-
         })
 
     }
@@ -519,80 +514,6 @@ jQuery( function( $ ) {
         })
 
     }
-
-    // function stripeConnectPaymentRequestInit(){
-
-    //     if ( !pms || !pms.stripe_payment_request || pms.stripe_payment_request != 1 )
-    //         return
-
-    //     if ( !pms.pms_active_currency || !pms.stripe_account_country )
-    //         return
-
-    //     if ( !( $('#payment-request-button').length > 0 ) )
-    //         return
-
-    //     paymentRequest = stripe.paymentRequest({
-    //         country : pms.stripe_account_country,
-    //         currency: pms.pms_active_currency,
-    //         total   : {
-    //             label: 'Placeholder',
-    //             amount: 100,
-    //         },
-    //         requestPayerName : true,
-    //         requestPayerEmail: true,
-    //     })
-
-    //     var paymentRequestButton = elements.create('paymentRequestButton', {
-    //         paymentRequest,
-    //     })
-
-    //     paymentRequest.canMakePayment().then( function (response) {
-
-    //         if ( response ) 
-    //             paymentRequestButton.mount('#payment-request-button')
-    //         else 
-    //             $('#payment-request-button').hide()
-            
-    //     })
-
-    //     paymentRequest.on('paymentmethod', function (event) {
-        
-
-    //         console.log( event )
-
-    //         event.complete('success');
-
-    //     })
-
-    //     paymentRequestButton.on('click', function (event) {
-    //         event.preventDefault()
-
-    //         stripeConnectValidateForm().done(function( response ){
-
-    //             if( response ){
-    //                 response = JSON.parse( response )
-
-    //                 if( response.success != true ){
-                   
-    //                     event.continuePropagation()
-    //                     return
-    //                 }
-
-    //             }
-
-    //         })
-
-    //         console.log( 'form is valid' )
-    //         // console.log(stripeConnectValidateForm())
-    //         // // validate form before opening popup
-    //         // if( !stripeConnectValidateForm() ){
-    //         //     event.preventDefault()
-    //         //     return
-    //         // }
-    //         // console.log(event)
-    //     })
-
-    // }
 
     function stripeConnectGetFormData( current_button, verify_captcha = false ) {
 
@@ -734,15 +655,6 @@ jQuery( function( $ ) {
 
         $form.get(0).submit()
 
-    }
-
-    function createToken( payment_button ){
-        stripe.createToken(card).then(function(result) {
-            if( result.error )
-                stripeResetSubmitButton( payment_button )
-            else
-                stripeTokenHandler( result.token )
-        })
     }
 
     function stripeResetSubmitButton( target ) {
@@ -938,32 +850,6 @@ jQuery( function( $ ) {
             return 1
 
         return 0
-    }
-
-    function handleCreditCardFields(){
-
-        if( $( '.pms_pay_gate:checked' ).val() == 'paypal_pro' ){
-
-            $('#pms_card_number').attr( 'name', 'pms_card_number' )
-            $('#pms_card_cvv').attr( 'name', 'pms_card_cvv' )
-            $('#pms_card_exp_month').attr( 'name', 'pms_card_exp_month' )
-            $('#pms_card_exp_year').attr( 'name', 'pms_card_exp_year' )
-
-            $( '#pms-stripe-payment-elements' ).hide()
-            $( '#pms-credit-card-information li:not(.pms-field-type-heading)' ).show()
-
-        } else if( $( '.pms_pay_gate:checked' ).val() == 'stripe_intents' || $( '.pms_pay_gate:checked' ).val() == 'stripe' ){
-
-            $('#pms_card_number').removeAttr( 'name' )
-            $('#pms_card_cvv').removeAttr( 'name' )
-            $('#pms_card_exp_month').removeAttr( 'name' )
-            $('#pms_card_exp_year').removeAttr( 'name' )
-
-            $( '#pms-credit-card-information li:not(.pms-field-type-heading)' ).hide()
-            $( '#pms-stripe-payment-elements' ).show()
-
-        }
-
     }
 
     function pms_stripe_get_billing_details() {
@@ -1187,6 +1073,18 @@ jQuery( function( $ ) {
         if( typeof paymentSidebarPosition == 'function' ){
             setTimeout( paymentSidebarPosition, 300 )
         }
+
+    }
+
+    async function pms_stripe_get_payment_intents(){
+
+        var data = {
+            'action': 'pms_stripe_get_payment_intents'
+        }
+
+        return await $.post( pms.ajax_url, data, function( response ) {
+            return response;
+        })
 
     }
 

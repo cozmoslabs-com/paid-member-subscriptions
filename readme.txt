@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.5
-Stable tag: 2.12.0
+Stable tag: 2.12.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,16 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.12.1 =
+* Feature: Added an option to change the text that is displayed over a WooCommerce Product when it has a member discount. Go to the PMS -> Settings -> WooCommerce page to customize this
+* Fix: Improve Registration page loading speed when Stripe payment gateway is used
+* Fix: Issue with the Subscription Plans field not displaying correctly on the back-end Profile Builder -> Form Fields page in some cases
+* Fix: An issue with the Profile Builder Userlisting expiration date merge tags which were not taking into account Unlimited subscriptions
+* Fix: Issue with the start time of subscription being broken when an admin manually edits a subscription
+* Misc: Disable Payment Retry functionality when an admin manually edits a subscription
+* Misc: Added a filter over the Profile Builder Edit Profile form that can be displayed on the Account -> Edit Profile tab. This can be used to have different forms based on the members subscription: pms_member_account_wppb_edit_profile_form
+* Misc: A couple cosmetic changes for the Reports page
+
 = 2.12.0 =
 * Feature: Added integration with TutorLMS to allow admins to setup paid courses that can be accessed after buying a subscription
 * Feature: Improvements to the Reports page: added more stats like new revenue, recurring revenue, subscription plan earnings, payment gateway revenue etc. Also added a comparison area showing the same stats but from last year.

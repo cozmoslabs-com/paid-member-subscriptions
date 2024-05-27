@@ -87,3 +87,23 @@ jQuery( function($) {
         $('#pms-subscription-plan-renewal-option-field').hide();
     }
 });
+
+
+jQuery(document).ready(function($) {
+
+    // Show/Hide upgrade notice in PMS Free Version
+    $('#pms-plan-type').change(function (e) {
+        if ( this.value === 'group' )
+            $('#pms-group-memberships-addon-notice').show();
+        else $('#pms-group-memberships-addon-notice').hide();
+    });
+
+
+    /*
+     * Initialise chosen
+     *
+     */
+    if( $.fn.chosen !== undefined ) {
+        $('.pms-chosen').chosen();
+    }
+});

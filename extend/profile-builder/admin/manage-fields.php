@@ -49,7 +49,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             wp_enqueue_script( 'pms-pb-main-js', PMS_PLUGIN_DIR_URL . 'extend/profile-builder/assets/js/main.js', array( 'jquery' ) );
 
     }
-    add_action( 'admin_enqueue_scripts', 'pms_pb_enqueue_scripts' );
+    add_action( 'admin_enqueue_scripts', 'pms_pb_enqueue_scripts', 9 );
 
 
     /*

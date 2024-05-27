@@ -605,7 +605,9 @@ class PMS_WOO_Subscription_Discounts {
             && !$this->is_product_excluded_from_member_discounts( $product )
             && $this->get_user_membership_discounts( $product ) ) {
 
-            $label = __('Member discount!', 'paid-member-subscriptions');
+            $options = get_option( 'pms_woocommerce_settings' );
+
+            $label = !empty( $options['discount_badge'] ) ? $options['discount_badge'] : __( 'Member discount!', 'paid-member-subscriptions' );
 
             if ( $product->is_type( array( 'variation' ) ) ) {
 

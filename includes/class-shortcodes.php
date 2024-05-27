@@ -327,7 +327,7 @@ Class PMS_Shortcodes {
                     if( $pms_general_settings['edit_profile_shortcode'] == 'wppb-default-edit-profile' )
                         echo do_shortcode( '[wppb-edit-profile]' );
                     else
-                        echo do_shortcode( '[wppb-edit-profile form_name="' . Wordpress_Creation_Kit_PB::wck_generate_slug($pms_general_settings['edit_profile_shortcode']) . '"]');
+                        echo do_shortcode( '[wppb-edit-profile form_name="' . apply_filters( 'pms_member_account_wppb_edit_profile_form', Wordpress_Creation_Kit_PB::wck_generate_slug( $pms_general_settings['edit_profile_shortcode'] ), $member ) . '"]');
 
                 } else
                     echo do_shortcode( PMS_Shortcodes::edit_profile_form() );

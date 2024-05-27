@@ -1222,7 +1222,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         }
 
-        return $intent;
+        return $intent->client_secret;
 
     }
 
@@ -1266,7 +1266,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         }
 
-        return $intent;
+        return $intent->client_secret;
 
     }
 
@@ -1900,14 +1900,17 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     public function field_ajax_nonces( $output, $pms_settings ) {
 
         // Add Payment Intent Client Secret to form
-        $payment_intent = $this->create_initial_payment_intent();
-        $setup_intent   = $this->create_initial_setup_intent();
+        //$payment_intent = $this->create_initial_payment_intent();
+        //$setup_intent   = $this->create_initial_setup_intent();
 
-        if( !empty( $payment_intent ) )
-            $output .= '<input type="hidden" name="pms_stripe_connect_payment_intent" value="'. esc_attr( $payment_intent->client_secret ) .'"/>';
+        // $payment_intent = '';
+        // $setup_intent   = '';
 
-        if( !empty( $setup_intent ) )
-            $output .= '<input type="hidden" name="pms_stripe_connect_setup_intent" value="'. esc_attr( $setup_intent->client_secret ) .'"/>';
+        // if( !empty( $payment_intent ) )
+        $output .= '<input type="hidden" name="pms_stripe_connect_payment_intent" value=""/>';
+
+        //if( !empty( $setup_intent ) )
+        $output .= '<input type="hidden" name="pms_stripe_connect_setup_intent" value=""/>';
 
         // process checkout nonce
         $output .= '<input type="hidden" id="pms-stripe-ajax-payment-intent-nonce" name="stripe_ajax_payment_intent_nonce" value="'. esc_attr( wp_create_nonce( 'pms_process_checkout' ) ) .'"/>';

@@ -325,7 +325,7 @@ function pms_insert_page_banner() {
 
     $page_name = '';
     if ( $post_type == 'pms-addons-page' )
-        $page_name = ' Addons';
+        $page_name = ' Add-Ons';
 
     if ( !empty( $post_type ) && strpos( $post_type, 'pms' ) === 0 && ( !isset( $_GET['subpage'] ) || $_GET['subpage'] != 'pms-setup' ) )
         pms_output_page_banner( $page_name );
@@ -603,3 +603,53 @@ function pms_output_modal_style_pricing_page(){
 
     <?php
 }
+
+
+/**
+ * Upsell notice in PMS Free Version
+ *
+ *  - the Subscription Type option is displayed in Subscription Plan settings
+ *  - the Regular option is pre-selected
+ *  - when the Group option is selected the notice is displayed
+ *
+ */
+function pms_group_memberships_addon_upsell( $subscription_plan_id ) {
+    $message = '';
+
+    if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) || ( defined( 'PMS_PAID_PLUGIN_DIR' ) && PAID_MEMBER_SUBSCRIPTIONS === 'Paid Member Subscriptions Basic' ) ) {
+        // Upsell message
+        $message = sprintf( esc_html__( 'Group Memberships are available only with a %1$sPro%2$s or %1$sAgency%2$s license. %3$sBuy now%4$s', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=subscription-type&utm_campaign=PMSFree#pricing" target="_blank">', '</a>' );
+    }
+    elseif ( !class_exists( 'PMS_IN_Admin_Group_Memberships' ) ) {
+        // Activate Add-On message
+        $message = sprintf( esc_html__( 'Please %3$sactivate%4$s the %1$sGroup Memberships%2$s Add-On to enable this functionality.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'.admin_url( 'admin.php?page=pms-addons-page' ).'">', '</a>' );;
+    }
+
+    // return if the user has a paid PMS version and the add-on is active
+    if ( empty( $message ) )
+        return;
+
+    $output = '<div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                   
+                   <label for="pms-plan-type" class="pms-meta-box-field-label cozmoslabs-form-field-label">
+                       '. esc_html__( 'Subscription Type', 'paid-member-subscriptions' ) .'
+                   </label>
+                   
+                   <select id="pms-plan-type" name="pms_plan_type">
+                       <option value="regular" selected="selected">'. esc_html__( 'Regular', 'paid-member-subscriptions' ) .'</option>
+                       <option value="group">'. esc_html__( 'Group', 'paid-member-subscriptions' ) .'</option>
+                   </select>
+                   
+                   <p class="cozmoslabs-description cozmoslabs-description-align-right">
+                       '. esc_html__( 'Please select the type for this subscription plan.', 'paid-member-subscriptions' ) .'
+                   </p>
+                   
+                   <p class="cozmoslabs-description cozmoslabs-description-space-left cozmoslabs-description-upsell" id="pms-group-memberships-addon-notice" style="max-width: 600px; margin-left: 230px; display: none;">
+                       '. $message .'
+                   </p>
+                   
+               </div>';
+
+    echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+add_action( 'pms_view_meta_box_subscription_details_top', 'pms_group_memberships_addon_upsell' );

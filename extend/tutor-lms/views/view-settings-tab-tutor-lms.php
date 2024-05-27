@@ -121,8 +121,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <p><?php esc_html_e( 'Associate TurorLMS Categories with PMS Subscription Plans:', 'paid-member-subscriptions' ); ?></p>
 
                 <ul>
-                    <li><?php echo sprintf( esc_html__( 'Go to the Subscription Plan edit page and look for the %1$s TutorLMS Categories %2$s settings field.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ); ?></li>
-                    <li><?php echo sprintf( esc_html__( 'Select the %1$s TutorLMS Categories %2$s you want to associate with this Subscription Plan.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ); ?></li>
+                    <li><?php echo sprintf( esc_html__( 'Go to the Subscription Plan edit page and look for the %1$s Tutor LMS Categories %2$s settings field.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ); ?></li>
+                    <li><?php echo sprintf( esc_html__( 'Select the %1$s Tutor LMS Categories %2$s you want to associate with this Subscription Plan.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ); ?></li>
                     <li><?php echo sprintf( esc_html__( 'Members of this Subscription Plan will be able to access Courses within the %1$s selected categories%2$s.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ); ?></li>
                 </ul>
 

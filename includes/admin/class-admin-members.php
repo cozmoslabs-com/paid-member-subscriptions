@@ -178,6 +178,18 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             if( isset( $_POST['expiration_date'] ) )
                 $_POST['expiration_date'] = sanitize_text_field( $_POST['expiration_date'] ) . ' 23:59:59';
 
+            // When an admin edits a subscription from the back-end, he cannot edit the time part so we should make sure this is kept unless the admin
+            // explicitly changes the start date
+            if( isset( $_POST['start_date'] ) ){
+
+                // separate time from existing subscription start date
+                $start_date = explode( ' ', $member_subscription->start_date );
+
+                if( isset( $start_date[0] ) && $start_date[0] == $_POST['start_date'] ){
+                    $_POST['start_date'] = $member_subscription->start_date;
+                }
+            }
+
 
             // When an admin cancels a PSP subscription, the expiration date needs to be set
             if( isset( $_POST['status'] ) && in_array( $_POST['status'], array( 'expired', 'canceled' ) ) && $_POST['status'] != $member_subscription->status ){
@@ -185,9 +197,8 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                     $_POST['expiration_date'] = $member_subscription->billing_next_payment;
             }
 
-            // When a subscription is canceled, disable the retry payment functionality
-            if( isset( $_POST['status'] ) && $_POST['status'] == 'canceled' )
-                pms_update_member_subscription_meta( $member_subscription->id, 'pms_retry_payment', 'inactive' );
+            // When a subscription is edited by the admin, disable payment retry
+            pms_update_member_subscription_meta( $member_subscription->id, 'pms_retry_payment', 'inactive' );
 
             $updated = $member_subscription->update( $_POST );
 

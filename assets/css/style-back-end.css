@@ -4602,6 +4602,7 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
 .pms-arrow{
     width: 20px;
     height: 20px;
+    margin-right: -10px;
 }
 
 .pms-general-section .cozmoslabs-form-field-wrapper, .pms-general-section-previous .cozmoslabs-form-field-wrapper{
@@ -4624,6 +4625,15 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
 
 .pms-reports-summary-section .cozmoslabs-form-subsection-wrapper{
     flex: 1;
+}
+
+#pms_subscription_plans_section .pms-plans-section .cozmoslabs-form-field-label{
+    flex-basis: unset;
+    flex: 1;
+}
+
+#pms_subscription_plans_section .pms-plans-section .pms-normal-font{
+    font-weight: normal !important;
 }
 @media (max-width: 782px) {
     #pms-container-specific-subs .cozmoslabs-description-space-left{

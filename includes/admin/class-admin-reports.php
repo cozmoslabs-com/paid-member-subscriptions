@@ -795,7 +795,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
             foreach ( $specific_subs as $sub_id ){
                 if( !isset( $subscriptions_plans_result[$sub_id] ) )
-                    $subscriptions_plans_result[$sub_id] = array( 'name' => '', 'earnings' => 0 );
+                    $subscriptions_plans_result[$sub_id] = array( 'name' => '', 'earnings' => 0, 'count' => 0 );
             }
         }
         else{
@@ -803,7 +803,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
             foreach ( $specific_subs as $plan ){
                 if( !isset( $subscriptions_plans_result[$plan->id] ) )
-                    $subscriptions_plans_result[$plan->id] = array( 'name' => '', 'earnings' => 0 );
+                    $subscriptions_plans_result[$plan->id] = array( 'name' => '', 'earnings' => 0, 'count' => 0 );
             }
         }
 
@@ -814,6 +814,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                 $payments_amount += $payment->amount;
 
                 $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['earnings'] += $payment->amount;
+                $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['count'] ++;
 
                 if( empty( $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['name'] ) ){
                     $plan = pms_get_subscription_plan( $payment->subscription_id );
@@ -982,7 +983,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                         <?php }
                         else{
                             ?>
-                            <span><?php echo esc_html__( 'There are no payments for the selected period.', 'paid-member-subscriptions'); ?></span>
+                            <span><?php echo esc_html__( '-', 'paid-member-subscriptions'); ?></span>
                             <?php
                         }?>
                     </div>
@@ -1018,7 +1019,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                                 if( $nr_payment_gateways === 0 ){
                                     ?>
                                     <div class="cozmoslabs-form-field-wrapper">
-                                        <label class="pms-form-field-label"><?php echo esc_html__( 'There aren\'t any incomes for the activated gateways.', 'paid-member-subscriptions'); ?></label>
+                                        <label class="pms-form-field-label"><?php echo esc_html__( 'There are no payments for the selected period.', 'paid-member-subscriptions'); ?></label>
                                     </div>
                                     <?php
                                 }
@@ -1073,22 +1074,24 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                     <div class="pms-subscription-plans-header">
                         <label class="pms-form-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Subscription Plan', 'paid-member-subscriptions' ); ?></label>
                         <label class="pms-form-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Earnings', 'paid-member-subscriptions' ); ?></label>
+                        <label class="pms-form-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Payments', 'paid-member-subscriptions' ); ?></label>
                     </div>
                     <?php
                     $nr_plans = 0;
                     foreach ( $subscriptions_plans_result as $plan ){
                         if( $plan['earnings'] > 0 ){
                             $nr_plans++; ?>
-                            <div class="cozmoslabs-form-field-wrapper">
+                            <div class="cozmoslabs-form-field-wrapper pms-plans-section">
                                 <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total earnings for the selected subscription plan', 'paid-member-subscriptions' ); ?>"><?php echo esc_html( $plan['name'] ); ?></label>
-                                <span><?php echo esc_html( pms_format_price( $plan['earnings'], pms_get_active_currency() ) ); ?></span>
+                                <label class="pms-form-field-label cozmoslabs-form-field-label pms-normal-font" ><?php echo esc_html( pms_format_price( $plan['earnings'], pms_get_active_currency() ) ); ?></label>
+                                <label class="pms-form-field-label cozmoslabs-form-field-label pms-normal-font" ><?php echo esc_html( $plan['count'] ); ?></label>
                             </div>
                         <?php   }
                     }
                     if( $nr_plans === 0 ){
                         ?>
                         <div class="cozmoslabs-form-field-wrapper">
-                            <label class="pms-form-field-label"><?php echo esc_html__( 'The selected subscription plans have no revenue.', 'paid-member-subscriptions'); ?></label>
+                            <label class="pms-form-field-label"><?php echo esc_html__( 'No Data.', 'paid-member-subscriptions'); ?></label>
                         </div>
                         <?php
                     }
@@ -1170,7 +1173,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
             $results_arrow['payments_count']['percent'] = ( abs( $results_arrow['payments_count']['difference'] ) * 100 ) / $summary_previous_data['payments_count'];
         }
         else{
-            $results_arrow['payments_amount']['percent'] = 100;
+            $results_arrow['payments_count']['percent'] = 100;
         }
 
         $results_arrow['total_completed_payments']['difference'] = $summary_previous_data['total_completed_payments'] - $summary_data['total_completed_payments'];

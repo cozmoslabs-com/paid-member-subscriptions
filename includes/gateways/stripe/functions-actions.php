@@ -160,6 +160,25 @@ function pms_stripe_connect_update_process_payment_nonce(){
 }
 
 /**
+ * Get payment intents
+ */
+add_action( 'wp_ajax_pms_stripe_get_payment_intents', 'pms_stripe_connect_get_payment_intents' );
+add_action( 'wp_ajax_nopriv_pms_stripe_get_payment_intents', 'pms_stripe_connect_get_payment_intents' );
+function pms_stripe_connect_get_payment_intents(){
+
+    $gateway = new PMS_Payment_Gateway_Stripe_Connect();
+
+    $data = array(
+        'payment_intent' => $gateway->create_initial_payment_intent(),
+        'setup_intent'   => $gateway->create_initial_setup_intent(),
+    );
+
+    echo json_encode( $data );
+    die();
+
+}
+
+/**
  * Used to process the payment after a payment method redirects off-site and then returns the user
  */
 add_action( 'template_redirect', 'pms_stripe_connect_handle_payment_method_return_url' );

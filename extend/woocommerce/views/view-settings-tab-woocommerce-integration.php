@@ -46,6 +46,12 @@
             </div>
         </div>
 
+        <div class="cozmoslabs-form-field-wrapper">
+            <label class="cozmoslabs-form-field-label" for="woocommerce-discount-badge"><?php esc_html_e( 'Discount Badge Text', 'paid-member-subscriptions' ) ?></label>
+            <input type="text" id="woocommerce-discount-badge" class="widefat" name="pms_woocommerce_settings[discount_badge]" value="<?php echo ( isset( $options['discount_badge'] ) ? esc_attr( $options['discount_badge'] ) : esc_html__( 'Member Discount!', 'paid-member-subscriptions' ) );  ?>">
+            <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Customize your Discount Badge Message', 'paid-member-subscriptions' ); ?></p>
+        </div>
+
         <?php do_action( 'pms-settings-page_woocommerce_products_after_content', $options ); ?>
 
     </div>

@@ -36,7 +36,7 @@ class PMS_Setup_Wizard {
             'user-pages' => __( 'User Pages', 'paid-member-subscriptions' ),
             'general'    => __( 'Design & UI', 'paid-member-subscriptions' ),
             'payments'   => __( 'Payments', 'paid-member-subscriptions' ),
-            'addons'     => __( 'Addons', 'paid-member-subscriptions' ),
+            'addons'     => __( 'Add-Ons', 'paid-member-subscriptions' ),
             'next'       => __( 'Ready!', 'paid-member-subscriptions' ),
         );
     }
