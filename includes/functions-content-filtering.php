@@ -574,7 +574,7 @@ function pms_member_renew_subscription( $content ) {
         $output .= apply_filters( 'pms_renew_subscription_before_form', '<p>' . sprintf( __( 'Renew %s subscription. The subscription will be active until %s', 'paid-member-subscriptions' ), '<strong>' . $subscription_plan->name . '</strong>', '<strong>' . $renew_expiration_date .'</strong>' ) . '</p>', $subscription_plan, $member );
 
         // Output subscription plans
-        $output .= pms_output_subscription_plans( array($subscription_plan) );
+        $output .= pms_output_subscription_plans( array( $subscription_plan ), array(), false, '', 'renew_subscription' );
 
         // Used to output the Billing Information and Credit Card form
         ob_start();

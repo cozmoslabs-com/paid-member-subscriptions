@@ -1355,6 +1355,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $subscription_data = PMS_Form_Handler::get_subscription_data( $subscription->user_id, $subscription_plan, $form_location, true, 'stripe_connect', $is_recurring, $has_trial );
 
+            $checkout_data = array(
+                'is_recurring'  => $is_recurring,
+                'has_trial'     => $has_trial,
+                'form_location' => $form_location
+            );
+
+            $subscription_data = apply_filters( 'pms_process_checkout_subscription_data', $subscription_data, $checkout_data );
+
             $subscription_data['status'] = 'active';
 
         } else {

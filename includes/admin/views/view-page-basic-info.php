@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left">
                     <?php esc_html_e( 'Add basic registration forms where members can sign-up for a subscription plan. ', 'paid-member-subscriptions' ); ?>
-                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info#Member_Registration_form" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info#Member_Registration_form" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                 </p>
             </div>
 
@@ -41,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left">
                     <?php esc_html_e( 'Allow members to login.', 'paid-member-subscriptions' ); ?>
-                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info#Login_Form" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info#Login_Form" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                 </p>
             </div>
 
@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left">
                     <?php esc_html_e( 'Allow members to edit their account information and manage their subscription plans.', 'paid-member-subscriptions' ); ?>
-                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info#Member_Account_form" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info#Member_Account_form" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                 </p>
             </div>
 
@@ -66,7 +66,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left">
                     <?php esc_html_e( 'Restrict content using the shortcode or directly from individual posts and pages.', 'paid-member-subscriptions' ); ?>
-                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/content-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/content-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                 </p>
             </div>
 
@@ -76,7 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left">
                     <?php esc_html_e( 'Add a recover password form for your members.', 'paid-member-subscriptions' ); ?>
-                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info#Recover_Password" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info#Recover_Password" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                 </p>
             </div>
 
@@ -95,7 +95,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Subscription Plans', 'paid-member-subscriptions' ); ?></label>
                         <p class="cozmoslabs-description cozmoslabs-description-align-right">
                             <?php esc_html_e( 'Create hierarchical subscription plans allowing your members to upgrade from an existing subscription. Shortcode based, offering many options to customize your subscriptions listing.', 'paid-member-subscriptions' ); ?>
-                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                         </p>
                     </div>
 
@@ -103,7 +103,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Members', 'paid-member-subscriptions' ); ?></label>
                         <p class="cozmoslabs-description cozmoslabs-description-align-right">
                             <?php esc_html_e( 'Overview of all your members and their subscription plans. Easily add/remove members or edit their subscription details.', 'paid-member-subscriptions' ); ?>
-                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-management/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-management/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                         </p>
                     </div>
 
@@ -114,7 +114,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Payments', 'paid-member-subscriptions' ); ?></label>
                         <p class="cozmoslabs-description cozmoslabs-description-align-right">
                             <?php esc_html_e( 'Keep track of all member payments, payment statuses, purchased subscription plans but also figure out why a Payment failed.', 'paid-member-subscriptions' ); ?>
-                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                         </p>
                     </div>
 
@@ -122,7 +122,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Settings', 'paid-member-subscriptions' ); ?></label>
                         <p class="cozmoslabs-description cozmoslabs-description-align-right">
                             <?php esc_html_e( 'Set the payment gateway used to accept payments, select messages seen by users when accessing a restricted content page or customize default member emails. Everything is just a few clicks away.', 'paid-member-subscriptions' ); ?>
-                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                         </p>
                     </div>
                 </div>
@@ -132,7 +132,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Recurring Payments', 'paid-member-subscriptions' ); ?></label>
                         <p class="cozmoslabs-description cozmoslabs-description-align-right">
                             <?php esc_html_e( 'Setup recurring payments for your subscription plans.', 'paid-member-subscriptions' ); ?>
-                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                         </p>
                     </div>
 
@@ -140,7 +140,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Discount Codes', 'paid-member-subscriptions' ); ?></label>
                         <p class="cozmoslabs-description cozmoslabs-description-align-right">
                             <?php esc_html_e( 'Friction-less discount code creation for running promotions, making price reductions or simply rewarding your users.', 'paid-member-subscriptions' ); ?>
-                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/discount-codes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/discount-codes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
                         </p>
                     </div>
                 </div>
@@ -156,7 +156,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <h2 class="cozmoslabs-subsection-title"><?php esc_html_e( 'WooCommerce Integration', 'paid-member-subscriptions' );?></h2>
             <p class="cozmoslabs-description">
                 <?php esc_html_e( 'Integrates beautifully with WooCommerce, for extended functionality.', 'paid-member-subscriptions' ); ?>
-                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
             </p>
         </div>
 
@@ -212,79 +212,79 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <?php if( !pms_is_paid_version_active() ) : ?>
             <p class="cozmoslabs-description cozmoslabs-description-upsell" style="width: auto;"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">Basic and PRO</a> versions.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-link&utm_campaign=PMSFree#pricing' ); ?></p>
         <?php endif; ?>
-        
+
         <div class="cozmoslabs-basic-info-addons">
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'LearnDash', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-learndash.png" alt="Learndash" class="pms-addon-image" />
                 </a>
 
                 <p class="cozmoslabs-description"><?php esc_html_e( 'Generate revenue from your LMS website by selling access to courses through single or recurring payments. Restrict content of courses, lessons and quizzes to members.', 'paid-member-subscriptions' ); ?></p>
             </div>
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/global-content-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/global-content-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Global Content Restriction', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/global-content-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/global-content-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-global-content-restriction.png" alt="Global Content Restriction" class="pms-addon-image" />
                 </a>
 
                 <p class="cozmoslabs-description"><?php esc_html_e( 'Easy way to add global content restriction rules to subscription plans, based on post type, taxonomy and terms.', 'paid-member-subscriptions' ); ?></p>
             </div>
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/email-reminders/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/email-reminders/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Email Reminders', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/email-reminders/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/email-reminders/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-email-reminders.png" alt="PayPal Pro and PayPal Express" class="pms-addon-image" />
                 </a>
 
                 <p class="cozmoslabs-description"><?php esc_html_e( 'Create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)', 'paid-member-subscriptions' ); ?></p>
             </div>
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/navigation-menu-filtering/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/navigation-menu-filtering/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Navigation Menu Filtering', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/navigation-menu-filtering/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/navigation-menu-filtering/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-navigation-menu-filtering.png" alt="Navigation Menu Filtering" class="pms-addon-image" />
                 </a>
 
                 <p class="cozmoslabs-description"><?php esc_html_e( 'Dynamically display menu items based on logged-in status as well as selected subscription plans.', 'paid-member-subscriptions' ); ?></p>
             </div>
             <div style="clear:left;">
-                <a href="https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-bbpress/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-bbpress/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'bbPress', 'paid-member-subscriptions' ); ?></h4>
                 </a>
-                <a href="https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-bbpress/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-bbpress/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/pms-addon-bbpress.png" alt="bbPress" class="pms-addon-image" />
                 </a>
 
                 <p class="cozmoslabs-description"><?php esc_html_e( 'Integrate Paid Member Subscriptions with the popular forums plugin, bbPress.', 'paid-member-subscriptions' ); ?></p>
             </div>
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/fixed-period-membership/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/fixed-period-membership/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Fixed Period Membership', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/fixed-period-membership/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/fixed-period-membership/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-fixed-period.png" alt="Fixed Period Membership" class="pms-addon-image" />
                 </a>
 
                 <p class="cozmoslabs-description"><?php esc_html_e( 'The Fixed Period Membership Add-On allows your Subscriptions to end at a specific date.', 'paid-member-subscriptions' ); ?></p>
             </div>
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/pay-what-you-want/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/pay-what-you-want/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Pay What You Want', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/pay-what-you-want/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/pay-what-you-want/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-pay-what-you-want.png" alt="Pay What You Want" class="pms-addon-image" />
                 </a>
 
@@ -310,11 +310,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <div class="cozmoslabs-basic-info-addons">
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/paypal-pro-paypal-express/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/paypal-pro-paypal-express/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'PayPal Express', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/paypal-pro-paypal-express/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/paypal-pro-paypal-express/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-paypal-pro.png" alt="PayPal Express" class="pms-addon-image" />
                 </a>
 
@@ -322,11 +322,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/stripe/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/stripe/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Stripe', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/stripe/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/stripe/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-stripe.png" alt="Navigation Menu Filtering" class="pms-addon-image" />
                 </a>
 
@@ -334,11 +334,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/content-dripping/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/content-dripping/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Content Dripping', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/content-dripping/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/content-dripping/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-content-dripping.png" alt="Content Dripping" class="pms-addon-image" />
                 </a>
 
@@ -346,11 +346,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/multiple-subscriptions-per-user/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/multiple-subscriptions-per-user/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Multiple Subscriptions / User', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/multiple-subscriptions-per-user/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/multiple-subscriptions-per-user/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-multiple-subscriptions.png" alt="Multiple Subscriptions per User" class="pms-addon-image" />
                 </a>
 
@@ -358,11 +358,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/invoices/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/invoices/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Invoices', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/invoices/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/invoices/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-invoices.png" alt="Invoices" class="pms-addon-image" />
                 </a>
 
@@ -371,11 +371,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             <div>
 
-                <a href="https://www.cozmoslabs.com/add-ons/group-memberships/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/group-memberships/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Group Memberships', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/group-memberships/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/group-memberships/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-group-memberships.png" alt="Group Memberships" class="pms-addon-image" />
                 </a>
 
@@ -383,11 +383,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Tax & EU VAT', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-tax.png" alt="Tax & EU VAT" class="pms-addon-image" />
                 </a>
 
@@ -395,11 +395,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Pro Rate', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 
-                <a href="https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSfree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                <a href="https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-pro-rate.png" alt="Pro Rate" class="pms-addon-image" />
                 </a>
 

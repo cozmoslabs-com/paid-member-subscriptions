@@ -7,9 +7,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * HTML output for recover password - enter new password form
  *
  */
+$form_name = 'new_password';
 ?>
 
-<form id="pms_new_password_form" class="pms-form" method="post">
+<form id="pms_new_password_form" class="pms-form" method="post" action="<?php echo esc_url( apply_filters( 'pms_' . $form_name . '_form_action_attribute', '' ) ); ?>">
 
     <?php wp_nonce_field( 'pms_new_password_form_nonce', 'pmstkn' ); ?>
 

@@ -343,11 +343,11 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
             $subscription_plan_output = '<div class="pms-subscription-plan pms-hidden pms-subscription-plan-'. $subscription_plan->id .'">';
 
             // Output subscription plan hidden input and label
-            $subscription_plan_output .= '<input type="hidden" name="subscription_plans" ' . pms_get_subscription_plan_input_data_attrs( $subscription_plan ) . ' value="' . esc_attr( $subscription_plan->id ) . '" />';
+            $subscription_plan_output .= '<input type="hidden" name="subscription_plans" ' . pms_get_subscription_plan_input_data_attrs( $subscription_plan, $form_location ) . ' value="' . esc_attr( $subscription_plan->id ) . '" />';
             $subscription_plan_output .= '<label><span class="pms-subscription-plan-name">' . $subscription_plan->name . '</span>';
 
                 // Output subscription plan price
-                $subscription_plan_output .= '<span class="pms-subscription-plan-price">' . pms_get_output_subscription_plan_price( $subscription_plan ) . '</span>';
+                $subscription_plan_output .= '<span class="pms-subscription-plan-price">' . pms_get_output_subscription_plan_price( $subscription_plan, $form_location ) . '</span>';
 
                 if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'upgrade_subscription', 'register_email_confirmation', 'wppb_register', 'change_subscription' ) ) ) {
 

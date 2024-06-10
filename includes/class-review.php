@@ -35,6 +35,9 @@ class PMS_Review_Request {
         // Admin notice requesting review
         add_action( 'admin_notices', array( $this, 'admin_notices' ) );
         add_action( 'admin_init', array( $this, 'dismiss_notification' ) );
+
+        // Footer text requesting review
+        add_filter('admin_footer_text', array( $this, 'admin_footer_rate_us' ) );
     }
 
     // Function that looks for successful payments and counts the number of days elapsed
@@ -114,6 +117,20 @@ class PMS_Review_Request {
             do_action( $this->notificationId.'_before_notification_dismissed', $current_user );
             add_user_meta($user_id, $this->notificationId . '_dismiss_notification', 'true', true);
             do_action( $this->notificationId.'_after_notification_dismissed', $current_user );
+        }
+    }
+
+    function admin_footer_rate_us( $footer_text ) {
+        global $current_screen;
+
+        if ( $current_screen->parent_base == 'paid-member-subscriptions' ){
+            $rate_text = sprintf( __( 'If you enjoy using <strong> %1$s </strong> please <a href="%2$s" target="_blank">rate us on WordPress.org</a>. More happy users means more features, less bugs and better support for everyone. ', 'paid-member-subscriptions' ),
+                PAID_MEMBER_SUBSCRIPTIONS,
+                'https://wordpress.org/support/plugin/paid-member-subscriptions/reviews/?filter=5#new-post'
+            );
+            return '<span id="footer-thankyou">' .$rate_text . '</span>';
+        } else {
+            return $footer_text;
         }
     }
 }

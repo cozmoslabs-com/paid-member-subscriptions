@@ -1414,8 +1414,11 @@ Class PMS_Form_Handler {
                     //search if there is already an activation key present, if not create one
                     $key = get_password_reset_key( $user );
 
+                    $reset_url = add_query_arg( array( 'loginName' => urlencode( $requestedUserLogin ), 'key' => $key ), pms_get_current_page_url() );
+                    $reset_url = apply_filters( 'pms_recover_password_landing_page_url', $reset_url, $requestedUserID );
+
                     //Confirmation link email content
-                    $recoveruserMailMessage1 = sprintf(__('Someone has just requested a password reset for the following account: <b>%1$s</b><br/><br/>If this was a mistake, just ignore this email and nothing will happen.<br/>To reset your password, visit the following link: %2$s', 'paid-member-subscriptions'), $username_email, '<a href="' . esc_url(add_query_arg(array('loginName' => urlencode( $requestedUserLogin ), 'key' => $key), pms_get_current_page_url())) . '">' . esc_url(add_query_arg(array('loginName' => urlencode( $requestedUserLogin ), 'key' => $key), pms_get_current_page_url())) . '</a>');
+                    $recoveruserMailMessage1 = sprintf(__('Someone has just requested a password reset for the following account: <b>%1$s</b><br/><br/>If this was a mistake, just ignore this email and nothing will happen.<br/>To reset your password, visit the following link: %2$s', 'paid-member-subscriptions'), $username_email, '<a href="' . esc_url( $reset_url ) . '">' . esc_url( $reset_url ) . '</a>');
                     $recoveruserMailMessage1 = apply_filters('pms_recover_password_message_content_sent_to_user1', $recoveruserMailMessage1, $requestedUserID, $requestedUserLogin, $requestedUserEmail);
 
                     //Confirmation link email title

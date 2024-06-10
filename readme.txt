@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.5
-Stable tag: 2.12.1
+Stable tag: 2.12.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,13 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.12.2 =
+* Fix: Allow reset password form to submit correctly when being placed on the same page as the register form
+* Fix: Issue with recurring discount code not being applied to future payments done with Stripe
+* Fix: Renewal issue for free trial subscriptions where the plugin tried to erroneously apply the trial again
+* Misc: Run a custom javascript trigger when a validation error happens in the registration form: pms_checkout_validation_error
+* Misc: Filter the landing page URL of the password reset form so it can be adjusted through code: pms_recover_password_landing_page_url
+
 = 2.12.1 =
 * Feature: Added an option to change the text that is displayed over a WooCommerce Product when it has a member discount. Go to the PMS -> Settings -> WooCommerce page to customize this
 * Fix: Improve Registration page loading speed when Stripe payment gateway is used

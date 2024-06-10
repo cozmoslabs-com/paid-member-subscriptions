@@ -126,6 +126,9 @@ jQuery( function( $ ) {
 
     $(document).on('submit', '.pms-form', function (e) {
 
+        if( e.target && ( jQuery( e.target ).attr('id') == 'pms_recover_password_form' || jQuery( e.target ).attr('id') == 'pms_new_password_form' ) )
+            return
+
         var target_button = $('input[type="submit"], button[type="submit"]', $(this)).not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
 
         // Email Confirmation using PB form
@@ -288,6 +291,8 @@ jQuery( function( $ ) {
                             addWPPBValidationErrors( response.wppb_errors, current_button )
 
                     }
+
+                    jQuery(document).trigger( 'pms_checkout_validation_error', response, current_button )
 
                 } else {
                     console.log( 'something unexpected happened' )
