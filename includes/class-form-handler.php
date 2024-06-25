@@ -2262,7 +2262,7 @@ Class PMS_Form_Handler {
 
                     $subscription->update( $subscription_data );
 
-                    pms_add_member_subscription_log( $subscription->id, 'subscription_renewed_manually', array( 'until' => $subscription_data['expiration_date'] ) );
+                    pms_add_member_subscription_log( $subscription->id, 'subscription_renewed_manually', array( 'until' => $expiration_date ) );
 
                     pms_delete_member_subscription_meta( $subscription->id, 'pms_retry_payment' );
 
@@ -2344,7 +2344,7 @@ Class PMS_Form_Handler {
         if( empty( $pay_gate ) )
             $pay_gate = ! empty( $_POST['pay_gate'] ) ? sanitize_text_field( $_POST['pay_gate'] ) : '';
 
-        if( empty( $is_recurring ) )
+        if( is_null( $is_recurring ) )
             $is_recurring = self::checkout_is_recurring();
 
         if( empty( $has_trial ) ){

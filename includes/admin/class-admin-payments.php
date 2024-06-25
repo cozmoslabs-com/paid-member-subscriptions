@@ -291,12 +291,19 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
                                                 'status'          => $member_subscription_status
                                             );
                         
-                                        }
-                                        else {
+                                        } else if( $member_subscription->status == 'active' ){
+
                                             $data = array(
                                                 'expiration_date' => date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ),
                                                 'status'          => $member_subscription_status
                                             );
+
+                                        } else {
+
+                                            $data = array(
+                                                'status'          => $member_subscription_status
+                                            );
+                                            
                                         }
 
                                         $member_subscription->update( $data );

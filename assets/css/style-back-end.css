@@ -1129,7 +1129,7 @@ body[class*="post-type-pms-"] .submitdelete:focus,
 
 .cozmoslabs-wysiwyg-wrapper .wp-editor-container textarea.wp-editor-area {
     padding: 20px 40px;
-    height: 215px !important;
+    min-height: 100px;
 }
 
 .cozmoslabs-wysiwyg-wrapper .cozmoslabs-description {

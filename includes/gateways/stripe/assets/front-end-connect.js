@@ -454,7 +454,7 @@ jQuery( function( $ ) {
             if ( result.error.payment_intent )
                 payment_intent = result.error.payment_intent
             else if( result.error.setup_intent )
-                payment_intent = result.error.payment_intent
+                payment_intent = result.error.setup_intent
 
         } else if( result.paymentIntent )
             payment_intent = result.paymentIntent

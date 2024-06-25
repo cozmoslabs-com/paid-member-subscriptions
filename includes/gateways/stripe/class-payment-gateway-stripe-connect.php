@@ -305,6 +305,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( isset( $_REQUEST['payment_intent'] ) && isset( $_GET['pms_stripe_connect_return_url'] ) && $_GET['pms_stripe_connect_return_url'] == 1 )
             $form_location = 'stripe_return_url';
 
+        // Mark the start of a renewal for a subscription
+        if( $form_location == 'renew_subscription' )
+            pms_update_member_subscription_meta( $subscription_id, 'pms_subscription_renewal_' . $this->payment_id, 'started' );
+
         if( isset( $payment->status ) && $payment->status == 'completed' ){
 
             // If the payment is completed because the webhook was received already we don't want to touch it
@@ -333,6 +337,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $this->subscription_plan = pms_get_subscription_plan( absint( $_POST['subscription_plan_id'] ) );
 
         }
+
+        $is_recurring = PMS_Form_Handler::checkout_is_recurring();
 
         $subscription = pms_get_member_subscription( $subscription_id );
 
@@ -369,7 +375,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
 
                     // Update subscription
-                    $this->update_subscription( $subscription, $form_location, true );
+                    $this->update_subscription( $subscription, $form_location, true, $is_recurring );
 
                     // If subscription had a trial, save card fingerprint
                     $this->save_trial_card( $subscription_id, $intent->payment_method );
@@ -448,7 +454,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     }
 
                     // Update subscription
-                    $this->update_subscription( $subscription, $form_location, false, false, false, $intent->amount );
+                    $this->update_subscription( $subscription, $form_location, false, $is_recurring, false, $intent->amount );
 
                     // If subscription had a trial, save card fingerprint
                     $this->save_trial_card( $subscription_id, $intent->payment_method );
@@ -1339,8 +1345,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $subscription ) || empty( $form_location ) )
             return false;
 
-        if( $is_recurring == false )
-            $is_recurring = PMS_Form_Handler::checkout_is_recurring();
+        // If this is a subscription renewal, skip processing if it was already processed
+        if( $form_location == 'renew_subscription' ){
+            
+            $renewal_status = pms_get_member_subscription_meta( $subscription->id, 'pms_subscription_renewal_' . $this->payment_id, true );
+
+            if( $renewal_status == 'finished' )
+                return true;
+        }
 
         if( !in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) ){
 
@@ -1394,6 +1406,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             // retry payment
             case 'retry_payment':
 
+                $log_action = true;
+
+                if( $subscription->status == $subscription_data['status'] )
+                    $log_action = false;
+
                 $subscription->update( $subscription_data );
 
                 if( isset( $subscription_data['expiration_date'] ) )
@@ -1403,7 +1420,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 else
                     $args = array();
 
-                pms_add_member_subscription_log( $subscription->id, 'subscription_activated', $args );
+                if( $log_action )
+                    pms_add_member_subscription_log( $subscription->id, 'subscription_activated', $args );
 
                 break;
 
@@ -1414,6 +1432,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             // changing the subscription
             case 'change_subscription':
 
+                $log_action = true;
+
+                if( $subscription->subscription_plan_id == $subscription_data['subscription_plan_id'] )
+                    $log_action = false;
+
                 do_action( 'pms_psp_before_'. $form_location, $subscription, isset( $payment ) ? $payment : 0, $subscription_data );
 
                 $context = 'change';
@@ -1423,7 +1446,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 elseif( $form_location == 'downgrade_subscription' )
                     $context = 'downgrade';
 
-                pms_add_member_subscription_log( $subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $subscription->subscription_plan_id, 'new_plan' => $subscription_data['subscription_plan_id'] ) );
+                if( $log_action )
+                    pms_add_member_subscription_log( $subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $subscription->subscription_plan_id, 'new_plan' => $subscription_data['subscription_plan_id'] ) );
 
                 $subscription->update( $subscription_data );
 
@@ -1440,8 +1464,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 else {
                     if( $subscription_plan->is_fixed_period_membership() ){
                         $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+ 1 year' ) );
-                    }
-                    else{
+                    } else {
                         $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
                     }
                 }
@@ -1460,7 +1483,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $subscription->update( $subscription_data );
 
-                pms_add_member_subscription_log( $subscription->id, 'subscription_renewed_manually', array( 'until' => $subscription_data['expiration_date'] ) );
+                pms_update_member_subscription_meta( $subscription->id, 'pms_subscription_renewal_' . $this->payment_id, 'finished' );
+
+                pms_add_member_subscription_log( $subscription->id, 'subscription_renewed_manually', array( 'until' => $expiration_date ) );
 
                 pms_delete_member_subscription_meta( $subscription->id, 'pms_retry_payment' );
 
@@ -1589,32 +1614,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.succeeded', 'data' => $data->metadata ) );
 
-                if( $payment->status == 'completed' ){
-                    
-                    // Verify if we need to update the SEPA Direct Debit payment method at this point
-                    if( !empty( $data->latest_charge ) ){
-                        
-                        $subscription_id = isset( $data->metadata->subscription_id ) ? absint( $data->metadata->subscription_id ) : 0;
-
-                        if ( $subscription_id === 0 )
-                            die();
-
-                        // Set correct payment method for SEPA Direct Debit recurring transactions.
-                        // The initial charge can be made through iDEAL for example, but for subsequent charges, the generated SEPA Debit payment method needs to be used
-                        $payment_method = $this->get_alternative_payment_method( $data->latest_charge );
-    
-                        if( !empty( $payment_method ) )
-                            pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', sanitize_text_field( $payment_method ) );
-    
-                    }
-
-
-                    die();
+                if( $payment->status != 'completed' ){
+                    $payment->log_data( 'stripe_intent_confirmed' );
+                    $payment->update( array( 'status' => 'completed' ) );
                 }
-
-                $payment->log_data( 'stripe_intent_confirmed' );
-
-                $payment->update( array( 'status' => 'completed' ) );
 
                 // process subscription
                 $this->webhooks_process_subscription( $payment, $data );
@@ -1636,12 +1639,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
-                if( $payment->status == 'completed' )
-                    die();
-
                 $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.processing', 'data' => $data->metadata ) );
 
-                $payment->log_data( 'stripe_intent_processing' );
+                if( $payment->status != 'completed' )
+                    $payment->log_data( 'stripe_intent_processing' );
 
                 // process subscription
                 $this->webhooks_process_subscription( $payment, $data );
@@ -1794,10 +1795,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $subscription = pms_get_member_subscription( $payment->member_subscription_id );
 
-            if( $subscription->status == 'active' )
-                return;
+            $this->payment_id = $payment->id;
 
-            $this->update_subscription( $subscription, sanitize_text_field( $data->metadata->request_location ), false, sanitize_text_field( $data->metadata->is_recurring ), $payment->subscription_id );
+            $is_recurring = !empty( $data->metadata->is_recurring ) && $data->metadata->is_recurring == 'true' ? true : false;
+
+            $this->update_subscription( $subscription, sanitize_text_field( $data->metadata->request_location ), false, $is_recurring, $payment->subscription_id );
 
             // Save Customer to Subscription and User if it's not present
             $subscription_customer = pms_get_member_subscription_meta( $subscription->id, '_stripe_customer_id', true );

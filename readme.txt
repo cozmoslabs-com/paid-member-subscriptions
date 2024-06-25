@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.5
-Stable tag: 2.12.2
+Stable tag: 2.12.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -247,6 +247,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.12.3 =
+* Fix: German translation issue that was present in the files we supply with the plugin
+* Fix: Javascript error being triggered when an error happened while trying to process a Setup Intent
+* Fix: Issue with manual payments added over a pending subscription extending it's duration twice
+* Fix: Made some changes to how Stripe processes webhooks
+* Misc: Allow resizing of the back-end WYSIWYG fields
+* Misc: Fix an attribute typo for the discount codes field
+
 = 2.12.2 =
 * Fix: Allow reset password form to submit correctly when being placed on the same page as the register form
 * Fix: Issue with recurring discount code not being applied to future payments done with Stripe

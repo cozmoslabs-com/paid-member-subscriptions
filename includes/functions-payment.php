@@ -508,6 +508,9 @@ function pms_cron_process_member_subscriptions_payments() {
             if( ! method_exists( $payment_gateway, 'process_payment' ) )
                 continue;
 
+            if( !apply_filters( 'pms_cron_process_member_subscriptions_process_subscription', true, $subscription ) )
+                continue;
+
             // Payment data
             $payment_data = apply_filters( 'pms_cron_process_member_subscriptions_payment_data' ,
                 array(

@@ -183,7 +183,7 @@ function pms_in_dc_output_discount_box( $output, $include, $exclude_id_group, $m
     // Return the discount code field only if we have paid plans
     if( $total_price !== 0 ) {
         $discount_output  = '<div id="pms-subscription-plans-discount">';
-        $discount_output .= '<label for="pms_subscription_plans_discount">' . apply_filters('pms_form_label_discount_code', __('Discount Code: ', 'paid-member-subscriptions')) . '</label>';
+        $discount_output .= '<label for="pms-subscription-plans-discount">' . apply_filters('pms_form_label_discount_code', __('Discount Code: ', 'paid-member-subscriptions')) . '</label>';
         $discount_output .= '<input id="pms_subscription_plans_discount_code" name="discount_code" placeholder="' . apply_filters( 'pms_form_input_placeholder_discount_code', __( 'Enter discount', 'paid-member-subscriptions' ) ) . '" type="text" value="' . esc_attr( $discount_code_value ) . '" />';
         $discount_output .= '<input id="pms-apply-discount" class="pms-submit button" type="submit" value="' . apply_filters( 'pms_form_submit_discount_code', __( 'Apply', 'paid-member-subscriptions' ) ) . '">';
         $discount_output .= '</span>';

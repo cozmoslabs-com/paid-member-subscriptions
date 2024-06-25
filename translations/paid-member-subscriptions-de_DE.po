@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Paid Member Subscriptions\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-01-10 08:37+0200\n"
+"PO-Revision-Date: 2024-06-17 13:25+0300\n"
 "Last-Translator: Roger Perren <info@blueforce.ch>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: paid-member-subscriptions.pot\n"
 
@@ -53,7 +53,6 @@ msgid " with a %1$s %2$s free trial"
 msgstr " mit einer Testversion von %1$s %2$s"
 
 #: translations/paid-member-subscriptions.catalog.php:842
-#, fuzzy
 msgid "%d member invited successfully !"
 msgstr "%d Mitglied erfolgreich eingeladen !"
 
@@ -79,13 +78,11 @@ msgstr "%d von %d"
 
 #: translations/paid-member-subscriptions.catalog.php:1217
 #: includes/admin/class-admin-subscription-plans.php:1034
-#, fuzzy
 msgid "%d subscription plan has been successfully activated"
 msgstr "%d Abo wurde erfolgreich aktiviert"
 
 #: translations/paid-member-subscriptions.catalog.php:1219
 #: includes/admin/class-admin-subscription-plans.php:1037
-#, fuzzy
 msgid "%d subscription plan has been successfully deactivated"
 msgstr "%d Abo wurde erfolgreich deaktiviert"
 
@@ -4371,14 +4368,14 @@ msgstr "Bitte Rabattbetrag eingeben."
 msgid ""
 "Enter the email reminder content. You can use the %1$savailable tags%2$s. "
 msgstr ""
-"Gib den Betreff der E-Mail-Erinnerung ein. Du kannst die %1$verfügbaren "
+"Gib den Betreff der E-Mail-Erinnerung ein. Du kannst die %1$sverfügbaren "
 "Tags%2$s verwenden. "
 
 #: translations/paid-member-subscriptions.catalog.php:1241
 msgid ""
 "Enter the email reminder subject. You can use the %1$savailable tags%2$s. "
 msgstr ""
-"Gib den Betreff der E-Mail-Erinnerung ein. Du kannst die %1$verfügbaren "
+"Gib den Betreff der E-Mail-Erinnerung ein. Du kannst die %1$sverfügbaren "
 "Tags%2$s verwenden. "
 
 #: translations/paid-member-subscriptions.catalog.php:880
@@ -14397,12 +14394,12 @@ msgid "Your VAT Number is too short."
 msgstr "Diese MwSt.-Nummer ist zu kurz."
 
 #: translations/paid-member-subscriptions.catalog.php:113
-#, php-format
+#, no-php-format
 msgid ""
-"Your version of <strong>Paid Member Subscriptions</strong> is not "
-"100% compatible with the <strong>Group Memberships</strong> add-on. Please "
-"update to <strong>Paid Member Subscriptions</strong> version <strong>2.0.7</"
-"strong> or above."
+"Your version of <strong>Paid Member Subscriptions</strong> is not 100% "
+"compatible with the <strong>Group Memberships</strong> add-on. Please update "
+"to <strong>Paid Member Subscriptions</strong> version <strong>2.0.7</strong> "
+"or above."
 msgstr ""
 
 #: translations/paid-member-subscriptions.catalog.php:127
