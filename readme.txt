@@ -3,7 +3,7 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
-Tested up to: 6.5
+Tested up to: 6.6
 Stable tag: 2.12.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -102,7 +102,12 @@ Customize default member emails and setup member messages sent/displayed on cert
 Admin emails can also be customized.
 
 = Free Trial and Sign-up Fees =
-You can configure your subscription to have a free trial period and a sign-up fee, allowing you to have more control on your subscription setup. [Click to view which payment gateways support this feature](https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
+You can configure your subscription to have a free trial period and a sign-up fee, allowing you to have more control on your subscription setup.
+
+= Stripe =
+
+Effortlessly process credit card payments, both one-time and recurring, directly on your website with Stripe. Stripe provides a secure and intuitive payment solution that seamlessly integrates with your WordPress site, ensuring smooth transaction management and an enhanced user experience. 
+Accept a wide range of additional payment methods including Apple Pay, Google Pay, Bancontact, iDeal, Giropay, and more.
 
 = Reports and Exports =
 Whether you prefer to maintain your own records of your members’ database, do custom reports , or you simply need to import records into another service or application, such as MailChimp or Excel, you can do that with Paid Member Subscriptions. Export all member records to a CSV at anytime.
@@ -146,10 +151,10 @@ Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslab
 * [Tax & EU VAT](https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - collect tax or vat from your users depending on their location, with full control over tax rates and who to charge
 * [Group Memberships](https://www.cozmoslabs.com/add-ons/group-memberships/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - sell group subscriptions to your users
 * [PayPal Express](https://www.cozmoslabs.com/add-ons/paypal-express/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept one-time or recurring payments through PayPal Express Checkout
-* [Stripe Gateway](https://www.cozmoslabs.com/add-ons/stripe/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept credit card payments, both one-time and recurring, directly on your website via Stripe
 * [Content Dripping](https://www.cozmoslabs.com/add-ons/content-dripping/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create schedules for your content, making posts or categories available for your members only after a certain time has passed since they signed up for a subscription plan
 * [Multiple Subscriptions per User](https://www.cozmoslabs.com/add-ons/multiple-subscriptions-per-user/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - setup multiple subscription level groups (e.g. Physics, Math) and allow members to sign up for more than one subscription plan, one per group (e.g. Physics Beginner and Math Advanced)
 * [Invoices](https://www.cozmoslabs.com/add-ons/invoices/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - both you and your members will be able to download PDF invoices for each payment that has been completed
+* [Files Restriction](https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-files-restriction/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - secure your valuable content and ensure it reaches only those who have subscribed and paid for access
 
 == The Ultimate Membership Bundle ==
 Combine user registration, memberships, and recurring revenue in one powerful plugin bundle called the [Ultimate Membership Bundle](https://www.cozmoslabs.com/ultimate-membership-bundle/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
