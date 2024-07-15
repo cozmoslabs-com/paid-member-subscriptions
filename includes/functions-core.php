@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
         // Start query string
-        $query_string = "SELECT DISTINCT {$wpdb->users}.ID, {$wpdb->users}.user_login ";
+        $query_string = "SELECT DISTINCT {$wpdb->users}.ID, {$wpdb->users}.user_login, {$wpdb->users}.user_email  ";
 
         // Query string sections
         $query_from   = "FROM {$wpdb->users} ";
@@ -79,7 +79,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         if( !empty( $results ) ) {
             foreach( $results as $result ) {
                 if( ( is_multisite() && is_user_member_of_blog( $result['ID'], $blog_id ) ) || !is_multisite() )
-                    $users[] = array( 'id' => $result['ID'], 'username' => $result['user_login'] );
+                    $users[] = array( 'id' => $result['ID'], 'username' => $result['user_login'], 'user_email' => $result['user_email'] );
             }
         }
 

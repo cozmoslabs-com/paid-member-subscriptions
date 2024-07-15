@@ -93,7 +93,8 @@ if( ! empty( $_POST ) ) {
                                 $users = pms_get_users_non_members();
 
                                 foreach( $users as $user ) {
-                                    echo '<option ' . ( ! empty( $form_data['user_id'] ) ? selected( $form_data['user_id'], $user['id'], false ) : '' ) . ' value="' . esc_attr( $user['id'] ) . '">' . esc_html( apply_filters( 'pms_add_new_member_dropdown_display_name', $user['username'], $user['id'], $form_data ) ) . '</option>';
+                                    $display_name = $user['username'] . ' (' . $user['user_email'] . ')';
+                                    echo '<option ' . ( ! empty( $form_data['user_id'] ) ? selected( $form_data['user_id'], $user['id'], false ) : '' ) . ' value="' . esc_attr( $user['id'] ) . '">' . esc_html( apply_filters( 'pms_add_new_member_dropdown_display_name', $display_name, $user['id'], $form_data ) ) . '</option>';
                                 }
                             ?>
                         </select>

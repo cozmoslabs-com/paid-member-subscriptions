@@ -314,24 +314,31 @@ function pms_payment_error_message_retry( $is_register, $payment_id = 0 ) {
                 $message = sprintf( $message, '', '' );
         //user was logged in automatically
         } else {
-            if ( $payment_id != 0 && pms_get_page( 'account' ) != false ) {
 
-                $payment = pms_get_payment( $payment_id );
+            $account_page = pms_get_page( 'account', true );
 
-                $message = sprintf( __( 'You were logged in, please %sclick here%s to try again.', 'paid-member-subscriptions' ), '<a href="'. pms_get_retry_url( $payment->subscription_id ) .'">', '</a>' );
+            if( !empty( $account_page ) ){
+                if ( $payment_id != 0 ) {
+                    $payment = pms_get_payment( $payment_id );
+
+                    $message = sprintf( __( 'You were logged in, please %sclick here%s to try again.', 'paid-member-subscriptions' ), '<a href="'. pms_get_retry_url( $payment->subscription_id ) .'">', '</a>' );
+                } else
+                    $message = sprintf( __( 'You were logged in, please %sclick here%s to try again.', 'paid-member-subscriptions' ), '<a href="'. $account_page .'">', '</a>' );
 
             } else
                 $message = __( 'You were logged in, please try again.', 'paid-member-subscriptions' );
+
         }
     //user is logged in
     } else {
-
-        $payment = pms_get_payment( $payment_id );
+        $payment   = pms_get_payment( $payment_id );
         $retry_url = pms_get_retry_url( $payment->subscription_id );
 
         if ( $payment_id != 0 && pms_get_page( 'account' ) != false && !empty( $retry_url ) )
             $message = sprintf( __( 'Please %sclick here%s to try again.', 'paid-member-subscriptions' ), '<a href="'. $retry_url .'">', '</a>' );
-        else
+        else if( pms_get_page( 'account' ) != false ){
+            $message = sprintf( __( 'Please %sclick here%s to try again.', 'paid-member-subscriptions' ), '<a href="'. pms_get_page( 'account', true ) .'">', '</a>' );
+        } else
             $message = __( 'Please try again.', 'paid-member-subscriptions' );
 
     }

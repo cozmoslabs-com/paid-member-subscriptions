@@ -16,30 +16,38 @@ function pms_password_strength_checker_html(){
 }
 
 function pms_password_strength_should_load_assets(){
+
     global $post;
-    $post_content = $post->post_content;
-    $current_post_id = $post->ID;
+
+    if( empty( $post->ID ) || empty( $post->post_content ) )
+        return false;
+
+    $post_content         = $post->post_content;
+    $current_post_id      = $post->ID;
     $pms_general_settings = get_option('pms_general_settings');
-    $page_ids = array();
+    $page_ids             = array();
 
     if( !empty( $pms_general_settings ) ){
-        if( isset( $pms_general_settings ) && $pms_general_settings['register_page'] != -1 ){
+
+        if( isset( $pms_general_settings ) && $pms_general_settings['register_page'] != -1 )
             $page_ids[] = $pms_general_settings['register_page'];
-        }
-        if( isset( $pms_general_settings ) && $pms_general_settings['account_page'] != -1 ){
+        
+        if( isset( $pms_general_settings ) && $pms_general_settings['account_page'] != -1 )
             $page_ids[] = $pms_general_settings['account_page'];
-        }
-        if( isset( $pms_general_settings ) && $pms_general_settings['lost_password_page'] != -1 ){
+        
+        if( isset( $pms_general_settings ) && $pms_general_settings['lost_password_page'] != -1 )
             $page_ids[] = $pms_general_settings['lost_password_page'];
-        }
-        if( has_shortcode( $post_content, 'pms-register') ){
+        
+        if( has_shortcode( $post_content, 'pms-register') )
             $page_ids[] = $current_post_id;
-        }
+        
     }
+
     if( !empty( $current_post_id )  && in_array( $current_post_id, $page_ids ) )
         return true;
     else
         return false;
+
 }
 
 //function to check password length check

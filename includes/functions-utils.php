@@ -500,7 +500,7 @@ function pms_should_load_scripts(){
 
     if( empty( $settings ) )
         return true;
-    
+
     if( !isset( $settings['scripts-on-specific-pages-enabled'] ) || $settings['scripts-on-specific-pages-enabled'] != '1' )
         return true;
 
@@ -527,7 +527,7 @@ function pms_should_load_scripts(){
 
     if( !isset( $settings['scripts-on-specific-pages'] ) || empty( $settings['scripts-on-specific-pages'] ) )
         return true;
-    
+
     if( in_array( get_the_ID(), $settings['scripts-on-specific-pages'] ) )
         return true;
 
@@ -556,5 +556,25 @@ function pms_get_generated_errors(){
     }
 
     return $generated_errors;
+
+}
+
+// This adds a wrapper around the account details fields from the form and also makes sure to keep
+// the billing and credit card information sections separate
+add_action( 'pms_register_form_before_fields', 'pms_forms_output_account_details_wrapper_before', 60 );
+function pms_forms_output_account_details_wrapper_before( $atts ){
+
+    echo '<div class="pms-account-section-wrapper">';
+
+    if( $atts['plans_position'] == 'top' || ( function_exists( 'pms_get_active_form_design' ) && in_array( pms_get_active_form_design(), array( 'form-style-1', 'form-style-2', 'form-style-3' ) ) ) ){
+        echo '<h3 class="pms-account-details-title">'. esc_html__('Account Details', 'paid-member-subscriptions') .'</h3>';
+    }
+
+}
+
+add_action( 'pms_register_form_after_fields', 'pms_forms_output_account_details_wrapper_after', 60 );
+function pms_forms_output_account_details_wrapper_after(){
+
+    echo '</div>';
 
 }

@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships, membership level, recurring payments, member, members, subscription plans, restrict content, user payments, paying users, paid users, restrict access, content protection, woocommerce
 Requires at least: 3.1
 Tested up to: 6.6
-Stable tag: 2.12.3
+Stable tag: 2.12.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.12.4 =
+* Fix: Change GDPR Delete button type from submit to button
+* Fix: When a payment fails during a Stripe Setup Intent, show a link for the login form
+* Fix: Resolve compatibility for Stripe payment methods that redirect offsite and the redirect set on a Profile Builder form
+* Fix: A case with Stripe where webhooks were not being processed
+* Fix: Scenario with Stripe where the Customer and Payment Method ids couldn't be changed by the admin
+* Misc: Fix a warning that could appear in some cases
+* Misc: Show users email address alongside their username when listing users to add a new payment or member
+
 = 2.12.3 =
 * Fix: German translation issue that was present in the files we supply with the plugin
 * Fix: Javascript error being triggered when an error happened while trying to process a Setup Intent

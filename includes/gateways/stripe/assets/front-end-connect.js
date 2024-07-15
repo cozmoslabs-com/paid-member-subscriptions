@@ -38,25 +38,25 @@ jQuery( function( $ ) {
         var StripeData = {
             stripeAccount: pms.stripe_connected_account
         }
-    
+
         if( pms.stripe_locale )
             StripeData.locale = pms.stripe_locale
-    
+
         var stripe_appearance = ''
-    
+
         if( pms.pms_elements_appearance_api )
             stripe_appearance = pms.pms_elements_appearance_api
-    
+
         stripe = Stripe( stripe_pk, StripeData )
-    
+
         // This only exists on payment pages that display the payment element
         if( $client_secret && $client_secret.length > 0 )
             elements = stripe.elements({ clientSecret: $client_secret, appearance: stripe_appearance })
-        
+
         // This exists on payment pages and also on the Update Payment Method page
         if ( $client_secret_setup_intent && $client_secret_setup_intent.length > 0 )
             elements_setup_intent = stripe.elements({ clientSecret: $client_secret_setup_intent, appearance: stripe_appearance })
-    
+
         stripeConnectInit()
         stripeConnectUpdatePaymentIntent()
 
@@ -73,7 +73,7 @@ jQuery( function( $ ) {
     var subscription_plan_selector = 'input[name=subscription_plans]'
     var pms_checked_subscription   = $( subscription_plan_selector + '[type=radio]' ).length > 0 ? $( subscription_plan_selector + '[type=radio]:checked' ) : $( subscription_plan_selector + '[type=hidden]' )
 
-    
+
 
     // Update Stripe Payment Intent on subscription plan change
     $(document).on('click', subscription_plan_selector, function ( event ) {
@@ -101,7 +101,7 @@ jQuery( function( $ ) {
     $(document).on( 'input', '#pms_vat_number', function(){
 
         stripeConnectUpdatePaymentIntent()
-        
+
     })
 
     // Show credit card details on the update payment method form
@@ -195,6 +195,11 @@ jQuery( function( $ ) {
         // Add error if credit card was not completed
         if (cardIsEmpty === true ){
             addValidationErrors([{ target: 'credit_card', message: pms.invalid_card_details_error } ], current_button )
+
+            if( typeof paymentSidebarPosition == 'function' ){
+                paymentSidebarPosition()
+            }
+
             return
         }
 
@@ -215,27 +220,28 @@ jQuery( function( $ ) {
 
                 if( response.success == true ){
 
+                    if( data.form_type == 'wppb' ){
+
+                        var return_url = new URL( pms.stripe_return_url )
+
+                        return_url.searchParams.set( 'form_type', 'wppb' )
+                        return_url.searchParams.set( 'form_name', data.form_name )
+
+                        pms.stripe_return_url = return_url.toString()
+
+                    }
+
                     // Handle card setup for a trial subscription
                     if( data.setup_intent && data.setup_intent === true ){
 
-                        // Prompt the user when leaving the page once the payment request has started
-                        //var paymentRequestStarted = true
-
-                        // window.addEventListener('beforeunload', (event) => {
-                        //     if (paymentRequestStarted)
-                        //         event.returnValue = 'Payment is processing, do not close the page'
-                        // })
-
-                        stripe.confirmSetup({ 
-                            elements: elements_setup_intent, 
+                        stripe.confirmSetup({
+                            elements: elements_setup_intent,
                             confirmParams: {
                                 return_url         : pms.stripe_return_url,
                                 payment_method_data: { billing_details: pms_stripe_get_billing_details() }
                             },
-                            redirect: 'if_required', 
+                            redirect: 'if_required',
                         }).then(function(result) {
-
-                            //paymentRequestStarted = false
 
                             // Make request to process payment
                             stripeConnectProcessPayment( result, response, data, current_button )
@@ -245,14 +251,6 @@ jQuery( function( $ ) {
                     // Take the payment if there's no trial
                     } else {
 
-                        // Prompt the user when leaving the page once the payment request has started
-                        //var paymentRequestStarted = true
-
-                        // window.addEventListener('beforeunload', (event) => {
-                        //     if ( paymentRequestStarted )
-                        //         event.returnValue = 'Payment is processing, do not close the page'
-                        // })
-
                         stripe.confirmPayment({
                             elements,
                             confirmParams: {
@@ -261,7 +259,6 @@ jQuery( function( $ ) {
                             },
                             redirect : 'if_required',
                         }).then(function(result){
-                            //paymentRequestStarted = false
 
                             // Make request to process payment
                             stripeConnectProcessPayment( result, response, data, current_button )
@@ -354,7 +351,7 @@ jQuery( function( $ ) {
             }
 
         })
-        
+
     }
 
     function stripeConnectInit(){
@@ -416,11 +413,11 @@ jQuery( function( $ ) {
         // Don't make this call when a Free Trial subscription is selected since we use the prepared SetupIntent
         if ( pms_stripe_is_setup_intents_checkout() )
             return
-        
+
         var submitButton = $('.pms-form .pms-form-submit, .pms-form input[type="submit"], .pms-form button[type="submit"], .wppb-register-user input[type="submit"], .wppb-register-user button[type="submit"]').not('#pms-apply-discount')
-           
+
         var data = stripeConnectGetFormData( submitButton )
-        
+
         data.action             = 'pms_update_payment_intent_connect'
         data.pms_nonce          = $('#pms-stripe-ajax-update-payment-intent-nonce').val()
         data.intent_secret      = $client_secret
@@ -510,10 +507,10 @@ jQuery( function( $ ) {
             $.post(pms.ajax_url, data, function (response) {
 
                 response = JSON.parse(response)
-    
+
                 if( typeof response.redirect_url != 'undefined' && response.redirect_url )
                     window.location.replace( response.redirect_url )
-    
+
             })
 
         })
@@ -798,7 +795,7 @@ jQuery( function( $ ) {
 
         if( $(payment_button).attr('name') == 'pms_update_payment_method' && scrollLocation == '#pms-paygates-wrapper' )
             scrollLocation = '#pms-credit-card-information';
-            
+
         scrollTo( scrollLocation, payment_button )
     }
 

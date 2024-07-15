@@ -483,7 +483,7 @@ body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-f
     align-items: center;
 }
 
-.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen) .chosen-choices .search-field {
+.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen, #restricted_file_types_chosen) .chosen-choices .search-field {
     display: none;
 }
 
@@ -4643,4 +4643,13 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
     #pms-custom-date-range-options .cozmoslabs-form-field-label {
         flex-basis: 140px !important;
     }
+}
+
+/***********************************************************/
+/* Files Restriction
+/***********************************************************/
+#pms-files-restriction-admin-notice{
+    display: flex !important;
+    gap: 5px;
+    align-items: center;
 }

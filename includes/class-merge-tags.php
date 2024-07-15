@@ -55,7 +55,7 @@ Class PMS_Merge_Tags{
             foreach( $merge_tags as $merge_tag ){
                 $tag_value = apply_filters( 'pms_merge_tag_' . $merge_tag, '', $user_info, $subscription_id, $payment_id, $action, $data );
 
-                if( $tag_value != null )
+                if( $tag_value != null && !is_wp_error( $tag_value ) )
                     $text = str_replace( '{{'.$merge_tag.'}}', $tag_value, $text );
                 else
                     $text = str_replace( '{{'.$merge_tag.'}}', '', $text );

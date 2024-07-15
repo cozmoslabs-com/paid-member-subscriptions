@@ -216,12 +216,12 @@
     background: #333333;
 }
 
-.pms-form input[type="submit"]#pms-delete-account {
+.pms-form input[type="button"]#pms-delete-account {
     background: #cb391f;
 }
 
-.pms-form input[type="submit"]#pms-delete-account:hover,
-.pms-form input[type="submit"]#pms-delete-account:focus {
+.pms-form input[type="button"]#pms-delete-account:hover,
+.pms-form input[type="button"]#pms-delete-account:focus {
     background: #e63145;
 }
 

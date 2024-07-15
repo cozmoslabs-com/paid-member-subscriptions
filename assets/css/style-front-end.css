@@ -625,3 +625,29 @@ ul.pms-field-section {
     background-color: #C3FF88;
     border-color: #8DFF1C;
 }
+
+.pms-form-fields-wrapper .pms-field-subscriptions .pms-subscriptions-list-title,
+.pms-form-fields-wrapper .pms-account-details-title {
+    margin-bottom: 30px;
+}
+
+.pms-register-form-top-plans .pms-form-fields-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.pms-register-form-top-plans .pms-form-fields-wrapper .pms-field-subscriptions {
+    order: 1;
+}
+
+.pms-register-form-top-plans .pms-form-fields-wrapper .pms-credit-card-information {
+    order: 2;
+}
+
+.pms-register-form-top-plans .pms-form-fields-wrapper .pms-account-section-wrapper {
+    order: 3;
+}
+
+.pms-register-form-top-plans .pms-form-fields-wrapper .pms-billing-details:not(#pms_edit-profile-form .pms-billing-details, #pms-update-payment-method-form .pms-billing-details) {
+    order: 4;
+}

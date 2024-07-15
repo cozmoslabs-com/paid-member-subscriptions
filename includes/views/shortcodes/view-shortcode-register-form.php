@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
 
-<form id="pms_<?php echo esc_attr( $form_name ); ?>-form" class="pms-form" method="POST">
+<form id="pms_<?php echo esc_attr( $form_name ); ?>-form" class="pms-form <?php echo $atts['plans_position'] == 'top' ? 'pms-register-form-top-plans' : ''; ?>" method="POST">
 
     <?php do_action( 'pms_' . $form_name . '_form_top', $atts ); ?>
 
@@ -28,16 +28,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         $field_errors = pms_errors()->get_error_messages('subscription_plans');
         echo '<li class="pms-field pms-field-subscriptions ' . (!empty($field_errors) ? 'pms-field-error' : '') . '">';
 
-        $subscription_plans = pms_get_subscription_plans();
+            do_action( 'pms_' . $form_name . '_form_subscription_plans_field_before', $atts );
 
-        // Add nonce field when subscription_plans='none' (to allow users to register without becoming members, selecting a subscription plan)
-        if( empty( $subscription_plans ) || ( isset( $atts['subscription_plans'][0] ) && ( strtolower($atts['subscription_plans'][0]) == 'none' ) ) )
+            $subscription_plans = pms_get_subscription_plans();
 
-            wp_nonce_field( 'pms_register_user_no_subscription_nonce','pmstkn2');
+            // Add nonce field when subscription_plans='none' (to allow users to register without becoming members, selecting a subscription plan)
+            if( empty( $subscription_plans ) || ( isset( $atts['subscription_plans'][0] ) && ( strtolower($atts['subscription_plans'][0]) == 'none' ) ) )
 
-        else
+                wp_nonce_field( 'pms_register_user_no_subscription_nonce','pmstkn2');
 
-            echo pms_output_subscription_plans( $atts['subscription_plans'], $atts['exclude'], false, (isset($atts['selected']) ? trim($atts['selected']) : ''), 'register' );//phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
+            else
+
+                echo pms_output_subscription_plans( $atts['subscription_plans'], $atts['exclude'], false, (isset($atts['selected']) ? trim($atts['selected']) : ''), 'register' );//phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
+
+            do_action( 'pms_' . $form_name . '_form_subscription_plans_field_after', $atts );
 
         echo '</li>';
 

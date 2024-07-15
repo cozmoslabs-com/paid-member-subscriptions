@@ -46,6 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'If you select "Template" the template for the restricted post/page will change to the selected template in the Restriction Template section below.', 'paid-member-subscriptions' ); ?></p>
 
     </div>
+    <?php do_action('pms_content_restriction_extra_settings', $this->options ); ?>
 </div>
 
 <!-- Redirect URL -->

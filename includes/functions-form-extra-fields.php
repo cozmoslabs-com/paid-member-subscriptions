@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * at the bottom of each form
  *
  */
-function pms_add_form_extra_fields() {
+function pms_add_form_extra_fields( $atts = array() ) {
 
     /**
      * Retrieve the name of the current action; Useful to filter extra fields per form
@@ -19,6 +19,17 @@ function pms_add_form_extra_fields() {
 
     switch ($hook) {
         case 'pms_register_form_bottom' :
+
+			if( isset( $atts['plans_position'] ) && $atts['plans_position'] == 'top' )
+				return;
+
+            $form_name = 'register';
+            break;
+        case 'pms_register_form_before_fields' :
+
+			if( !isset( $atts['plans_position'] ) || $atts['plans_position'] != 'top' )
+				return;
+
             $form_name = 'register';
             break;
         case 'pms_get_output_payment_gateways' :
@@ -51,7 +62,7 @@ function pms_add_form_extra_fields() {
 				$member_subscription = pms_get_member_subscription( absint( $_GET['subscription_id'] ) );
 
 				if( !empty( $member_subscription->payment_gateway ) ){
-				
+
 					// there's no update payment method for the older Stripe gateway but we would still like these users to be able to update,
 					// so we send them to the current active Stripe gateway
 					if( $member_subscription->payment_gateway == 'stripe' ){
@@ -126,6 +137,7 @@ function pms_add_form_extra_fields() {
 }
 
 add_action( 'pms_register_form_bottom', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_register_form_before_fields', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_new_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_upgrade_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_renew_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );

@@ -47,7 +47,7 @@ jQuery( function($) {
 
     if( $.fn.chosen != undefined ) {
 
-        $('.pms-chosen').chosen();
+        $('.pms-chosen').chosen({ search_contains: true });
 
     }
 

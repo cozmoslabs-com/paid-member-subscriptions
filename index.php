@@ -3,16 +3,16 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.12.3
+ * Version: 2.12.4
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * Domain Path: /translations
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 9.0
- * Elementor tested up to: 3.22.2
- * Elementor Pro tested up to: 3.22.2
+ * WC tested up to: 9.1
+ * Elementor tested up to: 3.23.0
+ * Elementor Pro tested up to: 3.23.0
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.12.3' );
+        define( 'PMS_VERSION', '2.12.4' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

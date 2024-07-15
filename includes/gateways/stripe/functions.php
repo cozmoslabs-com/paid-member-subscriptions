@@ -66,17 +66,6 @@ function pms_stripe_get_connect_account(){
 
 }
 
-// function pms_stripe_connect_payment_request_enabled(){
-
-//     $payments_settings = get_option( 'pms_payments_settings' );
-
-//     if( isset( $payments_settings['stripe_connect_payment_request'] ) && $payments_settings['stripe_connect_payment_request'] == 'enabled' )
-//         return true;
-
-//     return false;
-    
-// }
-
 function pms_stripe_connect_get_account_country(){
 
     return get_option( 'pms_stripe_connect_account_country', false );
@@ -110,7 +99,7 @@ function pms_stripe_calculate_payment_amount( $subscription_plan ){
 
         $target = isset( $_POST['pmstkn_original'] ) ? 'pmstkn_original' : 'pmstkn';
 
-        $form_location = PMS_Form_Handler::get_request_form_location( $target );            
+        $form_location = PMS_Form_Handler::get_request_form_location( $target );
 
         if( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) ){
 
@@ -284,7 +273,7 @@ function pms_stripe_validate_checkout(){
             // We only validate the subscription plans if MSPU is active since the user can have multiple plans
             if( !class_exists( 'PMS_IN_MSU_Form_Handler' ) )
                 PMS_Form_Handler::validate_new_subscription_form();
-                
+
             PMS_Form_Handler::validate_subscription_plans();
             PMS_Form_Handler::validate_subscription_plans_member_eligibility();
 
@@ -497,5 +486,16 @@ function pms_stripe_is_domain_registered_for_payment_methods(){
     $gateway->init();
 
     return $gateway->domain_is_registered();
-    
+
+}
+
+function pms_stripe_get_meta_entry( $meta_key, $meta_value ){
+    global $wpdb;
+
+    $result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}pms_member_subscriptionmeta WHERE meta_key = %s AND meta_value = %s", $meta_key, $meta_value ), 'ARRAY_A' );
+
+    if( !empty( $result ) )
+        return $result;
+
+    return false;
 }

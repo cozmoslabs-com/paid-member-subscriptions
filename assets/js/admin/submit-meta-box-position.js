@@ -240,7 +240,7 @@ jQuery( document ).ready(function(){
         let selector = "body[class*='paid-member-subscriptions_page_'] " + notice + ", " + "body[class*='post-type-pms-'] " + notice;
 
         jQuery(selector).each(function () {
-            jQuery(this).css('display', 'block');
+            this.style.setProperty( 'display', 'block', 'important' );
         });
     });
 

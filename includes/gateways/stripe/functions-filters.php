@@ -32,7 +32,7 @@ function pms_stripe_filter_active_payment_gateways( $payment_gateways ){
 add_filter( 'pms_admin_display_payment_gateways', 'pms_stripe_filter_active_payment_gateways', 20, 2 );
 
 /**
- * When Stripe Connect is active and the plugin tries to charge an user through the 
+ * When Stripe Connect is active and the plugin tries to charge an user through the
  * regular Charges API or Payment Intents API, switch the charge to the Connect implementation
  */
 add_filter( 'pms_get_payment_gateway_class_name', 'pms_stripe_connect_filter_payment_gateway', 30, 3 );
@@ -130,7 +130,7 @@ function pms_stripe_connect_payment_logs_system_error_messages( $message, $log )
 }
 
 /**
- * Adds extra system Subscription Logs messages 
+ * Adds extra system Subscription Logs messages
  *
  * @param  string  $message    error message
  * @param  array   $log        array with data about the current error

@@ -78,7 +78,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             $users = get_users();
 
                             foreach( $users as $user ) {
-                                echo '<option ' . ( ! empty( $form_data['pms-member-username'] ) ? selected( $form_data['pms-member-username'], $user->ID, false ) : '' ) . ' value="' . esc_attr( $user->ID ) . '">' . esc_html( apply_filters( 'pms_add_new_payment_dropdown_display_name', $user->data->user_login, $user->ID, $form_data ) ) . '</option>';
+                                $display_name = $user->data->user_login . ' (' . $user->data->user_email . ')';
+                                echo '<option ' . ( ! empty( $form_data['pms-member-username'] ) ? selected( $form_data['pms-member-username'], $user->ID, false ) : '' ) . ' value="' . esc_attr( $user->ID ) . '">' . esc_html( apply_filters( 'pms_add_new_payment_dropdown_display_name', $display_name, $user->ID, $form_data ) ) . '</option>';
                             }
                             ?>
                         </select>

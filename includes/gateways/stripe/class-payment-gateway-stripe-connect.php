@@ -318,7 +318,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     'success'      => true,
                     'redirect_url' => $this->get_success_redirect_url( $form_location ),
                 );
-    
+
                 if( wp_doing_ajax() ){
                     echo json_encode( $data );
                     die();
@@ -504,7 +504,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             // This needs to be treated as an error by the plugin because an account is created regardless if this window is closed or not
 
             if( wp_doing_ajax() && isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'pms_stripe_connect_process_payment' && empty( $_REQUEST['payment_intent'] ) ){
-                
+
                 $data = array(
                     'success'      => false,
                     'redirect_url' => $this->get_payment_error_redirect_url(),
@@ -655,7 +655,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         if( empty( $_POST['pms_stripe_connect_payment_intent'] ) )
             return;
-    
+
         // Save intent ID to Payment
         $payment_intent_id = explode( '_secret_', sanitize_text_field( $_POST['pms_stripe_connect_payment_intent'] ) );
 
@@ -673,6 +673,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             Stripe::setApiKey( $this->secret_key );
 
             $form_location = PMS_Form_Handler::get_request_form_location();
+
+            if( empty( $form_location ) && !is_user_logged_in() )
+                $form_location = 'register';
 
             $args = array(
                 'metadata' => apply_filters( 'pms_stripe_transaction_metadata', array(
@@ -702,11 +705,15 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             if( ( !PMS_Form_Handler::checkout_has_trial() || ( PMS_Form_Handler::checkout_has_trial() && $subscription_plan->has_sign_up_fee() ) ) && !empty( $payment_intent_id[0] ) && !empty( $amount ) ){
 
+                // Set the initial payment intent ID on the subscription.
+                // This is updated each the time user does a manual action on the subscription
+                pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_initial_payment_intent', $payment_intent_id[0] );
+
                 // Set Customer if necessary
                 try {
 
                     $payment_intent_data = PaymentIntent::retrieve( $payment_intent_id[0] );
-        
+
                 } catch( Exception $e ){ die(); }
 
                 if( empty( $payment_intent_data->customer ) ){
@@ -727,11 +734,15 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $setup_intent_id = explode( '_secret_', sanitize_text_field( $_POST['pms_stripe_connect_setup_intent'] ) );
 
+                // Set the initial payment intent ID on the subscription.
+                // This is updated each the time user does a manual action on the subscription
+                pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_initial_payment_intent', $setup_intent_id[0] );
+
                 // Set Customer if necessary
                 try {
 
                     $payment_intent_data = SetupIntent::retrieve( $setup_intent_id[0] );
-        
+
                 } catch( Exception $e ){ die(); }
 
                 if( empty( $payment_intent_data->customer ) ){
@@ -881,7 +892,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     );
 
                     include_once( WPPB_PLUGIN_DIR . '/front-end/class-formbuilder.php' );
-                
+
                     $form = new Profile_Builder_Form_Creator( $args );
 
                     if( ! current_user_can( 'manage_options' ) && $form->args['form_type'] != 'edit_profile' && isset( $_POST['custom_field_user_role'] ) ) {
@@ -904,10 +915,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                         $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'The account %1s has been successfully created!', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
 
                         $wppb_admin_approval = wppb_get_admin_approval_option_value();
-    
+
                         if( $wppb_admin_approval == 'yes' )
                             $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'Before you can access your account %1s, an administrator has to approve it. You will be notified via email.', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
-                        
+
                         $redirect_url = add_query_arg( 'pms_wppb_custom_success_message', true, $redirect_url );
                     } else {
                         $redirect_url = $wppb_redirect_url;
@@ -923,7 +934,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 } else
                     $message = apply_filters( 'pms_register_subscription_success_message', __( 'Congratulations, you have successfully created an account.', 'paid-member-subscriptions' ) );
-                
+
                 $redirect_url = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pmsscsmsg' => base64_encode( $message ) ), $redirect_url );
 
             // Redirecting to a new page
@@ -931,7 +942,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 // Take into account autologin from the WPPB form
                 if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
-        
+
                     $args = array(
                         'form_type'               => 'register',
                         'form_name'               => isset( $_REQUEST['form_name'] ) ? sanitize_text_field( $_REQUEST['form_name'] ) : '',
@@ -941,8 +952,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     );
 
                     include_once( WPPB_PLUGIN_DIR . '/front-end/class-formbuilder.php' );
-                
+
                     $form = new Profile_Builder_Form_Creator( $args );
+
+                    if( !empty( $form->args['redirect_url'] ) )
+                        $redirect_url = $form->args['redirect_url'];
 
                     if( !empty( $form->args['login_after_register'] ) && strtolower( $form->args['login_after_register'] ) == 'yes' ){
                         $redirect_url = $this->get_wppb_autologin_url( $redirect_url );
@@ -982,12 +996,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $payment = pms_get_payment( $this->payment_id );
 
         if( empty( $payment->user_id ) )
-            return $redirect_url;        
+            return $redirect_url;
 
         $user = get_userdata( $payment->user_id );
 
         if( !$user )
-        return $redirect_url;   
+        return $redirect_url;
 
         $nonce = wp_create_nonce( 'autologin-'. $user->ID .'-'. (int)( time() / 60 ) );
 
@@ -1347,7 +1361,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         // If this is a subscription renewal, skip processing if it was already processed
         if( $form_location == 'renew_subscription' ){
-            
+
             $renewal_status = pms_get_member_subscription_meta( $subscription->id, 'pms_subscription_renewal_' . $this->payment_id, true );
 
             if( $renewal_status == 'finished' )
@@ -1386,7 +1400,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             if( $is_recurring && !empty( $checkout_amount ) ){
                 //NOTE: stripe checkout amount is usually in cents, but for some currencies the checkout amount is actually the value that we want to charge
                 $zero_decimal_currencies = $this->get_zero_decimal_currencies();
-                
+
                 $currency = pms_get_active_currency();
 
                 if( in_array( $currency, $zero_decimal_currencies ) ){
@@ -1828,7 +1842,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 if( !empty( $alternative_payment_method ) )
                     $payment_method = $alternative_payment_method;
-                
+
             }
 
 
@@ -1843,7 +1857,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     }
 
     /**
-     * This method checks the payment methods of a charge and if it's different than card, 
+     * This method checks the payment methods of a charge and if it's different than card,
      * it returns the payment method that can be used for future payments
      */
     private function get_alternative_payment_method( $latest_charge ){
@@ -2021,12 +2035,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             return $args;
 
         $account_country      = pms_stripe_connect_get_account_country();
-        $restricted_countries = array( 
-            'AG', 'AL', 'AM', 'AO', 'AR', 'AZ', 'BA', 'BB', 'BD', 'BF', 'BH', 'BJ', 'BN', 'BO', 'BR', 'BS', 'BT', 'BW', 'BZ', 'CI', 
-            'CL', 'CO', 'CR', 'CV', 'DJ', 'DM', 'DO', 'DZ', 'EC', 'EG', 'ET', 'FJ', 'FM', 'GA', 'GD', 'GE', 'GH', 'GM', 'GN', 'GQ', 
-            'GT', 'GY', 'HN', 'ID', 'IL', 'IN', 'IS', 'JM', 'JO', 'KE', 'KG', 'KH', 'KI', 'KR', 'KW', 'KZ', 'LA', 'LC', 'LK', 'LS', 
-            'MA', 'MC', 'MD', 'ME', 'MG', 'MH', 'MK', 'MN', 'MO', 'MR', 'MU', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NE', 'NG', 'OM', 'PA', 
-            'PE', 'PG', 'PH', 'PK', 'PY', 'QA', 'RS', 'RW', 'SA', 'SB', 'SC', 'SL', 'SM', 'SN', 'SR', 'SV', 'TG', 'TH', 'TJ', 'TL', 
+        $restricted_countries = array(
+            'AG', 'AL', 'AM', 'AO', 'AR', 'AZ', 'BA', 'BB', 'BD', 'BF', 'BH', 'BJ', 'BN', 'BO', 'BR', 'BS', 'BT', 'BW', 'BZ', 'CI',
+            'CL', 'CO', 'CR', 'CV', 'DJ', 'DM', 'DO', 'DZ', 'EC', 'EG', 'ET', 'FJ', 'FM', 'GA', 'GD', 'GE', 'GH', 'GM', 'GN', 'GQ',
+            'GT', 'GY', 'HN', 'ID', 'IL', 'IN', 'IS', 'JM', 'JO', 'KE', 'KG', 'KH', 'KI', 'KR', 'KW', 'KZ', 'LA', 'LC', 'LK', 'LS',
+            'MA', 'MC', 'MD', 'ME', 'MG', 'MH', 'MK', 'MN', 'MO', 'MR', 'MU', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NE', 'NG', 'OM', 'PA',
+            'PE', 'PG', 'PH', 'PK', 'PY', 'QA', 'RS', 'RW', 'SA', 'SB', 'SC', 'SL', 'SM', 'SN', 'SR', 'SV', 'TG', 'TH', 'TJ', 'TL',
             'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UY', 'UZ', 'VC', 'VN', 'WS', 'ZA', 'ZM' );
 
         if( in_array( $account_country, $restricted_countries ) )
@@ -2067,10 +2081,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $plan_fingerprints = get_option( 'pms_used_trial_cards_' . $subscription_plan->id, false );
                 $payment_method    = PaymentMethod::retrieve( $payment_method );
 
-                if( $plan_fingerprints == false )
-                    $plan_fingerprints = array( $payment_method->card->fingerprint );
-                else
-                    $plan_fingerprints[] = $payment_method->card->fingerprint;
+                if( !empty( $payment_method->card->fingerprint ) ){
+                    if( $plan_fingerprints == false )
+                        $plan_fingerprints = array( $payment_method->card->fingerprint );
+                    else
+                        $plan_fingerprints[] = $payment_method->card->fingerprint;
+                }
 
                 update_option( 'pms_used_trial_cards_' . $subscription_plan->id, $plan_fingerprints, false );
 

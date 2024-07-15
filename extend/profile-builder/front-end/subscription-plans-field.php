@@ -164,6 +164,9 @@ function pms_pb_save_subscription_plans_value( $field, $user_id, $request_data, 
     if( $pms_already_processed_subscription_field )
         return;
 
+    if( empty( $user_id ) || is_wp_error( $user_id ) )
+        return;
+
     // Prepare user data
     $user_data = PMS_Form_Handler::get_request_member_data( $user_id );
 

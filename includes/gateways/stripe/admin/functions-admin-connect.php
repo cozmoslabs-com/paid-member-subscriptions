@@ -185,7 +185,17 @@ function pms_stripe_add_payment_gateway_admin_subscription_fields( $subscription
     if( !function_exists( 'pms_get_member_subscription_meta' ) )
         return;
 
-	if( !in_array( $gateway_slug, array( 'stripe', 'stripe_connect', 'stripe_intents' ) ) )
+	$target_gateways = array( 'stripe', 'stripe_connect', 'stripe_intents' );
+
+	// Only add fields for the current gateway of the subscription
+	if( !empty( $subscription_id ) ){
+		$subscription = pms_get_member_subscription( $subscription_id );
+
+		if( $gateway_slug != $subscription->payment_gateway || !in_array( $subscription->payment_gateway, $target_gateways ) )
+        	return;
+	}
+
+	if( !in_array( $gateway_slug, $target_gateways ) )
         return;
 
     // Set card id value

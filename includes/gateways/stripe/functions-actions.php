@@ -16,7 +16,7 @@ function pms_stripe_enqueue_front_end_scripts(){
 
     if( !in_array( 'stripe_connect', $active_gateways ) )
         return;
-        
+
     wp_enqueue_script( 'pms-stripe-js', 'https://js.stripe.com/v3/', array( 'jquery' ) );
 
     wp_enqueue_style( 'pms-stripe-style', PMS_PLUGIN_DIR_URL . 'includes/gateways/stripe/assets/pms-stripe.css', array(), PMS_VERSION );
@@ -187,31 +187,58 @@ function pms_stripe_connect_handle_payment_method_return_url(){
     if( !isset( $_GET['pms_stripe_connect_return_url'] ) || $_GET['pms_stripe_connect_return_url'] != 1 )
         return;
 
-    if( empty( $_GET['payment_intent'] ) )
+    $payment_intent_id = false;
+
+    if( !empty( $_GET['payment_intent'] ) )
+        $payment_intent_id = sanitize_text_field( $_GET['payment_intent'] );
+    else if( !empty( $_GET['setup_intent'] ) )
+        $payment_intent_id = sanitize_text_field( $_GET['setup_intent'] );
+
+    if( empty( $payment_intent_id ) )
         return;
 
-    $payment = pms_get_payments( array( 'transaction_id' => sanitize_text_field( $_GET['payment_intent'] ) ) );
+    $payment = pms_get_payments( array( 'transaction_id' => $payment_intent_id ) );
 
-    if( empty( $payment[0] ) )
+    if( empty( $payment ) || empty( $payment[0] ) ){
+        $payment_id = 0;
+
+        // Try to find a subscription with this intent ID
+        $subscription_meta = pms_stripe_get_meta_entry( 'pms_stripe_initial_payment_intent', $payment_intent_id );
+
+        if( !empty( $subscription_meta[0] ) && !empty( $subscription_meta[0]['member_subscription_id'] ) )
+            $subscription_id = absint( $subscription_meta[0]['member_subscription_id'] );
+
+    } else {
+
+        if( $payment->status[0] == 'completed' )
+            return;
+
+        $payment_id      = $payment[0]->id;
+        $subscription_id = $payment[0]->member_subscription_id;
+
+    }
+
+    if( empty( $subscription_id ) )
         return;
 
-    $payment = $payment[0];
-
-    if( $payment->status == 'completed' )
-        return;
+    // Setup the global variables necessary for the class
+    if( isset( $_GET['setup_intent'] ) ){
+        $_REQUEST['setup_intent']   = true;
+        $_REQUEST['payment_intent'] = $payment_intent_id;
+    }
 
     $gateway = new PMS_Payment_Gateway_Stripe_Connect();
     $gateway->init();
-    
-    $response = $gateway->process_payment( $payment->id, $payment->member_subscription_id );
-    
+
+    $response = $gateway->process_payment( $payment_id, $subscription_id );
+
     if( !empty( $response['redirect_url'] ) ){
         wp_redirect( $response['redirect_url'] );
         die();
     }
-    
+
     return;
-    
+
 }
 
 add_filter( 'pms_request_form_location', 'pms_stripe_filter_request_form_location', 20, 2 );
@@ -219,7 +246,7 @@ function pms_stripe_filter_request_form_location( $location, $request ){
 
     if( !wp_doing_ajax() )
         return $location;
-    
+
     if( !isset( $request['form_type'] ) )
         return $location;
 
@@ -260,7 +287,7 @@ function pms_stripe_reorder_fields_when_doing_ajax_requests( $fields, $form_args
 
             if( !empty( $plans ) )
                 $fields = array_merge( $fields, $plans );
-            
+
         }
 
     }
@@ -294,7 +321,7 @@ function pms_stripe_process_wppb_checkout(){
 
         // Process is started here, it gets completed by the PMS handler that gets triggered when the Subscription Plans field is saved
         $user_id = $form->wppb_save_form_values( $_REQUEST );
-    
+
         do_action( 'wppb_after_saving_form_values', $_REQUEST, $form->args );
 
     } else {
@@ -317,7 +344,7 @@ function pms_stripe_wppb_register_success_message( $content ){
     if( isset( $_REQUEST['pmsscscd'] ) && isset( $_REQUEST['pmsscsmsg'] ) ){
         $message_code =  base64_decode( sanitize_text_field( $_REQUEST['pmsscscd'] ) );
         $message      =  base64_decode( sanitize_text_field( $_REQUEST['pmsscsmsg'] ) );
-        
+
         return '<p class="alert wppb-success" id="wppb_form_general_message">' . $message . '</p>';
     }
 
