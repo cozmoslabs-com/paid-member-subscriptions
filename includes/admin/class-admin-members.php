@@ -821,6 +821,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'admin_note':
                 $message = sprintf( '[%s] %s', ucwords( $this->get_display_name( !empty( $log['data']['who'] ) ? $log['data']['who'] : '' ) ), $log['data']['note'] );
                 break;
+            case 'admin_subscription_renewed_manually':
+                $message = __( 'The subscription was renewed by the admin using the manual/offline gateway.', 'paid-member-subscriptions' );
+                break;
             case 'subscription_canceled_user_deletion':
                 $message = sprintf( __( 'Subscription canceled because user was deleted by <strong>%s</strong>.', 'paid-member-subscriptions' ), ucwords( $this->get_display_name( !empty( $log['data']['who'] ) ? $log['data']['who'] : '' ) ) );
                 break;

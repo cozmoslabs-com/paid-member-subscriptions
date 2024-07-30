@@ -98,7 +98,6 @@ jQuery(document).ready(function($) {
         else $('#pms-group-memberships-addon-notice').hide();
     });
 
-
     /*
      * Initialise chosen
      *

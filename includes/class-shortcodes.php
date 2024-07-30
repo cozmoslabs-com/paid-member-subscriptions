@@ -139,7 +139,7 @@ Class PMS_Shortcodes {
         } else {
 
             if( !$users_can_register && $atts['block'] !== 'true' ) {
-                echo '<p>' . esc_html__( 'Only an administrator can add new users.', 'paid-member-subscriptions' ) . '</p>';
+                echo '<p class="pms-alert" >' . esc_html__( 'Only an administrator can add new users.', 'paid-member-subscriptions' ) . '</p>';
             } else {
 
                 if( !pms_success()->get_message( 'subscription_plans' ) )
@@ -213,7 +213,7 @@ Class PMS_Shortcodes {
         $output = ob_get_contents();
         ob_end_clean();
 
-        return $output;
+        return apply_filters( 'pms_subscriptions_form_content', $output, $atts );
 
     }
 

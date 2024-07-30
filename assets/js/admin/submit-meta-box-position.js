@@ -222,14 +222,10 @@ jQuery( document ).ready(function(){
         });
     }
 
-});
-
-
-/**
- *  Display initially hidden admin notices, after the scripts have been loaded
- *
- * */
-jQuery( document ).ready(function(){
+    /**
+     *  Display initially hidden admin notices, after the scripts have been loaded
+     *
+     * */
 
     let noticeTypes = [
         ".error",
@@ -243,5 +239,13 @@ jQuery( document ).ready(function(){
             this.style.setProperty( 'display', 'block', 'important' );
         });
     });
+
+    // Remove Lost Connection notice from autosave. Not necessary for us
+    // This started appearing around start of 2024, then again in August but this time with !impotant and it couldn't be overwriten through CSS
+    if( jQuery( '#lost-connection-notice' ).length > 0 )
+        jQuery( '#lost-connection-notice' ).remove()
+
+    if( jQuery( '#local-storage-notice' ).length > 0 )
+        jQuery( '#local-storage-notice' ).remove()
 
 });

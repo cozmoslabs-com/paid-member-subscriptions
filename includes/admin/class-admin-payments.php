@@ -308,7 +308,11 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
                                         $member_subscription->update( $data );
 
-                                        pms_add_member_subscription_log( $member_subscription->id, 'admin_subscription_activated_payments' );
+                                        if( $member_subscription_status === 'active' )
+                                            pms_add_member_subscription_log( $member_subscription->id, 'admin_subscription_renewed_manually' );
+                                        else
+                                            pms_add_member_subscription_log( $member_subscription->id, 'admin_subscription_activated_payments' );
+
                                     }
                                 }
                             } else {
