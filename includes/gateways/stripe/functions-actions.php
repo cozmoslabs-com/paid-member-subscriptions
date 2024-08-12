@@ -210,7 +210,7 @@ function pms_stripe_connect_handle_payment_method_return_url(){
 
     } else {
 
-        if( $payment->status[0] == 'completed' )
+        if( $payment[0]->status == 'completed' )
             return;
 
         $payment_id      = $payment[0]->id;

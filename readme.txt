@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
 Tested up to: 6.6
-Stable tag: 2.12.5
+Stable tag: 2.12.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.12.6 =
+* Fix: Issue with WYSIWYG element toolbar from some back-end fields displaying incorrectly
+* Fix: Issue with Stripe payment methods that redirect offsite
+* Fix: A PHP 8.2 notice that could appear in some cases
+* Misc: Add a filter the discount code field value: pms_discount_code_field_value
+
 = 2.12.5 =
 * Fix: A scenario where sign-up fees weren't applied to new users with Stripe
 * Misc: Add a renewal log type when an admin manually renews a subscription

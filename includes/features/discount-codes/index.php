@@ -180,6 +180,8 @@ function pms_in_dc_output_discount_box( $output, $include, $exclude_id_group, $m
 
     }
 
+    $discount_code_value = apply_filters( 'pms_discount_code_field_value', $discount_code_value );
+
     // Return the discount code field only if we have paid plans
     if( $total_price !== 0 ) {
         $discount_output  = '<div id="pms-subscription-plans-discount">';

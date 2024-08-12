@@ -82,7 +82,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
         } else {
 
-            echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . sprintf( esc_html__( 'You do not have any active Subscription Plans yet. Please create them <a href="%s">here</a>.', 'paid-member-subscriptions' ), esc_url( admin_url( 'edit.php?post_type=pms-subscription' ) ) ) . '</p>';
+            echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . wp_kses_post( sprintf( __( 'You do not have any active Subscription Plans yet. Please create them <a href="%s">here</a>.', 'paid-member-subscriptions' ), esc_url( admin_url( 'edit.php?post_type=pms-subscription' ) ) ) ) . '</p>';
 
         }
     }

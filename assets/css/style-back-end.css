@@ -1038,8 +1038,9 @@ body[class*="post-type-pms-"] .submitdelete:focus,
 .cozmoslabs-wysiwyg-wrapper .wp-editor-container .mce-toolbar-grp,
 .cozmoslabs-wysiwyg-wrapper .quicktags-toolbar {
     background-color: #ffffff;
-    padding: 0 15px;
-    height: 90px;
+    padding: 15px;
+    /*padding: 0 15px;*/
+    /*height: 90px;*/
     display: flex;
     align-items: center;
 }
@@ -2356,8 +2357,8 @@ body[class*="post-type-pms-"] .page-title-action {
     cursor: pointer;
 }
 
-body[class*="_page_pms-"] .button:not(.button-primary, .cozmoslabs-wysiwyg-wrapper .insert-media, .pagination-links .button),
-body[class*="post-type-pms-"] .button:not(.button-primary, .cozmoslabs-wysiwyg-wrapper .insert-media, .pagination-links .button) {
+body[class*="_page_pms-"] .button:not(.button-primary, .cozmoslabs-wysiwyg-wrapper .insert-media, .cozmoslabs-wysiwyg-wrapper .ed_button, .pagination-links .button),
+body[class*="post-type-pms-"] .button:not(.button-primary, .cozmoslabs-wysiwyg-wrapper .insert-media, .cozmoslabs-wysiwyg-wrapper .ed_button, .pagination-links .button) {
     height: 40px;
 }
 

@@ -1049,7 +1049,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         $currency = pms_get_currency_symbol( empty( $currency ) ? pms_get_active_currency() : $currency );
 
         // format number based on current locale with 2 decimals
-        $price = number_format_i18n( $price, 2 );
+        $price = number_format_i18n( (float)$price, 2 );
 
         // remove any decimal 0s that are irrelevant; will match: x,00, x.00 and also x,10 or x.10
         if( ( !isset( $settings['price-display-format'] ) && apply_filters( 'pms_format_price_trim_zeroes', true ) ) || ( isset( $settings['price-display-format'] ) && $settings['price-display-format'] == 'without_insignificant_zeroes' ) )
