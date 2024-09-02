@@ -27,6 +27,8 @@
             <div class="pms-setup-newsletter__success">
                 <?php esc_html_e( 'Please check your email to confirm the subscription.', 'paid-member-subscriptions' ) ?>
             </div>
+
+            <input type="hidden" id="pms_nonce" name="pms_nonce" value="<?php echo esc_attr( wp_create_nonce( 'dismiss_setup_wizard_newsletter_subscribe' ) ); ?>" />
         </div>
     <?php endif; ?>
 

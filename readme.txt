@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
 Tested up to: 6.6
-Stable tag: 2.12.6
+Stable tag: 2.12.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.12.7 =
+* Fix: Admin bar setting to take into account individual user admin bar settings
+* Fix: Small security change for a Setup Wizard action
+* Misc: The Stripe Payments Element locale is now set to the website locale. 
+* Misc: Add a spinner before the Stripe form loads
+
 = 2.12.6 =
 * Fix: Issue with WYSIWYG element toolbar from some back-end fields displaying incorrectly
 * Fix: Issue with Stripe payment methods that redirect offsite

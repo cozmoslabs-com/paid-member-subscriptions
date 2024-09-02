@@ -1528,10 +1528,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $output = '';
 
-            // if( pms_stripe_connect_payment_request_enabled() )
-            //     $output .= '<div id="payment-request-button"></div>';
+            $output .= '<div class="pms-spinner__holder"><div class="pms-spinner"></div></div>';
 
-            $output .= '<div id="'. esc_attr( $id ) .'"></div>';
+            $output .= '<div id="'. esc_attr( $id ) .'" style="display:none"></div>';
 
         } else
             $output = '<div id="'. esc_attr( $id ) .'">Before you can accept payments, you need to connect your Stripe Account by going to Dashboard -> Paid Member Subscriptions -> Settings -> <a href="'.esc_url( admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) ).'">Payments</a></div>';

@@ -651,3 +651,32 @@ ul.pms-field-section {
 .pms-register-form-top-plans .pms-form-fields-wrapper .pms-billing-details:not(#pms_edit-profile-form .pms-billing-details, #pms-update-payment-method-form .pms-billing-details) {
     order: 4;
 }
+
+.pms-spinner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid transparent;
+    border-bottom-color: #0056ba;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+.pms-spinner__holder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 80px;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} 

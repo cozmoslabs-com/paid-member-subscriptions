@@ -401,6 +401,9 @@ jQuery( function( $ ) {
 
             $elements_instance_slug = target_elements_instance_slug
 
+            jQuery('#pms-stripe-payment-elements').show()
+            jQuery( '.pms-spinner__holder' ).hide()
+
         }
 
     }

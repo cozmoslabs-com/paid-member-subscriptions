@@ -2931,6 +2931,10 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
     line-height: 28px;
 }
 
+.pms-notice a.button-primary{
+    height: 30px !important;
+}
+
 .pms-notice {
     position: relative;
 }

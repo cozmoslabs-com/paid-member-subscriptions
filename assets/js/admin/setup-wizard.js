@@ -37,7 +37,7 @@ jQuery( function($){
 
         if( $('#pms_gateway_stripe').prop( 'checked' ) )
             $('.pms-setup-gateway-extra.stripe').css( 'display', 'flex' )
-            
+
         $('label[for="pms_gateway_paypal_standard"]').click( function(){
             var value = $('#pms_gateway_paypal_standard').prop( 'checked' )
 
@@ -60,7 +60,7 @@ jQuery( function($){
             let themeID = e.target.id.replace('-info', '');
             displayPreviewModal(themeID);
         });
-    
+
         jQuery('.pms-slideshow-button').click(function (e) {
             let themeID      = jQuery(e.target).data('theme-id'),
                 direction    = jQuery(e.target).data('slideshow-direction'),
@@ -75,25 +75,25 @@ jQuery( function($){
         jQuery('.pms-setup-newsletter__form a').on('click', function (e) {
 
             e.preventDefault()
-    
+
             jQuery( '.pms-setup-newsletter__form input[name="email"]' ).removeClass( 'error' )
-    
+
             var email = jQuery( '.pms-setup-newsletter__form input[name="email"]').val()
-    
+
             if ( !validateEmail( email ) ){
                 jQuery( '.pms-setup-newsletter__form input[name="email"]' ).addClass( 'error' )
                 jQuery( '.pms-setup-newsletter__form input[name="email"]' ).focus()
-    
+
                 return
             }
-    
+
             if( email != '' ){
 
                 jQuery( '.pms-setup-newsletter__form a' ).html( 'Working...' )
-    
+
                 var data = new FormData()
                     data.append( 'email', email )
-    
+
                 jQuery.ajax({
                     url: 'https://www.cozmoslabs.com/wp-json/cozmos-api/subscribeEmailToNewsletter',
                     type: 'POST',
@@ -101,7 +101,7 @@ jQuery( function($){
                     contentType: false,
                     data: data,
                     success: function (response) {
-    
+
                         if( response.message ){
 
                             jQuery( '.pms-setup-newsletter__form input[name="email"]' ).removeClass( 'error' )
@@ -110,6 +110,7 @@ jQuery( function($){
 
                             var data = new FormData()
                                 data.append( 'action', 'dismiss_newsletter_subscribe' )
+                                data.append( 'pms_nonce', jQuery( '.pms-setup-newsletter #pms_nonce' ).val() )
 
                             jQuery.ajax({
                                 url        : ajaxurl,
@@ -118,25 +119,25 @@ jQuery( function($){
                                 contentType: false,
                                 data       : data,
                                 success    : function (response) {
-                
+
                                 },
                                 error: function (response) {
-                
+
                                 }
                             })
-    
+
                         }
-    
+
                     },
                     error: function (response) {
-    
+                        
                         jQuery('.pms-setup-newsletter__form a').html('Sign me up!')
-    
+
                     }
                 })
-    
+
             }
-    
+
         })
     })
 
@@ -175,25 +176,25 @@ jQuery( function($){
         if ( currentSlide.next().length > 0 ) {
             currentSlide.removeClass('active');
             currentSlide.next().addClass('active');
-    
+
             jQuery('#pms-modal-' + themeID + ' .pms-forms-design-sildeshow-previous').removeClass('disabled');
-    
+
             if ( currentSlide.next().next().length <= 0 )
                 jQuery('#pms-modal-' + themeID + ' .pms-forms-design-sildeshow-next').addClass('disabled');
-    
+
         }
     }
-    
+
     function previousSlide( currentSlide, themeID ){
         if ( currentSlide.prev().length > 0 ) {
             currentSlide.removeClass('active');
             currentSlide.prev().addClass('active');
-    
+
             jQuery('#pms-modal-' + themeID + ' .pms-forms-design-sildeshow-next').removeClass('disabled');
-    
+
             if ( currentSlide.prev().prev().length <= 0 )
                 jQuery('#pms-modal-' + themeID + ' .pms-forms-design-sildeshow-previous').addClass('disabled');
-    
+
         }
     }
 
@@ -201,7 +202,7 @@ jQuery( function($){
 
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
-    
+
     }
 
 })

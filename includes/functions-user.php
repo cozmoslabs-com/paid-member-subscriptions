@@ -349,8 +349,16 @@ if( isset( $pms_misc_settings, $pms_misc_settings['hide-admin-bar'] ) && $pms_mi
 
 function pms_remove_admin_bar(){
 
-    if( current_user_can( 'manage_options' ) )
-        return true;
+    if( current_user_can( 'manage_options' ) ) {
+
+        // User Profile --> Toolbar setting
+        $show_toolbar = get_user_meta( get_current_user_id(), 'show_admin_bar_front', true );
+
+        // only display the Admin Bar if the Toolbar setting from User Profile is enabled
+        if ( $show_toolbar === 'true' )
+            return true;
+
+    }
 
     return false;
 

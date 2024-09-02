@@ -18,7 +18,6 @@ class PMS_Setup_Wizard {
             add_filter( 'pms_output_dashboard_setup_wizard', array( $this, 'setup_wizard' ) );
             add_action( 'admin_init', array( $this, 'redirect_to_setup' ) );
             add_action( 'admin_init', array( $this, 'save_data' ) );
-            add_action( 'wp_ajax_pms_create_subscription_pages', array( $this, 'ajax_create_subscription_pages' ) );
             add_action( 'wp_ajax_dismiss_newsletter_subscribe', array( $this, 'dismiss_newsletter_subscribe' ) );
         }
     }
@@ -59,7 +58,7 @@ class PMS_Setup_Wizard {
 
         $this->steps = apply_filters( 'pms_setup_wizard_steps', $default_steps );
         $this->step  = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : key( $default_steps );
-        
+
         include_once 'views/view-page-setup-wizard.php';
 
     }
@@ -105,7 +104,7 @@ class PMS_Setup_Wizard {
                         'content' => '[pms-recover-password]',
                     ),
                 );
-        
+
                 $user_pages = array_map( 'sanitize_text_field', $_POST['pms_user_pages'] );
 
                 foreach( $user_pages as $page_slug => $value ){
@@ -220,13 +219,13 @@ class PMS_Setup_Wizard {
 
         if( !empty( $this->step ) ){
             if( empty( $steps_completion ) ){
-                
+
                 $steps_completion = array(
                     $this->step => 1,
                 );
 
             } else {
-                
+
                 $steps_completion[$this->step] = 1;
 
             }
@@ -468,12 +467,12 @@ class PMS_Setup_Wizard {
             'post_type'      => 'pms-subscription',
             'posts_per_page' => '1',
         ];
-    
+
         $result = new WP_Query( $args );
 
         if( $result->have_posts() )
             return true;
-        
+
         return false;
 
     }
@@ -498,7 +497,7 @@ class PMS_Setup_Wizard {
                 ]
             ],
         ];
-    
+
         $result = new WP_Query( $args );
 
         if( $result->have_posts() )
@@ -515,7 +514,7 @@ class PMS_Setup_Wizard {
                 ]
             ],
         ];
-    
+
         $result = new WP_Query( $args );
 
         if( $result->have_posts() )
@@ -538,7 +537,7 @@ class PMS_Setup_Wizard {
                 ]
             ],
         ];
-    
+
         $result = new WP_Query( $args );
 
         if( $result->have_posts() )
@@ -555,7 +554,7 @@ class PMS_Setup_Wizard {
                 ]
             ],
         ];
-    
+
         $result = new WP_Query( $args );
 
         if( $result->have_posts() )
@@ -572,7 +571,7 @@ class PMS_Setup_Wizard {
                 ]
             ],
         ];
-    
+
         $result = new WP_Query( $args );
 
         if( $result->have_posts() )
@@ -589,17 +588,19 @@ class PMS_Setup_Wizard {
                 ]
             ],
         ];
-    
+
         $result = new WP_Query( $args );
 
         if( $result->have_posts() )
             return true;
-        
+
         return false;
 
     }
 
     public function dismiss_newsletter_subscribe() {
+
+        check_ajax_referer( 'dismiss_setup_wizard_newsletter_subscribe', 'pms_nonce' );
 
         $user_id = get_current_user_id();
 
