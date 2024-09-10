@@ -15,9 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 //      $payment_settings
 
 pms_output_subscription_plans_filter( 'remove' );
+$extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'change_subscription_form' );
 ?>
 
-<form id="pms-change-subscription-form" action="" method="POST" class="pms-form">
+<form id="pms-change-subscription-form" action="" method="POST" class="pms-form <?php echo esc_attr( $extra_classes ) ?>">
 
     <?php do_action('pms_change_subscription_form_top'); ?>
 

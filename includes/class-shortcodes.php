@@ -82,7 +82,7 @@ Class PMS_Shortcodes {
         if( isset( $_POST['pms_register'] ) ) {
 
             if( count( pms_errors()->get_error_codes() ) == 0 )
-                return apply_filters( 'pms_register_success_message', '<div class="pms_success-messages-wrapper"><p>' . __( 'Congratulations, your account has been successfully created.', 'paid-member-subscriptions' ) . '</p></div>' );
+                return apply_filters( 'pms_register_success_message', '<div class="pms_success-messages-wrapper"><p><span class="pms-notice-title">' . __('SUCCESS! ', 'paid-member-subscriptions') . '</span>' . __( 'Congratulations, your account has been successfully created.', 'paid-member-subscriptions' ) . '</p></div>' );
             // If something went wrong while registering the user, show error
             else if( pms_errors()->get_error_code() == 'user_registration' )
                 return apply_filters( 'pms_register_failed_message', '<div class="pms_field-errors-wrapper"><p>'. pms_errors()->get_error_message( 'user_registration' ). '</p></div>' );
@@ -510,9 +510,11 @@ Class PMS_Shortcodes {
          */
         $login_form_bottom = apply_filters( 'login_form_bottom', '', $args );
 
+        $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' ,'login_form' );
+
         ob_start();
         ?>
-            <form name="<?php echo esc_attr( $args['form_id'] ); ?>" id="<?php echo esc_attr( $args['form_id'] ); ?>" action="" method="post">
+            <form name="<?php echo esc_attr( $args['form_id'] ); ?>" id="<?php echo esc_attr( $args['form_id'] ); ?>" class="pms-form <?php echo esc_attr( $extra_classes ) ?>" action="" method="post">
                 <?php echo $login_form_top; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
                 <p class="login-username">
@@ -639,7 +641,7 @@ Class PMS_Shortcodes {
 
         // If entered username or email is valid, display a message to the user and email confirmation link
         if( isset( $_POST['pms_username_email'] ) && count( pms_errors()->get_error_codes() ) == 0 ) {
-            return apply_filters( 'pms_recover_password_confirmation_link_message', '<p>' . __( 'Please check your email for the confirmation link.', 'paid-member-subscriptions' ) . '</p>' );
+            return apply_filters( 'pms_recover_password_confirmation_link_message', '<div class="pms_success-messages-wrapper"><p><span class="pms-notice-title">' . __('SUCCESS! ', 'paid-member-subscriptions') . '</span>' . __( 'Please check your email for the confirmation link.', 'paid-member-subscriptions' ) . '</p></div>' );
         }
 
         ob_start();

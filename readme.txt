@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
 Tested up to: 6.6
-Stable tag: 2.12.7
+Stable tag: 2.12.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,11 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.12.8 =
+* Fix: Incorrect spelling on cancel button title
+* Misc: Compatibility changes for Form Designs paid version update
+* Misc: Added a filter that can be used to manipulate the query arguments of the pms-payment-history shortcode: pms_payment_history_shortcode_args
+
 = 2.12.7 =
 * Fix: Admin bar setting to take into account individual user admin bar settings
 * Fix: Small security change for a Setup Wizard action

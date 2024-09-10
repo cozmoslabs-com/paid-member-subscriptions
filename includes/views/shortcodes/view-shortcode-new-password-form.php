@@ -8,9 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  */
 $form_name = 'new_password';
+$extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'recover_password_form' );
 ?>
 
-<form id="pms_new_password_form" class="pms-form" method="post" action="<?php echo esc_url( apply_filters( 'pms_' . $form_name . '_form_action_attribute', '' ) ); ?>">
+<form id="pms_new_password_form" class="pms-form <?php echo esc_attr( $extra_classes ) ?>" method="post" action="<?php echo esc_url( apply_filters( 'pms_' . $form_name . '_form_action_attribute', '' ) ); ?>">
 
     <?php wp_nonce_field( 'pms_new_password_form_nonce', 'pmstkn' ); ?>
 

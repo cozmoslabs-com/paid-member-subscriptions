@@ -16,14 +16,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         $number_per_page = 10;
     }
 
-    $page            = ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : ( get_query_var( 'page' ) ? get_query_var( 'page' ) : 1 ) );
+    $page = ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : ( get_query_var( 'page' ) ? get_query_var( 'page' ) : 1 ) );
 
-    $payments = pms_get_payments( array(
+    $args = apply_filters( 'pms_payment_history_shortcode_args', array(
         'order'   => 'DESC',
         'user_id' => $user_id,
         'number'  => $number_per_page,
         'offset'  => ( $page !== 1 ? ( $page - 1 ) * $number_per_page : '' )
     ));
+
+    $payments = pms_get_payments( $args );
 
     $payment_statuses = pms_get_payment_statuses();
 

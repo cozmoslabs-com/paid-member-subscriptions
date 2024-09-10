@@ -386,8 +386,10 @@ function pms_member_upgrade_subscription( $content ) {
 
     $subscription_plan = pms_get_subscription_plan( trim( absint( $_REQUEST['subscription_plan'] ) ) );
 
+    $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'upgrade_subscription_form' );
+
     // Output form
-    $output = '<form id="pms-upgrade-subscription-form" action="" method="POST" class="pms-form">';
+    $output = '<form id="pms-upgrade-subscription-form" action="" method="POST" class="pms-form '. $extra_classes .'">';
 
         // Do actions at the top of the form
         ob_start();
@@ -497,7 +499,7 @@ function pms_member_change_subscription( $content ){
     $output = ob_get_contents();
     ob_end_clean();
 
-    return apply_filters('pms_change_subscription_shortcode_content', $output, 'change_subscriptio_form');
+    return apply_filters('pms_change_subscription_shortcode_content', $output, 'change_subscription_form');
 
 }
 add_filter( 'pms_account_shortcode_content', 'pms_member_change_subscription', 11 );
@@ -565,8 +567,10 @@ function pms_member_renew_subscription( $content ) {
      */
     $renew_expiration_date = apply_filters( 'pms_renew_subscription_display_expiration_date', $renew_expiration_date, $subscription_plan, $member_subscription );
 
+    $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'renew_subscription_form' );
+
     // Output form
-    $output = '<form id="pms-renew-subscription-form" action="" method="POST" class="pms-form">';
+    $output = '<form id="pms-renew-subscription-form" action="" method="POST" class="pms-form '. $extra_classes .'">';
 
         // Do Actions at the top of the form
         ob_start();
@@ -639,8 +643,10 @@ function pms_member_cancel_subscription( $content ) {
     // Get subscription plan
     $subscription_plan = pms_get_subscription_plan( (int)$member_subscription->subscription_plan_id );
 
+    $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'cancel_subscription_form' );
+
     // Output form
-    $output = '<form id="pms-cancel-subscription-form" action="" method="POST" class="pms-form">';
+    $output = '<form id="pms-cancel-subscription-form" action="" method="POST" class="pms-form '. $extra_classes .'">';
 
         $output .= apply_filters( 'pms_cancel_subscription_confirmation_message', '<p>' . sprintf( __( 'Are you sure you want to cancel your %s subscription? No further payments will be made for this subscription and it will expire.', 'paid-member-subscriptions' ) . '</p>', '<strong>' . $subscription_plan->name . '</strong>' ), $subscription_plan );
 
@@ -689,8 +695,10 @@ function pms_member_abandon_subscription( $content ) {
     // Get subscription plan
     $subscription_plan = pms_get_subscription_plan( (int)$member_subscription->subscription_plan_id );
 
+    $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'abandon_subscription_form' );
+
     // Output form
-    $output = '<form id="pms-abandon-subscription-form" action="" method="POST" class="pms-form">';
+    $output = '<form id="pms-abandon-subscription-form" action="" method="POST" class="pms-form '. $extra_classes .'">';
 
     $output .= apply_filters( 'pms_abandon_subscription_confirmation_message', '<p>' . sprintf( __( 'Are you sure you want to abandon your %s subscription? This subscription will be removed completely from your account.', 'paid-member-subscriptions' ) . '</p>', '<strong>' . $subscription_plan->name . '</strong>' ), $subscription_plan );
 
@@ -741,8 +749,10 @@ function pms_member_update_payment_method( $content ) {
     // Get subscription plan
     $subscription_plan = pms_get_subscription_plan( (int)$member_subscription->subscription_plan_id );
 
+    $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'update_payment_form' );
+
     // Output form
-    $output = '<form id="pms-update-payment-method-form" action="" method="POST" class="pms-form">';
+    $output = '<form id="pms-update-payment-method-form" action="" method="POST" class="pms-form '. $extra_classes .'">';
 
         ob_start(); ?>
 
@@ -805,9 +815,10 @@ function pms_member_retry_payment_subscription( $content ) {
     if( $member_subscription['status'] != 'pending' )
         return $content;
 
+    $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'retry_payment_form' );
 
     // Output form
-    $output = '<form id="pms-retry-payment-subscription-form" action="" method="POST" class="pms-form">';
+    $output = '<form id="pms-retry-payment-subscription-form" action="" method="POST" class="pms-form '. $extra_classes .'">';
 
     // Do Actions at the top of the form
     ob_start();

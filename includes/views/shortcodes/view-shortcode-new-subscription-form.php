@@ -15,9 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     if( !empty( $array_dif ) )
         $target_plans = $array_dif;
 
+    $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'new_subscription_form' );
+
 ?>
 
-<form id="pms_<?php echo esc_attr( $form_name ); ?>-form" class="pms-form" method="POST">
+<form id="pms_<?php echo esc_attr( $form_name ); ?>-form" class="pms-form <?php echo esc_attr( $extra_classes ) ?>" method="POST">
 
     <?php do_action( 'pms_' . $form_name . '_form_top', $atts ); ?>
 
@@ -35,6 +37,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             $field_errors = pms_errors()->get_error_messages( 'subscription_plans' );
 
             echo '<li class="pms-field pms-field-subscriptions ' . ( !empty( $field_errors ) ? 'pms-field-error' : '' ) . '">';
+
+                do_action( 'pms_' . $form_name . '_form_subscription_plans_field_before', $atts );
+
                 echo pms_output_subscription_plans( $target_plans, $atts['exclude'], false, (isset($atts['selected']) ? trim($atts['selected']) : '' ), 'new_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
 

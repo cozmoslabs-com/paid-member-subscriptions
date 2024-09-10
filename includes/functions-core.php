@@ -284,7 +284,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $output = '<div class="pms_success-messages-wrapper">';
 
                 foreach( $messages as $message ) {
-                    $output .= '<p>' . $message . '</p>';
+                    $output .= '<p><span class="pms-notice-title">' . __('SUCCESS! ', 'paid-member-subscriptions') . '</span>' . $message . '</p>';
                 }
 
                 $output .= '</div>';

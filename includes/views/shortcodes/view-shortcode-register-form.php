@@ -9,10 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
      * @param $atts     - is available from parent file, in the register_form method of the PMS_Shortcodes class
      */
     $form_name = 'register';
+    $extra_classes = apply_filters( 'pms_add_extra_form_classes', ( $atts['plans_position'] == 'top' ? ' pms-register-form-top-plans' : '' ), 'register_form' );
 
 ?>
 
-<form id="pms_<?php echo esc_attr( $form_name ); ?>-form" class="pms-form <?php echo $atts['plans_position'] == 'top' ? 'pms-register-form-top-plans' : ''; ?>" method="POST">
+<!--<form id="pms_--><?php //echo esc_attr( $form_name ); ?><!---form" class="pms-form --><?php //echo $atts['plans_position'] == 'top' ? 'pms-register-form-top-plans' : ''; ?><!--" method="POST">-->
+<form id="pms_<?php echo esc_attr( $form_name ); ?>-form" class="pms-form <?php echo esc_attr( $extra_classes ) ?>" method="POST">
 
     <?php do_action( 'pms_' . $form_name . '_form_top', $atts ); ?>
 

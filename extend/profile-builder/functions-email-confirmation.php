@@ -97,8 +97,10 @@ function pms_pb_email_confirmation_payment_form( $message ) {
         }
     }
 
+    $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'ec-register_form' );
+
     // Form
-    $output = '<form id="pms-register-form" action="" method="POST" class="pms-form pms-ec-register-form">';
+    $output = '<form id="pms-register-form" action="" method="POST" class="pms-form pms-ec-register-form '. $extra_classes .'">';
 
         $output .= pms_output_subscription_plans( array( $subscription_plan_id ), array(), false, '', 'register_email_confirmation' );
 
