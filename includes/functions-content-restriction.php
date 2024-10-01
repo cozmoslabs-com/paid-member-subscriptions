@@ -397,3 +397,142 @@ function pms_restrict_buddypress_pages( $post_id ){
     return $post_id;
 
 }
+
+
+/**
+ * Exclude Restricted Posts From Query
+ */
+
+$settings = get_option( 'pms_content_restriction_settings' );
+
+if( isset( $settings['pms_excludePosts'] ) && $settings['pms_excludePosts'] == 'yes' ){
+
+    /* Exclude restricted posts and pages from the main queries like blog, archive and taxonomy pages. */
+    add_action( 'pre_get_posts', 'pmsc_exclude_post_from_query', 40 );
+    function pmsc_exclude_post_from_query( $query ) {
+
+        if( !function_exists( 'pms_is_post_restricted' ) || is_admin() || is_single() )
+            return;
+
+        if( $query->is_main_query() || ( $query->is_search() && isset( $_GET['s'] ) ) ) {
+
+            remove_action('pre_get_posts', 'pmsc_exclude_post_from_query', 40 );
+
+            $args = $query->query_vars;
+            $args['suppress_filters'] = true;
+            $args['posts_per_page'] = get_option( 'posts_per_page' );
+
+            if( is_search() )
+                $args['post_type'] = 'any';
+
+            $posts = get_posts($args);
+
+            $previous_restricted_ids = $query->get( 'post__not_in' );
+            if ( ! is_array( $previous_restricted_ids ) ) {
+                $previous_restricted_ids = array();
+            }
+
+            $ids = wp_list_pluck( $posts, 'ID' );
+            $restricted_ids = array_filter( $ids,'pms_is_post_restricted' );
+
+            $updated_restricted_ids = array_merge( $previous_restricted_ids, $restricted_ids );
+            $query->set( 'post__not_in', $updated_restricted_ids );
+        }
+    }
+
+    //Remove restricted forums from the main bbPress query
+    add_filter( 'bbp_after_has_forums_parse_args', 'pmsc_exclude_restricted_forums_from_main_query' );
+    function pmsc_exclude_restricted_forums_from_main_query( $vars ) {
+        if( !function_exists( 'pms_is_post_restricted' ) ) return;
+
+        $query = new WP_Query( $vars );
+
+        $forum_ids = array();
+
+        foreach ( $query->posts as $forum ) {
+            $forum_ids[] = $forum->ID;
+        }
+
+        $previous_restricted_forums = $query->get( 'post__not_in' );
+        if ( ! is_array( $previous_restricted_forums ) ) {
+            $previous_restricted_forums = array();
+        }
+
+        $restricted_forums = array_filter( $forum_ids, 'pms_is_post_restricted' );
+        $updated_restricted_forums = array_merge( $previous_restricted_forums, $restricted_forums );
+
+        $vars['post__not_in'] = $updated_restricted_forums;
+
+        return $vars;
+    }
+
+    //Alters the output of the query that displays the Category Archive (including Shop) pages, filtering the restricted products from the output
+    add_action( 'pre_get_posts', 'pms_exclude_restricted_products_from_woocoommerce_category_queries', 11 );
+    function pms_exclude_restricted_products_from_woocoommerce_category_queries( $query ) {
+        if( is_admin() || !function_exists('pms_is_post_restricted') )
+            return;
+
+        if( isset( $query->query_vars['wc_query'] ) && $query->query_vars['wc_query'] == 'product_query' ){
+
+            remove_action( 'pre_get_posts', 'pms_exclude_restricted_products_from_woocoommerce_category_queries', 11 );
+
+            $args = $query->query_vars;
+            $args['suppress_filters'] = true;
+            $args['posts_per_page'] = -1;
+
+            $previous_restricted_ids = $query->get( 'post__not_in' );
+            if ( ! is_array( $previous_restricted_ids ) ) {
+                $previous_restricted_ids = array();
+            }
+
+            $products = wc_get_products( $args );
+
+            $product_ids = array();
+
+            foreach ($products as $product) {
+                $product_ids[] = $product->get_id();
+            }
+
+            $restricted_ids = array_filter( $product_ids, 'pms_is_post_restricted' );
+
+            $updated_restricted_ids = array_merge( $previous_restricted_ids, $restricted_ids );
+            $query->set( 'post__not_in', $updated_restricted_ids );
+
+        }
+    }
+
+    //Alters the output of the [products] shortcode from WooCommerce, filtering restricted products from the output
+    add_action( 'woocommerce_shortcode_products_query', 'pmsc_exclude_restricted_products_from_woocoommerce_products_shortcode_queries' );
+    function pmsc_exclude_restricted_products_from_woocoommerce_products_shortcode_queries( $query_args ) {
+        if( !is_admin() && function_exists('pms_is_post_restricted') ) {
+            $posts_per_page = $query_args['posts_per_page'];
+
+            $query_args['suppress_filters'] = true;
+            $query_args['posts_per_page'] = '-1';
+
+            $products = wc_get_products( $query_args );
+
+            $query_args['posts_per_page'] = $posts_per_page;
+
+            $product_ids = array();
+
+            foreach ($products as $product) {
+                $product_ids[] = $product->get_id();
+            }
+
+            $previous_restricted_ids = isset( $query_args['post__not_in'] ) ? $query_args['post__not_in'] : array();
+
+            if ( ! is_array( $previous_restricted_ids ) ) {
+                $previous_restricted_ids = array();
+            }
+
+            $restricted_ids = array_filter( $product_ids, 'pms_is_post_restricted' );
+            $updated_restricted_ids = array_merge( $previous_restricted_ids, $restricted_ids );
+
+            $query_args['post__not_in'] = $updated_restricted_ids;
+        }
+
+        return $query_args;
+    }
+}
+

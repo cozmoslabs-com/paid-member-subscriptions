@@ -98,7 +98,7 @@ Class PMS_Submenu_Page_Export extends PMS_Submenu_Page {
                 'pms_action' => 'download_batch_export',
             ) );
 
-            $download_url = add_query_arg( $args, admin_url() );
+            $download_url = esc_url( add_query_arg( $args, admin_url() ) );
 
             echo json_encode( array( 'step' => 'done', 'url' => $download_url ) ); exit;
 

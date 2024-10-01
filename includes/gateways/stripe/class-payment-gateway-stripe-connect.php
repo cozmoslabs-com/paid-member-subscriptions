@@ -2499,7 +2499,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         if( !empty( $plans ) ){
             foreach( $plans as $plan ){
-                if( !empty( $plan->price ) ){
+                if( !empty( $plan->price ) && $plan->price > 1 ){
                     $amount = $plan->price;
                     break;
                 }

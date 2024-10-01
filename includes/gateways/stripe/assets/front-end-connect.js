@@ -123,10 +123,11 @@ jQuery( function( $ ) {
 
     // Payment Intents
     $(document).on( 'wppb_invisible_recaptcha_success', stripeConnectPaymentGatewayHandler )
+    $(document).on( 'wppb_v3_recaptcha_success', stripeConnectPaymentGatewayHandler )
 
     $(document).on('submit', '.pms-form', function (e) {
 
-        if( e.target && ( jQuery( e.target ).attr('id') == 'pms_recover_password_form' || jQuery( e.target ).attr('id') == 'pms_new_password_form' ) )
+        if( e.target && ( jQuery( e.target ).attr('id') == 'pms_recover_password_form' || jQuery( e.target ).attr('id') == 'pms_new_password_form' || jQuery( e.target ).attr('id') == 'pms_login' ) )
             return
 
         var target_button = $('input[type="submit"], button[type="submit"]', $(this)).not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
@@ -152,7 +153,7 @@ jQuery( function( $ ) {
 
     $(document).on('submit', '.wppb-register-user', function (e) {
 
-        if ( !$('.wppb-recaptcha .wppb-recaptcha-element', $(e.currentTarget)).hasClass('wppb-invisible-recaptcha') ) {
+        if ( ! ( $( '.wppb-recaptcha .wppb-recaptcha-element', $(e.currentTarget) ).hasClass( 'wppb-invisible-recaptcha' ) || $( '.wppb-recaptcha .wppb-recaptcha-element', $(e.currentTarget) ).hasClass( 'wppb-v3-recaptcha' ) ) ) {
 
             var target_button = $('input[type="submit"], button[type="submit"]', $(this)).not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
 
@@ -177,7 +178,7 @@ jQuery( function( $ ) {
         var current_button = $(this)
 
         // Current submit button can't be determined from `this` context in case of the Invisible reCaptcha handler
-        if( e.type == 'wppb_invisible_recaptcha_success' ){
+        if( e.type == 'wppb_invisible_recaptcha_success' || e.type == 'wppb_v3_recaptcha_success' ){
 
             // target_button is supplied to the handler starting with version 3.5.0 of Profile Builder, we use this for backwards compatibility
             current_button = target_button == false ? $( 'input[type="submit"]', $( '.wppb-recaptcha-element' ).closest( 'form' ) ) : $( target_button )
@@ -417,7 +418,7 @@ jQuery( function( $ ) {
         if ( pms_stripe_is_setup_intents_checkout() )
             return
 
-        var submitButton = $('.pms-form .pms-form-submit, .pms-form input[type="submit"], .pms-form button[type="submit"], .wppb-register-user input[type="submit"], .wppb-register-user button[type="submit"]').not('#pms-apply-discount')
+        var submitButton = $('.pms-form .pms-form-submit, .pms-form input[type="submit"], .pms-form button[type="submit"], .wppb-register-user input[type="submit"], .wppb-register-user button[type="submit"]').not('#pms-apply-discount, .login-submit #wp-submit')
 
         var data = stripeConnectGetFormData( submitButton )
 

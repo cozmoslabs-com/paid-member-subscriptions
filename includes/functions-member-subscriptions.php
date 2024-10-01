@@ -157,7 +157,8 @@ function pms_get_member_subscriptions( $args = array() ) {
     }
 
     // Query order
-    $query_order = $args['order'] . ' ';
+    $query_order = strtoupper( $args['order'] ) === 'DESC' ? 'DESC' : 'ASC';
+    $query_order .= ' ';
 
     // Query limit
     $query_limit = '';

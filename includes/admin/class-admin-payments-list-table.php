@@ -155,11 +155,11 @@ Class PMS_Payments_List_Table extends WP_List_Table {
     protected function get_views() {
 
         return apply_filters( 'pms_payments_list_table_get_views', array(
-            'all'       => '<a href="' . remove_query_arg( array( 'pms-view', 'paged' ) ) . '" ' . ( !isset( $_GET['pms-view'] ) ? 'class="current"' : '' ) . '>All <span class="count">(' . ( isset( $this->views_count['all'] ) ? $this->views_count['all'] : '' ) . ')</span></a>',
-            'completed' => '<a href="' . add_query_arg( array( 'pms-view' => 'completed', 'paged' => 1 ) ) . '" ' . ( isset( $_GET['pms-view'] ) &&$_GET['pms-view'] == 'completed' ? 'class="current"' : '' ) . '>Completed <span class="count">(' . ( isset( $this->views_count['completed'] ) ? $this->views_count['completed'] : '' ) . ')</span></a>',
-            'pending'   => '<a href="' . add_query_arg( array( 'pms-view' => 'pending', 'paged' => 1 ) ) . '" ' . ( isset( $_GET['pms-view'] ) &&$_GET['pms-view'] == 'pending' ? 'class="current"' : '' ) . '>Pending <span class="count">(' . ( isset( $this->views_count['pending'] ) ? $this->views_count['pending'] : '' ) . ')</span></a>',
-            'failed'    => '<a href="' . add_query_arg( array( 'pms-view' => 'failed', 'paged' => 1 ) ) . '" ' . ( isset( $_GET['pms-view'] ) &&$_GET['pms-view'] == 'failed' ? 'class="current"' : '' ) . '>Failed <span class="count">(' . ( isset( $this->views_count['failed'] ) ? $this->views_count['failed'] : '' ) . ')</span></a>',
-            'refunded'  => '<a href="' . add_query_arg( array( 'pms-view' => 'refunded', 'paged' => 1 ) ) . '" ' . ( isset( $_GET['pms-view'] ) &&$_GET['pms-view'] == 'refunded' ? 'class="current"' : '' ) . '>Refunded <span class="count">(' . ( isset( $this->views_count['refunded'] ) ? $this->views_count['refunded'] : '' ) . ')</span></a>'
+            'all'       => '<a href="' . esc_url( remove_query_arg( array( 'pms-view', 'paged' ) ) ) . '" ' . ( !isset( $_GET['pms-view'] ) ? 'class="current"' : '' ) . '>All <span class="count">(' . ( isset( $this->views_count['all'] ) ? $this->views_count['all'] : '' ) . ')</span></a>',
+            'completed' => '<a href="' . esc_url( add_query_arg( array( 'pms-view' => 'completed', 'paged' => 1 ) ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'completed' ? 'class="current"' : '' ) . '>Completed <span class="count">(' . ( isset( $this->views_count['completed'] ) ? $this->views_count['completed'] : '' ) . ')</span></a>',
+            'pending'   => '<a href="' . esc_url( add_query_arg( array( 'pms-view' => 'pending', 'paged' => 1 ) ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'pending' ? 'class="current"' : '' ) . '>Pending <span class="count">(' . ( isset( $this->views_count['pending'] ) ? $this->views_count['pending'] : '' ) . ')</span></a>',
+            'failed'    => '<a href="' . esc_url( add_query_arg( array( 'pms-view' => 'failed', 'paged' => 1 ) ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'failed' ? 'class="current"' : '' ) . '>Failed <span class="count">(' . ( isset( $this->views_count['failed'] ) ? $this->views_count['failed'] : '' ) . ')</span></a>',
+            'refunded'  => '<a href="' . esc_url( add_query_arg( array( 'pms-view' => 'refunded', 'paged' => 1 ) ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'refunded' ? 'class="current"' : '' ) . '>Refunded <span class="count">(' . ( isset( $this->views_count['refunded'] ) ? $this->views_count['refunded'] : '' ) . ')</span></a>'
         ));
 
     }
@@ -392,10 +392,10 @@ Class PMS_Payments_List_Table extends WP_List_Table {
         $actions = array();
 
         // Edit payment row action
-        $actions['edit'] = '<a href="' . add_query_arg( array( 'pms-action' => 'edit_payment', 'payment_id' => $item['id'] ), admin_url( 'admin.php?page=pms-payments-page' ) ) . '">' . esc_html__( 'Edit Payment', 'paid-member-subscriptions' ) . '</a>';
+        $actions['edit'] = '<a href="' . esc_url( add_query_arg( array( 'pms-action' => 'edit_payment', 'payment_id' => $item['id'] ), admin_url( 'admin.php?page=pms-payments-page' ) ) ) . '">' . esc_html__( 'Edit Payment', 'paid-member-subscriptions' ) . '</a>';
 
         // Delete row action
-        $actions['delete'] = '<a onclick="return confirm( \'' . esc_html__( "Are you sure you want to delete this Payment?", "paid-member-subscriptions" ) . ' \' )" href="' . wp_nonce_url( add_query_arg( array( 'pms-action' => 'delete_payment', 'payment_id' => $item['id'] ) ), 'pms_payment_nonce' ) . '">' . esc_html__( 'Delete', 'paid-member-subscriptions' ) . '</a>';
+        $actions['delete'] = '<a onclick="return confirm( \'' . esc_html__( "Are you sure you want to delete this Payment?", "paid-member-subscriptions" ) . ' \' )" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'delete_payment', 'payment_id' => $item['id'] ) ), 'pms_payment_nonce' ) ) . '">' . esc_html__( 'Delete', 'paid-member-subscriptions' ) . '</a>';
 
         /**
          * Filter the actions for a payment
@@ -408,7 +408,7 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
         $payment = pms_get_payment( $item['id'] );
 
-        $output  = '<a href="' . add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'member_id' => $payment->user_id, 'subpage' => 'edit_member' ), admin_url( 'admin.php' ) ) . '" title="' . __( 'Edit Member', 'paid-member-subscriptions' ) . '">' . $item['username'];
+        $output  = '<a href="' . esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'member_id' => $payment->user_id, 'subpage' => 'edit_member' ), admin_url( 'admin.php' ) ) ) . '" title="' . __( 'Edit Member', 'paid-member-subscriptions' ) . '">' . $item['username'];
         $output .= $this->row_actions( $actions );
 
         return $output;
@@ -451,7 +451,7 @@ Class PMS_Payments_List_Table extends WP_List_Table {
         $output .= ( isset( $payment_statuses[ $item['status'] ] ) ? esc_html( $payment_statuses[ $item['status'] ] ) : $item['status'] );
 
         if( $item['status'] == 'failed' ){
-            $output .= ' | <a href="' . add_query_arg( array( 'pms-action' => 'edit_payment', 'payment_id' => $item['id'] ) ) . '">' . esc_html__( 'View Logs', 'paid-member-subscriptions' ) . '</a>';
+            $output .= ' | <a href="' . esc_url( add_query_arg( array( 'pms-action' => 'edit_payment', 'payment_id' => $item['id'] ) ) ) . '">' . esc_html__( 'View Logs', 'paid-member-subscriptions' ) . '</a>';
         }
 
         return $output;

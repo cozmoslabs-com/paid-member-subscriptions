@@ -256,7 +256,7 @@ class PMS_Setup_Wizard {
         if( $step_index === false )
             return '';
 
-        return add_query_arg( 'step', $keys[$step_index + 1] );
+        return esc_url( add_query_arg( 'step', $keys[$step_index + 1] ) );
     }
 
     private function create_page( $option, $title, $content = '' ){

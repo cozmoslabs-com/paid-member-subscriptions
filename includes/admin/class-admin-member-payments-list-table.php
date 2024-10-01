@@ -173,7 +173,7 @@ Class PMS_Member_Payments_List_Table extends WP_List_Table {
      */
     public function column_actions( $item ) {
 
-        $actions = '<a class="button-secondary" href="' . add_query_arg( array( 'page' => 'pms-payments-page', 'pms-action' => 'edit_payment', 'payment_id' => $item['actions'] ), admin_url( 'admin.php' ) ) . '">' . __( 'View Details', 'paid-member-subscriptions' ) . '</a>';
+        $actions = '<a class="button-secondary" href="' . esc_url( add_query_arg( array( 'page' => 'pms-payments-page', 'pms-action' => 'edit_payment', 'payment_id' => $item['actions'] ), admin_url( 'admin.php' ) ) ) . '">' . __( 'View Details', 'paid-member-subscriptions' ) . '</a>';
 
         return apply_filters( 'pms_member_payments_list_table_actions', $actions, $item );
 

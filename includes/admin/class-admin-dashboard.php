@@ -99,6 +99,9 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
     public function get_dashboard_stats(){
         check_admin_referer( 'pms_dashboard_get_stats' );
 
+        if( !current_user_can( 'manage_options' ) )
+            die();
+
         if( empty( $_POST['interval'] ) )
             return;
 

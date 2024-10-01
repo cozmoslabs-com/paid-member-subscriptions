@@ -333,7 +333,7 @@ Class PMS_Member_Subscription_List_Table extends WP_List_Table {
 
         $output = '<div class="row-actions">';
 
-            $output .= '<a href="' . add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'edit_subscription', 'subscription_id' => $item['subscription_id'] ), 'admin.php' ) . '" class="button button-secondary">' . __( 'Edit', 'paid-member-subscriptions' ) . '</a>';
+            $output .= '<a href="' . esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'edit_subscription', 'subscription_id' => $item['subscription_id'] ), 'admin.php' ) ) . '" class="button button-secondary">' . __( 'Edit', 'paid-member-subscriptions' ) . '</a>';
 
             $output = apply_filters( 'pms_member_subscription_list_table_column_actions', $output, $item );
 

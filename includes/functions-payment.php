@@ -143,10 +143,14 @@ function pms_get_payments( $args = array() ) {
     }
 
     $query_order_by = '';
+    // removed table name so it can be sanitized using the core function
     if ( !empty($args['orderby']) )
-        $query_order_by = " ORDER BY pms_payments." . sanitize_text_field( $args['orderby'] ) . ' ';
+        $query_order_by = sanitize_text_field( $args['orderby'] ) . ' ';
 
-    $query_order = strtoupper( sanitize_text_field( $args['order'] ) ) . ' ';
+    $query_order = strtoupper( $args['order'] ) === 'DESC' ? 'DESC' : 'ASC';
+    $query_order .= ' ';
+    
+    $query_order_string = " ORDER BY " . sanitize_sql_orderby( $query_order_by . $query_order );
 
     $query_limit        = '';
     if( $args['number'] && $args['number'] != '-1' )
@@ -157,7 +161,7 @@ function pms_get_payments( $args = array() ) {
         $query_offset   = 'OFFSET ' . (int)trim( $args['offset'] ) . ' ';
 
     // Concatenate query string
-    $query_string .= $query_from . $query_inner_join . $query_where . $query_order_by . $query_order . $query_limit . $query_offset;
+    $query_string .= $query_from . $query_inner_join . $query_where . $query_order_string . $query_limit . $query_offset;
 
 
     // Return results

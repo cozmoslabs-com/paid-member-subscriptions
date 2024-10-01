@@ -96,10 +96,14 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
         if( !isset( $_REQUEST['_wpnonce'] ) || !wp_verify_nonce( sanitize_text_field( $_REQUEST['_wpnonce'] ), 'pms_payment_nonce' ) )
             return;
 
+        // Verify user capability
+        if( ! ( current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' ) ) )
+            return;
+
         // Get current actions
         $action = !empty( $_REQUEST['pms-action'] ) ? sanitize_text_field( $_REQUEST['pms-action'] ) : ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] != '-1' ? sanitize_text_field( $_REQUEST['action'] ) : ( isset( $_REQUEST['action2'] ) ? sanitize_text_field( $_REQUEST['action2'] ) : '' ) );
 
-        if( empty($action) )
+        if( empty( $action ) )
             return;
 
         // Register script to display confirmation message in case of bulk delete
@@ -356,7 +360,7 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
                     do_action( 'pms_manually_added_payment_success', $payment );
 
-                    wp_redirect(add_query_arg(array('page' => $this->menu_slug, 'message' => '1', 'updated' => '1'), admin_url('admin.php')));
+                    wp_redirect( esc_url( add_query_arg( array('page' => $this->menu_slug, 'message' => '1', 'updated' => '1'), admin_url( 'admin.php' ) ) ) );
                     exit;
                 }
 

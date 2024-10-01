@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
 Tested up to: 6.6
-Stable tag: 2.12.8
+Stable tag: 2.12.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,8 +59,6 @@ You can use one of the following shortcodes or available blocks to get started:
 * **[pms-account]** - setup a [WordPress members area](https://www.cozmoslabs.com/177365-wordpress-members-area/) where members can easily edit their account information and manage their subscription plan(s)
 * **[pms-payment-history]** - adds a front-end table with the member's payment history
 * **[pms-recover-password]** - adds a recover password password form, that enables users to reset their password if needed
-
-https://www.youtube.com/watch?v=6AEIvvCOZHM&start=0&autoplay=1
 
 = Membership Modules: =
 
@@ -252,6 +250,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.12.9 =
+* Feature: Added option to exclude restricted posts from default queries. Go to Settings -> Content Restriction to enable this functionality
+* Feature: Implemented a Multiple User Role selection functionality for the Users -> Edit User page
+* Fix: Did a security review fixing random issues
+* Fix: Security issue regarding unproperly sanitized URLs around some back-end pages. Thanks to Colin Xu from Wordfence
+* Fix: Issue with Stripe when both Login and Register forms were present on the same page
+* Misc: Corrected some documentation links
+* Misc: Let the Stripe Payment Element grow naturally with the form width
+
 = 2.12.8 =
 * Fix: Incorrect spelling on cancel button title
 * Misc: Compatibility changes for Form Designs paid version update

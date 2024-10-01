@@ -367,7 +367,7 @@ Class PMS_Members_Add_New_Bulk_List_Table extends WP_List_Table {
         $actions = array();
 
         // Add an edit user action for each member
-        $actions['view_user'] = '<a href="' . add_query_arg( array( 'user_id' => $item['user_id']), admin_url('user-edit.php') ) . '">' . esc_html__( 'Edit User', 'paid-member-subscriptions' ) . '</a>';
+        $actions['view_user'] = '<a href="' . esc_url( add_query_arg( array( 'user_id' => $item['user_id']), admin_url('user-edit.php') ) ) . '">' . esc_html__( 'Edit User', 'paid-member-subscriptions' ) . '</a>';
 
         // Return value saved for username and also the row actions
         return esc_html( $item['username'] ) . $this->row_actions( $actions );

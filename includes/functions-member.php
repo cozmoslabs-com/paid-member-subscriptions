@@ -187,7 +187,9 @@ function pms_get_members( $args = array(), $count = false ) {
     }
 
     $query_oder_by = "ORDER BY users." . sanitize_text_field( $args['orderby'] ) . ' ';
-    $query_order   = strtoupper( sanitize_text_field( $args['order'] ) ) . ' ';
+    
+    $query_order = strtoupper( $args['order'] ) === 'DESC' ? 'DESC' : 'ASC';
+    $query_order .= ' ';
 
     $query_limit = '';
 

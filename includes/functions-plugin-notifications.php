@@ -12,6 +12,9 @@ function pms_dismiss_admin_notifications() {
 
 	if( ! empty( $_GET['pms_dismiss_admin_notification'] ) ) {
 
+		if( empty( $_GET['_wpnonce'] ) || !wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'pms_plugin_notice_dismiss' ) )
+			return;
+
 		$notifications = PMS_Plugin_Notifications::get_instance();
 		$notifications->dismiss_notification( sanitize_text_field( $_GET['pms_dismiss_admin_notification'] ) );
 
@@ -93,7 +96,7 @@ function pms_add_plugin_notification_new_add_on() {
 		$message = '<img style="float: right; margin: 20px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/pms-stripe.png" />';
 		$message .= '<p style="margin-top: 16px;">' . wp_kses_post( __( '<strong>New payment gateway!</strong><br><br><strong>Stripe</strong> payment gateway is now available in the free version. <br>Your users can pay using credit and debit cards without leaving your website and you can also offer them additional payment methods like Bancontact, iDeal, Giropay and more. <br><br>Get started now by going to <strong>Paid Member Subscriptions -> Settings -> Payments</strong>!', 'paid-member-subscriptions' ) ) . '</p>';
 		$message .= '<p><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/?utm_source=wp-backend&utm_medium=addon-notification&utm_campaign=PMSFree" class="button-primary" target="_blank">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
-		$message .= '<a href="' . esc_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
+		$message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
 
 		pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-settings-page' ) );
 	}
@@ -102,7 +105,7 @@ function pms_add_plugin_notification_new_add_on() {
 	$message = '<img style="float: left; margin: 20px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/addons/pms-add-on-pro-files-restriction-logo.png" />';
 	$message .= '<p style="margin-top: 16px;">' . wp_kses_post( '<strong>Files Restriction add-on!</strong><br><br>Lock down direct access to files and allow only paying members to access them using the new Files Restriction add-on. <br>The add-on is available with an <strong>Agency</strong> or <strong>Pro</strong> license.<br> Don\'t have a license? <a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=plugin-notification-files&utm_campaign=PMSFree#pricing" target="_blank">Buy now!</a>' ) . '</p>';
 	$message .= '<p><a href="'. admin_url( 'admin.php?page=pms-addons-page' ) .'" class="button-primary" target="_blank">' . esc_html__( 'Add-ons Page', 'paid-member-subscriptions' ) . '</a><a href="https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-files-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_content=plugin-notification-files&utm_campaign=PMSFree" class="button-secondary" target="_blank">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
-	$message .= '<a href="' . esc_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
+	$message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
 
 	pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-settings-page' ) );
 
@@ -117,7 +120,7 @@ function pms_add_plugin_notification_new_add_on() {
 			$message = '<img style="float: left; margin: 20px 12px 10px 0; max-width: 100px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/addons/pms-add-on-learndash.png" />';
 			$message .= '<p style="margin-top: 16px;">' . wp_kses_post( '<strong>LearnDash Integration</strong> for <strong>Paid Member Subscriptions</strong> is now available!<br><br>Sell access to courses, create beautiful front-end register, login and reset password forms and restrict access to your Courses, Lessons and Quizzes.<br>Activate from the <a href="'.admin_url( 'admin.php?page=pms-addons-page' ).'">add-ons</a> page.' ) . '</p>';
 			$message .= '<p><a href="https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wpbackend&utm_medium=addon-notification&utm_campaign=PMSPaid" class="button-primary" target="_blank">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
-			$message .= '<a href="' . esc_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) ) . '" type="button" class="notice-dismiss"><span class="screen-reader-text" target="_blank">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
+			$message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '" type="button" class="notice-dismiss"><span class="screen-reader-text" target="_blank">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
 
 			pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-success', true, array( 'pms-addons-page' ) );
 
@@ -129,7 +132,7 @@ function pms_add_plugin_notification_new_add_on() {
 			$message .= '<p style="margin-top: 16px;">' . wp_kses_post( '<strong>LearnDash Integration</strong> for <strong>Paid Member Subscriptions</strong> is now available!<br><br>Sell access to courses, create beautiful front-end register, login and reset password forms and restrict access to your Courses, Lessons and Quizzes.<br><strong>Buy a license to continue</strong>.' ) . '</p>';
 			$message .= '<p><a style="min-width: auto !important;height:30px; margin-right: 12px;" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=addon-notification&utm_campaign=PMSFree#pricing" class="button-primary" target="_blank">' . esc_html__( 'Buy now', 'paid-member-subscriptions' ) . '</a>';
 			$message .= '<a href="https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wpbackend&utm_medium=addon-notification&utm_campaign=PMSFree" class="button button-secondary"  target="_blank">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
-			$message .= '<a href="' . esc_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) ) . '" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
+			$message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
 
 			pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-success', true, array( 'pms-addons-page' ) );
 

@@ -573,7 +573,7 @@ function pms_stripe_add_settings_content( $options ) {
 
 								echo '<input id="stripe-connect-webhook-url" type="text" name="stripe_connect_webhook_url" value="' . esc_url( add_query_arg( 'pay_gate_listener', 'stripe', trailingslashit( home_url() ) ) ) . '" class="widefat" disabled /><a class="stripe-connect__copy button-secondary" data-id="stripe-connect-webhook-url" href="" style="margin-left: 4px;">Copy</a>';
 
-								echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . wp_kses_post( sprintf( __( 'Copy this URL and configure it in your Stripe Account under Developers -> Webhooks -> Add Endpoint. %sClick here%s to see the list of necessary events and learn more. ', 'paid-member-subscriptions' ), '<br><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/">', '</a>' ) ) . '</p>';
+								echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . wp_kses_post( sprintf( __( 'Copy this URL and configure it in your Stripe Account. %sClick here%s to learn more about the Webhooks setup process. ', 'paid-member-subscriptions' ), '<br><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Webhooks_setup">', '</a>' ) ) . '</p>';
 
 							echo '</div>';
 

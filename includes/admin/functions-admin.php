@@ -41,6 +41,9 @@ function pms_reset_cron_jobs(){
     if( !wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'pms_reset_cron_jobs' ) )
         return;
 
+    if( ! ( current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' ) ) )
+        return;
+
     // Remove all cron jobs
     wp_clear_scheduled_hook( 'pms_cron_process_member_subscriptions_payments' );
     wp_clear_scheduled_hook( 'pms_check_subscription_status' );
@@ -68,7 +71,7 @@ function pms_reset_cron_jobs(){
         '_wpnonce'
     ));
 
-    wp_safe_redirect( add_query_arg( 'sucess_notice', '1', $url ) );
+    wp_safe_redirect( esc_url( add_query_arg( 'sucess_notice', '1', $url ) ) );
     exit;
 
 }

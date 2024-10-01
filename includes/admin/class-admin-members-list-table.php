@@ -190,12 +190,12 @@ Class PMS_Members_List_Table extends WP_List_Table {
     protected function get_views() {
 
         return apply_filters( 'pms_members_list_table_get_views', array(
-            'all'       => '<a href="' . remove_query_arg( array( 'pms-view', 'paged' ) ) . '" ' . ( !isset( $_GET['pms-view'] ) ? 'class="current"' : '' ) . '>All <span class="count">(' . ( isset( $this->views_count['all'] ) ? $this->views_count['all'] : '' ) . ')</span></a>',
-            'active'    => '<a href="' . add_query_arg( array( 'pms-view' => 'active', 'paged' => 1 ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'active' ? 'class="current"' : '' ) . '>Active <span class="count">(' . ( isset( $this->views_count['active'] ) ? $this->views_count['active'] : '' ) . ')</span></a>',
-            'canceled'  => '<a href="' . add_query_arg( array( 'pms-view' => 'canceled', 'paged' => 1 ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'canceled' ? 'class="current"' : '' ) . '>Canceled <span class="count">(' . ( isset( $this->views_count['canceled'] ) ? $this->views_count['canceled'] : '' ) . ')</span></a>',
-            'expired'   => '<a href="' . add_query_arg( array( 'pms-view' => 'expired', 'paged' => 1 ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'expired' ? 'class="current"' : '' ) . '>Expired <span class="count">(' . ( isset( $this->views_count['expired'] ) ? $this->views_count['expired'] : '' ) . ')</span></a>',
-            'pending'   => '<a href="' . add_query_arg( array( 'pms-view' => 'pending', 'paged' => 1 ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'pending' ? 'class="current"' : '' ) . '>Pending <span class="count">(' . ( isset( $this->views_count['pending'] ) ? $this->views_count['pending'] : '' ) . ')</span></a>',
-            'abandoned' => '<a href="' . add_query_arg( array( 'pms-view' => 'abandoned', 'paged' => 1 ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'abandoned' ? 'class="current"' : '' ) . '>Abandoned <span class="count">(' . ( isset( $this->views_count['abandoned'] ) ? $this->views_count['abandoned'] : '' ) . ')</span></a>',
+            'all'       => '<a href="' . esc_url( remove_query_arg( array( 'pms-view', 'paged' ) ) ) . '" ' . ( !isset( $_GET['pms-view'] ) ? 'class="current"' : '' ) . '>All <span class="count">(' . ( isset( $this->views_count['all'] ) ? $this->views_count['all'] : '' ) . ')</span></a>',
+            'active'    => '<a href="' . esc_url( add_query_arg( array( 'pms-view' => 'active', 'paged' => 1 ) ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'active' ? 'class="current"' : '' ) . '>Active <span class="count">(' . ( isset( $this->views_count['active'] ) ? $this->views_count['active'] : '' ) . ')</span></a>',
+            'canceled'  => '<a href="' . esc_url( add_query_arg( array( 'pms-view' => 'canceled', 'paged' => 1 ) ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'canceled' ? 'class="current"' : '' ) . '>Canceled <span class="count">(' . ( isset( $this->views_count['canceled'] ) ? $this->views_count['canceled'] : '' ) . ')</span></a>',
+            'expired'   => '<a href="' . esc_url( add_query_arg( array( 'pms-view' => 'expired', 'paged' => 1 ) ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'expired' ? 'class="current"' : '' ) . '>Expired <span class="count">(' . ( isset( $this->views_count['expired'] ) ? $this->views_count['expired'] : '' ) . ')</span></a>',
+            'pending'   => '<a href="' . esc_url( add_query_arg( array( 'pms-view' => 'pending', 'paged' => 1 ) ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'pending' ? 'class="current"' : '' ) . '>Pending <span class="count">(' . ( isset( $this->views_count['pending'] ) ? $this->views_count['pending'] : '' ) . ')</span></a>',
+            'abandoned' => '<a href="' . esc_url( add_query_arg( array( 'pms-view' => 'abandoned', 'paged' => 1 ) ) ) . '" ' . ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'abandoned' ? 'class="current"' : '' ) . '>Abandoned <span class="count">(' . ( isset( $this->views_count['abandoned'] ) ? $this->views_count['abandoned'] : '' ) . ')</span></a>',
         ));
 
     }
@@ -384,7 +384,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
             $data[] = apply_filters( 'pms_members_list_table_entry_data', array(
                 'user_id'           => $member->user_id,
-                'username'          => '<strong><a href="' . add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $member->user_id ), admin_url( 'admin.php?page=pms-members-page' ) ) . '">' . esc_attr( $member->username ) . '</a></strong>',
+                'username'          => '<strong><a href="' . esc_url( add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $member->user_id ), admin_url( 'admin.php?page=pms-members-page' ) ) ) . '">' . esc_attr( $member->username ) . '</a></strong>',
                 'name'              => $member_name,
                 'email'             => $member->email,
                 'subscriptions'     => $member_subscriptions
@@ -462,7 +462,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
         $actions = array();
 
         // Add an edit user action for each member
-        $actions['edit'] = '<a href="' . add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $item['user_id'] ), admin_url( 'admin.php?page=pms-members-page' ) ) . '">' . esc_html__( 'Edit Member', 'paid-member-subscriptions' ) . '</a>';
+        $actions['edit'] = '<a href="' . esc_url( add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $item['user_id'] ), admin_url( 'admin.php?page=pms-members-page' ) ) ) . '">' . esc_html__( 'Edit Member', 'paid-member-subscriptions' ) . '</a>';
 
         // Return value saved for username and also the row actions
         return $item['username'] . $this->row_actions( apply_filters( 'pms_members_list_username_actions', $actions, $item ) );
@@ -501,7 +501,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
             $output .= '<span class="pms-member-list-subscription pms-has-bubble">';
 
-                $output .= '<a href="' . add_query_arg( array( 'subpage' => 'edit_subscription', 'subscription_id' => $member_subscription->id ) ) . '">';
+                $output .= '<a href="' . esc_url( add_query_arg( array( 'subpage' => 'edit_subscription', 'subscription_id' => $member_subscription->id ) ) ) . '">';
                     $output .= apply_filters( 'pms_list_table_' . $this->_args['plural'] . '_show_status_dot', '<span class="pms-status-dot ' . esc_attr( $member_subscription->status ) . '"></span>' );
 
                     $output .= ( !empty( $subscription_plan->id ) ? $subscription_plan->name : sprintf( esc_html__( 'Subscription Plan Not Found - ID: %s', 'paid-member-subscriptions' ), $member_subscription->subscription_plan_id ) );
@@ -538,7 +538,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
             if( $other_count > 0 )
                 $sign = '+';
 
-            $output .= '<a href="' . add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $user_id ) ) . '" title="'.esc_html__( 'View Abandoned Subscriptions', 'paid-member-subscriptions' ).'" class="pms-abandon-count">';
+            $output .= '<a href="' . esc_url( add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $user_id ) ) ) . '" title="'.esc_html__( 'View Abandoned Subscriptions', 'paid-member-subscriptions' ).'" class="pms-abandon-count">';
                 $output .= sprintf( _n( '%1$s %2$s abandoned subscription', '%1$s %2$s abandoned subscriptions', $abandon_count, 'paid-member-subscriptions' ), $sign, $abandon_count );
             $output .= '</a>';
         }

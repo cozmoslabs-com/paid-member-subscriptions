@@ -176,4 +176,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Show a portion of the restricted post to logged-out users or users that are not subscribed to a plan.', 'paid-member-subscriptions' ); ?></p>
     </div>
+
+    <!-- Exclude Restricted Posts from Queries -->
+    <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+        <label class="cozmoslabs-form-field-label" for="pms_excludeRestrictedPosts"><?php esc_html_e( 'Exclude Restricted Posts from Queries', 'paid-member-subscriptions' ); ?></label>
+
+        <div class="cozmoslabs-toggle-container">
+            <input type="checkbox" name="pms_content_restriction_settings[pms_excludePosts]" id="pms_excludeRestrictedPosts" value="yes" <?php echo ( isset( $this->options['pms_excludePosts'] ) && $this->options['pms_excludePosts'] == 'yes' ) ? 'checked' : ''; ?> >
+            <label class="cozmoslabs-toggle-track" for="pms_excludeRestrictedPosts"></label>
+        </div>
+
+        <div class="cozmoslabs-toggle-description">
+            <label for="pms_excludeRestrictedPosts" class="cozmoslabs-description"><?php esc_html_e( 'Activate this option to exclude the restricted posts from default WordPress and WooCommerce queries.', 'paid-member-subscriptions' ); ?></label>
+        </div>
+    </div>
 </div>

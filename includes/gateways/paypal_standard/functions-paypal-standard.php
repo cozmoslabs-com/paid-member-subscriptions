@@ -49,9 +49,15 @@ function pms_add_settings_content_paypal_standard( $options ) {
         <!-- IPN Message -->
 
         <?php if( in_array( 'paypal_standard', $options['active_pay_gates'] ) ) : ?>
-            <?php $paypal_ipn_url = esc_url( add_query_arg( 'pay_gate_listener', 'paypal_ipn', trailingslashit( home_url() ) ) ); ?>
+            <?php
+                $paypal_ipn_url = esc_url( add_query_arg( 'pay_gate_listener', 'paypal_ipn', trailingslashit( home_url() ) ) );
+                $paypal_link_doc = '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/paypal-standard/#Setting_up_Instant_Payment_Notifications_IPN" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>';
+            ?>
         <?php elseif( in_array( 'paypal_express', $options['active_pay_gates'] ) ) : ?>
-            <?php $paypal_ipn_url = esc_url( add_query_arg( 'pay_gate_listener', 'paypal_epipn', trailingslashit( home_url() ) ) ); ?>
+            <?php
+                $paypal_ipn_url = esc_url( add_query_arg( 'pay_gate_listener', 'paypal_epipn', trailingslashit( home_url() ) ) );
+                $paypal_link_doc = '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/paypal-pro-and-express-checkout/#Setting_up_Instant_Payment_Notifications_IPN" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>';
+            ?>
         <?php else: ?>
             <?php $paypal_ipn_url = ""; ?>
         <?php endif; ?>
@@ -63,7 +69,7 @@ function pms_add_settings_content_paypal_standard( $options ) {
 
 
             <p class="pms-ipn-notice cozmoslabs-description cozmoslabs-description-space-left">
-                <?php printf( wp_kses_post( __( 'In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %s', 'paid-member-subscriptions' ) ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/recurring-payments-for-paypal-standard/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Setting_up_Instant_Payment_Notifications_IPN" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>' ); ?>
+                <?php printf( wp_kses_post( __( 'In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %s', 'paid-member-subscriptions' ) ), wp_kses_post( $paypal_link_doc ) ); ?>
             </p>
         </div>
 

@@ -137,7 +137,7 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             // If the subscription was added redirect to the subscription's edit screen
             if( $subscription_id ) {
 
-                wp_redirect( add_query_arg( array( 'page' => $this->menu_slug, 'subpage' => 'edit_subscription', 'subscription_id' => (int)$subscription_id, 'message' => '2', 'updated' => '1' ), admin_url( 'admin.php' ) ) );
+                wp_redirect( esc_url( add_query_arg( array( 'page' => $this->menu_slug, 'subpage' => 'edit_subscription', 'subscription_id' => (int)$subscription_id, 'message' => '2', 'updated' => '1' ), admin_url( 'admin.php' ) ) ) );
                 exit;
 
             }
@@ -204,7 +204,7 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
             if( $updated ) {
 
-                wp_redirect( add_query_arg( array( 'message' => '3', 'updated' => '1' ), pms_get_current_page_url() ) );
+                wp_redirect( esc_url( add_query_arg( array( 'message' => '3', 'updated' => '1' ), pms_get_current_page_url() ) ) );
                 exit;
 
             }
@@ -234,9 +234,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                 $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $member_id ) );
 
                 if( ! empty( $member_subscriptions ) )
-                    wp_redirect( add_query_arg( array( 'page' => $this->menu_slug, 'subpage' => 'edit_member', 'member_id' => $member_id, 'message' => '4', 'updated' => '1' ), admin_url( 'admin.php' ) ) );
+                    wp_redirect( esc_url( add_query_arg( array( 'page' => $this->menu_slug, 'subpage' => 'edit_member', 'member_id' => $member_id, 'message' => '4', 'updated' => '1' ), admin_url( 'admin.php' ) ) ) );
                 else
-                    wp_redirect( add_query_arg( array( 'page' => $this->menu_slug, 'message' => '4', 'updated' => '1' ), admin_url( 'admin.php' ) ) );
+                    wp_redirect( esc_url( add_query_arg( array( 'page' => $this->menu_slug, 'message' => '4', 'updated' => '1' ), admin_url( 'admin.php' ) ) ) );
 
                 exit;
 

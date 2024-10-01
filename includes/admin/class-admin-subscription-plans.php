@@ -155,7 +155,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                 wp_update_post( array( 'ID' => $child_post->ID, 'post_parent' => $parent_post->ID ) );
             }
 
-            wp_redirect( add_query_arg( array( 'post_type' => $this->post_type ), pms_get_current_page_url(true) ) );
+            wp_redirect( esc_url( add_query_arg( array( 'post_type' => $this->post_type ), pms_get_current_page_url(true) ) ) );
             die();
 
         }
@@ -190,7 +190,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                 wp_update_post( array( 'ID' => $child_post->ID, 'post_parent' => $current_post->ID ) );
             }
 
-            wp_redirect( add_query_arg( array( 'post_type' => $this->post_type ), pms_get_current_page_url(true) ) );
+            wp_redirect( esc_url( add_query_arg( array( 'post_type' => $this->post_type ), pms_get_current_page_url(true) ) ) );
             die();
 
         }
@@ -546,7 +546,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                         $pattern = preg_replace('/<!--\s*wp:paragraph\s*{"align":"center"}\s*-->\s*<span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 1<\/span>\s*<!--\s*\/wp:paragraph\s*-->/s', '', $pattern);
                     }
 
-                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'&single_plan=yes"';
+                    $url = 'href="' .  esc_url( add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) ) .'&single_plan=yes"';
                     $pattern = str_replace( 'href="1"', $url, $pattern );
 
                 } elseif ( $number_of_subscriptions == 1 ) {
@@ -576,7 +576,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                         $pattern = preg_replace('/<!--\s*wp:paragraph\s*{"align":"center"}\s*-->\s*<span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 2<\/span>\s*<!--\s*\/wp:paragraph\s*-->/s', '', $pattern);
                     }
 
-                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'&single_plan=yes"';
+                    $url = 'href="' .  esc_url( add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) ) .'&single_plan=yes"';
                     $pattern = str_replace( 'href="2"', $url, $pattern );
 
                 } elseif ( $number_of_subscriptions == 2 ) {
@@ -606,7 +606,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                         $pattern = preg_replace('/<!--\s*wp:paragraph\s*{"align":"center"}\s*-->\s*<span class="pms-pt-text-price pms-pt-text-duration">Sign-up fee 3<\/span>\s*<!--\s*\/wp:paragraph\s*-->/s', '', $pattern);
                     }
 
-                    $url = 'href="' .  add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) .'&single_plan=yes"';
+                    $url = 'href="' .  esc_url( add_query_arg( 'subscription_plan', $plan->id, get_permalink( pms_get_page('register') ) ) ) .'&single_plan=yes"';
                     $pattern = str_replace( 'href="3"', $url, $pattern );
 
                 }
@@ -785,7 +785,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
 
                 $redirect = add_query_arg( $redirect_args, pms_get_current_page_url( true ) );
 
-                wp_redirect( $redirect );
+                wp_redirect( esc_url( $redirect ) );
                 exit;
 
             }
