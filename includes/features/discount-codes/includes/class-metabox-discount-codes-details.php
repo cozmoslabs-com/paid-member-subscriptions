@@ -12,7 +12,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
 if ( class_exists('PMS_Meta_Box') ){
 
-    Class PMS_IN_Discount_Codes_Meta_Box extends PMS_Meta_Box    {
+    Class PMS_IN_Discount_Codes_Meta_Box extends PMS_Meta_Box {
 
      /*
      * Method to hook the output and save data methods
@@ -254,6 +254,7 @@ if ( class_exists('PMS_Meta_Box') ){
          else
              update_post_meta( $post_id, 'pms_discount_new_users_only', '' );
 
+         delete_transient( 'pms_discounts_are_defined_data' );
 
          if ( !empty($validation_errors) ) {  // If we have validation errors, save them in a transient
              set_transient( 'pms_dc_metabox_validation_errors', $validation_errors, 60 );

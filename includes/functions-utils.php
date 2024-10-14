@@ -227,9 +227,12 @@ function pms_array_strip_script_tags( $array = array() ) {
 
         if( is_array( $value ) )
             $array[$key] = pms_array_strip_script_tags( $value );
-
-        else
-            $array[$key] = preg_replace( '@<(script)[^>]*?>.*?</\\1>@si', '', $value );
+        else {
+            if( empty( $value ) )
+                $array[$key] = $value;
+            else
+                $array[$key] = preg_replace( '@<(script)[^>]*?>.*?</\\1>@si', '', $value );
+        }
 
     }
 

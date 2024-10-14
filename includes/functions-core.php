@@ -1276,7 +1276,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             } elseif ( $pms_serial_number_status == 'expired' ) {
 
-                $pms_expired_message = sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=license-key-expired-notification' ) );
+                $pms_expired_message = __( 'Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>.', 'paid-member-subscriptions' ) . '<br>';
+
+                $pms_expired_message .= sprintf( __( 'Please <strong>renew</strong> your license in order to continue receiving access to updates and support. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=license-key-expired-notification' ) );;
+
+                if( in_array( 'stripe_connect', pms_get_active_payment_gateways() ) )
+                    $pms_expired_message .= '<br>' . __( 'Without an active license you are also paying additional <strong>Stripe fees</strong>.', 'paid-member-subscriptions' );
 
                 /* if we are on our own plugin pages make the expired license notification non dismissible */
                 $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();

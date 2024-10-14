@@ -99,6 +99,13 @@ class PMS_Batch_Export extends PMS_Export {
 	public $is_empty = false;
 
 	/**
+	 *  Is export finished
+	 *
+	 * @since 1.7.6
+	 */
+	public $done = false;
+
+	/**
 	 * Get things started
 	 *
 	 * @param $_step int The step to process
@@ -117,7 +124,6 @@ class PMS_Batch_Export extends PMS_Export {
 		}
 
 		$this->step       = $_step;
-		$this->done       = false;
 	}
 
 	/**

@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
 Tested up to: 6.6
-Stable tag: 2.12.9
+Stable tag: 2.13.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,6 +250,18 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.13.0 =
+* Fix: Issue with Export functionality not working correctly
+* Fix: Some notices coming from the Export functionality with newer PHP versions
+* Fix: PHP 8.2 notices coming from the [pms-account] shortcode when actions were disabled
+* Fix: Issue where the Subscription Plan price couldn't be set to 0
+* Fix: Compatibility issue between our Free Trial functionality and the WooCommerce Stripe gateway plugin
+* Fix: Issue with Free Trial not working correctly when changing subscriptions using the Manual / Offline payment gateway
+* Fix: Issue with billing amount not being set correctly for plans purchased through the Manual / Offline payment gateway
+* Misc: Added a filter to enable the display of user roles created by other Subscriptions Plans when creating a subscription plan: pms_get_user_role_names_exclude_subscription_plans_created_roles
+* Misc: Speed up processing when checking if discounts are defined
+* Misc: Fix a count issue for Setup Wizard progress steps
+
 = 2.12.9 =
 * Feature: Added option to exclude restricted posts from default queries. Go to Settings -> Content Restriction to enable this functionality
 * Feature: Implemented a Multiple User Role selection functionality for the Users -> Edit User page

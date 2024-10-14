@@ -403,3 +403,14 @@ function pms_stripe_add_deprecation_notice() {
 
     }
 }
+
+// WooCommerce Stripe compatibility with autologin
+add_action( 'pms_register_form_after_create_user', 'pms_stripe_woocommerce_stripe_compatibility', 9 );
+function pms_stripe_woocommerce_stripe_compatibility(){
+    if( class_exists( 'WC_Stripe' ) ){
+        $instance           = WC_Stripe::get_instance();
+        $woo_stripe_gateway = $instance->get_main_stripe_gateway();
+
+        remove_action( 'set_logged_in_cookie', [ $woo_stripe_gateway, 'set_cookie_on_current_request' ] );
+    }
+}

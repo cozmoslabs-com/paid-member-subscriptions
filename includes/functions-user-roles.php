@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 continue;
 
             // Escape user roles created from subscription plans
-            if( strpos( $role_slug, 'pms_subscription_plan_' ) !== false )
+            if( apply_filters( 'pms_get_user_role_names_exclude_subscription_plans_created_roles', '__return_true' ) && strpos( $role_slug, 'pms_subscription_plan_' ) !== false )
                 continue;
 
             $role_names[ $role_slug ] = $role_name;

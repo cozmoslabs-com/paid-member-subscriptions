@@ -73,7 +73,15 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         // Activate subscription if plan has a free trial
         if( !empty( $this->subscription_data['trial_end'] ) ){
 
-            $subscription->update( array( 'status' => 'active', 'billing_next_payment' => $this->subscription_data['trial_end'], 'billing_amount' => $this->subscription_plan->price ) );
+            $subscription->update(
+                array(
+                    'status'               => 'active',
+                    'subscription_plan_id' => $this->subscription_data['subscription_plan_id'],
+                    'billing_next_payment' => $this->subscription_data['trial_end'],
+                    'billing_amount'       => $this->subscription_data['billing_amount'],
+                    'trial_end'            => $this->subscription_data['trial_end'],
+                )
+            );
 
             pms_add_member_subscription_log( $subscription->id, 'subscription_trial_started', array( 'until' => $this->subscription_data['trial_end'] ) );
 
@@ -113,7 +121,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
     }
 
-    // Adds a pending payment for the user when there's a free trial
+    // Adds a pending payment for the user after a free trial
     public function process_payment( $payment_id = 0, $subscription_id = 0 ) {
         $subscription = pms_get_member_subscription( $subscription_id );
 

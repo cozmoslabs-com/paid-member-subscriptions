@@ -56,10 +56,10 @@ body[class*="post-type-pms-"].post-php #wpbody-content .wrap {
     display: none !important;
 }
 
-body[class*="_page_pms-"] .error:not(.pms-notice),
-body[class*="_page_pms-"] .notice:not(.pms-notice),
-body[class*="post-type-pms-"] .error:not(.pms-notice),
-body[class*="post-type-pms-"] .notice:not(.pms-notice) {
+body[class*="_page_pms-"] .error:not(.pms-notice):not(.wppb-serial-notification),
+body[class*="_page_pms-"] .notice:not(.pms-notice):not(.wppb-serial-notification),
+body[class*="post-type-pms-"] .error:not(.pms-notice):not(.wppb-serial-notification),
+body[class*="post-type-pms-"] .notice:not(.pms-notice):not(.wppb-serial-notification) {
     display: none !important; /* hide admin notices until scripts are loaded */
 }
 

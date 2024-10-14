@@ -565,7 +565,7 @@ Class PMS_Form_Handler {
 
         // Redirect to current page and remove all query arguments
         if( isset( $_POST['pms_redirect_back'] ) ) {
-            wp_redirect( esc_url( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
+            wp_redirect( esc_url_raw( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
             exit;
         }
 
@@ -637,7 +637,7 @@ Class PMS_Form_Handler {
 
         // Redirect to current page and remove all query arguments
         if( isset( $_POST['pms_redirect_back'] ) ) {
-            wp_redirect( esc_url( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
+            wp_redirect( esc_url_raw( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
             exit;
         }
 
@@ -699,7 +699,7 @@ Class PMS_Form_Handler {
 
         // Redirect to current page and remove all query arguments
         if( isset( $_POST['pms_redirect_back'] ) ) {
-            wp_redirect( esc_url( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
+            wp_redirect( esc_url_raw( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
             exit;
         }
 
@@ -819,7 +819,7 @@ Class PMS_Form_Handler {
 
         // Redirect to current page and remove all query arguments
         if( isset( $_REQUEST['pms_redirect_back'] ) ) {
-            wp_redirect( esc_url( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
+            wp_redirect( esc_url_raw( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
             exit;
         }
 
@@ -906,7 +906,7 @@ Class PMS_Form_Handler {
 
         // Redirect to current page and remove all query arguments
         if( isset( $_REQUEST['pms_redirect_back'] ) ) {
-            wp_redirect( esc_url( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
+            wp_redirect( esc_url_raw( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
             exit;
         }
 
@@ -945,7 +945,7 @@ Class PMS_Form_Handler {
 
         // Redirect to current page and remove all query arguments
         if( isset( $_REQUEST['pms_redirect_back'] ) ) {
-            wp_redirect( esc_url( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
+            wp_redirect( esc_url_raw( remove_query_arg( array( 'pms-action', 'subscription_plan', 'subscription_id', 'pmstkn' ), pms_get_current_page_url() ) ) );
             exit;
         }
 
@@ -975,7 +975,7 @@ Class PMS_Form_Handler {
 
         // Redirect to current page and remove all query arguments
         if( isset( $_POST['pms_redirect_back'] ) ) {
-            wp_redirect( esc_url( pms_get_current_page_url( true ) ));
+            wp_redirect( esc_url_raw( pms_get_current_page_url( true ) ));
             exit;
         }
 
@@ -1766,7 +1766,6 @@ Class PMS_Form_Handler {
 
         $form_location = self::get_request_form_location();
 
-
         // Verify the validity of the subscription plans
         self::validate_subscription_plans();
 
@@ -2006,7 +2005,7 @@ Class PMS_Form_Handler {
                 'subscription_data' => $subscription_data,
                 'sign_up_amount'    => null,
                 'redirect_url'      => self::get_redirect_url(),
-                'form_location'     => self::get_request_form_location(),
+                'form_location'     => $form_location,
                 'recurring'         => $is_recurring
             );
 

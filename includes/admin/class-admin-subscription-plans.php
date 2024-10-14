@@ -155,7 +155,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                 wp_update_post( array( 'ID' => $child_post->ID, 'post_parent' => $parent_post->ID ) );
             }
 
-            wp_redirect( esc_url( add_query_arg( array( 'post_type' => $this->post_type ), pms_get_current_page_url(true) ) ) );
+            wp_redirect( esc_url_raw( add_query_arg( array( 'post_type' => $this->post_type ), pms_get_current_page_url(true) ) ) );
             die();
 
         }
@@ -190,7 +190,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                 wp_update_post( array( 'ID' => $child_post->ID, 'post_parent' => $current_post->ID ) );
             }
 
-            wp_redirect( esc_url( add_query_arg( array( 'post_type' => $this->post_type ), pms_get_current_page_url(true) ) ) );
+            wp_redirect( esc_url_raw( add_query_arg( array( 'post_type' => $this->post_type ), pms_get_current_page_url(true) ) ) );
             die();
 
         }
@@ -785,7 +785,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
 
                 $redirect = add_query_arg( $redirect_args, pms_get_current_page_url( true ) );
 
-                wp_redirect( esc_url( $redirect ) );
+                wp_redirect( esc_url_raw( $redirect ) );
                 exit;
 
             }

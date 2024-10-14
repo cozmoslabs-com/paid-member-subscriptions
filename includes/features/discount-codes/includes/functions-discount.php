@@ -549,8 +549,18 @@ function pms_in_dc_get_discount_uses_per_user( $code ){
 
 function pms_in_are_active_discounts_defined(){
 
-    global $wpdb;
+    $pms_discounts_are_defined = get_transient( 'pms_discounts_are_defined_data' );
 
-    return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts as a INNER JOIN $wpdb->postmeta as b ON a.ID = b.post_id WHERE a.post_type = 'pms-discount-codes' AND b.meta_key = 'pms_discount_status' AND b.meta_value = 'active'" );    
+    if ( false === $pms_discounts_are_defined ) {
+
+        global $wpdb;
+
+        $pms_discounts_are_defined = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts as a INNER JOIN $wpdb->postmeta as b ON a.ID = b.post_id WHERE a.post_type = 'pms-discount-codes' AND b.meta_key = 'pms_discount_status' AND b.meta_value = 'active'" );
+
+        set_transient( 'pms_discounts_are_defined_data', $pms_discounts_are_defined, DAY_IN_SECONDS );
+
+    }
+
+    return $pms_discounts_are_defined;
 
 }

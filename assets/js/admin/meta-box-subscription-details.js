@@ -29,15 +29,6 @@ jQuery( function($) {
             return false;
         }
 
-        var subscription_plan_price = $('#pms-subscription-plan-price').val().trim();
-
-        if( parseFloat( subscription_plan_price ) < 1 ) {
-
-            alert( 'Subscription Plan price must be at least 1.' );
-
-            return false;
-        }
-
     });
 
     /*

@@ -217,7 +217,7 @@ class PMS_Setup_Wizard {
         // step completion for setup
         $steps_completion = $this->get_completed_progress_steps();
 
-        if( !empty( $this->step ) ){
+        if( !empty( $this->step ) && !in_array( $this->step, array( 'addons' ) ) ){
             if( empty( $steps_completion ) ){
 
                 $steps_completion = array(
@@ -371,6 +371,9 @@ class PMS_Setup_Wizard {
 
         $current_step = is_array( $steps_completion ) ? count( $steps_completion ) : 0;
         $total_steps  = count( $steps );
+
+        if( $current_step > $total_steps )
+            $current_step = $total_steps;
 
         ob_start(); ?>
 

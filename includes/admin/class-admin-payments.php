@@ -360,7 +360,7 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
                     do_action( 'pms_manually_added_payment_success', $payment );
 
-                    wp_redirect( esc_url( add_query_arg( array('page' => $this->menu_slug, 'message' => '1', 'updated' => '1'), admin_url( 'admin.php' ) ) ) );
+                    wp_redirect( esc_url_raw( add_query_arg( array('page' => $this->menu_slug, 'message' => '1', 'updated' => '1'), admin_url( 'admin.php' ) ) ) );
                     exit;
                 }
 
