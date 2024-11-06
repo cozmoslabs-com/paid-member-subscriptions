@@ -81,10 +81,10 @@ add_action( 'admin_init', 'pms_add_admin_menu_notification_counts', 1000 );
  *
  *
  */
-function pms_add_plugin_notification( $notification_id = '', $notification_message = '', $notification_class = 'update-nag', $count_in_menu = true, $count_in_submenu = array() ) {
+function pms_add_plugin_notification( $notification_id = '', $notification_message = '', $notification_class = 'update-nag', $count_in_menu = true, $count_in_submenu = array(), $show_in_all_backend = false ) {
 
 	$notifications = PMS_Plugin_Notifications::get_instance();
-	$notifications->add_notification( $notification_id, $notification_message, $notification_class, $count_in_menu, $count_in_submenu );
+	$notifications->add_notification( $notification_id, $notification_message, $notification_class, $count_in_menu, $count_in_submenu, $show_in_all_backend );
 
 }
 
@@ -140,4 +140,4 @@ function pms_add_plugin_notification_new_add_on() {
 	}
 
 }
-add_action( 'admin_init', 'pms_add_plugin_notification_new_add_on' );
+//add_action( 'admin_init', 'pms_add_plugin_notification_new_add_on' );

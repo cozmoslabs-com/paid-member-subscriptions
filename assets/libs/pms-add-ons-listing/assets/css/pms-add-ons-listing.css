@@ -174,7 +174,7 @@
 }
 
 .pms-add-ons-wrap .plugin-card .plugin-card-top a.pms-tp-logo {
-    background: #359ED7;
+    background: #006C9B;
 }
 
 .pms-add-ons-wrap .plugin-card .plugin-card-top a.pms-pb-logo {
@@ -183,6 +183,10 @@
 
 .pms-add-ons-wrap .plugin-card .plugin-card-top a.pms-recommended-plugin-logo img {
     max-width: 260px;
+}
+
+.pms-add-ons-wrap .plugin-card .plugin-card-top a.pms-tp-logo img {
+    max-width: 220px;
 }
 
 .pms-add-ons-wrap .plugin-card .pms-add-on-title a {

@@ -94,10 +94,10 @@ class PMS_Login extends ET_Builder_Module {
         }
 
 	    $atts = [
-		    'redirect_url'        => array_key_exists('redirect_url', $attrs)         && $attrs['redirect_url']        !== 'default' ? esc_attr($attrs['redirect_url'])        : '',
-		    'logout_redirect_url' => array_key_exists('logout_redirect_url', $attrs)  && $attrs['logout_redirect_url'] !== 'default' ? esc_attr($attrs['logout_redirect_url']) : '',
-		    'register_url'        => array_key_exists('register_url', $attrs)         && $attrs['register_url']        !== 'default' ? esc_attr($attrs['register_url'])        : '',
-		    'lostpassword_url'    => array_key_exists('lostpassword_url', $attrs)     && $attrs['lostpassword_url']    !== 'default' ? esc_attr($attrs['lostpassword_url'])    : '',
+		    'redirect_url'        => array_key_exists('redirect_url', $attrs)         && $attrs['redirect_url']        !== 'default' ? pms_divi_parse_redirect_url($attrs['redirect_url'])        : '',
+		    'logout_redirect_url' => array_key_exists('logout_redirect_url', $attrs)  && $attrs['logout_redirect_url'] !== 'default' ? pms_divi_parse_redirect_url($attrs['logout_redirect_url']) : '',
+		    'register_url'        => array_key_exists('register_url', $attrs)         && $attrs['register_url']        !== 'default' ? pms_divi_parse_redirect_url($attrs['register_url'])        : '',
+		    'lostpassword_url'    => array_key_exists('lostpassword_url', $attrs)     && $attrs['lostpassword_url']    !== 'default' ? pms_divi_parse_redirect_url($attrs['lostpassword_url'])    : '',
 	    ];
 
         return '<div class="pms-divi-front-end-container">' .

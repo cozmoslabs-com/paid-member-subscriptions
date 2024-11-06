@@ -98,7 +98,7 @@ jQuery( function($) {
     var paygate_selector           = 'input.pms_pay_gate'
 
     var settings_recurring = $('input[name="pms_default_recurring"]').val()
-    
+
     $pms_section_billing_details = $('.pms-section-billing-details')
     is_pb_email_confirmation_on  = $pms_section_billing_details.siblings('.pms-email-confirmation-payment-message').length > 0 ? true : false
 
@@ -188,7 +188,7 @@ jQuery( function($) {
                 $pms_auto_renew_field.hide()
             }
 
-            if ( ( $pms_checked_subscription.data('fixed_membership') != 'on' && $pms_checked_subscription.data('duration') == 0 ) || $pms_checked_subscription.data('price') == 0 ) {
+            if ( ( $pms_checked_subscription.data('fixed_membership') != 'on' && $pms_checked_subscription.data('duration') == 0 ) || ( $pms_checked_subscription.data('price') == 0 && !( $pms_checked_subscription.data('sign_up_fee') > 0 ) ) ) {
 
                 if ( typeof $pms_checked_subscription.data('discountedPrice') == 'undefined' )
                     $pms_auto_renew_field.hide()
@@ -199,10 +199,10 @@ jQuery( function($) {
 
             // show auto-renew checkbox for pro-rated plans that recur
             if ( $pms_checked_subscription.data('recurring') != 'undefined' && $pms_checked_subscription.data('recurring') != 3 && $pms_checked_subscription.data('recurring') != 2 ) {
-                
+
                 if ( $pms_checked_subscription.data('fixed_membership') != 'on' || ( $pms_checked_subscription.data('fixed_membership') == 'on' && $pms_checked_subscription.data('allow_renew') == 'on' ) ){
 
-                    if (typeof $pms_checked_subscription.data('prorated_discount') != 'undefined' && $pms_checked_subscription.data('prorated_discount') > 0)
+                    if ( typeof $pms_checked_subscription.data('prorated_discount') != 'undefined' && $pms_checked_subscription.data('prorated_discount') > 0 )
                         $pms_auto_renew_field.show()
 
                 }
@@ -331,7 +331,7 @@ jQuery( function($) {
                 if ( $.pms_plan_is_prorated() ){
 
                     if ( $.pms_checkout_is_recurring() ){
-                        
+
                         if( typeof $pms_form != 'undefined' )
                             $.pms_show_payment_fields( $pms_form )
 
@@ -360,9 +360,9 @@ jQuery( function($) {
 
             if ( !( $( '#pms-change-subscription-form' ).length > 0 ) )
                 return
-            
+
             $( 'input[name="subscription_plans"]' ).each( function( index, plan ){
-                
+
                 // don't do anything for plans that do not recur or if they don't have a prorated discount
                 if ( $(plan).data('recurring') == 3 || ( typeof $(plan).data('prorated_discount') == 'undefined' || $(plan).data('prorated_discount') == 0 ) )
                     return
@@ -372,7 +372,7 @@ jQuery( function($) {
                     $( '.pms-subscription-plan-price__recurring', $(plan).parent() ).show()
                 else
                     $( '.pms-subscription-plan-price__recurring', $(plan).parent() ).hide()
-                
+
             })
 
         }
@@ -498,7 +498,7 @@ jQuery( function($) {
                 var visible_plans = false
 
                 $('.wppb-subscription-plans').each( function( index, item ){
-  
+
                     if( $( item ).is( ':visible' ) ){
 
                         var only_free_plans = true
@@ -632,11 +632,11 @@ jQuery( function($) {
         if( $('#pms-change-subscription-form').length > 0 ){
 
             if ( $pms_checked_subscription.closest('.pms-upgrade__group').hasClass('pms-upgrade__group--upgrade') ){
-                
+
                 $('#pms-change-subscription-form input[name="pms_change_subscription"]').val($('#pms-change-subscription-form input[name="pms_button_name_upgrade"]').val())
                 $('#pms-change-subscription-form input[name="form_action"]').val($('#pms-change-subscription-form input[data-name="upgrade_subscription"]').val())
 
-            } else if ( $pms_checked_subscription.closest('.pms-upgrade__group').hasClass('pms-upgrade__group--downgrade') ){ 
+            } else if ( $pms_checked_subscription.closest('.pms-upgrade__group').hasClass('pms-upgrade__group--downgrade') ){
 
                 $('#pms-change-subscription-form input[name="pms_change_subscription"]').val($('#pms-change-subscription-form input[name="pms_button_name_downgrade"]').val())
                 $('#pms-change-subscription-form input[name="form_action"]').val($('#pms-change-subscription-form input[data-name="downgrade_subscription"]').val())
@@ -715,7 +715,7 @@ jQuery( function($) {
         $('.pms_field-errors-wrapper.pms-is-js').remove();
 
     }
-    
+
     /**
      * Check if a plan has trial enabled
      */
@@ -730,7 +730,7 @@ jQuery( function($) {
         return true
 
     }
-    
+
     /**
      * Check if a plan has sign-up fee enabled
      */
@@ -781,7 +781,7 @@ jQuery( function($) {
 
     /**
      * Function to hide payment fields
-     * 
+     *
      */
     $.pms_hide_payment_fields = function( form ) {
 
@@ -812,7 +812,7 @@ jQuery( function($) {
 
     /**
      * Function to show payment fields
-     * 
+     *
      */
     $.pms_show_payment_fields = function( form ) {
 

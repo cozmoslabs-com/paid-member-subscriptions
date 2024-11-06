@@ -2192,7 +2192,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $payment->log_data( 'payment_failed', $data, $error_code );
     }
 
-    public function set_account_country(){
+    public function set_account_country( $environment ){
 
         if( empty( $this->secret_key ) )
             return false;
@@ -2213,7 +2213,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if ( empty( $account ) || empty( $account->country ) )
             return false;
 
-        update_option( 'pms_stripe_connect_account_country', $account->country );
+        update_option( 'pms_stripe_connect_account_country_' . $environment, $account->country );
 
         return $account;
 
@@ -2282,10 +2282,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         // set API key
         $stripe = new \Stripe\StripeClient( $this->secret_key );
 
+        // Stripe expects a base url here without a path, so for multisite with subdirectories for example, we need to remove the directory
+        $target_url = wp_parse_url( home_url() );
+        $target_url = $target_url['scheme'] . '://' . $target_url['host'];
+
         try {
 
             $domain = $stripe->paymentMethodDomains->create( array(
-                'domain_name' => home_url(),
+                'domain_name' => $target_url,
             ) );
 
         } catch ( Exception $e ) {

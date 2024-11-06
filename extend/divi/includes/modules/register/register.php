@@ -27,6 +27,7 @@ class PMS_Register extends ET_Builder_Module {
             'background'   => false,
             'admin_label'  => false,
         );
+
 	}
 
 	public function get_fields() {
@@ -148,7 +149,7 @@ class PMS_Register extends ET_Builder_Module {
             return;
         }
 
-	    if ( array_key_exists('toggle_show', $attrs) && $attrs['toggle_show'] === 'on' ) {
+	    if ( array_key_exists( 'toggle_show', $attrs ) && $attrs['toggle_show'] === 'on' ) {
 
 		    $atts = [
 			    'selected_plan'         => array_key_exists('selected_plan', $attrs)         && $attrs['selected_plan']         !== 'default' ? 'selected="'. esc_attr($attrs['selected_plan']) .'" ' : '',
@@ -158,11 +159,19 @@ class PMS_Register extends ET_Builder_Module {
 		    if ( array_key_exists('toggle_include', $attrs) && $attrs['toggle_include'] === 'on' &&
 		         array_key_exists('toggle_exclude', $attrs) && $attrs['toggle_exclude'] === 'off' &&
 		         array_key_exists('include_plans', $attrs) && $attrs['include_plans'] !== 'undefined' ){
-			    $atts[ 'subscription_plans' ] = 'subscription_plans="' . esc_attr($attrs['include_plans']) . '" ';
+
+				$subscription_plans = pms_divi_parse_subscription_plans( $attrs['include_plans'] );
+
+				$atts['subscription_plans'] = 'subscription_plans="' . $subscription_plans . '" ';
+
 		    } elseif ( array_key_exists('toggle_exclude', $attrs) && $attrs['toggle_exclude'] === 'on' &&
 		               array_key_exists('toggle_include', $attrs) && $attrs['toggle_include'] === 'off' &&
 		               array_key_exists('exclude_plans', $attrs) && $attrs['exclude_plans'] !== 'undefined' ){
-			    $atts[ 'subscription_plans' ] = 'exclude="' . esc_attr($attrs['exclude_plans']) . '" ';
+
+				$subscription_plans = pms_divi_parse_subscription_plans( $attrs['exclude_plans'] );
+
+				$atts['subscription_plans'] = 'subscription_plans="' . $subscription_plans . '" ';
+
 		    }
 
 		    return '<div class="pms-divi-front-end-container">' .

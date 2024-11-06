@@ -924,7 +924,7 @@ jQuery( function( $ ) {
         if ( typeof selected_plan.data('trial') != 'undefined' && selected_plan.data('trial') == '1' && !$.pms_plan_has_signup_fee( selected_plan ) )
             return true
         // If a 100% discount code is used, initial amount will be 0
-        else if ( $('input[name="discount_code"]' ).length > 0 && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0' )
+        else if ( $( 'input[name="discount_code"]' ).length > 0 && $( 'input[name="discount_code"]' ).val() > 0 && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0' )
             return true
         // Pro-rated subscriptions
         else if ( $.pms_plan_is_prorated(selected_plan) && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0' )

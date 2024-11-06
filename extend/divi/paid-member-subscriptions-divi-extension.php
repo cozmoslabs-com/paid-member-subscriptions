@@ -37,29 +37,41 @@ function pms_initialize_extension() {
 }
 add_action( 'divi_extensions_init', 'pms_initialize_extension' );
 
-add_action( 'wp_ajax_nopriv_pms_divi_extension_ajax', 'pms_divi_extension_ajax' );
 add_action( 'wp_ajax_pms_divi_extension_ajax', 'pms_divi_extension_ajax' );
 function pms_divi_extension_ajax(){
+	check_ajax_referer( 'pms_divi_render_form', 'pms_nonce' );
 
+	if( !current_user_can( 'manage_options' ) )
+		die();
+		
 	if ( is_array( $_POST ) && array_key_exists( 'form_type', $_POST ) && $_POST['form_type'] !== '' ) {
 		switch ($_POST['form_type']) {
 			case 'rf':
 
-				if ( array_key_exists('toggle_show', $_POST) && $_POST['toggle_show'] === 'on' ) {
+				if ( array_key_exists( 'toggle_show', $_POST ) && $_POST['toggle_show'] === 'on' ) {
 
 					$atts = [
-						'selected_plan'         => array_key_exists('selected_plan', $_POST)         && $_POST['selected_plan']         !== 'default' ? 'selected="'. esc_attr($_POST['selected_plan']) .'" ' : '',
-						'toggle_plans_position' => array_key_exists('toggle_plans_position', $_POST) && $_POST['toggle_plans_position'] === 'on'      ? 'plans_position="top" '                               : '',
+						'selected_plan'         => array_key_exists( 'selected_plan', $_POST )         && $_POST['selected_plan']         !== 'default' ? 'selected="'. absint( $_POST['selected_plan'] ) .'" ' : '',
+						'toggle_plans_position' => array_key_exists( 'toggle_plans_position', $_POST ) && $_POST['toggle_plans_position'] === 'on'      ? 'plans_position="top" '                               : '',
 						'subscription_plans'    => '',
 					];
+
 					if ( array_key_exists('toggle_include', $_POST) && $_POST['toggle_include'] === 'on' &&
 					     array_key_exists('toggle_exclude', $_POST) && $_POST['toggle_exclude'] === 'off' &&
 					     array_key_exists('include_plans', $_POST) && $_POST['include_plans'] !== 'undefined' ){
-						$atts[ 'subscription_plans' ] = 'subscription_plans="' . esc_attr($_POST['include_plans']) . '" ';
+
+						$subscription_plans = pms_divi_parse_subscription_plans( $_POST['include_plans'] );
+
+						$atts['subscription_plans'] = 'subscription_plans="' . $subscription_plans . '" ';
+
 					} elseif ( array_key_exists('toggle_exclude', $_POST) && $_POST['toggle_exclude'] === 'on' &&
 					           array_key_exists('toggle_include', $_POST) && $_POST['toggle_include'] === 'off' &&
 					           array_key_exists('exclude_plans', $_POST) && $_POST['exclude_plans'] !== 'undefined' ){
-						$atts[ 'subscription_plans' ] = 'exclude="' . esc_attr($_POST['exclude_plans']) . '" ';
+
+						$subscription_plans = pms_divi_parse_subscription_plans( $_POST['exclude_plans'] );
+
+						$atts['subscription_plans'] = 'exclude="' . $subscription_plans . '" ';
+
 					}
 
 					$output =
@@ -78,7 +90,7 @@ function pms_divi_extension_ajax(){
 			case 'af':
 				$atts = [
 					'hide_tabs'    => array_key_exists('hide_tabs', $_POST)    && $_POST['hide_tabs']    === 'on'      ? 'show_tabs="no" '                 : '',
-					'redirect_url' => array_key_exists('redirect_url', $_POST) && $_POST['redirect_url'] !== 'default' ? esc_attr($_POST['redirect_url'])  : '',
+					'redirect_url' => array_key_exists('redirect_url', $_POST) && $_POST['redirect_url'] !== 'default' ? pms_divi_parse_redirect_url( $_POST['redirect_url'] )  : '',
 
 				];
 
@@ -91,10 +103,10 @@ function pms_divi_extension_ajax(){
 
 			case 'l':
 				$atts = [
-					'redirect_url'        => array_key_exists('redirect_url', $_POST)         && $_POST['redirect_url']        !== 'default' ? esc_attr($_POST['redirect_url'])        : '',
-					'logout_redirect_url' => array_key_exists('logout_redirect_url', $_POST)  && $_POST['logout_redirect_url'] !== 'default' ? esc_attr($_POST['logout_redirect_url']) : '',
-					'register_url'        => array_key_exists('register_url', $_POST)         && $_POST['register_url']        !== 'default' ? esc_attr($_POST['register_url'])        : '',
-					'lostpassword_url'    => array_key_exists('lostpassword_url', $_POST)     && $_POST['lostpassword_url']    !== 'default' ? esc_attr($_POST['lostpassword_url'])    : '',
+					'redirect_url'        => array_key_exists('redirect_url', $_POST)         && $_POST['redirect_url']        !== 'default' ? pms_divi_parse_redirect_url( $_POST['redirect_url'] )        : '',
+					'logout_redirect_url' => array_key_exists('logout_redirect_url', $_POST)  && $_POST['logout_redirect_url'] !== 'default' ? pms_divi_parse_redirect_url( $_POST['logout_redirect_url'] ) : '',
+					'register_url'        => array_key_exists('register_url', $_POST)         && $_POST['register_url']        !== 'default' ? pms_divi_parse_redirect_url( $_POST['register_url'] )        : '',
+					'lostpassword_url'    => array_key_exists('lostpassword_url', $_POST)     && $_POST['lostpassword_url']    !== 'default' ? pms_divi_parse_redirect_url( $_POST['lostpassword_url'] )    : '',
 				];
 
 				$output =
@@ -106,7 +118,7 @@ function pms_divi_extension_ajax(){
 
 			case 'rp':
 				$atts = [
-					'redirect_url' => array_key_exists('redirect_url', $_POST) && $_POST['redirect_url'] !== 'default' ? esc_attr($_POST['redirect_url']) : '',
+					'redirect_url' => array_key_exists('redirect_url', $_POST) && $_POST['redirect_url'] !== 'default' ? pms_divi_parse_redirect_url( $_POST['redirect_url'] ) : '',
 				];
 
 				$output =
@@ -176,7 +188,7 @@ function pms_divi_extension_ajax(){
 		if ( defined( 'PMS_IN_INV_PLUGIN_DIR_PATH' ) ) {
 			$output .=
 				'<style type="text/css">' .
-				file_get_contents( PMS_IN_INV_PLUGIN_DIR_PATH . 'assets/css/style-front-end.css' ) .
+				file_get_contents( PMS_IN_INV_PLUGIN_DIR_PATH . 'assets/css/front-end.css' ) .
 				'</style>';
 		}
 
@@ -189,8 +201,10 @@ function pms_divi_extension_ajax(){
 		}
 
 		echo json_encode( $output );// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		wp_die();
+		die();
 	}
+
+	die();
 }
 
 add_filter( 'et_builder_get_parent_modules', 'pms_divi_content_restriction_extend_modules' );
@@ -430,6 +444,32 @@ function pms_divi_content_restriction_get_fields_list ( $fields_list = array() )
 		),
 	);
 	return $fields_list;
+}
+
+function pms_divi_parse_subscription_plans( $subscription_plans ){
+
+	$subscription_plans = explode( ',', $subscription_plans );
+
+	if( empty( $subscription_plans ) )
+		return '';
+
+	$result = '';
+
+	foreach( $subscription_plans as $subscription_plan_id ){
+		$result .= absint( $subscription_plan_id ) . ',';
+	}
+
+	return rtrim( $result, ',' );
+
+}
+
+function pms_divi_parse_redirect_url( $redirect_url ){
+
+	if( $redirect_url === esc_url_raw( $redirect_url ) )
+		return esc_url_raw( $redirect_url );
+
+	return '';
+
 }
 
 endif;

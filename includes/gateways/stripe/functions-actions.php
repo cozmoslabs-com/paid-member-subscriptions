@@ -43,7 +43,6 @@ function pms_stripe_enqueue_front_end_scripts(){
     }
 
     $pms_stripe_script_vars['stripe_return_url']           = add_query_arg( 'pms_stripe_connect_return_url', 1, home_url() );
-    // $pms_stripe_script_vars['stripe_payment_request']      = pms_stripe_connect_payment_request_enabled();
     $pms_stripe_script_vars['stripe_account_country']      = pms_stripe_connect_get_account_country();
     $pms_stripe_script_vars['pms_active_currency']         = strtolower( pms_get_active_currency() );
     $pms_stripe_script_vars['pms_elements_appearance_api'] = apply_filters( 'pms_stripe_connect_elements_styling', array( 'theme' => 'stripe' ) );

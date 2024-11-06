@@ -88,7 +88,7 @@ function pms_member_has_free_trial( $subscription_plans, $user_id = '' ){
 
     foreach( $subscription_plans as $plan_id ){
 
-        $subscription = pms_get_member_subscriptions( array( 'subscription_plan_id' => $plan, 'user_id' => $user_id ) );
+        $subscription = pms_get_member_subscriptions( array( 'subscription_plan_id' => $plan_id, 'user_id' => $user_id ) );
         $trial_date   = new DateTime( $subscription[0]->trial_end );
 
         if( !empty( $subscription[0] ) && !empty( $subscription[0]->trial_end ) && $trial_date >= $current_date )

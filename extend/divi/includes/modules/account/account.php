@@ -79,7 +79,7 @@ class PMS_EditProfile extends ET_Builder_Module {
 
 	    $atts = [
 		    'hide_tabs'    => array_key_exists('hide_tabs', $attrs)    && $attrs['hide_tabs']    === 'on'      ? 'show_tabs="no" '                 : '',
-		    'redirect_url' => array_key_exists('redirect_url', $attrs) && $attrs['redirect_url'] !== 'default' ? esc_attr($attrs['redirect_url']) : '',
+		    'redirect_url' => array_key_exists('redirect_url', $attrs) && $attrs['redirect_url'] !== 'default' ? pms_divi_parse_redirect_url( $attrs['redirect_url'] ) : '',
 	    ];
 
         return '<div class="pms-divi-front-end-container">' .

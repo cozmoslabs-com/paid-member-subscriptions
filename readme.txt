@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
 Tested up to: 6.6
-Stable tag: 2.13.0
+Stable tag: 2.13.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,6 +250,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.13.1 =
+* Fix: Security issue regarding the refresh function of the Divi admin builder interface module. Thanks to Arkadiusz Hydzik from Wordfence
+* Fix: An edge case with the Register Domain functionality from Stripe where it wasn't able to correctly register the website URL
+* Fix: Incorrect subscription processing with Stripe when a plan was free but had a sign-up fee applied
+* Fix: Warning triggered by a function
+* Misc: Separate countries in Stripe between production and test modes
+* Misc: Show search box for the Load Scripts Only On Certain Pages select
+* Misc: Filter the pages from the Load Scripts Only On Certain Pages functionality so additional post types besides pages can be listed: pms_scripts_potential_pages_list
+
 = 2.13.0 =
 * Fix: Issue with Export functionality not working correctly
 * Fix: Some notices coming from the Export functionality with newer PHP versions

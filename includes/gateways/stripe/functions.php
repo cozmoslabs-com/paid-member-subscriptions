@@ -26,7 +26,7 @@ function pms_stripe_connect_get_account_status(){
 
     $stripe = new \Stripe\StripeClient( $api_credentials['secret_key'] );
 
-    $account = pms_stripe_get_connect_account();
+    $account = pms_stripe_connect_get_account();
 
     if( empty( $account ) )
         return false;
@@ -58,7 +58,7 @@ function pms_stripe_connect_get_account_status(){
 
 }
 
-function pms_stripe_get_connect_account(){
+function pms_stripe_connect_get_account(){
 
     $environment = pms_is_payment_test_mode() ? 'test' : 'live';
 
@@ -68,7 +68,15 @@ function pms_stripe_get_connect_account(){
 
 function pms_stripe_connect_get_account_country(){
 
-    return get_option( 'pms_stripe_connect_account_country', false );
+    $environment = pms_is_payment_test_mode() ? 'test' : 'live';
+
+    $country = get_option( 'pms_stripe_connect_account_country_' . $environment, false );
+
+    if( empty( $country ) ){
+        $country = get_option( 'pms_stripe_connect_account_country', false );
+    }
+
+    return $country;
 
 }
 

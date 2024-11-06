@@ -67,7 +67,7 @@ class PMS_RecoverPassword extends ET_Builder_Module {
 	    }
 
 	    $atts = [
-		    'redirect_url' => array_key_exists('redirect_url', $attrs) && $attrs['redirect_url'] !== 'default' ? esc_attr($attrs['redirect_url']) : '',
+		    'redirect_url' => array_key_exists('redirect_url', $attrs) && $attrs['redirect_url'] !== 'default' ? pms_divi_parse_redirect_url($attrs['redirect_url']) : '',
 	    ];
 
         return '<div class="pms-divi-front-end-container">' .

@@ -56,10 +56,10 @@ body[class*="post-type-pms-"].post-php #wpbody-content .wrap {
     display: none !important;
 }
 
-body[class*="_page_pms-"] .error:not(.pms-notice):not(.wppb-serial-notification),
-body[class*="_page_pms-"] .notice:not(.pms-notice):not(.wppb-serial-notification),
-body[class*="post-type-pms-"] .error:not(.pms-notice):not(.wppb-serial-notification),
-body[class*="post-type-pms-"] .notice:not(.pms-notice):not(.wppb-serial-notification) {
+body[class*="_page_pms-"] .error:not(.pms-notice):not(.wppb-serial-notification):not(.trp-notice):not(.wppb-notice),
+body[class*="_page_pms-"] .notice:not(.pms-notice):not(.wppb-serial-notification):not(.trp-notice):not(.wppb-notice),
+body[class*="post-type-pms-"] .error:not(.pms-notice):not(.wppb-serial-notification):not(.trp-notice):not(.wppb-notice),
+body[class*="post-type-pms-"] .notice:not(.pms-notice):not(.wppb-serial-notification):not(.trp-notice):not(.wppb-notice) {
     display: none !important; /* hide admin notices until scripts are loaded */
 }
 
@@ -483,7 +483,7 @@ body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-f
     align-items: center;
 }
 
-.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen, #restricted_file_types_chosen) .chosen-choices .search-field {
+.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen, #restricted_file_types_chosen, #scripts_on_specific_pages_chosen) .chosen-choices .search-field {
     display: none;
 }
 
@@ -3227,7 +3227,7 @@ body[class*="_page_pms-"] #screen-meta {
 }
 
 #pms-recommended-translate-press .cozmoslabs-basic-info-recommended-img a {
-    background: #009ad8;
+    background: #006C9B;
 }
 
 #pms-recommended-profile-builder .cozmoslabs-basic-info-recommended-img a {
@@ -4657,4 +4657,34 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
     display: flex !important;
     gap: 5px;
     align-items: center;
+}
+
+.pms-bf-notice-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    padding-left: 0px;
+    gap: 8px;
+}
+
+.pms-bf-notice-container p .button-primary {
+    min-width: auto;
+    font-size: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#pms_bf_2024 p:first-child {
+    padding: 0px;
+    margin: 0px;
+}
+
+#pms_bf_2024 p:last-child {
+    padding: 0px;
+    margin: 0px;
+}
+
+div.wppb-notice,
+div.wppb-serial-notification {
+    position: relative;
 }

@@ -45,7 +45,7 @@ Class PMS_Plugin_Notifications {
 	 *
 	 *
 	 */
-	public function add_notification( $notification_id = '', $notification_message = '', $notification_class = 'update-nag', $count_in_menu = true, $count_in_submenu = array() ) {
+	public function add_notification( $notification_id = '', $notification_message = '', $notification_class = 'update-nag', $count_in_menu = true, $count_in_submenu = array(), $show_in_all_backend = false ) {
 
 		if( empty( $notification_id ) )
 			return;
@@ -67,7 +67,7 @@ Class PMS_Plugin_Notifications {
 		);
 
 
-		if( $this->is_plugin_page() ) {
+		if( $this->is_plugin_page() || $show_in_all_backend == true ) {
 			new PMS_Add_General_Notices( $notification_id, $notification_message, $notification_class );
 		}
 

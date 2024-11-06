@@ -39,6 +39,12 @@ class PMS_PaidMemberSubscriptionsDiviExtension extends DiviExtension {
 		$this->plugin_dir     = plugin_dir_path( __FILE__ );
 		$this->plugin_dir_url = plugin_dir_url( $this->plugin_dir );
 
+		$this->_builder_js_data = array(
+			'nonces' => array(
+				'pms_divi_render_form_nonce' => wp_create_nonce( 'pms_divi_render_form' ),
+			)
+		);
+
 		parent::__construct( $name, $args );
 	}
 }

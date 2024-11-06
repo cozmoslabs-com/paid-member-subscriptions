@@ -15,8 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function pms_pb_save_subscription_plan_meta( $meta, $global_request ) {
 
-    if( ! empty( $global_request['subscription_plans'] ) )
+    if( ! empty( $global_request['subscription_plans'] ) ) {
         $meta['subscription_plans'] = $global_request['subscription_plans'];
+        $id_subscription_plan = $global_request['subscription_plans'];
+
+        if( isset( $global_request['subscription_price_' . $id_subscription_plan] ) && !empty( $global_request['subscription_price_' . $id_subscription_plan] ) )
+            $meta['subscription_price_' . $id_subscription_plan] = $global_request['subscription_price_' . $id_subscription_plan];
+    }
 
     if( ! empty( $global_request['pms_recurring'] ) )
         $meta['pms_recurring'] = $global_request['pms_recurring'];

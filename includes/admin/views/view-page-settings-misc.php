@@ -239,7 +239,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 <select id="scripts-on-specific-pages" class="pms-chosen" name="pms_misc_settings[scripts-on-specific-pages][]" multiple style="width:200px" data-placeholder="<?php esc_html_e( 'Select pages', 'paid-member-subscriptions' ) ?>">
                     <?php
-                    foreach( get_pages() as $page )
+                    $pages = get_pages();
+                    $pages = apply_filters( 'pms_scripts_potential_pages_list', $pages );
+
+                    foreach( $pages as $page )
                         echo '<option value="' . esc_attr( $page->ID ) . '"' . ( !empty( $this->options['scripts-on-specific-pages'] ) && in_array( $page->ID, $this->options['scripts-on-specific-pages'] ) ? ' selected' : '') . '>' . esc_html( $page->post_title ) . ' ( ID: ' . esc_attr( $page->ID ) . ')' . '</option>';
                     ?>
                 </select>

@@ -68,7 +68,7 @@ class PMS_IN_TutorLMS {
 
 
         // Add TutorLMS Integration admin notice
-        add_action( 'admin_init', array( $this, 'add_admin_notification' ) );
+        //add_action( 'admin_init', array( $this, 'add_admin_notification' ) );
 
     }
 

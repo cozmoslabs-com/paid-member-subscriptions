@@ -66,7 +66,7 @@ function pms_stripe_connect_handle_authorization_return(){
     $gateway = new PMS_Payment_Gateway_Stripe_Connect();
     $gateway->init();
 
-    $gateway->set_account_country();
+    $gateway->set_account_country( $environment );
 
 	if( !$gateway->domain_is_registered() ){
 		$gateway->register_domain();
@@ -105,7 +105,7 @@ function pms_stripe_connect_handle_authorization_return_admin_init(){
     $gateway = new PMS_Payment_Gateway_Stripe_Connect();
     $gateway->init();
 
-    $gateway->set_account_country();
+    $gateway->set_account_country( $environment );
 
 	if( !$gateway->domain_is_registered() ){
 		$gateway->register_domain();
@@ -472,7 +472,7 @@ function pms_stripe_add_settings_content( $options ) {
 				// Display link to connect Stripe Account
 				$stripe_connect_base_url = 'https://www.cozmoslabs.com/?pms_stripe_connect_handle_authorization';
 				$environment             = pms_is_payment_test_mode() ? 'test' : 'live';
-				$account                 = pms_stripe_get_connect_account();
+				$account                 = pms_stripe_connect_get_account();
 
 				echo '<div class="pms-stripe-connect__gateway-settings">';
 
@@ -525,8 +525,8 @@ function pms_stripe_add_settings_content( $options ) {
 								echo '<p class="cozmoslabs-description cozmoslabs-stripe-connect__notice">' . wp_kses_post( sprintf( __( '<strong>NOTE</strong>: All payments done through Stripe include a <strong>2%% fee</strong> because you\'re using the free version of Paid Member Subscriptions. <br>This fee goes to the Paid Member Subscriptions team and is used to continue supporting the development of this gateway and the plugin in general. <br>Users with an active license key will not be charged this fee, %sclick here%s to purchase one.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=stripe-connect-fee-notice#pricing" target="_blank">', '</a>' ) ) . '</p>';
 
 
-							$account_id = pms_is_payment_test_mode() ? get_option( 'pms_stripe_connect_test_account_id', '-' ) :  get_option( 'pms_stripe_connect_live_account_id', '-' );
-							$country    = get_option( 'pms_stripe_connect_account_country' );
+							$account_id = pms_stripe_connect_get_account();
+							$country    = pms_stripe_connect_get_account_country();
 
 							echo '<div class="cozmoslabs-form-field-wrapper">';
 
