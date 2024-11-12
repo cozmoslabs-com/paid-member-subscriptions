@@ -40,7 +40,7 @@ $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'recover_pass
 
     <?php do_action( 'pms_recover_password_form_bottom' ); ?>
 
-    <input type="submit" name="submit" value="<?php esc_attr_e( 'Reset Password', 'paid-member-subscriptions' ); ?>"/>
+    <input type="submit" name="wp-submit" value="<?php esc_attr_e( 'Reset Password', 'paid-member-subscriptions' ); ?>"/>
 
 </form>
 

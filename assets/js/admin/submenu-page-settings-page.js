@@ -228,6 +228,19 @@ jQuery( function($) {
             $(element).closest('.cozmoslabs-wysiwyg-container').find('.cozmoslabs-form-field-wrapper').hide();
         }
     }
+
+    $(document).on( 'change', '#recaptcha-site-v3', function ( e ) {
+        let v2Inputs = $( '.recaptchav2-fields' );
+        let v3Inputs = $( '.recaptchav3-fields' );
+
+        if(e.target.checked === true) {
+            v2Inputs.hide();
+            v3Inputs.show();
+        } else {
+            v2Inputs.show();
+            v3Inputs.hide();
+        }
+    });
 });
 
 

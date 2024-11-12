@@ -1518,7 +1518,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     function pms_bf_promotion_is_active(){
         
         $black_friday = array(
-            'start_date' => '11/28/2024 00:00',
+            'start_date' => '11/25/2024 00:00',
             'end_date'   => '12/03/2024 23:59',
         );
     

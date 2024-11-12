@@ -99,7 +99,7 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
             $subscription_plan_duration = sanitize_text_field( $_POST['pms_subscription_plan_duration'] );
 
             // Check to see if entered value is a whole number, if not set the value to 0 (zero)
-            if( ( !ctype_digit( $subscription_plan_duration ) ) || ( (int)$subscription_plan_duration === 0 && strlen( $subscription_plan_duration ) > 1 ) )
+            if( ( function_exists( 'ctype_digit' ) && !ctype_digit( $subscription_plan_duration ) ) || ( (int)$subscription_plan_duration === 0 && strlen( $subscription_plan_duration ) > 1 ) )
                 $subscription_plan_duration = 0;
 
             /**
@@ -164,7 +164,7 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
             $subscription_plan_trial_duration = sanitize_text_field( $_POST['pms_subscription_plan_trial_duration'] );
 
             // Check to see if entered value is a whole number, if not set the value to 0 (zero)
-            if( ( !ctype_digit( $subscription_plan_trial_duration ) ) || ( (int)$subscription_plan_trial_duration === 0 && strlen( $subscription_plan_trial_duration ) > 1 ) )
+            if( ( function_exists( 'ctype_digit' ) && !ctype_digit( $subscription_plan_trial_duration ) ) || ( (int)$subscription_plan_trial_duration === 0 && strlen( $subscription_plan_trial_duration ) > 1 ) )
                 $subscription_plan_trial_duration = 0;
 
             /**

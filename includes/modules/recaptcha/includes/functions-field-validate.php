@@ -16,13 +16,36 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
     if( empty( $settings['display_form'] ) || ! in_array( $form_location, $settings['display_form'] ) )
         return true;
 
-
     $post_data = $_POST;
 
-    // Verify that the user has completed the reCaptcha
-    if( !isset( $post_data['g-recaptcha-response'] ) || empty( $post_data['g-recaptcha-response'] ) ) {
-        pms_errors()->add( 'recaptcha-' . $form_location, __( 'Please complete the reCaptcha.', 'paid-member-subscriptions' ) );
-        return false;
+    $secret_key = $settings['secret_key'];
+
+    if ( isset( $settings['v3'] ) && $settings['v3'] === 'yes' ){
+
+        if ( isset( $post_data['g-recaptcha-response'] ) ){
+            $recaptcha_response_field = sanitize_textarea_field( $post_data['g-recaptcha-response'] );
+        }
+        else {
+            $recaptcha_response_field = '';
+        }
+
+        // Discard empty solution submissions
+        if ($recaptcha_response_field == null || strlen($recaptcha_response_field) == 0) {
+            if( isset( $_POST['pms_recaptcha_init_error'] ) && wp_verify_nonce( sanitize_text_field( $_POST['pms_recaptcha_init_error'] ), 'pms_recaptcha_init_error' ) )
+                return true;
+
+            return false;
+        }
+
+        $secret_key = $settings['v3_secret_key'];
+
+    } else {
+
+        // Verify that the user has completed the reCaptcha
+        if( !isset( $post_data['g-recaptcha-response'] ) || empty( $post_data['g-recaptcha-response'] ) ) {
+            pms_errors()->add( 'recaptcha-' . $form_location, __( 'Please complete the reCaptcha.', 'paid-member-subscriptions' ) );
+            return false;
+        }
     }
 
     $already_validated = false;
@@ -48,7 +71,7 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
             array(
                 'timeout' => 15,
                 'body' => array(
-                    'secret'    => ( !empty( $settings['secret_key'] ) ? $settings['secret_key'] : '' ),
+                    'secret'    => ( !empty( $secret_key ) ? $secret_key : '' ),
                     'response'  => $post_data['g-recaptcha-response'],
                     'remoteip'  => pms_get_user_ip_address()
                 )

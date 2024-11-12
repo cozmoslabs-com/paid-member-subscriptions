@@ -679,4 +679,9 @@ ul.pms-field-section {
     100% {
         transform: rotate(360deg);
     }
-} 
+}
+
+/* Hide reCAPTCHA V3 badge */
+.grecaptcha-badge {
+    visibility: hidden !important;
+}

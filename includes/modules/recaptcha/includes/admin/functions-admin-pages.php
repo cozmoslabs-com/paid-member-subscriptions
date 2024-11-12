@@ -29,17 +29,50 @@ function pms_recaptcha_settings_tab( $options ) {
                 <?php esc_html_e( 'reCaptcha Settings', 'paid-member-subscriptions' ); ?>
                 <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/recaptcha/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h4>
-
-                <div class="cozmoslabs-form-field-wrapper">
-                    <label class="cozmoslabs-form-field-label" for="recaptcha-site-key"><?php esc_html_e( 'Site Key', 'paid-member-subscriptions' ) ?></label>
-                    <input id="recaptcha-site-key" type="text" class="widefat" name="pms_misc_settings[recaptcha][site_key]" value="<?php echo ( !empty( $options['recaptcha']['site_key'] ) ? esc_attr( $options['recaptcha']['site_key'] ) : '' ) ?>" />
-                    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php echo wp_kses_post( sprintf( __( 'The site key from %1$sGoogle%2$s', 'paid-member-subscriptions' ), '<a href="https://www.google.com/recaptcha/admin/create" target="_blank">', '</a>' ) ) ?></p>
+            
+                <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                    <label class="cozmoslabs-form-field-label" for="recaptcha-site-v3"><?php esc_html_e( 'Use reCAPTCHA v3' , 'paid-member-subscriptions' ) ?></label>
+    
+                    <div class="cozmoslabs-toggle-container">
+                        <input type="checkbox" id="recaptcha-site-v3" name="pms_misc_settings[recaptcha][v3]" value="yes" <?php echo ( !empty( $options['recaptcha']['v3'] ) && $options['recaptcha']['v3'] == 'yes' ? 'checked' : '' ); ?> />
+                        <label class="cozmoslabs-toggle-track" for="recaptcha-site-v3"></label>
+                    </div>
+    
+                    <div class="cozmoslabs-toggle-description">
+                        <label for="recaptcha-site-v3" class="cozmoslabs-description"><?php esc_html_e( 'Enable the use of the newer reCAPTCHA v3 rather than the older v2.', 'paid-member-subscriptions' ); ?></label>
+                    </div>
                 </div>
 
-                <div class="cozmoslabs-form-field-wrapper">
-                    <label class="cozmoslabs-form-field-label" for="recaptcha-secret-key"><?php esc_html_e( 'Secret Key', 'paid-member-subscriptions' ); ?></label>
-                    <input id="recaptcha-secret-key" type="text" class="widefat" name="pms_misc_settings[recaptcha][secret_key]" value="<?php echo ( !empty( $options['recaptcha']['secret_key'] ) ? esc_attr( $options['recaptcha']['secret_key'] ) : '' ) ?>" />
-                    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php echo wp_kses_post( sprintf( __( 'The secret key from %1$sGoogle%2$s', 'paid-member-subscriptions' ), '<a href="https://www.google.com/recaptcha/admin/create" target="_blank">', '</a>' ) ) ?></p>
+                <div class="recaptchav2-fields" <?php echo ( !empty( $options['recaptcha']['v3'] ) && $options['recaptcha']['v3'] == 'yes' ? 'style="display: none;"' : '' ); ?>>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="cozmoslabs-form-field-label" for="recaptcha-site-key"><?php esc_html_e( 'V2 Site Key', 'paid-member-subscriptions' ) ?></label>
+                        <input id="recaptcha-site-key" type="text" class="widefat" name="pms_misc_settings[recaptcha][site_key]" value="<?php echo ( !empty( $options['recaptcha']['site_key'] ) ? esc_attr( $options['recaptcha']['site_key'] ) : '' ) ?>" />
+                        <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php echo wp_kses_post( sprintf( __( 'The site key from %1$sGoogle%2$s', 'paid-member-subscriptions' ), '<a href="https://www.google.com/recaptcha/admin/create" target="_blank">', '</a>' ) ) ?></p>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="cozmoslabs-form-field-label" for="recaptcha-secret-key"><?php esc_html_e( 'V2 Secret Key', 'paid-member-subscriptions' ); ?></label>
+                        <input id="recaptcha-secret-key" type="text" class="widefat" name="pms_misc_settings[recaptcha][secret_key]" value="<?php echo ( !empty( $options['recaptcha']['secret_key'] ) ? esc_attr( $options['recaptcha']['secret_key'] ) : '' ) ?>" />
+                        <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php echo wp_kses_post( sprintf( __( 'The secret key from %1$sGoogle%2$s', 'paid-member-subscriptions' ), '<a href="https://www.google.com/recaptcha/admin/create" target="_blank">', '</a>' ) ) ?></p>
+                    </div>
+
+                </div>
+
+                <div class="recaptchav3-fields" <?php echo ( !empty( $options['recaptcha']['v3'] ) && $options['recaptcha']['v3'] == 'yes' ? '' : 'style="display: none;"' ); ?>>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="cozmoslabs-form-field-label" for="recaptcha-v3-site-key"><?php esc_html_e( 'V3 Site Key', 'paid-member-subscriptions' ) ?></label>
+                        <input id="recaptcha-v3-site-key" type="text" class="widefat" name="pms_misc_settings[recaptcha][v3_site_key]" value="<?php echo ( !empty( $options['recaptcha']['v3_site_key'] ) ? esc_attr( $options['recaptcha']['v3_site_key'] ) : '' ) ?>" />
+                        <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php echo wp_kses_post( sprintf( __( 'The site key from %1$sGoogle%2$s', 'paid-member-subscriptions' ), '<a href="https://www.google.com/recaptcha/admin/create" target="_blank">', '</a>' ) ) ?></p>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="cozmoslabs-form-field-label" for="recaptcha-v3-secret-key"><?php esc_html_e( 'V3 Secret Key', 'paid-member-subscriptions' ); ?></label>
+                        <input id="recaptcha-v3-secret-key" type="text" class="widefat" name="pms_misc_settings[recaptcha][v3_secret_key]" value="<?php echo ( !empty( $options['recaptcha']['v3_secret_key'] ) ? esc_attr( $options['recaptcha']['v3_secret_key'] ) : '' ) ?>" />
+                        <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php echo wp_kses_post( sprintf( __( 'The secret key from %1$sGoogle%2$s', 'paid-member-subscriptions' ), '<a href="https://www.google.com/recaptcha/admin/create" target="_blank">', '</a>' ) ) ?></p>
+                    </div>
+
                 </div>
         </div>
 

@@ -124,6 +124,7 @@ jQuery( function( $ ) {
     // Payment Intents
     $(document).on( 'wppb_invisible_recaptcha_success', stripeConnectPaymentGatewayHandler )
     $(document).on( 'wppb_v3_recaptcha_success', stripeConnectPaymentGatewayHandler )
+    $(document).on( 'pms_v3_recaptcha_success', stripeConnectPaymentGatewayHandler )
 
     $(document).on('submit', '.pms-form', function (e) {
 
@@ -178,7 +179,7 @@ jQuery( function( $ ) {
         var current_button = $(this)
 
         // Current submit button can't be determined from `this` context in case of the Invisible reCaptcha handler
-        if( e.type == 'wppb_invisible_recaptcha_success' || e.type == 'wppb_v3_recaptcha_success' ){
+        if( e.type == 'wppb_invisible_recaptcha_success' || e.type == 'wppb_v3_recaptcha_success' || e.type == 'pms_v3_recaptcha_success' ){
 
             // target_button is supplied to the handler starting with version 3.5.0 of Profile Builder, we use this for backwards compatibility
             current_button = target_button == false ? $( 'input[type="submit"]', $( '.wppb-recaptcha-element' ).closest( 'form' ) ) : $( target_button )
@@ -665,11 +666,17 @@ jQuery( function( $ ) {
 
     function stripeResetSubmitButton( target ) {
 
+        if( !target.data || !target.data( 'original-value' ) || typeof target.data( 'original-value' ) == undefined ){
+            value = target.val()
+        } else {
+            value = target.data( 'original-value' )
+        }
+
         setTimeout( function() {
-            target.attr( 'disabled', false ).removeClass( 'pms-submit-disabled' ).val( target.data( 'original-value' ) ).blur()
+            target.attr( 'disabled', false ).removeClass( 'pms-submit-disabled' ).val( value ).blur()
 
             if ( $( target ).is('button') )
-                $( target ).text( target.data('original-value') )
+                $( target ).text( value )
 
         }, 1 )
 

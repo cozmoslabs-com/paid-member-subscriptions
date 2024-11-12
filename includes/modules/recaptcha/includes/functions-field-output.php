@@ -23,11 +23,17 @@ function pms_recaptcha_get_field_output( $form_location = 'register' ) {
 
     $field_errors = pms_errors()->get_error_messages( 'recaptcha-' . $form_location );
 
-    $output = '<div id="pms-recaptcha-' . esc_attr( $form_location ) . '-wrapper" class="pms-field">';
-        $output .= '<div id="pms-recaptcha-' . esc_attr( $form_location ) . '" class="pms-recaptcha g-recaptcha" data-sitekey="' . ( !empty( $settings['site_key'] ) ? esc_attr( $settings['site_key'] ) : '' ) . '" data-theme="' . apply_filters( 'pms_recaptcha_theme', 'light' ) . '" data-size="' . apply_filters( 'pms_recaptcha_size', 'normal' ) . '"></div>';
 
-        if( false === strpos( $form_location, 'wp_' ) )
-            $output .= pms_display_field_errors( $field_errors, true );
+    $output = '<div id="pms-recaptcha-' . esc_attr( $form_location ) . '-wrapper" class="pms-field">';
+
+    if ( !empty( $settings['v3'] ) && $settings['v3'] === 'yes' ) {
+        $output .= '<div id="pms-recaptcha-' . esc_attr( $form_location ) . '" class="pms-recaptcha" data-sitekey="' . ( !empty( $settings['v3_site_key'] ) ? esc_attr( $settings['v3_site_key'] ) : '' ) . '" data-nonce="' . wp_create_nonce( 'pms_recaptcha_init_error' ) . '"><input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response"></div>';
+    } else {
+        $output .= '<div id="pms-recaptcha-' . esc_attr( $form_location ) . '" class="pms-recaptcha g-recaptcha" data-sitekey="' . ( !empty( $settings['site_key'] ) ? esc_attr( $settings['site_key'] ) : '' ) . '" data-theme="' . apply_filters( 'pms_recaptcha_theme', 'light' ) . '" data-size="' . apply_filters( 'pms_recaptcha_size', 'normal' ) . '"></div>';
+    }
+
+    if ( false === strpos( $form_location, 'wp_' ) )
+        $output .= pms_display_field_errors( $field_errors, true );
 
     $output .= '</div>';
 

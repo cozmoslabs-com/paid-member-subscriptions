@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
 Tested up to: 6.6
-Stable tag: 2.13.1
+Stable tag: 2.13.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,6 +250,10 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.13.2 =
+* Feature: Added reCaptcha v3 functionality. Go to the Settings -> Misc -> reCaptcha page to enable it
+* Fix: Improve verification when saving subscription plans so it doesn't fail when the PHP instance is missing the ctype functions
+
 = 2.13.1 =
 * Fix: Security issue regarding the refresh function of the Divi admin builder interface module. Thanks to Arkadiusz Hydzik from Wordfence
 * Fix: An edge case with the Register Domain functionality from Stripe where it wasn't able to correctly register the website URL
