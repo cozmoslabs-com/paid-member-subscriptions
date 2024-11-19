@@ -360,7 +360,7 @@ Class PMS_Merge_Tags{
                     return sprintf( esc_html__( 'until %s', 'paid-member-subscriptions' ), esc_html( date_i18n( get_option( 'date_format' ) , strtotime( $plan->get_expiration_date() ) ) ) );
                 } else{
                     if ( $plan->duration == 0 )
-                        return __( 'unlimited', 'paid-member-subscriptions' );
+                        return __( 'Unlimited', 'paid-member-subscriptions' );
                     else
                         return $plan->duration . ' ' . $plan->duration_unit . '(s)';
                 }

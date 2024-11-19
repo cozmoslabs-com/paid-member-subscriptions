@@ -153,7 +153,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <div title='Click to copy' class="pms-shortcode_copy-text pms-dashboard-shortcodes__row__input">
                         [pms-register]
                     </div>
-                    <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
+                    <span style='display: none; margin-left: 10px' class='pms-copy-message'><?php echo esc_html__('Shortcode copied', 'paid-member-subscriptions'); ?></span>
                 </div>
                 <div class="pms-dashboard-shortcodes__row">
                     <div class="pms-dashboard-shortcodes__row__wrap">
@@ -164,7 +164,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <div title='Click to copy' class="pms-shortcode_copy-text pms-dashboard-shortcodes__row__input">
                         [pms-login]
                     </div>
-                    <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
+                    <span style='display: none; margin-left: 10px' class='pms-copy-message'><?php echo esc_html__('Shortcode copied', 'paid-member-subscriptions'); ?></span>
                 </div>
                 <div class="pms-dashboard-shortcodes__row">
                     <div class="pms-dashboard-shortcodes__row__wrap">
@@ -175,7 +175,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <div title='Click to copy' class="pms-shortcode_copy-text pms-dashboard-shortcodes__row__input">
                         [pms-account]
                     </div>
-                    <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
+                    <span style='display: none; margin-left: 10px' class='pms-copy-message'><?php echo esc_html__('Shortcode copied', 'paid-member-subscriptions'); ?></span>
                 </div>
                 <div class="pms-dashboard-shortcodes__row">
                     <div class="pms-dashboard-shortcodes__row__wrap">
@@ -186,7 +186,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <div title='Click to copy' class="pms-shortcode_copy-text pms-dashboard-shortcodes__row__input">
                         [pms-restrict subscription_plans="9,10"]
                     </div>
-                    <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
+                    <span style='display: none; margin-left: 10px' class='pms-copy-message'><?php echo esc_html__('Shortcode copied', 'paid-member-subscriptions'); ?></span>
                 </div>
             </div>
 

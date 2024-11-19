@@ -383,6 +383,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     // Save card expiration info
                     $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
 
+                    do_action( 'pms_stripe_checkout_processed', 'setup_intent', $subscription_id, $payment->id, $form_location );
+
                     $data = array(
                         'success'      => true,
                         'redirect_url' => $this->get_success_redirect_url( $form_location ),
@@ -461,6 +463,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                     // Save card expiration info
                     $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
+                    
+                    do_action( 'pms_stripe_checkout_processed', 'payment_intent', $subscription_id, $payment->id, $form_location );
 
                     $data = array(
                         'success'      => true,
@@ -1957,7 +1961,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $setup_intent = $this->create_initial_setup_intent();
 
         if( !empty( $setup_intent ) )
-            echo '<input type="hidden" name="pms_stripe_connect_setup_intent" value="'. esc_attr( $setup_intent->client_secret ) .'"/>';
+            echo '<input type="hidden" name="pms_stripe_connect_setup_intent" value="'. esc_attr( $setup_intent ) .'"/>';
 
         echo '<input type="hidden" id="pms-stripe-ajax-update-payment-method-nonce" name="stripe_ajax_update_payment_method_nonce" value="'. esc_attr( wp_create_nonce( 'pms_update_payment_method' ) ) .'"/>';
 

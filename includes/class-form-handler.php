@@ -2226,6 +2226,13 @@ Class PMS_Form_Handler {
 
                     pms_add_member_subscription_log( $subscription->id, 'subscription_'. $context .'_success', array( 'old_plan' => $subscription->subscription_plan_id, 'new_plan' => $subscription_data['subscription_plan_id'] ) );
 
+                    // If current checkout is not recurring, we need to clear the recurring schedule data
+                    if( !$is_recurring ){
+                        $subscription_data['billing_next_payment']  = '';
+                        $subscription_data['billing_duration']      = '';
+                        $subscription_data['billing_duration_unit'] = '';
+                    }
+
                     $subscription->update( $subscription_data );
 
                     do_action( 'pms_psp_after_'. $form_location, $subscription, $payment );

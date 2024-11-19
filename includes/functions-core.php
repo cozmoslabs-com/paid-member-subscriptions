@@ -1365,7 +1365,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     $message .= '<p style="font-size: 110%;margin-top:0px;margin-bottom: 0px;padding:0px;">This is a <strong>limited-time offer</strong>, so don\'t miss out on our <strong>only sale of the year</strong>. <br><a class="button-primary" style="margin-top:6px;" href="https://www.cozmoslabs.com/black-friday/?utm_source=pms-settings&utm_medium=clientsite&utm_campaign=BF-2024" target="_blank">Get Deal</a></p></div>';
                 }
 
-                $message .= '</div><a href="' . add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) . '" type="button" class="notice-dismiss"><span class="screen-reader-text">' . __( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
+                $message .= '</div><a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '" type="button" class="notice-dismiss"><span class="screen-reader-text">' . __( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
 
                 pms_add_plugin_notification( $notification_id, $message, 'pms-notice notice notice-info' );
 
@@ -1394,7 +1394,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     else
                         $message .= '<p style="padding-right:30px;font-size: 110%;"><strong>Upgrade to Paid Member Subscriptions PRO this Black Friday!</strong> Don\'t miss our only sale of the year. <a href="https://www.cozmoslabs.com/black-friday/?utm_source=wpdashboard&utm_medium=clientsite&utm_campaign=BF-2024" target="_blank">Learn more</a></p>';
                     
-                    $message .= '<a href="' . add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ) . '" type="button" class="notice-dismiss"><span class="screen-reader-text">' . __( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
+                    $message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '" type="button" class="notice-dismiss"><span class="screen-reader-text">' . __( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
             
                     pms_add_plugin_notification( $notification_id, $message, 'pms-notice notice notice-info', false, array(), true );
                 }

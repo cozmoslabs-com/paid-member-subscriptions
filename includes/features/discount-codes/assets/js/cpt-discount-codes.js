@@ -81,3 +81,21 @@ jQuery( function($) {
     });
 
 });
+
+/**
+ *  Function that copies the shortcode from an input
+ *
+ * */
+jQuery(document).ready(function() {
+    jQuery('.pms-shortcode_copy').click(function (e) {
+
+        e.preventDefault();
+
+        navigator.clipboard.writeText(jQuery(this).val());
+
+        // Show copy message
+        var copyMessage = jQuery(this).next('.pms-copy-message');
+        copyMessage.fadeIn(400).delay(2000).fadeOut(400);
+
+    })
+});

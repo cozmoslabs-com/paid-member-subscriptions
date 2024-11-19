@@ -4169,7 +4169,7 @@ body.admin_page_pms-uninstall-page #TB_closeWindowButton:focus .tb-close-icon {
 /* Shortcode Copy / Click to Copy functionality
 /***********************************************************/
 
-.pms-shortcode_copy-text{
+.pms-shortcode_copy-text, .pms-shortcode_copy{
     cursor: pointer;
 }
 

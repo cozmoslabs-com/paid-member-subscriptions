@@ -206,8 +206,10 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
             $discount_code = new PMS_IN_Discount_Code( $post_id );
 
             // Information shown in discount "Code" column
-            if ($column == 'code')
-                echo '<input type="text" readonly class="pms-discount-code input" value="'.esc_attr( $discount_code->code ) .'">';
+            if ($column == 'code'){
+                echo '<input type="text" readonly title="Click to copy" class="pms-shortcode_copy pms-discount-code input" value="'.esc_attr( $discount_code->code ) .'">';
+                echo "<span style='display: none; margin-left: 10px' class='pms-copy-message'>" . esc_html__('Code copied', 'paid-member-subscriptions') ."</span>";
+            }
 
             // Information shown in discount "Amount" column
             if ($column == 'amount') {

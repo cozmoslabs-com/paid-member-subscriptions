@@ -509,6 +509,25 @@ jQuery( function( $ ) {
             if ( form_data.group_description )
                 data.group_description = form_data.group_description
 
+            // add billing details
+            if ( form_data.pms_billing_address )
+                data.pms_billing_address = form_data.pms_billing_address
+
+            if ( form_data.pms_billing_city )
+                data.pms_billing_city = form_data.pms_billing_city
+            
+            if ( form_data.pms_billing_country )
+                data.pms_billing_country = form_data.pms_billing_country
+
+            if ( form_data.pms_billing_state )
+                data.pms_billing_state = form_data.pms_billing_state
+
+            if ( form_data.pms_billing_zip )
+                data.pms_billing_zip = form_data.pms_billing_zip
+
+            if ( form_data.pms_vat_number )
+                data.pms_vat_number = form_data.pms_vat_number
+
             $.post(pms.ajax_url, data, function (response) {
 
                 response = JSON.parse(response)
@@ -931,7 +950,7 @@ jQuery( function( $ ) {
         if ( typeof selected_plan.data('trial') != 'undefined' && selected_plan.data('trial') == '1' && !$.pms_plan_has_signup_fee( selected_plan ) )
             return true
         // If a 100% discount code is used, initial amount will be 0
-        else if ( $( 'input[name="discount_code"]' ).length > 0 && $( 'input[name="discount_code"]' ).val() > 0 && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0' )
+        else if ( $( 'input[name="discount_code"]' ).length > 0 && $( 'input[name="discount_code"]' ).val().length > 0 && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0' )
             return true
         // Pro-rated subscriptions
         else if ( $.pms_plan_is_prorated(selected_plan) && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0' )

@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="cozmoslabs-form-field-wrapper">
                 <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Register', 'paid-member-subscriptions'  ); ?></label>
                 <div title='Click to copy' class="pms-shortcode_copy-text"><strong >[pms-register]</strong></div>
-                <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
+                <span style='display: none; margin-left: 10px' class='pms-copy-message'><?php echo esc_html__('Shortcode copied', 'paid-member-subscriptions'); ?></span>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left">
                     <?php esc_html_e( 'Add basic registration forms where members can sign-up for a subscription plan. ', 'paid-member-subscriptions' ); ?>
                     <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info#Member_Registration_form" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="cozmoslabs-form-field-wrapper">
                 <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Login', 'paid-member-subscriptions' ); ?></label>
                 <div title='Click to copy' class="pms-shortcode_copy-text"><strong>[pms-login]</strong></div>
-                <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
+                <span style='display: none; margin-left: 10px' class='pms-copy-message'><?php echo esc_html__('Shortcode copied', 'paid-member-subscriptions'); ?></span>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left">
                     <?php esc_html_e( 'Allow members to login.', 'paid-member-subscriptions' ); ?>
                     <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info#Login_Form" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="cozmoslabs-form-field-wrapper">
                 <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Account', 'paid-member-subscriptions' ); ?></label>
                 <div title='Click to copy' class="pms-shortcode_copy-text"><strong>[pms-account]</strong></div>
-                <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
+                <span style='display: none; margin-left: 10px' class='pms-copy-message'><?php echo esc_html__('Shortcode copied', 'paid-member-subscriptions'); ?></span>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left">
                     <?php esc_html_e( 'Allow members to edit their account information and manage their subscription plans.', 'paid-member-subscriptions' ); ?>
                     <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info#Member_Account_form" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
@@ -59,10 +59,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Restrict Content', 'paid-member-subscriptions' ); ?></label>
                 <div style="display: flex; flex-direction: column; gap: 5px;">
                     <div title='Click to copy' class="pms-shortcode_copy-text"><strong>[pms-restrict subscription_plans="9,10"]</strong></div>
-                    <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
+                    <span style='display: none; margin-left: 10px' class='pms-copy-message'><?php echo esc_html__('Shortcode copied', 'paid-member-subscriptions'); ?></span>
                     <em style="padding-left: 5px;"><?php  esc_html_e( 'Special content for members subscribed to the subscription plans that have the ID 9 and 10!', 'paid-member-subscriptions' ) ?></em>
                     <div title='Click to copy' class="pms-shortcode_copy-text"><strong>[/pms-restrict]</strong></div>
-                    <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
+                    <span style='display: none; margin-left: 10px' class='pms-copy-message'><?php echo esc_html__('Shortcode copied', 'paid-member-subscriptions'); ?></span>
                 </div>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left">
                     <?php esc_html_e( 'Restrict content using the shortcode or directly from individual posts and pages.', 'paid-member-subscriptions' ); ?>
@@ -73,7 +73,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="cozmoslabs-form-field-wrapper">
                 <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Recover Password', 'paid-member-subscriptions' ); ?></label>
                 <div title='Click to copy' class="pms-shortcode_copy-text"><strong>[pms-recover-password]</strong></div>
-                <span style='display: none; margin-left: 10px' class='pms-copy-message'>Shortcode copied</span>
+                <span style='display: none; margin-left: 10px' class='pms-copy-message'><?php echo esc_html__('Shortcode copied', 'paid-member-subscriptions'); ?></span>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left">
                     <?php esc_html_e( 'Add a recover password form for your members.', 'paid-member-subscriptions' ); ?>
                     <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info#Recover_Password" target="_blank"><?php esc_html_e( 'Learn more', 'paid-member-subscriptions' ); ?></a>
