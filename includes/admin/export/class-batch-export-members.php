@@ -47,7 +47,8 @@ class PMS_Batch_Export_Members extends PMS_Batch_Export {
             'user_firstname'    => 'user_firstname',
             'user_lastname'     => 'user_lastname',
 
-            'subscription_name'     => 'subscription_name',
+            'subscription_name'        => 'subscription_name',
+            'subscription_plan_id'     => 'subscription_plan_id',
 
             'subscription_id'                       => 'subscription_id',
             'subscription_user_id'                  => 'subscription_user_id',
@@ -66,13 +67,15 @@ class PMS_Batch_Export_Members extends PMS_Batch_Export {
             'subscription_trial_end'                => 'subscription_trial_end',
         );
 
-        $meta_keys = $this->get_all_pms_meta_keys( "pms_member_subscriptionmeta" );
+        $usermeta_titles = ( isset( $_REQUEST['pms-filter-user-meta-title'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pms-filter-user-meta-title'] ) : [] );
+        $usermeta_keys = ( isset( $_REQUEST['pms-filter-user-meta'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pms-filter-user-meta'] ) : [] );
+
+        $include_sensitive = ( isset( $_REQUEST['pms-plan-to-export-include-sensitive'] ) && $_REQUEST['pms-plan-to-export-include-sensitive'] === 'enabled' ? true : false );
+
+        $meta_keys = $this->get_all_pms_meta_keys( "pms_member_subscriptionmeta", $include_sensitive );
         foreach ( $meta_keys as $meta_key ){
             $cols['subscriptionmeta_' . $meta_key] = 'subscriptionmeta_' . $meta_key;
         }
-
-        $usermeta_titles = ( isset( $_REQUEST['pms-filter-user-meta-title'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pms-filter-user-meta-title'] ) : [] );
-        $usermeta_keys = ( isset( $_REQUEST['pms-filter-user-meta'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pms-filter-user-meta'] ) : [] );
 
         update_user_meta(get_current_user_id(), 'pms_export_meta', array_combine( $usermeta_keys, $usermeta_titles ));
 
@@ -110,6 +113,8 @@ class PMS_Batch_Export_Members extends PMS_Batch_Export {
         $member_status = ( isset( $_REQUEST['pms-filter-member-status'] ) ? sanitize_text_field( $_REQUEST['pms-filter-member-status'] ) : '' );
         $usermeta_keys = ( isset( $_REQUEST['pms-filter-user-meta'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pms-filter-user-meta'] ) : [] );
 
+        $include_sensitive = ( isset( $_REQUEST['pms-plan-to-export-include-sensitive'] ) && $_REQUEST['pms-plan-to-export-include-sensitive'] === 'enabled' ? true : false );
+
         $args['number'] = 10;
         $args['offset'] = ( $this->step - 1 ) * 10;
         $args['member_subscription_status'] = $member_status;
@@ -122,7 +127,7 @@ class PMS_Batch_Export_Members extends PMS_Batch_Export {
         $this->total = pms_get_members( $args, true );
 
 		if( $members )  {
-            $meta_keys = $this->get_all_pms_meta_keys( "pms_member_subscriptionmeta" );
+            $meta_keys = $this->get_all_pms_meta_keys( "pms_member_subscriptionmeta", $include_sensitive );
 
 			foreach ( $members as $member ) {
 
@@ -144,7 +149,8 @@ class PMS_Batch_Export_Members extends PMS_Batch_Export {
 
                     $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
                     $pms_subscription_name = array();
-                    $pms_subscription_name["subscription_name"] = $subscription_plan->name;
+                    $pms_subscription_name["subscription_name"]    = $subscription_plan->name;
+                    $pms_subscription_name["subscription_plan_id"] = $subscription_plan->id;
 
                     $member_subscriptions = array(
                         'subscription_id'                       => $subscription->id,

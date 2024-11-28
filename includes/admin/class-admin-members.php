@@ -863,6 +863,19 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'subscription_trial_period_already_used':
                 $message = __( 'The <strong>Trial Period</strong> for this Subscription has already been used.', 'paid-member-subscriptions' );
                 break;
+            case 'subscription_import_created':
+                $admin_name = ucwords( $this->get_display_name( !empty( $log['data']['who'] ) ? $log['data']['who'] : '' ) );
+
+                $message = sprintf( __( 'Subscription created through an import done by %s.', 'paid-member-subscriptions' ), '<strong>' . $admin_name . '</strong>' );
+
+                break;
+            case 'subscription_import_updated':
+                $admin_name = ucwords( $this->get_display_name( !empty( $log['data']['who'] ) ? $log['data']['who'] : '' ) );
+                $fields     = !empty( $log['data']['fields'] ) ? $log['data']['fields'] : '';
+
+                $message = sprintf( __( 'Subscription updated through an import done by %s. The following keys were updated: %s', 'paid-member-subscriptions' ), '<strong>' . $admin_name . '</strong>', $fields );
+
+                break;
             default:
                 $message = __( 'Something went wrong.', 'paid-member-subscriptions' );
                 break;

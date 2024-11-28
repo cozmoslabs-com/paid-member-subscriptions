@@ -324,11 +324,16 @@ class PMS_Batch_Export extends PMS_Export {
      * @since 1.7.6
      * @return array
      */
-    public function get_all_pms_meta_keys( $table_name ) {
+    public function get_all_pms_meta_keys( $table_name, $include_sensitive = false ) {
 		global $wpdb;
 		$list_of_meta_keys = array();
 
-		$forbidden_keys = array( '_paypal_billing_agreement_id', '_stripe_card_id', '_stripe_customer_id', 'logs' );
+        if ( $include_sensitive ) {
+            $forbidden_keys = array( '_paypal_billing_agreement_id', 'logs' );
+        }
+        else {
+            $forbidden_keys = array( '_paypal_billing_agreement_id', '_stripe_card_id', '_stripe_customer_id', 'logs' );
+        }
 
 		$result = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->prefix}{$table_name}", ARRAY_A );
 		if( $result ){

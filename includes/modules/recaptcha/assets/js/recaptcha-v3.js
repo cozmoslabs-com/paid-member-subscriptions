@@ -16,8 +16,15 @@ pms_recaptcha_callback = function() {
             this.addEventListener("submit", function (event){
                 event.preventDefault();
                 event.stopPropagation();
+                
                 grecaptcha.ready(function() {
-                    var sitekey = jQuery(event.originalTarget).find(".pms-recaptcha")[0]['dataset']['sitekey'];
+
+                    var recaptcha_field = jQuery('.pms-recaptcha', currentForm )
+
+                    if( !recaptcha_field[0] || !recaptcha_field[0]['dataset'] || !recaptcha_field[0]['dataset']['sitekey'] )
+                        currentForm.submit();
+
+                    var sitekey = recaptcha_field[0]['dataset']['sitekey'];
 
                     grecaptcha.execute(sitekey, {action: "submit"}).then(function(token) {
 

@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.13.3
+ * Version: 2.13.4
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -11,8 +11,8 @@
  * License: GPL2
  * WC requires at least: 3.0.0
  * WC tested up to: 9.4
- * Elementor tested up to: 3.25.8
- * Elementor Pro tested up to: 3.25.8
+ * Elementor tested up to: 3.25.10
+ * Elementor Pro tested up to: 3.25.10
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.13.3' );
+        define( 'PMS_VERSION', '2.13.4' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -100,9 +100,6 @@ Class Paid_Member_Subscriptions {
         register_deactivation_hook(__FILE__, array($this, 'uninstall') );
 
         add_action( 'plugins_loaded', array( $this, 'register_custom_meta_tables' ) );
-
-        // Load plugin text domain
-        add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
 
         // Check if this is a newer version
         add_action( 'plugins_loaded', array( $this, 'update_check' ) );
@@ -235,7 +232,7 @@ Class Paid_Member_Subscriptions {
                     require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
                 }
 
-                $plugin_data    = get_plugin_data( PMS_PAID_PLUGIN_DIR . '/index.php', false );
+                $plugin_data    = get_plugin_data( PMS_PAID_PLUGIN_DIR . '/index.php', false, false );
                 $plugin_version = ( $plugin_data && $plugin_data['Version'] ) ? $plugin_data['Version'] : '1.0.0' ;
                 $cl_plugin_id   = '';
 
@@ -670,6 +667,9 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-export.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-export.php';
 
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-import.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-import.php';
+
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-dashboard.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-dashboard.php';
 
@@ -1015,6 +1015,9 @@ Class Paid_Member_Subscriptions {
         // Merge Tags
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-merge-tags.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/class-merge-tags.php';
+
+        // Load plugin text domain
+        $this->load_text_domain();
 
     }
 

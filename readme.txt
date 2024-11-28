@@ -4,7 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
 Tested up to: 6.7
-Stable tag: 2.13.3
+Stable tag: 2.13.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -250,6 +250,16 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.13.4 =
+* Feature: Import subscriptions from a .csv file. This can be used to create, update or migrate subscriptions. Go to the Reports -> Imports tab to use it
+* Fix: PHP Notice that started appearing with the WordPress 6.7 update
+* Fix: Issue with reCaptcha v3 not submitting forms correctly when Chrome was used
+* Fix: Show correct amount in the pending payment email when a discount code is used
+* Fix: Add support for REST API search queries when the restrict posts from queries option is used
+* Fix: A notice coming from the reCaptcha functionality
+* Misc: Small correction on the Dashboard page
+* Misc: Fix some potential notices that could appear in some cases
+
 = 2.13.3 =
 * Fix: Issue with Stripe not identifying correctly a 100% discounted purchase in the front-end
 * Fix: Issue with recurring subscription information remaining after a subscription change, upgrade or downgrade in some cases

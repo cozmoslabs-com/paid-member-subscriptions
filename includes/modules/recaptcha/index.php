@@ -65,7 +65,7 @@ if( !is_plugin_active( 'pms-add-on-recaptcha/index.php' ) ){
 
             $pms_print_scripts_recaptcha = false;
 
-            if ( !empty( $this->settings['recaptcha']['v3'] ) && $this->settings['recaptcha']['v3'] === 'yes' ) {
+            if ( !empty( $this->settings['recaptcha']['v3'] ) && $this->settings['recaptcha']['v3'] === 'yes' && !empty( $this->settings['recaptcha']['v3_site_key'] ) ) {
                 wp_register_script( 'pms-recaptcha-v3', PMS_RECAPTCHA_PLUGIN_DIR_URL . 'assets/js/recaptcha-v3.js', array( 'jquery' ), null, true );
                 wp_register_script( 'google-recaptcha-api-v3', 'https://www.google.com/recaptcha/api.js?render=' . $this->settings['recaptcha']['v3_site_key'], array(), null, true );
 

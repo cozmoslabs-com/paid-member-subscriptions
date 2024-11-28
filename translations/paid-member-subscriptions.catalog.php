@@ -790,7 +790,7 @@
 <?php __("All Time Earnings", "paid-member-subscriptions"); ?>
 <?php __("New Members", "paid-member-subscriptions"); ?>
 <?php __("Earnings", "paid-member-subscriptions"); ?>
-<?php __("All Active Members", "paid-member-subscriptions"); ?>
+<?php __("Active Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("New Paid Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Dashboard", "paid-member-subscriptions"); ?>
 <?php __("Setup Wizard", "paid-member-subscriptions"); ?>
@@ -800,6 +800,8 @@
 <?php __("Nonce verification failed", "paid-member-subscriptions"); ?>
 <?php __("Error", "paid-member-subscriptions"); ?>
 <?php __("Export Data", "paid-member-subscriptions"); ?>
+<?php __("Something went wrong!", "paid-member-subscriptions"); ?>
+<?php __("Import Data", "paid-member-subscriptions"); ?>
 <?php __("Amount", "paid-member-subscriptions"); ?>
 <?php __("Actions", "paid-member-subscriptions"); ?>
 <?php __("View Details", "paid-member-subscriptions"); ?>
@@ -893,6 +895,8 @@
 <?php __("Next <strong>Scheduled Payment date</strong> updated to <strong>%s</strong> by the recurring payment process", "paid-member-subscriptions"); ?>
 <?php __("Subscription initiated by WooCommerce [Order #%s]", "paid-member-subscriptions"); ?>
 <?php __("The <strong>Trial Period</strong> for this Subscription has already been used.", "paid-member-subscriptions"); ?>
+<?php __("Subscription created through an import done by %s.", "paid-member-subscriptions"); ?>
+<?php __("Subscription updated through an import done by %s. The following keys were updated: %s", "paid-member-subscriptions"); ?>
 <?php __("Members", "paid-member-subscriptions"); ?>
 <?php __("Delete Payments", "paid-member-subscriptions"); ?>
 <?php __("ID", "paid-member-subscriptions"); ?>
@@ -1647,12 +1651,15 @@
 <?php __("Use these shortcodes to quickly setup and customize your membership website.", "paid-member-subscriptions"); ?>
 <?php __("Learn more about shortcodes", "paid-member-subscriptions"); ?>
 <?php __("Export", "paid-member-subscriptions"); ?>
+<?php __("Import", "paid-member-subscriptions"); ?>
 <?php __("Members Export", "paid-member-subscriptions"); ?>
-<?php __("Download a CSV with your user subscriptions (an user with multiple subscriptions will have a record for each individual one).", "paid-member-subscriptions"); ?>
+<?php __("Download a CSV with your user subscriptions (a user with multiple subscriptions will have a record for each individual one).", "paid-member-subscriptions"); ?>
 <?php __("Choose the Subscription to export members from", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plan Status", "paid-member-subscriptions"); ?>
 <?php __("All Members", "paid-member-subscriptions"); ?>
 <?php __("Choose the current subscription status", "paid-member-subscriptions"); ?>
+<?php __("Include sensitive data", "paid-member-subscriptions"); ?>
+<?php __("For a normal export, this option should be avoided. When used it will include sensitive Stripe Card and Customer data into the export so they can be migrated to another site.", "paid-member-subscriptions"); ?>
 <?php __("User Data", "paid-member-subscriptions"); ?>
 <?php __("Column title", "paid-member-subscriptions"); ?>
 <?php __("User meta key", "paid-member-subscriptions"); ?>
@@ -1667,6 +1674,11 @@
 <?php __("Choose export data Start Date", "paid-member-subscriptions"); ?>
 <?php __("Choose export data End Date", "paid-member-subscriptions"); ?>
 <?php __("NOTE: Leave dates empty for an export of all payments.", "paid-member-subscriptions"); ?>
+<?php __("Members Import", "paid-member-subscriptions"); ?>
+<?php __("Upload a CSV with your user subscriptions.", "paid-member-subscriptions"); ?>
+<?php __("Members File", "paid-member-subscriptions"); ?>
+<?php __("Choose the file you wish to upload", "paid-member-subscriptions"); ?>
+<?php __("Upload CSV", "paid-member-subscriptions"); ?>
 <?php __("Bulk Add Subscription Plans to Users", "paid-member-subscriptions"); ?>
 <?php __("Filter Users", "paid-member-subscriptions"); ?>
 <?php __("User Role...", "paid-member-subscriptions"); ?>
@@ -1997,7 +2009,6 @@
 <?php __("Old Label:", "paid-member-subscriptions"); ?>
 <?php __("Read more detailed information", "paid-member-subscriptions"); ?>
 <?php __("Import Labels", "paid-member-subscriptions"); ?>
-<?php __("Import", "paid-member-subscriptions"); ?>
 <?php __("This will overwrite all your old edited labels! \n\rAre you sure you want to continue?", "paid-member-subscriptions"); ?>
 <?php __("Import Labels from a .json file.", "paid-member-subscriptions"); ?>
 <?php __("Easily import the labels from another site.", "paid-member-subscriptions"); ?>

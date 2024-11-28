@@ -23,6 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <h2 class="cozmoslabs-nav-tab-wrapper">
         <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-reports-page' ) ); ?>" class="nav-tab <?php echo $active_tab == 'pms-reports-page' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Reports', 'paid-member-subscriptions' ); ?></a>
         <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-export-page' ) ); ?>"  class="nav-tab <?php echo $active_tab == 'pms-export-page' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Export', 'paid-member-subscriptions' ); ?></a>
+        <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-import-page' ) ); ?>"  class="nav-tab <?php echo $active_tab == 'pms-import-page' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Import', 'paid-member-subscriptions' ); ?></a>
         <?php do_action( 'pms_reports_tab' ); ?>
     </h2>
 

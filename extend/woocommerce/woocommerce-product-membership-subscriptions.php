@@ -464,14 +464,23 @@ add_action('woocommerce_subscription_status_updated', 'pms_woo_update_pms_subsci
 
 // Handle Member Subscription
 function pms_woo_handle_member_subscription( $order_id ) {
-    $order                = new WC_Order( $order_id );
-    $order_status         = $order->get_status();
-    $order_payment_method = $order->get_payment_method();
-    $order_key            = $order->get_order_key();
-    $order_items          = $order->get_items('line_item');
-    $total_quantity       = $order->get_item_count();
-    $user                 = $order->get_user();
 
+    if ( empty( $order_id ) )
+        return $order_id;
+
+    $order = wc_get_order( $order_id );
+    if ( !$order )
+        return $order_id;
+
+    $user = $order->get_user();
+    if ( !$user || !is_object( $user->data ) || !isset( $user->data->ID ) )
+        return $order_id;
+
+    $order_status                = $order->get_status();
+    $order_payment_method        = $order->get_payment_method();
+    $order_key                   = $order->get_order_key();
+    $order_items                 = $order->get_items('line_item');
+    $total_quantity              = $order->get_item_count();
     $user_existing_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $user->data->ID ));
 
     foreach( $order_items as $item ) {

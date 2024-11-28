@@ -14,12 +14,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <!-- WordPress Notices are added after the h1 tag -->
 
     <div class="cozmoslabs-page-header">
-        <h3 class="cozmoslabs-page-title"><?php echo esc_html( $this->page_title ); ?></h3>
+        <div class="cozmoslabs-section-title">
+            <h3 class="cozmoslabs-page-title"><?php echo esc_html( $this->page_title ); ?></h3>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/reports/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+        </div>
     </div>
 
     <div class="cozmoslabs-nav-tab-wrapper">
         <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-reports-page' ) ); ?>" class="nav-tab <?php echo $active_tab == 'pms-reports-page' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Reports', 'paid-member-subscriptions' ); ?></a>
         <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-export-page' ) ); ?>"  class="nav-tab <?php echo $active_tab == 'pms-export-page' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Export', 'paid-member-subscriptions' ); ?></a>
+        <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-import-page' ) ); ?>"  class="nav-tab <?php echo $active_tab == 'pms-import-page' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Import', 'paid-member-subscriptions' ); ?></a>
         <?php do_action( 'pms_reports_tab' ); ?>
     </div>
 
@@ -30,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                     <div class="postbox pms-export cozmoslabs-form-subsection-wrapper" id="cozmoslabs-members-export">
                         <h3 class="cozmoslabs-subsection-title"><span><?php esc_html_e( 'Members Export', 'paid-member-subscriptions' ); ?></span></h3>
-                        <p class="cozmoslabs-description"><?php esc_html_e( 'Download a CSV with your user subscriptions (an user with multiple subscriptions will have a record for each individual one).', 'paid-member-subscriptions' ); ?></p>
+                        <p class="cozmoslabs-description"><?php esc_html_e( 'Download a CSV with your user subscriptions (a user with multiple subscriptions will have a record for each individual one).', 'paid-member-subscriptions' ); ?></p>
                         <div class="inside">
                             <form id="pms-export" class="pms-export-form " method="post">
                                 <?php wp_nonce_field( 'pms_ajax_export', 'pms_ajax_export' ); ?>
@@ -64,6 +68,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                     </select>
 
                                     <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Choose the current subscription status', 'paid-member-subscriptions' ); ?></p>
+                                </div>
+
+                                <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                                    <label class="cozmoslabs-form-field-label" for="pms-plan-to-export-include-sensitive"><?php esc_html_e( 'Include sensitive data', 'paid-member-subscriptions' ) ?></label>
+
+                                    <div class="cozmoslabs-toggle-container">
+                                        <input type="checkbox" id="pms-plan-to-export-include-sensitive" name="pms-plan-to-export-include-sensitive" value="enabled"/>
+                                        <label class="cozmoslabs-toggle-track" for="pms-plan-to-export-include-sensitive"></label>
+                                    </div>
+
+                                    <div class="cozmoslabs-toggle-description">
+                                        <label for="pms-plan-to-export-include-sensitive" class="cozmoslabs-description"><?php esc_html_e( 'For a normal export, this option should be avoided. When used it will include sensitive Stripe Card and Customer data into the export so they can be migrated to another site.', 'paid-member-subscriptions' ); ?></label>
+                                    </div>
                                 </div>
 
                                 <div id="pms-add-meta-key-wrap">

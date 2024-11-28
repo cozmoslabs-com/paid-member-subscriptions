@@ -262,7 +262,7 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
             'all_time_earnings'      => __( 'All Time Earnings', 'paid-member-subscriptions' ),
             'new_subscriptions'      => __( 'New Members', 'paid-member-subscriptions' ),
             'earnings'               => __( 'Earnings', 'paid-member-subscriptions' ),
-            'all_active_members'     => __( 'All Active Members', 'paid-member-subscriptions' ),
+            'all_active_members'     => __( 'Active Subscriptions', 'paid-member-subscriptions' ),
             'new_paid_subscriptions' => __( 'New Paid Subscriptions', 'paid-member-subscriptions' ),
             'payments_count'         => __( 'Payments', 'paid-member-subscriptions' ),
         );

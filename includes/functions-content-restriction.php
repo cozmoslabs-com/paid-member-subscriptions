@@ -414,8 +414,7 @@ if( isset( $settings['pms_excludePosts'] ) && $settings['pms_excludePosts'] == '
         if( !function_exists( 'pms_is_post_restricted' ) || is_admin() || is_single() )
             return;
 
-        if( $query->is_main_query() || ( $query->is_search() && isset( $_GET['s'] ) ) ) {
-
+        if( $query->is_main_query() || ( $query->is_search() && isset( $query->query_vars ) && isset( $query->query_vars['s'] ) ) ) {
             remove_action('pre_get_posts', 'pmsc_exclude_post_from_query', 40 );
 
             $args = $query->query_vars;

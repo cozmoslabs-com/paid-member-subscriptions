@@ -52,6 +52,7 @@ body[class*="post-type-pms-"].post-php #wpbody-content .wrap {
 }
 
 .wp-submenu a[href="admin.php?page=pms-export-page"],
+.wp-submenu a[href="admin.php?page=pms-import-page"],
 .wp-submenu a[href="admin.php?page=pms-discount-codes-bulk-add"] {
     display: none !important;
 }
@@ -1678,6 +1679,57 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
 
 #cozmoslabs-payments-export .cozmoslabs-notice-message {
     margin: 35px 0;
+}
+
+
+/***********************************************************/
+/* Import Data
+/***********************************************************/
+
+#dashboard-widgets-wrap {
+    margin: 0;
+}
+
+#pms-import .cozmoslabs-form-field-wrapper {
+    padding: 20px;
+    margin: 35px 0;
+}
+
+.pms-import-form .pms-progress {
+    background: #eee;
+    width: 95%;
+    order: 1;
+    border-radius: 50px;
+    height: 20px;
+}
+
+.pms-import-form .pms-progress div {
+    height: 100%;
+    width: 0;
+}
+
+.pms-import-form .notice-wrap {
+    width: 100%;
+    margin-top: 35px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.pms-import-form .notice-wrap .spinner {
+    order: 2;
+    margin: 0 10px;
+}
+
+.pms-import-form .pms-progress div {
+    background: #3858E9;
+    border-radius: 50px;
+}
+
+#pms-import #pms-import-success {
+    width: 500px;
 }
 
 
