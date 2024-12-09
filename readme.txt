@@ -4,6 +4,7 @@ Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
 Tested up to: 6.7
+Requires PHP: 7.4
 Stable tag: 2.13.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
