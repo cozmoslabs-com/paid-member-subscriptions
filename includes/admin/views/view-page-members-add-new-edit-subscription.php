@@ -371,8 +371,8 @@ if( ! empty( $_POST ) ) {
                         <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
 
                             <label for="pms-subscription-billing-next-payment" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Next Payment', 'paid-member-subscriptions' ); ?></label>
-                            
-                            <span class="readonly medium"><strong><?php echo !empty( $form_data['billing_amount'] ) ? esc_html( pms_format_price( $form_data['billing_amount'] ) ) : ''; ?></strong></span>
+
+                            <span class="readonly medium"><strong><?php echo !empty( $form_data['billing_amount'] ) ? esc_html( pms_format_price( $form_data['billing_amount'], apply_filters( 'pms_last_payment_currency', '', $form_data ) ) ) : ''; ?></strong></span>
                             <?php echo esc_html_x( 'on', 'This is part of a payment amount: 100$ on 12/10/2025', 'paid-member-subscriptions' ); ?>
                             <input id="pms-subscription-billing-next-payment" type="text" name="billing_next_payment" class="datepicker pms-subscription-field" value="<?php echo ( ! empty( $form_data['billing_next_payment'] ) ? esc_attr( pms_sanitize_date( $form_data['billing_next_payment'] ) ) : '' ); ?>" />
 

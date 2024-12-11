@@ -57,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                 </div>
 
                                 <div class="cozmoslabs-form-field-wrapper">
-                                    <label class="cozmoslabs-form-field-label" for="pms-plan-to-export-status"><?php esc_html_e( 'Subscription Plan Status', 'paid-member-subscriptions' ) ?></label>
+                                    <label class="cozmoslabs-form-field-label" for="pms-plan-to-export-status"><?php esc_html_e( 'Subscription Status', 'paid-member-subscriptions' ) ?></label>
 
                                     <select name="pms-filter-member-status" class="pms-export-filter" id="pms-plan-to-export-status">
                                         <option value="0"><?php esc_html_e( 'All Members', 'paid-member-subscriptions' ); ?></option>
@@ -85,6 +85,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                                 <div id="pms-add-meta-key-wrap">
                                     <h4 class="cozmoslabs-subsection-title"><span><?php esc_html_e( 'User Data', 'paid-member-subscriptions' ); ?></span></h4>
+
+                                    <p class="cozmoslabs-subsection-description">
+                                        <?php esc_html_e( 'Select Usermeta fields that should be included in the export.', 'paid-member-subscriptions' ); ?>
+                                        <br>
+                                        <?php esc_html_e( 'Column title let\'s you specify the key that you wish this data to use in the export file. This should be left empty if you want to migrate usermeta data from one website to another.', 'paid-member-subscriptions' ); ?>
+                                    </p>
+
                                     <div id="pms-add-meta-key-container">
 
                                         <?php

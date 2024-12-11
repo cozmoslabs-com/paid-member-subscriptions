@@ -639,9 +639,8 @@
 <?php __("Subscription Upgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Downgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Retry Payment", "paid-member-subscriptions"); ?>
-<?php __("<strong>New payment gateway!</strong><br><br><strong>Stripe</strong> payment gateway is now available in the free version. <br>Your users can pay using credit and debit cards without leaving your website and you can also offer them additional payment methods like Bancontact, iDeal, Giropay and more. <br><br>Get started now by going to <strong>Paid Member Subscriptions -> Settings -> Payments</strong>!", "paid-member-subscriptions"); ?>
-<?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("Add-ons Page", "paid-member-subscriptions"); ?>
+<?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("Buy now", "paid-member-subscriptions"); ?>
 <?php __("%s Day", "paid-member-subscriptions"); ?>
 <?php __("%s Days", "paid-member-subscriptions"); ?>
@@ -683,6 +682,10 @@
 <?php __('The Nginx web server needs to be restarted for the new File Restriction rules to take effect. %1$sLearn more%2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this member ?", "paid-member-subscriptions"); ?>
+<?php __("The Multiple Currencies Add-On is not compatible with the Pro-Rate Add-On. To use Multiple Currencies, please deactivate the Pro-Rate Add-On.", "paid-member-subscriptions"); ?>
+<?php __("The version of Paid Member Subscriptions you are using is not compatible with the Multiple Currencies add-on. Please update Paid Member Subscriptions to version 2.13.5 or higher.", "paid-member-subscriptions"); ?>
+<?php __("Every 6 Hours", "paid-member-subscriptions"); ?>
+<?php __("The Pro-Rate Add-On is not compatible with the Multiple Currencies Add-On. To use Pro-Rate, please deactivate the Multiple Currencies Add-On.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a credit card number.", "paid-member-subscriptions"); ?>
 <?php __("Your card details do not seem to be valid.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Tax Rate?", "paid-member-subscriptions"); ?>
@@ -958,7 +961,7 @@
 <?php __("Total Payments", "paid-member-subscriptions"); ?>
 <?php __("Total earnings of completed payments for the selected period", "paid-member-subscriptions"); ?>
 <?php __("New Revenue", "paid-member-subscriptions"); ?>
-<?php __("Total earnings of reccuring payments for the selected period", "paid-member-subscriptions"); ?>
+<?php __("Total earnings of recurring payments for the selected period", "paid-member-subscriptions"); ?>
 <?php __("Recurring Revenue", "paid-member-subscriptions"); ?>
 <?php __("The plan with the most income for the selected period", "paid-member-subscriptions"); ?>
 <?php __("Best Performing Plan", "paid-member-subscriptions"); ?>
@@ -1317,6 +1320,76 @@
 <?php __("Invoice-%d", "paid-member-subscriptions"); ?>
 <?php __("Download Invoice", "paid-member-subscriptions"); ?>
 <?php __("Payments & Invoices", "paid-member-subscriptions"); ?>
+<?php __("Multiple Currencies", "paid-member-subscriptions"); ?>
+<?php __("Edit Prices for Other Currencies", "paid-member-subscriptions"); ?>
+<?php __("Specify a custom price for each available currency.", "paid-member-subscriptions"); ?>
+<?php __("Don't Switch Currency", "paid-member-subscriptions"); ?>
+<?php __("Restrict the sale of this plan to the default currency only.", "paid-member-subscriptions"); ?>
+<?php __("Enter the prices for this plan in different currencies. The available currencies are determined based on the settings from the %sSettings → Payments → Multiple Currencies%s page.", "paid-member-subscriptions"); ?>
+<?php __("If a currency is defined but a plan does not have a specific price set for that currency, the value and currency of the original price will be used.", "paid-member-subscriptions"); ?>
+<?php __("Enable the %sAuto Convert Prices%s option from the %sSettings → Payments → Multiple Currencies%s page to convert prices automatically.", "paid-member-subscriptions"); ?>
+<?php __("Prices in different currencies", "paid-member-subscriptions"); ?>
+<?php __(" + ", "paid-member-subscriptions"); ?>
+<?php __("Sign-up fee: ", "paid-member-subscriptions"); ?>
+<?php __("Min Price: ", "paid-member-subscriptions"); ?>
+<?php __("Max Price: ", "paid-member-subscriptions"); ?>
+<?php __("Save Prices", "paid-member-subscriptions"); ?>
+<?php __("Prices saved!", "paid-member-subscriptions"); ?>
+<?php __("Conversion Type", "paid-member-subscriptions"); ?>
+<?php __("Manual", "paid-member-subscriptions"); ?>
+<?php __("Automatic", "paid-member-subscriptions"); ?>
+<?php __("Prices will be displayed according to the custom price set for each currency in the Subscription Plan settings.", "paid-member-subscriptions"); ?>
+<?php __("Prices will be automatically converted from the default currency to the selected one.", "paid-member-subscriptions"); ?>
+<?php __("Default Currency", "paid-member-subscriptions"); ?>
+<?php __("Extra Currencies", "paid-member-subscriptions"); ?>
+<?php __("Choose any additional currencies you would like to use, apart from the default one.", "paid-member-subscriptions"); ?>
+<?php __("PayPal Restricted Currencies", "paid-member-subscriptions"); ?>
+<?php __("First define some extra currencies above and save the settings in order to setup these currencies.", "paid-member-subscriptions"); ?>
+<?php __("Certain currencies cannot be accepted through PayPal due to Merchant Restrictions. %sView PayPal supported currencies%s", "paid-member-subscriptions"); ?>
+<?php __("Select which Extra Currency cannot be received in PayPal. Payments will convert to the default currency before processing, as long as an active currency Converter is available to support the conversion.", "paid-member-subscriptions"); ?>
+<?php __("Currency Switcher", "paid-member-subscriptions"); ?>
+<?php __("Enable the Manual Currency Switcher.", "paid-member-subscriptions"); ?>
+<?php __("User Location", "paid-member-subscriptions"); ?>
+<?php __("Detect user location.", "paid-member-subscriptions"); ?>
+<?php __("Show prices according to the user's location.", "paid-member-subscriptions"); ?>
+<?php __("Auto Convert Prices", "paid-member-subscriptions"); ?>
+<?php __("Automatically convert Subscription Plan prices", "paid-member-subscriptions"); ?>
+<?php __("Automatically convert prices when a Subscription Plan price is not set for the required currency.", "paid-member-subscriptions"); ?>
+<?php __("Currency Conversion", "paid-member-subscriptions"); ?>
+<?php __("Converter", "paid-member-subscriptions"); ?>
+<?php __("Select Converter...", "paid-member-subscriptions"); ?>
+<?php __("Exchange Converter", "paid-member-subscriptions"); ?>
+<?php __("Frankfurter Converter", "paid-member-subscriptions"); ?>
+<?php __("Alpha Vantage", "paid-member-subscriptions"); ?>
+<?php __("Choose your preferred Converter.", "paid-member-subscriptions"); ?>
+<?php __("To get your API key, visit <a href=\"https://app.exchangerate-api.com\" target=\"_blank\">Exchange Converter</a> and follow the steps provided.", "paid-member-subscriptions"); ?>
+<?php __("To get your API key, visit <a href=\"https://www.alphavantage.co/support/#api-key\" target=\"_blank\">Alpha Vantage</a> and follow the easy steps provided.", "paid-member-subscriptions"); ?>
+<?php __("API Key", "paid-member-subscriptions"); ?>
+<?php __("Enter the API key provided by the Exchange Converter.", "paid-member-subscriptions"); ?>
+<?php __("Enter the API key provided by the Alpha Vantage Converter.", "paid-member-subscriptions"); ?>
+<?php __("Update Interval", "paid-member-subscriptions"); ?>
+<?php __("1 hour", "paid-member-subscriptions"); ?>
+<?php __("6 hours", "paid-member-subscriptions"); ?>
+<?php __("12 hours", "paid-member-subscriptions"); ?>
+<?php __("24 hours", "paid-member-subscriptions"); ?>
+<?php __("Specify how often the conversion rates should be updated.", "paid-member-subscriptions"); ?>
+<?php __("Before setting the interval, make sure to check how often the selected Converter updates the rates to avoid making unnecessary requests.", "paid-member-subscriptions"); ?>
+<?php __("Conversion Rates", "paid-member-subscriptions"); ?>
+<?php __("Update Rates", "paid-member-subscriptions"); ?>
+<?php __("Updated: ", "paid-member-subscriptions"); ?>
+<?php __("Update the rates to improve performance and reduce future requests.", "paid-member-subscriptions"); ?>
+<?php __("Conversion rates updated successfully!", "paid-member-subscriptions"); ?>
+<?php __("Currency Labels", "paid-member-subscriptions"); ?>
+<?php __("Define custom labels or symbols for any additional currencies in use.", "paid-member-subscriptions"); ?>
+<?php __("Checkout currency switched to <strong>%s</strong> based on the automatically detected user location and the user selected currency.", "paid-member-subscriptions"); ?>
+<?php __("Extra currency price of <strong>%s</strong> converted to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __("Currency availability", "paid-member-subscriptions"); ?>
+<?php __("Choose the currencies for which the discount code will be valid. If none selected, the code will apply to all.", "paid-member-subscriptions"); ?>
+<?php __("Other Currencies", "paid-member-subscriptions"); ?>
+<?php __("Currency", "paid-member-subscriptions"); ?>
+<?php __("This discount code is not available.", "paid-member-subscriptions"); ?>
+<?php __("The selected currency is not supported by PayPal, and conversion rates for this currency are unavailable. <br> Please reach out to the website administrator for further information.", "paid-member-subscriptions"); ?>
+<?php __("Converter limit reached or unsupported Extra Currencies selected.", "paid-member-subscriptions"); ?>
 <?php __("Select subscription plan", "paid-member-subscriptions"); ?>
 <?php __("Subscription plan", "paid-member-subscriptions"); ?>
 <?php __('You will soon be redirected automatically. If you see this page for more than 5 seconds, please click <a href=\%1$s\>here</a>', 'paid-member-subscriptions' ); ?>
@@ -1549,6 +1622,7 @@
 <?php __("Pro Add-ons", "paid-member-subscriptions"); ?>
 <?php __("These addons extend Paid Member Subscriptions and are available in the Pro and Agency plans.", "paid-member-subscriptions"); ?>
 <?php __("Get access to these Add-ons with a Pro or Agency license. %sBuy now%s", "paid-member-subscriptions"); ?>
+<?php __("Enable visitors to pay in their local currency, either through automatic location detection or by manually selecting their preferred currency.", "paid-member-subscriptions"); ?>
 <?php __("Restrict direct access to media files based on subscription plans making sure only paying members can view them.", "paid-member-subscriptions"); ?>
 <?php __("Pro-Rate", "paid-member-subscriptions"); ?>
 <?php __("Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription.", "paid-member-subscriptions"); ?>
@@ -1655,12 +1729,13 @@
 <?php __("Members Export", "paid-member-subscriptions"); ?>
 <?php __("Download a CSV with your user subscriptions (a user with multiple subscriptions will have a record for each individual one).", "paid-member-subscriptions"); ?>
 <?php __("Choose the Subscription to export members from", "paid-member-subscriptions"); ?>
-<?php __("Subscription Plan Status", "paid-member-subscriptions"); ?>
 <?php __("All Members", "paid-member-subscriptions"); ?>
 <?php __("Choose the current subscription status", "paid-member-subscriptions"); ?>
 <?php __("Include sensitive data", "paid-member-subscriptions"); ?>
 <?php __("For a normal export, this option should be avoided. When used it will include sensitive Stripe Card and Customer data into the export so they can be migrated to another site.", "paid-member-subscriptions"); ?>
 <?php __("User Data", "paid-member-subscriptions"); ?>
+<?php __("Select Usermeta fields that should be included in the export.", "paid-member-subscriptions"); ?>
+<?php __("Column title let's you specify the key that you wish this data to use in the export file. This should be left empty if you want to migrate usermeta data from one website to another.", "paid-member-subscriptions"); ?>
 <?php __("Column title", "paid-member-subscriptions"); ?>
 <?php __("User meta key", "paid-member-subscriptions"); ?>
 <?php __("...Choose", "paid-member-subscriptions"); ?>
@@ -1760,8 +1835,9 @@
 <?php __("Show the first %s words of the post's content", "paid-member-subscriptions"); ?>
 <?php __("Show the content before the \"more\" tag", "paid-member-subscriptions"); ?>
 <?php __("Show a portion of the restricted post to logged-out users or users that are not subscribed to a plan.", "paid-member-subscriptions"); ?>
-<?php __("Exclude Restricted Posts from Queries", "paid-member-subscriptions"); ?>
-<?php __("Activate this option to exclude the restricted posts from default WordPress and WooCommerce queries.", "paid-member-subscriptions"); ?>
+<?php __("Include Restricted Posts in Queries", "paid-member-subscriptions"); ?>
+<?php __("Include restricted posts in queries like arhive pages, search etc.", "paid-member-subscriptions"); ?>
+<?php __("This can potentially improve performance for very large websites but with a security risk.", "paid-member-subscriptions"); ?>
 <?php __("Member Emails", "paid-member-subscriptions"); ?>
 <?php __("Administrator Emails", "paid-member-subscriptions"); ?>
 <?php __("General Email Options", "paid-member-subscriptions"); ?>
@@ -1865,10 +1941,10 @@
 <?php __("Enter how many retries the payment retry functionality should attempt.", "paid-member-subscriptions"); ?>
 <?php __("Retry Interval", "paid-member-subscriptions"); ?>
 <?php __("Enter the interval between retries for the payment retry functionality.", "paid-member-subscriptions"); ?>
+<?php __("Gateways", "paid-member-subscriptions"); ?>
 <?php __("Test Mode", "paid-member-subscriptions"); ?>
 <?php __("Use with test accounts from your payment processors. <a href=\"%s\">More Details</a>", "paid-member-subscriptions"); ?>
 <?php __("Currency Config", "paid-member-subscriptions"); ?>
-<?php __("Currency", "paid-member-subscriptions"); ?>
 <?php __("Select your currency. Please note that some payment gateways can have currency restrictions.", "paid-member-subscriptions"); ?>
 <?php __("Currency Position", "paid-member-subscriptions"); ?>
 <?php __("Before", "paid-member-subscriptions"); ?>
@@ -1878,7 +1954,8 @@
 <?php __("Select whether the currency symbol should appear before the price or after the price.", "paid-member-subscriptions"); ?>
 <?php __("Price Display Format", "paid-member-subscriptions"); ?>
 <?php __("Select how prices should be displayed.", "paid-member-subscriptions"); ?>
-<?php __("Default Payment Gateway", "paid-member-subscriptions"); ?>
+<?php __("Payment Gateways", "paid-member-subscriptions"); ?>
+<?php __("The payment gateway selection has moved to a separate sub-tab that can be accessed from the navigation menu above. %sClick here%s to open it now.", "paid-member-subscriptions"); ?>
 <?php __("Subscription Global Configs", "paid-member-subscriptions"); ?>
 <?php __("Renewal", "paid-member-subscriptions"); ?>
 <?php __("Customer opts in for automatic renewal", "paid-member-subscriptions"); ?>
@@ -1894,6 +1971,7 @@
 <?php __("Allow members to downgrade their subscription plan to a lower one from the same tier.", "paid-member-subscriptions"); ?>
 <?php __("Allow Subscription Change", "paid-member-subscriptions"); ?>
 <?php __("Allow members to change their subscription to one from another tier.", "paid-member-subscriptions"); ?>
+<?php __("Default Payment Gateway", "paid-member-subscriptions"); ?>
 <?php __("Skip Setup", "paid-member-subscriptions"); ?>
 <?php __("Uninstall Paid Member Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("We're sad to see you leave, but we understand that sometimes things don't work out as planned.", "paid-member-subscriptions"); ?>
@@ -2155,6 +2233,7 @@
 <?php __("Enter the next invoice number. Default value is 1 and increments every time an invoice is issued. Existing invoices will not be changed.", "paid-member-subscriptions"); ?>
 <?php __("Reset Yearly", "paid-member-subscriptions"); ?>
 <?php __("Automatically reset invoice numbers on new year's day. Resets invoice number to 1.", "paid-member-subscriptions"); ?>
+<?php __("%s payments only", "paid-member-subscriptions"); ?>
 <?php __("Reference Transactions", "paid-member-subscriptions"); ?>
 <?php __('Check if your PayPal account has Reference Transactions enabled. %1$sLearn how to enable reference transactions.%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("PayPal Billing Agreement ID", "paid-member-subscriptions"); ?>
@@ -2475,7 +2554,6 @@
 <?php __("This will ignore the global discounts set per subscription plan that apply to this product", "paid-member-subscriptions"); ?>
 <?php __("This will exclude this product from any membership discounts that may apply now or in the future", "paid-member-subscriptions"); ?>
 <?php __("Add New Discount", "paid-member-subscriptions"); ?>
-<?php __("Membership Discounts", "paid-member-subscriptions"); ?>
 <?php __("Discount for", "paid-member-subscriptions"); ?>
 <?php __("ID / Name", "paid-member-subscriptions"); ?>
 <?php __("Product Discounts", "paid-member-subscriptions"); ?>

@@ -338,7 +338,7 @@ Class PMS_Merge_Tags{
 
         if ( class_exists( 'PMS_IN_Tax' ) ) {
             $pms_tax = new PMS_IN_Tax;
-            $amount = $pms_tax->calculate_tax_rate( $amount );
+            $amount = apply_filters( 'pms_merge_tag_subscription_price_amount', $pms_tax->calculate_tax_rate( $amount ), $amount, $payment_id );
         }
 
         return pms_format_price( $amount, $currency );

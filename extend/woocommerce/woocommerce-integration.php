@@ -169,14 +169,6 @@ function pms_woo_include_files(){
         // Load scripts for product membership discounts
         add_action('admin_enqueue_scripts', 'pms_woo_enqueue_admin_scripts_membership_discounts');
 
-        // Add meta-box for adding membership discounts per individual products
-        if (file_exists(PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php'))
-            include_once PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php';
-
-        // Add meta-box for adding product discounts per subscription plan
-        if (file_exists(PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php'))
-            include_once PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php';
-
         // Modify prices viewed by an active member based on existing membership discounts (set per subscription plan and per product)
         if (file_exists(PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/includes/class-pms-woo-subscription-discounts.php'))
             include_once PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/includes/class-pms-woo-subscription-discounts.php';
@@ -185,6 +177,23 @@ function pms_woo_include_files(){
 
 }
 add_action('plugins_loaded', 'pms_woo_include_files');
+
+function pms_woo_include_files_init(){
+
+    // Check if WooCommerce version is greater than 3.0, as we don't support membership discounts for older versions
+    if ( pms_is_woo_version_gte('3.0') ) {
+
+        // Add meta-box for adding membership discounts per individual products
+        if (file_exists(PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php'))
+            include_once PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php';
+
+        // Add meta-box for adding product discounts per subscription plan
+        if (file_exists(PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php'))
+            include_once PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php';
+    }
+
+}
+add_action( 'init', 'pms_woo_include_files_init' );
 
 
 /**

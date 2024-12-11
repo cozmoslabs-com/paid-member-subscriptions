@@ -36,6 +36,8 @@ $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'change_subsc
                 <?php else : ?>
                     <?php echo wp_kses_post( sprintf(  __( 'Upgrade %s to:', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>' ) ); ?>
                 <?php endif; ?>
+
+                <?php do_action('pms_change_subscription_message_extra_info', 'upgrade_subscription', $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others );?>
             </div>
 
             <?php echo pms_output_subscription_plans( $subscription_plan_upgrades, array(), false, '', 'upgrade_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -58,6 +60,8 @@ $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'change_subsc
             <?php else : ?>
                 <?php echo wp_kses_post( sprintf(  __( 'Downgrade %s to:', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>' ) ); ?>
             <?php endif; ?>
+
+            <?php do_action('pms_change_subscription_message_extra_info', 'downgrade_subscription', $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others );?>
         </div>
 
         <?php echo pms_output_subscription_plans( $subscription_plan_downgrades, array(), false, '', 'downgrade_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -75,7 +79,11 @@ $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'change_subsc
 
     <div class="pms-upgrade__group pms-upgrade__group--change">
 
-        <div class="pms-upgrade__message"><?php echo wp_kses_post( sprintf(  __( 'Change %s to:', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>' ) ); ?></div>
+        <div class="pms-upgrade__message">
+            <?php echo wp_kses_post( sprintf(  __( 'Change %s to:', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>' ) ); ?>
+
+            <?php do_action('pms_change_subscription_message_extra_info', 'change_subscription', $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others );?>
+        </div>
 
         <?php echo pms_output_subscription_plans( $subscription_plan_others, array(), false, '', 'change_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 

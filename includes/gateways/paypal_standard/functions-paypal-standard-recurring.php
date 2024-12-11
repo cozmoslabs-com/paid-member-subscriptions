@@ -465,7 +465,7 @@ function pms_in_ppsrp_ipn_listener( $payment_data, $post_data ) {
                     $new_payment->log_data( 'new_payment', array( 'user' => -1, 'data' => $payment_data ) );
                 }
 
-                pms_add_payment_meta( $payment->id, 'subscription_id', $payment->member_subscription_id, true );
+                pms_add_payment_meta( $new_payment->id, 'subscription_id', $payment->member_subscription_id, true );
 
                 $new_payment->update( array( 'type' => $payment_data['type'], 'transaction_id' => $payment_data['transaction_id'] ) );
 

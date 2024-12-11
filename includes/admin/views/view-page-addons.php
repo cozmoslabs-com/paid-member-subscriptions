@@ -86,6 +86,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     $pms_addons_listing->section_header_free = array( 'title' => __('Pro Add-ons', 'paid-member-subscriptions' ), 'description' => sprintf( __( 'Get access to these Add-ons with a Pro or Agency license. %sBuy now%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page-notice&utm_campaign=PMS#pricing" taget="_blank">', '</a>' )  );
     $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Agency', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Agency', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
     $pms_addons_listing->items = array(
+        array(  'slug' => 'pms-add-on-multiple-currencies/index.php',
+            'type'        => 'add-on',
+            'name'        => __( 'Multiple Currencies', 'paid-member-subscriptions' ),
+            'description' => __( 'Enable visitors to pay in their local currency, either through automatic location detection or by manually selecting their preferred currency.', 'paid-member-subscriptions' ),
+            'icon'        => 'pms-add-on-multiple-currencies-logo.png',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/multiple-currencies/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+        ),
         array(  'slug' => 'pms-add-on-files-restriction/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Files Restriction', 'paid-member-subscriptions' ),

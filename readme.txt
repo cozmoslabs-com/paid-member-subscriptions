@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.13.4
+Stable tag: 2.13.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -146,6 +146,7 @@ Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslab
 
 **Pro Add-ons** (available in the [Agency & PRO versions](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) only)
 
+* [Multiple Currencies](https://www.cozmoslabs.com/add-ons/multiple-currencies/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Enable visitors to pay in their local currency, either through automatic location detection or by manually selecting their preferred currency
 * [Pro Rate](https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription
 * [Tax & EU VAT](https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - collect tax or vat from your users depending on their location, with full control over tax rates and who to charge
 * [Group Memberships](https://www.cozmoslabs.com/add-ons/group-memberships/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - sell group subscriptions to your users
@@ -251,6 +252,24 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.13.5 =
+* Fix: Security issue regarding unauthenticated content restriction bypass. Thanks to Francesco Carlucci
+* Fix: Now the Exclude Restricted Posts From Queries functionality is enabled by default on all websites. The existing option to activate this feature was changed into an option to disable it. You can find the disable option on the Settings -> Content Restriction page
+* Fix: Exclude posts from queries not detecting single pages of custom post types properly
+* Fix: Added support to the Exclude Posts From Queries feature to filter posts from Rest API search requests
+* Fix: Compatibility changes for the Multiple Currencies add-on
+* Fix: Improve reports loading times and performance
+* Fix: Add support to match subscriptions based on subscription_id when importing
+* Fix: Allow importing of usermeta data
+* Fix: Don't instantiate Subscription Plan class with random post types
+* Fix: More fixes relating to the doing it wrong WordPress 6.7 notice
+* Fix: Correctly assign member subscription id to a newly created payment with PayPal Standard
+* Fix: Issue where a subscription purchase using a 100% discount code through the Manual payment gateway was setting the wrong expiration date for the subscription
+* Fix: Issue with Fixed Period Memberships not showing the Cancel subscription action
+* Misc: A notice that could appear in some cases
+* Misc: Fix Reports page state when no payments are available for the selected period
+* Misc: The admin Payment Gateway selection was moved to a separate subtab on the Settings -> Payments page
+
 = 2.13.4 =
 * Feature: Import subscriptions from a .csv file. This can be used to create, update or migrate subscriptions. Go to the Reports -> Imports tab to use it
 * Fix: PHP Notice that started appearing with the WordPress 6.7 update

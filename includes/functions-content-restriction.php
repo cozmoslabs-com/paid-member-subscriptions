@@ -405,37 +405,50 @@ function pms_restrict_buddypress_pages( $post_id ){
 
 $settings = get_option( 'pms_content_restriction_settings' );
 
-if( isset( $settings['pms_excludePosts'] ) && $settings['pms_excludePosts'] == 'yes' ){
+if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeRestrictedPosts'] != 'yes' ){
 
     /* Exclude restricted posts and pages from the main queries like blog, archive and taxonomy pages. */
     add_action( 'pre_get_posts', 'pmsc_exclude_post_from_query', 40 );
     function pmsc_exclude_post_from_query( $query ) {
 
-        if( !function_exists( 'pms_is_post_restricted' ) || is_admin() || is_single() )
+        if( !function_exists( 'pms_is_post_restricted' ) || is_admin() || is_singular() )
             return;
 
         if( $query->is_main_query() || ( $query->is_search() && isset( $query->query_vars ) && isset( $query->query_vars['s'] ) ) ) {
-            remove_action('pre_get_posts', 'pmsc_exclude_post_from_query', 40 );
+
+            remove_action( 'pre_get_posts', 'pmsc_exclude_post_from_query', 40 );
 
             $args = $query->query_vars;
+
             $args['suppress_filters'] = true;
-            $args['posts_per_page'] = get_option( 'posts_per_page' );
+            $args['fields']           = 'ids';
+
+            // setup paged arguments
+            // double these params so we take care of results from the second page as well
+            if( !empty( $query->query_vars['paged'] ) || $query->query_vars['paged'] != 1 ){
+
+                $args['paged'] = round( $args['paged'] / 2 );
+
+                if( !empty( $args['posts_per_page'] ) )
+                    $args['posts_per_page'] = $args['posts_per_page'] * 2;
+                else
+                    $args['posts_per_page'] = get_option( 'posts_per_page' ) * 2;
+
+            }
 
             if( is_search() )
                 $args['post_type'] = 'any';
 
-            $posts = get_posts($args);
+            $restricted_posts = get_posts( $args );
 
             $previous_restricted_ids = $query->get( 'post__not_in' );
             if ( ! is_array( $previous_restricted_ids ) ) {
                 $previous_restricted_ids = array();
             }
 
-            $ids = wp_list_pluck( $posts, 'ID' );
-            $restricted_ids = array_filter( $ids,'pms_is_post_restricted' );
+            $restricted_ids = array_filter( $restricted_posts, 'pms_is_post_restricted' );
 
-            $updated_restricted_ids = array_merge( $previous_restricted_ids, $restricted_ids );
-            $query->set( 'post__not_in', $updated_restricted_ids );
+            $query->set( 'post__not_in', array_merge( $previous_restricted_ids, $restricted_ids ) );
         }
     }
 
@@ -476,26 +489,33 @@ if( isset( $settings['pms_excludePosts'] ) && $settings['pms_excludePosts'] == '
             remove_action( 'pre_get_posts', 'pms_exclude_restricted_products_from_woocoommerce_category_queries', 11 );
 
             $args = $query->query_vars;
+
             $args['suppress_filters'] = true;
-            $args['posts_per_page'] = -1;
+            $args['posts_per_page']   = -1;
 
             $previous_restricted_ids = $query->get( 'post__not_in' );
             if ( ! is_array( $previous_restricted_ids ) ) {
                 $previous_restricted_ids = array();
             }
 
-            $products = wc_get_products( $args );
+            if ( false === ( $products = get_transient( 'pms_content_restriction_products_query' ) ) ) {
+                $products = wc_get_products( $args );
+                
+                set_transient( 'pms_content_restriction_products_query', $products, 2 * HOUR_IN_SECONDS );
+            }
 
             $product_ids = array();
 
-            foreach ($products as $product) {
-                $product_ids[] = $product->get_id();
+            if( !empty( $products ) ){
+                foreach ($products as $product) {
+                    $product_ids[] = $product->get_id();
+                }
+    
+                $restricted_ids = array_filter( $product_ids, 'pms_is_post_restricted' );
+    
+                $updated_restricted_ids = array_merge( $previous_restricted_ids, $restricted_ids );
+                $query->set( 'post__not_in', $updated_restricted_ids );
             }
-
-            $restricted_ids = array_filter( $product_ids, 'pms_is_post_restricted' );
-
-            $updated_restricted_ids = array_merge( $previous_restricted_ids, $restricted_ids );
-            $query->set( 'post__not_in', $updated_restricted_ids );
 
         }
     }

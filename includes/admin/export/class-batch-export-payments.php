@@ -57,6 +57,7 @@ class PMS_Batch_Export_Payments extends PMS_Batch_Export {
             'payment_status'               => 'payment_status',
             'payment_date'                 => 'payment_date',
             'payment_amount'               => 'payment_amount',
+            'payment_currency'             => 'payment_currency',
             'payment_payment_gateway'      => 'payment_payment_gateway',
             // 'pms_payments_currency'             => 'pms_payments_currency', // this is not used so we're not exporting it.
             'payment_type'                 => 'payment_type',
@@ -131,6 +132,7 @@ class PMS_Batch_Export_Payments extends PMS_Batch_Export {
                     'payment_status'                   => $payment->status,
                     'payment_date'			           => pms_sanitize_date( $payment->date ),
                     'payment_amount'                   => $payment->amount,
+                    'payment_currency'                 => pms_mc_get_payment_currency( $payment->id ),
                     'payment_payment_gateway'          => $payment->payment_gateway,
                     'payment_type'                     => $payment->type,
                     'payment_transaction_id'           => $payment->transaction_id,

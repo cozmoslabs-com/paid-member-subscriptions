@@ -127,13 +127,11 @@ Class PMS_Subscription_Plan {
 
         }
 
-
-        if( !$post_subscription )
+        if( !$post_subscription || ( isset( $post_subscription->post_type ) && $post_subscription->post_type != 'pms-subscription' ) )
             return null;
 
         $this->id   = (int)$post_subscription->ID;
         $this->name = $post_subscription->post_title;
-
 
         /*
          * Set subscription plan data from the post meta data

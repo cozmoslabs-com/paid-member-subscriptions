@@ -418,19 +418,19 @@ function pms_in_dc_register_payment_data_after_discount( $payment_data, $payment
 
         $payment = pms_get_payment(isset($payment_data['payment_id']) ? $payment_data['payment_id'] : 0);
 
-        $payment->update(array('discount_code' => $discount->code));
+        $update_args = array(
+            'discount_code' => $discount->code
+        );
 
         // Update payment amount if it was discounted
         if ( !is_null($payment_data['sign_up_amount']) ) {
 
-            $data = array(
-                'amount' => $payment_data['sign_up_amount'],
-                'status' => ($payment_data['sign_up_amount'] == 0 ? 'completed' : $payment->status)
-            );
-
-            $payment->update($data);
+            $update_args['amount'] = $payment_data['sign_up_amount'];
+            $update_args['status'] = $payment_data['sign_up_amount'] == 0 ? 'completed' : $payment->status;
 
         }
+
+        $payment->update( $update_args );
 
     }
 

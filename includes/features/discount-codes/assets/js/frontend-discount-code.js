@@ -119,6 +119,12 @@ jQuery(document).ready(function($) {
             'form_action'             : $pms_form.find('input[name="form_action"]').val(),
         };
 
+
+        var currency  = new URLSearchParams(window.location.search).get('pms_mc_currency');
+
+        if ( currency )
+            data['pms_mc_currency'] = currency;
+
         if( data.pmstkn_original === undefined && jQuery( '.wppb-register-user' ).length > 0 )
             data.pmstkn_original = 'pb_form'
 

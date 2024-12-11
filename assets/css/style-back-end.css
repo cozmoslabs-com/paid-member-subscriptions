@@ -484,7 +484,7 @@ body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-f
     align-items: center;
 }
 
-.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen, #restricted_file_types_chosen, #scripts_on_specific_pages_chosen) .chosen-choices .search-field {
+.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen, #restricted_file_types_chosen, #scripts_on_specific_pages_chosen, #extra_currency_chosen, #restricted_currency_chosen ) .chosen-choices .search-field {
     display: none;
 }
 
@@ -1642,6 +1642,14 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
     border: 1px solid #ccc;
     margin: 35px 0;
     border-radius: 2px;
+}
+
+#pms-add-meta-key-container .pms-add-meta-key-row {
+    margin-top: 24px;
+}
+
+.pms-add-meta-key-row .cozmoslabs-form-field-wrapper {
+    margin-top: 12px !important;
 }
 
 .pms-export-form .pms-progress {
@@ -4581,11 +4589,23 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
     margin-right: 10px;
 }
 
-#pms-general-link, #pms-subscription-plans-link,
-#pms-discount-codes-link, #pms-general-link-previous,
-#pms-subscription-plans-link-previous, #pms-discount-codes-link-previous{
-    margin-right: 20px;
+/*#pms-general-link, #pms-subscription-plans-link,*/
+/*#pms-discount-codes-link, #pms-general-link-previous,*/
+/*#pms-subscription-plans-link-previous, #pms-discount-codes-link-previous{*/
+/*    margin-right: 20px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+.pms-summary-tab {
     cursor: pointer;
+}
+
+.pms-summary-tab:not(:last-of-type) {
+    margin-right: 20px;
+}
+
+.pms-summary-section:not(.pms-general-section, .pms-general-section-previous) {
+    display: none;
 }
 
 .cozmoslabs-form-subsection-wrapper .inside a.active{
@@ -4663,13 +4683,13 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
 }
 
 .pms-general-section .cozmoslabs-form-field-wrapper, .pms-general-section-previous .cozmoslabs-form-field-wrapper{
-    margin-top: 16px !important;
-}
-
-.pms-general-section .pms-gateway-revenue, .pms-general-section-previous .pms-gateway-revenue,
-.pms-general-section .pms-payment-retries, .pms-general-section-previous .pms-payment-retries{
     margin-top: 24px !important;
 }
+
+/*.pms-general-section .pms-gateway-revenue, .pms-general-section-previous .pms-gateway-revenue,*/
+/*.pms-general-section .pms-payment-retries, .pms-general-section-previous .pms-payment-retries{*/
+/*    margin-top: 24px !important;*/
+/*}*/
 
 .pms-reports-summary-section{
     display: flex;
@@ -4682,6 +4702,30 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
 
 .pms-reports-summary-section .cozmoslabs-form-subsection-wrapper{
     flex: 1;
+}
+
+#pms-best-performing {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.pms-total-container .pms-currency {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.pms-total-container .pms-currency-difference {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.pms-total-container .pms-currency-difference .pms-arrow {
+    margin: -2px 0 0 0;
 }
 
 #pms_subscription_plans_section .pms-plans-section .cozmoslabs-form-field-label{
@@ -4739,4 +4783,9 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
 div.wppb-notice,
 div.wppb-serial-notification {
     position: relative;
+}
+
+#pms_addon_release_multiple_currencies p:nth-child(2) strong:first-child {
+    display: block;
+    margin-bottom: 6px;
 }

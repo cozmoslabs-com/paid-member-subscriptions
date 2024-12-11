@@ -179,15 +179,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     <!-- Exclude Restricted Posts from Queries -->
     <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
-        <label class="cozmoslabs-form-field-label" for="pms_excludeRestrictedPosts"><?php esc_html_e( 'Exclude Restricted Posts from Queries', 'paid-member-subscriptions' ); ?></label>
+        <label class="cozmoslabs-form-field-label" for="pms_includeRestrictedPosts"><?php esc_html_e( 'Include Restricted Posts in Queries', 'paid-member-subscriptions' ); ?></label>
 
         <div class="cozmoslabs-toggle-container">
-            <input type="checkbox" name="pms_content_restriction_settings[pms_excludePosts]" id="pms_excludeRestrictedPosts" value="yes" <?php echo ( isset( $this->options['pms_excludePosts'] ) && $this->options['pms_excludePosts'] == 'yes' ) ? 'checked' : ''; ?> >
-            <label class="cozmoslabs-toggle-track" for="pms_excludeRestrictedPosts"></label>
+            <input type="checkbox" name="pms_content_restriction_settings[pms_includeRestrictedPosts]" id="pms_includeRestrictedPosts" value="yes" <?php echo ( isset( $this->options['pms_includeRestrictedPosts'] ) && $this->options['pms_includeRestrictedPosts'] == 'yes' ) ? 'checked' : ''; ?> >
+            <label class="cozmoslabs-toggle-track" for="pms_includeRestrictedPosts"></label>
         </div>
 
         <div class="cozmoslabs-toggle-description">
-            <label for="pms_excludeRestrictedPosts" class="cozmoslabs-description"><?php esc_html_e( 'Activate this option to exclude the restricted posts from default WordPress and WooCommerce queries.', 'paid-member-subscriptions' ); ?></label>
+            <label for="pms_includeRestrictedPosts" class="cozmoslabs-description">
+                <?php esc_html_e( 'Include restricted posts in queries like arhive pages, search etc.', 'paid-member-subscriptions' ); ?><br>
+                <?php esc_html_e( 'This can potentially improve performance for very large websites but with a security risk.', 'paid-member-subscriptions' ); ?>
+            </label>
         </div>
     </div>
 </div>

@@ -8,7 +8,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 ?>
 
-<div id="payments-general">
+<?php $active_sub_tab = ( ! empty( $_GET['nav_sub_tab'] ) ? sanitize_text_field( $_GET['nav_sub_tab'] ) : 'payments_general' ); ?>
+
+<!-- Sub-tab navigation -->
+<ul class="subsubsub cozmoslabs-nav-sub-tab-wrapper">
+    <li class="subsubsub-sub-tab"><a data-sub-tab-slug="payments_general"  href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'payments', 'nav_sub_tab' => 'payments_general' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'payments_general' ? 'current' : '' ) ?>"><?php esc_html_e( 'General', 'paid-member-subscriptions' ); ?></a></li>
+    <li class="subsubsub-sub-tab"><a data-sub-tab-slug="payments_gateways"  href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'payments', 'nav_sub_tab' => 'payments_gateways' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'payments_gateways' ? 'current' : '' ) ?>"><?php esc_html_e( 'Gateways', 'paid-member-subscriptions' ); ?></a></li>
+
+    <?php do_action( $this->menu_slug . '_payments_sub_tab_navigation_items', $this->options ); ?>
+
+</ul>
+
+<div id="payments-general" class="cozmoslabs-sub-tab cozmoslabs-sub-tab-general <?php echo ( $active_sub_tab == 'payments_general' ? 'tab-active' : '' ); ?>" data-sub-tab-slug="payments_general">
 
     <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-payments-test-mode">
         <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
@@ -68,63 +79,33 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         </div>
     </div>
 
+    <!-- Notify users about the Active Payment Gateways section relocation -->
+    <?php if ( !get_option( 'pms_payments_gateways_notice_clicked', false ) ) : ?>
+        <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-payment-notice-subsection">
+            <div id="cozmoslabs-payment-notice">
+                <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Payment Gateways', 'paid-member-subscriptions' ) ?></h4>
+                <p class="cozmoslabs-description" style="font-size:14px !important;">
+                    <?php
+                    printf(
+                        esc_html__( 'The payment gateway selection has moved to a separate sub-tab that can be accessed from the navigation menu above. %sClick here%s to open it now.', 'paid-member-subscriptions' ),
+                        '<a style="font-weight: 500;" href="'. esc_url( wp_nonce_url( admin_url( 'admin.php?page=pms-settings-page&tab=payments&nav_sub_tab=payments_gateways&pms_payments_gateways_notice_clicked=true#cozmoslabs-subsection-payment-gateways' ), 'pms_payment_gateways_relocation_dismiss' ) ) .'">',
+                        '</a>'
+                    );
+                    ?>
+                </p>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <?php
     $payment_gateways = pms_get_payment_gateways();
     $payment_gateways = apply_filters( 'pms_admin_display_payment_gateways', $payment_gateways );
 
     if( count( $payment_gateways ) > 1 ) :
 
-        // Checkboxes to select active Payment Gateways
-        echo '<div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-payment-gateways">';
-            echo '<h4 class="cozmoslabs-subsection-title">'. esc_html__( 'Active Payment Gateways', 'paid-member-subscriptions' ) .'</h4>';
-
-            echo '<div class="pms-form-field-active-payment-gateways">';
-
-                foreach( $payment_gateways as $payment_gateway_slug => $payment_gateways_details ) {
-                    echo '<div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">';
-                        echo '<label class="cozmoslabs-form-field-label" for="' . esc_attr( $payment_gateway_slug ) . '">'. esc_html( $payment_gateways_details['display_name_admin'] ) .'</label>';
-
-                        echo '<div class="cozmoslabs-toggle-container">';
-                            echo '<input type="checkbox" name="pms_payments_settings[active_pay_gates][]" id="' . esc_attr( $payment_gateway_slug ) . '" value="' . esc_attr( $payment_gateway_slug ) . '" ' . ( !empty( $this->options['active_pay_gates'] ) && in_array( $payment_gateway_slug, $this->options['active_pay_gates'] ) ? 'checked="checked"' : '' ) . '/>';
-                            echo '<label class="cozmoslabs-toggle-track" for="' . esc_attr( $payment_gateway_slug ) . '"></label>';
-                        echo '</div>';
-
-                        echo '<div class="cozmoslabs-toggle-description">';
-                            echo '<label for="' . esc_attr( $payment_gateway_slug ) . '" class="cozmoslabs-description">'. esc_html( $payment_gateways_details['description'] ) .'</label>';
-                        echo '</div>';
-
-                    echo '</div>';
-                }
-
-
-            echo '</div>';
-
-            do_action( $this->menu_slug . '_payment_general_after_gateway_checkboxes', $this->options );
-
-            $default_gateway = '';
-
-            if ( empty( $this->options['default_payment_gateway'] ) && !empty( $this->options['active_pay_gates'][0] ) )
-                $default_gateway = $this->options['active_pay_gates'][0];
-            else
-                $default_gateway = $this->options['default_payment_gateway'];
-
-            // Select the default active Payment Gateway
-            echo '<div class="cozmoslabs-form-field-wrapper">';
-
-                echo '<label class="cozmoslabs-form-field-label" for="default-payment-gateway">' . esc_html__( 'Default Payment Gateway', 'paid-member-subscriptions' ) . '</label>';
-
-                echo '<select id="default-payment-gateway" name="pms_payments_settings[default_payment_gateway]">';
-                    foreach( $payment_gateways as $payment_gateway_slug => $payment_gateways_details ) {
-
-                        echo '<option value="' . esc_attr( $payment_gateway_slug ) . '" ' . selected( $default_gateway, $payment_gateway_slug, false ) . '>' . esc_html( $payment_gateways_details['display_name_admin'] ) . '</option>';
-                    }
-                echo '</select>';
-
-            echo '</div>';
-        echo '</div>';
-
         echo '<div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-global-configs">';
             echo '<h4 class="cozmoslabs-subsection-title">'. esc_html__( 'Subscription Global Configs', 'paid-member-subscriptions' ) .'</h4>';
+
             // Select renewal type if payment gateways support this
             if( pms_payment_gateways_support( pms_get_payment_gateways( true ), 'recurring_payments' ) ) {
 
@@ -203,10 +184,66 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 </div>
 
 
-<div id="pms-settings-payment-gateways">
+<div id="payments-gateways" class="cozmoslabs-sub-tab cozmoslabs-sub-tab-gateways <?php echo ( $active_sub_tab == 'payments_gateways' ? 'tab-active' : '' ); ?>" data-sub-tab-slug="payments_gateways">
+
+    <?php
+    if( count( $payment_gateways ) > 1 ) {
+        // Checkboxes to select active Payment Gateways
+        echo '<div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-payment-gateways">';
+            echo '<h4 class="cozmoslabs-subsection-title">' . esc_html__('Active Payment Gateways', 'paid-member-subscriptions') . '</h4>';
+
+            echo '<div class="pms-form-field-active-payment-gateways">';
+
+                foreach ($payment_gateways as $payment_gateway_slug => $payment_gateways_details) {
+                    echo '<div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">';
+                        echo '<label class="cozmoslabs-form-field-label" for="' . esc_attr($payment_gateway_slug) . '">' . esc_html($payment_gateways_details['display_name_admin']) . '</label>';
+
+                        echo '<div class="cozmoslabs-toggle-container">';
+                            echo '<input type="checkbox" name="pms_payments_settings[active_pay_gates][]" id="' . esc_attr($payment_gateway_slug) . '" value="' . esc_attr($payment_gateway_slug) . '" ' . (!empty($this->options['active_pay_gates']) && in_array($payment_gateway_slug, $this->options['active_pay_gates']) ? 'checked="checked"' : '') . '/>';
+                            echo '<label class="cozmoslabs-toggle-track" for="' . esc_attr($payment_gateway_slug) . '"></label>';
+                        echo '</div>';
+
+                        echo '<div class="cozmoslabs-toggle-description">';
+                           echo '<label for="' . esc_attr($payment_gateway_slug) . '" class="cozmoslabs-description">' . esc_html($payment_gateways_details['description']) . '</label>';
+                        echo '</div>';
+
+                    echo '</div>';
+                }
+
+            echo '</div>';
+
+            do_action($this->menu_slug . '_payment_general_after_gateway_checkboxes', $this->options);
+
+            $default_gateway = '';
+
+            if (empty($this->options['default_payment_gateway']) && !empty($this->options['active_pay_gates'][0]))
+                $default_gateway = $this->options['active_pay_gates'][0];
+            else
+                $default_gateway = $this->options['default_payment_gateway'];
+
+            // Select the default active Payment Gateway
+            echo '<div class="cozmoslabs-form-field-wrapper">';
+
+                echo '<label class="cozmoslabs-form-field-label" for="default-payment-gateway">' . esc_html__('Default Payment Gateway', 'paid-member-subscriptions') . '</label>';
+
+                echo '<select id="default-payment-gateway" name="pms_payments_settings[default_payment_gateway]">';
+
+                    foreach ($payment_gateways as $payment_gateway_slug => $payment_gateways_details) {
+                        echo '<option value="' . esc_attr($payment_gateway_slug) . '" ' . selected($default_gateway, $payment_gateway_slug, false) . '>' . esc_html($payment_gateways_details['display_name_admin']) . '</option>';
+                    }
+
+                echo '</select>';
+
+            echo '</div>';
+        echo '</div>';
+    }
+    ?>
 
     <?php do_action( $this->menu_slug . '_payment_gateways_content', $this->options ); ?>
 
     <?php do_action( $this->menu_slug . '_payment_gateways_after_content', $this->options ); ?>
 
 </div>
+
+
+<?php do_action( $this->menu_slug . '_payments_after_subtabs', $this->options ); ?>

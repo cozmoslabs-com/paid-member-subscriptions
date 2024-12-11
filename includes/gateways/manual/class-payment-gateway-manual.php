@@ -209,7 +209,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
      */
     public function activate_member_subscription( $payment_id, $data, $old_data ) {
 
-        if( empty( $data['status'] ) || $data['status'] != 'completed' )
+        if( empty( $data['status'] ) || $data['status'] != 'completed' || empty( $old_data['status'] ) || $old_data['status'] == $data['status'] )
             return;
 
         $payment = pms_get_payment( $payment_id );
@@ -226,6 +226,9 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         if( !empty( $member_subscriptions ) ){
 
             $member_subscription = $member_subscriptions[0];
+
+            if( $member_subscription->status == 'active' )
+                return;
 
             if( ! empty( $member_subscription ) ) {
 

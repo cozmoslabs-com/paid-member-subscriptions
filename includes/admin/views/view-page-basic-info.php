@@ -383,6 +383,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div>
+                <a href="https://www.cozmoslabs.com/add-ons/multiple-currencies/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
+                    <h4 class="pms-add-on-name"><?php esc_html_e( 'Multiple Currencies', 'paid-member-subscriptions' ); ?></h4>
+                </a>
+
+                <a href="https://www.cozmoslabs.com/add-ons/multiple-currencies/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-multiple-currencies.png" alt="Multiple Currencies" class="pms-addon-image" />
+                </a>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Enable visitors to pay in their local currency, either through automatic location detection or by manually selecting their preferred currency.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div>
                 <a href="https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Tax & EU VAT', 'paid-member-subscriptions' ); ?></h4>
                 </a>
@@ -395,7 +407,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div>
-                <a href="https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
+                <a href="https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Pro Rate', 'paid-member-subscriptions' ); ?></h4>
                 </a>
 

@@ -656,3 +656,21 @@ function pms_group_memberships_addon_upsell( $subscription_plan_id ) {
     echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 add_action( 'pms_view_meta_box_subscription_details_top', 'pms_group_memberships_addon_upsell' );
+
+
+/**
+ * Handle "Active Payment Gateways" settings relocation notification from Payments settings page
+ * - hide this notification after the "Click here" button is clicked to navigate to the "Active Payment Gateways" section in its new location
+ *
+ * @return void
+ */
+function pms_payment_gateways_section_relocation_notice() {
+
+    if( empty( $_GET['_wpnonce'] ) || !wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'pms_payment_gateways_relocation_dismiss' ) )
+        return;
+
+    if ( isset( $_GET['pms_payments_gateways_notice_clicked'] ) && $_GET['pms_payments_gateways_notice_clicked'] == true )
+        add_option( 'pms_payments_gateways_notice_clicked', true );
+
+}
+add_filter( 'admin_init', 'pms_payment_gateways_section_relocation_notice' );

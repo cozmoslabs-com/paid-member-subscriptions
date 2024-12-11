@@ -52,6 +52,7 @@ function pms_stripe_connect_handle_authorization_return(){
 		$redirect_url = add_query_arg( array(
             'page'                       => 'pms-settings-page',
             'tab'                        => 'payments',
+            'nav_sub_tab'                => 'payments_gateways',
             'pms_stripe_connect_success' => 1,
         ),
 			admin_url( 'admin.php#pms-stripe__gateway-settings' )
@@ -137,6 +138,7 @@ function pms_stripe_connect_handle_authorization_return_admin_init(){
 		$redirect_url = add_query_arg( array(
             'page'                       => 'pms-settings-page',
             'tab'                        => 'payments',
+			'nav_sub_tab'                => 'payments_gateways',
             'pms_stripe_connect_success' => 1,
         ),
 			admin_url( 'admin.php#pms-stripe__gateway-settings' )

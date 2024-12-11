@@ -4,9 +4,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Extends core PMS_Submenu_Page base class to create and add a basic information page
- *
- * The basic information page will contain a quick walk through the plugin features
+ * Extends core PMS_Submenu_Page base class to create and add an Import Members page
  *
  */
 Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
@@ -50,13 +48,43 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
             die();
         }
 
+        $csv_parse_error = false;
+
         $csv = array_map('str_getcsv', str_getcsv($csv, "\n"));
-        array_walk($csv, function(&$a) use ($csv) {
-            $a = array_combine($csv[0], $a);
+
+        $header_column_count = count( $csv[0] );
+        
+        array_walk($csv, function(&$a) use ($csv,$header_column_count,&$csv_parse_error) {
+
+            if( count( $a ) != $header_column_count ){
+                $csv_parse_error = true;
+                $a = array();
+            } else {
+                $a = array_combine($csv[0], $a);
+            }
+
         });
+
+        if( $csv_parse_error ){
+            echo json_encode( array( 'error' => true, 'message' => 'File error: mismatched columns. The header and rows of the file are not matched. Please verify your file and try again.' ) ); exit;
+            die();
+        }
+
         array_shift($csv); // remove column headers
 
-        foreach ( $csv as $membership ) {
+        foreach( $csv as $membership ) {
+
+            if( empty( $membership ) )
+                continue;
+
+            // check if subscription_id is present
+            if( !empty( $membership[ 'subscription_id' ] ) ){
+                
+                $member = [ 'subscription_id' => absint( $membership[ 'subscription_id' ] ) ];
+                $this->handle_subscription( $member, $membership );
+                continue;
+
+            }
 
             $user = empty( $membership[ 'subscription_user_id' ] ) ? false : get_userdata( absint( $membership[ 'subscription_user_id' ] ) );
 
@@ -153,8 +181,40 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
                 $subscription_data[ $key ] = $membership[ $import_key ];
         }
 
-        // Update subscription
-        if( !empty( $member->subscriptions ) ){
+        // Don't allow updates on the billing_amount column
+        if( isset( $subscription_data['billing_amount'] ) )
+            unset( $subscription_data['billing_amount'] );
+
+        $membership_user_id = isset( $membership['subscription_user_id'] ) ? $membership['subscription_user_id'] : 0;
+
+        // Update subscription 
+        if( !empty( $member['subscription_id'] ) ){
+
+            $subscription = pms_get_member_subscription( $member['subscription_id'] );
+
+            $subscription->update( $subscription_data );
+
+            pms_add_member_subscription_log( $subscription->id, 'subscription_import_updated', array( 'who' => get_current_user_id(), 'fields' => implode( ', ', array_keys( $subscription_data ) ) ) );
+
+            // Update subscription meta
+            foreach( $membership as $key => $value ) {
+                if ( strpos( $key, "subscriptionmeta_" ) === 0 ) {
+                    $key = str_replace( "subscriptionmeta_", "", $key );
+                    pms_update_member_subscription_meta( $subscription->id, $key, $value );
+                }
+
+                if( !empty( $membership_user_id ) ){
+                    if ( strpos( $key, "usermeta_" ) === 0 ) {
+                        $key = str_replace( "usermeta_", "", $key );
+                        update_user_meta( $membership_user_id, $key, $value );
+                    }
+                }
+            }
+
+            $found = true;
+
+        } else if( !empty( $member->subscriptions ) ){
+
             foreach ( $member->subscriptions as $single_subscription ) {
                 if ( $membership[ 'subscription_plan_id' ] === $single_subscription[ 'subscription_plan_id' ] ) {
 
@@ -166,15 +226,25 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
 
                     // Update subscription meta
                     foreach( $membership as $key => $value ) {
+
                         if ( strpos( $key, "subscriptionmeta_" ) === 0 ) {
                             $key = str_replace( "subscriptionmeta_", "", $key );
                             pms_update_member_subscription_meta( $subscription->id, $key, $value );
                         }
+
+                        if( !empty( $membership_user_id ) ){
+                            if ( strpos( $key, "usermeta_" ) === 0 ) {
+                                $key = str_replace( "usermeta_", "", $key );
+                                update_user_meta( $membership_user_id, $key, $value );
+                            }
+                        }
+
                     }
 
                     $found = true;
                 }
             }
+
         }
 
         // Create subscription
@@ -196,8 +266,6 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
                     pms_add_member_subscription_meta( $new_subscription->id, $key, $value );
                 }
             }
-
-
         }
     }
 
