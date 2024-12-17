@@ -15,7 +15,6 @@ function pms_get_payment( $payment_id = 0 ) {
 
 }
 
-
 /**
  * Return payments filterable by an array of arguments
  *
@@ -40,6 +39,7 @@ function pms_get_payments( $args = array() ) {
         'profile_id'                    => '',
         'transaction_id'                => '',
         'date'                          => '',
+        'member_subscription_id'        => '',
         'search'                        => ''
     );
 
@@ -56,7 +56,11 @@ function pms_get_payments( $args = array() ) {
     $query_from         = "FROM {$wpdb->prefix}pms_payments pms_payments ";
     $query_inner_join   = "INNER JOIN {$wpdb->users} users ON pms_payments.user_id = users.id ";
     $query_inner_join   = $query_inner_join . "INNER JOIN {$wpdb->posts} posts ON pms_payments.subscription_plan_id = posts.id ";
-    $query_where        = "WHERE 1=%d ";
+
+    if( !empty( $args['member_subscription_id'] ) )
+        $query_inner_join   = $query_inner_join . "INNER JOIN {$wpdb->prefix}pms_paymentmeta payment_meta ON pms_payments.id = payment_meta.payment_id ";
+
+    $query_where = "WHERE 1=%d ";
 
     // Add search query
     if( !empty($args['search']) ) {
@@ -142,6 +146,12 @@ function pms_get_payments( $args = array() ) {
         $query_where    = $query_where . " AND " . " pms_payments.transaction_id = '{$transaction_id}'";
     }
 
+    // Filter by member_subscription_id
+    if( !empty( $args['member_subscription_id'] ) ) {
+        $member_subscription_id = absint( $args['member_subscription_id'] );
+        $query_where  = $query_where . " AND " . " payment_meta.meta_key = 'subscription_id' AND payment_meta.meta_value = '{$member_subscription_id}'";
+    }
+
     $query_order_by = '';
     // removed table name so it can be sanitized using the core function
     if ( !empty($args['orderby']) )
@@ -162,7 +172,6 @@ function pms_get_payments( $args = array() ) {
 
     // Concatenate query string
     $query_string .= $query_from . $query_inner_join . $query_where . $query_order_string . $query_limit . $query_offset;
-
 
     // Return results
     if (!empty($search_term))

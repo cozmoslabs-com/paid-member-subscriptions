@@ -628,3 +628,68 @@ function pms_in_dc_update_discount_data_after_use( $payment_id, $data, $old_data
 
 }
 add_action( 'pms_payment_update', 'pms_in_dc_update_discount_data_after_use', 10, 3 );
+
+
+/**
+ * Update Discount Code usage data when:
+ * - Subscription Plan has Free Trial
+ * - Stripe was used as payment gateway
+ * - Discount Code used is valid
+ *
+ * @param $subscription
+ * @param $form_location
+ * @return void
+ */
+function pms_in_dc_update_stripe_free_trial_discount_data( $subscription, $form_location ){
+
+    if( !isset( $_POST['discount_code'] ) || empty( $subscription->subscription_plan_id ) || ( $subscription->payment_gateway !== 'stripe_connect' && $subscription->payment_gateway !== 'stripe_intents' ) )
+        return;
+
+    $code = sanitize_text_field( $_POST['discount_code'] );
+    $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+
+    if( empty( $code ) || !$subscription_plan->has_trial() )
+        return;
+
+    $discount_meta = PMS_IN_Discount_Codes_Meta_Box::get_discount_meta_by_code( $code );
+
+    if ( empty($discount_meta) )
+        return;
+
+
+    /**
+     * Update (increment) discount code total uses
+     * */
+
+    if ( isset($discount_meta['pms_discount_uses'][0]) )
+        $discount_meta['pms_discount_uses'][0]++;
+    else
+        $discount_meta['pms_discount_uses'][0] = 1;
+
+    $discount_ID = PMS_IN_Discount_Codes_Meta_Box::get_discount_ID_by_code( $code );
+
+    if ( !empty($discount_ID) ) {
+        update_post_meta($discount_ID, 'pms_discount_uses', $discount_meta['pms_discount_uses'][0]);
+
+        if( ! empty( $discount_meta['pms_discount_max_uses'][0] ) && $discount_meta['pms_discount_uses'][0] >= $discount_meta['pms_discount_max_uses'][0])
+            PMS_IN_Discount_Code::deactivate($discount_ID);
+    }
+
+    /**
+     * Update (increment) discount code uses for this user
+     * - stored inside the user meta key 'pms_discount_uses_per_user_'.$code
+     * */
+
+    if ( !empty($subscription->user_id) ) {
+
+        $meta = get_user_meta($subscription->user_id, 'pms_discount_uses_per_user_' . $code, true);
+
+        $user_discount_uses = ( !empty( $meta ) ) ? (int)$meta : 0;
+        update_user_meta( $subscription->user_id, 'pms_discount_uses_per_user_'.$code, $user_discount_uses + 1 );
+
+        pms_add_member_subscription_meta( $subscription->id, 'pms_discount_code', $code );
+
+    }
+
+}
+add_action( 'pms_after_checkout_is_processed', 'pms_in_dc_update_stripe_free_trial_discount_data', 20, 3 );

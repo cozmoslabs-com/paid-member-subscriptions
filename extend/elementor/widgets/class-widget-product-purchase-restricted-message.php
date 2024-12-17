@@ -121,4 +121,10 @@ class PMS_Elementor_Product_Messages_Widget extends \Elementor\Widget_Base {
 
     }
 
+	protected function is_dynamic_content(): bool {
+
+		return true;
+
+	}
+
 }

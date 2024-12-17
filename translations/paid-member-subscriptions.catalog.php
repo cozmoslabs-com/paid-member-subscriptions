@@ -1836,7 +1836,7 @@
 <?php __("Show the content before the \"more\" tag", "paid-member-subscriptions"); ?>
 <?php __("Show a portion of the restricted post to logged-out users or users that are not subscribed to a plan.", "paid-member-subscriptions"); ?>
 <?php __("Include Restricted Posts in Queries", "paid-member-subscriptions"); ?>
-<?php __("Include restricted posts in queries like arhive pages, search etc.", "paid-member-subscriptions"); ?>
+<?php __("Include restricted posts in queries like archive pages, search etc.", "paid-member-subscriptions"); ?>
 <?php __("This can potentially improve performance for very large websites but with a security risk.", "paid-member-subscriptions"); ?>
 <?php __("Member Emails", "paid-member-subscriptions"); ?>
 <?php __("Administrator Emails", "paid-member-subscriptions"); ?>

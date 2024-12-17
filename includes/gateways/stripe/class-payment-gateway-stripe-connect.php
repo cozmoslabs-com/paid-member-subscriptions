@@ -1208,7 +1208,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         $args = array(
             'amount'             => $this->get_initial_intent_amount(),
-            'currency'           => $this->currency,
+            'currency'           => apply_filters( 'pms_stripe_connect_create_initial_payment_intent_currency', $this->currency ),
             //'customer'           => $customer->id,
             'setup_future_usage' => 'off_session',
             'metadata'           => array(
@@ -1337,8 +1337,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $payment_intent ) )
             die();
 
+        $currency = apply_filters( 'pms_stripe_connect_update_payment_intent_currency', $this->currency, $subscription_plan, $payment_intent );
+
         $args = array(
-            'amount'      => $this->process_amount( $amount, $this->currency ),
+            'amount'      => $this->process_amount( $amount, $currency ),
             'description' => !empty( $subscription_plan->name ) ? $subscription_plan->name : '',
         );
 

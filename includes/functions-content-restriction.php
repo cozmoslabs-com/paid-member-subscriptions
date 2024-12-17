@@ -425,7 +425,7 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
 
             // setup paged arguments
             // double these params so we take care of results from the second page as well
-            if( !empty( $query->query_vars['paged'] ) || $query->query_vars['paged'] != 1 ){
+            if( !empty( $query->query_vars['paged'] ) ){
 
                 $args['paged'] = round( $args['paged'] / 2 );
 
@@ -553,5 +553,45 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
 
         return $query_args;
     }
+
+    // Exclude restricted posts from Elementor
+    add_action( 'elementor/query/query_args', 'pmsc_exclude_posts_from_elementor' );
+    function pmsc_exclude_posts_from_elementor( $query_args ) {
+        if ( !is_admin() && function_exists( 'pms_is_post_restricted' ) ) {
+
+            $args = $query_args;
+            $args['suppress_filters'] = true;
+            $args['fields']           = 'ids';
+
+            if( !empty( $query_args['paged'] ) ){
+
+                $args['paged'] = round( $args['paged'] / 2 );
+
+                if( !empty( $args['posts_per_page'] ) )
+                    $args['posts_per_page'] = $args['posts_per_page'] * 2;
+                else
+                    $args['posts_per_page'] = get_option( 'posts_per_page' ) * 2;
+
+            }
+
+            if( is_search() )
+                $args['post_type'] = 'any';
+
+            $restricted_posts = get_posts( $args );
+
+            $restricted_ids = array_filter( $restricted_posts, 'pms_is_post_restricted' );
+
+            if ( ! empty( $restricted_ids ) ) {
+                if ( isset( $query_args['post__not_in'] ) && is_array( $query_args['post__not_in'] ) ) {
+                    $query_args['post__not_in'] = array_merge( $query_args['post__not_in'], $restricted_ids );
+                } else {
+                    $query_args['post__not_in'] = $restricted_ids;
+                }
+            }
+
+            return $query_args;
+        }
+    }
+
 }
 

@@ -23,6 +23,9 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 
 		// Filter elementor the_content hook
 		add_action( 'elementor/frontend/the_content', array( $this, 'filter_elementor_templates' ), 20 );
+
+		// Disable Element Cache when Content Restriction rules are setup for an element
+		add_filter( 'elementor/element/is_dynamic_content', array( $this, 'are_content_restriction_rules_setup' ), 20, 3 );
 	}
 
 	// Register controls to sections and widgets
@@ -326,6 +329,24 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 		$document = \Elementor\Plugin::$instance->documents->get_current();
 
 		return pms_filter_content( $content, $document->get_post() );
+	}
+
+	public function are_content_restriction_rules_setup( $are_rules_setup, $data, $element ){
+
+		if( empty( $data['settings'] ) )
+			return $are_rules_setup;
+
+		if( isset( $data['settings']['pms_restriction_loggedin_users'] ) && $data['settings']['pms_restriction_loggedin_users'] == 'yes' )
+			return true;
+
+		if( isset( $data['settings']['pms_restriction_display_to_non_subscribers'] ) && $data['settings']['pms_restriction_display_to_non_subscribers'] == 'yes' )
+			return true;
+
+		if( isset( $data['settings']['pms_restriction_subscription_plans'] ) && !empty( $data['settings']['pms_restriction_subscription_plans'] ) )
+			return true;
+
+		return $are_rules_setup;
+
 	}
 }
 

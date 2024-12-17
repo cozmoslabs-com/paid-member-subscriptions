@@ -379,8 +379,8 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
             $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $member->user_id, 'include_abandoned' => true ) );
 
-            $user_meta = get_user_meta( absint( $member->user_id ) );
-            $member_name = $user_meta['first_name'][0] . ' ' . $user_meta['last_name'][0];
+            $user_meta   = get_user_meta( absint( $member->user_id ) );
+            $member_name = ( isset( $user_meta['first_name'] ) && isset( $user_meta['first_name'][0] ) ? $user_meta['first_name'][0] : '' ) . ' ' . ( isset( $user_meta['last_name'] ) && isset( $user_meta['last_name'][0] ) ? $user_meta['last_name'][0] : '' );
 
             $data[] = apply_filters( 'pms_members_list_table_entry_data', array(
                 'user_id'           => $member->user_id,

@@ -149,6 +149,12 @@ Class PMS_Member_Subscription {
 		if( isset( $data['id'] ) )
 			unset( $data['id'] );
 
+        // Reset Subscription expiration and next payment dates when an admin manually abandons a recurring subscription form the administration area
+        if( is_admin() && $data['status'] == "abandoned" && !empty( $data['billing_next_payment'] ) ) {
+            $data['expiration_date'] = date( 'Y-m-d H:i:s' );
+            $data['billing_next_payment'] = '';
+        }
+
 		// Update the member subscription
 		$update_result = $wpdb->update( $wpdb->prefix . 'pms_member_subscriptions', $data, array( 'id' => $this->id ) );
 

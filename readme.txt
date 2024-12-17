@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.13.5
+Stable tag: 2.13.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,16 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.13.6 =
+* Feature: Restricted posts are now also excluded from the Elementor Loop Grid widget
+* Fix: Add compatibility with Elementor Element Cache to our Content Restriction integration and form widgets 
+* Fix: Some warnings that could appear on the Members List table sometimes
+* Fix: Discount code uses not counting when purchasing a plan with a free trial
+* Fix: Billing Amount display issue with Stripe when the first payment after a free trial has a discount
+* Fix: An error relating to the Import functionality
+* Fix: Reset subscription data when an admin changes the status to abandoned
+* Misc: Added support to search payments by member_subscription_id to the pms_get_payments() function
+
 = 2.13.5 =
 * Fix: Security issue regarding unauthenticated content restriction bypass. Thanks to Francesco Carlucci
 * Fix: Now the Exclude Restricted Posts From Queries functionality is enabled by default on all websites. The existing option to activate this feature was changed into an option to disable it. You can find the disable option on the Settings -> Content Restriction page

@@ -192,6 +192,9 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
 
             $subscription = pms_get_member_subscription( $member['subscription_id'] );
 
+            if( empty( $subscription->id ) )
+                return;
+
             $subscription->update( $subscription_data );
 
             pms_add_member_subscription_log( $subscription->id, 'subscription_import_updated', array( 'who' => get_current_user_id(), 'fields' => implode( ', ', array_keys( $subscription_data ) ) ) );

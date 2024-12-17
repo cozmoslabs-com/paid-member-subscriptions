@@ -73,7 +73,23 @@ foreach( $subscriptions as $subscription ) :
             <?php if( ! empty( $subscription->billing_next_payment ) && $subscription->status == 'active' ): ?>
             <tr>
                 <td><?php esc_html_e( 'Next Payment', 'paid-member-subscriptions' ); ?></td>
-				<td><?php echo wp_kses_post( sprintf( _x( '%s on %s', '[amount] on [date]', 'paid-member-subscriptions' ), pms_format_price( $subscription->billing_amount, apply_filters( 'pms_account_next_payment_date_currency', pms_get_active_currency(), $subscription ) ), ucfirst( date_i18n( get_option('date_format'), strtotime( $subscription->billing_next_payment ) ) ) ) ); ?></td>
+				<td>
+                    <?php
+                        $billing_amount = $subscription->billing_amount;
+
+                        // check if discount is saved as meta and apply it
+                        // this is used to determine if the price of the first recurring payment needs to be discounted or not
+                        $discount_id = pms_get_member_subscription_meta( $subscription->id, '_discount_code_id', true );
+
+                        if( !empty( $discount_id ) && function_exists( 'pms_in_get_discount' ) ){
+                            $discount = pms_in_get_discount( $discount_id );
+
+                            $billing_amount = pms_in_calculate_discounted_amount( $billing_amount, $discount );
+                        }
+
+                        echo wp_kses_post( sprintf( _x( '%s on %s', '[amount] on [date]', 'paid-member-subscriptions' ), pms_format_price( $billing_amount, apply_filters( 'pms_account_next_payment_date_currency', pms_get_active_currency(), $subscription ) ), ucfirst( date_i18n( get_option('date_format'), strtotime( $subscription->billing_next_payment ) ) ) ) ); 
+                    ?>
+                </td>
             </tr>
             <?php endif; ?>
 

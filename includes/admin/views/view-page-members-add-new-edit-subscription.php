@@ -372,7 +372,20 @@ if( ! empty( $_POST ) ) {
 
                             <label for="pms-subscription-billing-next-payment" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Next Payment', 'paid-member-subscriptions' ); ?></label>
 
-                            <span class="readonly medium"><strong><?php echo !empty( $form_data['billing_amount'] ) ? esc_html( pms_format_price( $form_data['billing_amount'], apply_filters( 'pms_last_payment_currency', '', $form_data ) ) ) : ''; ?></strong></span>
+                            <?php 
+                                $billing_amount = $form_data['billing_amount'];
+
+                                // check if discount is saved as meta and apply it
+                                // this is used to determine if the price of the first recurring payment needs to be discounted or not
+                                $discount_id = pms_get_member_subscription_meta( $member_subscription->id, '_discount_code_id', true );
+
+                                if( !empty( $discount_id ) && function_exists( 'pms_in_get_discount' ) ){
+                                    $discount = pms_in_get_discount( $discount_id );
+
+                                    $billing_amount = pms_in_calculate_discounted_amount( $billing_amount, $discount );
+                                }
+                            ?>
+                            <span class="readonly medium"><strong><?php echo !empty( $billing_amount ) ? esc_html( pms_format_price( $billing_amount, apply_filters( 'pms_last_payment_currency', '', $form_data ) ) ) : ''; ?></strong></span>
                             <?php echo esc_html_x( 'on', 'This is part of a payment amount: 100$ on 12/10/2025', 'paid-member-subscriptions' ); ?>
                             <input id="pms-subscription-billing-next-payment" type="text" name="billing_next_payment" class="datepicker pms-subscription-field" value="<?php echo ( ! empty( $form_data['billing_next_payment'] ) ? esc_attr( pms_sanitize_date( $form_data['billing_next_payment'] ) ) : '' ); ?>" />
 

@@ -188,7 +188,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <div class="cozmoslabs-toggle-description">
             <label for="pms_includeRestrictedPosts" class="cozmoslabs-description">
-                <?php esc_html_e( 'Include restricted posts in queries like arhive pages, search etc.', 'paid-member-subscriptions' ); ?><br>
+                <?php esc_html_e( 'Include restricted posts in queries like archive pages, search etc.', 'paid-member-subscriptions' ); ?><br>
                 <?php esc_html_e( 'This can potentially improve performance for very large websites but with a security risk.', 'paid-member-subscriptions' ); ?>
             </label>
         </div>
