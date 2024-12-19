@@ -176,9 +176,5 @@ Class PMS_Meta_Box_Product_Membership_Discounts extends PMS_Meta_Box {
 
 }
 
-
-// $pms_meta_box_product_membership_discounts = new PMS_Meta_Box_Product_Membership_Discounts( 'pms_woo_product_membership_discounts', __( 'Membership Discounts', 'paid-member-subscriptions' ), 'product', 'normal' );
-// $pms_meta_box_product_membership_discounts->init();
-
-
-
+$pms_meta_box_product_membership_discounts = new PMS_Meta_Box_Product_Membership_Discounts( 'pms_woo_product_membership_discounts', __( 'Membership Discounts', 'paid-member-subscriptions' ), 'product', 'normal' );
+$pms_meta_box_product_membership_discounts->init();

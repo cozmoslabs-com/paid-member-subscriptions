@@ -2554,6 +2554,7 @@
 <?php __("This will ignore the global discounts set per subscription plan that apply to this product", "paid-member-subscriptions"); ?>
 <?php __("This will exclude this product from any membership discounts that may apply now or in the future", "paid-member-subscriptions"); ?>
 <?php __("Add New Discount", "paid-member-subscriptions"); ?>
+<?php __("Membership Discounts", "paid-member-subscriptions"); ?>
 <?php __("Discount for", "paid-member-subscriptions"); ?>
 <?php __("ID / Name", "paid-member-subscriptions"); ?>
 <?php __("Product Discounts", "paid-member-subscriptions"); ?>

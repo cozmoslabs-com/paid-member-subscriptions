@@ -841,7 +841,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                 $default_currency_totals['payment_gateways_result'][$payment->payment_gateway]['earnings'] += $default_currency_payment_amount;
 
                 if ( in_array( $payment->type, $attempts_payments ) && in_array( $payment->status, $status ) )
-                    $default_currency_totals['total_recovered_payments'][$payment->payment_gateway]['earnings'] += $default_currency_payment_amount;
+                    $default_currency_totals['total_recovered_payments'] += $default_currency_payment_amount;
 
                 $subscriptions_plans_result[intval( $payment->subscription_id )]['default_currency_total'] += $default_currency_payment_amount;
 

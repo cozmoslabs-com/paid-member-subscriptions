@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.13.6
+Stable tag: 2.13.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,11 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.13.7 =
+* Fix: Issue with Setup Wizard not going past the first step
+* Fix: Product Memberships metabox not appearing for WooCommerce Products
+* Fix: Error that could be triggered in some cases on the Reports page
+
 = 2.13.6 =
 * Feature: Restricted posts are now also excluded from the Elementor Loop Grid widget
 * Fix: Add compatibility with Elementor Element Cache to our Content Restriction integration and form widgets 
