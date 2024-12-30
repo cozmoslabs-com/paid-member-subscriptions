@@ -528,6 +528,9 @@ jQuery( function( $ ) {
             if ( form_data.pms_vat_number )
                 data.pms_vat_number = form_data.pms_vat_number
 
+            if ( form_data.wppb_referer_url	 )
+                data.wppb_referer_url = form_data.wppb_referer_url
+
             $.post(pms.ajax_url, data, function (response) {
 
                 response = JSON.parse(response)

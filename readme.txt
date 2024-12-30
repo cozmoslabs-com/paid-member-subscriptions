@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.13.7
+Stable tag: 2.13.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,10 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.13.8 =
+* Fix: A security issue. Thanks to Wesley Craft for the report
+* Fix: Stripe is now respecting the {{http_referer}} tag from Profile Builder Custom Redirects
+
 = 2.13.7 =
 * Fix: Issue with Setup Wizard not going past the first step
 * Fix: Product Memberships metabox not appearing for WooCommerce Products

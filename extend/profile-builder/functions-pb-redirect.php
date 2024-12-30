@@ -35,6 +35,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $pms_gateway_data['payment_gateway_slug'] = $gateway_slug;
         }
 
+        set_transient( 'pms_wppb_paypal_checkout_' . $gateway_object->payment_id, $pms_gateway_data, 30 );
+
     }
     add_action( 'pms_payment_gateway_initialised', 'pms_pb_set_gateway_details', 10, 2 );
 
@@ -52,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         if( !empty( $_GET['pms_payment_id'] ) )
             $payment_id = absint( $_GET['pms_payment_id'] );
 
-        if (empty( $payment_id ))
+        if ( empty( $payment_id ) )
             return;
 
         /**
@@ -62,10 +64,27 @@ if ( ! defined( 'ABSPATH' ) ) exit;
          * @since 2.0.5
          */
         if( isset( $_GET['pms_autologin_before_redirect'] ) && $_GET['pms_autologin_before_redirect'] == 'true' ){
-            $payment = pms_get_payment( $payment_id );
 
-            if( !empty( $payment->user_id ) )
-                wp_set_auth_cookie( $payment->user_id );
+            if ( false !== ( $paypal_checkout_data = get_transient( 'pms_wppb_paypal_checkout_' . $payment_id ) ) ) {
+
+                if( !empty( $paypal_checkout_data['payment_id'] ) && $paypal_checkout_data['payment_id'] == $payment_id ){
+
+                    $payment = pms_get_payment( $payment_id );
+
+                    if( !empty( $payment->user_id ) && !empty( $paypal_checkout_data['user_id'] ) && $payment->user_id == $paypal_checkout_data['user_id'] ){
+
+                        if( !user_can( $payment->user_id, 'manage_options' ) ){
+                            wp_set_auth_cookie( $payment->user_id );
+
+                            delete_transient( 'pms_wppb_paypal_checkout_' . $payment_id );
+                        }
+
+                    }
+
+                }
+
+            }
+
         }
 
         $redirect_to    = get_transient( 'pms_pb_pp_redirect_' . $payment_id );
