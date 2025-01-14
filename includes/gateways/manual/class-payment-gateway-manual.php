@@ -41,8 +41,8 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
             add_action( 'pms_payment_update', array( $this, 'activate_member_subscription' ), 10, 3 );
 
         // Send email notification for pending manual payment
-        if( !$this->check_filter_from_class_exists( 'pms_payment_update', 'PMS_Payment_Gateway_Manual', 'send_pending_manual_payment_email' ) )
-            add_action( 'pms_payment_update', array( $this, 'send_pending_manual_payment_email' ), 10, 3 );
+        if( !$this->check_filter_from_class_exists( 'pms_register_payment_data', 'PMS_Payment_Gateway_Manual', 'send_pending_manual_payment_email' ) )
+            add_action( 'pms_register_payment_data', array( $this, 'send_pending_manual_payment_email' ), 25, 2 );
 
         // Remove the Retry payment action for this gateway
         if( !$this->check_filter_from_class_exists( 'pms_output_subscription_plan_pending_retry_payment', 'PMS_Payment_Gateway_Manual', 'remove_retry_payment' ) )
@@ -400,25 +400,32 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         return $actions;
     }
 
-    public function send_pending_manual_payment_email( $payment_id, $data, $payment_data ) {
+    public function send_pending_manual_payment_email( $payment_gateway_data, $payments_settings ) {
 
-        if ( empty( $payment_id ) || !isset( $data['amount'] ) || !isset( $payment_data['payment_gateway'] ) || $payment_data['payment_gateway'] !== 'manual' )
-            return;
+        if( empty( $payment_gateway_data['payment_id'] ) || empty( $payment_gateway_data['user_id'] ) || empty( $payment_gateway_data['subscription_plan_id'] ) || empty( $payment_gateway_data['payment_gateway'] ) || $payment_gateway_data['payment_gateway'] != 'manual' )
+            return $payment_gateway_data;
+        
+        $payment = pms_get_payment( absint( $payment_gateway_data['payment_id'] ) );
+
+        if( empty( $payment->id ) || $payment->status == 'completed' )
+            return $payment_gateway_data;
 
         // avoid sending email multiple times
-        $mail_sent = get_user_meta( $payment_data['user_id'], 'pending_manual_payment_'. $payment_id .'_email_sent', true );
+        $mail_sent = get_user_meta( $payment_gateway_data['user_id'], 'pending_manual_payment_'. $payment->id .'_email_sent', true );
 
         if ( empty( $mail_sent ) ) {
             $email_settings = get_option( 'pms_emails_settings', array() );
 
             if ( isset( $email_settings['pending_manual_payment_is_enabled'] ) && $email_settings['pending_manual_payment_is_enabled'] == 'yes' )
-                PMS_Emails::mail( 'user', 'pending_manual_payment', $payment_data['user_id'], $payment_data['subscription_id'], $payment_id );
+                PMS_Emails::mail( 'user', 'pending_manual_payment', $payment_gateway_data['user_id'], $payment_gateway_data['subscription_plan_id'], $payment->id );
 
             if ( isset( $email_settings['pending_manual_payment_admin_is_enabled'] ) && $email_settings['pending_manual_payment_admin_is_enabled'] == 'yes' )
-                PMS_Emails::mail( 'admin', 'pending_manual_payment', $payment_data['user_id'], $payment_data['subscription_id'], $payment_id );
+                PMS_Emails::mail( 'admin', 'pending_manual_payment', $payment_gateway_data['user_id'], $payment_gateway_data['subscription_plan_id'], $payment->id );
 
-            update_user_meta( $payment_data['user_id'], 'pending_manual_payment_'. $payment_id .'_email_sent', true );
+            update_user_meta( $payment_gateway_data['user_id'], 'pending_manual_payment_'. $payment_id .'_email_sent', true );
         }
+
+        return $payment_gateway_data;
 
     }
 

@@ -188,7 +188,7 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
         $membership_user_id = isset( $membership['subscription_user_id'] ) ? $membership['subscription_user_id'] : 0;
 
         // Update subscription 
-        if( !empty( $member['subscription_id'] ) ){
+        if( !is_object( $member ) && !empty( $member['subscription_id'] ) ){
 
             $subscription = pms_get_member_subscription( $member['subscription_id'] );
 

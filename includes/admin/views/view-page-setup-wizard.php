@@ -40,4 +40,8 @@ $steps_completion = PMS_Setup_Wizard::get_completed_progress_steps();
         </div>
     </div>
 
+    <style>
+        .pms-notice, .wppb-notice, .trp-notice, .notice { display: none !important; }
+    </style>
+
 </div>

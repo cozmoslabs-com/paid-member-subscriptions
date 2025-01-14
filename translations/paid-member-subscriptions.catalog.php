@@ -1477,6 +1477,8 @@
 <?php __("Provided by:", "paid-member-subscriptions"); ?>
 <?php __("Provided to:", "paid-member-subscriptions"); ?>
 <?php __("Amount (%s)", "paid-member-subscriptions"); ?>
+<?php __("Subtotal: %s", "paid-member-subscriptions"); ?>
+<?php __("Discount code ( %s ): %s", "paid-member-subscriptions"); ?>
 <?php __("%s%% %s: %s", "paid-member-subscriptions"); ?>
 <?php __("Total (%s): %s", "paid-member-subscriptions"); ?>
 <?php __("TAX/VAT", "paid-member-subscriptions"); ?>
@@ -1493,7 +1495,6 @@
 <?php __("Invalid", "paid-member-subscriptions"); ?>
 <?php __("Tax Exempt", "paid-member-subscriptions"); ?>
 <?php __("By checking this option Tax will not be calculated for this Plan.", "paid-member-subscriptions"); ?>
-<?php __("Subtotal: %s", "paid-member-subscriptions"); ?>
 <?php __("TAX/VAT: ", "paid-member-subscriptions"); ?>
 <?php __("Total: %s", "paid-member-subscriptions"); ?>
 <?php __("Subscription Plan URL", "paid-member-subscriptions"); ?>
@@ -1731,6 +1732,9 @@
 <?php __("Choose the Subscription to export members from", "paid-member-subscriptions"); ?>
 <?php __("All Members", "paid-member-subscriptions"); ?>
 <?php __("Choose the current subscription status", "paid-member-subscriptions"); ?>
+<?php __("Payment Gateway", "paid-member-subscriptions"); ?>
+<?php __("All Gateways", "paid-member-subscriptions"); ?>
+<?php __("Choose the Gateway to export members from", "paid-member-subscriptions"); ?>
 <?php __("Include sensitive data", "paid-member-subscriptions"); ?>
 <?php __("For a normal export, this option should be avoided. When used it will include sensitive Stripe Card and Customer data into the export so they can be migrated to another site.", "paid-member-subscriptions"); ?>
 <?php __("User Data", "paid-member-subscriptions"); ?>
@@ -1776,7 +1780,6 @@
 <?php __("Year(s)", "paid-member-subscriptions"); ?>
 <?php __("Next Payment", "paid-member-subscriptions"); ?>
 <?php __("on", "paid-member-subscriptions"); ?>
-<?php __("Payment Gateway", "paid-member-subscriptions"); ?>
 <?php __("Payment Retry", "paid-member-subscriptions"); ?>
 <?php __("A new payment attempt will be made on %s. After %s more attempts, the subscription will remain expired.", "paid-member-subscriptions"); ?>
 <?php __("Payment Gateway Subscription ID", "paid-member-subscriptions"); ?>

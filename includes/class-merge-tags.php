@@ -333,7 +333,6 @@ Class PMS_Merge_Tags{
         if ( !empty( $payment->id ) )
             $amount = $payment->amount;
 
-
         $currency = apply_filters( 'pms_merge_tag_subscription_price_currency', pms_get_active_currency(), $subscription_id );
 
         if ( class_exists( 'PMS_IN_Tax' ) ) {

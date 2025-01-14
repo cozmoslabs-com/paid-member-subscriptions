@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <div class="cozmoslabs-page-header">
         <div class="cozmoslabs-section-title">
             <h3 class="cozmoslabs-page-title"><?php echo esc_html( $this->page_title ); ?></h3>
-            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/reports/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/export-and-import/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Import" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </div>
     </div>
 
@@ -76,7 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                     
                                     <p>The rules are the same as above, the file needs a <strong>subscription_plan_id</strong> and either a <strong>user_email</strong> or <strong>subscription_user_id</strong> in order to match the existing user.</p>
 
-                                    <p>You can read more information on <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/export-and-import" target="_blank">our documentation</a> page.</p>
+                                    <p>You can read more information on <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/export-and-import/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Import" target="_blank">our documentation</a> page.</p>
 
                                     <p><strong>Note:</strong> please take into account recurring subscriptions. <br>Currently with PayPal, no changes can be done to existing agreements so you shouldn't use this tool to try to manipulate those subscriptions. The changes will only happen on your website.</p>
                                     <p>Stripe allows changes so you could use this tool to perform Bulk Cancelations or Bulk Change Renewal Dates as an example.</p>

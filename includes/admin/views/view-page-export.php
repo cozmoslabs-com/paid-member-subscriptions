@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <div class="cozmoslabs-page-header">
         <div class="cozmoslabs-section-title">
             <h3 class="cozmoslabs-page-title"><?php echo esc_html( $this->page_title ); ?></h3>
-            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/reports/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/export-and-import/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Export" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </div>
     </div>
 
@@ -68,6 +68,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                     </select>
 
                                     <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Choose the current subscription status', 'paid-member-subscriptions' ); ?></p>
+                                </div>
+
+                                <div class="cozmoslabs-form-field-wrapper">
+                                    <label class="cozmoslabs-form-field-label" for="pms-filter-payment-gateway"><?php esc_html_e( 'Payment Gateway', 'paid-member-subscriptions' ) ?></label>
+                                    <?php
+
+                                    $gateways = pms_get_payment_gateways();
+                                    echo '<select name="pms-filter-payment-gateway" class="pms-export-filter" id="pms-filter-payment-gateway">';
+                                    echo '<option value="">' . esc_html__( 'All Gateways', 'paid-member-subscriptions' ) . '</option>';
+
+                                    foreach( $gateways as $gateway_key => $gateway_data ) {
+                                        echo '<option value="' . esc_attr( $gateway_key ) . '">' .  ( esc_attr( $gateway_key ) === 'stripe_connect' ? esc_html( $gateway_data['display_name_admin'] ) . ' Connect' : esc_html( $gateway_data['display_name_admin'] ) ) . '</option>';
+                                    }
+                                    echo '</select> ';
+                                    ?>
+
+                                    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e('Choose the Gateway to export members from', 'paid-member-subscriptions') ?></p>
                                 </div>
 
                                 <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">

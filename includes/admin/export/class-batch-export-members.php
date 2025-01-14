@@ -119,6 +119,7 @@ class PMS_Batch_Export_Members extends PMS_Batch_Export {
         $args['offset'] = ( $this->step - 1 ) * 10;
         $args['member_subscription_status'] = $member_status;
         $args['subscription_plan_id'] = (int)$_REQUEST['pms-filter-subscription-plan'];
+        $args['payment_gateway'] = ( isset( $_REQUEST['pms-filter-payment-gateway'] ) ? sanitize_text_field( $_REQUEST['pms-filter-payment-gateway'] ) : '' );
 
         // Get the members
         $members = pms_get_members( $args );

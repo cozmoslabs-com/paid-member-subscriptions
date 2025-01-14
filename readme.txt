@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.13.8
+Stable tag: 2.13.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,16 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.13.9 =
+* Feature: Added possibility to Export Members based on the payment gateway that they used to subscribe
+* Fix: Issue with Subscription Import when trying to update existing members
+* Fix: Issue with Payments Export not working
+* Fix: Always show Renew button for Expired subscriptions, similar to Canceled status
+* Fix: Notice appearing on the admin group dashboard page in some cases
+* Fix: Notices that could trigger from the Subscription Plans Product Discounts metabox when an empty row was present
+* Fix: Issue with the Pending Manual Payment email not being sent
+* Misc: Updated documentation links for the Export and Import functionalities
+
 = 2.13.8 =
 * Fix: A security issue. Thanks to Wesley Craft for the report
 * Fix: Stripe is now respecting the {{http_referer}} tag from Profile Builder Custom Redirects

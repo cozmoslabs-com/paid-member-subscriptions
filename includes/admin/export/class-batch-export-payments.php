@@ -132,7 +132,7 @@ class PMS_Batch_Export_Payments extends PMS_Batch_Export {
                     'payment_status'                   => $payment->status,
                     'payment_date'			           => pms_sanitize_date( $payment->date ),
                     'payment_amount'                   => $payment->amount,
-                    'payment_currency'                 => pms_mc_get_payment_currency( $payment->id ),
+                    'payment_currency'                 => function_exists( 'pms_mc_get_payment_currency' ) ? pms_mc_get_payment_currency( $payment->id ) : pms_get_active_currency(),
                     'payment_payment_gateway'          => $payment->payment_gateway,
                     'payment_type'                     => $payment->type,
                     'payment_transaction_id'           => $payment->transaction_id,

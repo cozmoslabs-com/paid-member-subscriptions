@@ -89,13 +89,14 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
         else {
 
             // There are saved discounts, so we need to display them
-            foreach ($product_discounts as $key => $discount) {
+            foreach ( $product_discounts as $key => $discount ) {
+
                 echo '<tr class="pms-woo-subscription-product-discount">';
 
                 echo '<td>';
-                echo '<select name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][discount-for]" class="widefat pms-select-discount-for">';
-                echo '<option value="products" ' . selected(sanitize_text_field($discount['discount-for']), 'products', false) . '>' . esc_html( __('Products', 'paid-member-subscriptions') ) . '</option>';
-                echo '<option value="product-categories" ' . selected(sanitize_text_field($discount['discount-for']), 'product-categories', false) . '>' . esc_html( __('Product Categories', 'paid-member-subscriptions') ) . '</option>';
+                echo '<select name="pms-woo-subscription-product-discounts[' . esc_attr( $key ) . '][discount-for]" class="widefat pms-select-discount-for">';
+                echo '<option value="products" ' . selected( ( isset( $discount['discount-for'] ) ? sanitize_text_field( $discount['discount-for'] ) : '' ), 'products', false) . '>' . esc_html( __( 'Products', 'paid-member-subscriptions' ) ) . '</option>';
+                echo '<option value="product-categories" ' . selected( ( isset( $discount['discount-for'] ) ? sanitize_text_field( $discount['discount-for'] ) : '' ), 'product-categories', false ) . '>' . esc_html( __( 'Product Categories', 'paid-member-subscriptions' ) ) . '</option>';
                 echo '</select>';
                 echo '</td>';
 
@@ -104,19 +105,19 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
                 if( $products_count < 5000 ){
                     echo '<select name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][name][]" multiple data-placeholder='. esc_attr( __("Select... or leave blank to apply to all", "paid-member-subscriptions") ) . ' class="widefat pms-chosen pms-select-name">';
 
-                    $values = ( $discount['discount-for'] == 'products' ? $products : $product_categories );
+                    $values = isset( $discount['discount-for'] ) && $discount['discount-for'] == 'products' ? $products : $product_categories;
 
                     if( !empty( $values ) ) {
                         foreach( $values as $value_object ) {
 
-                            $value = ($discount['discount-for'] == 'products' ? $value_object->ID : $value_object->term_id);
-                            $name = ($discount['discount-for'] == 'products' ? $value_object->post_title : $value_object->name);
+                            $value = isset( $discount['discount-for'] ) && $discount['discount-for'] == 'products' ? $value_object->ID : $value_object->term_id;
+                            $name  = isset( $discount['discount-for'] ) && $discount['discount-for'] == 'products' ? $value_object->post_title : $value_object->name;
 
                             $values_array = array();
-                            if (!empty($discount['name']))
+                            if ( !empty( $discount['name'] ) )
                                 $values_array = $discount['name'];
 
-                            echo '<option value="' . esc_attr($value) . '" ' . (in_array($value, $values_array) ? 'selected' : '') . '>' . esc_html($name) . '</option>';
+                            echo '<option value="' . esc_attr( $value ) . '" ' . ( in_array( $value, $values_array ) ? 'selected' : '' ) . '>' . esc_html( $name ) . '</option>';
                         }
                     }
                     echo '</select>';
@@ -129,8 +130,8 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
 
                 echo '<td>';
                 echo '<select name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][type]" class="widefat pms-select-discount-type">';
-                echo '<option value="percent" ' . selected(sanitize_text_field($discount['type']), 'percent', false) . '>' . esc_html( __('Percent', 'paid-member-subscriptions') ) .' (%)' .'</option>';
-                echo '<option value="fixed" ' . selected(sanitize_text_field($discount['type']), 'fixed', false) . '>' . esc_html(  __('Fixed', 'paid-member-subscriptions') ) . ' (' . esc_html( get_woocommerce_currency_symbol() ) . ')'. '</option>';
+                echo '<option value="percent" ' . selected( ( isset( $discount['type'] ) ? sanitize_text_field( $discount['type'] ) : '' ), 'percent', false) . '>' . esc_html( __('Percent', 'paid-member-subscriptions') ) .' (%)' .'</option>';
+                echo '<option value="fixed" ' . selected( ( isset( $discount['type'] ) ? sanitize_text_field( $discount['type'] ) : '' ), 'fixed', false) . '>' . esc_html(  __('Fixed', 'paid-member-subscriptions') ) . ' (' . esc_html( get_woocommerce_currency_symbol() ) . ')'. '</option>';
                 echo '</select>';
                 echo '</td>';
 
@@ -141,8 +142,8 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
 
                 echo '<td>';
                 echo '<select name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][status]" class="widefat pms-select-discount-status">';
-                echo '<option value="active" ' . selected(sanitize_text_field($discount['status']), 'active', false) . '>' . esc_html( __('Active', 'paid-member-subscriptions') ) . '</option>';
-                echo '<option value="inactive" ' . selected(sanitize_text_field($discount['status']), 'inactive', false) . '>' . esc_html( __('Inactive', 'paid-member-subscriptions') ) . '</option>';
+                echo '<option value="active" ' . selected( ( isset( $discount['status'] ) ? sanitize_text_field( $discount['status'] ) : '' ), 'active', false) . '>' . esc_html( __('Active', 'paid-member-subscriptions') ) . '</option>';
+                echo '<option value="inactive" ' . selected( ( isset( $discount['status'] ) ? sanitize_text_field( $discount['status'] ) : '' ), 'inactive', false) . '>' . esc_html( __('Inactive', 'paid-member-subscriptions') ) . '</option>';
                 echo '</select>';
                 echo '</td>';
 
