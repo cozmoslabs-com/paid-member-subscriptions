@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.13.9
+Stable tag: 2.14.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,17 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.14.0 =
+* Fix: Issue with Pending Manual Payment email being sent multiple times
+* Fix: Make sure Elementor Cache is bypassed when the logged_out_user restriction is applied
+* Fix: Issue with PayPal subscriptions not being canceled when the plan is changed to a non-recurring one
+* Fix: Some notices that could be triggered on the Reports page in some cases
+* Fix: Show correct payment currency on the WordPress Dashboard page and Paid Member Subscriptions Dashboard page
+* Fix: Some potential warnings that could trigger from the content restriction functionality
+* Fix: The back-end Bulk Delete Subscriptions functionality is now deleting all of the users subscriptions instead of a random one. It also takes into account any filters that are applied, so it can delete only Pending subscriptions for example. The new rule is that it will delete exactly what you see in the `Subscribed To` column
+* Misc: Show Connect with Stripe button as soon as the gateway is enabled in settings
+* Misc: Show a notification when future payments are scheduled through Stripe but the gateway is disconnected
+
 = 2.13.9 =
 * Feature: Added possibility to Export Members based on the payment gateway that they used to subscribe
 * Fix: Issue with Subscription Import when trying to update existing members

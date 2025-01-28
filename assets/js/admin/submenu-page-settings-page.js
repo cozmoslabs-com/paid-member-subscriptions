@@ -219,6 +219,15 @@ jQuery( function($) {
         }
     });
 
+    $(document).on( 'change', '.pms-form-field-active-payment-gateways #stripe_connect', function () {
+
+        if ( this.checked ) 
+            $('#cozmoslabs-subsection-stripe-connect-configs').show();
+        else 
+            $('#cozmoslabs-subsection-stripe-connect-configs').hide();
+
+    });
+
 
     function checkEmailField(element) {
         if (element.checked) {

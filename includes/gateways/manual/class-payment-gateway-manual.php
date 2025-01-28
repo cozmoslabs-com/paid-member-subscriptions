@@ -24,8 +24,12 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
      */
     public $supports;
 
+    /**
+     * The class instance
+     */
+    private static $instance = null;
 
-    public function init() {
+    public function __construct() {
 
         $this->supports = apply_filters( 'pms_gateway_manual_supports', array(
             'subscription_sign_up_fee',
@@ -37,25 +41,31 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         add_filter( 'pms_message_gateway_payment_action', array( $this, 'success_messages' ), 10, 4 );
 
         // Automatically activate the member's subscription when completing the payment
-        if( !$this->check_filter_from_class_exists( 'pms_payment_update', 'PMS_Payment_Gateway_Manual', 'activate_member_subscription' ) )
-            add_action( 'pms_payment_update', array( $this, 'activate_member_subscription' ), 10, 3 );
+        add_action( 'pms_payment_update', array( $this, 'activate_member_subscription' ), 10, 3 );
 
         // Send email notification for pending manual payment
-        if( !$this->check_filter_from_class_exists( 'pms_register_payment_data', 'PMS_Payment_Gateway_Manual', 'send_pending_manual_payment_email' ) )
-            add_action( 'pms_register_payment_data', array( $this, 'send_pending_manual_payment_email' ), 25, 2 );
+        add_action( 'pms_register_payment_data', array( $this, 'send_pending_manual_payment_email' ), 25, 2 );
 
         // Remove the Retry payment action for this gateway
-        if( !$this->check_filter_from_class_exists( 'pms_output_subscription_plan_pending_retry_payment', 'PMS_Payment_Gateway_Manual', 'remove_retry_payment' ) )
-            add_action( 'pms_output_subscription_plan_pending_retry_payment', array( $this, 'remove_retry_payment' ), 10, 3 );
+        add_action( 'pms_output_subscription_plan_pending_retry_payment', array( $this, 'remove_retry_payment' ), 10, 3 );
 
-        if( !$this->check_filter_from_class_exists( 'pms_output_subscription_plan_action_renewal', 'PMS_Payment_Gateway_Manual', 'remove_renewal_action' ) )
-            add_action( 'pms_output_subscription_plan_action_renewal', array( $this, 'remove_renewal_action' ), 10, 4 );
+        // Remove renewal action 
+        add_action( 'pms_output_subscription_plan_action_renewal', array( $this, 'remove_renewal_action' ), 10, 4 );
 
         // Change payment type in case of payment generated after a Free Trial
         add_filter( 'pms_cron_process_member_subscriptions_payment_data', array( $this, 'change_free_trial_payment_type' ), 20, 2 );
 
         // Add a new action if the payment is manual so it can be completed from the table
         add_filter( 'pms_payments_list_table_entry_actions', array( $this, 'add_mark_as_completed_action' ), 20, 2 );
+
+    }
+
+    public static function get_instance() {
+
+        if ( null === self::$instance )
+            self::$instance = new self();
+
+        return self::$instance;
 
     }
 
@@ -422,7 +432,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
             if ( isset( $email_settings['pending_manual_payment_admin_is_enabled'] ) && $email_settings['pending_manual_payment_admin_is_enabled'] == 'yes' )
                 PMS_Emails::mail( 'admin', 'pending_manual_payment', $payment_gateway_data['user_id'], $payment_gateway_data['subscription_plan_id'], $payment->id );
 
-            update_user_meta( $payment_gateway_data['user_id'], 'pending_manual_payment_'. $payment_id .'_email_sent', true );
+            update_user_meta( $payment_gateway_data['user_id'], 'pending_manual_payment_'. $payment->id .'_email_sent', true );
         }
 
         return $payment_gateway_data;

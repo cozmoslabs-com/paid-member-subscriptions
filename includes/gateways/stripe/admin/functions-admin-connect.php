@@ -99,6 +99,9 @@ function pms_stripe_connect_handle_authorization_return_admin_init(){
     if( !empty( $_GET['stripe_secret_key'] ) )
         update_option( 'pms_stripe_connect_'. $environment .'_secret_key', sanitize_text_field( $_GET['stripe_secret_key'] ) );
 
+	if( $environment == 'live' )
+		update_option( 'pms_stripe_connect_live_account_connected', 'yes' );
+
 	// flush rules to make sure apple domain verification file can be served
 	flush_rewrite_rules();
 
@@ -111,6 +114,18 @@ function pms_stripe_connect_handle_authorization_return_admin_init(){
 	if( !$gateway->domain_is_registered() ){
 		$gateway->register_domain();
 	}
+
+	// Set Stripe as active gateway
+	$payments_settings = get_option( 'pms_payments_settings', array() );
+
+	if( !isset( $payments_settings['active_pay_gates'] ) ){
+		$payments_settings['active_pay_gates']   = array();
+		$payments_settings['active_pay_gates'][] = 'stripe_connect';
+	} else if( !in_array( 'stripe_connect', $payments_settings['active_pay_gates'] ) ){
+		$payments_settings['active_pay_gates'][] = 'stripe_connect';
+	}
+
+	update_option( 'pms_payments_settings', $payments_settings );
 
 	if( isset( $_POST['return_location'] ) && $_POST['return_location'] == 'setup' ){
 
@@ -460,21 +475,22 @@ add_filter( 'pms_currencies', 'pms_stripe_add_currencies' );
  */
 function pms_stripe_add_settings_content( $options ) {
 
-	if( !empty( $options['active_pay_gates'] ) && in_array( 'stripe_connect', $options['active_pay_gates'] ) ) :
+	$account = pms_stripe_connect_get_account();
 
-		echo '<div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-stripe-connect-configs">';
+	if( ( !empty( $options['active_pay_gates'] ) && in_array( 'stripe_connect', $options['active_pay_gates'] ) ) || empty( $account ) ) :
+
+		echo '<div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-stripe-connect-configs" '. ( !in_array( 'stripe_connect', $options['active_pay_gates'] ) && empty( $account ) ? 'style="display:none"' : '' ) .'>';
 
 			echo '<h4 class="cozmoslabs-subsection-title" id="pms-stripe__gateway-settings">'
 					. esc_html__( 'Stripe', 'paid-member-subscriptions' ) .
 					'<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Initial_Setup" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
 				</h4>';
 
-			if( in_array( 'stripe_connect', $options['active_pay_gates'] ) ) :
+			if( in_array( 'stripe_connect', $options['active_pay_gates'] ) || empty( $account ) ) :
 
 				// Display link to connect Stripe Account
 				$stripe_connect_base_url = 'https://www.cozmoslabs.com/?pms_stripe_connect_handle_authorization';
 				$environment             = pms_is_payment_test_mode() ? 'test' : 'live';
-				$account                 = pms_stripe_connect_get_account();
 
 				echo '<div class="pms-stripe-connect__gateway-settings">';
 
@@ -491,6 +507,9 @@ function pms_stripe_add_settings_content( $options ) {
 							echo '<p>' . esc_html__( 'Please reload the page and connect your account again in order to receive payments.', 'paid-member-subscriptions' ) . '</p>';
 
 						} else if( $connection_status != false ){
+
+							if( isset( $_GET['pms_stripe_connect_success'] ) && $_GET['pms_stripe_connect_success'] == 1 )
+								echo '<p style="text-align:center; font-size: 110%; color: green;">' . sprintf( __('You connected successfully in %s mode. You can start accepting payments.', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? '<strong>Test</strong>' : '<strong>Live</strong>' ) . '</p>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 							echo '<div class="cozmoslabs-form-field-wrapper">';
 

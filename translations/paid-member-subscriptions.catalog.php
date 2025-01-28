@@ -615,6 +615,7 @@
 <?php __("It looks like this website is a clone of another one. In order to not generate errors like double payments, the Plugin Scheduled Payments functionality from <strong>Paid Member Subscriptions</strong> has been disabled. %sLearn More%s", "paid-member-subscriptions"); ?>
 <?php __("In order to restore it, you need to put the plugin into <strong>Test Mode</strong>.", "paid-member-subscriptions"); ?>
 <?php __(' %1$sDismiss%2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Your %s Stripe Account is disconnected%s. In order to restore payments functionality for this website, please go to the %sPaid Member Subscriptions -> Settings -> Payments -> Gateways%s page and %sConnect%s your account again.", "paid-member-subscriptions"); ?>
 <?php __("Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate.", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
 <?php __("Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>.", "paid-member-subscriptions"); ?>
@@ -1253,6 +1254,10 @@
 <?php __("By Taxonomy", "paid-member-subscriptions"); ?>
 <?php __("Files Restriction", "paid-member-subscriptions"); ?>
 <?php __("Web Server", "paid-member-subscriptions"); ?>
+<?php __("Auto Detect", "paid-member-subscriptions"); ?>
+<?php __("Apache", "paid-member-subscriptions"); ?>
+<?php __("Nginx", "paid-member-subscriptions"); ?>
+<?php __("Detected Web Server", "paid-member-subscriptions"); ?>
 <?php __("Protect ALL File Types", "paid-member-subscriptions"); ?>
 <?php __('Protect every file type from your Media Library. This option can cause performance issues, enable at your own risk. %1$sLearn more.%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Protected File Types", "paid-member-subscriptions"); ?>
@@ -2509,6 +2514,7 @@
 <?php __("The provided Stripe Customer ID is not valid.", "paid-member-subscriptions"); ?>
 <?php __("The provided Stripe Card ID is not valid.", "paid-member-subscriptions"); ?>
 <?php __("You will be redirected back here once the process is completed.", "paid-member-subscriptions"); ?>
+<?php __("You connected successfully in %s mode. You can start accepting payments.", "paid-member-subscriptions"); ?>
 <?php __("Connection Status", "paid-member-subscriptions"); ?>
 <?php __("Success", "paid-member-subscriptions"); ?>
 <?php __("Your account is connected successfully in %s mode. You can start accepting payments.", "paid-member-subscriptions"); ?>

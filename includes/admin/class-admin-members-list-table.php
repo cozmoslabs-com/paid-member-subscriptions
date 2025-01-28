@@ -142,11 +142,21 @@ Class PMS_Members_List_Table extends WP_List_Table {
     function column_cb( $item ) {
         if( isset( $item[ 'subscriptions' ] ) && !empty( $item[ 'subscriptions' ][ 0 ] ) ){
             $subscription = $item[ 'subscriptions' ][ 0 ];
+            unset( $item[ 'subscriptions' ][ 0 ] );
+
             if( isset( $subscription->id ) ){
                 ?>
                 <label class="screen-reader-text" for="cb-select-<?php echo esc_attr( $subscription->id ); ?>"></label>
                 <input type="checkbox" name="member_subscriptions[]" id="cb-select-<?php echo esc_attr( $subscription->id ); ?>" value="<?php echo esc_attr( $subscription->id ); ?>" />
                 <?php
+            }
+
+            foreach ( $item[ 'subscriptions' ] as $subscription ) {
+                if( isset( $subscription->id ) ){
+                    ?>
+                    <input type="hidden" name="member_subscriptions[]" id="cb-select-<?php echo esc_attr( $subscription->id ); ?>" value="<?php echo esc_attr( $subscription->id ); ?>" />
+                    <?php
+                }
             }
         }
     }
@@ -375,10 +385,24 @@ Class PMS_Members_List_Table extends WP_List_Table {
         // Get the current view to filter results
         $selected_view = ( isset( $_GET['pms-view'] ) ? sanitize_text_field( $_GET['pms-view'] ) : '' );
 
+        $row_args = array(
+            'order'                       => isset( $args['order'] ) ? $args['order'] : 'DESC',
+            'orderby'                     => isset( $args['orderby'] ) ? $args['orderby'] : 'id',
+            'number'                      => isset( $args['number'] ) ? $args['number'] : 1000,
+            'offset'                      => isset( $args['offset'] ) ? $args['offset'] : '',
+            'status'                      => $selected_view,
+            'subscription_plan_id'        => isset( $args['subscription_plan_id'] ) ? $args['subscription_plan_id'] : '',
+            'payment_gateway'             => isset( $args['payment_gateway'] ) ? $args['payment_gateway'] : '',
+            'start_date_before'           => isset( $args['start_date_end'] ) ? $args['start_date_end'] : '',
+            'start_date_after'            => isset( $args['start_date_beginning'] ) ? $args['start_date_beginning'] : '',
+            'expiration_date_before'      => isset( $args['expiration_date_end'] ) ? $args['expiration_date_end'] : '',
+            'expiration_date_after'       => isset( $args['expiration_date_beginning'] ) ? $args['expiration_date_beginning'] : '',
+            'include_abandoned'           => true
+        );
+
         foreach( $members as $member ) {
-
-            $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $member->user_id, 'include_abandoned' => true ) );
-
+            $row_args['user_id'] = $member->user_id;
+            $member_subscriptions = pms_get_member_subscriptions( $row_args );
             $user_meta   = get_user_meta( absint( $member->user_id ) );
             $member_name = ( isset( $user_meta['first_name'] ) && isset( $user_meta['first_name'][0] ) ? $user_meta['first_name'][0] : '' ) . ' ' . ( isset( $user_meta['last_name'] ) && isset( $user_meta['last_name'][0] ) ? $user_meta['last_name'][0] : '' );
 
@@ -389,7 +413,6 @@ Class PMS_Members_List_Table extends WP_List_Table {
                 'email'             => $member->email,
                 'subscriptions'     => $member_subscriptions
             ), $member );
-
         }
 
         /**

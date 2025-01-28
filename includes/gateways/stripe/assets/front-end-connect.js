@@ -471,18 +471,19 @@ jQuery( function( $ ) {
 
             response = JSON.parse(response)
 
-            data                      = {}
-            data.action               = 'pms_stripe_connect_process_payment'
-            data.user_id              = user_data.user_id
-            data.payment_id           = user_data.payment_id
-            data.subscription_id      = user_data.subscription_id
-            data.subscription_plan_id = user_data.subscription_plan_id
-            data.payment_intent       = payment_intent.id
-            data.current_page         = window.location.href
-            data.pms_nonce            = response
-            data.form_type            = form_data.form_type ? form_data.form_type : ''
-            data.pmstkn_original      = form_data.pmstkn ? form_data.pmstkn : ''
-            data.setup_intent         = form_data.setup_intent ? form_data.setup_intent : ''
+            data                          = {}
+            data.action                   = 'pms_stripe_connect_process_payment'
+            data.user_id                  = user_data.user_id
+            data.payment_id               = user_data.payment_id
+            data.subscription_id          = user_data.subscription_id
+            data.subscription_plan_id     = user_data.subscription_plan_id
+            data.pms_current_subscription = form_data.pms_current_subscription
+            data.payment_intent           = payment_intent.id
+            data.current_page             = window.location.href
+            data.pms_nonce                = response
+            data.form_type                = form_data.form_type ? form_data.form_type : ''
+            data.pmstkn_original          = form_data.pmstkn ? form_data.pmstkn : ''
+            data.setup_intent             = form_data.setup_intent ? form_data.setup_intent : ''
 
             // to determine actual location for change subscription
             data.form_action          = form_data.form_action ? form_data.form_action : ''

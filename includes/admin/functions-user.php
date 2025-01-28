@@ -11,7 +11,9 @@ add_action( 'edit_user_profile', 'pms_gdpr_agreement' );
 
 function pms_display_subscriptions_details( $user ){
 
-    echo '<h2>' . esc_html__( 'Subscriptions', 'paid-member-subscriptions' ) . '</h2>';
+    echo '<div class="title-section-subscriptions-details">';
+    echo '<img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/pms-logo.svg" alt="">' . '<h2>' . esc_html__( 'Subscriptions', 'paid-member-subscriptions' ) . '</h2>';
+    echo '</div>';
 
     $subscriptions = pms_get_member_subscriptions( array( 'user_id' => $user->ID ) );
 

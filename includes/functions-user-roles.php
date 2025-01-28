@@ -565,6 +565,6 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
 
 $wppb_generalSettings = get_option( 'wppb_general_settings', 'not_found' );
 
-    if(  ! is_plugin_active( 'profile-builder/index.php' ) || is_plugin_active('profile-builder-dev/index.php') || $wppb_generalSettings == 'not_found' || empty( $wppb_generalSettings['rolesEditor'] ) || $wppb_generalSettings['rolesEditor'] !== 'yes'  ) {
+    if(  ( !is_plugin_active( 'profile-builder/index.php' ) && !is_plugin_active('profile-builder-dev/index.php') ) || $wppb_generalSettings == 'not_found' || empty( $wppb_generalSettings['rolesEditor'] ) || $wppb_generalSettings['rolesEditor'] !== 'yes'  ) {
         $pms_role_editor_instance = new PMS_Multiple_Roles_Selection();
     }

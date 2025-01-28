@@ -133,6 +133,20 @@ Class PMS_Payment_Gateway {
      */
     public function __construct( $data = array() ) {
 
+        $this->set_data( $data );
+
+        $this->init();
+
+        /**
+         * Gateway initialised
+         *
+         */
+        do_action( 'pms_payment_gateway_initialised', $this, $data );
+
+    }
+
+    public function set_data( $data = array() ){
+
         $this->payment_id        = ( isset( $data['payment_id'] ) ? $data['payment_id'] : 0 );
         $this->user_id           = ( isset( $data['user_data']['user_id'] ) ? $data['user_data']['user_id'] : 0 );
         $this->user_email        = ( isset( $data['user_data']['user_email'] ) ? $data['user_data']['user_email'] : '' );
@@ -148,15 +162,7 @@ Class PMS_Payment_Gateway {
 
         $this->user_data         = ( isset( $data['user_data'] ) ? $data['user_data'] : '' );
         $this->subscription_data = ( isset( $data['subscription_data'] ) ? $data['subscription_data'] : '' );
-
-        $this->init();
-
-        /**
-         * Gateway initialised
-         *
-         */
-        do_action( 'pms_payment_gateway_initialised', $this, $data );
-
+        
     }
 
     public function init() {}

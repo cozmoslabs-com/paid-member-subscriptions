@@ -123,9 +123,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 if( !empty( $recent_payments ) ): ?>
                     <?php foreach( $recent_payments as $payment ): ?>
                         <?php $payment_user = get_userdata( $payment->user_id ); ?>
+                        <?php $payment_data = $payment->get_data( $payment->id ); ?>
+                        <?php $currency = !empty( $payment_data['currency'] ) ? $payment_data['currency'] : pms_get_payment_meta( $payment->id, 'currency', true ); ?>
+
                         <div class="pms-dashboard-payments__row">
                             <a href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-payments-page', 'pms-action' => 'edit_payment', 'payment_id' => $payment->id ), admin_url( 'admin.php' ) ) ); ?>">
-                                <?php printf( esc_html__( '%1s purchased a %2s subscription for %3s', 'paid-member-subscriptions' ), esc_html( $payment_user->user_login ), esc_html( $this->get_plan_name( $payment->subscription_id ) ), esc_html( pms_format_price( $payment->amount ) ) ); ?>
+                                <?php printf( esc_html__( '%1s purchased a %2s subscription for %3s', 'paid-member-subscriptions' ), esc_html( $payment_user->user_login ), esc_html( $this->get_plan_name( $payment->subscription_id ) ), esc_html( pms_format_price( $payment->amount, $currency ) ) ); ?>
                             </a>
                             <div class="pms-dashboard-payments__date">
                                 <?php printf( '%1s - %2s', esc_html( $payment->date ), esc_html( $payment->status ) ) ?>

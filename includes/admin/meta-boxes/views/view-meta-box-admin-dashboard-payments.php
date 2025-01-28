@@ -73,10 +73,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <?php if( !empty( $recent_payments ) ): ?>
         <?php foreach( $recent_payments as $payment ): ?>
             <?php $payment_user = get_userdata( $payment->user_id ); ?>
+            <?php $payment_data = $payment->get_data( $payment->id ); ?>
+            <?php $currency = !empty( $payment_data['currency'] ) ? $payment_data['currency'] : pms_get_payment_meta( $payment->id, 'currency', true ); ?>
 
             <div class="cozmoslabs-form-field-wrapper">
                 <p><?php echo esc_html( $payment_user->user_login ) . ' (' . esc_html( $payment_user->user_email ) . ')' ?></p>
-                <p class="pms-recent-payments-amount"><?php echo esc_html( pms_format_price( $payment->amount ) ); ?></p>
+                <p class="pms-recent-payments-amount"><?php echo esc_html( pms_format_price( $payment->amount, $currency ) ); ?></p>
                 <p class="cozmoslabs-description"><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-payments-page', 'pms-action' => 'edit_payment', 'payment_id' => $payment->id ), admin_url( 'admin.php' ) ) ); ?>"><?php echo esc_html__( 'View Details', 'paid-member-subscriptions' ); ?></a></p>
             </div>
 

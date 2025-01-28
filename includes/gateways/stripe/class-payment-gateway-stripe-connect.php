@@ -2045,8 +2045,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             'CL', 'CO', 'CR', 'CV', 'DJ', 'DM', 'DO', 'DZ', 'EC', 'EG', 'ET', 'FJ', 'FM', 'GA', 'GD', 'GE', 'GH', 'GM', 'GN', 'GQ',
             'GT', 'GY', 'HN', 'ID', 'IL', 'IN', 'IS', 'JM', 'JO', 'KE', 'KG', 'KH', 'KI', 'KR', 'KW', 'KZ', 'LA', 'LC', 'LK', 'LS',
             'MA', 'MC', 'MD', 'ME', 'MG', 'MH', 'MK', 'MN', 'MO', 'MR', 'MU', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NE', 'NG', 'OM', 'PA',
-            'PE', 'PG', 'PH', 'PK', 'PY', 'QA', 'RS', 'RW', 'SA', 'SB', 'SC', 'SL', 'SM', 'SN', 'SR', 'SV', 'TG', 'TH', 'TJ', 'TL',
-            'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UY', 'UZ', 'VC', 'VN', 'WS', 'ZA', 'ZM' );
+            'PE', 'PG', 'PH', 'PK', 'PY', 'QA', 'RO', 'RS', 'RW', 'SA', 'SB', 'SC', 'SL', 'SM', 'SN', 'SR', 'SV', 'TG', 'TH', 'TJ', 
+            'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UY', 'UZ', 'VC', 'VN', 'WS', 'ZA', 'ZM' );
 
         if( in_array( $account_country, $restricted_countries ) )
             return $args;

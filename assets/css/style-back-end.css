@@ -4789,3 +4789,8 @@ div.wppb-serial-notification {
     display: block;
     margin-bottom: 6px;
 }
+
+.title-section-subscriptions-details{
+    display: flex;
+    gap: 8px;
+}

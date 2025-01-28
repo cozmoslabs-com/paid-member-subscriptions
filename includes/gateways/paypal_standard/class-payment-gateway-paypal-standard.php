@@ -254,6 +254,8 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
                          $old_plan_id = $current_subscription->subscription_plan_id;
 
+                         do_action( 'pms_paypal_web_accept_before_upgrade_subscription', $current_subscription->subscription_plan_id, $payment_data, $post_data );
+
                          $new_subscription_plan = pms_get_subscription_plan( $payment_data['subscription_id'] );
 
                          $subscription_data = array(

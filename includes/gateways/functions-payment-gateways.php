@@ -98,8 +98,22 @@ function pms_get_payment_gateway( $gateway_slug = '', $payment_data = array() ) 
 
     $class = apply_filters( 'pms_get_payment_gateway_class_name', $payment_gateways[$gateway_slug]['class_name'], $gateway_slug, $payment_data );
 
-    if( class_exists( $class ) )
-        return new $class( $payment_data );
+    if( class_exists( $class ) ){
+
+        if( method_exists( $class, 'get_instance' ) ){
+
+            $payment_gateway = $class::get_instance();
+
+            if( method_exists( $payment_gateway, 'set_data' ) )
+                $payment_gateway->set_data( $payment_data );
+
+            return $payment_gateway;
+
+        } else {
+            return new $class( $payment_data );
+        }
+
+    }
 
     return null;
 

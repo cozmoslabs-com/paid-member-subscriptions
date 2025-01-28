@@ -339,6 +339,9 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 		if( isset( $data['settings']['pms_restriction_loggedin_users'] ) && $data['settings']['pms_restriction_loggedin_users'] == 'yes' )
 			return true;
 
+		if( isset( $data['settings']['pms_restriction_loggedout_users'] ) && $data['settings']['pms_restriction_loggedout_users'] == 'yes' )
+			return true;
+
 		if( isset( $data['settings']['pms_restriction_display_to_non_subscribers'] ) && $data['settings']['pms_restriction_display_to_non_subscribers'] == 'yes' )
 			return true;
 

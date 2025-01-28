@@ -838,7 +838,8 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                 if ( in_array( $payment->type, $recurring_payments ) )
                     $default_currency_totals['total_recurring_payments'] += $default_currency_payment_amount;
 
-                $default_currency_totals['payment_gateways_result'][$payment->payment_gateway]['earnings'] += $default_currency_payment_amount;
+                if ( !empty( $payment->payment_gateway ) )
+                    $default_currency_totals['payment_gateways_result'][$payment->payment_gateway]['earnings'] += $default_currency_payment_amount;
 
                 if ( in_array( $payment->type, $attempts_payments ) && in_array( $payment->status, $status ) )
                     $default_currency_totals['total_recovered_payments'] += $default_currency_payment_amount;
@@ -876,7 +877,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                 // Payment Gateways Revenue
 
-                if ( !is_array( $payment_gateways_result[ $payment->payment_gateway ]['earnings'] ) && $payment_gateways_result[ $payment->payment_gateway ]['earnings'] == 0 )
+                if ( !empty( $payment->payment_gateway ) && !is_array( $payment_gateways_result[ $payment->payment_gateway ]['earnings'] ) && $payment_gateways_result[ $payment->payment_gateway ]['earnings'] == 0 )
                     $payment_gateways_result[ $payment->payment_gateway ]['earnings'] = array();
 
                 if( isset( $payment_gateways_result[ $payment->payment_gateway ]['earnings'][ $currency ] ) ){

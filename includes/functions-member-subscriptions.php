@@ -23,6 +23,7 @@ function pms_get_member_subscriptions( $args = array() ) {
         'status'                      => '',
         'user_id'                     => '',
         'subscription_plan_id'        => '',
+        'payment_gateway'             => '',
         'start_date'                  => '',
         'start_date_after'            => '',
         'start_date_before'           => '',
@@ -140,6 +141,13 @@ function pms_get_member_subscriptions( $args = array() ) {
     if( ! empty( $args['subscription_plan_id'] ) ) {
 
         $query_where .= " AND subscription_plan_id = '{$args['subscription_plan_id']}'";
+
+    }
+
+    // Filter by payment gateway
+    if( ! empty( $args['payment_gateway'] ) ) {
+
+        $query_where .= " AND payment_gateway LIKE '{$args['payment_gateway']}'";
 
     }
 

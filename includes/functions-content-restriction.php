@@ -159,6 +159,10 @@ function pms_get_restricted_post_message( $post_id = 0 ) {
     if( ! empty( $post_id ) )
         $post_obj = get_post( $post_id );
 
+    $target_post_id = 0;
+
+    if( isset( $post_obj->ID ) )
+        $target_post_id = $post_obj->ID;
 
     if( ! is_user_logged_in() )
         $message_type = 'logged_out';
@@ -173,9 +177,9 @@ function pms_get_restricted_post_message( $post_id = 0 ) {
      * @param int    $user_ID
      *
      */
-    $message_type = apply_filters( 'pms_get_restricted_post_message_type', $message_type, $post_obj->ID, $user_ID );
+    $message_type = apply_filters( 'pms_get_restricted_post_message_type', $message_type, $target_post_id, $user_ID );
 
-    $message = pms_process_restriction_content_message( $message_type, $user_ID, $post_obj->ID );
+    $message = pms_process_restriction_content_message( $message_type, $user_ID, $target_post_id );
 
     /**
      * Filter the restriction message before returning it
@@ -188,7 +192,7 @@ function pms_get_restricted_post_message( $post_id = 0 ) {
      */
     global $wp_filter;
     if ( ! isset( $wp_filter[ 'pms_restriction_message_' . $message_type ] ) ) { // we should prevent this from calling itself to not enter a infinite loop. The post preview was called on this and if it was a restrict shortcode in it it would crash
-        $message = apply_filters('pms_restriction_message_' . $message_type, $message, $post_obj->post_content, $post_obj, $user_ID);
+        $message = apply_filters( 'pms_restriction_message_' . $message_type, $message, !empty( $post_obj->post_content ) ? $post_obj->post_content : '', $post_obj, $user_ID );
     }
 
     return do_shortcode( $message );
