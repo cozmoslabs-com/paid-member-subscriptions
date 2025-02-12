@@ -29,7 +29,7 @@ if ( class_exists('PMS_Meta_Box') ){
             add_action( 'pms_save_meta_box_pms-discount-codes', array( $this, 'save_data' ) );
 
             // Add admin notices for validating the entered discount data
-            add_action('admin_notices', array( $this, 'add_admin_notices' ) );
+            add_action( 'admin_notices', array( $this, 'add_admin_notices' ) );
 
         }
 
@@ -93,11 +93,11 @@ if ( class_exists('PMS_Meta_Box') ){
      static function get_discount_ID_by_code( $code , $exclude_id = '' ){
 
          $discount_codes = get_posts(array(
-             'post_type' => 'pms-discount-codes',
+             'post_type'   => 'pms-discount-codes',
              'post_status' => 'any',
-             'meta_key' => 'pms_discount_code',
-             'meta_value' => $code,
-             'exclude' => $exclude_id ) // used to exclude current discount when updating discount data
+             'meta_key'    => 'pms_discount_code',
+             'meta_value'  => $code,
+             'exclude'     => $exclude_id )          // used to exclude current discount when updating discount data
          );
 
          if ( !empty($discount_codes) && ( $discount_codes[0]->post_status == 'active') ) { // discount code exists and is active

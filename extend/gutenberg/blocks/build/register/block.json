@@ -1,0 +1,68 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pms/register",
+  "title": "PMS Register",
+  "category": "pms-block",
+  "description": "Displays the Paid Member Subscriptions Register Form.",
+  "keywords": [
+    "Register",
+    "PMS",
+    "Form",
+    "Paid Member Subscriptions"
+  ],
+  "textdomain": "paid-member-subscriptions",
+  "attributes": {
+    "show_subscription_plans": {
+      "type": "boolean",
+      "default": true
+    },
+    "include": {
+      "type": "boolean",
+      "default": true
+    },
+    "subscription_plans": {
+      "type": "array",
+      "default": []
+    },
+    "exclude_subscription_plans": {
+      "type": "array",
+      "default": []
+    },
+    "selected": {
+      "type": "string",
+      "default": ""
+    },
+    "plans_position": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_preview": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_editor": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "example": {
+    "attributes": {
+      "show_subscription_plans": true,
+      "include": true,
+      "subscription_plans": [],
+      "exclude_subscription_plans": [],
+      "selected": "",
+      "plans_position": false,
+      "is_preview": true,
+      "is_editor": true
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

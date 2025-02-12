@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.14.0
+Stable tag: 2.14.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,22 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.14.1 =
+* Feature: Implemented reCaptcha v3 score threshold option. This can be configured from the Settings -> Misc -> reCaptcha tab subtab
+* Fix: Issue with the Members List not showing subscription information in the Subscribed To column when navigating to different pages than the first one
+* Fix: An issue that was causing PWYW subcriptions with a price of 0 to require that a payment gateway be selected
+* Fix: Set the end time of Fixed Period Subscriptions to the end of the selected day (23:59:59)
+*Fix: Make sure our own custom post type post meta keys are not being saved in postmeta for random post types. Next version will contain a tool to remove unnecessary post meta entries that were created
+* Fix: Disable autoloading for some bigger options which do not need it
+* Fix: Make sure the Failed Payment webhook from Stripe does not process the subscription if there's a newer Completed payment for the same subscription
+* Fix: Compatibility issues with the Elementor Loop Grid widget
+* Misc: Include Currency property inside the PMS_Payment class. Payments can also be searched using their currency through pms_get_payments()
+* Misc: Change deprecated jQuery event used in Discount Codes front-end
+* Misc: Added a filter with the same name inside the pms_is_member function: pms_is_member
+* Misc: Reworked Gutenberg Blocks for forms
+* Misc: Add a class over the redirecting to PayPal message which appears when the Profile Builder form is used
+* Misc: Add a link over the transaction ID which sends you to the PayPal website to view the transaction for PayPal Express as well
+
 = 2.14.0 =
 * Fix: Issue with Pending Manual Payment email being sent multiple times
 * Fix: Make sure Elementor Cache is bypassed when the logged_out_user restriction is applied

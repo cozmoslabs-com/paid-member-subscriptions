@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.14.0
+ * Version: 2.14.1
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -11,8 +11,8 @@
  * License: GPL2
  * WC requires at least: 3.0.0
  * WC tested up to: 9.6
- * Elementor tested up to: 3.27.2
- * Elementor Pro tested up to: 3.27.2
+ * Elementor tested up to: 3.27.3
+ * Elementor Pro tested up to: 3.27.3
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.14.0' );
+        define( 'PMS_VERSION', '2.14.1' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -436,7 +436,7 @@ Class Paid_Member_Subscriptions {
             }
         }
 
-        update_option( 'pms_emails_settings', $settings );
+        update_option( 'pms_emails_settings', $settings, false );
 
         if ( !$already_installed )
             update_option( 'pms_already_installed', 'yes', false );
@@ -517,17 +517,8 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-shortcodes.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/class-shortcodes.php';
 
-        /*
-         * Blocks
-         */
-        global $wp_version;
-        if ( version_compare( $wp_version, "5.0.0", ">=" ) ) {
-            if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg-blocks/manage-blocks.php' ) )
-                include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg-blocks/manage-blocks.php';
-        }
-
 	    /*
-		 * Block Editor files, block content restriction
+		 * Block Editor files, blocks, block content restriction
 		 */
 	    global $wp_version;
 	    if ( version_compare( $wp_version, "5.0.0", ">=" ) ) {

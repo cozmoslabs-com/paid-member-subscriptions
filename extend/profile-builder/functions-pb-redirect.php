@@ -229,7 +229,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 $message = '<meta http-equiv="Refresh" content="'. $redirect_delay .';url='. $redirect_url .'" />';
 
-                $message .= '<p>' . __( 'You are being redirected to PayPal to complete the payment...', 'paid-member-subscriptions' ) . '<br>';
+                $message .= '<p class="pms-wppb-paypal-redirect-message">' . __( 'You are being redirected to PayPal to complete the payment...', 'paid-member-subscriptions' ) . '<br>';
                 /* translators: %s: anchor tags */
                 $message .= sprintf( __( '%1$sClick here%2$s to go now.', 'paid-member-subscriptions' ), '<a href="'.esc_url( $redirect_url ).'">', '</a>' ) . '</p>';
 

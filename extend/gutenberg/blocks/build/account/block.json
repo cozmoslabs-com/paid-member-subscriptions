@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pms/account",
+  "title": "PMS Account",
+  "category": "pms-block",
+  "description": "Displays the Paid Member Subscriptions Account Form.",
+  "keywords": [
+    "Account",
+    "PMS",
+    "Form",
+    "Paid Member Subscriptions"
+  ],
+  "textdomain": "paid-member-subscriptions",
+  "attributes": {
+    "logout_redirect_url": {
+      "type": "string",
+      "default": ""
+    },
+    "hide_tabs": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_preview": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_editor": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "example": {
+    "attributes": {
+      "logout_redirect_url": "",
+      "hide_tabs": false,
+      "is_preview": true,
+      "is_editor": true
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

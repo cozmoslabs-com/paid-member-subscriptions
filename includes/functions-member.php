@@ -30,23 +30,27 @@ function pms_is_member( $user_id = '', $subscription_plans = array() ) {
 
     if ( $user_id == 0 ) return false;
 
+    $pms_is_member = false;
+
     $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $user_id ) );
 
     foreach( $member_subscriptions as $member_subscription ) {
 
-        if ( !empty($subscription_plans) ) {
+        if ( !empty( $subscription_plans ) ) {
             if ( !in_array( $member_subscription->subscription_plan_id, $subscription_plans ) )
                 continue;
         }
 
         $time_expire = ( ! empty( $member_subscription->expiration_date ) && time() > strtotime( $member_subscription->expiration_date ) ? true : false );
 
-        if( ( $member_subscription->status == 'active' || $member_subscription->status == 'canceled' ) && ! $time_expire )
-            return true;
+        if( ( $member_subscription->status == 'active' || $member_subscription->status == 'canceled' ) && ! $time_expire ){
+            $pms_is_member = true;
+            break;
+        }
 
     }
 
-    return false;
+    return apply_filters( 'pms_is_member', $pms_is_member, $user_id, $subscription_plans, $member_subscriptions );
 }
 
 /**
@@ -71,7 +75,7 @@ function pms_is_member_of_plan( $subscription_plans, $user_id = '' ) {
  * Will check if the currently logged in users has a free trial active for any of 
  * the given plans
  * 
- * @param  int     $subscription_plans  An array of subscription plans
+ * @param  array     $subscription_plans  An array of subscription plans
  * @return boolean 
  */
 function pms_member_has_free_trial( $subscription_plans, $user_id = '' ){

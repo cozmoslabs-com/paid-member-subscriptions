@@ -152,6 +152,8 @@ Class PMS_Meta_Box {
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
             return $post_id;
 
+        if( $this->post_type != $post->post_type )
+            return $post_id;
 
         do_action( 'pms_save_meta_box_' . $this->post_type, $post_id, $post );
 

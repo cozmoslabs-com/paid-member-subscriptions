@@ -159,7 +159,7 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
                     );
                 }
 
-                update_option( 'pmsle', $edited_labels );
+                update_option( 'pmsle', $edited_labels, false );
 
                 if( isset( $edited ) )
                     wp_redirect( add_query_arg( array( 'page' => 'pms-labels-edit', 'message' => '7', 'updated' => '1' ), admin_url( 'admin.php' ) ) );
@@ -184,7 +184,7 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
                 if( !empty( $edited_labels ) ){
 
                     array_splice( $edited_labels, intval( $_GET['pmsle_label_id'] ), 1 );
-                    update_option( 'pmsle', $edited_labels );
+                    update_option( 'pmsle', $edited_labels, false );
 
                     wp_redirect( add_query_arg( array( 'page' => 'pms-labels-edit', 'message' => '4', 'updated' => '1' ), admin_url( 'admin.php' ) ) );
 
@@ -198,7 +198,7 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
          *  Handle delete all labels
          */
         if( ! empty( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'pmsle_delete_all_nonce' ) ) {
-            update_option( 'pmsle', array() );
+            update_option( 'pmsle', array(), false );
             wp_redirect( add_query_arg( array( 'page' => 'pms-labels-edit', 'message' => '5', 'updated' => '1' ), admin_url( 'admin.php' ) ) );
         }
 
@@ -412,7 +412,7 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
         }
 
         update_option( 'pmsle_backup', '', 'no' );
-        update_option( 'pmsle_backup', $pms_strings );
+        update_option( 'pmsle_backup', $pms_strings, false );
     }
 
     private function get_directory_name( $path ) {

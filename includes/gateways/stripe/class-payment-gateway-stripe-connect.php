@@ -1693,7 +1693,16 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment->update( array( 'status' => 'failed' ) );
 
-                // Update subscription
+                // Update subscription only if a newer completed payment for the same subscription does not exist
+                $payments = pms_get_payments( array( 'member_subscription_id' => $payment->member_subscription_id, 'number' => 1, 'order' => 'DESC' ) );
+
+                if( !empty( $payments ) && !empty( $payments[0] ) ){
+                    $existing_payment = $payments[0];
+
+                    if( $payment->id != $existing_payment->id )
+                        die();
+                }
+
                 $member_subscription = pms_get_member_subscription( $payment->member_subscription_id );
 
                 if( !in_array( $member_subscription->status, array( 'abandoned', 'pending' ) ) )

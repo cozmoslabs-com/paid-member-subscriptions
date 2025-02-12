@@ -73,6 +73,12 @@ function pms_recaptcha_settings_tab( $options ) {
                         <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php echo wp_kses_post( sprintf( __( 'The secret key from %1$sGoogle%2$s', 'paid-member-subscriptions' ), '<a href="https://www.google.com/recaptcha/admin/create" target="_blank">', '</a>' ) ) ?></p>
                     </div>
 
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="cozmoslabs-form-field-label" for="recaptcha-v3-score-threshold"><?php esc_html_e( 'Score Threshold', 'paid-member-subscriptions' ); ?></label>
+                        <input id="recaptcha-v3-score-threshold" type="text" class="widefat" name="pms_misc_settings[recaptcha][v3_score_threshold]" value="<?php echo ( !empty( $options['recaptcha']['v3_score_threshold'] ) ? esc_attr( $options['recaptcha']['v3_score_threshold'] ) : '0.5' ) ?>" />
+                        <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'The required score threshold: 1.0 is very likely a good interaction, 0.0 is very likely a bot. If not specified or out of these bounds, defaults to 0.5.', 'paid-member-subscriptions' ); ?></p>
+                    </div>
+
                 </div>
         </div>
 

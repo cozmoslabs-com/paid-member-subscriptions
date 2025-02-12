@@ -66,6 +66,14 @@ Class PMS_Payment {
     public $amount;
 
     /**
+     * Payment currency
+     *
+     * @access public
+     * @var string
+     */
+    public $currency;
+
+    /**
      * The payment type
      *
      * @access public

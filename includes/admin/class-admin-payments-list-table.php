@@ -524,7 +524,7 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
             $test_mode = pms_is_payment_test_mode();
 
-            if( in_array( $item['payment_gateway'], array( 'PayPal', 'PayPal Standard', 'PayPal Express' ) ) ){
+            if( in_array( $item['payment_gateway'], array( 'PayPal', 'PayPal Standard', 'PayPal Express', 'PayPal Express Checkout' ) ) ){
 
                 if( $test_mode ){
                     $url = 'https://www.sandbox.paypal.com/activity/payment/' . $item['transaction_id'];

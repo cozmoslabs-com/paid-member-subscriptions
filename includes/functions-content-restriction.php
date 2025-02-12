@@ -559,10 +559,16 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
     }
 
     // Exclude restricted posts from Elementor
-    add_action( 'elementor/query/query_args', 'pmsc_exclude_posts_from_elementor' );
+    add_filter( 'elementor/query/query_args', 'pmsc_exclude_posts_from_elementor' );
     function pmsc_exclude_posts_from_elementor( $query_args ) {
-        if ( !is_admin() && function_exists( 'pms_is_post_restricted' ) ) {
 
+        // check if the form is being displayed in the Elementor editor
+        $is_elementor_edit_mode = false;
+        if( class_exists ( '\Elementor\Plugin' ) ){
+            $is_elementor_edit_mode = \Elementor\Plugin::$instance->editor->is_edit_mode();
+        }
+
+        if ( !$is_elementor_edit_mode && !is_admin() && function_exists( 'pms_is_post_restricted' ) ) {
             $args = $query_args;
             $args['suppress_filters'] = true;
             $args['fields']           = 'ids';
@@ -592,9 +598,8 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
                     $query_args['post__not_in'] = $restricted_ids;
                 }
             }
-
-            return $query_args;
         }
+        return $query_args;
     }
 
 }

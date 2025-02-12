@@ -109,6 +109,7 @@ class PMS_Batch_Export_Payments extends PMS_Batch_Export {
 
 		if( $payments )  {
             $meta_keys = $this->get_all_pms_meta_keys( "pms_paymentmeta" );
+            $default_currency = pms_get_active_currency();
 
 			foreach ( $payments as $payment ) {
 
@@ -132,7 +133,7 @@ class PMS_Batch_Export_Payments extends PMS_Batch_Export {
                     'payment_status'                   => $payment->status,
                     'payment_date'			           => pms_sanitize_date( $payment->date ),
                     'payment_amount'                   => $payment->amount,
-                    'payment_currency'                 => function_exists( 'pms_mc_get_payment_currency' ) ? pms_mc_get_payment_currency( $payment->id ) : pms_get_active_currency(),
+                    'payment_currency'                 => !empty( $payment->currency ) ? $payment->currency : $default_currency,
                     'payment_payment_gateway'          => $payment->payment_gateway,
                     'payment_type'                     => $payment->type,
                     'payment_transaction_id'           => $payment->transaction_id,

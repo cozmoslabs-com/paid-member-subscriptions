@@ -386,10 +386,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
         $selected_view = ( isset( $_GET['pms-view'] ) ? sanitize_text_field( $_GET['pms-view'] ) : '' );
 
         $row_args = array(
-            'order'                       => isset( $args['order'] ) ? $args['order'] : 'DESC',
-            'orderby'                     => isset( $args['orderby'] ) ? $args['orderby'] : 'id',
             'number'                      => isset( $args['number'] ) ? $args['number'] : 1000,
-            'offset'                      => isset( $args['offset'] ) ? $args['offset'] : '',
             'status'                      => $selected_view,
             'subscription_plan_id'        => isset( $args['subscription_plan_id'] ) ? $args['subscription_plan_id'] : '',
             'payment_gateway'             => isset( $args['payment_gateway'] ) ? $args['payment_gateway'] : '',
@@ -401,10 +398,12 @@ Class PMS_Members_List_Table extends WP_List_Table {
         );
 
         foreach( $members as $member ) {
+
             $row_args['user_id'] = $member->user_id;
+            
             $member_subscriptions = pms_get_member_subscriptions( $row_args );
-            $user_meta   = get_user_meta( absint( $member->user_id ) );
-            $member_name = ( isset( $user_meta['first_name'] ) && isset( $user_meta['first_name'][0] ) ? $user_meta['first_name'][0] : '' ) . ' ' . ( isset( $user_meta['last_name'] ) && isset( $user_meta['last_name'][0] ) ? $user_meta['last_name'][0] : '' );
+            $user_meta            = get_user_meta( absint( $member->user_id ) );
+            $member_name          = ( isset( $user_meta['first_name'] ) && isset( $user_meta['first_name'][0] ) ? $user_meta['first_name'][0] : '' ) . ' ' . ( isset( $user_meta['last_name'] ) && isset( $user_meta['last_name'][0] ) ? $user_meta['last_name'][0] : '' );
 
             $data[] = apply_filters( 'pms_members_list_table_entry_data', array(
                 'user_id'           => $member->user_id,
@@ -413,6 +412,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
                 'email'             => $member->email,
                 'subscriptions'     => $member_subscriptions
             ), $member );
+
         }
 
         /**

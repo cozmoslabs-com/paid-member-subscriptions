@@ -382,8 +382,26 @@ Class PMS_Form_Handler {
         if( empty( $pay_gate ) ) {
 
             /**
+             * If the subscription plan has PWYW pricing enabled and the user has selected a price of 0 we
+             * can consider the subscription plan as free
+             *
+             */
+            if( function_exists('pms_in_pwyw_pricing_enabled') && pms_in_pwyw_pricing_enabled( $subscription_plan->id ) ) {
+
+                $price     = !empty( $_POST['subscription_price_'.$subscription_plan->id] ) ? sanitize_text_field( $_POST['subscription_price_'.$subscription_plan->id] ) : 0;
+                $min_price = (float) get_post_meta( $subscription_plan->id, 'pms_subscription_plan_min_price', true );
+
+                if ( $price < $min_price ) {
+                    pms_errors()->add( 'subscription_plan', __( 'The selected price does not match the minimum price for this subscription plan.', 'paid-member-subscriptions' ) );
+                    return false;
+                }
+
+                return true;
+            }
+
+            /**
              * If we are on a register form or a new subscription form we need to check if the subscription
-             * plan is has a price in place and also if it has a sign-up fee. Sign-up fees are available only
+             * plan has a price in place and also if it has a sign-up fee. Sign-up fees are available only
              * for register and new subscriptions
              *
              */
@@ -896,7 +914,7 @@ Class PMS_Form_Handler {
 
             } else {
 
-                pms_errors()->add( 'subscription_plans', apply_filters( 'pms_abandon_subscription_error', __( 'Something went wrong. We could not remove your subscription.', 'paid-member-subscriptions' ), $member_data, $member ) );
+                pms_errors()->add( 'subscription_plans', apply_filters( 'pms_abandon_subscription_error', __( 'Something went wrong. We could not remove your subscription.', 'paid-member-subscriptions' ), $member_data, $member_subscription ) );
 
                 do_action( 'pms_abandon_member_subscription_unsuccessful', $member_data, $member_subscription );
 
@@ -939,7 +957,7 @@ Class PMS_Form_Handler {
             return;
 
         if( !$member_subscription->is_auto_renewing() || !pms_payment_gateways_support( array( $member_subscription->payment_gateway ), 'update_payment_method' ) )
-            return $content;
+            return;
 
         do_action( 'pms_update_payment_method_' . $member_subscription->payment_gateway, $member_subscription );
 

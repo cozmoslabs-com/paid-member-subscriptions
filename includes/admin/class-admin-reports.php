@@ -814,7 +814,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         if( !empty( $queried_payments ) ) {
 
             foreach( $queried_payments as $payment ) {
-                $currency = function_exists( 'pms_mc_get_payment_currency' ) ? pms_mc_get_payment_currency( $payment->id ) : pms_get_active_currency(); // TODO: maybe use a filter here instead
+                $currency = !empty( $payment->currency ) ? $payment->currency : $default_currency;
                 $base_currency_amount = get_metadata( 'payment', $payment->id, 'base_currency_amount', true );
 
 

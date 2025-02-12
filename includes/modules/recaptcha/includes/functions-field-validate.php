@@ -20,6 +20,8 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
 
     $secret_key = $settings['secret_key'];
 
+    $score_threshold = isset( $settings['v3_score_threshold'] ) ? $settings['v3_score_threshold'] : 0.5;
+
     if ( isset( $settings['v3'] ) && $settings['v3'] === 'yes' ){
 
         if ( isset( $post_data['g-recaptcha-response'] ) ){
@@ -57,7 +59,7 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
         if( !wp_doing_ajax() ){
             unset( $saved[ $post_data['g-recaptcha-response'] ] );
 
-            update_option( 'pms_recaptcha_validations', $saved );
+            update_option( 'pms_recaptcha_validations', $saved, false );
         }
 
     }
@@ -85,6 +87,9 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
             if( empty( $body['success'] ) && $body['success'] != true )
                 $has_error = true;
 
+            if ( array_key_exists( 'score', $body ) && ($body['score'] < $score_threshold) )
+                $has_error = true;
+
         } else
             $has_error = true;
 
@@ -99,7 +104,7 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
         if( $has_error === false )
             $saved[ $post_data['g-recaptcha-response'] ] = true;
 
-        update_option( 'pms_recaptcha_validations', $saved );
+        update_option( 'pms_recaptcha_validations', $saved, false );
 
     }
 

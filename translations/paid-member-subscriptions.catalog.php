@@ -97,6 +97,7 @@
 <?php __("Something went wrong.", "paid-member-subscriptions"); ?>
 <?php __("You are not eligible to subscribe to: %s", "paid-member-subscriptions"); ?>
 <?php __("There was no subscription plan selected.", "paid-member-subscriptions"); ?>
+<?php __("The selected price does not match the minimum price for this subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("There is no payment gateway available to complete the checkout process.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. The selected payment gateway does not support free trials.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. The selected payment gateway does not support sign-up fees.", "paid-member-subscriptions"); ?>
@@ -2585,6 +2586,8 @@
 <?php __('The secret key from %1$sGoogle%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("V3 Site Key", "paid-member-subscriptions"); ?>
 <?php __("V3 Secret Key", "paid-member-subscriptions"); ?>
+<?php __("Score Threshold", "paid-member-subscriptions"); ?>
+<?php __("The required score threshold: 1.0 is very likely a good interaction, 0.0 is very likely a bot. If not specified or out of these bounds, defaults to 0.5.", "paid-member-subscriptions"); ?>
 <?php __("reCaptcha Visibility", "paid-member-subscriptions"); ?>
 <?php __("Display reCaptcha on %s", "paid-member-subscriptions"); ?>
 <?php __("Topic Restriction Mode", "paid-member-subscriptions"); ?>

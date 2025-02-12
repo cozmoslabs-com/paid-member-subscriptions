@@ -33,6 +33,7 @@ function pms_get_payments( $args = array() ) {
         'offset'                        => '',
         'status'                        => '',
         'type'                          => '',
+        'currency'                      => '',
         'user_id'                       => '',
         'subscription_plan_id'          => '',
         'exclude_subscription_plan_ids' => '',
@@ -108,6 +109,12 @@ function pms_get_payments( $args = array() ) {
     if( !empty( $args['type'] ) ) {
         $type = sanitize_text_field( $args['type'] );
         $query_where    = $query_where . " AND " . " pms_payments.type LIKE '{$type}'";
+    }
+
+    // Filter by currency
+    if( !empty( $args['currency'] ) ) {
+        $currency = sanitize_text_field( $args['currency'] );
+        $query_where    = $query_where . " AND " . " pms_payments.currency LIKE '{$currency}'";
     }
 
     // Filter by profile_id

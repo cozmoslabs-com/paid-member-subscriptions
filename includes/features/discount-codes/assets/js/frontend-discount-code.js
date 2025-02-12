@@ -70,7 +70,7 @@ jQuery(document).ready(function($) {
      * Handles discount code validation when the user clicks the "Apply" discount button
      *
      */
-    $('#pms-apply-discount').click(function(e){
+    $(document).on('click', '#pms-apply-discount', function(e){
 
         e.preventDefault();
 
@@ -118,7 +118,6 @@ jQuery(document).ready(function($) {
             'pms_current_subscription': $pms_form.find('input[name="pms_current_subscription"]').val(),
             'form_action'             : $pms_form.find('input[name="form_action"]').val(),
         };
-
 
         var currency  = new URLSearchParams(window.location.search).get('pms_mc_currency');
 

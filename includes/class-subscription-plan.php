@@ -382,8 +382,8 @@ Class PMS_Subscription_Plan {
             if( $this->fixed_period_renewal_allowed() && strtotime( $this->fixed_expiration_date ) < time() ){
 
                 $fixed_expiration_date = date_create( date( 'Y-m-d', strtotime( $this->fixed_expiration_date ) ) );
-                $current_date = date_create( date( 'Y-m-d', time() ) );
-                $difference = date_diff( $fixed_expiration_date, $current_date );
+                $current_date          = date_create( date( 'Y-m-d', time() ) );
+                $difference            = date_diff( $fixed_expiration_date, $current_date );
 
                 if( isset( $difference ) && isset( $difference->y ) ){
 
@@ -392,12 +392,11 @@ Class PMS_Subscription_Plan {
 
                 }
 
+            } else {
+                $date = strtotime( $this->fixed_expiration_date . ' 23:59:59' );
             }
-            else{
-                $date = strtotime( $this->fixed_expiration_date );
-            }
-        }
-        else {
+            
+        } else {
             if( $this->duration != 0 ) {
                 $duration      = $this->duration;
                 $duration_unit = $this->duration_unit;

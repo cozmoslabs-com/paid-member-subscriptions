@@ -202,6 +202,10 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
                     unset( $options['payments']['redirect_after_manual_payment'] );
                 }
 
+                if ( !isset( $options['recaptcha']['v3_score_threshold'] ) || $options['recaptcha']['v3_score_threshold'] < 0 || $options['recaptcha']['v3_score_threshold'] > 1 ) {
+                    $options['recaptcha']['v3_score_threshold'] = 0.5;
+                }
+
             }
         }
 
