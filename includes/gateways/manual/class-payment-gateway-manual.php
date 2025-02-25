@@ -35,6 +35,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
             'subscription_sign_up_fee',
             'subscription_free_trial',
             'recurring_payments',
+            'change_subscription_payment_method_admin'
         ) );
 
         // Add custom user messages for this gateway
@@ -237,9 +238,6 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
             $member_subscription = $member_subscriptions[0];
 
-            if( $member_subscription->status == 'active' )
-                return;
-
             if( ! empty( $member_subscription ) ) {
 
                 $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
@@ -294,7 +292,13 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
                         }
                     }
 
-                    $member_subscription->update( array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', $timestamp ) ) );
+                    $update_args = array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', $timestamp ) );
+
+                    if( !empty( $member_subscription->billing_next_payment ) ){
+                        $update_args['billing_next_payment'] = date( 'Y-m-d H:i:s', $timestamp );
+                    }
+
+                    $member_subscription->update( $update_args );
 
                 } else
                     $member_subscription->update( array( 'status' => 'active' ) );

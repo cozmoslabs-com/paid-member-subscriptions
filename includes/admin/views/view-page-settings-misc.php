@@ -215,6 +215,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </p>
             </div>
 
+            <?php 
+                // Only show cleanup button if cleanup hasn't been completed
+                if( !get_option( 'pms_postmeta_cleanup_completed' ) ) : 
+            ?>
+                <div class="cozmoslabs-form-field-wrapper">
+                    <label class="cozmoslabs-form-field-label" for="cleanup-postmeta"><?php esc_html_e( 'Cleanup Postmeta' , 'paid-member-subscriptions' ) ?></label>
+
+
+                        <button class="button pms-cleanup-postmeta" data-nonce="<?php echo esc_attr( wp_create_nonce( 'pms_cleanup_postmeta' ) ); ?>">
+                            <?php esc_html_e( 'Cleanup Postmeta', 'paid-member-subscriptions' ); ?>
+                        </button>
+
+
+                    <p class="cozmoslabs-description cozmoslabs-description-align-right">
+                        <?php esc_html_e( 'Use this option to clean up the postmeta table from data that was added unnecessarily. This tool should be used only once so it will disappear after it is used.', 'paid-member-subscriptions' ); ?>
+                    </p>
+                </div>
+            <?php endif; ?>
 
         </div>
 
@@ -243,7 +261,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     $pages = apply_filters( 'pms_scripts_potential_pages_list', $pages );
 
                     foreach( $pages as $page )
-                        echo '<option value="' . esc_attr( $page->ID ) . '"' . ( !empty( $this->options['scripts-on-specific-pages'] ) && in_array( $page->ID, $this->options['scripts-on-specific-pages'] ) ? ' selected' : '') . '>' . esc_html( $page->post_title ) . ' ( ID: ' . esc_attr( $page->ID ) . ')' . '</option>';
+                        echo '<option value="' . esc_attr( $page->ID ) . '"' . ( !empty( $this->options['scripts-on-specific-pages'] ) && in_array( $page->ID, $this->options['scripts-on-specific-pages'] ) ? ' selected' :'') . '>' . esc_html( $page->post_title ) . ' ( ID: ' . esc_attr( $page->ID ) . ')' . '</option>';
                     ?>
                 </select>
 

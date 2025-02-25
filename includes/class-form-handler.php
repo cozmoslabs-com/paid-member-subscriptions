@@ -1236,11 +1236,10 @@ Class PMS_Form_Handler {
                 return;
             }
 
-
             $credentials = array(
-                            'user_login'    => $user_data['user_login'],
-                            'user_password' => $user_data['user_pass'],
-                            'remember'      => true
+                'user_login'    => $user_data['user_login'],
+                'user_password' => $user_data['user_pass'],
+                'remember'      => true
             );
 
             wp_signon( $credentials );
@@ -2022,7 +2021,7 @@ Class PMS_Form_Handler {
                 'user_data'         => $user_data,
                 'subscription_data' => $subscription_data,
                 'sign_up_amount'    => null,
-                'redirect_url'      => self::get_redirect_url(),
+                // 'redirect_url'      => self::get_redirect_url(),
                 'form_location'     => $form_location,
                 'recurring'         => $is_recurring
             );
@@ -2095,6 +2094,7 @@ Class PMS_Form_Handler {
 
             $payment_gateway_data = array_merge( $payment_gateway_data, $payment_data );
 
+            $payment_gateway_data['redirect_url'] = self::get_redirect_url();
 
             /**
              * Filter the payment data just before sending it to the payment gateway

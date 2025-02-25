@@ -242,15 +242,15 @@ jQuery(document).ready(function($) {
 
         $form.find('.pms-credit-card-information').hide()
 
+        if( typeof PMS_ChosenStrings !== 'undefined' && $.fn.chosen != undefined ){
+
+            $form.find('#pms_billing_country').chosen('destroy')
+            $form.find('#pms_billing_state').chosen('destroy')
+
+        }
+        
         if( typeof $form.pms_billing_details == 'undefined' ){
-
-            if( typeof PMS_ChosenStrings !== 'undefined' && $.fn.chosen != undefined ){
-                $form.find('#pms_billing_country').chosen('destroy')
-                $form.find('#pms_billing_state').chosen('destroy')
-            }
-
             $form.pms_billing_details = $form.find('.pms-billing-details').clone();
-
         }
 
         $form.find('.pms-billing-details').replaceWith('<span class="pms-billing-details">');

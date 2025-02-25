@@ -185,4 +185,20 @@ jQuery( function($) {
         }
 
     });
+
+    // Handle the display of datepicker when Custom intervals are selected on Members page
+    if( $('#pms-filter-date').val() == 'custom' )
+        $('#pms-date-interval').show();
+
+    $('#pms-filter-date').change(function(e){
+        if( $('#pms-filter-date').val() == 'custom' )
+            $('#pms-date-interval').show();
+        else
+            $('#pms-date-interval').hide();
+    });
+
+    $('#pms-filter-date, #pms-filter-subscription-plan, #pms-filter-payment-type, #pms-filter-payment-gateway').change(function(e){
+        $('#pms-filter-clear-filters').css('visibility', 'visible');
+    });
+
 });

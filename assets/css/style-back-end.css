@@ -2707,15 +2707,20 @@ body[class*="post-type-pms-"] .wp-list-table .column-id {
 }
 
 body[class*="_page_pms-"] .wp-list-table th.sortable a,
-body[class*="post-type-pms-"] .wp-list-table th.sortable a {
+body[class*="_page_pms-"] .wp-list-table th.sorted a,
+body[class*="post-type-pms-"] .wp-list-table th.sortable a,
+body[class*="post-type-pms-"] .wp-list-table th.sorted a {
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
 body[class*="_page_pms-"] .wp-list-table th.sortable a .sorting-indicator,
-body[class*="post-type-pms-"] .wp-list-table th.sortable a .sorting-indicator {
-    margin: 0;
+body[class*="_page_pms-"] .wp-list-table th.sorted a .sorting-indicator,
+body[class*="post-type-pms-"] .wp-list-table th.sortable a .sorting-indicator,
+body[class*="post-type-pms-"] .wp-list-table th.sorted a .sorting-indicator {
+    margin-left: 2px;
+    margin-top: 3px;
 }
 
 /* Memebers List Table */
@@ -2749,12 +2754,13 @@ body[class*="_page_pms-"] .wp-list-table .pms-member-list-subscription .pms-bubb
     height: 0;
 }
 
-body[class*="_page_pms-"] .filter-members-sidebox .tablenav-pages {
-    display: none;
+body[class*="_page_pms-"] .filter-members-sidebox,
+body[class*="_page_pms-"] .filter-payments-sidebox {
+    margin-top: 60px;
 }
 
-body[class*="_page_pms-"] .filter-members-sidebox {
-    margin-top: 60px;
+body[class*="_page_pms-"] .cozmoslabs-custom-interval input {
+    text-align: left !important;
 }
 
 body[class*="_page_pms-"] #major-publishing-actions .cozmoslabs-custom-interval,

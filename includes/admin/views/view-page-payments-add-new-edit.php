@@ -101,10 +101,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             </div>
 
-            <!-- Payment Subscription -->
+            <!-- Payment Subscription Plan -->
             <div class="cozmoslabs-form-field-wrapper">
 
-                <label for="pms-payment-subscription-id" class="cozmoslabs-form-field-label"><?php esc_html_e( 'Subscription', 'paid-member-subscriptions' ); ?></label>
+                <label for="pms-payment-subscription-id" class="cozmoslabs-form-field-label"><?php esc_html_e( 'Subscription Plan', 'paid-member-subscriptions' ); ?></label>
 
                 <select id="pms-payment-subscription-id" name="pms-payment-subscription-id" class="medium">
                     <?php
@@ -123,6 +123,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             </div>
 
+            <!-- Payment Subscription -->
+            <?php if( $action == 'edit_payment' && !empty( $payment->member_subscription_id ) ): ?>
+                <div class="cozmoslabs-form-field-wrapper">
+
+                    <label for="pms-payment-subscription-id" class="cozmoslabs-form-field-label"><?php esc_html_e( 'Subscription', 'paid-member-subscriptions' ); ?></label>
+                    <a href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'subpage' => 'edit_subscription', 'subscription_id' => $payment->member_subscription_id ), admin_url( 'admin.php' ) ) ); ?>"
+                        title="<?php esc_html_e( 'Edit Subscription', 'paid-member-subscriptions' ); ?>">
+                        <?php echo esc_html( $payment->member_subscription_id ); ?>
+                    </a>
+
+                </div>
+            <?php endif; ?>
 
             <!-- Payment Amount -->
             <?php

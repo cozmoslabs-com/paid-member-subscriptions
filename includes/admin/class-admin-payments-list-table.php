@@ -141,8 +141,11 @@ Class PMS_Payments_List_Table extends WP_List_Table {
     public function get_sortable_columns() {
 
         return array(
-            'id'     => array( 'id', false ),
-            'status' => array( 'status', false )
+            'id'             => array( 'id', false ),
+            'date'           => array( 'date', false ),
+            'subscriptions'  => array( 'subscription_plan_id', false ),
+            'type'           => array( 'type', false ),
+            'status'         => array( 'status', false ),
         );
 
     }
@@ -219,8 +222,9 @@ Class PMS_Payments_List_Table extends WP_List_Table {
         // Order by query
         if( ! empty( $_REQUEST['orderby'] ) && ! empty( $_REQUEST['order'] ) ) {
 
-            $orderby               = sanitize_text_field( $_REQUEST['orderby'] );
-            $orderby_possibilities = array( 'id', 'status' );
+            $orderby = sanitize_text_field( $_REQUEST['orderby'] );
+
+            $orderby_possibilities = array( 'id', 'status', 'date', 'subscription_plan_id', 'type' );
 
             if( in_array( $orderby, $orderby_possibilities ) )
                 $args['orderby'] = $orderby;
@@ -232,6 +236,64 @@ Class PMS_Payments_List_Table extends WP_List_Table {
             elseif( $order == 'desc' )
                 $args['order'] = 'DESC';
 
+        }
+
+        // Set subscription plan if it exists
+        if( ! empty( $_GET['pms-filter-subscription-plan'] ) ) {
+            $args['subscription_plan_id'] = (int)$_GET['pms-filter-subscription-plan'];
+        }
+
+        if( ! empty( $_GET['pms-filter-payment-type'] ) ) {
+            $args['type'] = sanitize_text_field( $_GET['pms-filter-payment-type'] );
+        }
+
+        if( !empty( $_GET['pms-filter-payment-gateway'] ) ){
+            $args['payment_gateway'] = sanitize_text_field( $_GET['pms-filter-payment-gateway'] );
+        }
+
+        if( !empty( $_GET['pms-filter-date'] ) ){
+            if( $_GET['pms-filter-date'] != 'custom' ){
+                
+                if( $_GET['pms-filter-date'] == 'today' ) {
+                    $args['date'][0] = date( 'Y-m-d 00:00:00', strtotime( 'today' ) );
+                    $args['date'][1] = date( 'Y-m-d 23:59:59', strtotime( 'today' ) );
+                
+                } else if( $_GET['pms-filter-date'] == 'this_month' ) {
+                    $args['date'][0] = date( 'Y-m-d 00:00:00', strtotime( 'first day of this month' ) );
+                    $args['date'][1] = date( 'Y-m-d 23:59:59', strtotime( 'last day of this month' ) );
+                
+                } else if( $_GET['pms-filter-date'] == 'this_year' ) {
+                    $args['date'][0] = date( 'Y-m-d 00:00:00', strtotime( 'first day of January' ) );
+                    $args['date'][1] = date( 'Y-m-d 23:59:59', strtotime( 'last day of December' ) );
+                
+                } else if( $_GET['pms-filter-date'] == 'last_week' ) {
+                    $args['date'][0] = date( 'Y-m-d 23:59:59', strtotime( 'today - 1 week' ) );
+                    $args['date'][1] = date( 'Y-m-d 23:59:59', strtotime( 'today' ) );
+                
+                } else if( $_GET['pms-filter-date'] == 'last_month' ) {
+
+                    $args['date'][0] = date( 'Y-m-d 23:59:59', strtotime( 'today - 1 month' ) );
+                    $args['date'][1] = date( 'Y-m-d 23:59:59', strtotime( 'today' ) );
+                
+                } else if( $_GET['pms-filter-date'] == 'last_year' ) {
+                    $args['date'][0] = date( 'Y-m-d 00:00:00', strtotime( 'first day of last year' ) );
+                    $args['date'][1] = date( 'Y-m-d 23:59:59', strtotime( 'last day of December last year' ) );
+                }
+
+            } else {
+                if( !empty( $_GET[ 'pms-datepicker-date-start' ] ) ){
+                    $args['date'][0] = date( 'Y-m-d 00:00:00', strtotime( sanitize_text_field( $_GET[ 'pms-datepicker-date-start' ] ) ) );
+
+                    if( empty( $_GET[ 'pms-datepicker-date-end' ] ) ){
+                        $args['date'][1] = date( 'Y-m-d 23:59:59', strtotime( sanitize_text_field( $_GET[ 'pms-datepicker-date-start' ] ) ) );
+                    }
+
+                }
+                
+                if( !empty( $_GET[ 'pms-datepicker-date-end' ] ) )
+                    $args['date'][1] = date( 'Y-m-d 23:59:59', strtotime( sanitize_text_field( $_GET[ 'pms-datepicker-date-end' ] ) ) );
+                
+            }
         }
 
         /**
@@ -252,11 +314,6 @@ Class PMS_Payments_List_Table extends WP_List_Table {
          *
          */
         $views = $this->get_views();
-
-        $args = array();
-
-        if ( !empty($_REQUEST['s']) )
-            $args['search'] = sanitize_text_field( $_REQUEST['s'] );
 
         foreach( $views as $view_slug => $view_link) {
 
@@ -408,7 +465,7 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
         $payment = pms_get_payment( $item['id'] );
 
-        $output  = '<a href="' . esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'member_id' => $payment->user_id, 'subpage' => 'edit_member' ), admin_url( 'admin.php' ) ) ) . '" title="' . __( 'Edit Member', 'paid-member-subscriptions' ) . '">' . $item['username'];
+        $output  = '<a href="' . esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'member_id' => $payment->user_id, 'subpage' => 'edit_member' ), admin_url( 'admin.php' ) ) ) . '" title="' . __( 'Edit Member', 'paid-member-subscriptions' ) . '">' . $item['username'] . '</a>';
         $output .= $this->row_actions( $actions );
 
         return $output;
@@ -427,7 +484,14 @@ Class PMS_Payments_List_Table extends WP_List_Table {
     public function column_subscriptions( $item ) {
 
         $subscription_plan = pms_get_subscription_plan( $item['subscription'] );
-        $output = '<span class="pms-payment-list-subscription">' . esc_html( $subscription_plan->name ) . '</span>';
+        $payment           = pms_get_payment( $item['id'] );
+
+        $url = add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'member_id' => $payment->user_id, 'subpage' => 'edit_member' ), admin_url( 'admin.php' ) );
+
+        if( !empty( $payment->member_subscription_id ) )
+            $url = add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'subpage' => 'edit_subscription', 'subscription_id' => $payment->member_subscription_id ), admin_url( 'admin.php' ) );
+
+        $output = '<a href="' . esc_url( $url ) . '" class="pms-payment-list-subscription" title="' . ( !empty( $payment->member_subscription_id ) ? esc_html__( 'Edit Subscription', 'paid-member-subscriptions' ) : esc_html__( 'Edit Member', 'paid-member-subscriptions' ) ) . '">' . esc_html( $subscription_plan->name ) . '</a>';
 
         return $output;
 
@@ -560,6 +624,40 @@ Class PMS_Payments_List_Table extends WP_List_Table {
     public function no_items() {
 
         echo esc_html__( 'No payments found', 'paid-member-subscriptions' );
+
+    }
+
+    /**
+     * Returns the payment types that are used in the database
+     *
+     * @return array
+     *
+     */
+    public function get_used_payment_types() {
+
+        $payment_types = array();
+
+        if ( false === ( $payment_types = get_transient( 'pms_existing_payment_types' ) ) ) {
+
+            $payment_types = pms_get_payment_types();
+
+            global $wpdb;
+
+            $existing_payment_types = $wpdb->get_results( "SELECT DISTINCT type FROM {$wpdb->prefix}pms_payments", 'ARRAY_N' );
+
+            $existing_types = array();
+            foreach( $existing_payment_types as $type ) {
+                $existing_types[] = $type[0];
+            }
+    
+            // Keep only payment types that exist in the database
+            $payment_types = array_intersect_key( $payment_types, array_flip( $existing_types ) );
+
+            set_transient( 'pms_existing_payment_types', $payment_types, HOUR_IN_SECONDS );
+
+        }
+
+        return $payment_types;
 
     }
 

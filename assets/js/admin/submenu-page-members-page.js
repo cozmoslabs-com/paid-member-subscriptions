@@ -535,31 +535,29 @@ jQuery( function($) {
     });
 
 
-    //Handle the display of datepicker when Custom intervals are selected on Members page
-    $('#pms-start-date-interval').hide();
-    $('#pms-expiration-date-interval').hide();
-    if( $('#pms-filter-start-date').val() == 'custom' ){
+    // Handle the display of datepicker when Custom intervals are selected on Members page
+    if( $('#pms-filter-start-date').val() == 'custom' )
         $('#pms-start-date-interval').show();
-    }
-    if( $('#pms-filter-expiration-date').val() == 'custom' ){
+    
+    if( $('#pms-filter-expiration-date').val() == 'custom' )
         $('#pms-expiration-date-interval').show();
-    }
 
     $('#pms-filter-start-date').change(function(e){
-        if( $('#pms-filter-start-date').val() == 'custom' ){
+        if( $('#pms-filter-start-date').val() == 'custom' )
             $('#pms-start-date-interval').show();
-        }
-        else{
+        else
             $('#pms-start-date-interval').hide();
-        }
     });
+
     $('#pms-filter-expiration-date').change(function(e){
-        if( $('#pms-filter-expiration-date').val() == 'custom' ){
+        if( $('#pms-filter-expiration-date').val() == 'custom' )
             $('#pms-expiration-date-interval').show();
-        }
-        else{
+        else
             $('#pms-expiration-date-interval').hide();
-        }
+    });
+
+    $('#pms-filter-subscription-plan, #pms-filter-group, #pms-filter-payment-gateway, #pms-filter-start-date, #pms-filter-end-date').change(function(e){
+        $('#pms-filter-clear-filters').css('visibility', 'visible');
     });
 
 });

@@ -500,6 +500,10 @@ form.pms-form ul.pms-form-fields-wrapper {
     margin-bottom: 10px;
 }
 
+.pms-payment-error p:first-of-type {
+    margin-top: 0;
+}
+
 .pms-payment-error p:last-of-type {
     margin-bottom: 0;
 }

@@ -318,6 +318,7 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
                                             pms_add_member_subscription_log( $member_subscription->id, 'admin_subscription_activated_payments' );
 
                                     }
+
                                 }
                             } else {
                                 // User does not have this subscription, so add it
@@ -357,6 +358,10 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
                 $added = $payment->insert($payment_data);
 
                 if ( $added ) {
+
+                    if( !empty( $member_subscription->id ) ){
+                        pms_add_payment_meta( $payment->id, 'subscription_id', $member_subscription->id );
+                    }
 
                     do_action( 'pms_manually_added_payment_success', $payment );
 

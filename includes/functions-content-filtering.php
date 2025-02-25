@@ -291,6 +291,7 @@ add_filter( 'pms_account_shortcode_content', 'pms_payment_error_message', 999 );
 add_filter( 'pms_member_account_not_logged_in', 'pms_payment_error_message', 999 );
 add_filter( 'pms_register_shortcode_content', 'pms_payment_error_message', 999 );
 add_filter( 'wppb_register_form_content', 'pms_payment_error_message', 999 );
+add_filter( 'wppb_register_pre_form_message', 'pms_payment_error_message', 999 );
 
 /**
  * Generate the retry payment part of the payment error message
@@ -319,9 +320,12 @@ function pms_payment_error_message_retry( $is_register, $payment_id = 0 ) {
 
             if( !empty( $account_page ) ){
                 if ( $payment_id != 0 ) {
-                    $payment = pms_get_payment( $payment_id );
+                    $payment   = pms_get_payment( $payment_id );
+                    $retry_url = pms_get_retry_url( $payment->subscription_id );
+                }
 
-                    $message = sprintf( __( 'You were logged in, please %sclick here%s to try again.', 'paid-member-subscriptions' ), '<a href="'. pms_get_retry_url( $payment->subscription_id ) .'">', '</a>' );
+                if ( !empty( $retry_url ) ) {
+                    $message = sprintf( __( 'You were logged in, please %sclick here%s to try again.', 'paid-member-subscriptions' ), '<a href="'. $retry_url .'">', '</a>' );
                 } else
                     $message = sprintf( __( 'You were logged in, please %sclick here%s to try again.', 'paid-member-subscriptions' ), '<a href="'. $account_page .'">', '</a>' );
 

@@ -41,6 +41,7 @@ function pms_get_payments( $args = array() ) {
         'transaction_id'                => '',
         'date'                          => '',
         'member_subscription_id'        => '',
+        'payment_gateway'               => '',
         'search'                        => ''
     );
 
@@ -55,18 +56,22 @@ function pms_get_payments( $args = array() ) {
 
     // Query string sections
     $query_from         = "FROM {$wpdb->prefix}pms_payments pms_payments ";
-    $query_inner_join   = "INNER JOIN {$wpdb->users} users ON pms_payments.user_id = users.id ";
-    $query_inner_join   = $query_inner_join . "INNER JOIN {$wpdb->posts} posts ON pms_payments.subscription_plan_id = posts.id ";
+    
+    $query_inner_join = '';
+    if( !empty( $args['search'] ) ) {
+        $query_inner_join .= "INNER JOIN {$wpdb->users} users ON pms_payments.user_id = users.id ";
+        $query_inner_join .= "INNER JOIN {$wpdb->posts} posts ON pms_payments.subscription_plan_id = posts.id ";
+    }
 
     if( !empty( $args['member_subscription_id'] ) )
-        $query_inner_join   = $query_inner_join . "INNER JOIN {$wpdb->prefix}pms_paymentmeta payment_meta ON pms_payments.id = payment_meta.payment_id ";
+        $query_inner_join .= "INNER JOIN {$wpdb->prefix}pms_paymentmeta payment_meta ON pms_payments.id = payment_meta.payment_id ";
 
     $query_where = "WHERE 1=%d ";
 
     // Add search query
     if( !empty($args['search']) ) {
         $search_term    = sanitize_text_field( $args['search'] );
-        $query_where    = $query_where . " AND " . " ( pms_payments.discount_code LIKE '%s' OR pms_payments.transaction_id LIKE '%s' OR users.user_nicename LIKE '%%%s%%' OR users.user_email LIKE '%%%s%%' OR posts.post_title LIKE '%%%s%%' ) ". " ";
+        $query_where    = $query_where . " AND " . " ( pms_payments.discount_code LIKE '%s' OR pms_payments.transaction_id LIKE '%s' OR users.user_nicename LIKE '%%%s%%' OR users.user_login LIKE '%%%s%%' OR users.user_email LIKE '%%%s%%' OR posts.post_title LIKE '%%%s%%' ) ". " ";
     }
 
     // Filter by status
@@ -159,6 +164,12 @@ function pms_get_payments( $args = array() ) {
         $query_where  = $query_where . " AND " . " payment_meta.meta_key = 'subscription_id' AND payment_meta.meta_value = '{$member_subscription_id}'";
     }
 
+    // Filter by payment_gateway
+    if( !empty( $args['payment_gateway'] ) ) {
+        $payment_gateway = sanitize_text_field( $args['payment_gateway'] );
+        $query_where     = $query_where . " AND " . " pms_payments.payment_gateway LIKE '{$payment_gateway}'";
+    }
+
     $query_order_by = '';
     // removed table name so it can be sanitized using the core function
     if ( !empty($args['orderby']) )
@@ -182,7 +193,7 @@ function pms_get_payments( $args = array() ) {
 
     // Return results
     if (!empty($search_term))
-        $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ) , $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
+        $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ) , $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
     else
         $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1 ), ARRAY_A );
 
@@ -289,9 +300,9 @@ function pms_delete_payment_meta( $payment_id = 0, $meta_key = '', $meta_value =
 
 
 /**
- * Returns the total number of payments from the db
+ * Returns the number of payments that match the given arguments
  *
- * @param array $args  - array of arguments to filter the count for
+ * @param array $args
  *
  * @return int
  *
@@ -300,51 +311,92 @@ function pms_get_payments_count( $args = array() ) {
 
     global $wpdb;
 
-    /**
-     * Base query string
-     */
-    $query_string = "SELECT COUNT(pms_payments.id) FROM {$wpdb->prefix}pms_payments pms_payments ";
+    $defaults = array(
+        'status'                        => '',
+        'type'                          => '',
+        'user_id'                       => '',
+        'subscription_plan_id'          => '',
+        'payment_gateway'               => '',
+        'date'                          => '',
+        'search'                        => ''
+    );
 
-    /**
-     * Inner join
-     */
-    $query_inner_join = "INNER JOIN {$wpdb->users} users ON pms_payments.user_id = users.id ";
-    $query_inner_join .= "INNER JOIN {$wpdb->posts} posts ON pms_payments.subscription_plan_id = posts.id ";
+    $args = apply_filters( 'pms_get_payments_count_args', wp_parse_args( $args, $defaults ), $args, $defaults );
 
+    // Start query string
+    $query_string = "SELECT COUNT(*) FROM {$wpdb->prefix}pms_payments pms_payments ";
 
-    /**
-     * Where clauses
-     */
-    $query_where  = "WHERE 1=%d ";
+    // Add inner join only when searching
+    $query_inner_join = '';
+    if( !empty($args['search']) ) {
+        $query_inner_join = "INNER JOIN {$wpdb->users} users ON pms_payments.user_id = users.id ";
+        $query_inner_join .= "INNER JOIN {$wpdb->posts} posts ON pms_payments.subscription_plan_id = posts.id ";
+    }
 
-    // Filter by search
+    // Where conditions
+    $query_where = "WHERE 1=%d ";
+
+    // Add search query
     if( !empty( $args['search'] ) ) {
-        $search = sanitize_text_field( $args['search'] );
-        $query_where .= " AND ( pms_payments.discount_code LIKE '%%{$search}%%' OR pms_payments.transaction_id LIKE '%%{$search}%%' OR users.user_nicename LIKE '%%{$search}%%' OR users.user_email LIKE '%%{$search}%%' OR posts.post_title LIKE '%%{$search}%%' ) ". " ";
+        $search_term = sanitize_text_field( $args['search'] );
+        $query_where .= " AND " . " ( pms_payments.discount_code LIKE '%s' OR pms_payments.transaction_id LIKE '%s' OR users.user_nicename LIKE '%%%s%%' OR users.user_email LIKE '%%%s%%' OR posts.post_title LIKE '%%%s%%' ) ". " ";
     }
 
     // Filter by status
     if( !empty( $args['status'] ) ) {
         $status = sanitize_text_field( $args['status'] );
-        $query_where .= "AND pms_payments.status = '{$status}' ";
+        $query_where .= " AND " . " pms_payments.status LIKE '{$status}'";
     }
 
+    // Filter by type
+    if( !empty( $args['type'] ) ) {
+        $type = sanitize_text_field( $args['type'] );
+        $query_where .= " AND " . " pms_payments.type LIKE '{$type}'";
+    }
 
-    /**
-     * Get cached version first
-     *
-     */
+    // Filter by user_id
+    if( !empty( $args['user_id'] ) ) {
+        $user_id = (int)trim( $args['user_id'] );
+        $query_where .= " AND " . " pms_payments.user_id = {$user_id}";
+    }
+
+    // Filter by subscription_plan_id
+    if( !empty( $args['subscription_plan_id'] ) ) {
+        $subscription_plan_id = (int)trim( $args['subscription_plan_id'] );
+        $query_where .= " AND " . " pms_payments.subscription_plan_id = {$subscription_plan_id}";
+    }
+
+    // Filter by payment_gateway
+    if( !empty( $args['payment_gateway'] ) ) {
+        $payment_gateway = sanitize_text_field( $args['payment_gateway'] );
+        $query_where .= " AND " . " pms_payments.payment_gateway LIKE '{$payment_gateway}'";
+    }
+
+    // Filter by date
+    if( !empty( $args['date'] ) ) {
+        if( is_array( $args['date'] ) && !empty( $args['date'][0] ) && !empty( $args['date'][1] ) ) {
+            $args['date'][0] = sanitize_text_field( $args['date'][0] );
+            $args['date'][1] = sanitize_text_field( $args['date'][1] );
+            $query_where .= " AND ( pms_payments.date BETWEEN '{$args['date'][0]}' AND '{$args['date'][1]}' )";
+        } elseif( is_string( $args['date'] ) ) {
+            $args['date'] = sanitize_text_field( $args['date'] );
+            $query_where .= " AND pms_payments.date LIKE '%%{$args['date']}%%'";
+        }
+    }
+
+    // Get cached payments count
     $key   = md5( 'pms_payments_count_' . serialize( $args ) );
     $count = get_transient( $key );
 
+    if( $count === false ) {
+        // Concatenate query string
+        $query_string .= $query_inner_join . $query_where;
 
-    /**
-     * Make db query if cache is empty and set the cache
-     *
-     */
-    if( false === $count ) {
-
-        $count = $wpdb->get_var( $wpdb->prepare( $query_string . $query_inner_join . $query_where, 1 ) );
+        // Return results
+        if( !empty( $args['search'] ) )
+            $count = $wpdb->get_var( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ) );
+        else
+            $count = $wpdb->get_var( $wpdb->prepare( $query_string, 1 ) );
 
         /**
          * The expiration time ( in seconds ) for the cached payments count returned for
@@ -360,7 +412,6 @@ function pms_get_payments_count( $args = array() ) {
     }
 
     return (int)$count;
-
 }
 
 

@@ -913,6 +913,7 @@
 <?php __("Edit Payment", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Payment?", "paid-member-subscriptions"); ?>
 <?php __("Delete", "paid-member-subscriptions"); ?>
+<?php __("Edit Subscription", "paid-member-subscriptions"); ?>
 <?php __("View Logs", "paid-member-subscriptions"); ?>
 <?php __("Discount code", "paid-member-subscriptions"); ?>
 <?php __("Message", "paid-member-subscriptions"); ?>
@@ -1805,8 +1806,9 @@
 <?php __("Custom", "paid-member-subscriptions"); ?>
 <?php __("Start of Interval", "paid-member-subscriptions"); ?>
 <?php __("End of Interval", "paid-member-subscriptions"); ?>
-<?php __("Expiration Date...", "paid-member-subscriptions"); ?>
+<?php __("End Date...", "paid-member-subscriptions"); ?>
 <?php __("Tomorrow", "paid-member-subscriptions"); ?>
+<?php __("Clear Filters", "paid-member-subscriptions"); ?>
 <?php __("Payment #%s", "paid-member-subscriptions"); ?>
 <?php __("Add New Payment", "paid-member-subscriptions"); ?>
 <?php __("Payment Details", "paid-member-subscriptions"); ?>
@@ -1817,6 +1819,8 @@
 <?php __("Add Payment", "paid-member-subscriptions"); ?>
 <?php __("Payment Logs", "paid-member-subscriptions"); ?>
 <?php __("Search Payments", "paid-member-subscriptions"); ?>
+<?php __("Payment Type...", "paid-member-subscriptions"); ?>
+<?php __("Date...", "paid-member-subscriptions"); ?>
 <?php __("Filters", "paid-member-subscriptions"); ?>
 <?php __("Sales and earnings", "paid-member-subscriptions"); ?>
 <?php __("Type of Restriction", "paid-member-subscriptions"); ?>
@@ -1924,6 +1928,8 @@
 <?php __("Cron Jobs", "paid-member-subscriptions"); ?>
 <?php __("Reset cron jobs", "paid-member-subscriptions"); ?>
 <?php __("The plugin will try to register the cron jobs that it uses again.", "paid-member-subscriptions"); ?>
+<?php __("Cleanup Postmeta", "paid-member-subscriptions"); ?>
+<?php __("Use this option to clean up the postmeta table from data that was added unnecessarily. This tool should be used only once so it will disappear after it is used.", "paid-member-subscriptions"); ?>
 <?php __("Scripts", "paid-member-subscriptions"); ?>
 <?php __("Load Scripts only on specific pages", "paid-member-subscriptions"); ?>
 <?php __("Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance.", "paid-member-subscriptions"); ?>

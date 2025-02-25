@@ -674,3 +674,72 @@ function pms_payment_gateways_section_relocation_notice() {
 
 }
 add_filter( 'admin_init', 'pms_payment_gateways_section_relocation_notice' );
+
+add_action( 'wp_ajax_pms_cleanup_postmeta', 'pms_cleanup_postmeta' );
+function pms_cleanup_postmeta() {
+    check_ajax_referer( 'pms_cleanup_postmeta', 'nonce' );
+
+    global $wpdb;
+
+    $query         = '';
+    $step          = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
+    $batch_size    = 500;
+    $rows_affected = 0;
+
+    if ( $step === 1 ) {
+        // First query - cleanup discount code meta
+        $query = $wpdb->prepare( "DELETE FROM {$wpdb->postmeta} 
+                                 WHERE post_id IN (
+                                     SELECT ID FROM {$wpdb->posts}
+                                     WHERE post_type != %s
+                                 )
+                                 AND meta_key IN ( %s, %s )
+                                 LIMIT %d",
+                                'pms-discount-codes',
+                                'pms_discount_recurring_payments',
+                                'pms_discount_new_users_only',
+                                $batch_size );
+
+        $rows_affected = $wpdb->query( $query );
+
+        if ( $rows_affected === 0 ) {
+            // Move to next step when no more rows to delete
+            wp_send_json_success( array( 'step' => 2 ) );
+        }
+
+    } else if ( $step === 2 ) {
+        // Second query - cleanup subscription plan meta  
+        $query = $wpdb->prepare( "DELETE FROM {$wpdb->postmeta}
+                                 WHERE post_id IN (
+                                     SELECT ID FROM {$wpdb->posts}
+                                     WHERE post_type != %s
+                                 )
+                                 AND meta_key IN ( %s, %s, %s, %s )
+                                 LIMIT %d",
+                                'pms-subscription',
+                                'pms_subscription_plan_tax_exempt',
+                                'pms_subscription_plan_pay_what_you_want', 
+                                'pms_subscription_plan_allow_renew',
+                                'pms_subscription_plan_fixed_membership',
+                                $batch_size );
+
+        $rows_affected = $wpdb->query( $query );
+
+        if ( $rows_affected === 0 ) {
+            // Save completion flag as non-autoloaded option
+            add_option( 'pms_postmeta_cleanup_completed', true, '', 'no' );
+            
+            // All done
+            wp_send_json_success( array( 
+                'step' => 'done',
+                'hide_button' => true 
+            ) );
+        }
+    }
+
+    // Continue with same step
+    wp_send_json_success( array( 
+        'step' => $step,
+        'rows_affected' => $rows_affected
+    ) );
+}

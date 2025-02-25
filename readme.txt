@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.14.1
+Stable tag: 2.14.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -252,6 +252,24 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.14.2 =
+* Enhancement: Added possibility to filter the Payments List based on different criteria like Subscription Plan, Payment Type, Payment Gateway, Date
+* Enhancement: Added a link to the related subscription for each Payment on the Payments List Table and Single Payment View
+* Enhancement: When redirecting to the payment details page after a Manual/Offline payment, the URL will now include the payment id, subscription plan ID and subscription ID (only for logged in users)
+* Fix: Issue with filtering members generating very long query strings when members were subscribed to multiple subscriptions
+* Fix: An issue with Manual/Offline payment gateway where active subscriptions would not be renewed properly
+* Fix: Allow admins to modify the Subscription Billing Details of a subscription that uses the Manual/Offline payment gateway
+* Fix: Allow searching by username inside the Payments List
+* Fix: Allow admins to change the plan of a recurring subscription with one from the same tier if the payment gateway supports this
+* Fix: Make sure the Payment Error message is not displaying an empty retry link in some situations
+* Fix: Autologin not working when a payment was failing with Stripe
+* Fix: Display of sorting indicators on back-end tables
+* Misc: When editing a subscription as an admin, show the Billing Amount field only for recurring subscriptions
+* Misc: Save related subscription ID to the Payment when an admin is manually creating payments
+* Misc: Allow sorting the Payments List table based on the Subscription Plan, Date and Type columns
+* Misc: Make sure a clean URL is generated for the Edit Member Subscriptions link on the Members List table
+* Misc: Added a tool on the Settings -> Misc -> Others page that can be used to cleanup unnecessary postmeta that was added by the plugin
+
 = 2.14.1 =
 * Feature: Implemented reCaptcha v3 score threshold option. This can be configured from the Settings -> Misc -> reCaptcha tab subtab
 * Fix: Issue with the Members List not showing subscription information in the Subscribed To column when navigating to different pages than the first one

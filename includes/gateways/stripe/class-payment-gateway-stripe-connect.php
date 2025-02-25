@@ -1035,6 +1035,28 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $pms_is_register = is_user_logged_in() ? 0 : 1;
 
         $redirect_url = !empty( $_POST['current_page'] ) ? esc_url_raw( $_POST['current_page'] ) : $account_page;
+
+        // Take into account autologin from the WPPB form
+        if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
+
+            $args = array(
+                'form_type'               => 'register',
+                'form_name'               => isset( $_REQUEST['form_name'] ) ? sanitize_text_field( $_REQUEST['form_name'] ) : '',
+                'form_fields'             => '',
+                'role'                    => get_option( 'default_role' ),
+                'pms_custom_ajax_request' => true,
+            );
+
+            include_once( WPPB_PLUGIN_DIR . '/front-end/class-formbuilder.php' );
+
+            $form = new Profile_Builder_Form_Creator( $args );
+
+            if( !empty( $form->args['login_after_register'] ) && strtolower( $form->args['login_after_register'] ) == 'yes' ){
+                $redirect_url = $this->get_wppb_autologin_url( $redirect_url );
+            }
+
+        }
+
         $redirect_url = apply_filters( 'pms_stripe_error_redirect_url', $redirect_url, $this->payment_id, $pms_is_register );
 
         return add_query_arg( array( 'pms_payment_error' => '1', 'pms_is_register' => $pms_is_register, 'pms_payment_id' => $this->payment_id ), $redirect_url );

@@ -154,7 +154,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
             foreach ( $item[ 'subscriptions' ] as $subscription ) {
                 if( isset( $subscription->id ) ){
                     ?>
-                    <input type="hidden" name="member_subscriptions[]" id="cb-select-<?php echo esc_attr( $subscription->id ); ?>" value="<?php echo esc_attr( $subscription->id ); ?>" />
+                    <input type="checkbox" name="member_subscriptions[]" id="cb-select-<?php echo esc_attr( $subscription->id ); ?>" value="<?php echo esc_attr( $subscription->id ); ?>" style="display: none;" />
                     <?php
                 }
             }
@@ -524,7 +524,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
             $output .= '<span class="pms-member-list-subscription pms-has-bubble">';
 
-                $output .= '<a href="' . esc_url( add_query_arg( array( 'subpage' => 'edit_subscription', 'subscription_id' => $member_subscription->id ) ) ) . '">';
+                $output .= '<a href="' . esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'edit_subscription', 'subscription_id' => $member_subscription->id ), admin_url( 'admin.php' ) ) ) . '">';
                     $output .= apply_filters( 'pms_list_table_' . $this->_args['plural'] . '_show_status_dot', '<span class="pms-status-dot ' . esc_attr( $member_subscription->status ) . '"></span>' );
 
                     $output .= ( !empty( $subscription_plan->id ) ? $subscription_plan->name : sprintf( esc_html__( 'Subscription Plan Not Found - ID: %s', 'paid-member-subscriptions' ), $member_subscription->subscription_plan_id ) );
