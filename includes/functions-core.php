@@ -1180,39 +1180,41 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         /**
          * Add a notice when the Stripe gateway was activated, future recurring payments exist but the Stripe account is now Disconnected
         */
-        $stripe_account_was_connected = get_option( 'pms_stripe_connect_live_account_connected', false );
+        if( !pms_is_payment_test_mode() ){
+            $stripe_account_was_connected = get_option( 'pms_stripe_connect_live_account_connected', false );
+            $stripe_account = pms_stripe_connect_get_account();
 
-        if( !empty( $stripe_account_was_connected ) && $stripe_account_was_connected == 'yes' ){
-
-            // check if members with future payments exist before showing the notification
-            $args = array(
-                'status'                      => 'active',
-                'billing_next_payment_after' => date( 'Y-m-d H:i:s' ),
-                'number' => 1
-            );
+            if( empty( $stripe_account ) && !empty( $stripe_account_was_connected ) && $stripe_account_was_connected == 'yes' ){
     
-            $subscriptions = pms_get_member_subscriptions( $args );
-
-            if( !empty( $subscriptions ) ){
-                $message = '<p>' . sprintf( __( 'Your %s Stripe Account is disconnected%s. In order to restore payments functionality for this website, please go to the %sPaid Member Subscriptions -> Settings -> Payments -> Gateways%s page and %sConnect%s your account again.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'. admin_url( 'admin.php?page=pms-settings-page&tab=payments&nav_sub_tab=payments_gateways' ) .'">', '</a>', '<strong>', '</strong>' ) . '</p>';
-
-                if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
+                // check if members with future payments exist before showing the notification
+                $args = array(
+                    'status'                     => 'active',
+                    'billing_next_payment_after' => date( 'Y-m-d H:i:s' ),
+                    'number'                     => 1
+                );
         
-                    new PMS_Add_General_Notices( 'pms_stripe_connect_disconnected',
-                        $message,
-                        'notice-error');
-        
-                } else {
-        
-                    new PMS_Add_General_Notices( 'pms_stripe_connect_disconnected',
-                        sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . wp_nonce_url( add_query_arg( 'pms_stripe_connect_disconnected_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) . "'>", "</a>"),
-                        'notice-error');
-        
+                $subscriptions = pms_get_member_subscriptions( $args );
+    
+                if( !empty( $subscriptions ) ){
+                    $message = '<p>' . sprintf( __( 'Your %s Stripe Account is disconnected%s. In order to restore payments functionality for this website, please go to the %sPaid Member Subscriptions -> Settings -> Payments -> Gateways%s page and %sConnect%s your account again.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'. admin_url( 'admin.php?page=pms-settings-page&tab=payments&nav_sub_tab=payments_gateways' ) .'">', '</a>', '<strong>', '</strong>' ) . '</p>';
+    
+                    if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
+            
+                        new PMS_Add_General_Notices( 'pms_stripe_connect_disconnected',
+                            $message,
+                            'notice-error');
+            
+                    } else {
+            
+                        new PMS_Add_General_Notices( 'pms_stripe_connect_disconnected',
+                            sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . wp_nonce_url( add_query_arg( 'pms_stripe_connect_disconnected_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) . "'>", "</a>"),
+                            'notice-error');
+            
+                    }
                 }
+    
             }
-
         }
-
 
 
         /**

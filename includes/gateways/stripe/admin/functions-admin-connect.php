@@ -186,6 +186,45 @@ function pms_stripe_connect_platform_disconnect(){
 
 }
 
+add_action( 'admin_init', 'pms_stripe_connect_dismiss_domain_registration_notice' );
+function pms_stripe_connect_dismiss_domain_registration_notice(){
+
+	if( !isset( $_GET['pms_nonce'] ) || !wp_verify_nonce( sanitize_text_field( $_GET['pms_nonce'] ), 'stripe_connect_dismiss_domain_registration_notice' ) )
+		return;
+
+	if( !isset( $_GET['pms_stripe_connect_dismiss_domain_registration_notice'] ) )
+		return;
+
+	if( !current_user_can( 'manage_options' ) )
+		return;
+
+	$environment = pms_is_payment_test_mode() ? 'test' : 'live';
+
+	update_option( 'pms_stripe_connect_'. $environment .'_domain_registration_notice_dismiss', true );
+
+}
+
+add_action( 'admin_init', 'pms_stripe_connect_register_domain' );
+function pms_stripe_connect_register_domain(){
+
+	if( !isset( $_GET['pms_nonce'] ) || !wp_verify_nonce( sanitize_text_field( $_GET['pms_nonce'] ), 'stripe_connect_register_domain' ) )
+		return;
+
+	if( !isset( $_GET['pms_stripe_connect_register_domain'] ) )
+		return;
+
+	if( !current_user_can( 'manage_options' ) )
+		return;
+
+	$gateway = new PMS_Payment_Gateway_Stripe_Connect();
+	$gateway->init();
+
+	if( !$gateway->domain_is_registered() ){
+		$gateway->register_domain();
+	}
+	
+}
+
 /**
  * Adds extra fields for the member's subscription in the add new / edit subscription screen
  *
@@ -604,6 +643,7 @@ function pms_stripe_add_settings_content( $options ) {
 									'environment'               => $environment,
 									'pms_stripe_account_id'     => get_option( 'pms_stripe_connect_'. $environment .'_account_id', false ),
 									'home_url'                  => site_url(),
+									'pms_nonce'                 => wp_create_nonce( 'pms_stripe_disconnect' ),
 								],
 								$stripe_connect_base_url
 							);
@@ -618,20 +658,30 @@ function pms_stripe_add_settings_content( $options ) {
 
 							echo '</div>';
 
-							// if( !pms_stripe_is_domain_registered_for_payment_methods() ){
-							// 	echo '<h3 class="cozmoslabs-subsection-title" style="margin-top:16px !important;">' , esc_html__( 'Domain Registration', 'paid-member-subscriptions' ) . '</h3>';
+							$domain_registration_status = pms_stripe_is_domain_registered_for_payment_methods();
+							$domain_registration_notice_dismiss = get_option( 'pms_stripe_connect_'. $environment .'_domain_registration_notice_dismiss', false );
 
-							// 	echo '<div class="cozmoslabs-form-field-wrapper">';
+							if( $domain_registration_status !== true && $domain_registration_status['status'] == false && !$domain_registration_notice_dismiss ){
+								echo '<h3 class="cozmoslabs-subsection-title" style="margin-top:16px !important;">' , esc_html__( 'Domain Registration', 'paid-member-subscriptions' ) . '</h3>';
 
-							// 		echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-payment-request">' . esc_html__( 'Status', 'paid-member-subscriptions' ) . '</label>';
+								echo '<div class="cozmoslabs-form-field-wrapper">';
 
-							// 		echo '<span class="cozmoslabs-stripe-connect__settings-warning">'. esc_html__( 'Not registered', 'paid-member-subscriptions' ) .'</span>';
+									echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-payment-request">' . esc_html__( 'Status', 'paid-member-subscriptions' ) . '</label>';
 
-							// 		echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'This domain is not registered with Stripe. In order to enable payment gateways like Apple Pay, Google Pay or Link in your payment forms, your domain needs to be registered and verified.', 'paid-member-subscriptions' ) . '</p>';
-							// 		echo '<p class="cozmoslabs-description">' . esc_html__( 'Press the button below to register and validate the current domain.', 'paid-member-subscriptions' ) . '</p>';
+									if( $domain_registration_status['message'] == 'domain_not_verified' ){
+										echo '<span class="cozmoslabs-stripe-connect__settings-warning">'. esc_html__( 'Current domain is not verified.', 'paid-member-subscriptions' ) .'</span>';
+										echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . sprintf( esc_html__( 'This domain is not registered with %sStripe%s. In order to enable payment gateways like %sApple Pay, Google Pay or Link%s in your payment forms, your domain needs to be registered and verified.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<strong>', '</strong>' ) . '</p>';
+										echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . esc_html__( 'Press the button below to register and validate the current domain.', 'paid-member-subscriptions' ) . '</p>';
+										echo '<p class="cozmoslabs-description-space-left"><a class="button-secondary" href="'. esc_url( wp_nonce_url( add_query_arg( 'pms_stripe_connect_register_domain', 'true' ), 'stripe_connect_register_domain', 'pms_nonce' ) ) .'" style="max-width: 150px;">'. esc_html__( 'Register domain', 'paid-member-subscriptions' ) .'</a></p>';
+									} else {
+										echo '<span class="cozmoslabs-stripe-connect__settings-warning">'. esc_html__( 'Verification status couldn\'t be determined.', 'paid-member-subscriptions' ) .'</span>';
+										echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . esc_html__( 'The plugin cannot determine the verification status of the current domain. Your domain might already be validated.', 'paid-member-subscriptions' ) . '</p>';
+										echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . sprintf( esc_html__( 'To verify this, go to the %sStripe Dashboard -> Settings -> Payments -> Payment Method Domains%s and look for the current domain, it should be displayed as %sEnabled%s.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<strong>', '</strong>' ) . '</p>';
+										echo '<p class="cozmoslabs-description-space-left"><a class="button-secondary" href="'. esc_url( wp_nonce_url( add_query_arg( 'pms_stripe_connect_dismiss_domain_registration_notice', 'true' ), 'stripe_connect_dismiss_domain_registration_notice', 'pms_nonce' ) ) .'" style="max-width: 150px;">'. esc_html__( 'Dismiss notice', 'paid-member-subscriptions' ) .'</a></p>';
+									}
 
-							// 	echo '</div>';
-							// }
+								echo '</div>';
+							}
 
 
 						echo '</div>';

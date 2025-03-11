@@ -47,8 +47,9 @@ class PMS_Batch_Export_Members extends PMS_Batch_Export {
             'user_firstname'    => 'user_firstname',
             'user_lastname'     => 'user_lastname',
 
-            'subscription_name'        => 'subscription_name',
-            'subscription_plan_id'     => 'subscription_plan_id',
+            'subscription_name'            => 'subscription_name',
+            'subscription_plan_id'         => 'subscription_plan_id',
+            'subscription_plan_base_price' => 'subscription_plan_base_price',
 
             'subscription_id'                       => 'subscription_id',
             'subscription_user_id'                  => 'subscription_user_id',
@@ -152,6 +153,7 @@ class PMS_Batch_Export_Members extends PMS_Batch_Export {
                     $pms_subscription_name = array();
                     $pms_subscription_name["subscription_name"]    = $subscription_plan->name;
                     $pms_subscription_name["subscription_plan_id"] = $subscription_plan->id;
+                    $pms_subscription_name["subscription_plan_base_price"] = $subscription_plan->price;
 
                     $member_subscriptions = array(
                         'subscription_id'                       => $subscription->id,

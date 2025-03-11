@@ -27,6 +27,7 @@
 }
 
 .pms-form .pms-field.pms-gdpr-field > label,
+.pms-form .pms-subscription-plan-auto-renew > label,
 .pms-form .pms-subscription-plan label {
     font-size: 16px;
     line-height: 28px;
@@ -157,9 +158,9 @@
     width: 18px !important;
     height: 18px !important;
     min-width: 18px;
+    outline: none;
 }
 
-.pms-form .pms-gdpr-field input[type="checkbox"],
 .pms-form input[type="radio"] {
     display: block;
     float: left;

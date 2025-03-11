@@ -303,5 +303,10 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
 }
 
-$pms_submenu_page_settings = new PMS_Submenu_Page_Settings( 'paid-member-subscriptions', esc_html__( 'Settings', 'paid-member-subscriptions' ), esc_html__( 'Settings', 'paid-member-subscriptions' ), 'manage_options', 'pms-settings-page', 30, 'pms_settings' );
-$pms_submenu_page_settings->init();
+function pms_init_settings_page() {
+
+    $pms_submenu_page_settings = new PMS_Submenu_Page_Settings( 'paid-member-subscriptions', esc_html__( 'Settings', 'paid-member-subscriptions' ), esc_html__( 'Settings', 'paid-member-subscriptions' ), 'manage_options', 'pms-settings-page', 30, 'pms_settings' );
+    $pms_submenu_page_settings->init();
+
+}
+add_action( 'init', 'pms_init_settings_page', 9 );

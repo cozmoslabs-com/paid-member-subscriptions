@@ -533,11 +533,14 @@ Class PMS_Payments_List_Table extends WP_List_Table {
      */
     public function column_amount( $item ) {
 
+        $payment = pms_get_payment( $item['id'] );
+        $currency = !empty( $payment->currency ) ? $payment->currency : pms_get_active_currency();
+
         // Check if discount code was used for this payment
         if ( !empty($item['discount_code']) ) {
             $output = '<span class="pms-has-bubble">';
 
-            $output .= pms_format_price( $item['amount'], pms_get_active_currency() ) . '<span class="pms-discount-dot"> % </span>';
+            $output .= pms_format_price( $item['amount'], $currency ) . '<span class="pms-discount-dot"> % </span>';
 
             $output .= '<div class="pms-bubble">';
                 $output .= '<div><span class="alignleft">' . esc_html__('Discount code', 'paid-member-subscriptions') . '</span><span class="alignright">' . esc_html( $item['discount_code'] ) . '</span></div>';
@@ -545,7 +548,7 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
             $output .= '</span>';
         } else
-            $output = pms_format_price( $item['amount'], pms_get_active_currency() );
+            $output = pms_format_price( $item['amount'], $currency );
 
         return apply_filters( 'pms_payments_list_table_column_amount', $output, $item );
 

@@ -1273,22 +1273,25 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
 
 }
 
+function pms_init_subscription_plans_cpt() {
 
-/*
- * Initialize the subscription custom post type
- *
- */
+    /*
+    * Initialize the subscription custom post type
+    *
+    */
 
-$args = array(
-    'show_ui'            => true,
-    'show_in_menu'       => 'paid-member-subscriptions',
-    'query_var'          => true,
-    'capability_type'    => 'post',
-    'menu_position'      => null,
-    'supports'           => array( 'title' ),
-    'hierarchical'		 => true
-);
+    $args = array(
+        'show_ui'            => true,
+        'show_in_menu'       => 'paid-member-subscriptions',
+        'query_var'          => true,
+        'capability_type'    => 'post',
+        'menu_position'      => null,
+        'supports'           => array( 'title' ),
+        'hierarchical'		 => true
+    );
 
-$pms_cpt_subscribtion = new PMS_Custom_Post_Type_Subscription( 'pms-subscription', esc_html__( 'Subscription Plan', 'paid-member-subscriptions' ), esc_html__( 'Subscription Plans', 'paid-member-subscriptions' ), $args );
-$pms_cpt_subscribtion->init();
+    $pms_cpt_subscribtion = new PMS_Custom_Post_Type_Subscription( 'pms-subscription', esc_html__( 'Subscription Plan', 'paid-member-subscriptions' ), esc_html__( 'Subscription Plans', 'paid-member-subscriptions' ), $args );
+    $pms_cpt_subscribtion->init();
 
+}
+add_action( 'init', 'pms_init_subscription_plans_cpt', 1 );

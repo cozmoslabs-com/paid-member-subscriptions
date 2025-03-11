@@ -1396,6 +1396,7 @@
 <?php __("Currency", "paid-member-subscriptions"); ?>
 <?php __("This discount code is not available.", "paid-member-subscriptions"); ?>
 <?php __("The selected currency is not supported by PayPal, and conversion rates for this currency are unavailable. <br> Please reach out to the website administrator for further information.", "paid-member-subscriptions"); ?>
+<?php __("Some amounts could not be converted because the conversion rates are missing, and there is no active converter available.", "paid-member-subscriptions"); ?>
 <?php __("Converter limit reached or unsupported Extra Currencies selected.", "paid-member-subscriptions"); ?>
 <?php __("Select subscription plan", "paid-member-subscriptions"); ?>
 <?php __("Subscription plan", "paid-member-subscriptions"); ?>
@@ -1485,7 +1486,7 @@
 <?php __("Provided to:", "paid-member-subscriptions"); ?>
 <?php __("Amount (%s)", "paid-member-subscriptions"); ?>
 <?php __("Subtotal: %s", "paid-member-subscriptions"); ?>
-<?php __("Discount code ( %s ): %s", "paid-member-subscriptions"); ?>
+<?php __("Discount code (%s): %s", "paid-member-subscriptions"); ?>
 <?php __("%s%% %s: %s", "paid-member-subscriptions"); ?>
 <?php __("Total (%s): %s", "paid-member-subscriptions"); ?>
 <?php __("TAX/VAT", "paid-member-subscriptions"); ?>
@@ -2544,6 +2545,15 @@
 <?php __("Copy this URL and configure it in your Stripe Account. %sClick here%s to learn more about the Webhooks setup process. ", "paid-member-subscriptions"); ?>
 <?php __("Disconnect", "paid-member-subscriptions"); ?>
 <?php __("Disconnecting your account will stop all payments from being processed.", "paid-member-subscriptions"); ?>
+<?php __("Domain Registration", "paid-member-subscriptions"); ?>
+<?php __("Verification status couldn't be determined.", "paid-member-subscriptions"); ?>
+<?php __("The plugin cannot determine the verification status of the current domain. Your domain might already be validated.", "paid-member-subscriptions"); ?>
+<?php __("To verify this, go to the %sStripe Dashboard -> Settings -> Payments -> Payment Method Domains%s and look for the current domain, it should be displayed as %sEnabled%s.", "paid-member-subscriptions"); ?>
+<?php __("Dismiss notice", "paid-member-subscriptions"); ?>
+<?php __("Current domain is not verified.", "paid-member-subscriptions"); ?>
+<?php __("This domain is not registered with %sStripe%s. In order to enable payment gateways like %sApple Pay, Google Pay or Link%s in your payment forms, your domain needs to be registered and verified.", "paid-member-subscriptions"); ?>
+<?php __("Press the button below to register and validate the current domain.", "paid-member-subscriptions"); ?>
+<?php __("Register domain", "paid-member-subscriptions"); ?>
 <?php __("Uploaded file is not valid json!", "paid-member-subscriptions"); ?>
 <?php __("Import successfully!", "paid-member-subscriptions"); ?>
 <?php __("Page will refresh in 3 seconds...", "paid-member-subscriptions"); ?>

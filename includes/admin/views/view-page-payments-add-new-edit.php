@@ -138,8 +138,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             <!-- Payment Amount -->
             <?php
-            $currency_symbol = apply_filters( 'pms_add_new_edit_payment_currency_symbol', pms_get_currency_symbol( pms_get_active_currency() ), $payment_id );
-            
+
+            $currency = ( isset( $payment ) && !empty( $payment->currency ) ) ? $payment->currency : pms_get_active_currency();
+            $currency_symbol = apply_filters( 'pms_add_new_edit_payment_currency_symbol', pms_get_currency_symbol( $currency ), $payment_id );
+
             if ( $action == 'edit_payment' )
                 $amount = $payment->amount;
             else

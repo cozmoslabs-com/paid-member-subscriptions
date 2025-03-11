@@ -554,5 +554,10 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
 }
 
-$pms_submenu_page_payments = new PMS_Submenu_Page_Payments( 'paid-member-subscriptions', esc_html__( 'Payments', 'paid-member-subscriptions' ), esc_html__( 'Payments', 'paid-member-subscriptions' ), 'manage_options', 'pms-payments-page', 20, '', 'pms_payments_per_page' );
-$pms_submenu_page_payments->init();
+function pms_init_payments_page() {
+
+    $pms_submenu_page_payments = new PMS_Submenu_Page_Payments( 'paid-member-subscriptions', esc_html__( 'Payments', 'paid-member-subscriptions' ), esc_html__( 'Payments', 'paid-member-subscriptions' ), 'manage_options', 'pms-payments-page', 20, '', 'pms_payments_per_page' );
+    $pms_submenu_page_payments->init();
+
+}
+add_action( 'init', 'pms_init_payments_page', 9 );

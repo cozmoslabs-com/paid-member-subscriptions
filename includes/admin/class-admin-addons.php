@@ -90,5 +90,10 @@ Class PMS_Submenu_Page_Addons extends PMS_Submenu_Page {
 
 }
 
-$pms_submenu_page_addons = new PMS_Submenu_Page_Addons( 'paid-member-subscriptions', __( 'Add-ons', 'paid-member-subscriptions' ), __( 'Add-ons', 'paid-member-subscriptions' ), 'manage_options', 'pms-addons-page', 30, '' );
-$pms_submenu_page_addons->init();
+function pms_init_addons_page() {
+
+    $pms_submenu_page_addons = new PMS_Submenu_Page_Addons( 'paid-member-subscriptions', __( 'Add-ons', 'paid-member-subscriptions' ), __( 'Add-ons', 'paid-member-subscriptions' ), 'manage_options', 'pms-addons-page', 30, '' );
+    $pms_submenu_page_addons->init();
+
+}
+add_action( 'init', 'pms_init_addons_page', 9 );

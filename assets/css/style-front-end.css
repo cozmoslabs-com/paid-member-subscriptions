@@ -410,6 +410,7 @@ form.pms-form ul.pms-form-fields-wrapper {
     margin-right: 7px;
 }
 
+.pms-form .pms-gdpr-field label,
 .pms-subscription-plan-auto-renew label {
     display: flex;
     align-items: center;
@@ -420,7 +421,7 @@ form.pms-form ul.pms-form-fields-wrapper {
 
 .pms-subscription-plan-auto-renew label input[type="checkbox"],
 .wppb-form-field.wppb-subscription-plans .pms-subscription-plan-auto-renew label input[type="checkbox"] {
-    margin: 0px !important;
+    margin: 0 !important;
     margin-right: 4px !important;
 }
 

@@ -18,12 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     // Calculate monthly income
     $month_income = 0;
     foreach( $month_payments as $payment )
-        $month_income += $payment->amount;
+        $month_income += apply_filters( 'pms_wp_dashboard_current_month_payment_amount', $payment->amount, $payment );
 
     // Calculate today's income
     $today_income = 0;
     foreach( $today_payments as $payment )
-        $today_income += $payment->amount;
+        $today_income += apply_filters( 'pms_wp_dashboard_today_payment_amount', $payment->amount, $payment );
 
 ?>
 

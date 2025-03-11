@@ -76,5 +76,11 @@ Class PMS_Submenu_Page_Uninstall extends PMS_Submenu_Page {
 
 }
 
-$pms_submenu_page_uninstall = new PMS_Submenu_Page_Uninstall( '', __( 'Uninstall', 'paid-member-subscriptions' ), __( 'Uninstall', 'paid-member-subscriptions' ), 'manage_options', 'pms-uninstall-page', 9);
-$pms_submenu_page_uninstall->init();
+function pms_init_uninstall_page() {
+
+    $pms_submenu_page_uninstall = new PMS_Submenu_Page_Uninstall( '', __( 'Uninstall', 'paid-member-subscriptions' ), __( 'Uninstall', 'paid-member-subscriptions' ), 'manage_options', 'pms-uninstall-page', 9);
+    $pms_submenu_page_uninstall->init();
+
+}
+add_action( 'init', 'pms_init_uninstall_page', 9 );
+

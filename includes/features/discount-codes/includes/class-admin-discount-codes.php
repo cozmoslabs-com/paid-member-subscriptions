@@ -365,21 +365,27 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
 
     }
 
-    /*
-     * Initialize the Discount Codes custom post type
-     *
-     */
+    function pms_init_discount_codes_cpt() {
 
-    $args = array(
-        'show_ui'         => true,
-        'show_in_menu'    => 'paid-member-subscriptions',
-        'query_var'       => true,
-        'capability_type' => 'post',
-        'menu_position'   => null,
-        'supports'        => array('title'),
-        'hierarchical'    => true
-    );
+        /*
+        * Initialize the Discount Codes custom post type
+        *
+        */
 
-    $pms_cpt_discount_codes = new PMS_IN_Custom_Post_Type_Discount_Codes('pms-discount-codes', __('Discount Code', 'paid-member-subscriptions'), __('Discount Codes', 'paid-member-subscriptions'), $args);
-    $pms_cpt_discount_codes->init();
+        $args = array(
+            'show_ui'         => true,
+            'show_in_menu'    => 'paid-member-subscriptions',
+            'query_var'       => true,
+            'capability_type' => 'post',
+            'menu_position'   => null,
+            'supports'        => array('title'),
+            'hierarchical'    => true
+        );
+
+        $pms_cpt_discount_codes = new PMS_IN_Custom_Post_Type_Discount_Codes('pms-discount-codes', __('Discount Code', 'paid-member-subscriptions'), __('Discount Codes', 'paid-member-subscriptions'), $args);
+        $pms_cpt_discount_codes->init();
+    
+    }
+    add_action( 'init', 'pms_init_discount_codes_cpt', 1 );
+    
 }

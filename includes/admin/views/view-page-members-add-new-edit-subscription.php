@@ -386,8 +386,10 @@ if( ! empty( $_POST ) ) {
 
                                     $billing_amount = pms_in_calculate_discounted_amount( $billing_amount, $discount );
                                 }
+
+                                $currency = pms_get_member_subscription_meta( $member_subscription->id, 'currency', true );
                             ?>
-                                <span class="readonly medium"><strong><?php echo !empty( $billing_amount ) ? esc_html( pms_format_price( $billing_amount, apply_filters( 'pms_edit_subscription_billing_next_payment_currency', '', $form_data ) ) ) : ''; ?></strong></span>
+                                <span class="readonly medium"><strong><?php echo !empty( $billing_amount ) ? esc_html( pms_format_price( $billing_amount, apply_filters( 'pms_edit_subscription_billing_next_payment_currency', $currency, $form_data ) ) ) : ''; ?></strong></span>
                                 <?php echo esc_html_x( 'on', 'This is part of a payment amount: 100$ on 12/10/2025', 'paid-member-subscriptions' ); ?>
                             <?php endif; ?>
                             

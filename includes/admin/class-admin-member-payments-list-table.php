@@ -110,10 +110,11 @@ Class PMS_Member_Payments_List_Table extends WP_List_Table {
         foreach( $payments as $payment ) {
 
             $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
+            $payment_currency = !empty( $payment->currency ) ? $payment->currency : pms_get_active_currency();
 
             $data[] = apply_filters( 'pms_member_payments_list_table_entry_data', array(
                 'subscription_plan' => $subscription_plan->name,
-                'amount'            => pms_get_currency_symbol( pms_get_active_currency() ) . $payment->amount,
+                'amount'            => pms_format_price( $payment->amount, pms_get_currency_symbol( $payment_currency ) ),
                 'date'              => apply_filters('pms_match_date_format_to_wp_settings', ucfirst( date_i18n( 'F d, Y H:i:s', strtotime( $payment->date ) + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) ), true),
                 'status'            => ucfirst( $payment->status ),
                 'actions'           => $payment->id

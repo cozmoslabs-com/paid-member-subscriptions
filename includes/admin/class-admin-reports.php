@@ -1552,7 +1552,12 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
 }
 
-global $pms_submenu_page_reports;
+function pms_init_reports_page() {
 
-$pms_submenu_page_reports = new PMS_Submenu_Page_Reports( 'paid-member-subscriptions', __( 'Reports', 'paid-member-subscriptions' ), __( 'Reports', 'paid-member-subscriptions' ), 'manage_options', 'pms-reports-page', 20 );
-$pms_submenu_page_reports->init();
+    global $pms_submenu_page_reports;
+
+    $pms_submenu_page_reports = new PMS_Submenu_Page_Reports( 'paid-member-subscriptions', __( 'Reports', 'paid-member-subscriptions' ), __( 'Reports', 'paid-member-subscriptions' ), 'manage_options', 'pms-reports-page', 20 );
+    $pms_submenu_page_reports->init();
+
+}
+add_action( 'init', 'pms_init_reports_page', 9 );

@@ -287,5 +287,13 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
 
 }
 
-$pms_submenu_page_basic_info = new PMS_Submenu_Page_Import( 'paid-member-subscriptions', esc_html__( 'Import Data', 'paid-member-subscriptions' ), esc_html__( 'Import Data', 'paid-member-subscriptions' ), 'manage_options', 'pms-import-page', 9);
-$pms_submenu_page_basic_info->init();
+function pms_init_import_page() {
+
+    $pms_submenu_page_import = new PMS_Submenu_Page_Import( 'paid-member-subscriptions', esc_html__( 'Import Data', 'paid-member-subscriptions' ), esc_html__( 'Import Data', 'paid-member-subscriptions' ), 'manage_options', 'pms-import-page', 9);
+    $pms_submenu_page_import->init();
+
+}
+add_action( 'init', 'pms_init_import_page', 9 );
+
+
+

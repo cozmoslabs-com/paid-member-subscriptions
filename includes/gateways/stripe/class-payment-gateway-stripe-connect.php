@@ -548,7 +548,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     'payment_method'      => $this->stripe_token,
                     'customer'            => $this->customer_id,
                     'amount'              => $payment->amount,
-                    'currency'            => $this->currency,
+                    'currency'            => !empty( $payment->currency ) ? $payment->currency : $this->currency,
                     'confirmation_method' => 'manual',
                     'confirm'             => true,
                     'description'         => $this->subscription_plan->name,
@@ -2265,8 +2265,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         // set API key
         $stripe = new \Stripe\StripeClient( $this->secret_key );
 
-        if( empty( $stripe->paymentMethodDomains ) )
-            return false;
+        if( is_null( $stripe->paymentMethodDomains ) )
+            return [ 'status' => false, 'message' => 'could_not_verify_domain' ];
 
         // get domains
         try {
@@ -2275,24 +2275,23 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         } catch ( Exception $e ) {
 
-            return false;
+            return [ 'status' => false, 'message' => 'could_not_verify_domain' ];
 
         }
-
-        if( empty( $domains ) )
-            return false;
 
         $current_domain = false;
         $home_url       = home_url();
 
         // verify if domain exists
-        foreach( $domains as $domain ) {
+        if( !empty( $domains ) ) {
+            foreach( $domains as $domain ) {
 
-            if ( !empty( $home_url ) && $domain->domain_name === $home_url ){
-                $current_domain = $domain;
-                break;
+                if ( !empty( $home_url ) && $domain->domain_name === $home_url ){
+                    $current_domain = $domain;
+                    break;
+                }
+
             }
-
         }
 
         if( empty( $current_domain ) ){
@@ -2307,7 +2306,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( $current_domain->enabled == true )
             return true;
 
-        return false;
+        return [ 'status' => false, 'message' => 'domain_not_verified' ];
 
     }
 
@@ -2322,6 +2321,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         // Stripe expects a base url here without a path, so for multisite with subdirectories for example, we need to remove the directory
         $target_url = wp_parse_url( home_url() );
         $target_url = $target_url['scheme'] . '://' . $target_url['host'];
+
+        if( is_null( $stripe->paymentMethodDomains ) )
+            return false;
 
         try {
 

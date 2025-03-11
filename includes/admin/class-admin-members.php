@@ -947,5 +947,10 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
 }
 
-$pms_submenu_page_members = new PMS_Submenu_Page_Members( 'paid-member-subscriptions', __( 'Members', 'paid-member-subscriptions' ), __( 'Members', 'paid-member-subscriptions' ), 'manage_options', 'pms-members-page', 10, '', 'pms_members_per_page' );
-$pms_submenu_page_members->init();
+function pms_init_members_page() {
+
+    $pms_submenu_page_members = new PMS_Submenu_Page_Members( 'paid-member-subscriptions', __( 'Members', 'paid-member-subscriptions' ), __( 'Members', 'paid-member-subscriptions' ), 'manage_options', 'pms-members-page', 10, '', 'pms_members_per_page' );
+    $pms_submenu_page_members->init();    
+
+}
+add_action( 'init', 'pms_init_members_page', 9 );

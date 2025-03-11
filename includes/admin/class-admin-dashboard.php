@@ -216,7 +216,7 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
 
             foreach( $payments as $payment ) {
                 if( !empty( $payment->amount ) )
-                    $data['earnings'] = $data['earnings'] + $payment->amount;
+                    $data['earnings'] += apply_filters( 'pms_dashboard_selected_period_earnings_amount', $payment->amount, $payment );
             }
 
             $data['earnings'] = pms_format_price( $data['earnings'] );
@@ -282,16 +282,15 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
     }
 
     public static function get_all_time_earnings(){
+        $payments = pms_get_payments( array( 'status' => 'completed', 'number' => -1 ) );
+        $total = 0;
 
-        global $wpdb;
+        foreach( $payments as $payment ){
+            if( !empty( $payment->amount ) )
+                $total += apply_filters( 'pms_dashboard_total_earnings_amount', $payment->amount, $payment );
+        }
 
-        $result = $wpdb->get_var( $wpdb->prepare( "SELECT SUM(amount) AS total FROM {$wpdb->prefix}pms_payments WHERE status = %s", 'completed' ) );
-    
-        if( !empty( $result ) )
-            return (int)$result;
-    
-        return 0;
-
+        return (int)$total;
     }
 
     public function get_plan_name( $subscription_plan_id ){
@@ -305,12 +304,17 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
 
 }
 
-global $pms_submenu_page_dashboard;
+function pms_init_dashboard_page() {
 
-if( isset( $_GET['subpage'] ) && $_GET['subpage'] == 'pms-setup' )
-    $page_title = __( 'Setup Wizard', 'paid-member-subscriptions' );
-else
-    $page_title = __( 'Dashboard', 'paid-member-subscriptions' );
+    global $pms_submenu_page_dashboard;
 
-$pms_submenu_page_dashboard = new PMS_Submenu_Page_Dashboard( 'paid-member-subscriptions', $page_title, $page_title, 'manage_options', 'pms-dashboard-page', 5 );
-$pms_submenu_page_dashboard->init();
+    if( isset( $_GET['subpage'] ) && $_GET['subpage'] == 'pms-setup' )
+        $page_title = __( 'Setup Wizard', 'paid-member-subscriptions' );
+    else
+        $page_title = __( 'Dashboard', 'paid-member-subscriptions' );
+    
+    $pms_submenu_page_dashboard = new PMS_Submenu_Page_Dashboard( 'paid-member-subscriptions', $page_title, $page_title, 'manage_options', 'pms-dashboard-page', 5 );
+    $pms_submenu_page_dashboard->init();
+
+}
+add_action( 'init', 'pms_init_dashboard_page', 9 );

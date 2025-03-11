@@ -73,8 +73,6 @@ jQuery( function( $ ) {
     var subscription_plan_selector = 'input[name=subscription_plans]'
     var pms_checked_subscription   = $( subscription_plan_selector + '[type=radio]' ).length > 0 ? $( subscription_plan_selector + '[type=radio]:checked' ) : $( subscription_plan_selector + '[type=hidden]' )
 
-
-
     // Update Stripe Payment Intent on subscription plan change
     $(document).on('click', subscription_plan_selector, function ( event ) {
 
@@ -406,6 +404,10 @@ jQuery( function( $ ) {
             jQuery('#pms-stripe-payment-elements').show()
             jQuery( '.pms-spinner__holder' ).hide()
 
+            if( typeof paymentSidebarPosition == 'function' ){
+                paymentSidebarPosition()
+            }
+
         }
 
     }
@@ -416,8 +418,11 @@ jQuery( function( $ ) {
             return
 
         // Don't make this call when a Free Trial subscription is selected since we use the prepared SetupIntent
-        if ( pms_stripe_is_setup_intents_checkout() )
+        if ( pms_stripe_is_setup_intents_checkout() || $( '#pms-update-payment-method-form' ).length > 0 )
             return
+
+        jQuery('#pms-stripe-payment-elements').hide()
+        jQuery( '.pms-spinner__holder' ).show()
 
         var submitButton = $('.pms-form .pms-form-submit, .pms-form input[type="submit"], .pms-form button[type="submit"], .wppb-register-user input[type="submit"], .wppb-register-user button[type="submit"]').not('#pms-apply-discount, .login-submit #wp-submit')
 
@@ -439,7 +444,12 @@ jQuery( function( $ ) {
 
             if ( response.status == 'requires_payment_method' ) {
                 elements.fetchUpdates().then( function(elements_response){
-                    //console.log(elements_response)
+                    jQuery('#pms-stripe-payment-elements').show()
+                    jQuery( '.pms-spinner__holder' ).hide()
+
+                    if( typeof paymentSidebarPosition == 'function' ){
+                        paymentSidebarPosition()
+                    }
                 })
             }
 

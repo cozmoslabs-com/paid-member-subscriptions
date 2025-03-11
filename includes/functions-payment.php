@@ -547,6 +547,9 @@ function pms_get_payment_type_name( $payment_type_slug ) {
  */
 function pms_cron_process_member_subscriptions_payments() {
 
+    if( defined( 'PMS_DEV_ENVIRONMENT' ) && PMS_DEV_ENVIRONMENT === true )
+        return;
+
     if( pms_website_was_previously_initialized() )
         return false;
 
@@ -575,6 +578,7 @@ function pms_cron_process_member_subscriptions_payments() {
 
             $payment_gateway = pms_get_payment_gateway( $subscription->payment_gateway );
             $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+            $subscription_currency = pms_get_member_subscription_meta( $subscription->id, 'currency', true );
 
             if( ! method_exists( $payment_gateway, 'process_payment' ) )
                 continue;
@@ -590,7 +594,7 @@ function pms_cron_process_member_subscriptions_payments() {
                     'date'                   => date( 'Y-m-d H:i:s' ),
                     'amount'                 => ( isset( $payment_gateway->payment_gateway ) && $payment_gateway->payment_gateway == 'manual' && ( $subscription->billing_amount == 0 || $subscription_plan->has_sign_up_fee() ) ) ? $subscription_plan->price : $subscription->billing_amount,
                     'payment_gateway'        => $subscription->payment_gateway,
-                    'currency'               => pms_get_active_currency(),
+                    'currency'               => !empty( $subscription_currency ) ? $subscription_currency : pms_get_active_currency(),
                     'status'                 => 'pending',
                     'type'                   => 'subscription_recurring_payment',
                     'member_subscription_id' => $subscription->id

@@ -306,6 +306,20 @@ jQuery( function($) {
         // Start the cleanup process
         processCleanup();
     });
+
+    $(document).on('click', '.pms-stripe-connect__disconnect-handler', function (e) {
+
+        e.preventDefault()
+
+        var pmsStripeDisconnectPrompt = prompt('Are you sure you want to disconnect this website from Stripe? Payments will not be processed anymore. \nPlease type DISCONNECT in order to remove the Stripe connection:')
+
+        if ( pmsStripeDisconnectPrompt === "DISCONNECT" )
+            window.location.replace(jQuery(e.target).attr("href"))
+        else
+            return false
+
+    })
+
 });
 
 

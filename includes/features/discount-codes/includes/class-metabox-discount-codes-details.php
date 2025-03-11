@@ -285,7 +285,13 @@ if ( class_exists('PMS_Meta_Box') ){
 
     } // end class PMS_IN_Discount_Codes_Meta_Box
 
-    $pms_meta_box_discount_code_details = new PMS_IN_Discount_Codes_Meta_Box( 'pms_discount_codes', __( 'Discount Code Details', 'paid-member-subscriptions' ), 'pms-discount-codes', 'normal' );
-    $pms_meta_box_discount_code_details->init();
+
+    function pms_init_discount_code_details_meta_box() {
+
+        $pms_meta_box_discount_code_details = new PMS_IN_Discount_Codes_Meta_Box( 'pms_discount_codes', __( 'Discount Code Details', 'paid-member-subscriptions' ), 'pms-discount-codes', 'normal' );
+        $pms_meta_box_discount_code_details->init();
+    
+    }
+    add_action( 'init', 'pms_init_discount_code_details_meta_box', 2 );
 
 } // end class_exists

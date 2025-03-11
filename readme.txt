@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.14.2
+Stable tag: 2.14.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -259,6 +259,17 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.14.3 =
+* Fix: Don't disconnect Stripe account on certain errors
+* Fix: Account disconnected notice not disappearing when the account was connected again
+* Fix: Disconnect button not showing a popup to confirm in some cases
+* Fix: Show the loading indicator for the Stripe form while the checkout is getting updated
+* Fix: Don't throw errors if the already loaded Stripe library is missing some newer functionality regarding payment method domains
+* Fix: Display some informative messages on the Gateways settings page when the plugin couldn't automatically register the domain for Apple Pay and Google Pay
+* Fix: Issue with notice about translation triggered too early appearing from the plugin
+* Misc: Added a new column 'subscription_plan_base_price' when exporting members
+* Misc: Dashboard Payment Summary widget is now taking into account Multiple Currencies
+
 = 2.14.2 =
 * Enhancement: Added possibility to filter the Payments List based on different criteria like Subscription Plan, Payment Type, Payment Gateway, Date
 * Enhancement: Added a link to the related subscription for each Payment on the Payments List Table and Single Payment View

@@ -183,5 +183,10 @@ Class PMS_Submenu_Page_Export extends PMS_Submenu_Page {
 
 }
 
-$pms_submenu_page_basic_info = new PMS_Submenu_Page_Export( 'paid-member-subscriptions', esc_html__( 'Export Data', 'paid-member-subscriptions' ), esc_html__( 'Export Data', 'paid-member-subscriptions' ), 'manage_options', 'pms-export-page', 9);
-$pms_submenu_page_basic_info->init();
+function pms_init_export_page() {
+
+    $pms_submenu_page_basic_info = new PMS_Submenu_Page_Export( 'paid-member-subscriptions', esc_html__( 'Export Data', 'paid-member-subscriptions' ), esc_html__( 'Export Data', 'paid-member-subscriptions' ), 'manage_options', 'pms-export-page', 9);
+    $pms_submenu_page_basic_info->init();
+
+}
+add_action( 'init', 'pms_init_export_page', 9 );

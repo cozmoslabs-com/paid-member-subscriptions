@@ -177,5 +177,11 @@ Class PMS_IN_Custom_Post_Type_Discount_Codes_Bulk_Add extends PMS_Submenu_Page {
 
 }
 
-$pms_submenu_page_basic_info = new PMS_IN_Custom_Post_Type_Discount_Codes_Bulk_Add( 'paid-member-subscriptions', esc_html__( 'Bulk Import Discount Codes', 'paid-member-subscriptions' ), esc_html__( 'Bulk Import Discount Codes', 'paid-member-subscriptions' ), 'manage_options', 'pms-discount-codes-bulk-add', 9);
-$pms_submenu_page_basic_info->init();
+function pms_init_discount_codes_bulk_add_page() {
+
+    $pms_submenu_page_bulk_add_discounts = new PMS_IN_Custom_Post_Type_Discount_Codes_Bulk_Add( 'paid-member-subscriptions', esc_html__( 'Bulk Import Discount Codes', 'paid-member-subscriptions' ), esc_html__( 'Bulk Import Discount Codes', 'paid-member-subscriptions' ), 'manage_options', 'pms-discount-codes-bulk-add', 9);
+    $pms_submenu_page_bulk_add_discounts->init();
+
+}
+add_action( 'init', 'pms_init_discount_codes_bulk_add_page', 9 );
+

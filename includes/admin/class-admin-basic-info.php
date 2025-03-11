@@ -41,5 +41,11 @@ Class PMS_Submenu_Page_Basic_Info extends PMS_Submenu_Page {
 
 }
 
-$pms_submenu_page_basic_info = new PMS_Submenu_Page_Basic_Info( 'paid-member-subscriptions', __( 'Basic Information', 'paid-member-subscriptions' ), __( 'Basic Information', 'paid-member-subscriptions' ), 'manage_options', 'pms-basic-info-page', 9);
-$pms_submenu_page_basic_info->init();
+function pms_init_basic_info_page() {
+
+    $pms_submenu_page_basic_info = new PMS_Submenu_Page_Basic_Info( 'paid-member-subscriptions', __( 'Basic Information', 'paid-member-subscriptions' ), __( 'Basic Information', 'paid-member-subscriptions' ), 'manage_options', 'pms-basic-info-page', 9);
+    $pms_submenu_page_basic_info->init();
+
+}
+add_action( 'init', 'pms_init_basic_info_page', 12 );
+
