@@ -25,6 +25,8 @@ You can also use it to setup an [Elementor membership site](https://www.cozmosla
 
 [Free Demo](https://pms-demo.cozmoslabs.com/) | [Compare Free vs Pro](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/) | [Documentation](https://www.cozmoslabs.com/docs/paid-member-subscriptions/)
 
+https://www.youtube.com/watch?v=yMGAFlWxFW0&start=0&autoplay=1
+
 == Optimize Membership Monetization And Boost Your Revenue ==
 
 Offer premium access and exclusive benefits for members, establishing a thriving paid community that generates income through membership fees or subscription plans. This is ideal for:
@@ -216,19 +218,24 @@ You can also restrict [Gutenberg blocks](https://www.cozmoslabs.com/docs/paid-me
 
 = Can I customize the registration form? =
 
-Yes, the registration form can be customized using [Profile Builder](https://wordpress.org/plugins/profile-builder/). You can change the order of the form fields, remove fields that aren't required and also add extra fields to the form like Inputs, Checkboxes, Selects, Radio buttons, and more. [Learn More](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree)
+Yes, the registration form can be customized using [Profile Builder](https://wordpress.org/plugins/profile-builder/). 
+You can change the order of the form fields, remove fields that aren't required and also add extra fields to the form like Inputs, Checkboxes, Selects, Radio buttons, and more. [Learn More](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree)
 
 = Can I ask users to confirm their Email Address before they can register and pay? =
 
 Yes, this is possible through [Profile Builder](https://www.cozmoslabs.com/wordpress-profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) as well using its [Email Confirmation feature](https://www.cozmoslabs.com/14722-wordpress-email-confirmation/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree). In this case, the payment will happen after the user has clicked the link he received in the confirmation email after registering. [Learn more](https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/profile-builder/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree#Email_Confirmation)
 
-= Can my members pay using a credit card ? =
+= Can my members pay using a credit card? =
 
 Yes! Users can pay with a credit or debit card without leaving your website through the Stripe payment gateway.
 
 Through Stripe you can also access additional payment gateways like iDeal, Bancontact, Giropay and more.
 
-You can also enable Apple Pay and Google Pay.
+= Can my members pay using Apple Pay or Google Pay? =
+
+Users can pay using Apple Pay and Google Pay by using the Stripe payment gateway and enabling these Payment Methods. [Learn More](https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Apple_Pay_and_Google_Pay?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree)
+
+Revolut Pay or Alipay can also be used, alongside the Stripe specific Link payment method.
 
 = Where can I find out more information? =
 
@@ -541,103 +548,5 @@ For more information please check out [Paid Member Subscriptions documentation](
 * Fix: Issue with serial number detection on certain multisite WordPress setups
 * Misc: Disable auto hide discount codes box functionality when the website has too many discount codes defined
 * Misc: Display future subscription billing amount when viewing a subscription in the back-end
-
-= 2.10.10 =
-* Fix: Don't show Cancel subscription button for Unlimited subscriptions
-* Fix: An issue where there expiration date wasn't correctly set when a 100% discount code was used
-* Fix: Issue with Profile Builder form not being validated properly when Stripe was used
-* Fix: Issue with Sign-up fees being added to every Stripe recurring payment
-* Fix: Issue with free trial subscriptions that also had a sign-up fee not being properly activated through Stripe
-* Fix: Register form sidebar issue when it was placed alongside a login form on the same page
-* Misc: Added a shortcode that can be used to get a member count: [pms-count-members plan_id="" status=""]
-* Misc: Enable support for the Stripe Elements Appearance API. Rules can be added through the: pms_stripe_connect_elements_styling filter
-* Misc: Correct display for Payment Logs View Details modal
-* Misc: Added a new initial recommended step: Create Pricing Page
-
-= 2.10.9 =
-* Feature: Added Divi Modules that can be used to create the pages with the plugin shortcodes
-* Fix: Issue with form location when validating Discount Codes request
-* Fix: Issue with doing it wrong notice relating to Gutenberg Content Restriction blocks
-* Fix: When using Stripe make sure usual URL parameters are retained when redirecting to the Register Success Page
-* Fix: Use site_url() when determining the location to return the admin when a Stripe connect account request is made
-* Fix: Issue with the Automatically Generate Password for users feature from Profile Builder when using Stripe
-* Misc: Hide Lost Connection notice from the plugin custom post type pages
-* Misc: Updated Stripe PHP bindings to the latest version
-* Misc: Added click to copy functionality for shortcodes displayed on the back-end pages
-* Misc: Fix javascript custom post types error showing in back-end
-
-= 2.10.8 =
-* Feature: Added default form styling for block themes
-* Fix: Issue between Content Restriction and Gutenberg Blocks which was causing them to not load in back-end
-* Fix: Issue with Sign-up fee not being taken into consideration by tax breakdown on the Profile Builder form
-* Fix: A notice coming from the Gutenberg integration
-* Fix: Issue with Pricing Tables generation
-* Fix: Javascript error coming from the Subscription Purchase Link generator option from Gutenberg
-* Fix: Use the price of a subscription plan from the website when creating the initial payment intent
-* Fix: Stripe issue with future payment amount when a zero decimal currency was used
-* Misc: Stripe Copy Webhook URL button now works again
-* Misc: Added a filter over the Stripe redirect URL when an error happens: pms_stripe_error_redirect_url
-* Misc: Settings pages width improvements
-
-= 2.10.7 =
-* Fix: Incompatibility issue with older versions of the paid plugin
-
-= 2.10.6 =
-* Feature: Added the ability to customize the Password Reset Email
-* Fix: Added compatibility for the Profile Builder form and Stripe payment methods that redirect the user off site for completion
-* Fix: Issue with Link Popup not showing inside the Email or Content Restriction fields
-* Fix: Some issues with the subscription expiration date tag for Profile Builder
-* Misc: Small styling changes for Setup Wizard page
-* Misc: Added options to see This or Last Year data for the Dashboard stats widget
-* Misc: Fix a Stripe issue when trying to update metadata
-* Misc: More improvements to the settings pages
-
-= 2.10.5 = 
-* Feature: Added Password Strength and Length functionalities. Activate them from the Settings -> Misc page
-* Fix: Issue with Stripe Extra fields not showing in some cases
-* Fix: Stripe issue when a 100% discount code is used
-* Fix: Security issue when an admin was manually adding logs
-* Misc: Hide data saved in the PayPal API credential fields
-* Misc: Added a filter that can be used to set the language of the Stripe Payment Element: pms_stripe_elements_locale
-
-= 2.10.4 =
-* Feature: Added the option to Bulk Import Discount Codes through a .csv file
-* Fix: Declare WooCommerce HPOS compatibility
-* Fix: Show correct price in the 3D Secure Authentication window when a plan has sign-up fees and the Profile Builder form is used
-* Misc: Fix some notices coming from the Export page and functionality
-* Misc: Small improvements to the Dashboard page for free users
-
-= 2.10.3 =
-* Feature: Content Restriction for Gutenberg Blocks. You can now restrict any block based on subscription plans
-* Fix: Retry payment button wasn't showing when a subscription plan price was 0 but it had a sign-up fee
-* Fix: A notice triggering from the WooCommerce Discounts functionality in some cases
-* Fix: For PayPal Standard memberships with Free Trial where IPNs were not processed correctly in some cases
-* Fix: License activation messages when site limit is reached
-* Fix: Small corrections and more polishing for the new back-end styles
-* Misc: Filter account page base URL so you can make the shortcode work on multiple pages: pms_member_account_page_link
-
-= 2.10.2 =
-* Feature: Updated Setup Wizard to a more modern interface
-* Feature: New main plugin page `Dashboard` which serves as a quick plugin overview
-* Fix: A notice appearing in some cases when localizing data for Gutenberg assets
-* Fix: A notice appearing on PHP 8.2
-* Fix: Issue with the Expiration Date tag for Profile Builder Userlisting where it wasn't returning the correct date in a case
-* Fix: Small fixes for the settings interfaces
-
-= 2.10.1 =
-* Feature: Added a simple Pricing Page creation interface on the Subscription Plans page
-* Feature: Allow non-recurring Stripe payment methods to appear when recurring payments are disabled in settings
-* Fix: issue with Bulk Add Members filter by role not working when user role key was different than 0
-* Fix: warning appearing in some cases from the Redirect functionality from Content Restriction
-* Fix: some warnings relating to PHP 8.2
-* Fix: issue with Activate Subscription email not being sent when changing subscription
-* Fix: issue with expiration date being broken for unlimited subscription when adding a new manual payment
-
-= 2.10.0 = 
-* Fix: Issue with Stripe Connect and change/upgrade subscription
-* Fix: Small issue with the Dashboard Payments Widget not showing the full payments amount
-* Fix: Correct display issue for the expiration date of canceled PayPal subscriptions
-* Fix: Improve behaviour for WooCommerce Product Membership Discounts when the website has a lot of products defined
-* Misc: Added some information about a users subscriptions on the Edit User page
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.
