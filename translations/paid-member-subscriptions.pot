@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-11 09:13+0000\n"
+"POT-Creation-Date: 2025-03-24 09:03+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Get Support"
 msgstr ""
 
-#: includes/class-billing-details.php:40, includes/class-billing-details.php:89, add-ons-pro/invoices/includes/functions-form-extra-fields.php:53, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:159, add-ons-pro/tax/includes/class-tax-extra-fields.php:232, extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:104, add-ons-pro/stripe/includes/views/view-billing-cc-form.php:74
+#: includes/class-billing-details.php:40, includes/class-billing-details.php:89, add-ons-pro/invoices/includes/functions-form-extra-fields.php:53, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:159, add-ons-pro/tax/includes/class-tax-extra-fields.php:232, extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:117, add-ons-pro/stripe/includes/views/view-billing-cc-form.php:74
 msgid "Billing Details"
 msgstr ""
 
@@ -400,7 +400,7 @@ msgstr ""
 msgid "Please select a subscription plan."
 msgstr ""
 
-#: includes/class-form-handler.php:316, includes/admin/class-admin-members.php:880, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:94, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:323
+#: includes/class-form-handler.php:316, includes/admin/class-admin-members.php:887, includes/admin/class-admin-payments-log-list-table.php:241, add-ons-pro/stripe/includes/functions-filters.php:94, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:325
 msgid "Something went wrong."
 msgstr ""
 
@@ -585,7 +585,7 @@ msgstr ""
 msgid "If you enjoy using <strong> %1$s </strong> please <a href=\"%2$s\" target=\"_blank\">rate us on WordPress.org</a>. More happy users means more features, less bugs and better support for everyone. "
 msgstr ""
 
-#: includes/class-shortcodes.php:85, includes/class-shortcodes.php:644, includes/functions-core.php:287, add-ons-pro/stripe/includes/functions-filters.php:138, add-ons-pro/group-memberships/includes/views/view-invite-members.php:8
+#: includes/class-shortcodes.php:85, includes/class-shortcodes.php:644, includes/functions-core.php:287, add-ons-pro/stripe/includes/functions-filters.php:138, add-ons-pro/group-memberships/includes/views/view-invite-members.php:8, add-ons-pro/group-memberships/includes/admin/views/view-page-members-group-details.php:80
 msgid "SUCCESS! "
 msgstr ""
 
@@ -2741,8 +2741,12 @@ msgstr ""
 msgid "Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version."
 msgstr ""
 
-#: add-ons-pro/group-memberships/index.php:122, add-ons-pro/group-memberships/index.php:144
+#: add-ons-pro/group-memberships/index.php:122, add-ons-pro/group-memberships/index.php:145
 msgid "Are you sure you want to remove this member ?"
+msgstr ""
+
+#: add-ons-pro/group-memberships/index.php:123
+msgid "Invalid user or user already a member of this group."
 msgstr ""
 
 #: add-ons-pro/multiple-currencies/multiple-currencies-activator.php:35
@@ -3235,7 +3239,7 @@ msgstr ""
 msgid "Export Data"
 msgstr ""
 
-#: includes/admin/class-admin-import.php:40, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:484
+#: includes/admin/class-admin-import.php:40, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:502
 msgid "Something went wrong!"
 msgstr ""
 
@@ -3259,7 +3263,7 @@ msgstr ""
 msgid "No payments found"
 msgstr ""
 
-#: includes/admin/class-admin-member-subscription-list-table.php:69, includes/admin/class-admin-reports.php:629, includes/admin/functions-user.php:38, includes/admin/views/view-page-export.php:219, includes/admin/views/view-page-members-add-new-edit-subscription.php:212, includes/views/shortcodes/view-shortcode-account-subscription-details.php:46, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:51, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:56, includes/features/discount-codes/includes/class-admin-discount-codes.php:124, includes/features/discount-codes/views/view-meta-box-discount-codes.php:118
+#: includes/admin/class-admin-member-subscription-list-table.php:69, includes/admin/class-admin-reports.php:629, includes/admin/functions-user.php:39, includes/admin/views/view-page-export.php:219, includes/admin/views/view-page-members-add-new-edit-subscription.php:212, includes/views/shortcodes/view-shortcode-account-subscription-details.php:46, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:51, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:56, includes/features/discount-codes/includes/class-admin-discount-codes.php:124, includes/features/discount-codes/views/view-meta-box-discount-codes.php:118
 msgid "Start Date"
 msgstr ""
 
@@ -3315,7 +3319,7 @@ msgstr ""
 msgid "Select Subscription Status..."
 msgstr ""
 
-#: includes/admin/class-admin-members-add-new-bulk-list-table.php:177, includes/admin/functions-user.php:52, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:145, includes/admin/views/view-page-members-add-new-edit-subscription.php:247, includes/views/shortcodes/view-shortcode-account-subscription-details.php:57, add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:41, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:63, includes/features/discount-codes/includes/class-admin-discount-codes.php:125, includes/features/discount-codes/views/view-meta-box-discount-codes.php:129
+#: includes/admin/class-admin-members-add-new-bulk-list-table.php:177, includes/admin/functions-user.php:53, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:145, includes/admin/views/view-page-members-add-new-edit-subscription.php:247, includes/views/shortcodes/view-shortcode-account-subscription-details.php:57, add-ons-basic/fixed-period-membership/includes/admin/functions-admin-pages.php:41, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:63, includes/features/discount-codes/includes/class-admin-discount-codes.php:125, includes/features/discount-codes/views/view-meta-box-discount-codes.php:129
 msgid "Expiration Date"
 msgstr ""
 
@@ -3355,7 +3359,7 @@ msgstr ""
 msgid "Abandoned subscriptions"
 msgstr ""
 
-#: includes/admin/class-admin-members-list-table.php:488, includes/admin/class-admin-payments-list-table.php:468, includes/admin/class-admin-payments-list-table.php:494, includes/admin/functions-user.php:92, includes/admin/functions-user.php:92, includes/admin/views/view-page-members-edit.php:20, includes/admin/views/view-page-payments-add-new-edit.php:98, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:237
+#: includes/admin/class-admin-members-list-table.php:488, includes/admin/class-admin-payments-list-table.php:468, includes/admin/class-admin-payments-list-table.php:494, includes/admin/functions-user.php:93, includes/admin/functions-user.php:93, includes/admin/views/view-page-members-edit.php:20, includes/admin/views/view-page-payments-add-new-edit.php:98, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:242
 msgid "Edit Member"
 msgstr ""
 
@@ -3443,183 +3447,183 @@ msgstr ""
 msgid "The expiration date needs to be less than the current date."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:720
+#: includes/admin/class-admin-members.php:727
 msgid "Subscription canceled by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:723
+#: includes/admin/class-admin-members.php:730
 msgid "Subscription initiated by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:726
+#: includes/admin/class-admin-members.php:733
 msgid "Subscription abandoned by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:733
+#: includes/admin/class-admin-members.php:740
 msgid "Subscription activated successfully."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:731
+#: includes/admin/class-admin-members.php:738
 msgid "Subscription activated until <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:737
+#: includes/admin/class-admin-members.php:744
 msgid "Subscription expired."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:744
+#: includes/admin/class-admin-members.php:751
 msgid "Subscription renewed by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:742
+#: includes/admin/class-admin-members.php:749
 msgid "Subscription renewed until <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:748
+#: includes/admin/class-admin-members.php:755
 msgid "Subscription renewed automatically."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:751
+#: includes/admin/class-admin-members.php:758
 msgid "Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:759, includes/admin/class-admin-members.php:755
+#: includes/admin/class-admin-members.php:766, includes/admin/class-admin-members.php:762
 msgid "Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>. Payment will be retried in %s days."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:763
+#: includes/admin/class-admin-members.php:770
 msgid "Subscription could not be renewed. Payment retry was disabled."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:766
+#: includes/admin/class-admin-members.php:773
 msgid "User attempted to upgrade his subscription plan to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:769
+#: includes/admin/class-admin-members.php:776
 msgid "User attempted to downgrade his subscription plan to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:772
+#: includes/admin/class-admin-members.php:779
 msgid "User attempted to change his subscription plan to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:775
+#: includes/admin/class-admin-members.php:782
 msgid "User attempted to retry the payment for his subscription."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:778
+#: includes/admin/class-admin-members.php:785
 msgid "Subscription successfully upgraded from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:781
+#: includes/admin/class-admin-members.php:788
 msgid "Subscription successfully downgraded from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:784
+#: includes/admin/class-admin-members.php:791
 msgid "Subscription successfully changed from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:787
+#: includes/admin/class-admin-members.php:794
 msgid "Subscription trial started until <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:790
+#: includes/admin/class-admin-members.php:797
 msgid "Subscription trial ended."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:793
+#: includes/admin/class-admin-members.php:800
 msgid "Payment method for the subscription updated by user."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:806
+#: includes/admin/class-admin-members.php:813
 msgid "%s changed <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:804
+#: includes/admin/class-admin-members.php:811
 msgid "%s changed <strong>%s</strong> from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:810
+#: includes/admin/class-admin-members.php:817
 msgid "Subscription activated successfully (by admin, manual offline)"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:813
+#: includes/admin/class-admin-members.php:820
 msgid "Subscription initiated by %s."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:816
+#: includes/admin/class-admin-members.php:823
 msgid "Subscription initiated by %s (bulk)."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:819
+#: includes/admin/class-admin-members.php:826
 msgid "Subscription initiated by %s (payment)."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:825
+#: includes/admin/class-admin-members.php:832
 msgid "The subscription was renewed by the admin using the manual/offline gateway."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:828
+#: includes/admin/class-admin-members.php:835
 msgid "Subscription canceled because user was deleted by <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:831
+#: includes/admin/class-admin-members.php:838
 msgid "Subscription canceled by gateway."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:834
+#: includes/admin/class-admin-members.php:841
 msgid "Payment gateway was changed from <strong>%s</strong> to <strong>%s</strong>."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:837
+#: includes/admin/class-admin-members.php:844
 msgid "Subscription <strong>activated</strong> successfully by WooCommerce [Order #%s] until <strong>%s</strong>"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:840
+#: includes/admin/class-admin-members.php:847
 msgid "Subscription <strong>expired</strong> because WooCommerce <strong>Subscription #%s</strong> was canceled. "
 msgstr ""
 
-#: includes/admin/class-admin-members.php:843
+#: includes/admin/class-admin-members.php:850
 msgid "<strong>Status</strong> changed from <strong>%s</strong> to <strong>%s</strong> by WooCommerce [Order #%s]."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:846
+#: includes/admin/class-admin-members.php:853
 msgid "<strong>Status</strong> set to <strong>%s</strong> by WooCommerce [Order #%s]."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:849
+#: includes/admin/class-admin-members.php:856
 msgid "<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce [Order #%s]."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:852
+#: includes/admin/class-admin-members.php:859
 msgid "Your <strong>Subscription Plan</strong> has been %s to <strong>%s</strong>  by WooCommerce [Order #%s]."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:855
+#: includes/admin/class-admin-members.php:862
 msgid "<strong>Expiration date</strong> updated to <strong>%s</strong> by WooCommerce recurring payment process [Order #%s]."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:858
+#: includes/admin/class-admin-members.php:865
 msgid "Next <strong>Scheduled Payment date</strong> updated to <strong>%s</strong> by the recurring payment process"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:861
+#: includes/admin/class-admin-members.php:868
 msgid "Subscription initiated by WooCommerce [Order #%s]"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:864
+#: includes/admin/class-admin-members.php:871
 msgid "The <strong>Trial Period</strong> for this Subscription has already been used."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:869
+#: includes/admin/class-admin-members.php:876
 msgid "Subscription created through an import done by %s."
 msgstr ""
 
-#: includes/admin/class-admin-members.php:876
+#: includes/admin/class-admin-members.php:883
 msgid "Subscription updated through an import done by %s. The following keys were updated: %s"
 msgstr ""
 
-#: includes/admin/class-admin-members.php:952, includes/admin/class-admin-members.php:952, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:103, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:14, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
+#: includes/admin/class-admin-members.php:959, includes/admin/class-admin-members.php:959, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:131, includes/admin/views/view-page-basic-info.php:103, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:14, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:49, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:37
 msgid "Members"
 msgstr ""
 
@@ -4375,35 +4379,35 @@ msgstr ""
 msgid "Group Memberships are available only with a %1$sPro%2$s or %1$sAgency%2$s license. %3$sBuy now%4$s"
 msgstr ""
 
-#: includes/admin/functions-admin.php:638, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:110
+#: includes/admin/functions-admin.php:638, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:112
 msgid "Subscription Type"
 msgstr ""
 
-#: includes/admin/functions-admin.php:642, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:100
+#: includes/admin/functions-admin.php:642, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:102
 msgid "Regular"
 msgstr ""
 
-#: includes/admin/functions-admin.php:643, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:101, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:130, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:198
+#: includes/admin/functions-admin.php:643, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:103, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:132, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:200
 msgid "Group"
 msgstr ""
 
-#: includes/admin/functions-admin.php:647, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:120
+#: includes/admin/functions-admin.php:647, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:122
 msgid "Please select the type for this subscription plan."
 msgstr ""
 
-#: includes/admin/functions-user.php:33
+#: includes/admin/functions-user.php:34
 msgid "Plan Name"
 msgstr ""
 
-#: includes/admin/functions-user.php:70, includes/views/shortcodes/view-shortcode-account-subscription-details.php:55
+#: includes/admin/functions-user.php:71, includes/views/shortcodes/view-shortcode-account-subscription-details.php:55
 msgid "Next Payment Date"
 msgstr ""
 
-#: includes/admin/functions-user.php:80
+#: includes/admin/functions-user.php:81
 msgid "Auto Renewal"
 msgstr ""
 
-#: includes/admin/functions-user.php:81
+#: includes/admin/functions-user.php:82
 msgid "On"
 msgstr ""
 
@@ -4411,15 +4415,15 @@ msgstr ""
 msgid "User does not have any subscriptions."
 msgstr ""
 
-#: includes/admin/functions-user.php:124, includes/admin/functions-user.php:114, includes/admin/views/view-page-settings-misc.php:16
+#: includes/admin/functions-user.php:125, includes/admin/functions-user.php:115, includes/admin/views/view-page-settings-misc.php:16
 msgid "GDPR"
 msgstr ""
 
-#: includes/admin/functions-user.php:125
+#: includes/admin/functions-user.php:126
 msgid "Not Agreed"
 msgstr ""
 
-#: includes/admin/functions-user.php:115
+#: includes/admin/functions-user.php:116
 msgid "Agreed on "
 msgstr ""
 
@@ -4675,7 +4679,7 @@ msgstr ""
 msgid "Taxonomy"
 msgstr ""
 
-#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:220, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:227, add-ons-pro/group-memberships/includes/class-group-memberships.php:1154, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:273
+#: add-ons-basic/global-content-restriction/includes/class-meta-box-subscription-plan-content-restriction.php:220, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:227, add-ons-pro/group-memberships/includes/class-group-memberships.php:1154, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:291
 msgid "Remove"
 msgstr ""
 
@@ -5171,7 +5175,7 @@ msgid "%s Group Dashboard"
 msgstr ""
 
 #: add-ons-pro/group-memberships/includes/class-group-memberships.php:264
-msgid "Registration page not selected. Contact administrator."
+msgid "Members could not be invited. Registration page not selected. Contact administrator."
 msgstr ""
 
 #: add-ons-pro/group-memberships/includes/class-group-memberships.php:364, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:204, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:152, add-ons-pro/stripe/includes/class-payment-gateway-stripe-legacy.php:158, extend/profile-builder/front-end/subscription-plans-field.php:140
@@ -5179,12 +5183,12 @@ msgid "Something went wrong. Please try again."
 msgstr ""
 
 #: add-ons-pro/group-memberships/includes/class-group-memberships.php:362
-msgid "%d member invited successfully !"
+msgid "%d member invited successfully!"
 msgid_plural "%d members invited successfully !"
 msgstr[0] ""
 msgstr[1] ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:386, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:339
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:386, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:341
 msgid "Group name cannot be empty."
 msgstr ""
 
@@ -5204,19 +5208,19 @@ msgstr ""
 msgid "Add Your Group Details"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:524, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:493, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:17
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:524, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:509, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:17
 msgid "Group Name *"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:532, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:499, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:25
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:532, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:515, add-ons-pro/group-memberships/includes/views/view-edit-group-details.php:25
 msgid "Group Description"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:554, add-ons-pro/group-memberships/includes/class-group-memberships.php:579, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:529
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:554, add-ons-pro/group-memberships/includes/class-group-memberships.php:579, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:545
 msgid "The group name you chose is already registered. Please enter another one."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:552, add-ons-pro/group-memberships/includes/class-group-memberships.php:577, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:524
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:552, add-ons-pro/group-memberships/includes/class-group-memberships.php:577, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:540
 msgid "Please enter a group name."
 msgstr ""
 
@@ -5232,7 +5236,7 @@ msgstr ""
 msgid "Member invitation removed succesfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:905, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:412, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:404, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:395
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:905, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:428, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:420, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:411
 msgid "Member removed successfully !"
 msgstr ""
 
@@ -5244,7 +5248,7 @@ msgstr ""
 msgid "Invitation sent successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:1159, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:243
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:1159, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:253
 msgid "Resend Invite"
 msgstr ""
 
@@ -5292,7 +5296,7 @@ msgstr ""
 msgid "Payments & Invoices"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:93, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:299, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:529, includes/admin/views/view-page-addons.php:91, includes/admin/views/view-page-basic-info.php:387
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:93, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:299, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:547, includes/admin/views/view-page-addons.php:91, includes/admin/views/view-page-basic-info.php:387
 msgid "Multiple Currencies"
 msgstr ""
 
@@ -5388,171 +5392,175 @@ msgstr ""
 msgid "PayPal Restricted Currencies"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:358
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:375
 msgid "First define some extra currencies above and save the settings in order to setup these currencies."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:363
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:368
+msgid "NOTE: Missing conversion rates for %1$s %2$s. Either no converter is enabled, or the selected converter doesn't support the %2$s."
+msgstr ""
+
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:381
 msgid "Certain currencies cannot be accepted through PayPal due to Merchant Restrictions. %sView PayPal supported currencies%s"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:369
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:387
 msgid "Select which Extra Currency cannot be received in PayPal. Payments will convert to the default currency before processing, as long as an active currency Converter is available to support the conversion."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:373
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:391
 msgid "Currency Switcher"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:380
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:398
 msgid "Enable the Manual Currency Switcher."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:385
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:403
 msgid "User Location"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:392
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:410
 msgid "Detect user location."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:395
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:413
 msgid "Show prices according to the user's location."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:399
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:417
 msgid "Auto Convert Prices"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:406
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:424
 msgid "Automatically convert Subscription Plan prices"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:408
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:426
 msgid "Automatically convert prices when a Subscription Plan price is not set for the required currency."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:414
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:432
 msgid "Currency Conversion"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:418
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:436
 msgid "Converter"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:422
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:440
 msgid "Select Converter..."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:423
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:441
 msgid "Exchange Converter"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:424
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:442
 msgid "Frankfurter Converter"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:425
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:443
 msgid "Alpha Vantage"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:429
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:447
 msgid "Choose your preferred Converter."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:430
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:448
 msgid "To get your API key, visit <a href=\"https://app.exchangerate-api.com\" target=\"_blank\">Exchange Converter</a> and follow the steps provided."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:431
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:449
 msgid "To get your API key, visit <a href=\"https://www.alphavantage.co/support/#api-key\" target=\"_blank\">Alpha Vantage</a> and follow the easy steps provided."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:436, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:442
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:454, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:460
 msgid "API Key"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:438
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:456
 msgid "Enter the API key provided by the Exchange Converter."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:444
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:462
 msgid "Enter the API key provided by the Alpha Vantage Converter."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:448
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:466
 msgid "Update Interval"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:452
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:470
 msgid "1 hour"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:453
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:471
 msgid "6 hours"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:454
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:472
 msgid "12 hours"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:455
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:473
 msgid "24 hours"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:459
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:477
 msgid "Specify how often the conversion rates should be updated."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:460
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:478
 msgid "Before setting the interval, make sure to check how often the selected Converter updates the rates to avoid making unnecessary requests."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:471
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:489
 msgid "Conversion Rates"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:473
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:491
 msgid "Update Rates"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:476
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:494
 msgid "Updated: "
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:480
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:498
 msgid "Update the rates to improve performance and reduce future requests."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:483
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:501
 msgid "Conversion rates updated successfully!"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:494
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:512
 msgid "Currency Labels"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:495
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:513
 msgid "Define custom labels or symbols for any additional currencies in use."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:554
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:572
 msgid "Checkout currency switched to <strong>%s</strong> based on the automatically detected user location and the user selected currency."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:557
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:575
 msgid "Extra currency price of <strong>%s</strong> converted to <strong>%s</strong>."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:589
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:607
 msgid "Currency availability"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:609
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:627
 msgid "Choose the currencies for which the discount code will be valid. If none selected, the code will apply to all."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:794
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:812
 msgid "Other Currencies"
 msgstr ""
 
@@ -6056,7 +6064,7 @@ msgstr ""
 msgid "After login"
 msgstr ""
 
-#: extend/elementor/widgets/class-widget-product-purchase-restricted-message.php:24, extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:62
+#: extend/elementor/widgets/class-widget-product-purchase-restricted-message.php:24, extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:75
 msgid "Product Messages"
 msgstr ""
 
@@ -6288,47 +6296,55 @@ msgstr ""
 msgid "Customize your Discount Badge Message"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:67
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:56
+msgid "Exclude restricted products from queries"
+msgstr ""
+
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:64
+msgid "By default, restricted products are included in queries. This option allows you to exclude restricted products from WooCommerce queries like the [products] shortcode or default Category or Shop queries."
+msgstr ""
+
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:80
 msgid "Product Discounted - Membership Required"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:68
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:81
 msgid "Want a discount? Become a member, sign up for a subscription plan."
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:69
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:82
 msgid "Message displayed to non-members if the product has a membership discount. Displays below add to cart buttons. Leave blank to disable."
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:79, includes/admin/views/view-page-basic-info.php:190
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:92, includes/admin/views/view-page-basic-info.php:190
 msgid "Product Memberships"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:84
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:97
 msgid "Activate product subscriptions"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:92
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:105
 msgid "By enabling this option we will activate the <strong>Subscription Plan</strong> Tab."
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:95
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:108
 msgid "To link a Subscription Plan to a Product go to: <strong>Administration Panel</strong> --> <strong>Products</strong>."
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:96
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:109
 msgid "<strong>Edit</strong> an existing product or click on <strong>Add New</strong> to add a new product."
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:97
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:110
 msgid "After you are redirected to your product options, scroll down to <strong>Product data</strong> Section and click on <strong>Subscription Plan</strong> Tab."
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:107
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:120
 msgid "Synchronize Billing Details"
 msgstr ""
 
-#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:115
+#: extend/woocommerce/views/view-settings-tab-woocommerce-integration.php:128
 msgid "By enabling this option the PMS Billing Details and WooCommerce Billing Details will be synchronized."
 msgstr ""
 
@@ -8674,7 +8690,7 @@ msgstr ""
 msgid "Select content dripping set status."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:50, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:170
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:50, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:172
 msgid "Seats"
 msgstr ""
 
@@ -8698,75 +8714,75 @@ msgstr ""
 msgid "Registered"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:237
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:242
 msgid "View Member"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:261
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:273
 msgid "No Members in this Group"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:174
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:176
 msgid "The number of additional members, including the owner, that can be added to the subscription."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:259
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:261
 msgid "Group..."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:305
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:307
 msgid "Edit Owner"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:336
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:338
 msgid "Invalid subscriptions."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:342
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:344
 msgid "Group seats cannot be empty."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:345
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:347
 msgid "Group seats needs to be a number"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:348
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:350
 msgid "Available seats needs to be equal or bigger than used seats."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:362
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:364
 msgid "Group subscription details edited successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:559
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:575
 msgid "Group subscriptions can only be added as upgrades to regular plans."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:560
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:576
 msgid "Regular plans cannot be added as upgrades to Group subscription plans."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:561
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:577
 msgid "You need to define the number of seats for this Group Subscription."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:562
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:578
 msgid "Group subscriptions cannot be downgrades to regular plans."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:575
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:591
 msgid "Manage Group"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:607
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:623
 msgid "This is a child subscription that is linked to a Group Owner. You cannot edit this subscription.<br>%sClick here%s to go to the owner's subscription in order to make changes."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:603
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:619
 msgid "This is the subscription of a Group Owner. By editing this subscription, all child subscriptions will be modified as well."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:610
+#: add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:626
 msgid "Group Dashboard"
 msgstr ""
 
@@ -8786,15 +8802,15 @@ msgstr ""
 msgid "Edit Details"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/views/view-invite-members.php:2, add-ons-pro/group-memberships/includes/views/view-invite-members.php:48, add-ons-pro/group-memberships/includes/admin/views/view-admin-invite-new-members.php:33
+#: add-ons-pro/group-memberships/includes/views/view-invite-members.php:2, add-ons-pro/group-memberships/includes/views/view-invite-members.php:48, add-ons-pro/group-memberships/includes/admin/views/view-admin-invite-new-members.php:34
 msgid "Invite Members"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/views/view-invite-members.php:30, add-ons-pro/group-memberships/includes/admin/views/view-admin-invite-new-members.php:14
+#: add-ons-pro/group-memberships/includes/views/view-invite-members.php:30, add-ons-pro/group-memberships/includes/admin/views/view-admin-invite-new-members.php:15
 msgid "You can invite up to %s more members."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/views/view-invite-members.php:37, add-ons-pro/group-memberships/includes/admin/views/view-admin-invite-new-members.php:23
+#: add-ons-pro/group-memberships/includes/views/view-invite-members.php:37, add-ons-pro/group-memberships/includes/admin/views/view-admin-invite-new-members.php:24
 msgid "Email(s) to invite:"
 msgstr ""
 
@@ -10211,19 +10227,35 @@ msgstr ""
 msgid "User(s) to add as members of your Group Subscription:"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/views/view-admin-add-existing-users.php:24
+#: add-ons-pro/group-memberships/includes/admin/views/view-admin-add-existing-users.php:79
+msgid "Enter an username or email below"
+msgstr ""
+
+#: add-ons-pro/group-memberships/includes/admin/views/view-admin-add-existing-users.php:81
+msgid "Enter username or email"
+msgstr ""
+
+#: add-ons-pro/group-memberships/includes/admin/views/view-admin-add-existing-users.php:82
+msgid "Add"
+msgstr ""
+
+#: add-ons-pro/group-memberships/includes/admin/views/view-admin-add-existing-users.php:87
+msgid "Enter the username or email of an existing user, then click on the button to add the user to the list. After selecting the users you want to add, click on the Add Members button to add the selected users to the group."
+msgstr ""
+
+#: add-ons-pro/group-memberships/includes/admin/views/view-admin-add-existing-users.php:30
 msgid "Select users"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/views/view-admin-add-existing-users.php:68
+#: add-ons-pro/group-memberships/includes/admin/views/view-admin-add-existing-users.php:76
 msgid "Click in the box above to select the users you want to add."
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/views/view-admin-add-existing-users.php:75
+#: add-ons-pro/group-memberships/includes/admin/views/view-admin-add-existing-users.php:96
 msgid "Add Members"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/views/view-admin-invite-new-members.php:28
+#: add-ons-pro/group-memberships/includes/admin/views/view-admin-invite-new-members.php:29
 msgid "Enter a comma separated list or a different email on each line."
 msgstr ""
 
@@ -10235,19 +10267,19 @@ msgstr ""
 msgid "Add New Members"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/views/view-page-members-group-details.php:91
+#: add-ons-pro/group-memberships/includes/admin/views/view-page-members-group-details.php:102
 msgid "Change Group Owner"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/views/view-page-members-group-details.php:97
+#: add-ons-pro/group-memberships/includes/admin/views/view-page-members-group-details.php:108
 msgid "New Owner"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/views/view-page-members-group-details.php:98
+#: add-ons-pro/group-memberships/includes/admin/views/view-page-members-group-details.php:109
 msgid "Select new owner"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/admin/views/view-page-members-group-details.php:127
+#: add-ons-pro/group-memberships/includes/admin/views/view-page-members-group-details.php:138
 msgid "Change owner"
 msgstr ""
 

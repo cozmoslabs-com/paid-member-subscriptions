@@ -642,7 +642,14 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             die();
         }
 
-        $user = get_user_by( 'login', sanitize_text_field( $_POST['username'] ) );
+        $username = sanitize_text_field( $_POST['username'] );
+
+        if( is_email( $username ) )
+            $type = 'email';
+        else
+            $type = 'login';
+
+        $user = get_user_by( $type, $username );
 
         if( !empty( $user->ID ) ){
             echo esc_html( $user->ID );

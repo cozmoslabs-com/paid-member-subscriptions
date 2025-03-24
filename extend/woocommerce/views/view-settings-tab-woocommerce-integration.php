@@ -52,6 +52,19 @@
             <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Customize your Discount Badge Message', 'paid-member-subscriptions' ); ?></p>
         </div>
 
+        <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+            <label class="cozmoslabs-form-field-label" for="woocommerce-exclude-products-from-queries"><?php esc_html_e( 'Exclude restricted products from queries', 'paid-member-subscriptions' ) ?></label>
+
+            <div class="cozmoslabs-toggle-container">
+                <input type="checkbox" id="woocommerce-exclude-products-from-queries" name="pms_woocommerce_settings[exclude_products_from_queries]" value="1" <?php echo ( isset( $options['exclude_products_from_queries'] ) ? checked($options['exclude_products_from_queries'], '1', false) : '' ); ?> />
+                <label class="cozmoslabs-toggle-track" for="woocommerce-exclude-products-from-queries"></label>
+            </div>
+
+            <div class="cozmoslabs-toggle-description">
+                <label for="woocommerce-exclude-on-sale" class="cozmoslabs-description"><?php esc_html_e( 'By default, restricted products are included in queries. This option allows you to exclude restricted products from WooCommerce queries like the [products] shortcode or default Category or Shop queries.', 'paid-member-subscriptions' ); ?></label>
+            </div>
+        </div>
+
         <?php do_action( 'pms-settings-page_woocommerce_products_after_content', $options ); ?>
 
     </div>

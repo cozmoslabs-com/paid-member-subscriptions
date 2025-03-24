@@ -484,7 +484,7 @@ body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-f
     align-items: center;
 }
 
-.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen, #restricted_file_types_chosen, #scripts_on_specific_pages_chosen, #extra_currency_chosen, #restricted_currency_chosen ) .chosen-choices .search-field {
+.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen, #restricted_file_types_chosen, #scripts_on_specific_pages_chosen, #extra_currency_chosen, #restricted_currency_chosen, #non_group_member_users_chosen ) .chosen-choices .search-field {
     display: none;
 }
 

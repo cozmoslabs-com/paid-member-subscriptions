@@ -684,6 +684,7 @@
 <?php __('The Nginx web server needs to be restarted for the new File Restriction rules to take effect. %1$sLearn more%2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this member ?", "paid-member-subscriptions"); ?>
+<?php __("Invalid user or user already a member of this group.", "paid-member-subscriptions"); ?>
 <?php __("The Multiple Currencies Add-On is not compatible with the Pro-Rate Add-On. To use Multiple Currencies, please deactivate the Pro-Rate Add-On.", "paid-member-subscriptions"); ?>
 <?php __("The version of Paid Member Subscriptions you are using is not compatible with the Multiple Currencies add-on. Please update Paid Member Subscriptions to version 2.13.5 or higher.", "paid-member-subscriptions"); ?>
 <?php __("Every 6 Hours", "paid-member-subscriptions"); ?>
@@ -1296,9 +1297,9 @@
 <?php __("<p>Hello,</p> <p>{{owner_email}} has invited you to join {{site_name}}.</p> <p>Click on the following link in order to register: {{invite_link}}</p>", "paid-member-subscriptions"); ?>
 <?php __("Go Back", "paid-member-subscriptions"); ?>
 <?php __("%s Group Dashboard", "paid-member-subscriptions"); ?>
-<?php __("Registration page not selected. Contact administrator.", "paid-member-subscriptions"); ?>
+<?php __("Members could not be invited. Registration page not selected. Contact administrator.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. Please try again.", "paid-member-subscriptions"); ?>
-<?php __("%d member invited successfully !", "paid-member-subscriptions"); ?>
+<?php __("%d member invited successfully!", "paid-member-subscriptions"); ?>
 <?php __("%d members invited successfully !", "paid-member-subscriptions"); ?>
 <?php __("Group name cannot be empty.", "paid-member-subscriptions"); ?>
 <?php __("You were invited to join this website by <strong>%s</strong>.", "paid-member-subscriptions"); ?>
@@ -1352,6 +1353,7 @@
 <?php __("Choose any additional currencies you would like to use, apart from the default one.", "paid-member-subscriptions"); ?>
 <?php __("PayPal Restricted Currencies", "paid-member-subscriptions"); ?>
 <?php __("First define some extra currencies above and save the settings in order to setup these currencies.", "paid-member-subscriptions"); ?>
+<?php __('NOTE: Missing conversion rates for %1$s %2$s. Either no converter is enabled, or the selected converter doesn\'t support the %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Certain currencies cannot be accepted through PayPal due to Merchant Restrictions. %sView PayPal supported currencies%s", "paid-member-subscriptions"); ?>
 <?php __("Select which Extra Currency cannot be received in PayPal. Payments will convert to the default currency before processing, as long as an active currency Converter is available to support the conversion.", "paid-member-subscriptions"); ?>
 <?php __("Currency Switcher", "paid-member-subscriptions"); ?>
@@ -1576,6 +1578,8 @@
 <?php __("Discount Badge Text", "paid-member-subscriptions"); ?>
 <?php __("Member Discount!", "paid-member-subscriptions"); ?>
 <?php __("Customize your Discount Badge Message", "paid-member-subscriptions"); ?>
+<?php __("Exclude restricted products from queries", "paid-member-subscriptions"); ?>
+<?php __("By default, restricted products are included in queries. This option allows you to exclude restricted products from WooCommerce queries like the [products] shortcode or default Category or Shop queries.", "paid-member-subscriptions"); ?>
 <?php __("Product Discounted - Membership Required", "paid-member-subscriptions"); ?>
 <?php __("Want a discount? Become a member, sign up for a subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Message displayed to non-members if the product has a membership discount. Displays below add to cart buttons. Leave blank to disable.", "paid-member-subscriptions"); ?>
@@ -2562,6 +2566,10 @@
 <?php __("Click the BACK button on your browser, and try again.", "paid-member-subscriptions"); ?>
 <?php __("You can add up to %s more members.", "paid-member-subscriptions"); ?>
 <?php __("User(s) to add as members of your Group Subscription:", "paid-member-subscriptions"); ?>
+<?php __("Enter an username or email below", "paid-member-subscriptions"); ?>
+<?php __("Enter username or email", "paid-member-subscriptions"); ?>
+<?php __("Add", "paid-member-subscriptions"); ?>
+<?php __("Enter the username or email of an existing user, then click on the button to add the user to the list. After selecting the users you want to add, click on the Add Members button to add the selected users to the group.", "paid-member-subscriptions"); ?>
 <?php __("Select users", "paid-member-subscriptions"); ?>
 <?php __("Click in the box above to select the users you want to add.", "paid-member-subscriptions"); ?>
 <?php __("Add Members", "paid-member-subscriptions"); ?>

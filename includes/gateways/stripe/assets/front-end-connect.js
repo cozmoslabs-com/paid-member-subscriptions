@@ -405,7 +405,7 @@ jQuery( function( $ ) {
             jQuery( '.pms-spinner__holder' ).hide()
 
             if( typeof paymentSidebarPosition == 'function' ){
-                paymentSidebarPosition()
+                setTimeout( paymentSidebarPosition, 300 )
             }
 
         }
@@ -448,7 +448,7 @@ jQuery( function( $ ) {
                     jQuery( '.pms-spinner__holder' ).hide()
 
                     if( typeof paymentSidebarPosition == 'function' ){
-                        paymentSidebarPosition()
+                        setTimeout( paymentSidebarPosition, 300 )
                     }
                 })
             }

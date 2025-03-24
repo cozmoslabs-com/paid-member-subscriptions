@@ -24,6 +24,7 @@ function pms_display_subscriptions_details( $user ){
 
     } else {
 
+        $date_format = get_option('date_format');
         foreach ( $subscriptions as $subscription ){
 
             $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
@@ -40,7 +41,7 @@ function pms_display_subscriptions_details( $user ){
                     <?php
                         if( !empty( $subscription->start_date ) ){
                             $date_time           = new DateTime( $subscription->start_date );
-                            $formated_start_date = $date_time->format( 'd/m/Y' );
+                            $formated_start_date = $date_time->format( $date_format );
     
                             echo esc_html( $formated_start_date );
                         }
@@ -56,7 +57,7 @@ function pms_display_subscriptions_details( $user ){
 
                         if( !empty( $expiration_date ) ){
                             $date_time                = new DateTime( $expiration_date );
-                            $formated_expiration_date = $date_time->format( 'd/m/Y' );
+                            $formated_expiration_date = $date_time->format( $date_format );
 
                             echo esc_html( $formated_expiration_date );
                         }

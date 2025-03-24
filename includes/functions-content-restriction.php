@@ -488,6 +488,11 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
         if( is_admin() || !function_exists('pms_is_post_restricted') )
             return;
 
+        $settings = get_option( 'pms_woocommerce_settings' );
+
+        if( !isset( $settings['exclude_products_from_queries'] ) || $settings['exclude_products_from_queries'] != 1 )
+            return;
+
         if( isset( $query->query_vars['wc_query'] ) && $query->query_vars['wc_query'] == 'product_query' ){
 
             remove_action( 'pre_get_posts', 'pms_exclude_restricted_products_from_woocoommerce_category_queries', 11 );
@@ -528,6 +533,11 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
     add_action( 'woocommerce_shortcode_products_query', 'pmsc_exclude_restricted_products_from_woocoommerce_products_shortcode_queries' );
     function pmsc_exclude_restricted_products_from_woocoommerce_products_shortcode_queries( $query_args ) {
         if( !is_admin() && function_exists('pms_is_post_restricted') ) {
+            $settings = get_option( 'pms_woocommerce_settings' );
+
+            if( !isset( $settings['exclude_products_from_queries'] ) || $settings['exclude_products_from_queries'] != 1 )
+                return;
+
             $posts_per_page = $query_args['posts_per_page'];
 
             $query_args['suppress_filters'] = true;

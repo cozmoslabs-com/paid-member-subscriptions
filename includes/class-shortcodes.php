@@ -718,7 +718,7 @@ Class PMS_Shortcodes {
 
         // Message to replace the content of checks do not match
         if( ! empty( $args['message'] ) )
-            $message = $args['message'];
+            $message = wp_kses_post( $args['message'] );
 
         else {
             $type    = ( is_user_logged_in() ? 'non_members' : 'logged_out' );

@@ -107,22 +107,22 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                     </div>
 
                                     <div>
-                                        <select name="pms-filter-end-date" class="pms-filter-select" id="pms-filter-end-date">
+                                        <select name="pms-filter-expiration-date" class="pms-filter-select" id="pms-filter-expiration-date">
                                             <option value=""><?php esc_html_e( 'End Date...', 'paid-member-subscriptions' ); ?></option>
-                                            <option value="today" <?php echo !empty( $_GET['pms-filter-end-date'] ) ? selected( "today", sanitize_text_field( $_GET['pms-filter-end-date'] ), false ) : ''; ?>><?php esc_html_e( 'Today', 'paid-member-subscriptions' ); ?></option>
-                                            <option value="tomorrow" <?php echo !empty( $_GET['pms-filter-end-date'] ) ? selected( "tomorrow", sanitize_text_field( $_GET['pms-filter-end-date'] ), false ) : ''; ?>><?php esc_html_e( 'Tomorrow', 'paid-member-subscriptions' ); ?></option>
-                                            <option value="this_week" <?php echo !empty( $_GET['pms-filter-end-date'] ) ? selected( "this_week", sanitize_text_field( $_GET['pms-filter-end-date'] ), false ) : ''; ?>><?php esc_html_e( 'This Week', 'paid-member-subscriptions' ); ?></option>
-                                            <option value="this_month" <?php echo !empty( $_GET['pms-filter-end-date'] ) ? selected( "this_month", sanitize_text_field( $_GET['pms-filter-end-date'] ), false ) : ''; ?>><?php esc_html_e( 'This Month', 'paid-member-subscriptions' ); ?></option>
-                                            <option value="custom" <?php echo !empty( $_GET['pms-filter-end-date'] ) ? selected( "custom", sanitize_text_field( $_GET['pms-filter-end-date'] ), false ) : ''; ?>><?php esc_html_e( 'Custom', 'paid-member-subscriptions' ); ?></option>
+                                            <option value="today" <?php echo !empty( $_GET['pms-filter-expiration-date'] ) ? selected( "today", sanitize_text_field( $_GET['pms-filter-expiration-date'] ), false ) : ''; ?>><?php esc_html_e( 'Today', 'paid-member-subscriptions' ); ?></option>
+                                            <option value="tomorrow" <?php echo !empty( $_GET['pms-filter-expiration-date'] ) ? selected( "tomorrow", sanitize_text_field( $_GET['pms-filter-expiration-date'] ), false ) : ''; ?>><?php esc_html_e( 'Tomorrow', 'paid-member-subscriptions' ); ?></option>
+                                            <option value="this_week" <?php echo !empty( $_GET['pms-filter-expiration-date'] ) ? selected( "this_week", sanitize_text_field( $_GET['pms-filter-expiration-date'] ), false ) : ''; ?>><?php esc_html_e( 'This Week', 'paid-member-subscriptions' ); ?></option>
+                                            <option value="this_month" <?php echo !empty( $_GET['pms-filter-expiration-date'] ) ? selected( "this_month", sanitize_text_field( $_GET['pms-filter-expiration-date'] ), false ) : ''; ?>><?php esc_html_e( 'This Month', 'paid-member-subscriptions' ); ?></option>
+                                            <option value="custom" <?php echo !empty( $_GET['pms-filter-expiration-date'] ) ? selected( "custom", sanitize_text_field( $_GET['pms-filter-expiration-date'] ), false ) : ''; ?>><?php esc_html_e( 'Custom', 'paid-member-subscriptions' ); ?></option>
                                         </select>
                                     </div>
 
-                                    <div class="cozmoslabs-custom-interval" id="pms-end-date-interval" style="display: none;">
-                                        <label id="pms-label-end-date-beginning" for="pms-datepicker-end-date-beginning"><?php esc_html_e( 'Start of Interval', 'paid-member-subscriptions' ); ?></label>
-                                        <input id="pms-datepicker-end-date-beginning" type="text" name="pms-datepicker-end-date-beginning" class="datepicker" value="<?php echo !empty( $_GET['pms-datepicker-end-date-beginning'] ) ? esc_attr( sanitize_text_field( $_GET['pms-datepicker-end-date-beginning'] ) ) : ''; ?>">
+                                    <div class="cozmoslabs-custom-interval" id="pms-expiration-date-interval" style="display: none;">
+                                        <label id="pms-label-expiration-date-beginning" for="pms-datepicker-expiration-date-beginning"><?php esc_html_e( 'Start of Interval', 'paid-member-subscriptions' ); ?></label>
+                                        <input id="pms-datepicker-expiration-date-beginning" type="text" name="pms-datepicker-expiration-date-beginning" class="datepicker" value="<?php echo !empty( $_GET['pms-datepicker-expiration-date-beginning'] ) ? esc_attr( sanitize_text_field( $_GET['pms-datepicker-expiration-date-beginning'] ) ) : ''; ?>">
 
-                                        <label id="pms-label-end-date-end" for="pms-datepicker-end-date-end"><?php esc_html_e( 'End of Interval', 'paid-member-subscriptions' ); ?></label>
-                                        <input id="pms-datepicker-end-date-end" type="text" name="pms-datepicker-end-date-end" class="datepicker" value="<?php echo !empty( $_GET['pms-datepicker-end-date-end'] ) ? esc_attr( sanitize_text_field( $_GET['pms-datepicker-end-date-end'] ) ) : ''; ?>">
+                                        <label id="pms-label-expiration-date-end" for="pms-datepicker-expiration-date-end"><?php esc_html_e( 'End of Interval', 'paid-member-subscriptions' ); ?></label>
+                                        <input id="pms-datepicker-expiration-date-end" type="text" name="pms-datepicker-expiration-date-end" class="datepicker" value="<?php echo !empty( $_GET['pms-datepicker-expiration-date-end'] ) ? esc_attr( sanitize_text_field( $_GET['pms-datepicker-expiration-date-end'] ) ) : ''; ?>">
                                     </div>
 
                                     <a href="<?php echo esc_url( add_query_arg( array( 'page' => $this->menu_slug ), admin_url( 'admin.php' ) ) ); ?>" style="visibility:hidden;margin-left:auto;" id="pms-filter-clear-filters"><?php esc_html_e( 'Clear Filters', 'paid-member-subscriptions' ); ?></a>

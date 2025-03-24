@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.14.3
+Stable tag: 2.14.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -259,6 +259,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.14.4 =
+* Fix: Security issue with message atribute of the pms-restrict shortcode. Thanks to Muhammad Yudha and Patchstack
+* Fix: Issue with Expiration Date End filters not working on the PMS Members page
+* Misc: Do not exclude restricted products from WooCommerce queries by default. Added an option to enable this functionality from the Settings -> WooCommerce tab
+* Misc: Apply the default WordPress Date Format to the subscription list that is displayed on the back-end Edit User page
+
 = 2.14.3 =
 * Fix: Don't disconnect Stripe account on certain errors
 * Fix: Account disconnected notice not disappearing when the account was connected again
