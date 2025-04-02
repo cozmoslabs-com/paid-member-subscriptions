@@ -18,6 +18,9 @@
 <?php __("Select an option", "paid-member-subscriptions"); ?>
 <?php __("No results match", "paid-member-subscriptions"); ?>
 <?php __("Get Support", "paid-member-subscriptions"); ?>
+<?php __("Congratulations, you have successfully created an account.", "paid-member-subscriptions"); ?>
+<?php __("The account %1s has been successfully created!", "paid-member-subscriptions"); ?>
+<?php __("Before you can access your account %1s, an administrator has to approve it. You will be notified via email.", "paid-member-subscriptions"); ?>
 <?php __("Billing Details", "paid-member-subscriptions"); ?>
 <?php __("Edit", "paid-member-subscriptions"); ?>
 <?php __("Member details saved successfully !", "paid-member-subscriptions"); ?>
@@ -111,7 +114,6 @@
 <?php __("The username and password combination is wrong.", "paid-member-subscriptions"); ?>
 <?php __("The email and password combination is wrong.", "paid-member-subscriptions"); ?>
 <?php __("Both fields are empty.", "paid-member-subscriptions"); ?>
-<?php __("Congratulations, you have successfully created an account.", "paid-member-subscriptions"); ?>
 <?php __('<strong>ERROR</strong>: Cookies are blocked due to unexpected output. For help, please see <a href=\%1$s\>this documentation</a> or try the <a href=\%2$s\>support forums</a>.', 'paid-member-subscriptions' ); ?>
 <?php __("The entered username doesn't exist. Please try again.", "paid-member-subscriptions"); ?>
 <?php __("The entered email wasn't found in our database. Please try again.", "paid-member-subscriptions"); ?>
@@ -726,13 +728,13 @@
 <?php __("Allow only members to have access to courses, lessons and quizzes with Paid Member Subscriptions PRO.", "paid-member-subscriptions"); ?>
 <?php __("Upgrade to PRO", "paid-member-subscriptions"); ?>
 <?php __("Subscribe", "paid-member-subscriptions"); ?>
-<?php __("You will soon be redirected to complete the payment.", "paid-member-subscriptions"); ?>
-<?php __("You are being redirected to PayPal to complete the payment...", "paid-member-subscriptions"); ?>
-<?php __('%1$sClick here%2$s to go now.', 'paid-member-subscriptions' ); ?>
 <?php __("Subscription Name", "paid-member-subscriptions"); ?>
 <?php __("Subscription Status", "paid-member-subscriptions"); ?>
 <?php __("Subscription Start Date", "paid-member-subscriptions"); ?>
 <?php __("Subscription Expiration Date", "paid-member-subscriptions"); ?>
+<?php __("You will soon be redirected to complete the payment.", "paid-member-subscriptions"); ?>
+<?php __("You are being redirected to PayPal to complete the payment...", "paid-member-subscriptions"); ?>
+<?php __('%1$sClick here%2$s to go now.', 'paid-member-subscriptions' ); ?>
 <?php __("Tutor LMS", "paid-member-subscriptions"); ?>
 <?php __("Restriction Settings", "paid-member-subscriptions"); ?>
 <?php __('%1$s Registration Page %2$s is not correctly set or missing. ', 'paid-member-subscriptions' ); ?>
@@ -875,6 +877,7 @@
 <?php __("User attempted to downgrade his subscription plan to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("User attempted to change his subscription plan to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("User attempted to retry the payment for his subscription.", "paid-member-subscriptions"); ?>
+<?php __("User attempted to renew his subscription.", "paid-member-subscriptions"); ?>
 <?php __("Subscription successfully upgraded from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription successfully downgraded from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription successfully changed from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
@@ -903,6 +906,11 @@
 <?php __("The <strong>Trial Period</strong> for this Subscription has already been used.", "paid-member-subscriptions"); ?>
 <?php __("Subscription created through an import done by %s.", "paid-member-subscriptions"); ?>
 <?php __("Subscription updated through an import done by %s. The following keys were updated: %s", "paid-member-subscriptions"); ?>
+<?php __("Payment Token successfully setup with PayPal for this subscription.", "paid-member-subscriptions"); ?>
+<?php __("Payment Token creation failed with PayPal for this subscription.", "paid-member-subscriptions"); ?>
+<?php __("Subscription expired because the payment was refunded in the PayPal Dashboard.", "paid-member-subscriptions"); ?>
+<?php __("Subscription was canceled because the payment token was deleted.", "paid-member-subscriptions"); ?>
+<?php __("Payment token created and assigned to the subscription.", "paid-member-subscriptions"); ?>
 <?php __("Members", "paid-member-subscriptions"); ?>
 <?php __("Delete Payments", "paid-member-subscriptions"); ?>
 <?php __("ID", "paid-member-subscriptions"); ?>
@@ -929,8 +937,8 @@
 <?php __("Changed data", "paid-member-subscriptions"); ?>
 <?php __("Response", "paid-member-subscriptions"); ?>
 <?php __("Old data", "paid-member-subscriptions"); ?>
-<?php __("Payment successfully added. The subscription was also added or updated for the selected user.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete these Payments? \nThis action is irreversible.", "paid-member-subscriptions"); ?>
+<?php __("Payment successfully added. The subscription was also added or updated for the selected user.", "paid-member-subscriptions"); ?>
 <?php __("%d Payment successfully deleted.", "paid-member-subscriptions"); ?>
 <?php __("%d Payments successfully deleted.", "paid-member-subscriptions"); ?>
 <?php __("Payment successfully deleted.", "paid-member-subscriptions"); ?>
@@ -1113,6 +1121,7 @@
 <?php __("Manually collect payments from  Checks, Direct Bank Transfers or in person cash.", "paid-member-subscriptions"); ?>
 <?php __("PayPal", "paid-member-subscriptions"); ?>
 <?php __("PayPal Standard", "paid-member-subscriptions"); ?>
+<?php __("Safe and secure payments handled by PayPal (deprecated).", "paid-member-subscriptions"); ?>
 <?php __("Safe and secure payments handled by PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Credit / Debit Card", "paid-member-subscriptions"); ?>
 <?php __("Connect your existing Stripe Account or create a new one to start accepting payments.", "paid-member-subscriptions"); ?>
@@ -1351,11 +1360,6 @@
 <?php __("Default Currency", "paid-member-subscriptions"); ?>
 <?php __("Extra Currencies", "paid-member-subscriptions"); ?>
 <?php __("Choose any additional currencies you would like to use, apart from the default one.", "paid-member-subscriptions"); ?>
-<?php __("PayPal Restricted Currencies", "paid-member-subscriptions"); ?>
-<?php __("First define some extra currencies above and save the settings in order to setup these currencies.", "paid-member-subscriptions"); ?>
-<?php __('NOTE: Missing conversion rates for %1$s %2$s. Either no converter is enabled, or the selected converter doesn\'t support the %2$s.', 'paid-member-subscriptions' ); ?>
-<?php __("Certain currencies cannot be accepted through PayPal due to Merchant Restrictions. %sView PayPal supported currencies%s", "paid-member-subscriptions"); ?>
-<?php __("Select which Extra Currency cannot be received in PayPal. Payments will convert to the default currency before processing, as long as an active currency Converter is available to support the conversion.", "paid-member-subscriptions"); ?>
 <?php __("Currency Switcher", "paid-member-subscriptions"); ?>
 <?php __("Enable the Manual Currency Switcher.", "paid-member-subscriptions"); ?>
 <?php __("User Location", "paid-member-subscriptions"); ?>
@@ -1388,6 +1392,13 @@
 <?php __("Updated: ", "paid-member-subscriptions"); ?>
 <?php __("Update the rates to improve performance and reduce future requests.", "paid-member-subscriptions"); ?>
 <?php __("Conversion rates updated successfully!", "paid-member-subscriptions"); ?>
+<?php __("Certain currencies cannot be accepted through PayPal due to Merchant Restrictions. %sView PayPal supported currencies%s", "paid-member-subscriptions"); ?>
+<?php __("Unsupported Currencies", "paid-member-subscriptions"); ?>
+<?php __("PayPal doesn’t support these currencies for transactions. Simply remove them from the list to enable their use if support is added later.", "paid-member-subscriptions"); ?>
+<?php __("Converting Currencies", "paid-member-subscriptions"); ?>
+<?php __("First define some extra currencies above and save the settings in order to setup these currencies.", "paid-member-subscriptions"); ?>
+<?php __('NOTE: Missing conversion rates for %1$s %2$s. Either no converter is enabled, or the selected converter doesn\'t support the %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Payments using one of the above currencies will be converted into default currency before processing, as long as an active currency Converter is available to support the conversion.", "paid-member-subscriptions"); ?>
 <?php __("Currency Labels", "paid-member-subscriptions"); ?>
 <?php __("Define custom labels or symbols for any additional currencies in use.", "paid-member-subscriptions"); ?>
 <?php __("Checkout currency switched to <strong>%s</strong> based on the automatically detected user location and the user selected currency.", "paid-member-subscriptions"); ?>
@@ -1420,7 +1431,7 @@
 <?php __("Please enter a valid card number.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a valid card verification value.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a valid card expiration date.", "paid-member-subscriptions"); ?>
-<?php __("Payments using credit cards or customer accounts handled by PayPal.", "paid-member-subscriptions"); ?>
+<?php __("Payments using credit cards or customer accounts handled by PayPal (deprecated).", "paid-member-subscriptions"); ?>
 <?php __("Payments using credit cards directly on your website through PayPal API. .", "paid-member-subscriptions"); ?>
 <?php __("PayPal Recurring Initial Payment", "paid-member-subscriptions"); ?>
 <?php __("PayPal Express - Checkout Payment", "paid-member-subscriptions"); ?>
@@ -1646,8 +1657,8 @@
 <?php __("Automatically generate PDF invoices for each subscription payment using the new Invoices add-on.", "paid-member-subscriptions"); ?>
 <?php __("Multiple Subscriptions Per User", "paid-member-subscriptions"); ?>
 <?php __("Setup multiple subscription level blocks and allow members to sign up for more than one subscription plan (one per block).", "paid-member-subscriptions"); ?>
-<?php __("PayPal Express", "paid-member-subscriptions"); ?>
-<?php __("Accept one-time or recurring payments through PayPal Express.", "paid-member-subscriptions"); ?>
+<?php __("PayPal Express (deprecated)", "paid-member-subscriptions"); ?>
+<?php __("Old PayPal Express implementation not available for new users.", "paid-member-subscriptions"); ?>
 <?php __("Stripe (deprecated)", "paid-member-subscriptions"); ?>
 <?php __("Old Stripe implementation not available for new users.", "paid-member-subscriptions"); ?>
 <?php __("Tax & EU VAT", "paid-member-subscriptions"); ?>
@@ -1706,6 +1717,7 @@
 <?php __("Get Basic Add-ons", "paid-member-subscriptions"); ?>
 <?php __("Activate Basic Add-ons", "paid-member-subscriptions"); ?>
 <?php __("These addons extend your WordPress Membership Plugin and are available with the <a href=\"%s\">PRO version</a> only.", "paid-member-subscriptions"); ?>
+<?php __("PayPal Express", "paid-member-subscriptions"); ?>
 <?php __("Accept one time or recurring payments through PayPal Express Checkout.", "paid-member-subscriptions"); ?>
 <?php __("Accept credit card payments, both one-time and recurring, directly on your website via Stripe.", "paid-member-subscriptions"); ?>
 <?php __("Multiple Subscriptions / User", "paid-member-subscriptions"); ?>
@@ -1727,6 +1739,8 @@
 <?php __("Paid Member Subscriptions comes with an <a href=\"%s\">extensive documentation</a> to assist you.", "paid-member-subscriptions"); ?>
 <?php __("At a glance", "paid-member-subscriptions"); ?>
 <?php __("%s payments are enabled", "paid-member-subscriptions"); ?>
+<?php __("Test", "paid-member-subscriptions"); ?>
+<?php __("Live", "paid-member-subscriptions"); ?>
 <?php __("Active Payment Gateways", "paid-member-subscriptions"); ?>
 <?php __("Setup Progress Review", "paid-member-subscriptions"); ?>
 <?php __("Open the Setup Wizard", "paid-member-subscriptions"); ?>
@@ -1906,8 +1920,6 @@
 <?php __("GDPR Delete Button on Forms", "paid-member-subscriptions"); ?>
 <?php __("Select whether to show a GDPR Delete button on our forms.", "paid-member-subscriptions"); ?>
 <?php __("Other Settings", "paid-member-subscriptions"); ?>
-<?php __("Marketing Optin", "paid-member-subscriptions"); ?>
-<?php __("Opt in to our security and feature updates notifications, and non-sensitive diagnostic tracking.", "paid-member-subscriptions"); ?>
 <?php __("Admin Bar", "paid-member-subscriptions"); ?>
 <?php __("Remove the admin bar from all logged in users except Administrators.", "paid-member-subscriptions"); ?>
 <?php __("Honeypot Field", "paid-member-subscriptions"); ?>
@@ -1922,6 +1934,10 @@
 <?php __("Always show Subscriptions Expiration Date.", "paid-member-subscriptions"); ?>
 <?php __("By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear.", "paid-member-subscriptions"); ?>
 <?php __("You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing.", "paid-member-subscriptions"); ?>
+<?php __("Include inactive subscription plans in the content restriction metabox", "paid-member-subscriptions"); ?>
+<?php __("By default, inactive subscription plans are not included in the content restriction metabox. Check this option to include them and make them available for selection.", "paid-member-subscriptions"); ?>
+<?php __("Marketing Optin", "paid-member-subscriptions"); ?>
+<?php __("Opt in to our security and feature updates notifications, and non-sensitive diagnostic tracking.", "paid-member-subscriptions"); ?>
 <?php __("Enable Password Strength", "paid-member-subscriptions"); ?>
 <?php __("Enable the <strong>Password Strength</strong> functionality in order to choose the strength (very weak, weak, good, strong).", "paid-member-subscriptions"); ?>
 <?php __("Minimum Password Length", "paid-member-subscriptions"); ?>
@@ -1960,7 +1976,7 @@
 <?php __("Maximum number of retries", "paid-member-subscriptions"); ?>
 <?php __("Enter how many retries the payment retry functionality should attempt.", "paid-member-subscriptions"); ?>
 <?php __("Retry Interval", "paid-member-subscriptions"); ?>
-<?php __("Enter the interval between retries for the payment retry functionality.", "paid-member-subscriptions"); ?>
+<?php __("Enter the interval in days between retries for the payment retry functionality.", "paid-member-subscriptions"); ?>
 <?php __("Gateways", "paid-member-subscriptions"); ?>
 <?php __("Test Mode", "paid-member-subscriptions"); ?>
 <?php __("Use with test accounts from your payment processors. <a href=\"%s\">More Details</a>", "paid-member-subscriptions"); ?>
@@ -1984,8 +2000,7 @@
 <?php __("Select renewal type. Allow the customer to opt in or force automatic renewal.", "paid-member-subscriptions"); ?>
 <?php __("Retry Payments", "paid-member-subscriptions"); ?>
 <?php __("If a payment fails, the plugin will try to charge the user again after %s days for %s maximum retries. ", "paid-member-subscriptions"); ?>
-<?php __("Valid for the Stripe and PayPal Express with Reference Transactions payment gateways. ", "paid-member-subscriptions"); ?>
-<?php __("For PayPal Subscriptions, this is happening by default.", "paid-member-subscriptions"); ?>
+<?php __("Valid for the Stripe and PayPal payment gateways. ", "paid-member-subscriptions"); ?>
 <?php __("Change settings from %sSettings -> %sMisc%s -> Payments page%s.", "paid-member-subscriptions"); ?>
 <?php __("Allow Subscription Downgrades", "paid-member-subscriptions"); ?>
 <?php __("Allow members to downgrade their subscription plan to a lower one from the same tier.", "paid-member-subscriptions"); ?>
@@ -2020,6 +2035,19 @@
 <?php __("Thank you for subscribing. The subscription will be activated after the payment is received.", "paid-member-subscriptions"); ?>
 <?php __("The subscription will be activated after the payment is received.", "paid-member-subscriptions"); ?>
 <?php __("Complete Payment", "paid-member-subscriptions"); ?>
+<?php __("The email address of the PayPal account currently used for billing is: %s", "paid-member-subscriptions"); ?>
+<?php __("Click the button below to update your payment method.", "paid-member-subscriptions"); ?>
+<?php __("Payment Method Update Request", "paid-member-subscriptions"); ?>
+<?php __("Future payment authorization for: %s", "paid-member-subscriptions"); ?>
+<?php __("PayPal order created.", "paid-member-subscriptions"); ?>
+<?php __("PayPal order completed.", "paid-member-subscriptions"); ?>
+<?php __("PayPal order failed.", "paid-member-subscriptions"); ?>
+<?php __("PayPal order creation failed. Error code: <strong>%s</strong>", "paid-member-subscriptions"); ?>
+<?php __("PayPal order capture failed. Error code: <strong>%s</strong>", "paid-member-subscriptions"); ?>
+<?php __("PayPal order capture resulted in a pending payment. The payment will finish processing after review from the payment provider.", "paid-member-subscriptions"); ?>
+<?php __("PayPal capture completed.", "paid-member-subscriptions"); ?>
+<?php __('PayPal webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Payment was refunded in the PayPal Dashboard.", "paid-member-subscriptions"); ?>
 <?php __("API Username", "paid-member-subscriptions"); ?>
 <?php __("API Username for Live site", "paid-member-subscriptions"); ?>
 <?php __("API Password", "paid-member-subscriptions"); ?>
@@ -2046,8 +2074,6 @@
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __('Your %3$s PayPal API credentials %4$s are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
-<?php __("The account %1s has been successfully created!", "paid-member-subscriptions"); ?>
-<?php __("Before you can access your account %1s, an administrator has to approve it. You will be notified via email.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent is still processing. Subscription was activated until confirmation of success or failure is received.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent has failed.", "paid-member-subscriptions"); ?>
 <?php __('Stripe webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>
@@ -2082,7 +2108,7 @@
 <?php __("The payment has been declined because the card is reported stolen.", "paid-member-subscriptions"); ?>
 <?php __("A Stripe test card number was used.", "paid-member-subscriptions"); ?>
 <?php __("The customer has exceeded the balance or credit limit available on their card. ", "paid-member-subscriptions"); ?>
-<?php __("<strong>Action Required!</strong><br><br> The Stripe version you are using right now is being deprecated soon. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. Starting with the second half of this year, Stripe might charge you additional fees if you don't migrate. <br><br>Go to the %sSettings -> Payments%s page, enable the Stripe gateway and connect your account. %sMigration instructions%s", "paid-member-subscriptions"); ?>
+<?php __("<strong>Action Required!</strong><br><br> The Stripe version you are using right now is deprecated. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. <br>Starting with <strong>June 2025</strong>, Stripe will <strong>charge you additional fees</strong> if you don't migrate. <br><br>Go to the %sSettings -> Payments -> Gateways%s page, enable the Stripe gateway and connect your account. %sMigration instructions%s", "paid-member-subscriptions"); ?>
 <?php __("Update", "paid-member-subscriptions"); ?>
 <?php __("Label added successfully.", "paid-member-subscriptions"); ?>
 <?php __("You must select a label to edit!", "paid-member-subscriptions"); ?>
@@ -2410,12 +2436,11 @@
 <?php __("Accept payments directly on your website using a wide range of payment methods allowing for a faster checkout directly on your website. Enable users to pay using debit or credit cards, Bancontact, Giropay, iDEAL, Sofort and many more.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong, please attempt the connection again.", "paid-member-subscriptions"); ?>
 <?php __("Connect your existing Stripe account or create a new one to start accepting payments. Press the button above to start.", "paid-member-subscriptions"); ?>
+<?php __("You are connected in %s mode. You can start accepting payments.", "paid-member-subscriptions"); ?>
 <?php __("You are connected in %s mode. You can start accepting payments", "paid-member-subscriptions"); ?>
 <?php __("Safe and secure payments handled by PayPal using the customers account.", "paid-member-subscriptions"); ?>
-<?php __("PayPal Email Address", "paid-member-subscriptions"); ?>
-<?php __("For payments to work correctly, you will also need to <strong>setup the IPN URL in your PayPal account</strong>.", "paid-member-subscriptions"); ?>
+<?php __("Go to the Paid Member Subscriptions -> Settings -> Payments -> Gateways page to connect your PayPal account and start accepting payments.", "paid-member-subscriptions"); ?>
 <?php __("Manually collect payments from your customers through Checks, Direct Bank Transfers or in person cash.", "paid-member-subscriptions"); ?>
-<?php __("PayPal Express Checkout payments using credit cards or customer accounts handled by PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Quick Setup Wizard", "paid-member-subscriptions"); ?>
 <?php __("Ready to welcome your new users?", "paid-member-subscriptions"); ?>
 <?php __("To offer your users a welcoming experience, we'll need to create a few pages designed specifically for registration, login, account management and password reset.", "paid-member-subscriptions"); ?>
@@ -2521,34 +2546,60 @@
 <?php __("Upload Discount Codes via a CSV file. Use this to select a csv file, then to upload click the \"Import Discount Codes\" button.", "paid-member-subscriptions"); ?>
 <?php __("Download this sample discount codes files", "paid-member-subscriptions"); ?>
 <?php __(" and modify it by adding your own discounts.", "paid-member-subscriptions"); ?>
+<?php __(" PayPal", "paid-member-subscriptions"); ?>
+<?php __("Connection Status", "paid-member-subscriptions"); ?>
+<?php __("Success", "paid-member-subscriptions"); ?>
+<?php __("Your account is connected successfully in %s mode.", "paid-member-subscriptions"); ?>
+<?php __("Connected Account", "paid-member-subscriptions"); ?>
+<?php __("Client ID", "paid-member-subscriptions"); ?>
+<?php __("Copy to clipboard", "paid-member-subscriptions"); ?>
+<?php __("Email Address", "paid-member-subscriptions"); ?>
+<?php __("Not Confirmed", "paid-member-subscriptions"); ?>
+<?php __("You currently cannot receive payments.", "paid-member-subscriptions"); ?>
+<?php __("Please confirm your email address on your %s in order to receive payments.", "paid-member-subscriptions"); ?>
+<?php __("Confirmed", "paid-member-subscriptions"); ?>
+<?php __("Payments Status", "paid-member-subscriptions"); ?>
+<?php __("You can start accepting payments.", "paid-member-subscriptions"); ?>
+<?php __("You can start accepting test payments.", "paid-member-subscriptions"); ?>
+<?php __("Payment Receivable", "paid-member-subscriptions"); ?>
+<?php __("You currently cannot receive payments due to possible restriction on your PayPal account.", "paid-member-subscriptions"); ?>
+<?php __("Please reach out to PayPal Customer Support or connect to %s for more information.", "paid-member-subscriptions"); ?>
+<?php __("Vaulting", "paid-member-subscriptions"); ?>
+<?php __("You are not able to offer the Vaulting functionality because its onboarding status is %s.", "paid-member-subscriptions"); ?>
+<?php __(" Please reach out to %s for more information.", "paid-member-subscriptions"); ?>
+<?php __("Enabled", "paid-member-subscriptions"); ?>
+<?php __("Webhooks Status", "paid-member-subscriptions"); ?>
+<?php __("Connected", "paid-member-subscriptions"); ?>
+<?php __("Webhooks are connected successfully. Last webhook received at: %s", "paid-member-subscriptions"); ?>
+<?php __("Unknown", "paid-member-subscriptions"); ?>
+<?php __("Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your PayPal Account.", "paid-member-subscriptions"); ?>
+<?php __("Waiting for data", "paid-member-subscriptions"); ?>
+<?php __("When the status changes to Connected, the website has started processing webhook data from PayPal.", "paid-member-subscriptions"); ?>
+<?php __("Disconnect", "paid-member-subscriptions"); ?>
+<?php __("Disconnecting your account will stop all payments from being processed.", "paid-member-subscriptions"); ?>
+<?php __("Connect your existing PayPal account or create a new one to start accepting payments. Press the button above to start.", "paid-member-subscriptions"); ?>
+<?php __("You will be redirected back here once the process is completed.", "paid-member-subscriptions"); ?>
+<?php __("PayPal Customer ID", "paid-member-subscriptions"); ?>
+<?php __("PayPal Vault ID", "paid-member-subscriptions"); ?>
+<?php __("Deprecation notice", "paid-member-subscriptions"); ?>
+<?php __("The PayPal version you are using right now has been deprecated.<br> Benefit from the latest security updates and <strong>improved conversion rates</strong> with the new streamlined payment experience that keeps customers on your website throughout the payment process.<br><br>Go to the %sSettings -> Payments -> Gateways%s page, enable the <strong>PayPal gateway</strong> and connect your account. %sMore details%s", "paid-member-subscriptions"); ?>
 <?php __("Stripe Customer ID", "paid-member-subscriptions"); ?>
 <?php __("Stripe Card ID", "paid-member-subscriptions"); ?>
 <?php __("The provided Stripe Customer ID is not valid.", "paid-member-subscriptions"); ?>
 <?php __("The provided Stripe Card ID is not valid.", "paid-member-subscriptions"); ?>
-<?php __("You will be redirected back here once the process is completed.", "paid-member-subscriptions"); ?>
 <?php __("You connected successfully in %s mode. You can start accepting payments.", "paid-member-subscriptions"); ?>
-<?php __("Connection Status", "paid-member-subscriptions"); ?>
-<?php __("Success", "paid-member-subscriptions"); ?>
 <?php __("Your account is connected successfully in %s mode. You can start accepting payments.", "paid-member-subscriptions"); ?>
 <?php __("Your account is connected successfully in %s mode. You can start accepting test payments.", "paid-member-subscriptions"); ?>
 <?php __("<strong>NOTE</strong>: All payments done through Stripe include a <strong>2%% fee</strong> because you're using the free version of Paid Member Subscriptions. <br>This fee goes to the Paid Member Subscriptions team and is used to continue supporting the development of this gateway and the plugin in general. <br>Users with an active license key will not be charged this fee, %sclick here%s to purchase one.", "paid-member-subscriptions"); ?>
 <?php __("<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is expired. Go to your %sCozmoslabs Account%s page in order to renew.", "paid-member-subscriptions"); ?>
 <?php __("<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because your license is not activated. Go to your %sSettings%s page in order to activated it.", "paid-member-subscriptions"); ?>
 <?php __("<strong>NOTE</strong>: All payments include a <strong>2%% fee</strong> because you don't have a license. %sClick here%s to purchase a license now.", "paid-member-subscriptions"); ?>
-<?php __("Connected Account", "paid-member-subscriptions"); ?>
 <?php __("An error happened with the connection of your Stripe account. Stripe is reporting the following error: ", "paid-member-subscriptions"); ?>
 <?php __("Please reload the page and connect your account again in order to receive payments.", "paid-member-subscriptions"); ?>
-<?php __("Webhooks Status", "paid-member-subscriptions"); ?>
-<?php __("Connected", "paid-member-subscriptions"); ?>
-<?php __("Webhooks are connected successfully. Last webhook received at: %s", "paid-member-subscriptions"); ?>
-<?php __("Unknown", "paid-member-subscriptions"); ?>
 <?php __("Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Stripe Account.", "paid-member-subscriptions"); ?>
-<?php __("Waiting for data", "paid-member-subscriptions"); ?>
 <?php __("When the status changes to Connected, the website has started processing webhook data from Stripe.", "paid-member-subscriptions"); ?>
 <?php __("Webhooks URL", "paid-member-subscriptions"); ?>
 <?php __("Copy this URL and configure it in your Stripe Account. %sClick here%s to learn more about the Webhooks setup process. ", "paid-member-subscriptions"); ?>
-<?php __("Disconnect", "paid-member-subscriptions"); ?>
-<?php __("Disconnecting your account will stop all payments from being processed.", "paid-member-subscriptions"); ?>
 <?php __("Domain Registration", "paid-member-subscriptions"); ?>
 <?php __("Verification status couldn't be determined.", "paid-member-subscriptions"); ?>
 <?php __("The plugin cannot determine the verification status of the current domain. Your domain might already be validated.", "paid-member-subscriptions"); ?>
@@ -2562,7 +2613,8 @@
 <?php __("Import successfully!", "paid-member-subscriptions"); ?>
 <?php __("Page will refresh in 3 seconds...", "paid-member-subscriptions"); ?>
 <?php __("Please complete the reCaptcha.", "paid-member-subscriptions"); ?>
-<?php __("Could not validate the reCaptcha. Please complete it again.", "paid-member-subscriptions"); ?>
+<?php __("Could not validate reCAPTCHA. Please complete it again.", "paid-member-subscriptions"); ?>
+<?php __("Could not validate reCAPTCHA. Please refresh the page and try again.", "paid-member-subscriptions"); ?>
 <?php __("Click the BACK button on your browser, and try again.", "paid-member-subscriptions"); ?>
 <?php __("You can add up to %s more members.", "paid-member-subscriptions"); ?>
 <?php __("User(s) to add as members of your Group Subscription:", "paid-member-subscriptions"); ?>

@@ -916,17 +916,20 @@ function pms_in_ppsrp_output_subscription_plan_action_renewal( $output, $subscri
 }
 add_filter( 'pms_output_subscription_plan_action_renewal', 'pms_in_ppsrp_output_subscription_plan_action_renewal', 10, 4 );
 
-add_action( 'pms_process_checkout_validations', 'pms_in_ppsrp_cancel_subscription_before_renew' );
-function pms_in_ppsrp_cancel_subscription_before_renew() {
+add_action( 'pms_checkout_after_payment_is_processed', 'pms_in_ppsrp_cancel_subscription_before_subscription_actions', 999, 3 );
+function pms_in_ppsrp_cancel_subscription_before_subscription_actions( $payment_response, $subscription, $form_location ) {
 
-    $form_location = PMS_Form_Handler::get_request_form_location();
-
-    if ( $form_location != 'renew_subscription' )
+    if( !$payment_response )
         return;
 
-    $user_data            = PMS_Form_Handler::get_request_member_data();
-    $user_id              = $user_data['user_id'];
-    $subscription_plan_id = $user_data['subscriptions'][0];
+    if( !in_array( $form_location, array( 'renew_subscription', 'change_subscription', 'downgrade_subscription', 'upgrade_subscription' ) ) )
+        return;
+
+    if( empty( $subscription ) || empty( $subscription->user_id ) )
+        return;
+
+    $user_id              = $subscription->user_id;
+    $subscription_plan_id = $subscription->subscription_plan_id;
 
     if ( $user_id == 0 || empty( $subscription_plan_id ) )
         return;
@@ -936,8 +939,26 @@ function pms_in_ppsrp_cancel_subscription_before_renew() {
     if( empty( $payment_profile_id ) || !pms_is_paypal_payment_profile_id( $payment_profile_id ) )
         return;
 
+    $action = 'renew';
+
+    if( $form_location == 'change_subscription' )
+        $action = 'change';
+    elseif( $form_location == 'downgrade_subscription' )
+        $action = 'downgrade';
+    elseif( $form_location == 'upgrade_subscription' )
+        $action = 'upgrade';
+
+    $note = 'Subscription canceled because user manually renewed his subscription.';
+
+    if( $action == 'change' )
+        $note = 'Subscription canceled because user changed his subscription.';
+    elseif( $action == 'downgrade' )
+        $note = 'Subscription canceled because user downgraded his subscription.';
+    elseif( $action == 'upgrade' )
+        $note = 'Subscription canceled because user upgraded his subscription.';
+        
     // Execute a profile cancellation api call to PayPal
-    $cancel_result = pms_in_api_cancel_paypal_subscription( $payment_profile_id, 'renew', 'Subscription canceled because user manually renewed his subscription.' );
+    $cancel_result = pms_in_api_cancel_paypal_subscription( $payment_profile_id, $action, $note );
 
     // If something went wrong repeat cancellation api call to PayPal every hour until the subscription gets cancelled successfully
     if( isset( $cancel_result['error'] ) && wp_get_schedule( 'pms_api_cancel_paypal_subscription', array( $user_id, $subscription_plan_id, 'renew' ) ) == false && pms_get_paypal_api_credentials() != false )

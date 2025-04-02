@@ -765,9 +765,9 @@ function pms_member_update_payment_method( $content ) {
         <p>
             <?php printf( wp_kses_post( __( 'Update recurring payment details for the %s subscription that will renew on %s.', 'paid-member-subscriptions' ) ), '<strong>' . esc_html( $subscription_plan->name ) . '</strong>', '<strong>' . esc_html( date_i18n( get_option('date_format'), strtotime( $member_subscription->billing_next_payment ) ) ) . '</strong>' ) ?>
         </p>
+        
         <?php
-
-        do_action('pms_update_payment_method_form_bottom' );
+        do_action( 'pms_update_payment_method_form_bottom', $member_subscription );
 
         $output .= ob_get_contents();
         ob_end_clean();

@@ -135,7 +135,6 @@ function pms_pb_check_subscription_plans_value( $message, $field, $request_data,
      */
     do_action( 'pms_process_checkout_validations' );
 
-
     if ( count( pms_errors()->get_error_codes() ) > 0 )
         $message = __( 'Something went wrong. Please try again.', 'paid-member-subscriptions' );
 

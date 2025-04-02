@@ -576,11 +576,11 @@ function pms_cron_process_member_subscriptions_payments() {
             else if( get_userdata( $subscription->user_id ) === false )
                 continue;
 
-            $payment_gateway = pms_get_payment_gateway( $subscription->payment_gateway );
-            $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+            $payment_gateway       = pms_get_payment_gateway( $subscription->payment_gateway );
+            $subscription_plan     = pms_get_subscription_plan( $subscription->subscription_plan_id );
             $subscription_currency = pms_get_member_subscription_meta( $subscription->id, 'currency', true );
 
-            if( ! method_exists( $payment_gateway, 'process_payment' ) )
+            if( is_null( $payment_gateway ) || !method_exists( $payment_gateway, 'process_payment' ) )
                 continue;
 
             if( !apply_filters( 'pms_cron_process_member_subscriptions_process_subscription', true, $subscription ) )
@@ -847,12 +847,95 @@ function pms_get_subscription_payments_retry_count( $subscription_id ){
     if( empty( $retry_count ) )
         $retry_count = 0;
 
-    return (int)$retry_count;
+    return absint( $retry_count );
+
+}
+
+function pms_calculate_payment_amount( $subscription_plan, $request_data = array(), $billing_amount = false, $return_breakdown = false ){
+
+    if( empty( $subscription_plan->id ) )
+        return 0;
+
+    // need to take into account PayWhatYouWant, Discounts and Taxes
+    $amount = apply_filters( 'pms_stripe_calculate_payment_amount', $subscription_plan->price, $subscription_plan ); // both filters are kept for backwards compatibility
+    $amount = apply_filters( 'pms_calculate_payment_amount', $amount, $subscription_plan );
+
+    // Check PWYW pricing
+    if( function_exists( 'pms_in_pwyw_pricing_enabled' ) && pms_in_pwyw_pricing_enabled( $subscription_plan->id ) ){
+
+        $subscription_price = isset( $request_data['subscription_price_' . $subscription_plan->id ] ) ? $request_data['subscription_price_' . $subscription_plan->id ] : ( isset( $_POST['subscription_price_' . $subscription_plan->id ] ) ? sanitize_text_field( $_POST['subscription_price_' . $subscription_plan->id ] ) : 0 );
+
+        if( !empty( $subscription_price ) )
+            $amount = absint( $subscription_price );
+
+    }
+
+    global $pms_prorate;
+
+    if( is_user_logged_in() && class_exists( 'PMS_IN_ProRate' ) && isset( $pms_prorate ) ){
+        $amount = $pms_prorate->get_stripe_intents_prorated_amount( $amount, $subscription_plan->id, $request_data );
+    }
+
+    // Add sign-up fee if necessary
+    if( $subscription_plan->has_sign_up_fee() && $billing_amount == false && apply_filters( 'pms_calculate_payment_amount_apply_sign_up_fee', true, $subscription_plan ) ){
+
+        if( !empty( $request_data['form_location'] ) ){
+            $form_location = $request_data['form_location'];
+        } else {
+            $target = isset( $request_data['pmstkn_original'] ) ? 'pmstkn_original' : 'pmstkn';
+    
+            $form_location = PMS_Form_Handler::get_request_form_location( $target );
+        }
+
+        if( !is_user_logged_in() || in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) ){
+
+            if( $subscription_plan->has_trial() )
+                $amount = $subscription_plan->sign_up_fee;
+            else
+                $amount = $amount + $subscription_plan->sign_up_fee;
+
+        }
+
+    }
+
+    $breakdown_data = array();
+    $breakdown_data['subtotal'] = $amount;
+
+    // Apply discount code if present
+    $discount_code = isset( $request_data['discount_code'] ) ? $request_data['discount_code'] : ( isset( $_POST['discount_code'] ) ? sanitize_text_field( $_POST['discount_code'] ) : '' );
+    
+    if( function_exists( 'pms_in_calculate_discounted_amount' ) && !empty( $discount_code ) ){
+
+        $discount_code = pms_in_get_discount_by_code( sanitize_text_field( $discount_code ) );
+
+        $amount = pms_in_calculate_discounted_amount( $amount, $discount_code );
+
+        $breakdown_data['discount'] = $breakdown_data['subtotal'] - $amount;
+
+    }
+
+    // Apply taxes if they are enabled
+    if( function_exists( 'pms_in_tax_enabled' ) && pms_in_tax_enabled() ){
+        $amount = apply_filters( 'pms_tax_apply_to_amount', $amount, $subscription_plan->id, $request_data );
+
+        if( isset( $breakdown_data['discount'] ) )
+            $breakdown_data['tax'] = $amount - ( $breakdown_data['subtotal'] - $breakdown_data['discount'] );
+        else
+            $breakdown_data['tax'] = $amount - $breakdown_data['subtotal'];
+    }
+
+    $breakdown_data['total'] = $amount;
+
+    if( $return_breakdown === true ){
+        return $breakdown_data;
+    }
+
+    return $amount;
 
 }
 
 /**
- * 
+ * @TODO: Remove as this can be done through pms_get_payments now
  */
 function pms_get_payments_by_subscription_id( $subscription_id, $count = 0 ){
 

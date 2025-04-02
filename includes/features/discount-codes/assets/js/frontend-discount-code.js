@@ -4,9 +4,6 @@
  */
 jQuery(document).ready(function($) {
 
-    // Cache the parent form of the apply discount button
-    //var $pms_form;
-
     // Cache the value of the last checked discount code
     var last_checked_discount_code;
 
@@ -149,9 +146,9 @@ jQuery(document).ready(function($) {
 
                     // Hide payment fields
                     if (response.is_full_discount)
-                        hide_payment_fields($pms_form)
+                        $.pms_hide_payment_fields( $pms_form )
                     else
-                        show_payment_fields($pms_form)
+                        $.pms_show_payment_fields( $pms_form )
 
                     $subscription_plan.data( 'price-original', $subscription_plan.data('price') )
                     $subscription_plan.data( 'price', response.discounted_price )
@@ -160,8 +157,10 @@ jQuery(document).ready(function($) {
 
                     if( response.is_full_discount == true ){
                         
-                        if( response.recurring_payments == 1 )
+                        if( response.recurring_payments == 1 ){
+                            $( 'input[name="pms_recurring"]', $pms_auto_renew_field ).prop( 'checked', true )
                             $pms_auto_renew_field.hide()
+                        }
 
                         $subscription_plan.data( 'is-full-discount', true )
 
@@ -185,7 +184,7 @@ jQuery(document).ready(function($) {
                     })
 
                     // Show payment fields
-                    show_payment_fields($pms_form)
+                    $.pms_show_payment_fields( $pms_form )
 
                     $subscription_plan.data( 'price', $subscription_plan.data('price-original') )
                     $subscription_plan.data( 'discounted-price', false )
@@ -225,69 +224,8 @@ jQuery(document).ready(function($) {
             $('#pms-apply-discount').trigger('click');
 
         if ( $('input[name=discount_code]').val() == '' )
-            show_payment_fields( $pms_form );
+            $.pms_show_payment_fields( $pms_form );
     })
-
-    /**
-     * Clones and caches the wrappers for the payment gateways and the credit card / billing information
-     * It replaces these wrappers with empy spans that represent the wrappers
-     *
-     */
-    function hide_payment_fields( $form ) {
-
-        if( typeof $form.pms_paygates_wrapper == 'undefined' )
-            $form.pms_paygates_wrapper = $form.find('#pms-paygates-wrapper').clone();
-
-        $form.find('#pms-paygates-wrapper').replaceWith('<span id="pms-paygates-wrapper">');
-
-        $form.find('.pms-credit-card-information').hide()
-
-        if( typeof PMS_ChosenStrings !== 'undefined' && $.fn.chosen != undefined ){
-
-            $form.find('#pms_billing_country').chosen('destroy')
-            $form.find('#pms_billing_state').chosen('destroy')
-
-        }
-        
-        if( typeof $form.pms_billing_details == 'undefined' ){
-            $form.pms_billing_details = $form.find('.pms-billing-details').clone();
-        }
-
-        $form.find('.pms-billing-details').replaceWith('<span class="pms-billing-details">');
-
-    }
-
-
-    /**
-     * It replaces the placeholder spans, that represent the payment gateway and the credit card
-     * and billing information, with the cached wrappers that contain the actual fields
-     *
-     */
-    function show_payment_fields( $form ) {
-
-        if( typeof $form.pms_paygates_wrapper != 'undefined' )
-            $form.find('#pms-paygates-wrapper').replaceWith( $form.pms_paygates_wrapper );
-
-        if( typeof $pms_checked_paygate != 'unedfined' && $pms_checked_paygate.data('type') == 'credit_card' )
-            $form.find('.pms-credit-card-information').show()
-
-        if( typeof $form.pms_billing_details != 'undefined' ){
-
-            $form.find('.pms-billing-details').replaceWith( $form.pms_billing_details )
-
-            if( typeof PMS_ChosenStrings !== 'undefined' && $.fn.chosen != undefined ){
-
-                $form.find('#pms_billing_country').chosen( PMS_ChosenStrings )
-
-                if( $('#pms_billing_state option').length > 0 )
-                    $form.find('#pms_billing_state').chosen( PMS_ChosenStrings )
-
-            }
-
-        }
-
-
-    }
 
     /*
      * Show / Hide discount code field if a free plan is selected

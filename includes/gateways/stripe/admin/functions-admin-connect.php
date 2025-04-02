@@ -64,8 +64,7 @@ function pms_stripe_connect_handle_authorization_return(){
 	flush_rewrite_rules();
 
     // set account country
-    $gateway = new PMS_Payment_Gateway_Stripe_Connect();
-    $gateway->init();
+    $gateway = pms_get_payment_gateway( 'stripe_connect' );
 
     $gateway->set_account_country( $environment );
 
@@ -106,8 +105,7 @@ function pms_stripe_connect_handle_authorization_return_admin_init(){
 	flush_rewrite_rules();
 
     // set account country
-    $gateway = new PMS_Payment_Gateway_Stripe_Connect();
-    $gateway->init();
+    $gateway = pms_get_payment_gateway( 'stripe_connect' );
 
     $gateway->set_account_country( $environment );
 
@@ -254,7 +252,7 @@ function pms_stripe_add_payment_gateway_admin_subscription_fields( $subscription
 	if( !in_array( $gateway_slug, $target_gateways ) )
         return;
 
-    // Set card id value
+    // Set customer id value
     $stripe_customer_id = ( ! empty( $subscription_id ) ? pms_get_member_subscription_meta( $subscription_id, '_stripe_customer_id', true ) : '' );
     $stripe_customer_id = ( ! empty( $_POST['_stripe_customer_id'] ) ? sanitize_text_field( $_POST['_stripe_customer_id'] ) : $stripe_customer_id );
 
@@ -262,21 +260,21 @@ function pms_stripe_add_payment_gateway_admin_subscription_fields( $subscription
     $stripe_card_id = ( ! empty( $subscription_id ) ? pms_get_member_subscription_meta( $subscription_id, '_stripe_card_id', true ) : '' );
     $stripe_card_id = ( ! empty( $_POST['_stripe_card_id'] ) ? sanitize_text_field( $_POST['_stripe_card_id'] ) : $stripe_card_id );
 
-    // Stripe Customer ID
-    echo '<div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">';
+    ?>
+	<!-- Stripe Customer ID -->
+	<div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+        <label for="pms-subscription-stripe-customer-id" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Stripe Customer ID', 'paid-member-subscriptions' ); ?></label>
+        <input id="pms-subscription-stripe-customer-id" type="text" name="_stripe_customer_id" class="pms-subscription-field" value="<?php echo esc_attr( $stripe_customer_id ); ?>" />
 
-        echo '<label for="pms-subscription-stripe-customer-id" class="pms-meta-box-field-label cozmoslabs-form-field-label">' . esc_html__( 'Stripe Customer ID', 'paid-member-subscriptions' ) . '</label>';
-        echo '<input id="pms-subscription-stripe-customer-id" type="text" name="_stripe_customer_id" class="pms-subscription-field" value="' . esc_attr( $stripe_customer_id ) . '" />';
+    </div>
 
-    echo '</div>';
+    <!-- Stripe Card ID -->
+    <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
 
-    // Stripe Card ID
-    echo '<div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">';
+        <label for="pms-subscription-stripe-card-id" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Stripe Card ID', 'paid-member-subscriptions' ); ?></label>
+        <input id="pms-subscription-stripe-card-id" type="text" name="_stripe_card_id" class="pms-subscription-field" value="<?php echo esc_attr( $stripe_card_id ); ?>" />
 
-        echo '<label for="pms-subscription-stripe-card-id" class="pms-meta-box-field-label cozmoslabs-form-field-label">' . esc_html__( 'Stripe Card ID', 'paid-member-subscriptions' ) . '</label>';
-        echo '<input id="pms-subscription-stripe-card-id" type="text" name="_stripe_card_id" class="pms-subscription-field" value="' . esc_attr( $stripe_card_id ) . '" />';
-
-    echo '</div>';
+    </div><?php
 
 }
 add_action( 'pms_view_add_new_edit_subscription_payment_gateway_extra', 'pms_stripe_add_payment_gateway_admin_subscription_fields', 10, 3 );
@@ -520,10 +518,13 @@ function pms_stripe_add_settings_content( $options ) {
 
 		echo '<div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-stripe-connect-configs" '. ( !in_array( 'stripe_connect', $options['active_pay_gates'] ) && empty( $account ) ? 'style="display:none"' : '' ) .'>';
 
-			echo '<h4 class="cozmoslabs-subsection-title" id="pms-stripe__gateway-settings">'
-					. esc_html__( 'Stripe', 'paid-member-subscriptions' ) .
-					'<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Initial_Setup" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
-				</h4>';
+            echo '<div class="cozmoslabs-subsection-title-container">';
+                echo '<img class="cozmoslabs-payment-gateway__metabox-icon" src="' . esc_attr( PMS_PLUGIN_DIR_URL ) . 'includes/gateways/stripe/assets/img/stripe-icon.jpeg"  alt="PayPal" />';
+                echo '<h4 class="cozmoslabs-subsection-title" id="pms-stripe__gateway-settings">'
+                    . esc_html__( 'Stripe', 'paid-member-subscriptions' ) .
+                    '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Initial_Setup" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                        </h4>';
+            echo '</div>';
 
 			if( in_array( 'stripe_connect', $options['active_pay_gates'] ) || empty( $account ) ) :
 

@@ -10,7 +10,7 @@
 }
 
 .pms-field {
-    margin-bottom: 30px;
+    margin-bottom: 18px;
 }
 
 #pms_login label:not(.login-remember label),
@@ -37,7 +37,7 @@
 .pms-form input[type="password"],
 .pms-form input[type="email"],
 .pms-form textarea,
-.pms-form select,
+.pms-form select:not(#pms-currency-switcher),
 #pms_login input[type="text"],
 #pms_login input[type="password"],
 #pms_login input[type="email"] {
@@ -133,7 +133,7 @@
 .pms-form .chosen-container-single .chosen-single {
     -webkit-appearance: none;
     -moz-appearance: none;
-    background: #fff url('data:image/svg+xml;charset=US-ASCII,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 6l5 5 5-5 2 1-7 7-7-7 2-1z" fill="rgba(136,136,136,1)"/></svg>') no-repeat right 5px top 55%;
+    background: #fff url('data:image/svg+xml;charset=US-ASCII,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 6l5 5 5-5 2 1-7 7-7-7 2-1z" fill="rgba(136,136,136,1)"/></svg>') no-repeat right 5px top 55% !important;
 }
 
 .pms-form select:active,
@@ -180,13 +180,6 @@
 #pms-paygates-inner input:checked + span {
     border: 1px solid #111 !important;
 }
-
-.pms-form #pms-stripe-payment-elements {
-    padding: 20px !important;
-    border: 1px solid #ccc !important;
-    border-radius: 3px !important;
-}
-
 
 /* Price Breakdown */
 .pms-price-breakdown tbody td {
@@ -271,7 +264,7 @@
 .pms-account-subscription-details-table tbody tr td div.pms-account-subscription-details-table__payment-method {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
 }
 
 .pms-account-subscription-details-table tbody tr td div.pms-account-subscription-details-table__payment-method .pms-account-subscription-details-table__payment-method__wrap {

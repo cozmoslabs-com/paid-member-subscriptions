@@ -48,7 +48,7 @@ function pms_stripe_connect_get_account_status(){
     if( $account->details_submitted != true )
         return 'details_submitted_missing';
 
-    if( $account->charges_enabled == true )
+    if( $account->charges_enabled != true )
         return 'charges_enabled_missing';
 
     if( $account->details_submitted == true && $account->charges_enabled == true )
@@ -80,64 +80,6 @@ function pms_stripe_connect_get_account_country(){
 
 }
 
-function pms_stripe_calculate_payment_amount( $subscription_plan ){
-
-    if( empty( $subscription_plan->id ) )
-        return 0;
-
-    // need to take into account PayWhatYouWant, Discounts and Taxes
-    $amount = apply_filters( 'pms_stripe_calculate_payment_amount', $subscription_plan->price, $subscription_plan );
-
-    // Check PWYW pricing
-    if( function_exists( 'pms_in_pwyw_pricing_enabled' ) && pms_in_pwyw_pricing_enabled( $subscription_plan->id ) ){
-
-        if( !empty( $_POST['subscription_price_' . $subscription_plan->id ] ) )
-            $amount = (int)$_POST['subscription_price_' . $subscription_plan->id ];
-
-    }
-
-    global $pms_prorate;
-
-    if( is_user_logged_in() && class_exists( 'PMS_IN_ProRate' ) && isset( $pms_prorate ) ){
-        $amount = $pms_prorate->get_stripe_intents_prorated_amount( $amount, $subscription_plan->id );
-    }
-
-    // Add sign-up fee if necessary
-    if( $subscription_plan->has_sign_up_fee() && apply_filters( 'pms_stripe_create_payment_intent_apply_sign_up_fee', true, $subscription_plan ) ){
-
-        $target = isset( $_POST['pmstkn_original'] ) ? 'pmstkn_original' : 'pmstkn';
-
-        $form_location = PMS_Form_Handler::get_request_form_location( $target );
-
-        if( !is_user_logged_in() || in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) ){
-
-            if( $subscription_plan->has_trial() )
-                $amount = $subscription_plan->sign_up_fee;
-            else
-                $amount = $amount + $subscription_plan->sign_up_fee;
-
-        }
-
-    }
-
-    // Apply discount code if present
-    if( function_exists( 'pms_in_calculate_discounted_amount' ) && !empty( $_POST['discount_code' ] ) ){
-
-        $discount_code = pms_in_get_discount_by_code( sanitize_text_field( $_POST['discount_code'] ) );
-
-        $amount = pms_in_calculate_discounted_amount( $amount, $discount_code );
-
-    }
-
-    // Apply taxes if they are enabled
-    if( function_exists( 'pms_in_tax_enabled' ) && pms_in_tax_enabled() ){
-        $amount = apply_filters( 'pms_tax_apply_to_amount', $amount, $subscription_plan->id );
-    }
-
-    return $amount;
-
-}
-
 function pms_get_active_stripe_gateway(){
 
     $settings = get_option( 'pms_payments_settings', array() );
@@ -154,32 +96,6 @@ function pms_get_active_stripe_gateway(){
 
     return $active_gateway;
 
-}
-
-function pms_stripe_check_filter_from_class_exists( $hook, $className, $methodName ){
-    global $wp_filter;
-
-    if( !isset( $wp_filter[$hook] ) )
-        return false;
-
-    foreach( $wp_filter[$hook] as $priority => $realhook ){
-
-        foreach( $realhook as $hook_k => $hook_v ){
-
-            if( is_array( $hook_v['function'] ) ){
-
-                if( isset( $hook_v['function'][0], $hook_v['function'][1] ) && get_class( $hook_v['function'][0] ) == $className && $hook_v['function'][1] == $methodName ) {
-
-                    return true;
-
-                }
-            }
-
-        }
-
-    }
-
-    return false;
 }
 
 function pms_stripe_get_generated_errors(){
@@ -490,8 +406,7 @@ function pms_stripe_is_domain_registered_for_payment_methods(){
     if( !is_admin() )
         return;
 
-    $gateway = new PMS_Payment_Gateway_Stripe_Connect();
-    $gateway->init();
+    $gateway = pms_get_payment_gateway( 'stripe_connect' );
 
     return $gateway->domain_is_registered();
 

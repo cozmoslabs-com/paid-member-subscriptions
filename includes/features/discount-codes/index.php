@@ -84,7 +84,7 @@ function pms_in_dc_add_frontend_scripts(){
 
     if( file_exists( PMS_IN_DC_PLUGIN_DIR_PATH . 'assets/js/frontend-discount-code.js' ) ) {
 
-        wp_enqueue_script('pms-frontend-discount-code-js', PMS_IN_DC_PLUGIN_DIR_URL . 'assets/js/frontend-discount-code.js', array('jquery'), PMS_VERSION );
+        wp_enqueue_script('pms-frontend-discount-code-js', PMS_IN_DC_PLUGIN_DIR_URL . 'assets/js/frontend-discount-code.js', array('jquery', 'pms-front-end'), PMS_VERSION );
 
         $js_data = array(
             'ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -99,12 +99,6 @@ function pms_in_dc_add_frontend_scripts(){
         wp_localize_script( 'pms-frontend-discount-code-js', 'pms_discount_object', $js_data );
 
     }
-
-    // add front-end CSS for discount code box
-    if ( file_exists( PMS_IN_DC_PLUGIN_DIR_PATH . 'assets/css/style-front-end.css') ) {
-        wp_enqueue_style('pms-dc-style-front-end', PMS_IN_DC_PLUGIN_DIR_URL. 'assets/css/style-front-end.css' );
-    }
-
 
 }
 add_action('wp_footer','pms_in_dc_add_frontend_scripts');
@@ -642,7 +636,7 @@ add_action( 'pms_payment_update', 'pms_in_dc_update_discount_data_after_use', 10
  */
 function pms_in_dc_update_stripe_free_trial_discount_data( $subscription, $form_location ){
 
-    if( !isset( $_POST['discount_code'] ) || empty( $subscription->subscription_plan_id ) || ( $subscription->payment_gateway !== 'stripe_connect' && $subscription->payment_gateway !== 'stripe_intents' ) )
+    if( !isset( $_POST['discount_code'] ) || empty( $subscription->subscription_plan_id ) || !in_array( $subscription->payment_gateway, [ 'stripe_connect', 'stripe_intents', 'paypal_connect' ] ) )
         return;
 
     $code = sanitize_text_field( $_POST['discount_code'] );

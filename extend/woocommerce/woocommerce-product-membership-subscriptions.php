@@ -50,11 +50,11 @@ function pms_woo_subscription_tab_content() {
             <?php
             woocommerce_wp_select (
                 array(
-                    'id' => 'pms_woo_subscription_id',
-                    'label' => __('Subscription Plan', 'paid-member-subscriptions'),
+                    'id'          => 'pms_woo_subscription_id',
+                    'label'       => esc_html__('Subscription Plan', 'paid-member-subscriptions'),
                     'description' => '',
-                    'value' => ( !empty($existing_subscription['id']) ? $existing_subscription['id'] : '0'),
-                    'options' => $options
+                    'value'       => ( !empty($existing_subscription['id']) ? $existing_subscription['id'] : '0'),
+                    'options'     => $options
                 )
             );
             ?>
@@ -62,8 +62,8 @@ function pms_woo_subscription_tab_content() {
         <div class="extra_info" style="padding-left: 10px;">
             <h4><em><?php echo esc_html(__('For this Subscription Plan association to work properly we need the following WooCommerce settings to be met:', 'paid-member-subscriptions')); ?></em></h4>
             <ol>
-                <li><em><?php echo sprintf(__('Allow customers to place orders without an account must be %1$sDISABLED%2$s', 'paid-member-subscriptions'), "<strong>", "</strong>"); ?></em></li>
-                <li><em><?php echo sprintf(__('Allow customers to create an account during checkout must be %1$sENABLED%2$s', 'paid-member-subscriptions'), "<strong>", "</strong>"); ?></em></li>
+                <li><em><?php echo sprintf(esc_html__('Allow customers to place orders without an account must be %1$sDISABLED%2$s', 'paid-member-subscriptions'), "<strong>", "</strong>"); ?></em></li>
+                <li><em><?php echo sprintf(esc_html__('Allow customers to create an account during checkout must be %1$sENABLED%2$s', 'paid-member-subscriptions'), "<strong>", "</strong>"); ?></em></li>
             </ol>
         </div>
     </div>

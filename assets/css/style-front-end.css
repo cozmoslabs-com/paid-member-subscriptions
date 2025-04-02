@@ -237,6 +237,16 @@ form.pms-form ul.pms-form-fields-wrapper {
     height: 24px;
 }
 
+.pms-account-subscription-details-table__payment-method__brand-paypal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pms-account-subscription-details-table__payment-method__brand-paypal svg, .pms-account-subscription-details-table__payment-method__brand-paypal {
+    width: 60px;
+}
+
 .pms-account-subscription-action-link {
     margin-right: 10px;
     cursor: pointer;
@@ -375,7 +385,8 @@ form.pms-form ul.pms-form-fields-wrapper {
 
 #pms-paygates-inner input[value="paypal_pro"] + span,
 #pms-paygates-inner input[value="paypal_express"] + span,
-#pms-paygates-inner input[value="paypal_standard"] + span {
+#pms-paygates-inner input[value="paypal_standard"] + span,
+#pms-paygates-inner input[value="paypal_connect"] + span {
     font-size: 0;
     background: url("../images/PayPal-payment-icon.svg") no-repeat center center;
 }
@@ -396,6 +407,10 @@ form.pms-form ul.pms-form-fields-wrapper {
 }
 
 #pms-gateways-not-available {
+    display: none;
+}
+
+.pms-paygate-extra-fields {
     display: none;
 }
 
@@ -689,4 +704,189 @@ ul.pms-field-section {
 /* Hide reCAPTCHA V3 badge */
 .grecaptcha-badge {
     visibility: hidden !important;
+}
+
+/* Stripe additions */
+#pms_billing_country {
+    width: 100%;
+}
+
+.StripeElement {
+    box-sizing: border-box;
+
+    padding: 10px 12px;
+
+    border: 1px solid #cfd7df;
+    border-radius: 4px;
+    background-color: white;
+
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+    border-color: #fb1427;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}
+
+.pms-loader {
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+    border: 3px solid rgba(255, 255, 255, .3);
+    border-radius: 50%;
+    border-top-color: #00a0d2;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.pms-auth-form__loader-msg {
+    margin-top: 6px;
+    text-align: center;
+}
+
+.pms-stripe-error-message {
+    font-size: 16px;
+    color: #fb1427;
+    margin-top: 8px;
+}
+
+.wppb-user-forms .pms-paygate-extra-fields-stripe_connect {
+    margin-bottom: 24px;
+}
+
+.pms-stripe-error-message+.pms_field-errors-wrapper {
+    display: none;
+}
+
+#pms-stripe-payment-elements.StripeElement,
+#payment-request-button.StripeElement {
+    height: auto;
+
+    border: 0px;
+    border-radius: 0px;
+    padding: 0px;
+
+    box-shadow: none;
+    -webkit-transition: none;
+    transition: none;
+}
+
+.pms-form #payment-request-button {
+    margin-bottom: 18px;
+}
+
+#pms-stripe-payment-elements {
+    max-width: 500px;
+    margin-bottom: 16px;
+}
+
+/* Discount code box. Added from separate discounts css file. */
+#pms_subscription_plans_discount_code {
+    width: 50%
+}
+
+#pms-subscription-plans-discount-messages-wrapper {
+    display: none;
+    padding: 1em;
+    margin: 1em 0;
+    margin-top: 0px;
+    border: 1px solid #e7e7e7;
+}
+
+#pms-subscription-plans-discount-messages {
+    display: none;
+}
+
+#pms-subscription-plans-discount-messages-loading {
+    display: none;
+}
+
+label[for="pms_subscription_plans_discount"] {
+    display: block;
+}
+
+.pms-discount-error {
+    color: #c0392b;
+    font-size: 80%;
+}
+
+.pms-discount-success {
+    color: green;
+}
+
+#pms-renew-subscription-form #pms-subscription-plans-discount,
+#pms-upgrade-subscription-form #pms-subscription-plans-discount,
+#pms-retry-payment-subscription-form #pms-subscription-plans-discount,
+#pms-ec-register-form #pms-subscription-plans-discount,
+.wppb-subscription-plans #pms-subscription-plans-discount {
+    margin-bottom: 20px;
+}
+
+#pms-subscription-plans-discount {
+    margin-bottom: 1em;
+}
+
+#pms-paygate-extra-fields-paypal_connect__placeholder {
+    max-width: 200px;
+}
+
+.logged-in #pms-paygate-extra-fields-paypal_connect__placeholder {
+    max-width: 250px;
+}
+
+#pms-paypal-connect {
+    margin-bottom: 16px;
+}
+
+/* Billing details */
+
+.pms-billing-details {
+    display: none;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.pms-billing-details .pms-field {
+    margin-bottom: 0px;
+    width: 100%;
+}
+
+.pms-billing-details .pms-field-type-heading h3,
+.pms-billing-details .pms-field-type-heading h4 {
+    margin-top: 0px;
+}
+
+.pms-billing-details h3 {
+    margin-bottom: 10px; /* 18px gap + 10px for heading */
+}
+
+.pms-billing-details .pms-billing-first-name,
+.pms-billing-details .pms-billing-last-name,
+.pms-billing-details .pms-billing-city,
+.pms-billing-details .pms-billing-state,
+.pms-billing-details .pms-billing-zip,
+.pms-billing-details .pms-billing-country {
+    flex-basis: calc( 50% - 9px ); /* 18px gap / 2 */
 }

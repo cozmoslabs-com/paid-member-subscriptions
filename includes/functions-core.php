@@ -1168,7 +1168,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             } else {
 
                 new PMS_Add_General_Notices( 'pms_psp_disabled',
-                    sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . wp_nonce_url( add_query_arg( 'pms_psp_disabled_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) . "'>", "</a>"),
+                    sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . wp_nonce_url( add_query_arg( 'pms_psp_disabled_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>"),
                     'notice-warning');
 
             }
@@ -1207,7 +1207,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     } else {
             
                         new PMS_Add_General_Notices( 'pms_stripe_connect_disconnected',
-                            sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . wp_nonce_url( add_query_arg( 'pms_stripe_connect_disconnected_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) . "'>", "</a>"),
+                            sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . wp_nonce_url( add_query_arg( 'pms_stripe_connect_disconnected_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>"),
                             'notice-error');
             
                     }
@@ -1235,7 +1235,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             } else {
 
                 new PMS_Add_General_Notices( 'pms_force_website_https',
-                    sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_force_website_https_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>"),
+                    sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_force_website_https_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>"),
                     'notice-warning');
 
             }
@@ -1269,7 +1269,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 /* if we are on our own plugin pages make the expired license notification non dismissible */
                 $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
                 if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
-                    $message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_no_license_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>");
+                    $message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_no_license_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>");
                     $pms_force_show = false;
                 } else {
                     $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
@@ -1300,7 +1300,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 /* if we are on our own plugin pages make the expired license notification non dismissible */
                 $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
                 if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
-                    $message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_license_not_activated_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>");
+                    $message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_license_not_activated_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>");
                     $pms_force_show = false;
                 } else {
                     $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
@@ -1326,7 +1326,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 /* if we are on our own plugin pages make the expired license notification non dismissible */
                 $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
                 if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
-                    $pms_expired_message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_expired_licence_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>");
+                    $pms_expired_message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_expired_licence_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>");
                     $pms_force_show = false;
                 } else {
                     $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
@@ -1345,7 +1345,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 if( ( !isset( $license_details->subscription_status ) || $license_details->subscription_status != 'active' ) && strtotime( $license_details->expires ) < strtotime( '+14 days' ) ){
                     new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
                         sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=license-key-about-to-expire-notification' ) ).
-                        sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_about_to_expire_licence_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>"),
+                        sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_about_to_expire_licence_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>"),
                         'notice-warning' );
                 }
 
@@ -1359,7 +1359,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                     $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
                     if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
-                        $pms_activations_limit_message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a class='dismiss-right' href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_basic_activations_limit_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>");
+                        $pms_activations_limit_message .= sprintf(__(' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_basic_activations_limit_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>");
                         $pms_force_show = false;
                     } else {
                         $pms_force_show = true;//sets the forceShow parameter of PMS_Add_General_Notices to true so we don't take into consideration the dismiss user meta
@@ -1520,7 +1520,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             } else {
 
                 new PMS_Add_General_Notices( 'pms_paypal_api_credentials',
-                sprintf( '<p>' . $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_paypal_api_credentials_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>" ) . '</p>',
+                sprintf( '<p>' . $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_paypal_api_credentials_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>" ) . '</p>',
                 'notice-warning');
 
             }

@@ -177,20 +177,14 @@ class PMS_Setup_Wizard {
                 $settings['default_payment_gateway'] = 'manual';
             }
 
-            if( isset( $_POST['pms_gateway_paypal_standard'] ) ){
-                $settings['active_pay_gates'][] = 'paypal_standard';
-                $settings['default_payment_gateway'] = 'paypal_standard';
+            if( isset( $_POST['pms_gateway_paypal_connect'] ) ){
+                $settings['active_pay_gates'][] = 'paypal_connect';
+                $settings['default_payment_gateway'] = 'paypal_connect';
             }
 
             if( isset( $_POST['pms_gateway_stripe'] ) ){
                 $settings['active_pay_gates'][] = 'stripe_connect';
                 $settings['default_payment_gateway'] = 'stripe_connect';
-            }
-
-            if( isset( $_POST['pms_gateway_paypal_email_address'] ) ){
-                $settings['gateways']['paypal_standard'] = array(
-                    'email_address' => sanitize_text_field( $_POST['pms_gateway_paypal_email_address'] )
-                );
             }
 
             if( !empty( $settings ) )

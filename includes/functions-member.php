@@ -394,5 +394,3 @@ function pms_remove_expired_activation_key(){
 
     }
 }
-
-add_filter( 'pms_members_list_search_query_fullname', '__return_false' );

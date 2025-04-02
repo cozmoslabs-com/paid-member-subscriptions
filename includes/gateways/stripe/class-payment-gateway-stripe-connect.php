@@ -72,10 +72,17 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     public $gateway_slug = 'stripe_connect';
 
     /**
+     * The class instance
+     */
+    private static $instance = null;
+
+    /**
      * Initialisation
      *
      */
-    public function init() {
+    public function __construct() {
+
+        parent::__construct();
 
         $this->supports = array(
             'plugin_scheduled_payments',
@@ -123,7 +130,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
          * We hook the action in order to return some data to the front-end js in order to complete the
          * processing of this payment
          */
-        add_action( 'pms_checkout_error_before_redirect', array( $this, 'handle_checkout_error_redirect' ), 20, 2 );
+        add_action( 'pms_process_checkout_handle_error_redirect', array( $this, 'handle_checkout_error_redirect' ), 20, 2 );
 
         if( !is_admin() ) {
 
@@ -140,33 +147,35 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             add_action( 'pms_checkout_has_trial', array( $this, 'disable_trial_if_duplicate_card' ) );
 
             // add Stripe publishable keys into the form
-            if( !pms_stripe_check_filter_from_class_exists( 'pms_get_output_payment_gateways', get_class($this), 'field_publishable_key' ) )
-                add_filter( 'pms_get_output_payment_gateways', array( $this, 'field_publishable_key' ), 10, 2 );
+            add_filter( 'pms_get_output_payment_gateways', array( $this, 'field_publishable_key' ), 10, 2 );
 
             // Payment Intent AJAX nonce
-            if( !pms_stripe_check_filter_from_class_exists( 'pms_get_output_payment_gateways', get_class($this), 'field_ajax_nonces' ) )
-                add_filter( 'pms_get_output_payment_gateways', array( $this, 'field_ajax_nonces' ), 10, 2 );
+            add_filter( 'pms_get_output_payment_gateways', array( $this, 'field_ajax_nonces' ), 10, 2 );
 
             // Add Publishable Key to Update Payment method form
-            if( !pms_stripe_check_filter_from_class_exists( 'pms_update_payment_method_form_bottom', get_class($this), 'update_payment_form_field_publishable_key' ) )
-                add_action( 'pms_update_payment_method_form_bottom', array( $this, 'update_payment_form_field_publishable_key' ) );
+            add_action( 'pms_update_payment_method_form_bottom', array( $this, 'update_payment_form_field_publishable_key' ) );
 
             // Add Update Payment Method ajax request nonce to form
-            if( !pms_stripe_check_filter_from_class_exists( 'pms_update_payment_method_form_bottom', get_class($this), 'field_update_payment_method_nonce' ) )
-                add_action( 'pms_update_payment_method_form_bottom', array( $this, 'field_update_payment_method_nonce' ), 20 );
+            add_action( 'pms_update_payment_method_form_bottom', array( $this, 'field_update_payment_method_nonce' ), 20 );
 
             // Process Update Payment Method request
-            if( !pms_stripe_check_filter_from_class_exists( 'pms_update_payment_method_stripe_connect', get_class($this), 'update_customer_payment_method' ) )
-                add_action( 'pms_update_payment_method_stripe_connect', array( $this, 'update_customer_payment_method' ) );
+            add_action( 'pms_update_payment_method_stripe_connect', array( $this, 'update_customer_payment_method' ) );
 
-            if( !pms_stripe_check_filter_from_class_exists( 'pms_update_payment_method_stripe_intents', get_class($this), 'update_customer_payment_method' ) )
-                add_action( 'pms_update_payment_method_stripe_intents', array( $this, 'update_customer_payment_method' ) );
+            add_action( 'pms_update_payment_method_stripe_intents', array( $this, 'update_customer_payment_method' ) );
 
             // Add Form Fields placeholder
-            if( !pms_stripe_check_filter_from_class_exists( 'pms_output_form_field_stripe_placeholder', get_class($this), 'output_form_field_stripe_placeholder' ) )
-                add_action( 'pms_output_form_field_stripe_placeholder', array( $this, 'output_form_field_stripe_placeholder' ) );
+            add_action( 'pms_output_form_field_stripe_placeholder', array( $this, 'output_form_field_stripe_placeholder' ) );
 
         }
+
+    }
+
+    public static function get_instance() {
+
+        if ( null === self::$instance )
+            self::$instance = new self();
+
+        return self::$instance;
 
     }
 
@@ -316,7 +325,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             if( empty( $_REQUEST['discount_code'] ) || ( !empty( $_REQUEST['discount_code'] ) && $payment->amount != 0 ) ){
                 $data = array(
                     'success'      => true,
-                    'redirect_url' => $this->get_success_redirect_url( $form_location ),
+                    'redirect_url' => PMS_AJAX_Checkout_Handler::get_success_redirect_url( $form_location, $payment->id ),
                 );
 
                 if( wp_doing_ajax() ){
@@ -385,9 +394,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                     do_action( 'pms_stripe_checkout_processed', 'setup_intent', $subscription_id, $payment->id, $form_location );
 
+                    do_action( 'pms_checkout_after_payment_is_processed', true, $subscription, $form_location );
+
                     $data = array(
                         'success'      => true,
-                        'redirect_url' => $this->get_success_redirect_url( $form_location ),
+                        'redirect_url' => PMS_AJAX_Checkout_Handler::get_success_redirect_url( $form_location ),
                     );
 
                     if( wp_doing_ajax() ){
@@ -401,7 +412,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                     $data = array(
                         'success'      => false,
-                        'redirect_url' => $this->get_payment_error_redirect_url(),
+                        'redirect_url' => PMS_AJAX_Checkout_Handler::get_payment_error_redirect_url(),
                     );
 
                     if( wp_doing_ajax() ){
@@ -455,8 +466,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                     }
 
+                    $checkout_data = array(
+                        'checkout_amount' => $intent->amount,
+                    );
+
                     // Update subscription
-                    $this->update_subscription( $subscription, $form_location, false, $is_recurring, false, $intent->amount );
+                    $this->update_subscription( $subscription, $form_location, false, $is_recurring, $checkout_data );
 
                     // If subscription had a trial, save card fingerprint
                     $this->save_trial_card( $subscription_id, $intent->payment_method );
@@ -465,10 +480,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
                     
                     do_action( 'pms_stripe_checkout_processed', 'payment_intent', $subscription_id, $payment->id, $form_location );
+                    
+                    do_action( 'pms_checkout_after_payment_is_processed', true, $subscription, $form_location );
 
                     $data = array(
                         'success'      => true,
-                        'redirect_url' => $this->get_success_redirect_url( $form_location ),
+                        'redirect_url' => PMS_AJAX_Checkout_Handler::get_success_redirect_url( $form_location, $payment->id ),
                     );
 
                     if( wp_doing_ajax() ){
@@ -491,7 +508,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                     $data = array(
                         'success'      => false,
-                        'redirect_url' => $this->get_payment_error_redirect_url(),
+                        'redirect_url' => PMS_AJAX_Checkout_Handler::get_payment_error_redirect_url( $payment->id ),
                     );
 
                     if( wp_doing_ajax() ){
@@ -511,7 +528,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $data = array(
                     'success'      => false,
-                    'redirect_url' => $this->get_payment_error_redirect_url(),
+                    'redirect_url' => PMS_AJAX_Checkout_Handler::get_payment_error_redirect_url( $payment->id ),
                 );
 
                 echo json_encode( $data );
@@ -654,7 +671,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      */
     public function handle_checkout_error_redirect( $subscription, $payment ){
 
-        if( !wp_doing_ajax() || !( $subscription instanceof PMS_Member_Subscription ) )
+        if( empty( $_POST['pay_gate'] ) || $_POST['pay_gate'] != $this->gateway_slug )
             return;
 
         if( empty( $_POST['pms_stripe_connect_payment_intent'] ) )
@@ -668,6 +685,34 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             if( !empty( $payment_intent_id[0] ) )
                 $payment->update( [ 'transaction_id' => $payment_intent_id[0] ] );
+
+            // Save checkout data from $_POST to the payment 
+            // This is used for Webhooks if they need to update the subscription
+            $target_keys = array(
+                'subscription_plans',
+                'pms_default_recurring',
+                'discount_code',
+                'pms_billing_address',
+                'pms_billing_city',
+                'pms_billing_zip',
+                'pms_billing_country',
+                'pms_billing_state',
+                'pms_vat_number',
+                'form_type',
+                'pms_current_subscription'
+            );
+
+            if( !empty( $_POST['subscription_plans'] ) )
+                $target_keys[] = sprintf( 'subscription_price_%s', absint( $_POST['subscription_plans'] ) );
+
+            $checkout_data = array();
+
+            foreach( $_POST as $key => $value ){
+                if( in_array( $key, $target_keys ) )
+                    $checkout_data[$key] = $value;
+            }
+
+            pms_add_payment_meta( $payment->id, 'pms_checkout_data', $checkout_data );
         }
 
         // Add metadata to Payment or Setup Intent
@@ -694,7 +739,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $subscription_plan = pms_get_subscription_plan( !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id );
 
-            $amount = pms_stripe_calculate_payment_amount( $subscription_plan );
+            $amount = pms_calculate_payment_amount( $subscription_plan );
 
             // Setup necessary class data
             if( empty( $this->user_id ) ){
@@ -813,7 +858,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             echo json_encode(array(
                 'success'      => true,
-                'redirect_url' => $this->get_success_redirect_url()
+                'redirect_url' => PMS_AJAX_Checkout_Handler::get_success_redirect_url( PMS_Form_Handler::get_request_form_location(), $this->payment_id )
             ));
 
         } else {
@@ -824,243 +869,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         die();
-    }
-
-    /**
-     * Similar to PMS_Form_Handler::get_redirect_url(), but with a naked else at the end to cover all the
-     * logged out form locations
-     *
-     * @param  string        $form_location
-     * @return string        Success redirect URL
-     */
-    protected function get_success_redirect_url( $form_location ){
-
-        // Logged in actions that happen on the Account page
-        if( in_array( $form_location, array( 'change_subscription', 'upgrade_subscription', 'downgrade_subscription', 'renew_subscription', 'retry_payment' ) ) ){
-
-            $account_page = pms_get_page( 'account', true );
-            $redirect_url = !empty( $_POST['current_page'] ) ? esc_url_raw( $_POST['current_page'] ) : '';
-
-            if( empty( $redirect_url ) )
-                $redirect_url = $account_page;
-
-            $redirect_url = remove_query_arg( array( 'pms-action', 'subscription_id', 'subscription_plan', 'pmstkn' ), $redirect_url );
-            $redirect_url = add_query_arg(
-                array(
-                    'pmsscscd'                   => base64_encode( 'subscription_plans' ),
-                    'pms_gateway_payment_action' => base64_encode( $form_location ),
-                    'pms_gateway_payment_id'     => !empty( $this->payment_id ) ? base64_encode( $this->payment_id ) : '',
-                ),
-            $redirect_url );
-
-        // This uses the register success URL, but without the registration message
-        } else if ( in_array( $form_location, array( 'new_subscription' ) ) ){
-
-            $redirect_url = pms_get_register_success_url();
-
-            if( empty( $redirect_url ) && !empty( $_POST['current_page'] ) )
-                $redirect_url = esc_url_raw( $_POST['current_page'] );
-
-            $redirect_url = remove_query_arg( array( 'pms-action', 'subscription_id', 'subscription_plan', 'pmstkn' ), $redirect_url );
-            $redirect_url = add_query_arg(
-                array(
-                    'pmsscscd'                   => base64_encode( 'subscription_plans' ),
-                    'pms_gateway_payment_action' => base64_encode( $form_location ),
-                    'pms_gateway_payment_id'     => !empty( $this->payment_id ) ? base64_encode( $this->payment_id ) : '',
-                ),
-            $redirect_url );
-
-        // Register success page or current page URL
-        } else {
-
-            $redirect_url = pms_get_register_success_url();
-
-            // Add a success message if we should stay on the same page
-            if( isset( $_POST['current_page'] ) && ( empty( $redirect_url ) || $redirect_url == $_POST['current_page'] ) ){
-
-                $redirect_url = esc_url_raw( $_POST['current_page'] );
-
-                // WPPB Form
-                if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
-
-                    $payment = pms_get_payment( $this->payment_id );
-                    $user    = get_userdata( $payment->user_id );
-
-                    // On the WPPB Form also take into account Form and Custom Redirects
-                    $args = array(
-                        'form_type'               => 'register',
-                        'form_name'               => isset( $_REQUEST['form_name'] ) ? sanitize_text_field( $_REQUEST['form_name'] ) : '',
-                        'form_fields'             => '',
-                        'role'                    => get_option( 'default_role' ),
-                        'pms_custom_ajax_request' => true,
-                    );
-
-                    include_once( WPPB_PLUGIN_DIR . '/front-end/class-formbuilder.php' );
-
-                    $form = new Profile_Builder_Form_Creator( $args );
-
-                    if( ! current_user_can( 'manage_options' ) && $form->args['form_type'] != 'edit_profile' && isset( $_POST['custom_field_user_role'] ) ) {
-                        $user_role = sanitize_text_field( $_POST['custom_field_user_role'] );
-                    } elseif( ! current_user_can( 'manage_options' ) && $form->args['form_type'] != 'edit_profile' && isset( $form->args['role'] ) ) {
-                        $user_role = $form->args['role'];
-                    } else {
-                        $user_role = NULL;
-                    }
-
-                    $wppb_redirect_url = false;
-
-                    if( $form->args['redirect_activated'] == '-' ) {
-                        $wppb_redirect_url = wppb_get_redirect_url( $form->args['redirect_priority'], 'after_registration', $form->args['redirect_url'], $user, $user_role );
-                    } elseif( $form->args['redirect_activated'] == 'Yes' ) {
-                        $wppb_redirect_url = $form->args['redirect_url'];
-                    }
-
-                    if( empty( $wppb_redirect_url ) ){
-                        $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'The account %1s has been successfully created!', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
-
-                        $wppb_admin_approval = wppb_get_admin_approval_option_value();
-
-                        if( $wppb_admin_approval == 'yes' )
-                            $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'Before you can access your account %1s, an administrator has to approve it. You will be notified via email.', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
-
-                        $redirect_url = add_query_arg( 'pms_wppb_custom_success_message', true, $redirect_url );
-                    } else {
-                        $redirect_url = $wppb_redirect_url;
-                    }
-
-                    // Automatic login
-                    if( !empty( $redirect_url ) ){
-                        if( !empty( $form->args['login_after_register'] ) && strtolower( $form->args['login_after_register'] ) == 'yes' ){
-                            $redirect_url = $this->get_wppb_autologin_url( $redirect_url );
-                        }
-                    }
-
-
-                } else
-                    $message = apply_filters( 'pms_register_subscription_success_message', __( 'Congratulations, you have successfully created an account.', 'paid-member-subscriptions' ) );
-
-                $redirect_url = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pmsscsmsg' => base64_encode( $message ) ), $redirect_url );
-
-            // Redirecting to a new page
-            } else {
-
-                // Take into account autologin from the WPPB form
-                if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
-
-                    $args = array(
-                        'form_type'               => 'register',
-                        'form_name'               => isset( $_REQUEST['form_name'] ) ? sanitize_text_field( $_REQUEST['form_name'] ) : '',
-                        'form_fields'             => '',
-                        'role'                    => get_option( 'default_role' ),
-                        'pms_custom_ajax_request' => true,
-                    );
-
-                    include_once( WPPB_PLUGIN_DIR . '/front-end/class-formbuilder.php' );
-
-                    $form = new Profile_Builder_Form_Creator( $args );
-
-                    if( !empty( $form->args['redirect_url'] ) )
-                        $redirect_url = $form->args['redirect_url'];
-
-                    if( !empty( $form->args['login_after_register'] ) && strtolower( $form->args['login_after_register'] ) == 'yes' ){
-                        $redirect_url = $this->get_wppb_autologin_url( $redirect_url );
-                    }
-
-                }
-
-            }
-
-            $redirect_url = add_query_arg(
-                array(
-                    'pmsscscd'                   => base64_encode( 'subscription_plans' ),
-                    'pms_gateway_payment_action' => base64_encode( $form_location ),
-                    'pms_gateway_payment_id'     => !empty( $this->payment_id ) ? base64_encode( $this->payment_id ) : '',
-                ),
-            $redirect_url );
-
-        }
-
-        // Same filter as PMS_Form_Handler::process_checkout()
-        return apply_filters( 'pms_get_redirect_url', $redirect_url, $form_location );
-
-    }
-
-    protected function get_wppb_autologin_url( $redirect_url ){
-
-        if( is_user_logged_in() || !function_exists( 'wppb_get_admin_approval_option_value' ) ) {
-            return $redirect_url;
-        }
-
-        $wppb_general_settings = get_option( 'wppb_general_settings' );
-
-        if ( isset( $wppb_general_settings['emailConfirmation'] ) && ( $wppb_general_settings['emailConfirmation'] == 'yes' ) ) {
-            return $redirect_url;
-        }
-
-        $payment = pms_get_payment( $this->payment_id );
-
-        if( empty( $payment->user_id ) )
-            return $redirect_url;
-
-        $user = get_userdata( $payment->user_id );
-
-        if( !$user )
-        return $redirect_url;
-
-        $nonce = wp_create_nonce( 'autologin-'. $user->ID .'-'. (int)( time() / 60 ) );
-
-        if ( wppb_get_admin_approval_option_value() === 'yes' ) {
-            if( !empty( $wppb_general_settings['adminApprovalOnUserRole'] ) ) {
-                foreach ($user->roles as $role) {
-                    if ( in_array( $role, $wppb_general_settings['adminApprovalOnUserRole'] ) ) {
-                        return $redirect_url;
-                    }
-                }
-            }
-            else {
-                return $redirect_url;
-            }
-        }
-
-        $redirect_url = add_query_arg( array( 'autologin' => 'true', 'uid' => $user->ID, '_wpnonce' => $nonce ), $redirect_url );
-
-		return $redirect_url;
-
-    }
-
-    protected function get_payment_error_redirect_url(){
-
-        $account_page = pms_get_page( 'account', true );
-
-        $pms_is_register = is_user_logged_in() ? 0 : 1;
-
-        $redirect_url = !empty( $_POST['current_page'] ) ? esc_url_raw( $_POST['current_page'] ) : $account_page;
-
-        // Take into account autologin from the WPPB form
-        if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
-
-            $args = array(
-                'form_type'               => 'register',
-                'form_name'               => isset( $_REQUEST['form_name'] ) ? sanitize_text_field( $_REQUEST['form_name'] ) : '',
-                'form_fields'             => '',
-                'role'                    => get_option( 'default_role' ),
-                'pms_custom_ajax_request' => true,
-            );
-
-            include_once( WPPB_PLUGIN_DIR . '/front-end/class-formbuilder.php' );
-
-            $form = new Profile_Builder_Form_Creator( $args );
-
-            if( !empty( $form->args['login_after_register'] ) && strtolower( $form->args['login_after_register'] ) == 'yes' ){
-                $redirect_url = $this->get_wppb_autologin_url( $redirect_url );
-            }
-
-        }
-
-        $redirect_url = apply_filters( 'pms_stripe_error_redirect_url', $redirect_url, $this->payment_id, $pms_is_register );
-
-        return add_query_arg( array( 'pms_payment_error' => '1', 'pms_is_register' => $pms_is_register, 'pms_payment_id' => $this->payment_id ), $redirect_url );
-
     }
 
     /**
@@ -1382,7 +1190,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
-    public function update_subscription( $subscription, $form_location, $has_trial = false, $is_recurring = false, $plan_id = false, $checkout_amount = false ){
+    public function update_subscription( $subscription, $form_location, $has_trial = false, $is_recurring = false, $checkout_data = array() ){
 
         if( empty( $subscription ) || empty( $form_location ) )
             return false;
@@ -1400,24 +1208,25 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $subscription_plan_id = !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : false;
 
-            if( empty( $subscription_plan_id ) && !empty( $plan_id ) )
-                $subscription_plan_id = $plan_id;
+            if( empty( $subscription_plan_id ) && !empty( $checkout_data['subscription_plans'] ) )
+                $subscription_plan_id = $checkout_data['subscription_plans'];
             elseif( empty( $subscription_plan_id ) )
                 $subscription_plan_id = $subscription->subscription_plan_id;
 
             $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
 
-            $subscription_data = PMS_Form_Handler::get_subscription_data( $subscription->user_id, $subscription_plan, $form_location, true, 'stripe_connect', $is_recurring, $has_trial );
+            $subscription_data = PMS_Form_Handler::get_subscription_data( $subscription->user_id, $subscription_plan, $form_location, true, $this->gateway_slug, $is_recurring, $has_trial );
 
-            $checkout_data = array(
-                'is_recurring'  => $is_recurring,
-                'has_trial'     => $has_trial,
-                'form_location' => $form_location
-            );
+            $checkout_data['is_recurring']  = $is_recurring;
+            $checkout_data['has_trial']     = $has_trial;
+            $checkout_data['form_location'] = $form_location;
 
             $subscription_data = apply_filters( 'pms_process_checkout_subscription_data', $subscription_data, $checkout_data );
 
             $subscription_data['status'] = 'active';
+
+            // Billing amount needs to be recalculated with all the modifiers that can apply
+            $subscription_data['billing_amount'] = pms_calculate_payment_amount( $subscription_plan, $checkout_data, true );
 
         } else {
 
@@ -1425,14 +1234,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 'status'         => 'active',
             );
 
-            if( $is_recurring && !empty( $checkout_amount ) ){
+            if( $is_recurring && !empty( $checkout_data['checkout_amount'] ) ){
                 //NOTE: stripe checkout amount is usually in cents, but for some currencies the checkout amount is actually the value that we want to charge
                 $zero_decimal_currencies = $this->get_zero_decimal_currencies();
 
                 $currency = pms_get_active_currency();
 
                 if( in_array( $currency, $zero_decimal_currencies ) ){
-                    $subscription_data['billing_amount'] = $checkout_amount;
+                    $subscription_data['billing_amount'] = $checkout_data['checkout_amount'];
                 }
             }
 
@@ -1550,7 +1359,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( $field['type'] != 'stripe_placeholder' )
             return;
 
-        $id = $field['id'] ? $field['id'] : '';
+        $id = isset( $field['id'] ) ? $field['id'] : '';
 
         if( pms_stripe_connect_get_account_status() ){
 
@@ -1561,7 +1370,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             $output .= '<div id="'. esc_attr( $id ) .'" style="display:none"></div>';
 
         } else
-            $output = '<div id="'. esc_attr( $id ) .'">Before you can accept payments, you need to connect your Stripe Account by going to Dashboard -> Paid Member Subscriptions -> Settings -> <a href="'.esc_url( admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) ).'">Payments</a></div>';
+            $output = '<div id="'. esc_attr( $id ) .'">Before you can accept payments, you need to connect your Stripe Account by going to Dashboard -> Paid Member Subscriptions -> Settings -> Payments -> <a href="'.esc_url( admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) ).'">Gateways</a>.</div>';
 
         echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
@@ -1849,7 +1658,15 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $is_recurring = !empty( $data->metadata->is_recurring ) && $data->metadata->is_recurring == 'true' ? true : false;
 
-            $this->update_subscription( $subscription, sanitize_text_field( $data->metadata->request_location ), false, $is_recurring, $payment->subscription_id );
+            $checkout_data = pms_get_payment_meta( $payment->id, 'pms_checkout_data', true );
+
+            if( is_array( $checkout_data ) ){
+                $checkout_data['subscription_plans'] = $payment->subscription_id;
+            } else {
+                $checkout_data = array( 'subscription_plans' => $payment->subscription_id );
+            }
+            
+            $this->update_subscription( $subscription, sanitize_text_field( $data->metadata->request_location ), false, $is_recurring, $checkout_data );
 
             // Save Customer to Subscription and User if it's not present
             $subscription_customer = pms_get_member_subscription_meta( $subscription->id, '_stripe_customer_id', true );
@@ -1944,7 +1761,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     /**
      * Add Publishable Key to the Update Payment Method form
      */
-    public function update_payment_form_field_publishable_key(){
+    public function update_payment_form_field_publishable_key( $member_subscription ){
+
+        if( empty( $member_subscription->payment_gateway ) || $member_subscription->payment_gateway != $this->gateway_slug )
+            return;
 
         $this->field_publishable_key( '', get_option( 'pms_payments_settings' ), false );
 
@@ -1959,21 +1779,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      */
     public function field_ajax_nonces( $output, $pms_settings ) {
 
-        // Add Payment Intent Client Secret to form
-        //$payment_intent = $this->create_initial_payment_intent();
-        //$setup_intent   = $this->create_initial_setup_intent();
-
-        // $payment_intent = '';
-        // $setup_intent   = '';
-
-        // if( !empty( $payment_intent ) )
         $output .= '<input type="hidden" name="pms_stripe_connect_payment_intent" value=""/>';
 
-        //if( !empty( $setup_intent ) )
         $output .= '<input type="hidden" name="pms_stripe_connect_setup_intent" value=""/>';
-
-        // process checkout nonce
-        $output .= '<input type="hidden" id="pms-stripe-ajax-payment-intent-nonce" name="stripe_ajax_payment_intent_nonce" value="'. esc_attr( wp_create_nonce( 'pms_process_checkout' ) ) .'"/>';
 
         // update payment intent nonce
         $output .= '<input type="hidden" id="pms-stripe-ajax-update-payment-intent-nonce" name="stripe_ajax_update_payment_intent_nonce" value="'. esc_attr( wp_create_nonce( 'pms_stripe_connect_update_payment_intent' ) ) .'"/>';
@@ -1989,7 +1797,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      * @param  array    $pms_settings
      * @return string
      */
-    public function field_update_payment_method_nonce() {
+    public function field_update_payment_method_nonce( $member_subscription ){
+
+        if( empty( $member_subscription->payment_gateway ) || $member_subscription->payment_gateway != $this->gateway_slug )
+            return;
 
         $setup_intent = $this->create_initial_setup_intent();
 
@@ -2019,8 +1830,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             $sections['credit_card_information'] = array(
                 'name'    => 'credit_card_information',
                 'element' => 'ul',
-                'id'      => 'pms-credit-card-information',
-                'class'   => 'pms-credit-card-information pms-section-credit-card-information'
+                'id'      => 'pms-stripe-connect',
+                'class'   => 'pms-paygate-extra-fields pms-paygate-extra-fields-stripe_connect'
             );
 
         }
@@ -2058,7 +1869,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $fields['pms_credit_card_wrapper'] = array(
             'section' => 'credit_card_information',
             'type'    => 'stripe_placeholder',
-            'id'      => 'pms-stripe-payment-elements'
+            'id'      => 'pms-stripe-payment-elements'  // This type of ID is used to show / hide the section dynamically
         );
 
         return $fields;

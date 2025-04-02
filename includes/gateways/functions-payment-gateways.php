@@ -26,6 +26,12 @@ function pms_get_payment_gateways( $only_slugs = false ) {
             'display_name_user'  => __( 'PayPal', 'paid-member-subscriptions' ),
             'display_name_admin' => __( 'PayPal Standard', 'paid-member-subscriptions' ),
             'class_name'         => 'PMS_Payment_Gateway_PayPal_Standard',
+            'description'        =>  __( 'Safe and secure payments handled by PayPal (deprecated).', 'paid-member-subscriptions' )
+        ),
+        'paypal_connect' => array(
+            'display_name_user'  => __( 'PayPal', 'paid-member-subscriptions' ),
+            'display_name_admin' => __( 'PayPal', 'paid-member-subscriptions' ),
+            'class_name'         => 'PMS_Payment_Gateway_PayPal_Connect',
             'description'        =>  __( 'Safe and secure payments handled by PayPal.', 'paid-member-subscriptions' )
         ),
         'stripe_connect' => array(
@@ -369,7 +375,7 @@ function pms_get_output_payment_gateways( $pms_settings = array(), $form_locatio
     // If there's only one payment gateway saved
     } else if( count( $active_gateways ) == 1 ) {
 
-        $paygate_key = ( $active_gateways[0] != 'paypal_standard' ? $active_gateways[0] : 'paypal_standard' );
+        $paygate_key = ( $active_gateways[0] != 'stripe_connect' ? $active_gateways[0] : 'stripe_connect' );
 
         $output .= apply_filters( 'pms_output_payment_gateway_input_hidden', '<div id="pms-paygates-wrapper"><input type="hidden" class="pms_pay_gate" name="pay_gate" value="' . esc_attr( $paygate_key ) . '" ' . $gateway_supports_arr[$paygate_key] . ' /></div>', $active_gateways[0] );
 

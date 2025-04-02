@@ -65,6 +65,14 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
             wp_enqueue_style( 'pms-chosen', PMS_PLUGIN_DIR_URL . 'assets/libs/chosen/chosen.css', array(), PMS_VERSION );
         }
 
+        // Register script to display confirmation message in case of bulk delete
+        wp_register_script( 'pms-payments-bulk-actions-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-payments-page.js', array('jquery'), PMS_VERSION );
+        $confirmation_message = array(
+            'message'   => __( 'Are you sure you want to delete these Payments? \nThis action is irreversible.', 'paid-member-subscriptions' )
+        );
+        wp_localize_script( 'pms-payments-bulk-actions-script', 'pms_delete_payments_confirmation_message', $confirmation_message );
+        wp_enqueue_script( 'pms-payments-bulk-actions-script' );
+        
     }
 
     /**
@@ -105,14 +113,6 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
         if( empty( $action ) )
             return;
-
-        // Register script to display confirmation message in case of bulk delete
-        wp_register_script( 'pms-payments-bulk-actions-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-payments-page.js', array('jquery'), PMS_VERSION );
-        $confirmation_message = array(
-            'message'   => __( 'Are you sure you want to delete these Payments? \nThis action is irreversible.', 'paid-member-subscriptions' )
-        );
-        wp_localize_script( 'pms-payments-bulk-actions-script', 'pms_delete_payments_confirmation_message', $confirmation_message );
-        wp_enqueue_script( 'pms-payments-bulk-actions-script' );
 
         // Handle bulk delete payments
         if( $action == 'pms_bulk_delete_payments' ) {

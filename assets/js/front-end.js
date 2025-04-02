@@ -93,7 +93,7 @@ jQuery( function($) {
     // Profile Builder submit buttons
     pms_payment_buttons += '.wppb-register-user input[name=register]'
 
-    // Subscription pland ans payment gateway selectors
+    // Subscription plans and payment gateway selectors
     var subscription_plan_selector = 'input[name=subscription_plans]'
     var paygate_selector           = 'input.pms_pay_gate'
 
@@ -129,11 +129,12 @@ jQuery( function($) {
             if( $(this).is(':checked') )
                 $pms_checked_paygate = $(this)
 
-            // Show / hide the credit card details
-            if( $pms_checked_paygate.data('type') == 'credit_card' )
-                $('.pms-credit-card-information').show()
-            else
-                $('.pms-credit-card-information').hide()
+            // Show / hide extra payment gateway fields
+            if( $pms_checked_paygate.data('type') == 'extra_fields' ){
+                $('.pms-paygate-extra-fields').hide()
+                $('.pms-paygate-extra-fields-' + $pms_checked_paygate.val() ).show()
+            } else
+                $('.pms-paygate-extra-fields' ).hide()
 
             // Show billing fields
             handle_billing_fields_display()
@@ -290,8 +291,7 @@ jQuery( function($) {
                     $pms_gateways_not_available.show();
 
                     // Hide credit card fields
-                    $('.pms-credit-card-information').hide();
-                    $('.pms-billing-details').hide();
+                    $('.pms-paygate-extra-fields' ).hide()
 
                     // Disable submit button
                     if ($pms_checked_subscription.data('price') != 0) {
@@ -311,9 +311,9 @@ jQuery( function($) {
                     $pms_gateways_not_available.hide();
 
                     // Show credit card fields if the selected payment gateway supports credit cards
-                    if ($(paygate_selector + ':not([disabled]):checked[data-type="credit_card"]').length > 0) {
-                        $('.pms-credit-card-information').show();
-                        $('.pms-billing-details').show();
+                    if ( $(paygate_selector + ':not([disabled]):checked[data-type="extra_fields"]').length > 0 ) {
+                        $('.pms-paygate-extra-fields').hide()
+                        $('.pms-paygate-extra-fields-' + $(paygate_selector + ':not([disabled]):checked[data-type="extra_fields"]').val() ).show()
                     }
 
                     // Enable submit button
@@ -386,7 +386,7 @@ jQuery( function($) {
                 return
 
             if ( $pms_checked_subscription.length > 0 && !is_pb_email_confirmation_on && ( $pms_checked_subscription.data('price') != 0 || $.pms_plan_has_signup_fee( $pms_checked_subscription ) ) )
-                $('.pms-billing-details').show()
+                $('.pms-billing-details').attr('style', 'display: flex;');
 
         }
 
@@ -523,6 +523,7 @@ jQuery( function($) {
                 })
 
                 if( visible_plans === false ){
+
                     $('#pms-paygates-wrapper').hide()
                     $( paygate_selector ).attr( 'disabled', true )
                     $( paygate_selector ).closest( 'label' ).hide()
@@ -531,6 +532,12 @@ jQuery( function($) {
                     $('.pms-billing-details').hide()
 
                     $('.pms-price-breakdown__holder').hide()
+
+                    // PayPal Connect compatibility
+                    $( '.pms-paygate-extra-fields-paypal_connect' ).hide()
+
+                    $('input[type="submit"], button[type="submit"]', $(element).closest( '.pms-form, .wppb-register-user' ) ).show()
+
                 } else {
                     pmsHandleDefaultWPPBFormSelectedPlanOnLoad()
                 }
@@ -573,7 +580,8 @@ jQuery( function($) {
 
                 })
 
-                if (visible_plans === false) {
+                if ( visible_plans === false ) {
+
                     $('#pms-paygates-wrapper').hide()
                     $(paygate_selector).attr('disabled', true)
                     $(paygate_selector).closest('label').hide()
@@ -582,15 +590,26 @@ jQuery( function($) {
                     $('.pms-billing-details').hide()
 
                     $('.pms-price-breakdown__holder').hide()
+
+                    // PayPal Connect compatibility
+                    $( '.pms-paygate-extra-fields-paypal_connect' ).hide()
+
+                    $('input[type="submit"], button[type="submit"]', $(element).closest( '.pms-form, .wppb-register-user' ) ).show()
+
                 } else {
+
                     $('#pms-paygates-wrapper').show()
                     $(paygate_selector).removeAttr('disabled')
                     $(paygate_selector).closest('label').show()
 
                     $('.pms-credit-card-information').show()
-                    $('.pms-billing-details').show()
+                    $('.pms-billing-details').attr('style', 'display: flex;');
 
                     $('.pms-price-breakdown__holder').show()
+
+                    $( '.pms-paygate-extra-fields-paypal_connect' ).show()
+                    $( '.pms-form input[type="submit"]:not([name="pms_redirect_back"]):not([id="pms-apply-discount"]), .pms-form button[type="submit"], .wppb-register-user .form-submit input[type="submit"], .wppb-register-user.form-submit button[type="submit"]' ).last().hide()
+
                 }
 
             }
@@ -706,15 +725,17 @@ jQuery( function($) {
         $('<div class="pms_field-errors-wrapper pms-is-js"><p>' + error + '</p></div>').insertBefore( '#pms-paygates-wrapper' )
     }
 
-    /*
-     * Clear all field errors added with js
-     *
-     */
-    $.pms_clean_field_errors = function() {
+    $.pms_add_recaptcha_field_error = function( error, payment_button ){
 
-        $('.pms_field-errors-wrapper.pms-is-js').remove();
+        $field_wrapper = $( '#pms-recaptcha-register-wrapper', $(payment_button).closest('form') )
 
-    }
+        error = '<p>' + error + '</p>'
+
+        if ( $field_wrapper.find('.pms_field-errors-wrapper').length > 0 )
+            $field_wrapper.find('.pms_field-errors-wrapper').html(error)
+        else
+            $field_wrapper.append('<div class="pms_field-errors-wrapper pms-is-js">' + error + '</div>')
+    }       
 
     /**
      * Check if a plan has trial enabled
@@ -793,7 +814,14 @@ jQuery( function($) {
 
         form.find('#pms-paygates-wrapper').replaceWith('<span id="pms-paygates-wrapper">')
 
-        form.find('.pms-credit-card-information').hide()
+        form.find('.pms-paygate-extra-fields').hide()
+
+        // When hiding PayPal we need to restore the register button
+        if ( form.find('.pms-paygate-extra-fields-paypal_connect').length > 0 ){
+            if ( typeof $pms_checked_paygate != 'undefined' && $pms_checked_paygate.val() == 'paypal_connect' ){
+                form.find( 'input[type="submit"], button[type="submit"]' ).show()
+            }
+        }
 
         if ( typeof PMS_ChosenStrings !== 'undefined' && $.fn.chosen != undefined ) {
             form.find('#pms_billing_country').chosen('destroy')
@@ -820,8 +848,15 @@ jQuery( function($) {
         if ( typeof form.pms_paygates_wrapper != 'undefined' )
             form.find('#pms-paygates-wrapper').replaceWith( form.pms_paygates_wrapper )
 
-        if ( typeof $pms_checked_paygate != 'unedfined' && $pms_checked_paygate.data('type') == 'credit_card' )
-            form.find('.pms-credit-card-information').show()
+        if ( typeof $pms_checked_paygate != 'undefined' && $pms_checked_paygate.data('type') == 'extra_fields' )
+            form.find('.pms-paygate-extra-fields-' + $pms_checked_paygate.val() ).show()
+
+        // When showing PayPal we need to hide the register button
+        if ( form.find('.pms-paygate-extra-fields-paypal_connect').length > 0 ){
+            if ( typeof $pms_checked_paygate != 'undefined' && $pms_checked_paygate.val() == 'paypal_connect' ){
+                form.find( 'input[type="submit"]:not([name="pms_redirect_back"]):not([id="pms-apply-discount"]), button[type="submit"]' ).hide()
+            }
+        }
 
         if ( typeof form.pms_billing_details != 'undefined' ) {
 
@@ -837,6 +872,317 @@ jQuery( function($) {
             }
 
         }
+
+    }
+
+    /**
+     * Checks if a given/selected plan plus the current form state create a checkout without a payment, we call it setup_intents similar to Stripe
+     */
+    $.pms_checkout_is_setup_intents = function () {
+
+        let selected_plan = $(subscription_plan_selector + '[type=radio]').length > 0 ? $(subscription_plan_selector + '[type=radio]:checked') : $(subscription_plan_selector + '[type=hidden]')
+
+        if ( typeof selected_plan.data('trial') != 'undefined' && selected_plan.data('trial') == '1' && !$.pms_plan_has_signup_fee( selected_plan ) )
+            return true
+        // If a 100% discount code is used, initial amount will be 0
+        else if ( $('input[name="discount_code"]').length > 0 && $('input[name="discount_code"]').val().length > 0 && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0' )
+            return true
+        // Pro-rated subscriptions
+        else if ($.pms_plan_is_prorated(selected_plan) && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0')
+            return true
+
+        return false
+
+    }
+
+    /**
+     * Adds validation errors to the WPPB form
+     */
+    $.pms_form_add_wppb_validation_errors = function ( errors, current_button ) {
+
+        let scroll = false
+
+        // errors is of the form: FIELD_ID => FIELD_ERROR
+        jQuery.each(errors, function (key, value) {
+
+            let field = jQuery('#wppb-form-element-' + key)
+
+            field.addClass('wppb-field-error')
+            field.append(value)
+
+            scroll = true
+
+        })
+
+        if ( scroll )
+            $.pms_form_scrollTo( '.wppb-register-user', current_button )
+
+    }
+
+    /**
+     * Adds validation errors to the Stripe credit card information
+     */
+    $.pms_stripe_add_credit_card_error = function (error) {
+
+        if (error == '' || error == 'undefined')
+            return false
+
+        $field_wrapper = $('.pms-paygate-extra-fields-stripe_connect');
+
+        error = '<p>' + error + '</p>'
+
+        if ($field_wrapper.find('.pms_field-errors-wrapper').length > 0)
+            $field_wrapper.find('.pms_field-errors-wrapper').html(error)
+        else
+            $field_wrapper.append('<div class="pms_field-errors-wrapper pms-is-js">' + error + '</div>')
+
+    }
+
+    $.pms_form_add_validation_errors = function (errors, payment_button) {
+
+        var scrollLocation = '';
+
+        $.each(errors, function (index, value) {
+
+            if (value.target == 'form_general') {
+                $.pms_add_general_error(value.message)
+
+                scrollLocation = '.pms-form'
+            } else if (value.target == 'subscription_plan' || value.target == 'subscription_plans') {
+                $.pms_add_subscription_plans_error(value.message)
+
+                if (scrollLocation == '')
+                    scrollLocation = '.pms-field-subscriptions'
+            } else if (value.target == 'credit_card') {
+                $.pms_stripe_add_credit_card_error(value.message)
+
+                if (scrollLocation == '')
+                    scrollLocation = '#pms-paygates-wrapper'
+            } else if (value.target == 'recaptcha-register') {
+
+                $.pms_add_recaptcha_field_error(value.message, payment_button)
+
+            } else {
+                $.pms_add_field_error(value.message, value.target)
+
+                if (scrollLocation == '' && value.target.indexOf('pms_billing') !== -1)
+                    scrollLocation = '.pms-billing-details'
+                else
+                    scrollLocation = '.pms-form'
+            }
+
+        })
+
+        if ($(payment_button).attr('name') == 'pms_update_payment_method' && scrollLocation == '#pms-paygates-wrapper')
+            scrollLocation = '#pms-credit-card-information';
+
+        $.pms_form_scrollTo(scrollLocation, payment_button)
+
+    }
+
+    $.pms_form_reset_submit_button = function(target) {
+
+        if (!target.data || !target.data('original-value') || typeof target.data('original-value') == undefined) {
+            value = target.val()
+        } else {
+            value = target.data('original-value')
+        }
+
+        setTimeout(function () {
+            target.attr('disabled', false).removeClass('pms-submit-disabled').val(value).blur()
+
+            if ($(target).is('button'))
+                $(target).text(value)
+
+        }, 1)
+
+    }
+
+    $.pms_form_scrollTo = function( scrollLocation, payment_button )  {
+
+        var form = $( scrollLocation )[0]
+
+        if (typeof form == 'undefined') {
+            $.pms_form_reset_submit_button( payment_button )
+            return
+        }
+
+        var coord = form.getBoundingClientRect().top + window.scrollY
+        var offset = -170
+
+        window.scrollTo({
+            top: coord + offset,
+            behavior: 'smooth'
+        })
+
+        $.pms_form_reset_submit_button( payment_button )
+
+    }
+
+    $.pms_form_remove_errors = function() {
+
+        $('.pms_field-errors-wrapper').remove()
+
+        if ($('.pms-stripe-error-message').length > 0)
+            $('.pms-stripe-error-message').remove()
+
+        if ($('.wppb-register-user').length > 0) {
+
+            $('.wppb-form-error').remove()
+
+            $('.wppb-register-user .wppb-form-field').each(function () {
+
+                $(this).removeClass('wppb-field-error')
+
+            })
+
+        }
+
+    }
+
+    $.pms_form_get_data = function( current_button, verify_captcha = false ) {
+
+        if (!current_button)
+            return false
+
+        var form = $(current_button).closest('form')
+
+        // grab all data from the form
+        var data = form.serializeArray().reduce(function (obj, item) {
+            obj[item.name] = item.value
+            return obj
+        }, {})
+
+        // setup our custom AJAX action and add the current page URL
+        data.action = 'pms_process_checkout'
+        data.current_page = window.location.href
+        data.pms_nonce = $('#pms-process-checkout-nonce').val()
+        data.form_type = $('.wppb-register-user .wppb-subscription-plans').length > 0 ? 'wppb' : $('.pms-ec-register-form').length > 0 ? 'pms_email_confirmation' : 'pms'
+
+        /**
+         * Add the name of the submit button as a key to the request data
+         * this is necessary for logged in actions like change, retry or renew subscription
+         */
+        data[current_button.attr('name')] = true
+
+        /**
+         * Add the form_action field from the form necessary for Change Subscription form requests
+         */
+        if ($('input[name="form_action"]', form) && $('input[name="form_action"]', form).length > 0)
+            data.form_action = $('input[name="form_action"]', form).val()
+
+        // add WPPB fields metadata to request if necessary
+        if (data.form_type == 'wppb') {
+            data.wppb_fields = $.pms_form_get_wppb_fields(current_button)
+        }
+
+        // if user is logged in, set form type to current form
+        if ($('body').hasClass('logged-in'))
+            data.form_type = $('input[type="submit"], button[type="submit"]', form).not('#pms-apply-discount').not('input[name="pms_redirect_back"]').attr('name')
+
+        // This will be used to determine if the checkout involves a payment or not in case of a trial subscription
+        if ($.pms_checkout_is_setup_intents())
+            data.setup_intent = true
+
+        if (data.pms_current_subscription)
+            data.subscription_id = data.pms_current_subscription
+
+        // Recaptcha Compatibility
+        // If reCaptcha field was not validated, don't send data to the server
+        if (verify_captcha && typeof data['g-recaptcha-response'] != 'undefined' && data['g-recaptcha-response'] == '') {
+
+            if ( data.form_type == 'wppb' )
+                $.pms_form_add_wppb_validation_errors({ recaptcha: { field: 'recaptcha', error: '<span class="wppb-form-error">This field is required</span>' } }, current_button)
+            else
+                $.pms_add_recaptcha_field_error( 'Please complete the reCaptcha.', current_button )
+
+            $.pms_form_reset_submit_button(current_button)
+
+            return false
+
+        }
+
+        return data
+
+    }
+
+    $.pms_form_get_wppb_fields = function( current_button ) {
+
+        var fields = {}
+
+        // Taken from Multi Step Forms
+        jQuery('li.wppb-form-field', jQuery(current_button).closest('form')).each(function () {
+
+            if (jQuery(this).attr('class').indexOf('heading') == -1 && jQuery(this).attr('class').indexOf('wppb_billing') == -1
+                && jQuery(this).attr('class').indexOf('wppb_shipping') == -1 && jQuery(this).attr('class').indexOf('wppb-shipping') == -1) {
+
+                var meta_name;
+
+                if (jQuery(this).hasClass('wppb-repeater') || jQuery(this).parent().attr('data-wppb-rpf-set') == 'template' || jQuery(this).hasClass('wppb-recaptcha')) {
+                    return true;
+                }
+
+                if (jQuery(this).hasClass('wppb-send-credentials-checkbox'))
+                    return true;
+
+                /* exclude conditional required fields */
+                if (jQuery(this).find('[conditional-value]').length !== 0) {
+                    return true;
+                }
+
+                fields[jQuery(this).attr('id')] = {};
+                fields[jQuery(this).attr('id')]['class'] = jQuery(this).attr('class');
+
+                if (jQuery(this).hasClass('wppb-woocommerce-customer-billing-address')) {
+                    meta_name = 'woocommerce-customer-billing-address';
+                } else if (jQuery(this).hasClass('wppb-woocommerce-customer-shipping-address')) {
+                    meta_name = 'woocommerce-customer-shipping-address';
+
+                    if (!jQuery('.wppb-woocommerce-customer-billing-address #woo_different_shipping_address', jQuery(current_button).closest('form')).is(':checked')) {
+                        return true;
+                    }
+                } else {
+                    meta_name = jQuery(this).find('label').attr('for');
+
+                    //fields[jQuery( this ).attr( 'id' )]['required'] = jQuery( this ).find( 'label' ).find( 'span' ).attr( 'class' );
+                    fields[jQuery(this).attr('id')]['title'] = jQuery(this).find('label').first().text().trim();
+                }
+
+                fields[jQuery(this).attr('id')]['meta-name'] = meta_name;
+
+                if (jQuery(this).parent().parent().attr('data-wppb-rpf-meta-name')) {
+                    var repeater_group = jQuery(this).parent().parent();
+
+                    fields[jQuery(this).attr('id')]['extra_groups_count'] = jQuery(repeater_group).find('#' + jQuery(repeater_group).attr('data-wppb-rpf-meta-name') + '_extra_groups_count').val();
+                }
+
+                if (jQuery(this).hasClass('wppb-woocommerce-customer-billing-address')) {
+                    var woo_billing_fields_fields = {};
+
+                    jQuery('ul.wppb-woo-billing-fields li.wppb-form-field', jQuery(current_button).closest('form')).each(function () {
+                        if (!jQuery(this).hasClass('wppb_billing_heading')) {
+                            woo_billing_fields_fields[jQuery(this).find('label').attr('for')] = jQuery(this).find('label').text();
+                        }
+                    });
+
+                    fields[jQuery(this).attr('id')]['fields'] = woo_billing_fields_fields;
+                }
+
+                if (jQuery(this).hasClass('wppb-woocommerce-customer-shipping-address')) {
+                    var woo_shipping_fields_fields = {};
+
+                    jQuery('ul.wppb-woo-shipping-fields li.wppb-form-field', jQuery(current_button).closest('form')).each(function () {
+                        if (!jQuery(this).hasClass('wppb_shipping_heading')) {
+                            woo_shipping_fields_fields[jQuery(this).find('label').attr('for')] = jQuery(this).find('label').text();
+                        }
+                    });
+
+                    fields[jQuery(this).attr('id')]['fields'] = woo_shipping_fields_fields;
+                }
+            }
+        })
+
+        return fields
 
     }
 
@@ -902,23 +1248,10 @@ jQuery( function($) {
         })
 
         $('.wppb-edit-user input[required]').on('invalid', function(e){
-            pms_reset_submit_button( $('.wppb-edit-user .wppb-subscription-plans input[type="submit"]').first() )
+            $.pms_reset_submit_button( $('.wppb-edit-user .wppb-subscription-plans input[type="submit"]').first() )
         })
 
     })
-
-    function pms_reset_submit_button( target ) {
-
-        setTimeout( function() {
-
-            target.attr( 'disabled', false ).removeClass( 'pms-submit-disabled' ).val( target.data( 'original-value' ) ).blur();
-
-            if( $( target ).is( 'button' ) )
-                $( target ).text( target.data('original-value') )
-
-        }, 1 )
-
-    }
 
 })
 
@@ -950,7 +1283,7 @@ jQuery( function($) {
         }
 
         // Autocomplete email address
-        $('input[name=pms_billing_email]').each(function () {
+        $( 'input[name=pms_billing_email], input[name=pms_billing_first_name], input[name=pms_billing_last_name]' ).each(function () {
 
             if ( $(this).val() != '' )
                 $(this).addClass('pms-has-value')
@@ -960,7 +1293,7 @@ jQuery( function($) {
     })
 
     /**
-     * Fill in billing email address when typing the email address
+     * Fill up Email Address, First Name and Last Name based on what the user has type in the other fields
      *
      */
     $(document).on('keyup', '#pms_user_email, .wppb-form-field input[name=email]', function () {
@@ -972,6 +1305,30 @@ jQuery( function($) {
             return false
 
         $(this).closest('form').find('[name=pms_billing_email]').val( $(this).val() )
+
+    })
+
+    $(document).on('keyup', '#pms_first_name', function () {
+
+        if ( $(this).closest('form').find('[name=pms_billing_first_name]').length == 0 )
+            return false
+
+        if ( $(this).closest('form').find('[name=pms_billing_first_name]').hasClass('pms-has-value') )
+            return false
+
+        $(this).closest('form').find('[name=pms_billing_first_name]').val( $(this).val() )
+
+    })
+
+    $(document).on('keyup', '#pms_last_name', function () {
+
+        if ( $(this).closest('form').find('[name=pms_billing_last_name]').length == 0 )
+            return false
+
+        if ( $(this).closest('form').find('[name=pms_billing_last_name]').hasClass('pms-has-value') )
+            return false
+
+        $(this).closest('form').find('[name=pms_billing_last_name]').val( $(this).val() )
 
     })
 

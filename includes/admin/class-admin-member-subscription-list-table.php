@@ -19,7 +19,7 @@ Class PMS_Member_Subscription_List_Table extends WP_List_Table {
      * Member
      *
      * @access public
-     * @var int
+     * @var Object
      */
     public $member;
 

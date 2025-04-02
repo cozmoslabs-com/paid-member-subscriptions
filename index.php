@@ -3,16 +3,16 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.14.4
+ * Version: 2.14.5
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * Domain Path: /translations
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 9.7
- * Elementor tested up to: 3.28.1
- * Elementor Pro tested up to: 3.28.1
+ * WC tested up to: 9.8
+ * Elementor tested up to: 3.28.3
+ * Elementor Pro tested up to: 3.28.3
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.14.4' );
+        define( 'PMS_VERSION', '2.14.5' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -474,6 +474,9 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-form-handler.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/class-form-handler.php';
 
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-ajax-checkout.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/class-ajax-checkout.php';
+
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-form-extra-fields.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-form-extra-fields.php';
 
@@ -768,17 +771,8 @@ Class Paid_Member_Subscriptions {
             include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_standard/functions-paypal-standard.php';
 
         // PayPal Standard Recurring
-        $add_ons_settings = get_option( 'pms_add_ons_settings', array() );
-
-        if( !isset( $add_ons_settings['pms-add-on-paypal-standard-recurring-payments/index.php'] ) || $add_ons_settings['pms-add-on-paypal-standard-recurring-payments/index.php'] != true ){
-            if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_standard/functions-paypal-standard-recurring.php' ) )
-                include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_standard/functions-paypal-standard-recurring.php';
-        }
-
-        // we don't do this above so we are making sure that there are no fatal errors even though on a first load, it might look like this functionality is not available
-        $add_ons_settings['pms-add-on-paypal-standard-recurring-payments/index.php'] = false;
-
-        update_option( 'pms_add_ons_settings', $add_ons_settings );
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_standard/functions-paypal-standard-recurring.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_standard/functions-paypal-standard-recurring.php';
 
         // Stripe Connect
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'assets/libs/stripe/init.php' ) )
@@ -801,6 +795,25 @@ Class Paid_Member_Subscriptions {
 
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/apple-pay/functions-apple-pay.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/stripe/apple-pay/functions-apple-pay.php';
+
+        // PayPal Connect
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/functions.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/functions.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/admin/functions-admin.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/admin/functions-admin.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/admin/functions-admin-filters.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/admin/functions-admin-filters.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/functions-actions.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/functions-actions.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/functions-filters.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/gateways/paypal_connect/functions-filters.php';
 
         /*
          * Content restriction
@@ -827,6 +840,8 @@ Class Paid_Member_Subscriptions {
         /**
          * Discounts
          */
+        $add_ons_settings = get_option( 'pms_add_ons_settings', array() );
+        
         if( !isset( $add_ons_settings['pms-add-on-discount-codes/index.php'] ) || $add_ons_settings['pms-add-on-discount-codes/index.php'] != true ){
 
             if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/features/discount-codes/index.php' ) )
@@ -904,6 +919,9 @@ Class Paid_Member_Subscriptions {
 
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/profile-builder/functions.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'extend/profile-builder/functions.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/profile-builder/functions-filters.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'extend/profile-builder/functions-filters.php';
 
         if (file_exists(PMS_PLUGIN_DIR_PATH . 'extend/profile-builder/front-end/subscription-plans-field.php'))
             include_once PMS_PLUGIN_DIR_PATH . 'extend/profile-builder/front-end/subscription-plans-field.php';

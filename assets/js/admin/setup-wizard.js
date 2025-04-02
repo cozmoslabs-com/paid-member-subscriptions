@@ -32,19 +32,19 @@ jQuery( function($){
 
     $(document).ready( function(){
 
-        if( $('#pms_gateway_paypal_standard').prop( 'checked' ) )
-            $('.pms-setup-gateway-extra.paypal').css( 'display', 'flex' )
+        if( $('#pms_gateway_paypal_connect').prop( 'checked' ) )
+            $('.pms-setup-gateway-extra.paypal_connect').css( 'display', 'flex' )
 
         if( $('#pms_gateway_stripe').prop( 'checked' ) )
             $('.pms-setup-gateway-extra.stripe').css( 'display', 'flex' )
 
-        $('label[for="pms_gateway_paypal_standard"]').click( function(){
-            var value = $('#pms_gateway_paypal_standard').prop( 'checked' )
+        $('label[for="pms_gateway_paypal_connect"]').click( function(){
+            var value = $('#pms_gateway_paypal_connect').prop( 'checked' )
 
             if( value === false )
-                $('.pms-setup-gateway-extra.paypal').css( 'display', 'flex' )
+                $('.pms-setup-gateway-extra.paypal_connect').css( 'display', 'flex' )
             else
-                $('.pms-setup-gateway-extra.paypal').css( 'display', 'none' )
+                $('.pms-setup-gateway-extra.paypal_connect').css( 'display', 'none' )
         })
 
         $('label[for="pms_gateway_stripe"]').click( function(){

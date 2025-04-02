@@ -78,19 +78,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </h4>
 
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
-                <label class="cozmoslabs-form-field-label" for="pms-plugin-optin"><?php esc_html_e( 'Marketing Optin' , 'paid-member-subscriptions' ) ?></label>
-
-                <div class="cozmoslabs-toggle-container">
-                    <input type="checkbox" id="pms-plugin-optin" name="pms_misc_settings[plugin-optin]" value="yes" <?php echo ( isset( $this->options['plugin-optin'] ) && $this->options['plugin-optin'] == 'yes' ? 'checked' : '' ); ?> />
-                    <label class="cozmoslabs-toggle-track" for="pms-plugin-optin"></label>
-                </div>
-
-                <div class="cozmoslabs-toggle-description">
-                    <label for="pms-plugin-optin" class="cozmoslabs-description"><?php esc_html_e( 'Opt in to our security and feature updates notifications, and non-sensitive diagnostic tracking.', 'paid-member-subscriptions' ); ?></label>
-                </div>
-            </div>
-
-            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
                 <label class="cozmoslabs-form-field-label" for="hide-admin-bar"><?php esc_html_e( 'Admin Bar' , 'paid-member-subscriptions' ) ?></label>
 
                 <div class="cozmoslabs-toggle-container">
@@ -169,6 +156,32 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear.', 'paid-member-subscriptions' ); ?></p>
                 <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                <label class="cozmoslabs-form-field-label" for="cr-metabox-include-inactive-plans"><?php esc_html_e( 'Include inactive subscription plans in the content restriction metabox' , 'paid-member-subscriptions' ) ?></label>
+
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="cr-metabox-include-inactive-plans" name="pms_misc_settings[cr-metabox-include-inactive-plans]" value="1" <?php echo ( isset( $this->options['cr-metabox-include-inactive-plans'] ) && $this->options['cr-metabox-include-inactive-plans'] == '1' ? 'checked' : '' ); ?> />
+                    <label class="cozmoslabs-toggle-track" for="cr-metabox-include-inactive-plans"></label>
+                </div>
+
+                <div class="cozmoslabs-toggle-description">
+                    <label for="cr-metabox-include-inactive-plans" class="cozmoslabs-description"><?php esc_html_e( 'By default, inactive subscription plans are not included in the content restriction metabox. Check this option to include them and make them available for selection.', 'paid-member-subscriptions' ); ?></label>
+                </div>
+            </div>
+
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                <label class="cozmoslabs-form-field-label" for="pms-plugin-optin"><?php esc_html_e( 'Marketing Optin' , 'paid-member-subscriptions' ) ?></label>
+
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="pms-plugin-optin" name="pms_misc_settings[plugin-optin]" value="yes" <?php echo ( isset( $this->options['plugin-optin'] ) && $this->options['plugin-optin'] == 'yes' ? 'checked' : '' ); ?> />
+                    <label class="cozmoslabs-toggle-track" for="pms-plugin-optin"></label>
+                </div>
+
+                <div class="cozmoslabs-toggle-description">
+                    <label for="pms-plugin-optin" class="cozmoslabs-description"><?php esc_html_e( 'Opt in to our security and feature updates notifications, and non-sensitive diagnostic tracking.', 'paid-member-subscriptions' ); ?></label>
+                </div>
             </div>
 
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
@@ -389,7 +402,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <div class="cozmoslabs-form-field-wrapper">
                     <label class="cozmoslabs-form-field-label" for="payment-retry-retry-interval"><?php esc_html_e( 'Retry Interval', 'paid-member-subscriptions' ) ?></label>
                     <input type="text" id="payment-retry-retry-interval" class="widefat" name="pms_misc_settings[payments][payment_retry_retry_interval]" value="<?php echo ( isset($this->options['payments']['payment_retry_retry_interval']) ? esc_attr( $this->options['payments']['payment_retry_retry_interval'] ) : esc_attr( apply_filters( 'pms_retry_payment_interval', 3, '' ) ) ); ?>">
-                    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Enter the interval between retries for the payment retry functionality.', 'paid-member-subscriptions' ); ?></p>
+                    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Enter the interval in days between retries for the payment retry functionality.', 'paid-member-subscriptions' ); ?></p>
                 </div>
             </div>
 

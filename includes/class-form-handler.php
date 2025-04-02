@@ -55,6 +55,8 @@ Class PMS_Form_Handler {
 
         }
 
+        do_action( 'pms_register_form_extra', 0 );
+
         // Check if we need to register the user without him selecting a subscription (becoming a member) - thins happens when "subscription_plans" param in register form is = "none"
         if ( isset( $_POST['pmstkn2'] ) && ( wp_verify_nonce( sanitize_text_field( $_POST['pmstkn2'] ), 'pms_register_user_no_subscription_nonce' ) ) ) {
 
@@ -569,10 +571,6 @@ Class PMS_Form_Handler {
 
             }
 
-            // Log attempt
-            if( isset( $_GET['subscription_id'] ) )
-                pms_add_member_subscription_log( absint( $_GET['subscription_id'] ), 'subscription_upgrade_attempt', array( 'new_plan' => isset( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : '' ) );
-
             // Hook useful for saving extra information
             do_action( 'pms_upgrade_subscription_form_extra', get_current_user_id() );
 
@@ -983,8 +981,17 @@ Class PMS_Form_Handler {
         if( isset( $_POST['pms_confirm_retry_payment_subscription'] ) ) {
 
             // Validate data sent from the retry subscription form
-            if( !self::validate_retry_payment_form() )
-                return;
+            if( !self::validate_retry_payment_form() ){
+
+                // return errors for AJAX requests
+                if( wp_doing_ajax() )
+                    self::return_generated_errors_for_ajax();
+                else
+                    return;
+
+            }
+
+            do_action( 'pms_retry_payment_subscription_form_extra', get_current_user_id() );
 
             // Proceed to checkout
             self::process_checkout();
@@ -1906,7 +1913,7 @@ Class PMS_Form_Handler {
             /**
              * We can't assume that this won't get executed multiple times. ( on PB registration if we had the field multiple times this executed as many times as the number of fields
              * and resulted in the user having the same subscription multiple times )
-             * After a discussion we decided to make sure that the user can't have the same subscription multiple times amd we should prevent this
+             * After a discussion we decided to make sure that the user can't have the same subscription multiple times and we should prevent this
              * There is a possible feature request to allow the same subscription multiple times but for now we leave it like this
              */
             $subscription_already_exist = false;
@@ -1922,10 +1929,12 @@ Class PMS_Form_Handler {
             }
 
             if( !$subscription_already_exist ) {
-                $subscription = new PMS_Member_Subscription();
-                $subscription->insert($subscription_data);
+                $subscription        = new PMS_Member_Subscription();
+                $new_subscription_id = $subscription->insert($subscription_data);
 
                 pms_add_member_subscription_log( $subscription->id, 'subscription_added' );
+
+                $subscription_data['id'] = $new_subscription_id;
 
                 /**
                  * Action that fires after inserting the $subscription_data inside the db
@@ -1960,6 +1969,8 @@ Class PMS_Form_Handler {
                 }
 
                 $subscription = $current_subscription;
+
+                $subscription_data['id'] = $subscription->id;
 
             }
 
@@ -2106,9 +2117,18 @@ Class PMS_Form_Handler {
             $payment_gateway_data = apply_filters( 'pms_register_payment_data', $payment_gateway_data, $payments_settings );
 
 
-            // Log retry payment attempt
-            if( $form_location == 'retry_payment' )
+            // Log different subscription action attempts
+            if( $form_location == 'retry_payment' ){
                 pms_add_member_subscription_log( $subscription->id, 'subscription_retry_attempt' );
+            } else if( $form_location == 'change_subscription' ){
+                pms_add_member_subscription_log( $subscription->id, 'subscription_change_attempt', array( 'new_plan' => isset( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : '' ) );
+            } else if( $form_location == 'upgrade_subscription' ){
+                pms_add_member_subscription_log( $subscription->id, 'subscription_upgrade_attempt', array( 'new_plan' => isset( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : '' ) );
+            } else if( $form_location == 'downgrade_subscription' ){
+                pms_add_member_subscription_log( $subscription->id, 'subscription_downgrade_attempt', array( 'new_plan' => isset( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : '' ) );
+            } else if( $form_location == 'renew_subscription' ){
+                pms_add_member_subscription_log( $subscription->id, 'subscription_renew_attempt' );
+            }
 
             /**
              * Action that fires just before sending the user to the payment processor
@@ -2122,7 +2142,6 @@ Class PMS_Form_Handler {
 
                 // Get payment gateway
                 $payment_gateway = self::checkout_get_payment_gateway( $payment_gateway_data );
-
 
                 /**
                  * If the payment gateway supports user payment agreements, as in a user can choose to Agree
@@ -2185,6 +2204,8 @@ Class PMS_Form_Handler {
 
         }
 
+        do_action( 'pms_checkout_after_payment_is_processed', $payment_response, $subscription, $form_location );
+
         // If all good handle subscriptions
         if( $payment_response ) {
 
@@ -2218,7 +2239,14 @@ Class PMS_Form_Handler {
                         update_option( 'pms_used_trial_' . $subscription_plan->id, $used_trial, false );
                     }
 
-                    pms_add_member_subscription_log( $subscription->id, 'subscription_activated', array( 'until' => $subscription_data['expiration_date'] ) );
+                    if( isset( $subscription_data['expiration_date'] ) )
+                        $args = array( 'until' => $subscription_data['expiration_date'] );
+                    else if( isset( $subscription_data['billing_next_payment'] ) )
+                        $args = array( 'until' => $subscription_data['billing_next_payment'] );
+                    else
+                        $args = array();
+
+                    pms_add_member_subscription_log( $subscription->id, 'subscription_activated', $args );
 
                     break;
 
@@ -2229,11 +2257,7 @@ Class PMS_Form_Handler {
                 // changing the subscription
                 case 'change_subscription':
 
-                    // Payment can be not set when the new subscription plan is free
-                    if( !isset( $payment ) )
-                        $payment = '';
-
-                    do_action( 'pms_psp_before_'. $form_location, $subscription, $payment, $subscription_data );
+                    do_action( 'pms_psp_before_'. $form_location, $subscription, isset( $payment ) ? $payment : 0, $subscription_data );
 
                     $context = 'change';
 
@@ -2253,7 +2277,7 @@ Class PMS_Form_Handler {
 
                     $subscription->update( $subscription_data );
 
-                    do_action( 'pms_psp_after_'. $form_location, $subscription, $payment );
+                    do_action( 'pms_psp_after_'. $form_location, $subscription, isset( $payment ) ? $payment : 0 );
 
                     pms_delete_member_subscription_meta( $subscription->id, 'pms_retry_payment' );
 
@@ -2314,9 +2338,13 @@ Class PMS_Form_Handler {
 
             if( wp_doing_ajax() ){
 
-                if( isset( $payment ) )
-                    self::return_failed_payment_redirect_for_ajax( $payment->id, $form_location );
-                // TODO: have a clean return here with the other message without a payment_id
+                $data = array(
+                    'success'      => false,
+                    'redirect_url' => PMS_AJAX_Checkout_Handler::get_payment_error_redirect_url( $payment->id ),
+                );
+
+                echo json_encode( $data );
+                die();
 
             } else {
 
@@ -2350,15 +2378,47 @@ Class PMS_Form_Handler {
          */
         if( isset( $_POST['pmstkn'] ) ) {
 
-            if( isset( $payment ) && isset( $payment->id ) )
-                $success_redirect_link = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pms_gateway_payment_action' => base64_encode( $form_location ), 'pms_gateway_payment_id' => base64_encode( $payment->id ) ), self::get_redirect_url() );
+            if( wp_doing_ajax() ){
 
-            else
-                $success_redirect_link = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pms_gateway_payment_action' => base64_encode( $form_location ) ), self::get_redirect_url() );
+                $payment_id = isset( $payment ) && isset( $payment->id ) ? $payment->id : 0;
 
-            wp_redirect( $success_redirect_link );
-            exit;
+                $data = array(
+                    'success'      => true,
+                    'redirect_url' => PMS_AJAX_Checkout_Handler::get_success_redirect_url( $form_location, $payment_id ),
+                );
 
+                echo json_encode( $data );
+                die();
+
+            } else {
+
+                if ( isset( $payment ) && isset( $payment->id ) )
+                    $success_redirect_link = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pms_gateway_payment_action' => base64_encode( $form_location ), 'pms_gateway_payment_id' => base64_encode( $payment->id ) ), self::get_redirect_url() );
+                else
+                    $success_redirect_link = add_query_arg (array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pms_gateway_payment_action' => base64_encode( $form_location ) ), self::get_redirect_url() );
+
+                wp_redirect( $success_redirect_link );
+                exit;
+
+            }
+
+        } else {
+
+            // This is a WPPB form and this situation is reached when the checkout is using PayPal. The pms_pb_save_subscription_plans_value function is executing the checkout process from PMS.
+            // Errors are handled separately in the AJAX Checkout Class
+            if( wp_doing_ajax() && isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
+
+                $payment_id = isset( $payment ) && isset( $payment->id ) ? $payment->id : 0;
+
+                $data = array(
+                    'success'      => true,
+                    'redirect_url' => PMS_AJAX_Checkout_Handler::get_success_redirect_url( $form_location, $payment_id ),
+                );
+
+                echo json_encode( $data );
+                die();
+                
+            }
         }
 
     }
@@ -2470,37 +2530,6 @@ Class PMS_Form_Handler {
         }
 
         return $subscription_data;
-    }
-
-    public static function return_failed_payment_redirect_for_ajax( $payment_id, $form_location ){
-        
-        $redirect_page = '';
-
-        if( in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation' ) ) )
-            $redirect_page = pms_get_page( 'register', true );
-        else
-            $redirect_page = pms_get_page( 'account', true );
-
-        if( empty( $redirect_page ) && !empty( $_POST['current_page'] ) )
-            $redirect_page = esc_url_raw( $_POST['current_page'] );
-
-        // TODO: Log this case / add a notice / by adding an option or something we can make the user aware of this 'error'
-        if( empty( $redirect_page ) )
-            die();
-
-        $data                 = array();
-        $data['error']        = true;
-        $data['redirect_url'] = add_query_arg(
-            array(
-                'pms_payment_error' => '1',
-                'pms_is_register'   => in_array( $form_location, array( 'register', 'register_email_confirmation' ) ) ? '1' : '0',
-                'pms_payment_id'    => $payment_id ),
-            $redirect_page
-        );
-
-        echo json_encode( $data );
-        die();
-
     }
 
     // TODO: this should be removed and replaced with PMS_Emails::pms_email_content_type()

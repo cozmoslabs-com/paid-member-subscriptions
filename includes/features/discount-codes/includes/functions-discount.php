@@ -370,7 +370,7 @@ function pms_in_dc_check_is_full_discount( $code = '', $subscription_plan_id = 0
 
     } else {
 
-        if( $discounted_amount == 0 && empty( $subscription_plan->sign_up_fee ) )
+        if( $discounted_amount == 0 )
             $is_full_discount = true;
 
     }

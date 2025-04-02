@@ -125,7 +125,10 @@ foreach( $subscriptions as $subscription ) :
                                         <?php echo !empty( $payment_method_data['pms_payment_method_expiration_year'] ) ? esc_html( $payment_method_data['pms_payment_method_expiration_year'] ) : '' ?>
                                     </span>
                                 </div>
-                            <?php endif; ?>
+                                <?php else : 
+                                    // If we don't deal with a traditional Card payment method, run a custom action so the payment gateway can add it's own output
+                                    do_action( 'pms_account_subscription_details_table_payment_method_content', $subscription );
+                                endif; ?>
 
                             <?php echo wp_kses_post( apply_filters( 'pms_output_subscription_plan_action_update_payment_method', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__update-payment-method" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'update_payment_method', 'subscription_id' => $subscription->id  ), pms_get_current_page_url( true ) ), 'pms_update_payment_method', 'pmstkn' ) ) . '" title="'. __( 'Update the payment method attached to a recurring subscription.', 'paid-member-subscriptions' ) .'">' . __( 'Update', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id ) ); ?>
 

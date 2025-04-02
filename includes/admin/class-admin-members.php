@@ -781,6 +781,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'subscription_retry_attempt':
                 $message = __( 'User attempted to retry the payment for his subscription.', 'paid-member-subscriptions' );
                 break;
+            case 'subscription_renew_attempt':
+                $message = __( 'User attempted to renew his subscription.', 'paid-member-subscriptions' );
+                break;
             case 'subscription_upgrade_success':
                 $message = sprintf( __( 'Subscription successfully upgraded from <strong>%s</strong> to <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->parse_admin_changed_value( $log['data']['old_plan'], 'Subscription Plan' ), $this->parse_admin_changed_value( $log['data']['new_plan'], 'Subscription Plan' ) );
                 break;
@@ -882,6 +885,21 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
                 $message = sprintf( __( 'Subscription updated through an import done by %s. The following keys were updated: %s', 'paid-member-subscriptions' ), '<strong>' . $admin_name . '</strong>', $fields );
 
+                break;
+            case 'paypal_payment_token_created':
+                $message = __( 'Payment Token successfully setup with PayPal for this subscription.', 'paid-member-subscriptions' );
+                break;
+            case 'paypal_payment_token_creation_failed':
+                $message = __( 'Payment Token creation failed with PayPal for this subscription.', 'paid-member-subscriptions' );
+                break;
+            case 'paypal_webhook_subscription_expired':
+                $message = __( 'Subscription expired because the payment was refunded in the PayPal Dashboard.', 'paid-member-subscriptions' );
+                break;
+            case 'paypal_webhook_payment_token_deleted':
+                $message = __( 'Subscription was canceled because the payment token was deleted.', 'paid-member-subscriptions' );
+                break;
+            case 'paypal_webhook_payment_token_created':
+                $message = __( 'Payment token created and assigned to the subscription.', 'paid-member-subscriptions' );
                 break;
             default:
                 $message = __( 'Something went wrong.', 'paid-member-subscriptions' );

@@ -115,7 +115,7 @@ class PMS_IpnListener {
         if ($this->response === false || $this->response_status == '0') {
             $errno = curl_errno($ch);
             $errstr = curl_error($ch);
-            throw new Exception("cURL error: [$errno] $errstr");
+            throw new Exception("cURL error: [$errno] $errstr"); // phpcs:ignore
         }
     }
 
@@ -145,7 +145,7 @@ class PMS_IpnListener {
 
         if (!$fp) {
             // fsockopen error
-            throw new Exception("fsockopen error: [$errno] $errstr");
+            throw new Exception("fsockopen error: [$errno] $errstr"); // phpcs:ignore
         }
 
         $header = "POST /cgi-bin/webscr HTTP/1.1\r\n";
@@ -283,7 +283,7 @@ class PMS_IpnListener {
         else $this->fsockPost($encoded_data);
 
         if (strpos($this->response_status, '200') === false) {
-            throw new Exception("Invalid response status: ".$this->response_status);
+            throw new Exception("Invalid response status: ".esc_html($this->response_status));
         }
 
         if (strpos($this->response, "VERIFIED") !== false) {

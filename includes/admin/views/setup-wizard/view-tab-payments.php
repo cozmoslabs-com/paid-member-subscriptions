@@ -70,7 +70,7 @@
                 } else {
                     if( isset( $_GET['pms_stripe_connect_success'] ) && $_GET['pms_stripe_connect_success'] == 1 ){
 
-                        echo '<p style="text-align:center; font-size: 110%; color: green;">' . sprintf( __('You are connected in %s mode. You can start accepting payments', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? 'Test' : 'Live' ) . '</p>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        echo '<p style="text-align:center; font-size: 110%; color: green;">' . sprintf( __('You are connected in %s mode. You can start accepting payments.', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? 'Test' : 'Live' ) . '</p>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
                     } else {
                         if( isset( $_GET['pms_stripe_connect_platform_error'] ) && !empty( $_GET['code'] ) ){
@@ -123,25 +123,26 @@
 
             <div class="cozmoslabs-toggle-switch">
                 <div class="cozmoslabs-toggle-container">
-                    <input type="checkbox" id="pms_gateway_paypal_standard" name="pms_gateway_paypal_standard" value="1" <?php echo $this->check_gateway( 'paypal_standard' ) ? 'checked' : '' ?> />
-                    <label class="cozmoslabs-toggle-track" for="pms_gateway_paypal_standard"></label>
+                    <input type="checkbox" id="pms_gateway_paypal_connect" name="pms_gateway_paypal_connect" value="1" <?php echo $this->check_gateway( 'paypal_connect' ) ? 'checked' : '' ?> />
+                    <label class="cozmoslabs-toggle-track" for="pms_gateway_paypal_connect"></label>
                 </div>
             </div>
         </div>
 
-        <div class="pms-setup-gateway pms-setup-gateway-extra paypal">
+        <div class="pms-setup-gateway pms-setup-gateway-extra paypal_connect">
             <div class="pms-setup-gateway__logo" style="border:none;"></div>
 
-            <div class="pms-setup-gateway__description pms-setup-gateway__description-extra paypal">
-                <div class="pms-setup-gateway__description--inner cozmoslabs-form-field-wrapper" style="margin-top:0px !important;">
-                    <label class="pms-setup-label" for="pms_gateway_paypal_email_address"><?php esc_html_e( 'PayPal Email Address', 'paid-member-subscriptions' ); ?></label>
-                    <input type="email" name="pms_gateway_paypal_email_address" id="pms_gateway_paypal_email_address" value="<?php echo esc_attr( isset( $this->payments_settings['gateways']['paypal_standard']['email_address'] ) ? $this->payments_settings['gateways']['paypal_standard']['email_address'] : '' ); ?>" />
-                </div>
-                <div class="pms-setup-gateway__description--inner">
-                    <?php echo wp_kses( __( 'For payments to work correctly, you will also need to <strong>setup the IPN URL in your PayPal account</strong>.', 'paid-member-subscriptions' ), $this->kses_args ); ?>
-                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-payments/#Payment_Requirements/?utm_source=wpbackend&utm_medium=pms-setup-wizard&utm_campaign=PMSFreePayPalIPN" target="_blank">
-                        <?php esc_html_e( 'Learn More', 'paid-member-subscriptions' ); ?>
-                    </a>
+            <div class="pms-setup-gateway__description pms-setup-gateway__description-extra paypal_connect">
+                <div class="pms-setup-gateway__description--inner" style="text-align: center;width:100%;font-size: 105%;">
+                    <?php
+                    $paypal_credentials = pms_ppcp_get_api_credentials();
+    
+                        if( empty( $paypal_credentials['client_id'] ) || empty( $paypal_credentials['client_secret'] ) ):
+                            echo wp_kses( __( 'Go to the Paid Member Subscriptions -> Settings -> Payments -> Gateways page to connect your PayPal account and start accepting payments.', 'paid-member-subscriptions' ), $this->kses_args );
+                        else :
+                            echo wp_kses( sprintf( __( 'You are connected in %s mode. You can start accepting payments.', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? '<strong>Test</strong>' : '<strong>Live</strong>' ), $this->kses_args );
+                        endif;
+                    ?>
                 </div>
             </div>
 
@@ -159,19 +160,6 @@
                 <div class="cozmoslabs-toggle-container">
                     <input type="checkbox" id="pms_gateway_offline" name="pms_gateway_offline" value="1" <?php echo $this->check_gateway( 'manual' ) ? 'checked' : '' ?> />
                     <label class="cozmoslabs-toggle-track" for="pms_gateway_offline"></label>
-                </div>
-            </div>
-        </div>
-
-        <div class="pms-setup-gateway pms-setup-fade" title="Available with a Pro license.">
-            <div class="pms-setup-gateway__logo">
-                <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ) . '/assets/images/pms-paypal-pro-express-logo.png'; ?>" />
-            </div>
-            <div class="pms-setup-gateway__description"><?php esc_html_e( 'PayPal Express Checkout payments using credit cards or customer accounts handled by PayPal.', 'paid-member-subscriptions' ); ?></div>
-            <div class="cozmoslabs-toggle-switch" title="Available with a Pro license.">
-                <div class="cozmoslabs-toggle-container">
-                    <input type="checkbox" id="pms_gateway_paypal_pro_express" name="pms_gateway_paypal_pro_express" value="1" disabled />
-                    <label class="cozmoslabs-toggle-track" for="pms_gateway_paypal_pro_express"></label>
                 </div>
             </div>
         </div>

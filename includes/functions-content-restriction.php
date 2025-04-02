@@ -530,13 +530,13 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
     }
 
     //Alters the output of the [products] shortcode from WooCommerce, filtering restricted products from the output
-    add_action( 'woocommerce_shortcode_products_query', 'pmsc_exclude_restricted_products_from_woocoommerce_products_shortcode_queries' );
+    add_filter( 'woocommerce_shortcode_products_query', 'pmsc_exclude_restricted_products_from_woocoommerce_products_shortcode_queries' );
     function pmsc_exclude_restricted_products_from_woocoommerce_products_shortcode_queries( $query_args ) {
         if( !is_admin() && function_exists('pms_is_post_restricted') ) {
             $settings = get_option( 'pms_woocommerce_settings' );
 
             if( !isset( $settings['exclude_products_from_queries'] ) || $settings['exclude_products_from_queries'] != 1 )
-                return;
+                return $query_args;
 
             $posts_per_page = $query_args['posts_per_page'];
 

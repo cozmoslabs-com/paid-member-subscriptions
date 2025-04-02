@@ -377,11 +377,15 @@ Class PMS_Payments_Log_List_Table extends WP_List_Table {
                 <?php endif; ?>
 
                 <ul class="pms-modal__wrapped-list">
-                    <?php foreach( $data['data'] as $key => $value ) : ?>
-                        <li><span>
-                            <strong><?php echo esc_html( $key ); ?></strong> => <?php echo esc_html( $value ); ?>
-                        </span></li>
-                    <?php endforeach; ?>
+                    <?php if( is_array( $data['data'] ) ) : ?>
+                        <?php foreach( $data['data'] as $key => $value ) : ?>
+                            <li><span>
+                                <?php echo '<strong>' . esc_html( $key ) . '</strong> => ' . esc_html( is_array( $value ) ? json_encode( $value, JSON_PRETTY_PRINT ) : $value ); ?>
+                            </span></li>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <li><span><?php echo esc_html( $data['data'] ); ?></span></li>
+                    <?php endif; ?>
                 </ul>
             </div>
 

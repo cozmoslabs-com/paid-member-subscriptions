@@ -74,6 +74,14 @@ jQuery( function($) {
             _wp_http_referer = pms_add_query_arg( 'message', 1, _wp_http_referer );
             $_wp_http_referer.val( pms_add_query_arg( 'nav_sub_tab', $navTab.data('sub-tab-slug'), _wp_http_referer ) );
 
+            // Update URL with the selected subtab
+            var currentUrl = window.location.href;
+                currentUrl = pms_remove_query_arg('nav_sub_tab', currentUrl);
+
+            var newUrl = pms_add_query_arg('nav_sub_tab', $navTab.data('sub-tab-slug'), currentUrl);
+            
+            window.history.pushState({}, '', newUrl);
+
             $('.cozmoslabs-sub-tab').removeClass('tab-active');
             $('.cozmoslabs-sub-tab[data-sub-tab-slug="' + $navTab.data('sub-tab-slug') + '"]').addClass('tab-active');
 
@@ -228,6 +236,42 @@ jQuery( function($) {
 
     });
 
+    $('.pms-stripe-connect__disconnect-handler').click(function (e) {
+
+        e.preventDefault()
+
+        var pmsStripeDisconnectPrompt = prompt('Are you sure you want to disconnect this website from Stripe? Payments will not be processed anymore. \nPlease type DISCONNECT in order to remove the Stripe connection:')
+
+        if ( pmsStripeDisconnectPrompt === "DISCONNECT" )
+            window.location.replace($(e.target).attr("href"))
+        else
+            return false
+
+    })
+
+    $(document).on( 'change', '.pms-form-field-active-payment-gateways #paypal_connect', function () {
+
+        if ( this.checked )
+            $('#cozmoslabs-subsection-paypal-connect-configs').show();
+        else
+            $('#cozmoslabs-subsection-paypal-connect-configs').hide();
+
+    });
+
+    // Client ID click to copy button
+    $(document).on( 'click', '.pms-copy', function (e) {
+        e.preventDefault();
+
+        let text = $(this).parent().find('strong').text();
+        let element = $(this);
+        navigator.clipboard.writeText( text );
+
+        element.find('strong').text('Copied!');
+
+        setTimeout(function() {
+            element.find('strong').text(text);
+        }, 1500);
+    });
 
     function checkEmailField(element) {
         if (element.checked) {
@@ -319,6 +363,41 @@ jQuery( function($) {
             return false
 
     })
+
+
+    jQuery(document).ready(function() {
+
+        jQuery('input[type="checkbox"][value="paypal_express"]').click( function() {
+    
+            if ( jQuery('input[type="checkbox"][value="paypal_express"]').is(':checked') ) {
+    
+                jQuery('input[type="checkbox"][value="paypal_standard"]').prop('checked', false);
+                jQuery('input[type="checkbox"][value="paypal_connect"]').prop('checked', false);
+    
+            }
+        })
+    
+        jQuery('input[type="checkbox"][value="paypal_standard"]').click( function() {
+    
+            if ( jQuery('input[type="checkbox"][value="paypal_standard"]').is(':checked') ) {
+    
+                jQuery('input[type="checkbox"][value="paypal_express"]').prop('checked', false);
+                jQuery('input[type="checkbox"][value="paypal_connect"]').prop('checked', false);
+            }
+            
+        })
+
+        jQuery('input[type="checkbox"][value="paypal_connect"]').click( function() {
+    
+            if ( jQuery('input[type="checkbox"][value="paypal_connect"]').is(':checked') ) {
+    
+                jQuery('input[type="checkbox"][value="paypal_express"]').prop('checked', false);
+                jQuery('input[type="checkbox"][value="paypal_standard"]').prop('checked', false);
+            }
+
+        })
+    
+    });
 
 });
 

@@ -48,7 +48,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="inside"">
             <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Sales and earnings', 'paid-member-subscriptions' ); ?></h4>
                 <div class="cozmoslabs-form-field-wrapper">
-<!--                    <canvas id="payment-report-chart" width="1000" height="250"></canvas>-->
                     <canvas id="<?php echo esc_html( apply_filters( 'pms_reports_chart_id', 'payment-report-chart' ) ); ?>" width="1000" height="250"></canvas>
                 </div>
             </div>

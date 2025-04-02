@@ -96,8 +96,7 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
     }
 
     // Save valid results when they are being triggered from an ajax request
-    // made from the Stripe payment gateway
-    if( isset( $post_data['stripe_ajax_payment_intent_nonce'] ) && wp_doing_ajax() ){
+    if( wp_doing_ajax() && isset( $_POST['action'] ) && $_POST['action'] == 'pms_validate_checkout' ){
 
         $saved = get_option( 'pms_recaptcha_validations', array() );
 
@@ -109,8 +108,15 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
     }
 
     // Add errors if something went wrong
-    if( $has_error )
-        pms_errors()->add( 'recaptcha-' . $form_location, esc_html__( 'Could not validate the reCaptcha. Please complete it again.', 'paid-member-subscriptions' ) );
+    if( $has_error ){
+        $message = esc_html__( 'Could not validate reCAPTCHA. Please complete it again.', 'paid-member-subscriptions' );
+
+        if ( isset( $settings['v3'] ) && $settings['v3'] === 'yes' ){
+            $message = esc_html__( 'Could not validate reCAPTCHA. Please refresh the page and try again.', 'paid-member-subscriptions' );
+        }
+
+        pms_errors()->add( 'recaptcha-' . $form_location, $message );
+    }
 
     return ! $has_error;
 

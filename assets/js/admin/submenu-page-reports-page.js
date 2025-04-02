@@ -10,6 +10,18 @@ jQuery( function($) {
 
         var axis_id = 0, datasets = [], hidden = true
 
+        const earningsColors = {
+            border: 'rgba(45, 152, 218, 0.8)',
+            background: 'rgba(45, 152, 218, 0.2)',
+            point: 'rgba(45, 152, 218, 1)'
+        };
+        
+        const paymentsColors = {
+            border: 'rgba(52, 191, 163, 0.8)',
+            background: 'rgba(52, 191, 163, 0.2)',
+            point: 'rgba(52, 191, 163, 1)'
+        };
+
         for ( var currency in pms_chart_data ) {
 
             if( currency === pms_default_currency )
@@ -20,10 +32,13 @@ jQuery( function($) {
             datasets.push( {
                 label               : 'Earnings ' + currency,
                 yAxisID             : 'y',
-                borderColor         : 'rgba(39,174,96,0.5)',
-                backgroundColor     : 'rgba(39,174,96,0.1)',
-                pointBackgroundColor: 'rgba(39,174,96,1)',
-                lineTension         : 0,
+                borderColor         : earningsColors.border,
+                backgroundColor     : earningsColors.background,
+                pointBackgroundColor: earningsColors.point,
+                pointBorderColor    : '#fff',
+                pointRadius         : 4,
+                pointHoverRadius    : 6,
+                lineTension         : 0.2,
                 data                : pms_chart_data[currency]['earnings'],
                 hidden              : hidden,
             } )
@@ -33,16 +48,17 @@ jQuery( function($) {
             datasets.push( {
                 label               : 'Payments ' + currency,
                 yAxisID             : 'y1',
-                borderColor         : 'rgba(230,126,34,0.5)',
-                backgroundColor     : 'rgba(230,126,34,0.1)',
-                pointBackgroundColor: 'rgba(230,126,34,1)',
-                lineTension         : 0,
+                borderColor         : paymentsColors.border,
+                backgroundColor     : paymentsColors.background,
+                pointBackgroundColor: paymentsColors.point,
+                pointBorderColor    : '#fff',
+                pointRadius         : 4,
+                pointHoverRadius    : 6,
+                lineTension         : 0.2,
                 data                : pms_chart_data[currency]['payments'],
                 hidden              : hidden,
             } )
-
         }
-
 
         var paymentReportsChart = new Chart( ctx, {
             type : 'line',
@@ -51,63 +67,90 @@ jQuery( function($) {
                 datasets : datasets
             },
             options : {
-
                 responsive : true,
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(50, 50, 50, 0.9)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#ffffff',
+                        bodySpacing: 4,
+                        padding: {
+                            x: 12,
+                            y: 12
+                        },
+                        cornerRadius: 4,
+                        callbacks: {
+                            label: function(context) {
+                                const datasetIndex = context.datasetIndex;
+                                const value        = context.dataset.data[context.dataIndex + 1];
 
-                // Tooltips
-                tooltips : {
-                    mode : 'x-axis',
-                    callbacks : {
-                        label : function( tooltipItem, data ) {
-
-                            if( tooltipItem.datasetIndex == 0 )
-                                return data.datasets[0].label + ' (' + pms_default_currency_symbol + ')' +  ' : ' + data.datasets[0].data[tooltipItem.index];
-
-                            return data.datasets[tooltipItem.datasetIndex].label + ' : ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-
-                        }
-                    }
-                },
-
-                // Legend
-                legend : {
-                    position : 'bottom',
-                    labels : {
-                        padding: 40,
-                        boxWidth : 30
-                    }
-                },
-
-                // Two y-axes for the revenue and for the payments count
-                scales : {
-                    y : {
-                        display : true,
-                        type : 'linear',
-                        position: 'right',
-                        id : 'y-axis-earnings',
-                        ticks : {
-                            beginAtZero : true
+                                if (datasetIndex === 0)
+                                    return datasets[0].label + ' (' + pms_default_currency_symbol + ') : ' + value;
+                                    
+                                return datasets[datasetIndex].label + ' : ' + value;
+                            }
                         }
                     },
-                    y1 : {
-                        display : true,
-                        type : 'linear',
-                        position: 'left',
-                        id : 'y-axis-payments',
-                        ticks : {
-                            beginAtZero : true,
-                            stepSize : 1
-                        },
-                        grid : {
-                            drawOnChartArea : false
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 40,
+                            boxWidth: 30,
+                            usePointStyle: true,
+                            color: '#666'
                         }
                     }
+                },
+                scales: {
+                    y: {
+                        display: true,
+                        type: 'linear',
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Earnings'
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        grid: {
+                            color: 'rgba(200, 200, 200, 0.15)'
+                        }
+                    },
+                    y1: {
+                        display: true,
+                        type: 'linear',
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Payments'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                            color: 'rgba(200, 200, 200, 0.15)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(200, 200, 200, 0.15)'
+                        },
+                        ticks: {
+                            color: '#888'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1500
                 }
             }
         });
-
     }
-
 
     $('#pms-reports-filter-month').on('change', function(){
         if ( $(this).val() === 'custom_date' )

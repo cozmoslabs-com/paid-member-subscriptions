@@ -1396,43 +1396,65 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
 
 
 /***********************************************************/
-/* Stripe Settings
+/* Stripe & PayPal Settings
 /***********************************************************/
 
-/* Stripe Connect button */
-.cozmoslabs-stripe-connect__button img {
+.cozmoslabs-subsection-title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cozmoslabs-subsection-title-container .cozmoslabs-subsection-title {
+    align-items: center;
+    flex-grow: 1;
+    margin-bottom: 0 !important;
+}
+
+.cozmoslabs-stripe-connect__button img,
+.cozmoslabs-paypal-connect__button img {
     max-width: 210px;
     margin: 10px 0;
 }
 
-.cozmoslabs-stripe-connect__button:hover {
+.cozmoslabs-stripe-connect__button:hover,
+.cozmoslabs-paypal-connect__button:hover {
     opacity: 0.9;
 }
 
-.cozmoslabs-stripe-connect__settings-error {
+.cozmoslabs-payment-gateway__metabox-icon {
+    width: 25px;
+}
+
+.cozmoslabs-stripe-connect__settings-error,
+.cozmoslabs-paypal-connect__settings-error {
     color: #d63638;
 }
 
-.cozmoslabs-stripe-connect__settings-warning {
+.cozmoslabs-stripe-connect__settings-warning,
+.cozmoslabs-paypal-connect__settings-warning {
     color: #dba617;
     font-weight: bold;
     font-size: 110%;
 }
 
-.cozmoslabs-stripe-connect__settings-success {
+.cozmoslabs-stripe-connect__settings-success,
+.cozmoslabs-paypal-connect__settings-success {
     display: inline-block;
-    font-size: 120%;
+    font-size: 110%;
     color: #00a32a;
     padding-top: 1px;
     font-weight: bold;
 }
 
-.cozmoslabs-stripe-connect__connection--live {
+.cozmoslabs-stripe-connect__connection--live,
+.cozmoslabs-paypal-connect__connection--live {
     color: #46b450;
     font-weight: bold;
 }
 
-.cozmoslabs-stripe-connect__connection--test {
+.cozmoslabs-stripe-connect__connection--test,
+.cozmoslabs-paypal-connect__connection--test {
     color: #ffb900;
     font-weight: bold;
 }
@@ -1450,6 +1472,15 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
 .cozmoslabs-wrap #learndash-stripe-webhook-validation-success {
     display: none !important;
 }
+
+#paypal-connect-payments-data > .cozmoslabs-form-field-wrapper {
+    margin-top: 20px !important;
+}
+
+#paypal-connect-payments-data > .cozmoslabs-form-field-wrapper > label {
+    flex-basis: 160px;
+}
+
 
 /***********************************************************/
 /* PayPal & Stripe Webhooks URL and LearDash Button URL
@@ -2248,7 +2279,7 @@ body.learndash-post-type #pms_post_content_restriction_learndash .button-primary
 }
 
 .pms-subscription-logs__date {
-    width: 150px;
+    width: 180px;
 }
 
 #pms-member-subscription-logs input[name="pms_admin_log"] {

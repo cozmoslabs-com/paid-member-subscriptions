@@ -48,8 +48,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <label class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Display For', 'paid-member-subscriptions' ); ?></label>
 
         <?php
-        $user_status          = get_post_meta( $post->ID, 'pms-content-restrict-user-status', true );
-        $subscription_plans   = pms_get_subscription_plans();
+        $user_status = get_post_meta( $post->ID, 'pms-content-restrict-user-status', true );
+        $settings    = get_option('pms_misc_settings');
+
+        // Include inactive plans in the content restriction metabox. pms_get_subscription_plans() default is true to return only active plans
+        $include_inactive_plans = isset( $settings['cr-metabox-include-inactive-plans'] ) && $settings['cr-metabox-include-inactive-plans'] == 1 ? false : true;
+
+        $subscription_plans   = pms_get_subscription_plans( $include_inactive_plans );
 
         usort($subscription_plans, 'pms_compare_subscription_plan_objects');
 

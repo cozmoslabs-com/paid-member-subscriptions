@@ -175,7 +175,6 @@ jQuery( function($) {
         if ( $('#bulk-action-selector-top').val() == 'pms_bulk_delete_payments' || $('#bulk-action-selector-bottom').val() == 'pms_bulk_delete_payments' ){
             return confirm(message);
         }
-
     });
 
     $(document).off( 'click', '#doaction2' ).on( 'click', '#doaction2', function(e){
@@ -183,7 +182,6 @@ jQuery( function($) {
         if ( $('#bulk-action-selector-top').val() == 'pms_bulk_delete_payments' || $('#bulk-action-selector-bottom').val() == 'pms_bulk_delete_payments' ){
             return confirm(message);
         }
-
     });
 
     // Handle the display of datepicker when Custom intervals are selected on Members page

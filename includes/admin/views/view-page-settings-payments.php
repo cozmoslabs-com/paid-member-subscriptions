@@ -140,8 +140,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <label for="retry-payments" class="cozmoslabs-description"><?php printf( esc_html__( 'If a payment fails, the plugin will try to charge the user again after %s days for %s maximum retries. ', 'paid-member-subscriptions' ), esc_html( apply_filters( 'pms_retry_payment_interval', 3, '' ) ), esc_html( apply_filters( 'pms_retry_payment_count', 3, '' ) ) );?>                        </label>
                     </div>
 
-                    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Valid for the Stripe and PayPal Express with Reference Transactions payment gateways. ', 'paid-member-subscriptions' ); ?></p>
-                    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'For PayPal Subscriptions, this is happening by default.', 'paid-member-subscriptions' ); ?></p>
+                    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Valid for the Stripe and PayPal payment gateways. ', 'paid-member-subscriptions' ); ?></p>
                     <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php printf( esc_html__( 'Change settings from %sSettings -> %sMisc%s -> Payments page%s.', 'paid-member-subscriptions' ), '<strong>','<a href="'. esc_url( admin_url( 'admin.php?page=pms-settings-page&tab=misc' ) ) .'">', '</a>', '</strong>' ); ?></p>
 
                 </div>

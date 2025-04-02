@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <div class="pms-dashboard-glance">
                 <div class="pms-dashboard-box pms-dashboard-glance__payments-status <?php echo pms_is_payment_test_mode() ? 'test' : 'live' ?>">
                     <div class="label">
-                        <?php printf( __( '%s payments are enabled', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? 'Test' : 'Live' ); ?>
+                        <?php printf( esc_html__( '%s payments are enabled', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? esc_html__( 'Test', 'paid-member-subscriptions' ) : esc_html__( 'Live', 'paid-member-subscriptions' ) ); ?>
                     </div>
 
                     <div class="pms-payments-status <?php echo pms_is_payment_test_mode() ? 'pms-payments-status--test' : 'pms-payments-status--live' ?>"></div>

@@ -168,13 +168,13 @@ function pms_stripe_payment_types( $types ) {
 add_filter( 'pms_payment_types', 'pms_stripe_payment_types' );
 
 /**
- * Add data-type="credit_card" attribute to the pay_gate hidden and radio input for Stripe
+ * Add data-type="extra_fields" attribute to the pay_gate hidden and radio input for Stripe
  *
  */
 function pms_stripe_payment_gateway_input_data_type( $value, $payment_gateway ) {
 
     if( in_array( $payment_gateway, array( 'stripe_connect', 'stripe', 'stripe_intents' ) ) )
-        $value = str_replace( '/>', 'data-type="credit_card" />', $value );
+        $value = str_replace( '/>', 'data-type="extra_fields" />', $value );
 
     return $value;
 
@@ -387,7 +387,7 @@ function pms_stripe_add_deprecation_notice() {
     if( pms_get_active_stripe_gateway() != 'stripe_intents' )
         return;
 
-    $message = sprintf( __( '<strong>Action Required!</strong><br><br> The Stripe version you are using right now is being deprecated soon. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. Starting with the second half of this year, Stripe might charge you additional fees if you don\'t migrate. <br><br>Go to the %sSettings -> Payments%s page, enable the Stripe gateway and connect your account. %sMigration instructions%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Migration_from_other_Stripe_gateways_to_Stripe_Connect" target="_blank">', '</a>', '<a href="'. admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) .'" target="_blank">', '</a>' );
+    $message = sprintf( __( '<strong>Action Required!</strong><br><br> The Stripe version you are using right now is deprecated. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. <br>Starting with <strong>June 2025</strong>, Stripe will <strong>charge you additional fees</strong> if you don\'t migrate. <br><br>Go to the %sSettings -> Payments -> Gateways%s page, enable the Stripe gateway and connect your account. %sMigration instructions%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Migration_from_other_Stripe_gateways_to_Stripe_Connect" target="_blank">', '</a>', '<a href="'. admin_url( 'admin.php?page=pms-settings-page&tab=payments' ) .'" target="_blank">', '</a>' );
 
     if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
 
@@ -398,7 +398,7 @@ function pms_stripe_add_deprecation_notice() {
     } else {
 
         new PMS_Add_General_Notices( 'pms_stripe_deprecation_notice',
-        sprintf( '<p>' . $message . '<br>' . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_stripe_deprecation_notice_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "'>", "</a>" ) . '</p>',
+        sprintf( '<p>' . $message . '<br>' . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_stripe_deprecation_notice_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>" ) . '</p>',
         'notice-error');
 
     }

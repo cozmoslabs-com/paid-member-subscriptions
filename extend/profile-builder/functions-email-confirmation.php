@@ -282,7 +282,7 @@ add_filter( 'pms_get_redirect_url', 'pms_pb_email_confirmation_redirect_url', 10
  */
 function pms_pb_email_confirmation_handle_form_submission() {
 
-    if( empty( $_POST['pmstkn'] ) || !wp_verify_nonce( sanitize_text_field( $_POST['pmstkn'] ), 'pms_register_form_email_confirmation_nonce' ) )
+    if( empty( $_POST['pmstkn'] ) || !wp_verify_nonce( sanitize_text_field( $_POST['pmstkn'] ), 'pms_register_form_email_confirmation_nonce' ) || !function_exists( 'wppb_get_user_id_by_activation_key' ) )
         return;
 
     if( !empty( $_REQUEST['activation_key'] ) )
@@ -300,6 +300,8 @@ function pms_pb_email_confirmation_handle_form_submission() {
 
     if ( count( pms_errors()->get_error_codes() ) > 0 )
         return;
+
+    do_action( 'pms_wppb_email_confirmation_form_extra', $user_id );
 
     // Prepare user data
     $user_data = PMS_Form_Handler::get_request_member_data( $user_id );
