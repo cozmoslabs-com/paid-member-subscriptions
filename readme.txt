@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.14.5
+Stable tag: 2.14.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -258,6 +258,9 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.14.6 =
+* Fix: PayPal migration notice documentation page URL
+
 = 2.14.5 =
 * Feature: Added a new PayPal payment gateway integration which leverages their newer Rest API. Users can now pay without being redirected to the PayPal site through a modal plus other improvements. [Learn more](https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/paypal/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree)
 * Enhancement: The default form is now displaying the Name and Password fields on the same row
