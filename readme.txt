@@ -259,7 +259,7 @@ For more information please check out [Paid Member Subscriptions documentation](
 
 == Changelog ==
 = 2.14.5 =
-* Feature: Added a new PayPal payment gateway integration which leverages their newer Rest API. Users can now pay without being redirected to the PayPal site through a modal plus other improvements. Learn more
+* Feature: Added a new PayPal payment gateway integration which leverages their newer Rest API. Users can now pay without being redirected to the PayPal site through a modal plus other improvements. [Learn more](https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/paypal/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree)
 * Enhancement: The default form is now displaying the Name and Password fields on the same row
 * Enhancement: Styling changes for Billing Fields, auto fill first and last name based on form data
 * Enhancement: Reworked Stripe gateway back-end functionality so it can be shared with PayPal
