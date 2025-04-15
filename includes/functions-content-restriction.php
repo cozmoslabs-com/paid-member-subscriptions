@@ -325,6 +325,12 @@ function pms_restrict_page_template( $template ) {
         if( !empty( $restrict_template ) ) {
             if ( pms_is_post_restricted( $post->ID ) ) {
 
+                if ( did_action( 'elementor/loaded' ) ) {
+                    if( strpos( $restrict_template, 'elementor_template_' ) !== false ) {
+                        return pms_elementor_render_template( str_replace( 'elementor_template_', '', $restrict_template ) );
+                    }
+                }
+
                 $new_template = locate_template( array( $restrict_template ) );
 
                 if ( !empty( $new_template ) )
@@ -335,6 +341,23 @@ function pms_restrict_page_template( $template ) {
     }
 
     return $template;
+}
+
+function pms_elementor_render_template( $template_id ) {
+    if ( did_action( 'elementor/loaded' ) ) {
+
+        $content = \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $template_id, true );  
+
+        if ( !empty( $content ) ) {
+            get_header();
+            echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            get_footer();
+            exit; // Prevent WordPress from loading the default template
+        }
+
+    }
+
+    return '';
 }
 
 
@@ -416,6 +439,9 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
     function pmsc_exclude_post_from_query( $query ) {
 
         if( !function_exists( 'pms_is_post_restricted' ) || is_admin() || is_singular() )
+            return;
+
+        if( isset( $query->query_vars['wc_query'] ) && $query->query_vars['wc_query'] == 'product_query' )
             return;
 
         if( $query->is_main_query() || ( $query->is_search() && isset( $query->query_vars ) && isset( $query->query_vars['s'] ) ) ) {
@@ -537,7 +563,7 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
 
             if( !isset( $settings['exclude_products_from_queries'] ) || $settings['exclude_products_from_queries'] != 1 )
                 return $query_args;
-
+    
             $posts_per_page = $query_args['posts_per_page'];
 
             $query_args['suppress_filters'] = true;

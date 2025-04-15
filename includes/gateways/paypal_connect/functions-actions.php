@@ -43,7 +43,6 @@ function pms_ppcp_enqueue_front_end_scripts(){
         'paypal_partner_attribution_id'        => pms_ppcp_get_platform_bn_code(),
         'paypal_currency'                      => apply_filters( 'pms_ppcp_sdk_currency', pms_get_active_currency() ),
         'pms_ppcp_mc_addon_active'             => apply_filters( 'pms_ppcp_mc_addon_active', $pms_multiple_currencies_active ),
-        'paypal_locale'                        => get_locale(),
         'paypal_integration_date'              => '2025-01-28',
         'paypal_button_styles'                 => apply_filters( 'pms_ppcp_paypal_button_styles', array(
             'layout' => 'vertical',

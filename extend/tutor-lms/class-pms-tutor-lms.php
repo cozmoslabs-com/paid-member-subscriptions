@@ -160,9 +160,9 @@ class PMS_IN_TutorLMS {
             $output = ob_get_clean();
         }
         else {
-            $output .= '<div class="cozmoslabs-form-subsection-wrapper">';
+            $output .= '<div class="cozmoslabs-form-subsection-wrapper cozmoslabs-settings">';
 
-            $output .= '<h3 class="cozmoslabs-subsection-title">'. esc_html__( 'Restriction Settings', 'paid-member-subscriptions' ) .'</h3>';
+                $output .= '<h3 class="cozmoslabs-subsection-title">'. esc_html__( 'Restriction Settings', 'paid-member-subscriptions' ) .'</h3>';
 
                 $output .= '<div class="tutor-lms-settings-notice">';
                     $output .= '<p class="cozmoslabs-description">'. sprintf( esc_html__( '%1$s Registration Page %2$s is not correctly set or missing. ', 'paid-member-subscriptions' ), '<strong>', '</strong>' ) .'</p>';
@@ -182,7 +182,7 @@ class PMS_IN_TutorLMS {
     public function add_settings_tab_notice ( $output, $active_tab, $options ) {
 
         if ( $active_tab == 'tutor_lms' ) {
-            $output = '<div class="cozmoslabs-form-subsection-wrapper">';
+            $output = '<div class="cozmoslabs-form-subsection-wrapper cozmoslabs-settings">';
 
                 $output .= '<h3 class="cozmoslabs-subsection-title">'. esc_html__( 'Restriction Settings', 'paid-member-subscriptions' ) .'</h3>';
 
@@ -265,7 +265,7 @@ class PMS_IN_TutorLMS {
 
         $pms_tutor_settings = get_option( 'pms_tutor_lms_settings' );
 
-        if ( $pms_tutor_settings['restriction_type'] === 'category' ) {
+        if ( isset( $pms_tutor_settings['restriction_type'] ) && $pms_tutor_settings['restriction_type'] === 'category' ) {
 
             $selected_categories = $this->get_subscription_plan_categories( $subscription_plan_id );
             $tutor_categories = $this->get_all_categories();

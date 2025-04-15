@@ -464,7 +464,9 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
     }
 
     public function remove_gettext_from_screen( $screen ) {
-        if( is_object( $screen ) && $screen->id == 'paid-member-subscriptions_page_pms-labels-edit' )
+        $parent_menu_slug = sanitize_title( __( 'Paid Member Subscriptions', 'paid-member-subscriptions' ) );
+
+        if( is_object( $screen ) && $screen->id == $parent_menu_slug . '_page_pms-labels-edit' )
             remove_filter( 'gettext', array( $this, 'change_strings' ), 8 );
     }
 

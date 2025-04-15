@@ -74,6 +74,7 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
             <?php settings_errors(); ?>
 
+
             <?php
             // insert Register Version Form to PMS Settings - General Tab
             if ( !is_multisite() && isset( $_GET['page'] ) && $_GET['page'] === 'pms-settings-page' && ( !isset( $_GET['tab'] ) || $_GET['tab'] === 'general' ) )
@@ -82,23 +83,34 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
             <form method="post" enctype="multipart/form-data" encoding="multipart/form-data" action="options.php">
                 <?php
+
                     settings_fields( 'pms_' . $this->active_tab . '_settings' );
 
-                    ob_start();
+                    echo '<div class="cozmoslabs-settings-container">';
 
-                    if ( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/views/view-page-settings-' . $this->active_tab . '.php' ) )
-                        include_once 'views/view-page-settings-' . $this->active_tab . '.php';
+                        ob_start();
 
-                    $output = ob_get_clean();
+                        if ( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/views/view-page-settings-' . $this->active_tab . '.php' ) )
+                            include_once 'views/view-page-settings-' . $this->active_tab . '.php';
 
-                    echo apply_filters( 'pms_settings_tab_content', $output, $this->active_tab, $this->options ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        $output = ob_get_clean();
 
-                    echo '<div class="submit">';
-                        echo '<h3 class="cozmoslabs-subsection-title">'. esc_html__( 'Update Settings', 'paid-member-subscriptions' ) .'</h3>';
-                        echo '<div class="cozmoslabs-publish-button-group">';
-                            submit_button( esc_html__( 'Save Settings', 'paid-member-subscriptions' ), 'primary cozmoslabs-save-settings-button' );
+                        echo apply_filters( 'pms_settings_tab_content', $output, $this->active_tab, $this->options ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+                        $styling = '';
+
+                        if( $this->active_tab === 'general' )
+                            $styling = 'style="margin-top: -143px;"';
+                        
+                        echo '<div class="submit cozmoslabs-submit" '.esc_attr( $styling ).'>';
+                            echo '<h3 class="cozmoslabs-subsection-title">'. esc_html__( 'Update Settings', 'paid-member-subscriptions' ) .'</h3>';
+                            echo '<div class="cozmoslabs-publish-button-group">';
+                                submit_button( esc_html__( 'Save Settings', 'paid-member-subscriptions' ), 'primary cozmoslabs-save-settings-button' );
+                            echo '</div>';
                         echo '</div>';
+
                     echo '</div>';
+
                 ?>
             </form>
 

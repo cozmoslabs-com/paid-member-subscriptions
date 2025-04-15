@@ -8,7 +8,6 @@ jQuery(function ($) {
         "currency"              : pms_paypal.paypal_currency,
         "intent"                : 'capture',
         "commit"                : true,
-        "locale"                : pms_paypal.paypal_locale,
         dataPartnerAttributionId: pms_paypal.paypal_partner_attribution_id,
     }
 
@@ -17,7 +16,6 @@ jQuery(function ($) {
         "merchant-id"           : pms_paypal.paypal_merchant_id,
         "components"            : "buttons",
         "disable-funding"       : "card",
-        "locale"                : pms_paypal.paypal_locale,
         dataPartnerAttributionId: pms_paypal.paypal_partner_attribution_id,
     }
 
@@ -59,9 +57,9 @@ jQuery(function ($) {
             await pms_ppcp_initialize_sdk( paypal_sdk_checkout, 'checkout' )
 
         // Show PayPal Gateway extra fields on the update payment method form
-        if ( $( '#pms-update-payment-method-form #pms-paypal-connect' ).length > 0 ){
+        if ( $( 'input[name="pms_update_payment_method"]' ).length > 0 && $( '.pms-paygate-extra-fields-paypal_connect' ).length > 0 ){
             $( '.pms-paygate-extra-fields-paypal_connect' ).show()
-            $( '#pms-update-payment-method-form input[type="submit"]:not([name="pms_redirect_back"]):not([id="pms-apply-discount"]), #pms-update-payment-method-form button[type="submit"]' ).last().hide()
+            $( '#pms-update-payment-method-form input[type="submit"]:not([name="pms_redirect_back"]):not([id="pms-apply-discount"]), #pms-update-payment-method-form button[type="submit"], .wppb-edit-user input[name="pms_update_payment_method"]' ).last().hide()
         }
 
         // Show PayPal subscribe button on page load when PayPal is the selected payment gateway

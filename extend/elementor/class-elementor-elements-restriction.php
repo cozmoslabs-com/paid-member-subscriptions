@@ -26,6 +26,9 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 
 		// Disable Element Cache when Content Restriction rules are setup for an element
 		add_filter( 'elementor/element/is_dynamic_content', array( $this, 'are_content_restriction_rules_setup' ), 20, 3 );
+
+		// Add Elementor templates to the list of content restriction templates templates
+		add_filter( 'pms_content_restriction_templates', array( $this, 'add_elementor_templates' ), 10, 1 );
 	}
 
 	// Register controls to sections and widgets
@@ -349,6 +352,20 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 			return true;
 
 		return $are_rules_setup;
+
+	}
+
+	public function add_elementor_templates( $templates ){
+
+		$elementor_templates = $this->get_elementor_templates();
+
+		if( !empty( $elementor_templates ) ) {
+			foreach( $elementor_templates as $id => $title ) {
+				$templates[$title] = 'elementor_template_' . $id;
+			}
+		} 
+
+		return $templates;
 
 	}
 }

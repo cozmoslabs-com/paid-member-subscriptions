@@ -76,8 +76,8 @@ body[class*="_page_pms-"] #wpcontent {
     padding-left: 0;
 }
 
-body.paid-member-subscriptions_page_pms-members-page #wpbody-content > .wrap:not(.cozmoslabs-wrap),
-body.paid-member-subscriptions_page_pms-payments-page #wpbody-content > .wrap:not(.cozmoslabs-wrap) {
+body[class*="_page_pms-members-page"] #wpbody-content > .wrap:not(.cozmoslabs-wrap),
+body[class*="_page_pms-payments-page"] #wpbody-content > .wrap:not(.cozmoslabs-wrap) {
     padding-left: 20px;
 }
 
@@ -358,6 +358,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     border-radius: 2px;
     padding: 25px 15px;
     margin-top: 20px;
+    box-sizing: border-box;
 }
 
 .cozmoslabs-subsection-title {
@@ -398,7 +399,7 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     color: #1E1E1E;
 }
 
-body:not(.paid-member-subscriptions_page_pms-basic-info-page) .cozmoslabs-form-field-wrapper label.cozmoslabs-form-field-label {
+body:not([class*="_page_pms-basic-info-page"]) .cozmoslabs-form-field-wrapper label.cozmoslabs-form-field-label {
     cursor: pointer;
 }
 
@@ -3045,11 +3046,12 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
 /* Publish Box */
 body[class*="post-type-pms-"] #major-publishing-actions {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
     padding: 20px 10px;
+    gap: 10px;
 }
 
 body[class*="post-type-pms-"] #major-publishing-actions #publishing-action {
@@ -3057,6 +3059,13 @@ body[class*="post-type-pms-"] #major-publishing-actions #publishing-action {
     flex-direction: row-reverse;
     align-items: center;
     justify-content: center;
+    position: relative;
+}
+
+body[class*="post-type-pms-"] #major-publishing-actions #publishing-action .spinner {
+    position: absolute;
+    right: -40px;
+    top: 8px;
 }
 
 body[class*="post-type-pms-"] #major-publishing-actions .button-primary {
@@ -3090,50 +3099,8 @@ body[class*="_page_pms-"] #screen-meta {
     border-bottom: 1px solid #CCCCCC;
 }
 
-/* Publish Button Position */
-.cozmoslabs-publish-button-fixed div.submit input[type="submit"],
-.cozmoslabs-publish-button-fixed div#submitdiv input[type="submit"] {
-    position: fixed !important;
-    bottom: 5px;
-    z-index: 999;
-    width: 100%;
-    box-shadow: 0 3px 10px 0 #bbb;
-}
-
-/* Publish Box Position */
-.paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap.cozmoslabs-publish-box-fixed,
-.paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap.cozmoslabs-publish-box-fixed {
-    position: relative;
-}
-
-@media screen and (min-width: 1402px) {
-    .paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap:not(#pms-edit-member-page),
-    .paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap {
-        max-width: 1200px;
-        padding-right: 300px;
-    }
-
-    .cozmoslabs-available-tags .cozmoslabs-tags-list:not(.cozmoslabs-wysiwyg-indented .cozmoslabs-tags-list) {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-
-}
-
-@media screen and (min-width: 1920px) {
-    .paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap:not(#pms-edit-member-page),
-    .paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap {
-        max-width: 1500px !important;
-        padding-right: 300px;
-    }
-
-
-    .cozmoslabs-available-tags .cozmoslabs-tags-list {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-}
-
-.paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap div.submit,
-.paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap div.submit {
+body[class*="_page_pms-settings-page"] .cozmoslabs-wrap div.submit,
+body[class*="_page_pms-members-page"] .cozmoslabs-wrap div.submit {
     border: 1px solid #CCCCCC;
     background: #f6f7f7;
     padding: 0;
@@ -3141,17 +3108,9 @@ body[class*="_page_pms-"] #screen-meta {
     margin-top: 20px;
 }
 
-.cozmoslabs-wrap.cozmoslabs-publish-box-fixed div.submit {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    width: 280px;
-}
-
 .cozmoslabs-wrap div.submit .cozmoslabs-publish-button-group {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
@@ -3159,33 +3118,36 @@ body[class*="_page_pms-"] #screen-meta {
     gap: 20px;
 }
 
-.cozmoslabs-wrap.cozmoslabs-publish-box-fixed div.submit .cozmoslabs-publish-button-group {
-    justify-content: space-evenly;
-    padding: 20px 0;
-    gap: 5px;
-}
-
-.paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap div.submit .cozmoslabs-publish-button-group p.submit,
-.paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap div.submit .cozmoslabs-publish-button-group p.submit {
+body[class*="_page_pms-settings-page"] .cozmoslabs-wrap div.submit .cozmoslabs-publish-button-group p.submit,
+body[class*="_page_pms-members-page"] .cozmoslabs-wrap div.submit .cozmoslabs-publish-button-group p.submit {
     margin: 0;
     padding: 0;
 }
 
-.paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap.cozmoslabs-publish-box-fixed div.submit .cozmoslabs-publish-button-group .button-primary {
-    min-width: unset;
-}
-
-.paid-member-subscriptions_page_pms-payments-page .cozmoslabs-wrap div.submit {
+body[class*="_page_pms-payments-page"] .cozmoslabs-wrap div.submit {
     padding: 0;
     margin: 35px -15px 0 -15px;
 }
 
-.paid-member-subscriptions_page_pms-payments-page #cozmoslabs-subsection-payment-details .submit .button-secondary {
+body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .submit .button-secondary {
     height: 45px;
 }
 
-/* Mobile */
-@media screen and (max-width:1401px) {
+/* Publish Button Position */
+@media screen and (max-width: 1401px) {
+
+    .cozmoslabs-publish-button-fixed input[type="submit"] {
+        position: fixed !important;
+        bottom: 5px;
+        z-index: 999;
+        width: 100%;
+        box-shadow: 0 3px 10px 0 #bbb;
+    }
+
+    .cozmoslabs-publish-button-fixed .cozmoslabs-publish-button-group {
+        padding: 0 !important;
+    }
+
     body[class*="post-type-pms-"] #major-publishing-actions {
         justify-content: flex-end;
         gap: 10px;
@@ -3217,10 +3179,54 @@ body[class*="_page_pms-"] #screen-meta {
     body[class*="post-type-pms"] #post-body #postbox-container-1 #side-sortables {
         width: 100%;
     }
+
 }
 
+/* Publish Meta-Box Position */
 @media screen and (min-width: 1402px) {
-    .cozmoslabs-publish-metabox-fixed #submitdiv {
+
+    body[class*="_page_pms-members-page"] .cozmoslabs-wrap:not(#pms-edit-member-page),
+    body[class*="_page_pms-settings-page"] .cozmoslabs-wrap {
+        max-width: 1200px;
+    }
+
+    #cozmoslabs-subsection-register-version {
+        max-width: 900px;
+    }
+
+    body[class*="_page_pms-members-page"] .cozmoslabs-settings-container div.cozmoslabs-submit .cozmoslabs-publish-button-group {
+        justify-content: space-evenly;
+        padding: 20px 5px;
+        gap: 5px;
+    }
+
+    body[class*="_page_pms-settings-page"] .cozmoslabs-settings-container div.cozmoslabs-submit .cozmoslabs-publish-button-group {
+        justify-content: center;
+    }
+
+    .cozmoslabs-settings-container {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .cozmoslabs-settings-container .cozmoslabs-nav-sub-tab-wrapper {
+        flex-basis: 100%;
+    }
+
+    .cozmoslabs-settings-container .cozmoslabs-settings {
+        flex-basis: calc( 100% - 300px );
+    }
+
+    .cozmoslabs-settings-container div.cozmoslabs-submit {
+        flex-basis: 280px;
+        margin-left: 20px;
+        padding-bottom: 5px !important;
+    }
+
+    .cozmoslabs-publish-metabox-fixed {
         position: fixed !important;
         top: 50px;
         z-index: 1;
@@ -3228,12 +3234,25 @@ body[class*="_page_pms-"] #screen-meta {
         box-shadow: 0 3px 10px 0 #bbb;
     }
 
-    .paid-member-subscriptions_page_pms-members-page .cozmoslabs-wrap:not(#pms-edit-member-page),
-    .paid-member-subscriptions_page_pms-settings-page .cozmoslabs-wrap {
-        max-width: 1200px;
-        padding-right: 300px;
+    body[class*="post-type-pms"] .cozmoslabs-publish-metabox-fixed {
+        left: unset !important;
     }
+
 }
+
+@media screen and (min-width: 1920px) {
+
+    body[class*="_page_pms-members-page"] .cozmoslabs-wrap:not(#pms-edit-member-page),
+    body[class*="_page_pms-settings-page"] .cozmoslabs-wrap {
+        max-width: 1500px !important;
+    }
+
+    #cozmoslabs-subsection-register-version {
+        max-width: 1200px;
+    }
+
+}
+
 
 
 /***********************************************************/
@@ -3293,7 +3312,6 @@ body[class*="_page_pms-"] #screen-meta {
     display: flex;
     align-items: center;
     justify-content: center;
-    /*height: 100px;*/
     overflow: hidden;
     margin-bottom: 5px;
 }
@@ -3457,7 +3475,7 @@ body[class*="_page_pms-"] #screen-meta {
         gap: 5px;
     }
 
-    body.paid-member-subscriptions_page_pms-basic-info-page .cozmoslabs-page-header {
+    body[class*="_page_pms-basic-info-page"] .cozmoslabs-page-header {
         flex-direction: column-reverse;
         align-items: flex-start;
         gap: 20px;
@@ -3753,29 +3771,29 @@ body[class*="_page_pms-"] #screen-meta {
         width: 100%;
     }
 
-    body.paid-member-subscriptions_page_pms-members-page #post-body {
+    body[class*="_page_pms-members-page"] #post-body {
         display: flex;
         flex-direction: column;
     }
 
-    body.paid-member-subscriptions_page_pms-members-page #post-body-content {
+    body[class*="_page_pms-members-page"] #post-body-content {
         order: 2;
     }
 
-    body.paid-member-subscriptions_page_pms-members-page .filter-members-sidebox {
+    body[class*="_page_pms-members-page"] .filter-members-sidebox {
         margin-top: 0;
         order: 1;
     }
 
-    body.paid-member-subscriptions_page_pms-members-page .filter-members-sidebox #pms-filter-button {
+    body[class*="_page_pms-members-page"] .filter-members-sidebox #pms-filter-button {
         width: 140px;
     }
 
-    body.paid-member-subscriptions_page_pms-members-page .wp-list-table .toggle-row {
+    body[class*="_page_pms-members-page"] .wp-list-table .toggle-row {
         top: 25px;
     }
 
-    body.paid-member-subscriptions_page_pms-members-page #pms-member-details .pms-group-edit-subscription  {
+    body[class*="_page_pms-members-page"] #pms-member-details .pms-group-edit-subscription  {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
@@ -3787,7 +3805,7 @@ body[class*="_page_pms-"] #screen-meta {
 /* Dashboard Page
 /***********************************************************/
 
-body.paid-member-subscriptions_page_pms-dashboard-page #wpbody-content {
+body[class*="_page_pms-dashboard-page"] #wpbody-content {
     float: none !important;
 }
 
@@ -3798,7 +3816,7 @@ body.paid-member-subscriptions_page_pms-dashboard-page #wpbody-content {
 }
 
 .cozmoslabs-page-grid .cozmoslabs-form-subsection-wrapper {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .pms-dashboard-box {

@@ -102,7 +102,8 @@ Class PMS_Payments_List_Table extends WP_List_Table {
         if( !empty( $_GET['page'] == 'pms-payments-page' ) && empty( $_GET['subpage'] ) )
             $actions['pms_bulk_delete_payments'] = esc_html__( 'Delete Payments', 'paid-member-subscriptions' );
 
-        return $actions;
+        return apply_filters( 'pms_payments_list_table_register_bulk_actions', $actions );
+
     }
 
     /**

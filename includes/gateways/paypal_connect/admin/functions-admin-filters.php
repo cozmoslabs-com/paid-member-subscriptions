@@ -442,10 +442,7 @@ function pms_paypal_connect_add_deprecation_notice() {
 
     $active_gateways = pms_get_active_payment_gateways();
 
-    if( in_array( 'paypal_connect', $active_gateways ) )
-        return false;
-
-    if( in_array( 'paypal_standard', $active_gateways ) || in_array( 'paypal_express', $active_gateways ) ){
+    if( !in_array( 'paypal_connect', $active_gateways ) && ( in_array( 'paypal_standard', $active_gateways ) || in_array( 'paypal_express', $active_gateways ) ) ){
 
         $notification_id = 'pms_paypal_deprecation_notice';
 
@@ -458,5 +455,39 @@ function pms_paypal_connect_add_deprecation_notice() {
         pms_add_plugin_notification( $notification_id, $message, 'notice-error', '', '', true );
 
     }
+
+    $multiple_currencies_addon_active = apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-multiple-currencies/index.php' );
+
+    // Add notice about currency incompatibility
+    if( in_array( 'paypal_connect', $active_gateways ) && !$multiple_currencies_addon_active ){
+
+        $default_currency              = pms_get_active_currency();
+        $paypal_unsupported_currencies = pms_ppcp_get_paypal_unsupported_currencies();
+        $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
+
+        if( in_array( $default_currency, array_keys( $paypal_unsupported_currencies ) ) ){
+
+            $notification_id = 'pms_paypal_connect_currency_incompatibility_notice';
+
+            if( $pms_notifications_instance->is_plugin_page() )
+                $notification_id = 'pms_paypal_connect_currency_incompatibility_notice_own_pages';
+
+            $message = '<img style="max-width: 32px;width: 32px;" src="' . PMS_PLUGIN_DIR_URL . 'includes/gateways/paypal_connect/assets/img/paypal-icon.png" />';
+            $message .= '<strong style="font-size:110%;position:relative;top:-10px;margin-left: 8px;">' . __( 'PayPal Currency Incompatibility', 'paid-member-subscriptions' ) . '</strong><br><br>';
+            $message .= sprintf( __( 'The default currency you are using right now is not supported by %s.', 'paid-member-subscriptions' ), '<strong>PayPal</strong>' ) . '<br>';
+            $message .= sprintf( __( 'In order for checkout to work, you need to select a supported currency. The list of supported currencies for PayPal can be found %shere%s.', 'paid-member-subscriptions' ), '<a href="https://developer.paypal.com/docs/reports/reference/paypal-supported-currencies/" target="_blank">', '</a>' ) . '<br><br>';
+            $message .= sprintf( __( 'Go to the %sSettings -> Payments -> General%s page and select a supported currency.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page&tab=payments&nav_sub_tab=payments_general' ) .'" target="_blank">', '</a>' ) . '<br><br>';
+
+            $message .= '<em>'.sprintf( __( '%sDid you know?%s With %s and the %s add-on, you can accept payments in any currency with %s by displaying the local currency to users and converting the payment to a supported currency when the user is charged. %sLearn More%s or %sBuy Now%s', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<strong>Paid Member Subscriptions Pro</strong>', '<strong>Multiple Currencies</strong>', '<strong>PayPal</strong>', '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/paypal/?utm_source=wpbackend&utm_medium=pms-paypal-currency-incompatibility&utm_campaign=PMSFree#Supported_Currencies" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-paypal-currency-incompatibility&utm_campaign=PMSFree#pricing" target="_blank">', '</a>' ) . '</em><br><br>';
+
+
+            if( !$pms_notifications_instance->is_plugin_page() )
+                $message .= sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . wp_nonce_url( add_query_arg( $notification_id . '_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>" );
+
+            pms_add_plugin_notification( $notification_id, $message, 'notice-error', '', '', true );
+
+        }   
+    }
+        
     
 }

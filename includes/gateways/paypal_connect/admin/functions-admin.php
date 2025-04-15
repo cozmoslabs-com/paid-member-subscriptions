@@ -150,3 +150,22 @@ function pms_ppcp_get_platform_bn_code(){
     return 'COZMOSLABSSRL_SP_PPCP';
 
 }
+
+/**
+ * Get the currencies that are not supported by PayPal
+ *
+ * @return mixed|null
+ */
+function pms_ppcp_get_paypal_unsupported_currencies() {
+
+    $supported_currencies   = array( 'AUD', 'BRL', 'CAD', 'CNY', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'TWD', 'NZD', 'NOK', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'THB', 'USD' );
+    $unsupported_currencies = pms_get_currencies();
+
+    foreach ( $unsupported_currencies as $currency_code => $currency_name ) {
+        if ( in_array( $currency_code, $supported_currencies ) )
+            unset( $unsupported_currencies[$currency_code] );
+    }
+
+    return apply_filters( 'pms_paypal_unsupported_currencies', $unsupported_currencies );
+    
+}

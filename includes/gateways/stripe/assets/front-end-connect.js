@@ -30,7 +30,9 @@ jQuery( function( $ ) {
         let intents = JSON.parse( result )
 
         $client_secret              = intents.payment_intent
+        $client_secret_id           = intents.payment_intent_id
         $client_secret_setup_intent = intents.setup_intent
+        $client_secret_setup_id     = intents.setup_intent_id
 
         $('.pms-form input[name="pms_stripe_connect_payment_intent"], .wppb-register-user input[name="pms_stripe_connect_payment_intent"]').val( $client_secret )
         $('.pms-form input[name="pms_stripe_connect_setup_intent"], .wppb-register-user input[name="pms_stripe_connect_setup_intent"]').val( $client_secret_setup_intent )
@@ -84,7 +86,7 @@ jQuery( function( $ ) {
     })
 
     // Show credit card details on the update payment method form
-    if ( $( '#pms-update-payment-method-form #pms-stripe-payment-elements' ).length > 0 ){
+    if ( $( 'input[name="pms_update_payment_method"]' ).length > 0 && $( '.pms-paygate-extra-fields-stripe_connect' ).length > 0 ){
         $('.pms-paygate-extra-fields-stripe_connect').show()
     }
 
@@ -442,20 +444,6 @@ jQuery( function( $ ) {
 
     function stripeConnectProcessPayment( result, user_data, form_data, target_button ){
 
-        let payment_intent = ''
-
-        if( result.error ){
-
-            if ( result.error.payment_intent )
-                payment_intent = result.error.payment_intent
-            else if( result.error.setup_intent )
-                payment_intent = result.error.setup_intent
-
-        } else if( result.paymentIntent )
-            payment_intent = result.paymentIntent
-        else if( result.setupIntent )
-            payment_intent = result.setupIntent
-
         // update nonce
         nonce_data = {}
         nonce_data.action = 'pms_update_nonce'
@@ -471,12 +459,16 @@ jQuery( function( $ ) {
             data.subscription_id          = user_data.subscription_id
             data.subscription_plan_id     = user_data.subscription_plan_id
             data.pms_current_subscription = form_data.pms_current_subscription
-            data.payment_intent           = payment_intent.id
             data.current_page             = window.location.href
             data.pms_nonce                = response
             data.form_type                = form_data.form_type ? form_data.form_type : ''
             data.pmstkn_original          = form_data.pmstkn ? form_data.pmstkn : ''
             data.setup_intent             = form_data.setup_intent ? form_data.setup_intent : ''
+
+            if( data.setup_intent == '' )
+                data.payment_intent = $client_secret_id
+            else
+                data.payment_intent = $client_secret_setup_id
 
             // to determine actual location for change subscription
             data.form_action          = form_data.form_action ? form_data.form_action : ''

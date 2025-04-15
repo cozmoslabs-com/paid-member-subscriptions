@@ -3,9 +3,9 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.14.6
+Stable tag: 2.14.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -258,6 +258,20 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.14.7 =
+* Enhancement: Added currency validation in the front-end for PayPal. Added a persistent message in back-end if default website currency is not supported by PayPal
+* Enhancement: Added support for Elementor Templates as Content Restriction messages when using the Template Content Restriction type
+* Fix: Let PayPal gateway determine the user locale automatically
+* Fix: Issue with Activate Subscription email being sent twice when the subscription was being bought from WooCommerce
+* Fix: Updated Stripe Apple Pay, Google Pay integration to support the latest changes from Stripe JS
+* Fix: Issue with Credit Card details appearing for free plans
+* Fix: Compatibility issues with Profile Builder Conditional Logic when gateways are hidden or shown based on a field
+* Fix: Issues with back-end assets where some things weren't being loaded or applied if the name of the plugin was translated 
+* Fix: Respect the `redirect_to` parameter for the login form if present
+* Misc: Accessibility improvements to account navigation
+* Misc: reCaptcha v3 to disable the form submit button while verifying the request
+* Misc: Updated placement for the submit button on back-end pages
+
 = 2.14.6 =
 * Fix: PayPal migration notice documentation page URL
 

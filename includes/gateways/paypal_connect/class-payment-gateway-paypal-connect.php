@@ -1523,9 +1523,13 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
         
         if( !in_array( $status_code, array( 200, 201 ) ) ) {
 
+            $error_response = $this->parse_error_response( wp_remote_retrieve_body( $response ) );
+
             if( !empty( $payment ) ){
-                $payment->log_data( 'paypal_order_creation_failed', array( 'status' => $status_code, 'data' => $this->parse_error_response( wp_remote_retrieve_body( $response ) ) ) );
+                $payment->log_data( 'paypal_order_creation_failed', array( 'status' => $status_code, 'data' => $error_response ) );
             }
+
+            error_log( 'PMS PayPal Error: Order creation failed. Message: ' . $error_response['error_message'] );
 
             return false;
 

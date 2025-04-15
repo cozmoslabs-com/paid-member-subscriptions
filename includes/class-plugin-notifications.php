@@ -55,6 +55,9 @@ Class PMS_Plugin_Notifications {
 
 		global $current_user;
 
+		if( !isset( $current_user->ID ) )
+			return;
+
 		if( get_user_meta( $current_user->ID, $notification_id . '_dismiss_notification' ) )
 			return;
 

@@ -283,7 +283,7 @@ Class PMS_Shortcodes {
                   <ul>
                       <?php foreach( $tabs as $slug => $name ) : ?>
                           <li class="pms-account-navigation-link pms-account-navigation-link--<?php echo esc_attr( $slug ); ?>">
-                              <a class="<?php echo esc_attr( $active_tab == $slug ? 'pms-account-navigation-link--active' : '' ); ?>" href="<?php echo esc_url( ( $slug != 'logout' ? pms_account_get_tab_url( $slug, $account_page ) : wp_logout_url( apply_filters( 'pms_member_account_logout_url', $args['logout_redirect_url'] ) ) ) ); ?>"><?php echo esc_html( $name ); ?></a>
+                              <a class="<?php echo esc_attr( $active_tab == $slug ? 'pms-account-navigation-link--active' : '' ); ?>" href="<?php echo esc_url( ( $slug != 'logout' ? pms_account_get_tab_url( $slug, $account_page ) : wp_logout_url( apply_filters( 'pms_member_account_logout_url', $args['logout_redirect_url'] ) ) ) ); ?>" <?php echo ( $active_tab == $slug ) ? 'aria-current="page"' : ''; ?> ><?php echo esc_html( $name ); ?></a>
                           </li>
                       <?php endforeach; ?>
                   </ul>
@@ -419,6 +419,10 @@ Class PMS_Shortcodes {
             // Set up arguments for
             $args = array( 'echo' => false, 'form_id' => 'pms_login' );
             ( ! empty($atts['redirect_url']) ? $args['redirect'] = pms_add_missing_http( $atts['redirect_url'] ) : '' );
+
+            if( !empty( $_GET['redirect_to'] ) ) {
+                $args['redirect'] = esc_url_raw( $_GET['redirect_to'] );
+            }
 
             $register_url = '';
             if( !empty( $atts['register_url'] ) )

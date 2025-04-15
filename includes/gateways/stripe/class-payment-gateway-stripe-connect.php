@@ -1076,7 +1076,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         }
 
-        return $intent->client_secret;
+        return [
+            'client_secret' => $intent->client_secret,
+            'id'            => $intent->id,
+        ];
 
     }
 
@@ -1120,7 +1123,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         }
 
-        return $intent->client_secret;
+        return [
+            'client_secret' => $intent->client_secret,
+            'id'            => $intent->id,
+        ];
 
     }
 

@@ -11,15 +11,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <!-- Available Email Merge Tags -->
 <?php $available_merge_tags = PMS_Merge_Tags::get_merge_tags(); ?>
 
-<div id="pms-settings-emails">
+<?php $active_sub_tab = ( ! empty( $_GET['nav_sub_tab'] ) ? sanitize_text_field( $_GET['nav_sub_tab'] ) : 'user_emails' ); ?>
 
-    <?php $active_sub_tab = ( ! empty( $_GET['nav_sub_tab'] ) ? sanitize_text_field( $_GET['nav_sub_tab'] ) : 'user_emails' ); ?>
+<!-- Sub-tab navigation -->
+<ul class="subsubsub cozmoslabs-nav-sub-tab-wrapper">
+    <li><a data-sub-tab-slug="user_emails"  href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'emails', 'nav_sub_tab' => 'user_emails' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'user_emails' ? 'current' : '' ) ?>"><?php esc_html_e( 'Member Emails', 'paid-member-subscriptions' ); ?></a></li>
+    <li><a data-sub-tab-slug="admin_emails" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'emails', 'nav_sub_tab' => 'admin_emails' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'admin_emails' ? 'current' : '' ) ?>"><?php esc_html_e( 'Administrator Emails', 'paid-member-subscriptions' ); ?></a></li>
+</ul>
 
-    <!-- Sub-tab navigation -->
-    <ul class="subsubsub cozmoslabs-nav-sub-tab-wrapper">
-        <li><a data-sub-tab-slug="user_emails"  href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'emails', 'nav_sub_tab' => 'user_emails' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'user_emails' ? 'current' : '' ) ?>"><?php esc_html_e( 'Member Emails', 'paid-member-subscriptions' ); ?></a></li>
-        <li><a data-sub-tab-slug="admin_emails" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'emails', 'nav_sub_tab' => 'admin_emails' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'admin_emails' ? 'current' : '' ) ?>"><?php esc_html_e( 'Administrator Emails', 'paid-member-subscriptions' ); ?></a></li>
-    </ul>
+<div id="pms-settings-emails" class="cozmoslabs-settings">
 
     <!-- User Emails Sub Tab -->
     <div data-sub-tab-slug="user_emails" class="cozmoslabs-sub-tab cozmoslabs-sub-tab-user <?php echo ( $active_sub_tab == 'user_emails' ? 'tab-active' : '' ); ?>">

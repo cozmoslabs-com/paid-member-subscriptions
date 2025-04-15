@@ -479,6 +479,14 @@ Class PMS_Form_Handler {
         if( method_exists( $payment_gateway , 'validate_fields' ) )
             $payment_gateway->validate_fields();
 
+        if( $pay_gate == 'paypal_connect' && apply_filters( 'pms_checkout_payment_gateway_validation_validate_paypal_currency', true ) ) {
+            $default_currency              = pms_get_active_currency();
+            $paypal_unsupported_currencies = pms_ppcp_get_paypal_unsupported_currencies();
+
+            if( in_array( $default_currency, array_keys( $paypal_unsupported_currencies ) ) )
+                pms_errors()->add( 'payment_gateway', __( 'The default currency you are using right now is not supported by PayPal. Contact the website administrator.', 'paid-member-subscriptions' ) );
+        }
+
         if( count( pms_errors()->get_error_messages() ) > 0 )
             return false;
         else
@@ -1798,7 +1806,6 @@ Class PMS_Form_Handler {
 
         // Verify the validity of the payment gateway and what it supports
         self::validate_payment_gateway( $form_location );
-
 
         /**
          * Allow extra validations before the processing of the checkout

@@ -409,17 +409,18 @@ function pms_enqueue_reposition_submit_box_script( $hook ) {
             $enqueue_script = true;
     }
     else {
-        $pms_custom_pages = array( 'paid-member-subscriptions_page_pms-members-page', 'paid-member-subscriptions_page_pms-settings-page' );
+        $parent_menu_slug = sanitize_title( __( 'Paid Member Subscriptions', 'paid-member-subscriptions' ) );
+        $pms_custom_pages = array( $parent_menu_slug . '_page_pms-members-page', $parent_menu_slug . '_page_pms-settings-page' );
 
         if ( in_array( $hook, $pms_custom_pages ) )
             $enqueue_script = true;
     }
 
     if ( $enqueue_script )
-        wp_enqueue_script( 'pms-submit-meta-box-position-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submit-meta-box-position.js', array( 'jquery' ), PMS_VERSION );
+        wp_enqueue_script( 'pms-submit-meta-box-position-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submit-meta-box-position.js', array( 'jquery' ), PMS_VERSION, true );
 
 }
-add_action( 'admin_enqueue_scripts', 'pms_enqueue_reposition_submit_box_script' );
+add_action( 'admin_enqueue_scripts', 'pms_enqueue_reposition_submit_box_script', 20 );
 
 
 /**

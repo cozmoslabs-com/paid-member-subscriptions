@@ -391,16 +391,6 @@ function pms_woo_update_member_subscription( $subscription_data, $subscription_r
     if ( !pms_woo_is_manual_order_update( $subscription->id, $order_key )) {
         pms_add_member_subscription_meta( $subscription->id, 'woo_order_key', $order_key );
     }
-    elseif ( $subscription_data['status'] == 'active' && !empty( $user_existing_subscriptions ) && $user_existing_subscriptions[0]->status != 'active' ) {
-        $settings = get_option( 'pms_emails_settings', array() );
-
-        if ( isset( $settings[ 'activate_is_enabled' ] ) )
-            PMS_Emails::mail('user', 'activate', $user_existing_subscriptions[0]->user_id, $subscription_data['id'], $order_key);
-
-        if( !empty( $settings['admin_emails_on'] ) && isset( $settings[ 'activate_admin_is_enabled' ] ) )
-            PMS_Emails::mail( 'admin', 'activate', $user_existing_subscriptions[0]->user_id, $subscription_data['id'], $order_key );
-
-    }
 
     if( function_exists( 'pms_add_member_subscription_log' ) ) {
         foreach ( $user_existing_subscriptions as $existing_sub) {

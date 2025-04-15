@@ -241,24 +241,24 @@
     }
 }
 @media screen and (max-width: 1139px) {
-    .paid-member-subscriptions_page_pms-addons-page .pms-add-ons-wrap,
+    body[class*="_page_pms-addons-page"] .pms-add-ons-wrap,
     #pms-add-ons-listing #pms-addons {
         max-width: 450px !important;
     }
 
-    .paid-member-subscriptions_page_pms-addons-page .pms-add-ons-wrap .pms-recommended-plugins,
+    body[class*="_page_pms-addons-page"] .pms-add-ons-wrap .pms-recommended-plugins,
     #pms-add-ons-listing .wp-list-table tbody {
         grid-template-columns: minmax(100%, 450px);
     }
 }
 @media screen and (min-width: 1140px) and (max-width: 1609px) {
-    .paid-member-subscriptions_page_pms-addons-page .pms-add-ons-wrap,
+    body[class*="_page_pms-addons-page"] .pms-add-ons-wrap,
     #pms-add-ons-listing #pms-addons {
         max-width: 920px !important;
     }
 }
 @media screen and (min-width: 1610px) {
-    .paid-member-subscriptions_page_pms-addons-page .pms-add-ons-wrap,
+    body[class*="_page_pms-addons-page"] .pms-add-ons-wrap,
     #pms-add-ons-listing #pms-addons {
         max-width: 1390px !important;
     }

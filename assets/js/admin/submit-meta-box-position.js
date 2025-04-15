@@ -1,140 +1,86 @@
-/**
- * Reposition the Publish Box/Button in Admin Dashboard --> PMS CPTs & Custom Pages
- */
+jQuery(window).on('load', function () {
+    handlePublishBoxPosition();
 
-jQuery( document ).ready(setTimeout(function () {
-    let smallMediumScreen  = window.matchMedia("(max-width: 1401px)"),
-        largeScreen  = window.matchMedia("(min-width: 1402px)"),
-        pageBody = jQuery('body');
+    // Reset the scroll event on manual window resize to keep the Publish button scrollable without refreshing
+    jQuery(window).on('resize', function() {
 
-    if (pageBody.is('[class*="post-type-pms"]')) {
-        if (smallMediumScreen.matches)
-            pmsRepositionCptPublishButton();
-        else pmsRepositionCptPublishBox();
-    }
-    else if (pageBody.is('[class*="paid-member-subscriptions_page"]')) {
-        if (largeScreen.matches)
-            pmsRepositionPagePublishBox();
-        else pmsRepositionPagePublishButton();
-    }
+        // clear existing scroll events
+        jQuery(window).off('scroll');
 
-}, 1000));
-
-function pmsRepositionCptPublishBox() {
-    let buttonWrapperContainer = jQuery('#side-sortables'),
-        containerOffsetTop = buttonWrapperContainer.length > 0 ? buttonWrapperContainer.offset().top : 0;
-
-    // set initial position
-    pmsSetCptPublishBoxPosition();
-
-    // reposition on scroll
-    jQuery(window).on('scroll', function() {
-        pmsSetCptPublishBoxPosition();
+        handlePublishBoxPosition();
     });
+});
 
-    // position the Publish Box
-    function pmsSetCptPublishBoxPosition() {
-        if ( jQuery(window).scrollTop() >= (containerOffsetTop - 32) )
-            buttonWrapperContainer.addClass('cozmoslabs-publish-metabox-fixed');
-        else buttonWrapperContainer.removeClass('cozmoslabs-publish-metabox-fixed');
-    }
-}
-
-function pmsRepositionCptPublishButton() {
-    let buttonWrapper = jQuery('#side-sortables #submitdiv');
-
-    if ( buttonWrapper.length > 0 ) {
-        // set initial position
-        pmsSetCptPublishButtonPosition();
-
-        // reposition on scroll
-        jQuery(window).on('scroll', function() {
-            pmsSetCptPublishButtonPosition();
-        });
-    }
-
-    // position the Publish Button
-    function pmsSetCptPublishButtonPosition() {
-        let button = jQuery('#side-sortables #submitdiv input[type="submit"]'),
-            buttonWrapperContainer = jQuery('#side-sortables');
-
-        if (pmsElementInViewport(buttonWrapper)) {
-            buttonWrapperContainer.removeClass('cozmoslabs-publish-button-fixed');
-
-            button.css({
-                'max-width': 'unset',
-                'left': 'unset',
-            });
-        } else {
-            let containerOffsetLeft = buttonWrapper.offset().left;
-
-            buttonWrapperContainer.addClass('cozmoslabs-publish-button-fixed');
-
-            button.css({
-                'max-width': buttonWrapper.outerWidth() + 'px',
-                'left': containerOffsetLeft + 'px',
-            });
-        }
-    }
-}
 
 /**
- *  Reposition Publish Box (large screens)
+ * Reposition the Publish Box/Button in Admin Dashboard
+ * - PMS CPTs
+ * - Custom Pages
+ *
+ */
+function handlePublishBoxPosition() {
+    let largeScreen  = window.matchMedia("(min-width: 1402px)"),
+        settingsContainer =  jQuery('#cozmoslabs-subsection-register-version'),
+        buttonContainer = jQuery('.cozmoslabs-submit');
+
+    if ( settingsContainer.length === 0 ){
+        settingsContainer = jQuery( '.cozmoslabs-settings' );
+    }
+
+    // determine if we are on a PMS Custom Page or CPT
+    if ( settingsContainer.length === 0 ) {
+        settingsContainer = jQuery('#poststuff');
+        buttonContainer = jQuery('#submitdiv');
+    }
+
+    if ( settingsContainer.length > 0 && buttonContainer.length > 0 ) {
+
+        if ( largeScreen.matches )
+            pmsRepositionPublishMetaBox( settingsContainer, buttonContainer );
+        else pmsRepositionPublishButton( buttonContainer );
+
+    }
+}
+
+
+/**
+ *  Reposition Publish Meta-Box
+ * - PMS CPTs
+ * - Custom Pages
+ *
+ *  - works on large screens
  *
  * */
-function pmsRepositionPagePublishBox() {
-    let topBox = jQuery('#pms-member-details, .cozmoslabs-wrap .cozmoslabs-nav-tab-wrapper'),
-        buttonWrapper = jQuery('.cozmoslabs-wrap div.submit');
+function pmsRepositionPublishMetaBox( settingsContainer, buttonContainer ) {
 
-    if ( topBox.length > 0 && buttonWrapper.length > 0 ) {
-
-        let cozmoslabsWrapper = jQuery('.cozmoslabs-wrap');
-
-        cozmoslabsWrapper.addClass('cozmoslabs-publish-box-fixed');
-
-        let bannerHeight = jQuery('.cozmoslabs-banner').outerHeight(),
-            topBoxOffsetTop = topBox.offset().top;
-
-        buttonWrapper.css({
-            'top': topBoxOffsetTop - bannerHeight - 62 + 'px',  // 32px is the admin bar height + 30px cozmoslabs-wrap margin top
-        });
-
-        let cozmoslabsWrapperWidth = cozmoslabsWrapper.outerWidth();
-
-        if (cozmoslabsWrapperWidth < 1200)
-            cozmoslabsWrapper.css({
-                'margin': '30px 10px',
-            });
+    if ( buttonContainer.length > 0 ) {
 
         // set initial position
-        pmsSetPagePublishBoxPosition();
+        pmsSetPublishMetaBoxPosition();
 
         // reposition on scroll
         jQuery(window).scroll(function () {
-            pmsSetPagePublishBoxPosition();
+            pmsSetPublishMetaBoxPosition();
         });
 
-        // position the Publish Box
-        function pmsSetPagePublishBoxPosition() {
-            let distanceToTop = pmsCalculateDistanceToTop(topBox);
+    }
 
-            if (distanceToTop < 50) {
-                let buttonOffsetLeft = buttonWrapper.offset().left;
+    /**
+     * Position the Publish Meta-Box
+     */
+    function pmsSetPublishMetaBoxPosition() {
+        if ( pmsCalculateDistanceToTop( settingsContainer ) < 50 ) {
+            buttonContainer.addClass('cozmoslabs-publish-metabox-fixed');
 
-                buttonWrapper.css({
-                    'position': 'fixed',
-                    'top': '50px',
-                    'left': buttonOffsetLeft,
-                    'box-shadow': '0 3px 10px 0 #aaa',
-                });
-            } else {
-                buttonWrapper.css({
-                    'position': 'absolute',
-                    'top': topBoxOffsetTop - bannerHeight - 62 + 'px', // 32px is the admin bar height + 30px cozmoslabs-wrap margin top
-                    'left': 'auto',
-                    'box-shadow': 'none',
-                });
-            }
+            buttonContainer.css({
+                'left': settingsContainer.offset().left + settingsContainer.outerWidth() + 'px',
+            });
+        } else {
+            buttonContainer.removeClass('cozmoslabs-publish-metabox-fixed');
+
+            buttonContainer.css({
+                'left': 'unset',
+            });
         }
     }
 
@@ -142,40 +88,47 @@ function pmsRepositionPagePublishBox() {
 
 
 /**
- *  Reposition Publish Button (small/medium screens)
+ *  Reposition Publish Button
+ *  - PMS CPTs
+ *  - Custom Pages
+ *
+ *  - works on small/medium screens
  *
  * */
-function pmsRepositionPagePublishButton() {
-    let buttonWrapper = jQuery('.cozmoslabs-wrap div.submit'),
-        button = jQuery('.cozmoslabs-wrap div.submit input[type="submit"]'),
-        cozmoslabsWrapper = jQuery('.cozmoslabs-wrap');
+function pmsRepositionPublishButton( buttonContainer ) {
 
-    if ( buttonWrapper.length > 0 ) {
+    if ( buttonContainer.length > 0 ) {
+
         // set initial position
-        pmsSetPagePublishButtonPosition();
+        pmsSetPublishButtonPosition();
 
         // reposition on scroll
         jQuery(window).on('scroll', function() {
-            pmsSetPagePublishButtonPosition();
+            pmsSetPublishButtonPosition();
         });
+
     }
 
-    // position the Publish Button
-    function pmsSetPagePublishButtonPosition() {
-        if (pmsElementInViewport(buttonWrapper)) {
-            cozmoslabsWrapper.removeClass('cozmoslabs-publish-button-fixed');
+    /**
+     * Position the Publish Button
+     */
+    function pmsSetPublishButtonPosition() {
+        let button = buttonContainer.find('input[type="submit"]');
+
+        if ( pmsElementInViewport( buttonContainer ) ) {
+            buttonContainer.removeClass('cozmoslabs-publish-button-fixed');
 
             button.css({
-                'max-width': 'unset',
-                'margin-left': 'unset',
-            });
+               'max-width': 'unset',
+               'left': 'unset',
+           });
         } else {
-            cozmoslabsWrapper.addClass('cozmoslabs-publish-button-fixed');
+            buttonContainer.addClass('cozmoslabs-publish-button-fixed');
 
             button.css({
-                'max-width': buttonWrapper.outerWidth() + 'px',
-                'margin-left': '-10px',
-            });
+               'max-width': buttonContainer.outerWidth() + 'px',
+               'left': buttonContainer.offset().left + 'px',
+           });
         }
     }
 }
@@ -185,7 +138,7 @@ function pmsRepositionPagePublishButton() {
  *  Calculate the distance to Top for a specific element
  *
  * */
-function pmsCalculateDistanceToTop(element) {
+function pmsCalculateDistanceToTop( element ) {
     let scrollTop = jQuery(window).scrollTop(),
         elementOffset = element.offset().top;
 
@@ -197,7 +150,7 @@ function pmsCalculateDistanceToTop(element) {
  *  Check if a specific element is visible on screen
  *
  * */
-function pmsElementInViewport(element) {
+function pmsElementInViewport( element ) {
     let elementTop = element.offset().top,
         elementBottom = elementTop + element.outerHeight(),
         viewportTop = jQuery(window).scrollTop(),
@@ -233,7 +186,7 @@ jQuery( document ).ready(function(){
     ];
 
     noticeTypes.forEach(function(notice){
-        let selector = "body[class*='paid-member-subscriptions_page_'] " + notice + ", " + "body[class*='post-type-pms-'] " + notice;
+        let selector = "body[class*='_page_pms-'] " + notice + ", " + "body[class*='post-type-pms-'] " + notice;
 
         jQuery(selector).each(function () {
             this.style.setProperty( 'display', 'block', 'important' );

@@ -105,6 +105,7 @@
 <?php __("Something went wrong. The selected payment gateway does not support free trials.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. The selected payment gateway does not support sign-up fees.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. The selected payment gateway does not support recurring payments.", "paid-member-subscriptions"); ?>
+<?php __("The default currency you are using right now is not supported by PayPal. Contact the website administrator.", "paid-member-subscriptions"); ?>
 <?php __("You are already a member.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. We could not cancel your subscription.", "paid-member-subscriptions"); ?>
 <?php __("Your subscription has been successfully canceled.", "paid-member-subscriptions"); ?>
@@ -210,29 +211,6 @@
 <?php __("Processing. Please wait...", "paid-member-subscriptions"); ?>
 <?php __("US Dollar", "paid-member-subscriptions"); ?>
 <?php __("Euro", "paid-member-subscriptions"); ?>
-<?php __("Pound Sterling", "paid-member-subscriptions"); ?>
-<?php __("Canadian Dollar", "paid-member-subscriptions"); ?>
-<?php __("Australian Dollar", "paid-member-subscriptions"); ?>
-<?php __("Brazilian Real", "paid-member-subscriptions"); ?>
-<?php __("Czech Koruna", "paid-member-subscriptions"); ?>
-<?php __("Danish Krone", "paid-member-subscriptions"); ?>
-<?php __("Hong Kong Dollar", "paid-member-subscriptions"); ?>
-<?php __("Hungarian Forint", "paid-member-subscriptions"); ?>
-<?php __("Israeli New Sheqel", "paid-member-subscriptions"); ?>
-<?php __("Japanese Yen", "paid-member-subscriptions"); ?>
-<?php __("Malaysian Ringgit", "paid-member-subscriptions"); ?>
-<?php __("Mexican Peso", "paid-member-subscriptions"); ?>
-<?php __("Norwegian Krone", "paid-member-subscriptions"); ?>
-<?php __("New Zealand Dollar", "paid-member-subscriptions"); ?>
-<?php __("Philippine Peso", "paid-member-subscriptions"); ?>
-<?php __("Polish Zloty", "paid-member-subscriptions"); ?>
-<?php __("Russian Ruble", "paid-member-subscriptions"); ?>
-<?php __("Singapore Dollar", "paid-member-subscriptions"); ?>
-<?php __("Swedish Krona", "paid-member-subscriptions"); ?>
-<?php __("Swiss Franc", "paid-member-subscriptions"); ?>
-<?php __("Taiwan New Dollar", "paid-member-subscriptions"); ?>
-<?php __("Thai Baht", "paid-member-subscriptions"); ?>
-<?php __("Turkish Lira", "paid-member-subscriptions"); ?>
 <?php __("Pound sterling", "paid-member-subscriptions"); ?>
 <?php __("Canadian dollar", "paid-member-subscriptions"); ?>
 <?php __("United Arab Emirates dirham", "paid-member-subscriptions"); ?>
@@ -687,6 +665,15 @@
 <?php __("Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this member ?", "paid-member-subscriptions"); ?>
 <?php __("Invalid user or user already a member of this group.", "paid-member-subscriptions"); ?>
+<?php __("Please select at least one payment to download invoices.", "paid-member-subscriptions"); ?>
+<?php __("Processing...", "paid-member-subscriptions"); ?>
+<?php __("An error occurred while processing the request.", "paid-member-subscriptions"); ?>
+<?php __("Download Invoices", "paid-member-subscriptions"); ?>
+<?php __("Processed %d of %d payments. Continuing with next batch...", "paid-member-subscriptions"); ?>
+<?php __("Successfully generated %d invoices. The zip file is ready for download.", "paid-member-subscriptions"); ?>
+<?php __("Failed to create zip file.", "paid-member-subscriptions"); ?>
+<?php __("Working, please wait...", "paid-member-subscriptions"); ?>
+<?php __("Are you sure you want to delete this invoice archive?", "paid-member-subscriptions"); ?>
 <?php __("The Multiple Currencies Add-On is not compatible with the Pro-Rate Add-On. To use Multiple Currencies, please deactivate the Pro-Rate Add-On.", "paid-member-subscriptions"); ?>
 <?php __("The version of Paid Member Subscriptions you are using is not compatible with the Multiple Currencies add-on. Please update Paid Member Subscriptions to version 2.13.5 or higher.", "paid-member-subscriptions"); ?>
 <?php __("Every 6 Hours", "paid-member-subscriptions"); ?>
@@ -1330,6 +1317,19 @@
 <?php __("User accepted group subscription invitation and registered. Subscription activated.", "paid-member-subscriptions"); ?>
 <?php __("Please select the [pms-register] page under Settings -> General -> Membership Pages in order for Group Subscription invitations to work.", "paid-member-subscriptions"); ?>
 <?php __("Please select the [pms-account] page under Settings -> General -> Membership Pages in order for Group Owners to be able to invite members and manage their group.", "paid-member-subscriptions"); ?>
+<?php __("No payment IDs provided.", "paid-member-subscriptions"); ?>
+<?php __("Failed to create zip file. ZipArchive class not found.", "paid-member-subscriptions"); ?>
+<?php __("Successfully downloaded %d invoices. The zip file is ready for download.", "paid-member-subscriptions"); ?>
+<?php __("No archive name provided.", "paid-member-subscriptions"); ?>
+<?php __("Could not delete the zip file.", "paid-member-subscriptions"); ?>
+<?php __("Could not delete the archive directory.", "paid-member-subscriptions"); ?>
+<?php __("Archive deleted successfully.", "paid-member-subscriptions"); ?>
+<?php __("Bulk Invoices - Generated Downloads", "paid-member-subscriptions"); ?>
+<?php __("This is a list of all the invoice archives that have been generated. You can download them again from here or delete them.", "paid-member-subscriptions"); ?>
+<?php __("No invoice archives found.", "paid-member-subscriptions"); ?>
+<?php __("Archive Name", "paid-member-subscriptions"); ?>
+<?php __("Download", "paid-member-subscriptions"); ?>
+<?php __("%s items", "paid-member-subscriptions"); ?>
 <?php __("Invoices", "paid-member-subscriptions"); ?>
 <?php __("Company Details are required in order to create invoices.", "paid-member-subscriptions"); ?>
 <?php __("Invoice", "paid-member-subscriptions"); ?>
@@ -1358,6 +1358,8 @@
 <?php __("Prices will be displayed according to the custom price set for each currency in the Subscription Plan settings.", "paid-member-subscriptions"); ?>
 <?php __("Prices will be automatically converted from the default currency to the selected one.", "paid-member-subscriptions"); ?>
 <?php __("Default Currency", "paid-member-subscriptions"); ?>
+<?php __("The selected default currency is not supported by PayPal. Please switch to a supported currency in order for payments to work.", "paid-member-subscriptions"); ?>
+<?php __("Other currencies can then be accepted by PayPal by converting the amount to the default supported currency.", "paid-member-subscriptions"); ?>
 <?php __("Extra Currencies", "paid-member-subscriptions"); ?>
 <?php __("Choose any additional currencies you would like to use, apart from the default one.", "paid-member-subscriptions"); ?>
 <?php __("Currency Switcher", "paid-member-subscriptions"); ?>
@@ -1394,7 +1396,7 @@
 <?php __("Conversion rates updated successfully!", "paid-member-subscriptions"); ?>
 <?php __("Certain currencies cannot be accepted through PayPal due to Merchant Restrictions. %sView PayPal supported currencies%s", "paid-member-subscriptions"); ?>
 <?php __("Unsupported Currencies", "paid-member-subscriptions"); ?>
-<?php __("PayPal doesn’t support these currencies for transactions. Simply remove them from the list to enable their use if support is added later.", "paid-member-subscriptions"); ?>
+<?php __("PayPal doesn't support these currencies for transactions. Simply remove them from the list to enable their use if support is added later.", "paid-member-subscriptions"); ?>
 <?php __("Converting Currencies", "paid-member-subscriptions"); ?>
 <?php __("First define some extra currencies above and save the settings in order to setup these currencies.", "paid-member-subscriptions"); ?>
 <?php __('NOTE: Missing conversion rates for %1$s %2$s. Either no converter is enabled, or the selected converter doesn\'t support the %2$s.', 'paid-member-subscriptions' ); ?>
@@ -1858,6 +1860,7 @@
 <?php __("Restriction Template", "paid-member-subscriptions"); ?>
 <?php __("Default", "paid-member-subscriptions"); ?>
 <?php __("Select which template should load instead of the default one when a post is restricted and the restriction type is set to \"Template\".", "paid-member-subscriptions"); ?>
+<?php __("Elementor templates can also be used. It is recommended to use an Elementor compatible theme if you select an Elementor template. Your template should also not include the header or footer of the website, these should be defined globaly in Elementor.", "paid-member-subscriptions"); ?>
 <?php __("Restrict Comments", "paid-member-subscriptions"); ?>
 <?php __("Off", "paid-member-subscriptions"); ?>
 <?php __("Restrict replying, but allow users to view comments", "paid-member-subscriptions"); ?>
@@ -2583,6 +2586,11 @@
 <?php __("PayPal Vault ID", "paid-member-subscriptions"); ?>
 <?php __("Deprecation notice", "paid-member-subscriptions"); ?>
 <?php __("The PayPal version you are using right now has been deprecated.<br> Benefit from the latest security updates and <strong>improved conversion rates</strong> with the new streamlined payment experience that keeps customers on your website throughout the payment process.<br><br>Go to the %sSettings -> Payments -> Gateways%s page, enable the <strong>PayPal gateway</strong> and connect your account. %sMore details%s", "paid-member-subscriptions"); ?>
+<?php __("PayPal Currency Incompatibility", "paid-member-subscriptions"); ?>
+<?php __("The default currency you are using right now is not supported by %s.", "paid-member-subscriptions"); ?>
+<?php __("In order for checkout to work, you need to select a supported currency. The list of supported currencies for PayPal can be found %shere%s.", "paid-member-subscriptions"); ?>
+<?php __("Go to the %sSettings -> Payments -> General%s page and select a supported currency.", "paid-member-subscriptions"); ?>
+<?php __("%sDid you know?%s With %s and the %s add-on, you can accept payments in any currency with %s by displaying the local currency to users and converting the payment to a supported currency when the user is charged. %sLearn More%s or %sBuy Now%s", "paid-member-subscriptions"); ?>
 <?php __("Stripe Customer ID", "paid-member-subscriptions"); ?>
 <?php __("Stripe Card ID", "paid-member-subscriptions"); ?>
 <?php __("The provided Stripe Customer ID is not valid.", "paid-member-subscriptions"); ?>

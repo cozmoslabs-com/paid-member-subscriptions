@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
 
-<div id="pms-settings-tutor-lms" class="pms-tab <?php echo ( isset( $active_tab ) && $active_tab === 'tutor_lms' ? 'tab-active' : '' ); ?>">
+<div id="pms-settings-tutor-lms" class="pms-tab cozmoslabs-settings <?php echo ( isset( $active_tab ) && $active_tab === 'tutor_lms' ? 'tab-active' : '' ); ?>">
 
     <?php
     if ( isset( $options ))

@@ -344,7 +344,7 @@ jQuery( function($) {
                 $(paygate_selector).attr('disabled', true)
                 $(paygate_selector).closest('label').hide()
 
-                $('.pms-credit-card-information').hide()
+                $('.pms-paygate-extra-fields').hide()
                 $('.pms-billing-details').hide()
 
             }
@@ -400,9 +400,16 @@ jQuery( function($) {
         if( jQuery( '.wppb-register-user' ).length > 0 && jQuery( '.wppb-register-user .wppb-subscription-plans' ).length > 0 )
             jQuery(document).on('submit', '.wppb-register-user', disable_form_submit_button)
 
+        window.disable_form_submit_button = disable_form_submit_button;
         function disable_form_submit_button( e ){
 
-            var target_button = jQuery( 'input[type="submit"], button[type="submit"]', jQuery(this) ).not('#pms-apply-discount').not('input[name="pms_redirect_back"]')[0]
+            if (jQuery(e.target).is('form')) {
+                var form = jQuery(e.target)
+            } else {
+                var form = jQuery(e)
+            }
+
+            var target_button = jQuery( 'input[type="submit"], button[type="submit"]', form ).not('#pms-apply-discount').not('input[name="pms_redirect_back"]')[0]
 
             if ( $(target_button).hasClass('pms-submit-disabled') )
                 return false
@@ -528,13 +535,10 @@ jQuery( function($) {
                     $( paygate_selector ).attr( 'disabled', true )
                     $( paygate_selector ).closest( 'label' ).hide()
 
-                    $('.pms-credit-card-information').hide()
+                    $('.pms-paygate-extra-fields').hide()
                     $('.pms-billing-details').hide()
 
                     $('.pms-price-breakdown__holder').hide()
-
-                    // PayPal Connect compatibility
-                    $( '.pms-paygate-extra-fields-paypal_connect' ).hide()
 
                     $('input[type="submit"], button[type="submit"]', $(element).closest( '.pms-form, .wppb-register-user' ) ).show()
 
@@ -586,13 +590,10 @@ jQuery( function($) {
                     $(paygate_selector).attr('disabled', true)
                     $(paygate_selector).closest('label').hide()
 
-                    $('.pms-credit-card-information').hide()
+                    $('.pms-paygate-extra-fields').hide()
                     $('.pms-billing-details').hide()
 
                     $('.pms-price-breakdown__holder').hide()
-
-                    // PayPal Connect compatibility
-                    $( '.pms-paygate-extra-fields-paypal_connect' ).hide()
 
                     $('input[type="submit"], button[type="submit"]', $(element).closest( '.pms-form, .wppb-register-user' ) ).show()
 
@@ -602,13 +603,18 @@ jQuery( function($) {
                     $(paygate_selector).removeAttr('disabled')
                     $(paygate_selector).closest('label').show()
 
-                    $('.pms-credit-card-information').show()
+                    $('.pms-paygate-extra-fields').show()
                     $('.pms-billing-details').attr('style', 'display: flex;');
 
                     $('.pms-price-breakdown__holder').show()
 
-                    $( '.pms-paygate-extra-fields-paypal_connect' ).show()
-                    $( '.pms-form input[type="submit"]:not([name="pms_redirect_back"]):not([id="pms-apply-discount"]), .pms-form button[type="submit"], .wppb-register-user .form-submit input[type="submit"], .wppb-register-user.form-submit button[type="submit"]' ).last().hide()
+                    // If PayPal Connect is selected, show the PayPal Connect extra fields
+                    if ( ( $( 'input[type=radio][name=pay_gate]:checked' ).val() == 'paypal_connect' || $('input[type=hidden][name=pay_gate]').val() == 'paypal_connect' ) && 
+                      ( !$( 'input[type=radio][name=pay_gate]:checked' ).is(':disabled') || !$('input[type=hidden][name=pay_gate]').is(':disabled') ) 
+                    ){
+                        $( '.pms-paygate-extra-fields-paypal_connect' ).show()
+                        $( '.wppb-register-user .form-submit input[type="submit"], .wppb-register-user.form-submit button[type="submit"]' ).last().hide()
+                    }
 
                 }
 
@@ -948,7 +954,7 @@ jQuery( function($) {
                 $.pms_add_general_error(value.message)
 
                 scrollLocation = '.pms-form'
-            } else if (value.target == 'subscription_plan' || value.target == 'subscription_plans') {
+            } else if (value.target == 'subscription_plan' || value.target == 'subscription_plans' || value.target == 'payment_gateway') {
                 $.pms_add_subscription_plans_error(value.message)
 
                 if (scrollLocation == '')
@@ -974,7 +980,7 @@ jQuery( function($) {
         })
 
         if ($(payment_button).attr('name') == 'pms_update_payment_method' && scrollLocation == '#pms-paygates-wrapper')
-            scrollLocation = '#pms-credit-card-information';
+            scrollLocation = '#pms-stripe-connect';
 
         $.pms_form_scrollTo(scrollLocation, payment_button)
 

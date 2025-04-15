@@ -86,7 +86,7 @@ Class PMS_AJAX_Checkout_Handler {
         add_action( 'wp_ajax_pms_validate_checkout', array( $this, 'process_ajax_checkout' ) );
         add_action( 'wp_ajax_nopriv_pms_validate_checkout', array( $this, 'process_ajax_checkout' ) );
 
-        add_action( 'pms_register_form_extra', array( $this, 'validate_ajax_checkout' ), 99 );
+        //add_action( 'pms_register_form_extra', array( $this, 'validate_ajax_checkout' ), 99 );
         add_action( 'pms_wppb_email_confirmation_form_extra', array( $this, 'validate_ajax_checkout' ), 99 );
         add_action( 'pms_process_checkout_validations', array( $this, 'validate_ajax_checkout' ), 99 );
 

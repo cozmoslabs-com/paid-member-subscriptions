@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 ?>
 
-<div class="pms-form-fields">
+<div class="pms-form-fields cozmoslabs-settings">
     <!-- Form Styles -->
     <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-form-styles">
         <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Design & User Experience', 'paid-member-subscriptions' ); ?></h4>
@@ -288,8 +288,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php echo wp_kses_post( __( '<b>Profile Builder</b> is enabled. <b>You can replace the edit profile in the [pms-account] page</b> with the Profile Builder alternative.', 'paid-member-subscriptions' ) ); ?></p>
         </div>
-    </div>
 
         <?php endif;?>
+    </div>
 
 </div>

@@ -570,7 +570,8 @@ ul.pms-field-section {
 }
 
 #pms_edit-profile-form .pms-billing-details {
-    display: block;
+    display: flex;
+    margin-bottom: 24px;
 }
 
 #pms-upgrade-subscription-form .pms-upgrade__message, #pms-change-subscription-form .pms-upgrade__message {

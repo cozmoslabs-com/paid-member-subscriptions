@@ -35,8 +35,8 @@ function pms_pb_subscription_plans_handler( $output, $form_location, $field, $us
             $selected_subscription_plan = ( isset( $field['subscription-plan-selected'] ) && !empty( $field['subscription-plan-selected'] ) ? $field['subscription-plan-selected'] : -1 );
 
             // Field title
-            if( !empty( $field['field-title'] ) )
-                $output .= apply_filters( 'pms_pb_subscription_plans_field_title', '<h4>' . $field['field-title'] . '</h4>', $form_location );
+            $field_title = !empty( $field['field-title'] ) ? '<h4>' . $field['field-title'] . '</h4>' : '';
+            $output .= apply_filters( 'pms_pb_subscription_plans_field_title', $field_title, $form_location );
 
             // Field descriptions
             if( !empty( $field['description'] ) )

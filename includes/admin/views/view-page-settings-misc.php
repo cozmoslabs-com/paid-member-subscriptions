@@ -22,6 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     </ul>
 
+<div class="cozmoslabs-settings">
+
     <!-- GDPR Sub Tab -->
     <div data-sub-tab-slug="misc_gdpr" class="cozmoslabs-sub-tab-gdpr cozmoslabs-sub-tab <?php echo ( $active_sub_tab == 'misc_gdpr' ? 'tab-active' : '' ); ?>">
         <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-gdpr-settings">
@@ -410,6 +412,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <?php do_action( $this->menu_slug . '_misc_after_payments_tab_content', $this->options ); ?>
     </div>
+
+</div>
 
 
 <?php do_action( $this->menu_slug . '_misc_after_subtabs', $this->options ); ?>
