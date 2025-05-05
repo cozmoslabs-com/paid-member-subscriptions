@@ -101,10 +101,10 @@ function pms_stripe_connect_get_payment_intents(){
     $setup_intent   = $gateway->create_initial_setup_intent();
 
     $data = array(
-        'payment_intent'    => $payment_intent['client_secret'],
-        'payment_intent_id' => $payment_intent['id'],
-        'setup_intent'      => $setup_intent['client_secret'],
-        'setup_intent_id'   => $setup_intent['id'],
+        'payment_intent'    => isset( $payment_intent['client_secret'] ) ? $payment_intent['client_secret'] : '',
+        'payment_intent_id' => isset( $payment_intent['id'] ) ? $payment_intent['id'] : '',
+        'setup_intent'      => isset( $setup_intent['client_secret'] ) ? $setup_intent['client_secret'] : '',
+        'setup_intent_id'   => isset( $setup_intent['id'] ) ? $setup_intent['id'] : '',
     );
 
     echo json_encode( $data );

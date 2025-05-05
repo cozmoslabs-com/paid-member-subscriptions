@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.14.7
+Stable tag: 2.14.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -258,6 +258,18 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.14.8 =
+* Enhancement: Added Bulk Cancel Memberships action for admins, available from the Members table
+* Enhancement: Added Bulk Delete Discount Codes action for admins
+* Fix: PayPal malformed request issues appearing for some users
+* Fix: Stripe issue with Fixed Period Memberships where sometimes an automatic renewal would double the expiration date
+* Fix: Issue with the Restrict Comments feature not working correctly
+* Fix: A warning appearing on the Stripe Update Payment Method page
+* Misc: Fix translation notice appearing from Labels Edit add-on
+* Misc: Hide Cancel action from free subscription plans
+* Misc: Fix warning coming from Setup Wizard in some cases
+* Misc: Add custom actions before and after the PMS Account Subscriptions Table
+
 = 2.14.7 =
 * Enhancement: Added currency validation in the front-end for PayPal. Added a persistent message in back-end if default website currency is not supported by PayPal
 * Enhancement: Added support for Elementor Templates as Content Restriction messages when using the Template Content Restriction type

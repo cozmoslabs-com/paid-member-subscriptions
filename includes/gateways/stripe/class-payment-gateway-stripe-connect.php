@@ -1201,10 +1201,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $subscription ) || empty( $form_location ) )
             return false;
 
+        $payment_id = $this->payment_id;
+
         // If this is a subscription renewal, skip processing if it was already processed
         if( $form_location == 'renew_subscription' ){
 
-            $renewal_status = pms_get_member_subscription_meta( $subscription->id, 'pms_subscription_renewal_' . $this->payment_id, true );
+            $renewal_status = pms_get_member_subscription_meta( $subscription->id, 'pms_subscription_renewal_' . $payment_id, true );
 
             if( $renewal_status == 'finished' )
                 return true;
@@ -1340,7 +1342,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $subscription->update( $subscription_data );
 
-                pms_update_member_subscription_meta( $subscription->id, 'pms_subscription_renewal_' . $this->payment_id, 'finished' );
+                pms_update_member_subscription_meta( $subscription->id, 'pms_subscription_renewal_' . $payment_id, 'finished' );
 
                 pms_add_member_subscription_log( $subscription->id, 'subscription_renewed_manually', array( 'until' => $expiration_date ) );
 
@@ -1810,8 +1812,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         $setup_intent = $this->create_initial_setup_intent();
 
-        if( !empty( $setup_intent ) )
-            echo '<input type="hidden" name="pms_stripe_connect_setup_intent" value="'. esc_attr( $setup_intent ) .'"/>';
+        if( !empty( $setup_intent['client_secret'] ) )
+            echo '<input type="hidden" name="pms_stripe_connect_setup_intent" value="'. esc_attr( $setup_intent['client_secret'] ) .'"/>';
 
         echo '<input type="hidden" id="pms-stripe-ajax-update-payment-method-nonce" name="stripe_ajax_update_payment_method_nonce" value="'. esc_attr( wp_create_nonce( 'pms_update_payment_method' ) ) .'"/>';
 

@@ -544,9 +544,15 @@ function pms_in_le_output_string( $string ) {
     }
 }
 
-// Initialize Labels Edit module if selected accordingly in Settings
-$pms_misc_settings = get_option( 'pms_misc_settings', array() );
-if( isset( $pms_misc_settings['labels-edit'] ) && $pms_misc_settings['labels-edit'] == 'enabled' ){
-    $pms_labels_edit = new PMS_IN_LabelsEdit( 'paid-member-subscriptions', esc_html__( 'Labels Edit', 'paid-member-subscriptions' ), esc_html__( 'Labels Edit', 'paid-member-subscriptions' ), 'manage_options', 'pms-labels-edit', 25 );
-    $pms_labels_edit->init();
+add_action( 'init', 'pms_in_le_init' );
+function pms_in_le_init() {
+
+    // Initialize Labels Edit module if selected accordingly in Settings
+    $pms_misc_settings = get_option( 'pms_misc_settings', array() );
+
+    if( isset( $pms_misc_settings['labels-edit'] ) && $pms_misc_settings['labels-edit'] == 'enabled' ){
+        $pms_labels_edit = new PMS_IN_LabelsEdit( 'paid-member-subscriptions', esc_html__( 'Labels Edit', 'paid-member-subscriptions' ), esc_html__( 'Labels Edit', 'paid-member-subscriptions' ), 'manage_options', 'pms-labels-edit', 25 );
+        $pms_labels_edit->init();
+    }
+
 }

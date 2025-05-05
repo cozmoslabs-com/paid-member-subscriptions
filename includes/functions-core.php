@@ -1358,16 +1358,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             // Plugin pages
             if( $pms_notifications_instance->is_plugin_page() ){
 
-                $notification_id = 'pms_bf_2024';
+                $notification_id = 'pms_bf_2025';
 
                 $message = '<div class="pms-bf-notice-container"><img style="max-width: 60px;width: 60px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/pms-logo.svg" />';
 
                 if ( defined( 'PMS_PAID_PLUGIN_DIR' ) && $license_status == 'expired' ){
                     $message .= '<div><p style="font-size: 110%;margin-top:0px;margin-bottom:4px;padding:0px;">' . '<strong>Renew your Paid Member Subscriptions license this Black Friday!</strong>' . '</p>';
-                    $message .= '<p style="font-size: 110%;margin-top:0px;margin-bottom: 0px;padding:0px;">Don\'t miss out on our <strong>best prices & only sale of the year</strong>. <br><a class="button-primary" style="margin-top:6px;" href="https://www.cozmoslabs.com/account/?utm_source=pms-settings&utm_medium=clientsite&utm_campaign=BF-2024" target="_blank">Get Deal</a></p></div>';
+                    $message .= '<p style="font-size: 110%;margin-top:0px;margin-bottom: 0px;padding:0px;">Don\'t miss out on our <strong>best prices & only sale of the year</strong>. <br><a class="button-primary" style="margin-top:6px;" href="https://www.cozmoslabs.com/account/?utm_source=pms-settings&utm_medium=clientsite&utm_campaign=BF-2025" target="_blank">Get Deal</a></p></div>';
                 } else {
                     $message .= '<div><p style="font-size: 110%;margin-top:0px;margin-bottom:4px;padding:0px;">' . '<strong>Get the best price for Paid Member Subscriptions PRO this Black Friday</strong>!' . '</p>';
-                    $message .= '<p style="font-size: 110%;margin-top:0px;margin-bottom: 0px;padding:0px;">This is a <strong>limited-time offer</strong>, so don\'t miss out on our <strong>only sale of the year</strong>. <br><a class="button-primary" style="margin-top:6px;" href="https://www.cozmoslabs.com/black-friday/?utm_source=pms-settings&utm_medium=clientsite&utm_campaign=BF-2024" target="_blank">Get Deal</a></p></div>';
+                    $message .= '<p style="font-size: 110%;margin-top:0px;margin-bottom: 0px;padding:0px;">This is a <strong>limited-time offer</strong>, so don\'t miss out on our <strong>only sale of the year</strong>. <br><a class="button-primary" style="margin-top:6px;" href="https://www.cozmoslabs.com/black-friday/?utm_source=pms-settings&utm_medium=clientsite&utm_campaign=BF-2025" target="_blank">Get Deal</a></p></div>';
                 }
 
                 $message .= '</div><a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '" type="button" class="notice-dismiss"><span class="screen-reader-text">' . __( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
@@ -1390,14 +1390,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 //Don't show if PB can show the notification
                 if( $show_notification === true ){
-                    $notification_id = 'pms_bf_2024';
+                    $notification_id = 'pms_bf_2025';
 
                     $message = '<img style="float: left; margin: 10px 8px 10px 0px; max-width: 20px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/pms-logo.svg" />';
                     
                     if ( defined( 'PMS_PAID_PLUGIN_DIR' ) && $license_status == 'expired' )
-                        $message .= '<p style="padding-right:30px;font-size: 110%;"><strong>Upgrade to Paid Member Subscriptions PRO this Black Friday!</strong> Don\'t miss our only sale of the year. <a href="https://www.cozmoslabs.com/black-friday/?utm_source=wpdashboard&utm_medium=clientsite&utm_campaign=BF-2024" target="_blank">Learn more</a></p>';
+                        $message .= '<p style="padding-right:30px;font-size: 110%;"><strong>Upgrade to Paid Member Subscriptions PRO this Black Friday!</strong> Don\'t miss our only sale of the year. <a href="https://www.cozmoslabs.com/black-friday/?utm_source=wpdashboard&utm_medium=clientsite&utm_campaign=BF-2025" target="_blank">Learn more</a></p>';
                     else
-                        $message .= '<p style="padding-right:30px;font-size: 110%;"><strong>Upgrade to Paid Member Subscriptions PRO this Black Friday!</strong> Don\'t miss our only sale of the year. <a href="https://www.cozmoslabs.com/black-friday/?utm_source=wpdashboard&utm_medium=clientsite&utm_campaign=BF-2024" target="_blank">Learn more</a></p>';
+                        $message .= '<p style="padding-right:30px;font-size: 110%;"><strong>Upgrade to Paid Member Subscriptions PRO this Black Friday!</strong> Don\'t miss our only sale of the year. <a href="https://www.cozmoslabs.com/black-friday/?utm_source=wpdashboard&utm_medium=clientsite&utm_campaign=BF-2025" target="_blank">Learn more</a></p>';
                     
                     $message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '" type="button" class="notice-dismiss"><span class="screen-reader-text">' . __( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
             
@@ -1523,8 +1523,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     function pms_bf_promotion_is_active(){
         
         $black_friday = array(
-            'start_date' => '11/25/2024 00:00',
-            'end_date'   => '12/03/2024 23:59',
+            'start_date' => '11/24/2025 00:00',
+            'end_date'   => '12/02/2025 23:59',
         );
     
         $current_date = time();

@@ -100,8 +100,10 @@ Class PMS_Members_List_Table extends WP_List_Table {
      */
     function register_bulk_actions( $actions ) {
 
-        if( !empty( $_GET['page'] == 'pms-members-page' ) && empty( $_GET['subpage'] ) )
+        if( !empty( $_GET['page'] == 'pms-members-page' ) && empty( $_GET['subpage'] ) ) {
             $actions['pms-delete-subscriptions'] = esc_html__( 'Delete Subscriptions', 'paid-member-subscriptions');
+            $actions['pms-cancel-subscriptions'] = esc_html__( 'Cancel Subscriptions', 'paid-member-subscriptions');
+        }
 
         return $actions;
     }

@@ -18,7 +18,7 @@ $steps_completion = PMS_Setup_Wizard::get_completed_progress_steps();
                 if( $this->step === $step ) : ?>
                     <li class="active"><?php echo esc_html( $label ); ?></li>
                 <?php elseif( $completed ) : ?>
-                    <li class="active <?php echo $steps_completion[$step] == 1 ? 'completed' : ''; ?>">
+                    <li class="active <?php echo $steps_completion[$step] && $steps_completion[$step] == 1 ? 'completed' : ''; ?>">
                         <a href="<?php echo esc_url( add_query_arg( 'step', $step ) ); ?>"><?php echo esc_html( $label ); ?></a>
                     </li>
                 <?php else : ?>

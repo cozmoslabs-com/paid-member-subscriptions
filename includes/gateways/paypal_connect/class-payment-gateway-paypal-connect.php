@@ -1406,7 +1406,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                 $purchase_units = array(
                     'amount' => array(
                         'currency_code' => $order_currency,
-                        'value'         => $order_amount,
+                        'value'         => (string)$order_amount,
                     )
                 );
 
@@ -1419,11 +1419,11 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
             $purchase_units = array(
                 'amount' => array(
                     'currency_code' => $order_currency,
-                    'value'         => $order_amount,
+                    'value'         => (string)$order_amount,
                     'breakdown' => array(
                         'item_total' => array(
                             'currency_code' => $order_currency,
-                            'value'         => round( $order_breakdown['subtotal'], 2 ),
+                            'value'         => (string)round( $order_breakdown['subtotal'], 2 ),
                         )
                     )
                 )
@@ -1432,14 +1432,14 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
             if( !empty( $order_breakdown['discount'] ) ){
                 $purchase_units['amount']['breakdown']['discount'] = array(
                     'currency_code' => $order_currency,
-                    'value'         => round( $order_breakdown['discount'], 2 ),
+                    'value'         => (string)round( $order_breakdown['discount'], 2 ),
                 );
             }
 
             if( !empty( $order_breakdown['tax'] ) ){
                 $purchase_units['amount']['breakdown']['tax_total'] = array(
                     'currency_code' => $order_currency,
-                    'value'         => round( $order_breakdown['tax'], 2 ),
+                    'value'         => (string)round( $order_breakdown['tax'], 2 ),
                 );
             }
 
@@ -1448,14 +1448,14 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                 'quantity' => 1,
                 'unit_amount' => array(
                     'currency_code' => $order_currency,
-                    'value'         => round( $order_breakdown['subtotal'], 2 ),
+                    'value'         => (string)round( $order_breakdown['subtotal'], 2 ),
                 ),
             );
 
             if( !empty( $order_breakdown['tax'] ) ){
                 $item['tax'] = array(
                     'currency_code' => $order_currency,
-                    'value'         => round( $order_breakdown['tax'], 2 ),
+                    'value'         => (string)round( $order_breakdown['tax'], 2 ),
                 );
             }
 

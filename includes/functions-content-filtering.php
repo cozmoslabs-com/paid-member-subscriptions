@@ -924,22 +924,25 @@ $pms_cr_settings = get_option( 'pms_content_restriction_settings' );
 if ( isset( $pms_cr_settings['comments_restriction']['option'] ) && $pms_cr_settings['comments_restriction']['option'] != 'off' ) {
     add_filter( 'comments_open', 'pms_comments_restrict_replying', 20, 2 );
 
-    if ( $pms_cr_settings['comments_restriction']['option'] == 'restrict-everything' )
+    if ( $pms_cr_settings['comments_restriction']['option'] == 'restrict-everything' ){
         add_filter( 'wp_list_comments_args', 'pms_comments_change_callback_function', 999 );
-}
 
-if( !function_exists( 'wppb_exclude_restricted_comments' ) ){
-    add_filter( 'the_comments', 'pms_exclude_restricted_comments', 10, 2 );
-    function pms_exclude_restricted_comments( $comments, $query ){
-        if( !empty( $comments ) && !current_user_can( 'manage_options' ) ){
-            $user_id = get_current_user_id();
-            foreach ( $comments as $key => $comment ){
-                $post = get_post( $comment->comment_post_ID );
-                if( ( $post->post_type == 'private-page' && $user_id != (int)$post->post_author ) || ( function_exists( 'wppb_content_restriction_is_post_restricted' ) && wppb_content_restriction_is_post_restricted( $comment->comment_post_ID ) ) || ( function_exists( 'pms_is_post_restricted' ) && pms_is_post_restricted( $comment->comment_post_ID ) ) ){
-                    unset( $comments[$key] );
+        if( !function_exists( 'wppb_exclude_restricted_comments' ) ){
+            add_filter( 'the_comments', 'pms_exclude_restricted_comments', 10, 2 );
+            function pms_exclude_restricted_comments( $comments, $query ){
+                if( !empty( $comments ) && !current_user_can( 'manage_options' ) ){
+                    $user_id = get_current_user_id();
+                    foreach ( $comments as $key => $comment ){
+                        $post = get_post( $comment->comment_post_ID );
+                        if( ( $post->post_type == 'private-page' && $user_id != (int)$post->post_author ) || ( function_exists( 'wppb_content_restriction_is_post_restricted' ) && wppb_content_restriction_is_post_restricted( $comment->comment_post_ID ) ) || ( function_exists( 'pms_is_post_restricted' ) && pms_is_post_restricted( $comment->comment_post_ID ) ) ){
+                            unset( $comments[$key] );
+                        }
+                    }
                 }
+                return $comments;
             }
         }
-        return $comments;
     }
+
 }
+

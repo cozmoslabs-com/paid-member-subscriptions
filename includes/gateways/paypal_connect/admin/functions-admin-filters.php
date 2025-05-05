@@ -437,7 +437,7 @@ add_filter( 'pms_admin_display_payment_gateways', 'pms_paypal_connect_filter_act
 /**
  * Add deprecation notice for other PayPal gateways
  */
-add_action( 'plugins_loaded', 'pms_paypal_connect_add_deprecation_notice' );
+add_action( 'admin_init', 'pms_paypal_connect_add_deprecation_notice' );
 function pms_paypal_connect_add_deprecation_notice() {
 
     $active_gateways = pms_get_active_payment_gateways();

@@ -132,10 +132,6 @@
 <?php __("Free", "paid-member-subscriptions"); ?>
 <?php __("until %s", "paid-member-subscriptions"); ?>
 <?php __("The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired.", "paid-member-subscriptions"); ?>
-<?php __("Help us improve Paid Member Subscriptions", "paid-member-subscriptions"); ?>
-<?php __("Allow Paid Member Subscriptions to anonymously track the plugin's usage. Data provided by this tracking helps us improve the plugin.<br>", "paid-member-subscriptions"); ?>
-<?php __("No sensitive data is shared. %sLearn More%s", "paid-member-subscriptions"); ?>
-<?php __("Weekly", "paid-member-subscriptions"); ?>
 <?php __("Hello! Seems like you've been using Paid Member Subscriptions to receive payments. That's awesome!", "paid-member-subscriptions"); ?>
 <?php __("If you can spare a few moments to rate it on WordPress.org, it would help us a lot (and boost my motivation).", "paid-member-subscriptions"); ?>
 <?php __("~ Adrian, developer of Paid Member Subscriptions", "paid-member-subscriptions"); ?>
@@ -822,6 +818,7 @@
 <?php __("Subscription Plan Not Found - ID: %s", "paid-member-subscriptions"); ?>
 <?php __("No users found", "paid-member-subscriptions"); ?>
 <?php __("Delete Subscriptions", "paid-member-subscriptions"); ?>
+<?php __("Cancel Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Name", "paid-member-subscriptions"); ?>
 <?php __("Subscribed to", "paid-member-subscriptions"); ?>
 <?php __("Abandoned subscriptions", "paid-member-subscriptions"); ?>
@@ -838,6 +835,8 @@
 <?php __("Member Subscription deleted successfully.", "paid-member-subscriptions"); ?>
 <?php __("%d Member Subscription successfully deleted.", "paid-member-subscriptions"); ?>
 <?php __("%d Member Subscriptions successfully deleted.", "paid-member-subscriptions"); ?>
+<?php __("%d Member Subscription successfully canceled.", "paid-member-subscriptions"); ?>
+<?php __("%d Member Subscriptions successfully canceled.", "paid-member-subscriptions"); ?>
 <?php __("%d members successfully added.", "paid-member-subscriptions"); ?>
 <?php __("It seems this user does not exist.", "paid-member-subscriptions"); ?>
 <?php __("Please select a user.", "paid-member-subscriptions"); ?>
@@ -849,6 +848,7 @@
 <?php __("The user already has a non-abandoned subscription with this plan.", "paid-member-subscriptions"); ?>
 <?php __("The expiration date needs to be less than the current date.", "paid-member-subscriptions"); ?>
 <?php __("Subscription canceled by user.", "paid-member-subscriptions"); ?>
+<?php __("Subscription canceled by admin.", "paid-member-subscriptions"); ?>
 <?php __("Subscription initiated by user.", "paid-member-subscriptions"); ?>
 <?php __("Subscription abandoned by user.", "paid-member-subscriptions"); ?>
 <?php __("Subscription activated successfully.", "paid-member-subscriptions"); ?>
@@ -1719,9 +1719,6 @@
 <?php __("Get Basic Add-ons", "paid-member-subscriptions"); ?>
 <?php __("Activate Basic Add-ons", "paid-member-subscriptions"); ?>
 <?php __("These addons extend your WordPress Membership Plugin and are available with the <a href=\"%s\">PRO version</a> only.", "paid-member-subscriptions"); ?>
-<?php __("PayPal Express", "paid-member-subscriptions"); ?>
-<?php __("Accept one time or recurring payments through PayPal Express Checkout.", "paid-member-subscriptions"); ?>
-<?php __("Accept credit card payments, both one-time and recurring, directly on your website via Stripe.", "paid-member-subscriptions"); ?>
 <?php __("Multiple Subscriptions / User", "paid-member-subscriptions"); ?>
 <?php __("This add-on allows you and your members to download PDF invoices for each payment that has been completed.", "paid-member-subscriptions"); ?>
 <?php __("Sell group subscriptions that contain multiple member seats but are managed and purchased by a single account.", "paid-member-subscriptions"); ?>
@@ -2475,6 +2472,7 @@
 <?php __("View payments with this discount code", "paid-member-subscriptions"); ?>
 <?php __("No start date", "paid-member-subscriptions"); ?>
 <?php __("No expiration date", "paid-member-subscriptions"); ?>
+<?php __("Delete Permanently", "paid-member-subscriptions"); ?>
 <?php __("Delete Discount", "paid-member-subscriptions"); ?>
 <?php __("Enter Discount Code name here", "paid-member-subscriptions"); ?>
 <?php __("Discount Code updated.", "paid-member-subscriptions"); ?>

@@ -3,7 +3,8 @@
 class Cozmoslabs_Plugin_Optin_PMS {
 
     public static $user_name           = '';
-    public static $base_url            = 'https://www.cozmoslabs.com/wp-json/cozmos-api/';
+    public static $api_url             = 'https://www.cozmoslabs.com/wp-json/cozmos-api/';
+    public static $base_url            = 'https://usagetracker.cozmoslabs.com/update';
     public static $plugin_optin_status = '';
     public static $plugin_optin_email  = '';
 
@@ -100,7 +101,7 @@ class Cozmoslabs_Plugin_Optin_PMS {
             // Check if the other plugin might be active as well
             $args = $this->add_other_plugin_version_information( $args );
 
-            $request = wp_remote_post( self::$base_url . 'pluginOptinSubscribe/', $args );
+            $request = wp_remote_post( self::$api_url . 'pluginOptinSubscribe/', $args );
 
             update_option( self::$plugin_option_key, 'yes' );
             update_option( self::$plugin_option_email_key, get_option( 'admin_email' ) );
@@ -166,7 +167,7 @@ class Cozmoslabs_Plugin_Optin_PMS {
         // Check if the other plugin might be active as well
         $args = $this->add_other_plugin_version_information( $args );
 
-        $request = wp_remote_post( self::$base_url . 'pluginOptinUpdateVersion/', $args );
+        $request = wp_remote_post( self::$api_url . 'pluginOptinUpdateVersion/', $args );
 
     }
 
@@ -191,7 +192,7 @@ class Cozmoslabs_Plugin_Optin_PMS {
             ],
         );
 
-        $request = wp_remote_post( self::$base_url . 'pluginOptinUpdateVersion/', $args );
+        $request = wp_remote_post( self::$api_url . 'pluginOptinUpdateVersion/', $args );
 
     }
 
@@ -315,9 +316,7 @@ class Cozmoslabs_Plugin_Optin_PMS {
 
     public static function sync_data(){
 
-        $plugin_optin_status = get_option( self::$plugin_option_key, false );
-
-        if( $plugin_optin_status != 'yes' )
+        if( self::$plugin_optin_status != 'yes' )
             return;
 
         $args = array(
@@ -330,70 +329,394 @@ class Cozmoslabs_Plugin_Optin_PMS {
                 'version'        => pms_get_product_version(),
                 'license'        => pms_get_serial_number(),
                 'active_plugins' => json_encode( get_option( 'active_plugins', array() ) ),
+                'wp_version'     => get_bloginfo('version'),
+                'wp_locale'      => get_locale(),
+                'plugin_version' => defined( 'PMS_VERSION' ) ? PMS_VERSION : '',
+                'php_version'    => defined( 'PHP_VERSION' ) ? PHP_VERSION : '',
             ),
         );
 
-        $args = self::add_request_metadata( $args );
+        // Only send the major version for WordPress and PHP
+        // e.g. 1.x
+        $target_keys = array( 'wp_version', 'php_version' );
 
-        $request = wp_remote_post( self::$base_url . 'pluginOptinSync/', $args );
+        foreach( $target_keys as $key ){
+            $version_number = explode( '.', $args['body'][$key] );
+
+            if( isset( $version_number[0] ) && isset( $version_number[1] ) )
+                $args['body'][$key] = $version_number[0] . '.' . $version_number[1];
+        }
+
+        $args = apply_filters( 'cozmoslabs_plugin_optin_pms_metadata', $args );
+
+        $request = wp_remote_post( self::$base_url, $args );
 
     }
 
-    public static function add_request_metadata( $args ){
-        
-        $settings          = get_option( 'pms_general_settings', false );
-        $payments_settings = get_option( 'pms_payments_settings', false );
-        $tax_settings      = get_option( 'pms_tax_settings', 'not_found' );
+}
 
-	    $enabled = 'no';
+if( !class_exists( 'Cozmoslabs_Plugin_Optin_Metadata_Builder' ) ) {
+    class Cozmoslabs_Plugin_Optin_Metadata_Builder {
 
-        if( !empty( $settings ) ) {
+        public $option_prefix = '';
+        public $blacklisted_option_slugs = [];
+        public $blacklisted_option_patterns = [];
+        public $blacklisted_option_names = [];
+        protected $metadata;
 
-            if( !empty( $settings['forms_design'] ) )
-                $args['body']['form_design'] = $settings['forms_design'];
-            else
-                $args['body']['form_design'] = '';
+        public function __construct(){
 
-            if( isset( $payments_settings['currency'] ) )
-                $args['body']['currency'] = $payments_settings['currency'];
+            $this->metadata = [
+                'settings' => [],
+                'addons'   => [],
+                'custom'   => [],
+                'cpt'      => [],
+            ];
 
-            if( isset( $payments_settings['active_pay_gates'] ) )
-                $args['body']['active_pay_gates'] = json_encode( $payments_settings['active_pay_gates'] );
-
-            if( isset( $payments_settings['retry-payments'] ) && $settings['retry-payments'] == '1' )
-                $args['body']['retry_payments'] = 1;
-            else
-                $args['body']['retry_payments'] = 0;
-
-            $invoice_number = get_option( 'pms_inv_invoice_number', '1' );
-
-            if( (int)$invoice_number > 1 ){
-                $args['body']['invoices'] = 1;
-            } else {
-                $args['body']['invoices'] = 0;
-            }
-
-            if( isset( $payments_settings['enable_tax'] ) && $settings['enable_tax'] == '1' )
-                $args['body']['taxes'] = 1;
-            else
-                $args['body']['taxes'] = 0;
-
-            $args['body']['addons'] = json_encode( get_option( 'pms_add_ons_settings', array() ) );
-
-            $pricing_tables_option = get_option( 'pms_create_pricing_page_complete', false );
-
-            if( $pricing_tables_option == 'pricing_page_exist' ){
-                $args['body']['pricing_tables'] = 1;
-            } else {
-                $args['body']['pricing_tables'] = 0;
-            }
+            add_filter( 'cozmoslabs_plugin_optin_'. $this->option_prefix .'metadata', array( $this, 'build_metadata' ) );
 
         }
 
-        return $args;
+        public function build_metadata( $args ){
+            // Get all options that start with the prefix
+            $options = $this->get_option_keys();
+
+            if( !empty( $options ) ){
+
+                foreach( $options as $option ){
+
+                    // exclude exact option names
+                    if( in_array( $option['option_name'], $this->blacklisted_option_slugs ) ){
+                        continue;
+                    }
+
+                    // exclude patterns
+                    if( !empty( $this->blacklisted_option_patterns ) ){
+                        $found_pattern = false;
+
+                        foreach( $this->blacklisted_option_patterns as $pattern ){
+                            if( strpos( $option['option_name'], $pattern ) !== false ){
+                                $found_pattern = true;
+                                break;
+                            }
+                        }
+
+                        if( $found_pattern )
+                            continue;
+                    }
+
+                    $option_value = get_option( $option['option_name'], false );
+
+                    if( !empty( $option_value ) ){
+
+                        if( is_array( $option_value ) ){
+                            foreach( $option_value as $key => $value ){
+                                if( !is_array( $value ) ){
+                                    if( in_array( $key, $this->blacklisted_option_names ) )
+                                    unset( $option_value[ $key ] );
+                                } else {
+                                    if( in_array( $key, $this->blacklisted_option_names ) )
+                                        unset( $option_value[ $key ] );
+
+                                    foreach( $value as $key_deep => $value_deep ){
+                                        if( in_array( $key_deep, $this->blacklisted_option_names ) )
+                                            unset( $option_value[ $key ][ $key_deep ] );
+                                    }
+                                }
+                            }
+                        }
+
+                        // cleanup options like array( array( 'abc' ) ) to be array( 'abc' ) 
+                        if( is_array( $option_value ) && count( $option_value ) == 1 && isset( $option_value[0] ) )
+                            $option_value = $option_value[0];
+                        
+                        $this->metadata['settings'][ $option['option_name'] ] = $option_value;
+                    }
+
+                }
+
+            }
+
+            // Ability to add custom data
+            $this->metadata = apply_filters( 'cozmoslabs_plugin_optin_'. $this->option_prefix .'metadata_builder_metadata', $this->metadata );
+
+            $args['body']['metadata'] = $this->metadata;
+
+            return $args;
+        }
+
+        private function get_option_keys(){
+
+            global $wpdb;
+
+            if( empty( $this->option_prefix ) )
+                return [];
+            
+            $result = $wpdb->get_results( $wpdb->prepare( "SELECT option_name FROM {$wpdb->prefix}options WHERE option_name LIKE %s", $this->option_prefix . '%' ), 'ARRAY_A' );
+
+            if( !empty( $result ) )
+                return $result;
+        
+            return [];
+
+        }
+
+    }
+}
+
+class Cozmoslabs_Plugin_Optin_Metadata_Builder_PMS extends Cozmoslabs_Plugin_Optin_Metadata_Builder {
+
+    public function __construct(){
+
+        $this->option_prefix = 'pms_';
+
+        parent::__construct();
+
+        $this->blacklisted_option_slugs = [
+            'pms_add_ons_settings',
+            'pms_already_installed',
+            'pms_inv_invoice_number',
+            'pms_serial_number',
+            'pms_edd_sl_initial_activation',
+            'pmsle_backup',
+            'pms_license_details',
+            'pms_old_add_ons_status',
+            'pms_pages_created',
+            'pms_repackage_initial_upgrade',
+            'pms_review_request_status',
+            'pms_version',
+            'pms_stripe_connect_test_publishable_key',
+            'pms_stripe_connect_test_secret_key',
+            'pms_stripe_connect_live_publishable_key',
+            'pms_stripe_connect_live_secret_key',
+            'pms_payments_gateways_notice_clicked',
+            'pms_paypal_connect_test_access_token',
+            'pms_paypal_connect_live_access_token',
+            'pms_paypal_connect_test_webhook_id',
+            'pms_paypal_connect_live_webhook_id',
+            'pms_paypal_migration_existing_paypal_gateways',
+            'pms_paypal_migration_existing_paypal_gateways_paypal_standard',
+            'pms_paypal_migration_existing_paypal_gateways_paypal_express',
+            'pms_paypal_connect_test_client_id',
+            'pms_paypal_connect_test_client_secret',
+            'pms_paypal_connect_test_payer_id',
+            'pms_paypal_connect_live_client_id',
+            'pms_paypal_connect_live_client_secret',
+            'pms_paypal_connect_live_payer_id',
+            'pms_recaptcha_validations',
+            'pms_gm_first_activation',
+            'pms_currency_exchange_data',
+            'pms_currency_exchange_request_date',
+            'pms_payments_home_url',
+            'pms_inv_version',
+            'pms_inv_first_activation',
+            'pms_inv_invoice_number',
+            'pms_inv_reset_invoice_number_years',
+            'pms_emails_settings',
+            'pms_files_restriction_addon_already_activated',
+            'pmsle',
+            'pms_ipn_logger',
+        ];
+
+        $this->blacklisted_option_names = [
+            'logged_out',
+            'non_members',
+            'purchasing_restricted',
+            'notes',
+            'company_details',
+            'product_discounted_message',
+            'exchange_api_key',
+            'alpha_vantage_api_key',
+            'pms-paypal-unsupported-currencies'
+        ];
+
+        $this->blacklisted_option_patterns = [
+            'pms_ipn_logger',
+            'pms_used_trial',
+            'pms_used_trial_cards',
+        ];
+
+        add_action( 'cozmoslabs_plugin_optin_'. $this->option_prefix .'metadata_builder_metadata', array( $this, 'build_custom_plugin_metadata' ) );
+
+    }
+
+    public function build_custom_plugin_metadata(){
+
+        // Add-ons data
+        $this->metadata['addons'] = $this->generate_addon_settings();
+
+        // Content restriction data
+        $this->metadata['custom']['content_restriction'] = $this->generate_content_restriction_data();
+
+        // Custom post types data
+        $this->metadata['cpt'] = $this->generate_cpt_data();
+
+        return $this->metadata;
+
+    }
+
+    public function generate_addon_settings(){
+        $add_on_option_slugs = [
+            'pms_add_ons_settings',
+        ];
+
+        $add_ons = [];
+
+        foreach( $add_on_option_slugs as $option_slug ){
+            $option = get_option( $option_slug, false );
+
+            if( !empty( $option ) ){
+                foreach( $option as $slug => $value ){
+                    
+                    if( ( is_bool( $value ) && $value == true ) || $value == 'show' ){
+                        $slug = str_replace( [ 'pms-add-on-', '/index.php'], '', $slug );
+
+                        $add_ons[ $slug ] = true;
+                    }
+                }
+            }
+        }
+
+        return $add_ons;
+    }
+
+    public function generate_content_restriction_data(){
+        global $wpdb;
+
+        $restriction_data = [
+            'post_restrictions'        => 0,
+            'elementor_restrictions'   => 0,
+            'divi_restrictions'        => 0,
+            'blocks_restrictions'      => 0,
+        ];
+
+        // Count post/page/cpt restrictions
+        $restriction_data['post_restrictions'] = $wpdb->get_var(
+            "SELECT COUNT(DISTINCT a.post_id) 
+            FROM {$wpdb->postmeta} a
+            INNER JOIN {$wpdb->posts} b ON a.post_id = b.ID 
+            WHERE b.post_type != 'revision'
+            AND ( ( a.meta_key = 'pms-content-restrict-user-status' AND a.meta_value = 'loggedin' )
+            OR ( a.meta_key = 'pms-content-restrict-subscription-plan' AND a.meta_value IS NOT NULL ) ) LIMIT 100"
+        );
+
+        // Count Elementor widget restrictions if Elementor is active
+        if( did_action( 'elementor/loaded' ) ) {
+            $elementor_posts = $wpdb->get_results(
+                "SELECT a.post_id, a.meta_value 
+                FROM {$wpdb->postmeta} a
+                INNER JOIN {$wpdb->posts} b ON a.post_id = b.ID
+                WHERE b.post_type != 'revision'
+                AND a.meta_key = '_elementor_data' 
+                AND ( a.meta_value LIKE '%\"pms_restriction_loggedin_users\":\"yes\"%'
+                OR a.meta_value LIKE '%\"pms_restriction_subscription_plans\":[\"%') LIMIT 100"
+            );
+
+            if( !empty( $elementor_posts ) )
+                $restriction_data['elementor_restrictions'] = count($elementor_posts);
+        }
+
+        // Check if Divi is active
+        if( defined( 'ET_BUILDER_VERSION' ) ) {
+            $divi_posts = $wpdb->get_results(
+                "SELECT ID 
+                FROM {$wpdb->posts}
+                WHERE post_type != 'revision'
+                AND post_content LIKE '%pms_display_to=\"logged_in\"%'
+                OR post_content LIKE '%pms_subscription_plans=\"%' LIMIT 100"
+            );
+
+            if( !empty( $divi_posts ) )
+                $restriction_data['divi_restrictions'] = count($divi_posts);
+        }
+
+        // Check if Gutenberg is available
+        if( version_compare( get_bloginfo( 'version' ), '5.0', '>=' ) ) {
+            $gutenberg_posts = $wpdb->get_results(
+                "SELECT ID 
+                FROM {$wpdb->posts}
+                WHERE post_type != 'revision'
+                AND ( post_content LIKE '%\"pmsContentRestriction\":{\"loggedIn\":%'
+                OR post_content LIKE '%\"pmsContentRestriction\":{\"subscriptionPlans\":[\"%' ) LIMIT 100"
+            );
+
+            if( !empty( $gutenberg_posts ) )
+                $restriction_data['blocks_restrictions'] = count($gutenberg_posts);
+        }
+
+        return $restriction_data;
+    }
+
+    public function generate_cpt_data(){
+
+        $cpt_data = [];
+
+        // Define post types and their meta key prefixes
+        $post_types = array(
+            'pms-subscription'    => array('key' => 'pms_subscription_plan', 'data_key' => 'subscription_plans'),
+            'pms-discount-codes'  => array('key' => 'pms_discount', 'data_key' => 'discount_codes'),
+            'pms-email-reminders' => array('key' => 'pms_email_reminder', 'data_key' => 'email_reminders')
+        );
+        
+        global $wpdb;
+        
+        foreach( $post_types as $post_type => $meta_info ) {
+            $limit = '';
+            
+            // Add limit of 50 for discount codes
+            if( $post_type == 'pms-discount-codes' ) {
+                $limit = ' LIMIT 50';
+            }
+
+            $posts = $wpdb->get_col(
+                $wpdb->prepare(
+                    "SELECT ID 
+                    FROM {$wpdb->posts} 
+                    WHERE post_type = %s 
+                    ORDER BY post_date ASC" . $limit,
+                    $post_type
+                )
+            );
+            
+            if( !empty( $posts ) ){
+                foreach( $posts as $post_id ){
+                    $post_meta = $wpdb->get_results( 
+                        $wpdb->prepare( 
+                            "SELECT meta_key, meta_value 
+                            FROM {$wpdb->postmeta} 
+                            WHERE post_id = %d 
+                            AND meta_key LIKE %s",
+                            $post_id,
+                            $meta_info['key'] . '%'
+                        )
+                    );
+                    
+                    $data = array();
+                    
+                    if( !empty( $post_meta ) ){
+                        foreach( $post_meta as $meta ){
+                            if( strpos( $meta->meta_key, 'description' ) === false ){
+
+                                $meta_value = maybe_unserialize( $meta->meta_value );
+
+                                if( is_array( $meta_value ) )
+                                    $meta_value = json_encode( $meta_value );
+
+                                $data[$meta->meta_key] = $meta_value;
+                            }
+                        }
+                    }
+                    
+                    $cpt_data[$meta_info['data_key']][] = $data;
+                }
+            }
+        }
+
+        return $cpt_data;
 
     }
 
 }
 
 new Cozmoslabs_Plugin_Optin_PMS();
+new Cozmoslabs_Plugin_Optin_Metadata_Builder_PMS();

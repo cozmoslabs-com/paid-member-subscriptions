@@ -275,6 +275,62 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
             }
 
+            // Handle bulk cancel subscriptions
+            if( isset( $_REQUEST[ 'member_subscriptions' ] ) && !empty( $_REQUEST[ 'member_subscriptions' ] ) && $action == 'pms-cancel-subscriptions' ){
+
+                $canceled_subscriptions_count = 0;
+                $subscription_ids            = array_map( 'absint', $_REQUEST[ 'member_subscriptions' ] );
+
+                foreach( $subscription_ids as $id ){
+
+                    $member_subscription = pms_get_member_subscription( (int)$id );
+
+                    if( !is_null( $member_subscription ) ){
+
+                        $confirm_remove_subscription = apply_filters( 'pms_confirm_cancel_subscription', true, $member_subscription->user_id, $member_subscription->subscription_plan_id );
+
+                        // If all is good remove the subscription, if not send an error
+                        if( true == $confirm_remove_subscription ) {
+
+                            $subscription_data = array();
+                            $subscription_data['status'] = 'canceled';
+            
+                            // If we have a billing payment date, set it as the expiration date and remove it
+                            if( empty( $member_subscription->payment_profile_id ) && ! empty( $member_subscription->billing_next_payment ) ) {
+            
+                                $subscription_data['expiration_date']      = $member_subscription->billing_next_payment;
+                                $subscription_data['billing_next_payment'] = '';
+            
+                            }
+                            
+                            if( $member_subscription->update( $subscription_data ) ){
+                                pms_add_member_subscription_log( $member_subscription->id, 'subscription_canceled_admin' );
+
+                                pms_update_member_subscription_meta( $member_subscription->id, 'pms_retry_payment', 'inactive' );
+            
+                                /**
+                                 * Action for when the cancellation is successful
+                                 *
+                                 * @param array $member_data
+                                 * @param PMS_Member_Subscription $member_subscription
+                                 *
+                                 */
+                                do_action( 'pms_cancel_member_subscription_successful', array(), $member_subscription );
+    
+                                $canceled_subscriptions_count++;
+                                
+                            }
+
+                        }
+
+                    }
+                }
+
+                if( $canceled_subscriptions_count != 0 )
+                    $this->add_admin_notice( sprintf( _n( '%d Member Subscription successfully canceled.', '%d Member Subscriptions successfully canceled.', $canceled_subscriptions_count, 'paid-member-subscriptions' ), $canceled_subscriptions_count ), 'updated' );
+
+            }
+
         }
 
 
@@ -725,6 +781,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
         switch ( $log['type'] ) {
             case 'subscription_canceled':
                 $message = __( 'Subscription canceled by user.', 'paid-member-subscriptions' );
+                break;
+            case 'subscription_canceled_admin':
+                $message = __( 'Subscription canceled by admin.', 'paid-member-subscriptions' );
                 break;
             case 'subscription_added':
                 $message = __( 'Subscription initiated by user.', 'paid-member-subscriptions' );

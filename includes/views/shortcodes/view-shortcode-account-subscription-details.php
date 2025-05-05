@@ -7,9 +7,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * HTML output for the member subscription details
  *
  */
-
 $subscriptions         = pms_get_member_subscriptions( array( 'user_id' => $user_id ) );
 $subscription_statuses = pms_get_member_subscription_statuses();
+
+do_action( 'pms_member_account_subscriptions_view_before_table', $subscriptions );
 
 foreach( $subscriptions as $subscription ) :
 	if ( is_null( $subscription ) )
@@ -196,8 +197,12 @@ foreach( $subscriptions as $subscription ) :
 
                             if( !pms_is_https() )
                                 $cancel_plan_button = apply_filters( 'pms_output_subscription_plan_action_cancel', '<span class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" title="'. __( 'This action is not available because your website doesn\'t have https enabled.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</span>', $subscription_plan, $subscription->to_array(), $member->user_id );
-                            elseif( $subscription->status == 'active' && ( $subscription_plan->duration != '0' || ( $subscription_plan->is_fixed_period_membership() && $subscription_plan->fixed_expiration_date != '' ) ) )
+                            elseif( $subscription->status == 'active' && ( 
+                                    ( $subscription_plan->duration != '0' || ( $subscription_plan->is_fixed_period_membership() && $subscription_plan->fixed_expiration_date != '' ) )
+                                    && ( $subscription_plan->price > 0 )
+                                    ) ){
                                 $cancel_plan_button = apply_filters( 'pms_output_subscription_plan_action_cancel', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'cancel_subscription', 'subscription_id' => $subscription->id  ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '" title="'. __( 'Cancels recurring payments for this subscription, letting it expire at the end of the current period.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id );
+                            }
                             
                             if( !empty( $cancel_plan_button ) )
                                 echo wp_kses_post( $cancel_plan_button );
@@ -243,4 +248,6 @@ foreach( $subscriptions as $subscription ) :
 	echo $subscription_row;//phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
 
 endforeach;
+
+do_action( 'pms_member_account_subscriptions_view_after_table', $subscriptions );
 ?>

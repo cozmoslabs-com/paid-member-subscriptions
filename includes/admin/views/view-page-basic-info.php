@@ -309,29 +309,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <?php endif; ?>
 
         <div class="cozmoslabs-basic-info-addons">
-            <div>
-                <a href="https://www.cozmoslabs.com/add-ons/paypal-pro-paypal-express/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
-                    <h4 class="pms-add-on-name"><?php esc_html_e( 'PayPal Express', 'paid-member-subscriptions' ); ?></h4>
-                </a>
-
-                <a href="https://www.cozmoslabs.com/add-ons/paypal-pro-paypal-express/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
-                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-paypal-pro.png" alt="PayPal Express" class="pms-addon-image" />
-                </a>
-
-                <p class="cozmoslabs-description"><?php esc_html_e( 'Accept one time or recurring payments through PayPal Express Checkout.', 'paid-member-subscriptions' ); ?></p>
-            </div>
-
-            <div>
-                <a href="https://www.cozmoslabs.com/add-ons/stripe/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
-                    <h4 class="pms-add-on-name"><?php esc_html_e( 'Stripe (deprecated)', 'paid-member-subscriptions' ); ?></h4>
-                </a>
-
-                <a href="https://www.cozmoslabs.com/add-ons/stripe/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
-                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-stripe.png" alt="Stripe" class="pms-addon-image" />
-                </a>
-
-                <p class="cozmoslabs-description"><?php esc_html_e( 'Accept credit card payments, both one-time and recurring, directly on your website via Stripe.', 'paid-member-subscriptions' ); ?></p>
-            </div>
 
             <div>
                 <a href="https://www.cozmoslabs.com/add-ons/content-dripping/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">

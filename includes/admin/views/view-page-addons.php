@@ -157,8 +157,58 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
         ),
     );
-    $pms_addons_listing->add_section();
 
+    // The Stripe and PayPal Express add-ons were deprecated. We need to only show them to users that were using them before the deprecation.
+    $pms_deprecated_addons = get_option( 'pms_used_deprecated_addons', false );
+    
+    if( empty( $pms_deprecated_addons ) ) {
+
+        $stripe_addon_active   = apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-stripe/index.php' );
+        $paypal_addon_active   = apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-paypal-express-pro/index.php' );
+
+        if( $stripe_addon_active ) {
+
+            $pms_deprecated_addons[] = 'pms-add-on-stripe/index.php';  
+
+        } else {
+
+            $pms_addons_listing->items = array_filter( $pms_addons_listing->items, function( $item ) {
+                return $item['slug'] !== 'pms-add-on-stripe/index.php';
+            });
+
+        }
+    
+        if( $paypal_addon_active ) {
+            
+            $pms_deprecated_addons[] = 'pms-add-on-paypal-express-pro/index.php';
+            
+        } else {
+
+            $pms_addons_listing->items = array_filter( $pms_addons_listing->items, function( $item ) {
+                return $item['slug'] !== 'pms-add-on-paypal-express-pro/index.php';
+            });
+
+        }
+        
+        update_option( 'pms_used_deprecated_addons', $pms_deprecated_addons, false );
+
+    } else {
+
+        if( !in_array( 'pms-add-on-stripe/index.php', $pms_deprecated_addons ) ) {
+            $pms_addons_listing->items = array_filter( $pms_addons_listing->items, function( $item ) {
+                return $item['slug'] !== 'pms-add-on-stripe/index.php';
+            } );
+        }
+
+        if( !in_array( 'pms-add-on-paypal-express-pro/index.php', $pms_deprecated_addons ) ) {
+            $pms_addons_listing->items = array_filter( $pms_addons_listing->items, function( $item ) {
+                return $item['slug'] !== 'pms-add-on-paypal-express-pro/index.php';
+            } );
+        }
+
+    }
+
+    $pms_addons_listing->add_section();
 
     //Display the whole listing
     $pms_addons_listing->display_addons();

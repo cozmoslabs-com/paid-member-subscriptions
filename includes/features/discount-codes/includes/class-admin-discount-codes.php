@@ -54,6 +54,15 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
             if( !isset( $_REQUEST['_wpnonce'] ) || !wp_verify_nonce( sanitize_text_field( $_REQUEST['_wpnonce'] ), 'pms_discount_code_nonce' ) )
                 return;
 
+            // Handle bulk delete action
+            if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'delete' && isset( $_REQUEST['post'] ) ) {
+                $post_ids = array_map( 'absint', $_REQUEST['post'] );
+                
+                foreach ( $post_ids as $post_id ) {
+                    PMS_IN_Discount_Code::remove( $post_id );
+                }
+            }
+
             // Activate discount code
             if( isset( $_REQUEST['pms-action'] ) && $_REQUEST['pms-action'] == 'activate_discount_code' && isset( $_REQUEST['post_id'] ) ) {
                 PMS_IN_Discount_Code::activate( absint( $_REQUEST['post_id'] ) );
@@ -267,10 +276,9 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
         *
         */
         public function remove_bulk_actions($actions) {
-
             unset($actions['trash']);
+            $actions['delete'] = __('Delete Permanently', 'paid-member-subscriptions');
             return $actions;
-
         }
 
         /*
