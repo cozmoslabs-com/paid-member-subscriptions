@@ -15,9 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         // Get all subscription plans
         $subscription_plans = array();
+        $subscription_plans[] = '%'. __( 'All', 'paid-member-subscriptions' ) .'%all';
+
         foreach( pms_get_subscription_plans() as $subscription_plan )
             $subscription_plans[] = '%' . $subscription_plan->name . '%' . $subscription_plan->id;
-
 
         // Prepare subscription plans for default select
         $subscription_plans_select = array( '%' . __( 'Choose...', 'paid-member-subscriptions' ) . '%-1' );
@@ -28,6 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             $manage_fields[] = array( 'type' => 'checkbox', 'slug' => 'subscription-plans', 'title' => __( 'Subscription Plans on Register Form', 'paid-member-subscriptions' ), 'options' => $subscription_plans, 'description' => sprintf( __( 'It looks like there are no active subscriptions. <a href="%s">Create one here</a>.', 'paid-member-subscriptions' ), 'edit.php?post_type=pms-subscription' ) );
         else
             $manage_fields[] = array( 'type' => 'checkbox', 'slug' => 'subscription-plans', 'title' => __( 'Subscription Plans on Register Form', 'paid-member-subscriptions' ), 'options' => $subscription_plans, 'description' => __( "Select which Subscription Plans to show to the user on the register forms ( drag and drop to re-order )", 'paid-member-subscriptions' ) );
+
         $manage_fields[] = array( 'type' => 'text', 'slug' => 'subscription-plans-sort-order', 'title' => __( 'Subscription Plans Order', 'paid-member-subscriptions' ), 'description' => __( "Save the subscription plan order from the subscription plans checkboxes", 'paid-member-subscriptions' ) );
 
         if( count( $subscription_plans_select ) > 1 )

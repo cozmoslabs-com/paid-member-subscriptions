@@ -53,6 +53,11 @@ function pms_pb_subscription_plans_handler( $output, $form_location, $field, $us
                 }
 
                 $subscription_plans = apply_filters( 'pms_pb_displayed_subscription_plans', explode( ', ', $field['subscription-plans'] ), $form_location, $field );
+
+                // If the ALL options is selected, always show all plans
+                if( in_array( 'all', $subscription_plans ) )
+                    $subscription_plans = array();
+
                 $output .= pms_output_subscription_plans( $subscription_plans, array(), false, $selected_subscription_plan, 'wppb_register' );
 
             // If no subscription plans where selected display all subscription plans

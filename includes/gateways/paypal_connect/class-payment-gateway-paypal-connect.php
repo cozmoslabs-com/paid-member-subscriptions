@@ -683,23 +683,29 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                     $payment->log_data( 'paypal_transaction_refunded' );
 
                     $payment->update( array( 'status' => 'refunded' ) );
+                    
+                    $pms_settings = get_option( 'pms_misc_settings', array() );
 
-                    // Update subscription
-                    if( !empty( $payment->member_subscription_id ) ){
-                        $subscription = pms_get_member_subscription( $payment->member_subscription_id );
+                    // Maybe update subscription
+                    if( !isset( $pms_settings['gateway-refund-behavior'] ) || $pms_settings['gateway-refund-behavior'] != 1 ){
 
-                        if( !empty( $subscription ) ){
-                            pms_add_member_subscription_log( $subscription->id, 'paypal_webhook_subscription_expired' );
+                        if( !empty( $payment->member_subscription_id ) ){
+                            $subscription = pms_get_member_subscription( $payment->member_subscription_id );
 
-                            $subscription_data = array(
-                                'status'                => 'expired',
-                                'billing_next_payment'  => '',
-                                'billing_duration'      => 0,
-                                'billing_duration_unit' => '',
-                            );
+                            if( !empty( $subscription ) ){
+                                pms_add_member_subscription_log( $subscription->id, 'paypal_webhook_subscription_expired' );
 
-                            $subscription->update( $subscription_data );
+                                $subscription_data = array(
+                                    'status'                => 'expired',
+                                    'billing_next_payment'  => '',
+                                    'billing_duration'      => 0,
+                                    'billing_duration_unit' => '',
+                                );
+
+                                $subscription->update( $subscription_data );
+                            }
                         }
+
                     }
                 }
                 
@@ -1309,7 +1315,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
         // Generate webhook URL
         $webhook_url = add_query_arg( array(
             'pay_gate_listener' => 'paypal_connect'
-        ), trailingslashit( home_url() ) );
+        ), trailingslashit( pms_get_home_url() ) );
 
         // Prepare webhook data
         $webhook_data = array(

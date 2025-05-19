@@ -80,6 +80,16 @@ Class PMS_Member_Subscription_List_Table extends WP_List_Table {
         if( ! pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_free_trial' ) )
             unset( $columns['active_trial'] );
 
+        // If user has a single subscription that is recurring, update expiration date column label to Next Payment Date
+        if( !empty( $this->member->subscriptions ) && count( $this->member->subscriptions ) == 1 ){
+
+            $subscription = pms_get_member_subscription( $this->member->subscriptions[0]['id'] );
+
+            if( $subscription->is_auto_renewing() )
+                $columns['expiration_date'] = __( 'Next Payment Date', 'paid-member-subscriptions' );
+
+        }
+
         return $columns;
 
     }

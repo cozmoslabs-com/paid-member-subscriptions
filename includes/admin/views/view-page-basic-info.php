@@ -425,7 +425,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <div class="pms-1-3-col cozmoslabs-basic-info-recommended" id="pms-recommended-profile-builder">
             <div class="cozmoslabs-basic-info-recommended-img">
-                <a href="https://wordpress.org/plugins/profile-builder/" target="_blank"><img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ) . 'assets/images/pb-banner.svg'; ?>" alt="TranslatePress Logo"/></a>
+                <a href="https://wordpress.org/plugins/profile-builder/" target="_blank"><img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ) . 'assets/images/pb-banner.svg'; ?>" alt="Profile Builder Logo"/></a>
             </div>
             <div class="cozmoslabs-basic-info-recommended-info">
                 <div class="cozmoslabs-form-field-wrapper">
@@ -440,7 +440,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <div class="pms-1-3-col cozmoslabs-basic-info-recommended" id="pms-recommended-wp-webhooks">
             <div class="cozmoslabs-basic-info-recommended-img">
-                <a href="https://www.wp-webhooks.com/" target="_blank"><img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ) . 'assets/images/addons/wp-webhooks-banner.svg'; ?>" alt="TranslatePress Logo"/></a>
+                <a href="https://www.wp-webhooks.com/" target="_blank"><img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ) . 'assets/images/addons/wp-webhooks-banner.svg'; ?>" alt="WP Webhooks Logo"/></a>
             </div>
             <div class="cozmoslabs-basic-info-recommended-info">
                 <div class="cozmoslabs-form-field-wrapper">

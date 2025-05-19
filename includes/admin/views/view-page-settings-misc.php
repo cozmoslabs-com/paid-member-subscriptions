@@ -144,34 +144,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
             </div>
 
-            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
-                <label class="cozmoslabs-form-field-label" for="force-subscriptions-expiration-date"><?php esc_html_e( 'Subscriptions Expiration Date' , 'paid-member-subscriptions' ) ?></label>
-
-                <div class="cozmoslabs-toggle-container">
-                    <input type="checkbox" id="force-subscriptions-expiration-date" name="pms_misc_settings[force-subscriptions-expiration-date]" value="1" <?php echo ( isset( $this->options['force-subscriptions-expiration-date'] ) ? 'checked' : '' ); ?> />
-                    <label class="cozmoslabs-toggle-track" for="force-subscriptions-expiration-date"></label>
-                </div>
-
-                <div class="cozmoslabs-toggle-description">
-                    <label for="force-subscriptions-expiration-date" class="cozmoslabs-description"><?php esc_html_e( 'Always show Subscriptions Expiration Date.', 'paid-member-subscriptions' ); ?></label>
-                </div>
-
-                <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear.', 'paid-member-subscriptions' ); ?></p>
-                <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing.', 'paid-member-subscriptions' ); ?></p>
-            </div>
-
-            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
-                <label class="cozmoslabs-form-field-label" for="cr-metabox-include-inactive-plans"><?php esc_html_e( 'Include inactive subscription plans in the content restriction metabox' , 'paid-member-subscriptions' ) ?></label>
-
-                <div class="cozmoslabs-toggle-container">
-                    <input type="checkbox" id="cr-metabox-include-inactive-plans" name="pms_misc_settings[cr-metabox-include-inactive-plans]" value="1" <?php echo ( isset( $this->options['cr-metabox-include-inactive-plans'] ) && $this->options['cr-metabox-include-inactive-plans'] == '1' ? 'checked' : '' ); ?> />
-                    <label class="cozmoslabs-toggle-track" for="cr-metabox-include-inactive-plans"></label>
-                </div>
-
-                <div class="cozmoslabs-toggle-description">
-                    <label for="cr-metabox-include-inactive-plans" class="cozmoslabs-description"><?php esc_html_e( 'By default, inactive subscription plans are not included in the content restriction metabox. Check this option to include them and make them available for selection.', 'paid-member-subscriptions' ); ?></label>
-                </div>
-            </div>
 
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
                 <label class="cozmoslabs-form-field-label" for="pms-plugin-optin"><?php esc_html_e( 'Marketing Optin' , 'paid-member-subscriptions' ) ?></label>
@@ -220,16 +192,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'A stronger password strength will probably force the user to not reuse passwords from other websites.', 'paid-member-subscriptions' ); ?></p>
             </div>
 
-            <div class="cozmoslabs-form-field-wrapper">
-                <label class="cozmoslabs-form-field-label" for="cron-jobs"><?php esc_html_e( 'Cron Jobs' , 'paid-member-subscriptions' ) ?></label>
-
-                <a href="<?php echo esc_url( admin_url( wp_nonce_url( 'admin.php?page=pms-settings-page&tab=misc&pms_reset_cron_jobs=true', 'pms_reset_cron_jobs' ) ) ); ?>" class="button-secondary"><?php esc_html_e( 'Reset cron jobs' , 'paid-member-subscriptions' ) ?></a>
-
-                <p class="cozmoslabs-description cozmoslabs-description-align-right">
-                    <?php esc_html_e( 'The plugin will try to register the cron jobs that it uses again.', 'paid-member-subscriptions' ); ?>
-                </p>
-            </div>
-
             <?php 
                 // Only show cleanup button if cleanup hasn't been completed
                 if( !get_option( 'pms_postmeta_cleanup_completed' ) ) : 
@@ -249,6 +211,70 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
             <?php endif; ?>
 
+        </div>
+
+        <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-subscriptions-settings">
+            <h4 class="cozmoslabs-subsection-title">
+                <?php esc_html_e( 'Subscriptions Settings', 'paid-member-subscriptions' ); ?>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Others" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            </h4>
+
+
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                <label class="cozmoslabs-form-field-label" for="force-subscriptions-expiration-date"><?php esc_html_e( 'Subscriptions Expiration Date' , 'paid-member-subscriptions' ) ?></label>
+
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="force-subscriptions-expiration-date" name="pms_misc_settings[force-subscriptions-expiration-date]" value="1" <?php echo ( isset( $this->options['force-subscriptions-expiration-date'] ) ? 'checked' : '' ); ?> />
+                    <label class="cozmoslabs-toggle-track" for="force-subscriptions-expiration-date"></label>
+                </div>
+
+                <div class="cozmoslabs-toggle-description">
+                    <label for="force-subscriptions-expiration-date" class="cozmoslabs-description"><?php esc_html_e( 'Always show Subscriptions Expiration Date.', 'paid-member-subscriptions' ); ?></label>
+                </div>
+
+                <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear.', 'paid-member-subscriptions' ); ?></p>
+                <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                <label class="cozmoslabs-form-field-label" for="cr-metabox-include-inactive-plans"><?php esc_html_e( 'Inactive Subscription Plans' , 'paid-member-subscriptions' ) ?></label>
+
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="cr-metabox-include-inactive-plans" name="pms_misc_settings[cr-metabox-include-inactive-plans]" value="1" <?php echo ( isset( $this->options['cr-metabox-include-inactive-plans'] ) && $this->options['cr-metabox-include-inactive-plans'] == '1' ? 'checked' : '' ); ?> />
+                    <label class="cozmoslabs-toggle-track" for="cr-metabox-include-inactive-plans"></label>
+                </div>
+
+                <div class="cozmoslabs-toggle-description">
+                    <label for="cr-metabox-include-inactive-plans" class="cozmoslabs-description"><?php esc_html_e( 'Include in Content Restriction metabox.', 'paid-member-subscriptions' ); ?></label>
+                </div>
+
+                <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'By default, inactive subscription plans are not included in the content restriction metabox. Check this option to include and make them available for selection.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                <label class="cozmoslabs-form-field-label" for="gateway-refund-behavior"><?php esc_html_e( 'Gateway refund behavior' , 'paid-member-subscriptions' ) ?></label>
+
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="gateway-refund-behavior" name="pms_misc_settings[gateway-refund-behavior]" value="1" <?php echo ( isset( $this->options['gateway-refund-behavior'] ) ? 'checked' : '' ); ?> />
+                    <label class="cozmoslabs-toggle-track" for="gateway-refund-behavior"></label>
+                </div>
+
+                <div class="cozmoslabs-toggle-description">
+                    <label for="gateway-refund-behavior" class="cozmoslabs-description"><?php esc_html_e( 'Don\'t expire subscriptions on gateway refund.', 'paid-member-subscriptions' ); ?></label>
+                </div>
+
+                <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'When a payment is refunded in the payment gateway, by default the subscription will expire. Check this option to prevent the subscription from expiring automatically.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div class="cozmoslabs-form-field-wrapper">
+                <label class="cozmoslabs-form-field-label" for="cron-jobs"><?php esc_html_e( 'Cron Jobs' , 'paid-member-subscriptions' ) ?></label>
+
+                <a href="<?php echo esc_url( admin_url( wp_nonce_url( 'admin.php?page=pms-settings-page&tab=misc&pms_reset_cron_jobs=true', 'pms_reset_cron_jobs' ) ) ); ?>" class="button-secondary"><?php esc_html_e( 'Reset cron jobs' , 'paid-member-subscriptions' ) ?></a>
+
+                <p class="cozmoslabs-description cozmoslabs-description-align-right">
+                    <?php esc_html_e( 'The plugin will try to register the cron jobs that it uses again.', 'paid-member-subscriptions' ); ?>
+                </p>
+            </div>
         </div>
 
         <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-scripts-settings">

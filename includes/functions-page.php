@@ -178,20 +178,19 @@ function pms_get_renew_url( $plan_id = '' ) {
 
     $member_subscription  = $member->get_subscription( (int)$plan_id );
     $subscription         = pms_get_member_subscription( $member_subscription['id'] );
+    $subscription_plan    = pms_get_subscription_plan( $subscription->subscription_plan_id );
 
     // number of days before expiration to show the renewal action
     $renewal_display_time = apply_filters( 'pms_output_subscription_plan_action_renewal_time', 15 );
 
-    // do not show if subscription is recurring
-    if( $subscription->is_auto_renewing() )
-        return false;
+    // Same rule as PMS Account
+    if( ( ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration != '0' ) || ( $subscription_plan->is_fixed_period_membership() && $subscription_plan->fixed_expiration_date != '' && $subscription_plan->fixed_period_renewal_allowed() ) ) && ( ! $subscription->is_auto_renewing() && strtotime( $subscription->expiration_date ) - time() < $renewal_display_time * DAY_IN_SECONDS ) || in_array( $subscription->status, array( 'canceled', 'expired' ) ) ){
+        $url = wp_nonce_url( add_query_arg( array( 'pms-action' => 'renew_subscription', 'subscription_id' => $subscription->id, 'subscription_plan' => $plan_id ), $account_page ), 'pms_member_nonce', 'pmstkn' );
 
-    if( !( strtotime( $subscription->expiration_date ) - time() < $renewal_display_time * DAY_IN_SECONDS ) )
-        return false;
+        return apply_filters( 'pms_get_renew_url', $url, $plan_id );
+    }
 
-    $url = wp_nonce_url( add_query_arg( array( 'pms-action' => 'renew_subscription', 'subscription_id' => $subscription->id, 'subscription_plan' => $plan_id ), $account_page ), 'pms_member_nonce', 'pmstkn' );
-
-    return apply_filters( 'pms_get_renew_url', $url, $plan_id );
+    return false;
 
 }
 

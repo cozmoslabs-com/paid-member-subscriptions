@@ -54,7 +54,9 @@ function pms_ppcp_generate_seller_nonce( $length ){
 
     $environment = pms_is_payment_test_mode() ? 'test' : 'live';
 
-    set_transient( 'pms_ppcp_seller_nonce_' . $environment, $seller_nonce, 10 * MINUTE_IN_SECONDS );
+    delete_option( 'pms_ppcp_seller_nonce_' . $environment );
+
+    update_option( 'pms_ppcp_seller_nonce_' . $environment, $seller_nonce );
 
     return $seller_nonce;
 

@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.14.8
+Stable tag: 2.14.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -258,6 +258,26 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.14.9 =
+* Enhancement: The Profile Builder Subscription Plans field now includes an `All` subscription plans option
+* Enhancement: Added compatibility with Profile Builder Admin Approval to the default registration success messages
+* Fix: Issue with PayPal admin connection not working in some cases
+* Fix: Always show the PayPal Disconnect button if an account is connected
+* Fix: Learndash compatibility issue on fresh websites where no plans were defined
+* Fix: Payments issue with Stripe when global recurring option was set to never renew but plan renewal option was set to always renew
+* Fix: When a user tries to access restricted content and is sent to a Paid Member Subscriptions login form, after a successful login he should now return to the restricted content
+* Fix: Compatibility issue between Stripe Webhooks and TranslatePress. Implemented a general fix to take into account other plugins which might modify the home_url
+* Fix: Issue with admins not being able to save, edit, delete strings in the Labels Edit add-on
+* Fix: Translation notices continued
+* Fix: When processing recurring payments through Stripe, treat Payment Intents with the `Processing` status similar to how we treat them on initial registration
+* Fix: Issue with reCaptcha v3 not working on default login forms sometimes
+* Fix: When cloning a parent plan, it will now remain a parent plan instead of being transformed into a child plan
+* Fix: Renew Subscription link not working correctly when added to a menu through the Navigation Menu Filtering add-on
+* Fix: When creating or updating customers in Stripe, make sure the email address is transformed to lowercase
+* Misc: On the Edit Member screen, replace the Expiration Date label with Next Payment Date when the user has a single subscription and it is recurring
+* Misc: On the Members List, when hovering over a subscription, transform the Expiration Date label to Next Payment date for recurring subsscriptions
+* Misc: Added an option to disable the automatic subscription expiration on payment gateway refunds. This can be found on the Settings -> Misc -> Others page, under Subscriptions Settings -> Gateway refund behavior
+
 = 2.14.8 =
 * Enhancement: Added Bulk Cancel Memberships action for admins, available from the Members table
 * Enhancement: Added Bulk Delete Discount Codes action for admins

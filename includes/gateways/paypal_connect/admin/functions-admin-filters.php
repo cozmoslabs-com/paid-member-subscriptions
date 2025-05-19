@@ -211,17 +211,16 @@ function pms_ppcp_add_settings_content( $options ){
                         echo '</div>';
 
                         // disconnect button
-                        if( !empty( $merchant_status['merchant_id'] ) ) :
-                            echo '<div class="cozmoslabs-form-field-wrapper">';
+                        echo '<div class="cozmoslabs-form-field-wrapper">';
 
-                                echo '<label class="cozmoslabs-form-field-label">' . esc_html__( 'Disconnect', 'paid-member-subscriptions' ) . '</label>';
+                            echo '<label class="cozmoslabs-form-field-label">' . esc_html__( 'Disconnect', 'paid-member-subscriptions' ) . '</label>';
 
-                                echo '<a class="pms-paypal-connect__disconnect-handler button-secondary" href="#" data-paypal-disconnect-merchant-id="'. esc_attr( $merchant_status['merchant_id'] ) .'">Disconnect</a>';
+                            echo '<a class="pms-paypal-connect__disconnect-handler button-secondary" href="#">Disconnect</a>';
 
-                                echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Disconnecting your account will stop all payments from being processed.', 'paid-member-subscriptions' ) . '</p>';
+                            echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Disconnecting your account will stop all payments from being processed.', 'paid-member-subscriptions' ) . '</p>';
 
-                            echo '</div>';
-                        endif;
+                        echo '</div>';
+
 
                     endif;
 
@@ -280,7 +279,9 @@ function pms_ppcp_process_onboarding(){
 
     $environment = pms_is_payment_test_mode() ? 'test' : 'live';
 
-	if ( false !== ( $seller_nonce = get_transient( 'pms_ppcp_seller_nonce_' . $environment ) ) ) {
+    $seller_nonce = get_option( 'pms_ppcp_seller_nonce_' . $environment, false );
+
+	if ( false !== $seller_nonce ) {
 
 		$gateway = pms_get_payment_gateway( 'paypal_connect' );
 

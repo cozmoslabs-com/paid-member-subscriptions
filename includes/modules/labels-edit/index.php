@@ -45,7 +45,7 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
         add_action( 'pms_output_content_submenu_page_' . $this->menu_slug, array( $this, 'output' ) );
 
         // Process different actions within the page
-        add_action( 'init', array( $this, 'process_data' ) );
+        add_action( 'admin_init', array( $this, 'process_data' ) );
 
         //change strings
         add_filter( 'gettext', array( $this, 'change_strings' ), 8, 3 );

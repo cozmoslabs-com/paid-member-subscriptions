@@ -33,7 +33,9 @@ async function pms_initialize_recaptcha_v3( event = null, current_form = null ){
     }
 
     /* Call the disable_form_submit_button function before submitting the form */
-    disable_form_submit_button(currentForm);
+    if (typeof disable_form_submit_button === "function") {
+        disable_form_submit_button(currentForm);
+    }
 
     return new Promise((resolve) => {
         grecaptcha.ready(async function() {

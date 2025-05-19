@@ -24,6 +24,8 @@ jQuery( function( $ ) {
     var elements_setup_intent = false
     var stripe                = false
 
+    var updating_payment_intent = false
+
     // Grab intents so we can generate the payment form
     pms_stripe_get_payment_intents().then( function( result ){
 
@@ -74,7 +76,16 @@ jQuery( function( $ ) {
     // Update Stripe Payment Intent on subscription plan change
     $(document).on('click', subscription_plan_selector, function ( event ) {
 
-        stripeConnectInit()
+        jQuery('#pms-stripe-payment-elements').hide()
+        jQuery( '#pms-stripe-connect .pms-spinner__holder' ).show()
+
+        stripeConnectInit( false )
+        stripeConnectUpdatePaymentIntent().then( function( result ){
+
+            jQuery('#pms-stripe-payment-elements').show()
+            jQuery( '#pms-stripe-connect .pms-spinner__holder' ).hide()
+
+        })
 
     })
 
@@ -82,6 +93,21 @@ jQuery( function( $ ) {
     $(document).on('pms_discount_success', function ( event ) {
 
         stripeConnectInit()
+
+    })
+
+    // Auto renew box click
+    $(document).on('click', '.pms-subscription-plan-auto-renew input', function ( event ) {
+
+        jQuery('#pms-stripe-payment-elements').hide()
+        jQuery( '#pms-stripe-connect .pms-spinner__holder' ).show()
+
+        stripeConnectUpdatePaymentIntent().then( function( result ){
+
+            jQuery('#pms-stripe-payment-elements').show()
+            jQuery( '#pms-stripe-connect .pms-spinner__holder' ).hide()
+
+        })
 
     })
 
@@ -341,7 +367,7 @@ jQuery( function( $ ) {
 
     }
 
-    function stripeConnectInit(){
+    function stripeConnectInit( hide_spinner = true ){
 
         var target_elements_instance      = false
         var target_elements_instance_slug = ''
@@ -388,8 +414,10 @@ jQuery( function( $ ) {
 
             $elements_instance_slug = target_elements_instance_slug
 
-            jQuery('#pms-stripe-payment-elements').show()
-            jQuery( '#pms-stripe-connect .pms-spinner__holder' ).hide()
+            if( hide_spinner ){
+                jQuery('#pms-stripe-payment-elements').show()
+                jQuery( '#pms-stripe-connect .pms-spinner__holder' ).hide()
+            }            
 
             if( typeof paymentSidebarPosition == 'function' ){
                 setTimeout( paymentSidebarPosition, 300 )
@@ -408,6 +436,11 @@ jQuery( function( $ ) {
         if ( $.pms_checkout_is_setup_intents() || $( '#pms-update-payment-method-form' ).length > 0 )
             return
 
+        if( updating_payment_intent )
+            return
+
+        updating_payment_intent = true
+
         var submitButton = $('.pms-form .pms-form-submit, .pms-form input[type="submit"], .pms-form button[type="submit"], .wppb-register-user input[type="submit"], .wppb-register-user button[type="submit"]').not('#pms-apply-discount, .login-submit #wp-submit')
 
         var data = $.pms_form_get_data( submitButton )
@@ -421,12 +454,16 @@ jQuery( function( $ ) {
 
         return await $.post(pms.ajax_url, data, function (response) {
 
-            if( typeof response == 'undefined' || response == '' )
+            if( typeof response == 'undefined' || response == '' ){
+                updating_payment_intent = false
                 return false;
+            }
 
             response = JSON.parse( response )
 
             if ( response.status == 'requires_payment_method' ) {
+                updating_payment_intent = false
+
                 elements.fetchUpdates().then( function(elements_response){
                     if( typeof paymentSidebarPosition == 'function' ){
                         setTimeout( paymentSidebarPosition, 300 )
@@ -435,6 +472,8 @@ jQuery( function( $ ) {
                     return true;
                 })
             }
+
+            updating_payment_intent = false
 
             return false;
 

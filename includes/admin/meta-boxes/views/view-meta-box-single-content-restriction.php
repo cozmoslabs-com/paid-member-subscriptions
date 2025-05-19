@@ -84,16 +84,25 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     </div>
 
                 <?php endforeach; ?>
+
+            <?php endif; ?>
+
         </div>
-            <p class="cozmoslabs-description cozmoslabs-description-space-left">
-                <?php printf( esc_html__( 'Checking only "Logged In Users" will show this %s to all logged in users, regardless of subscription plan.', 'paid-member-subscriptions' ), esc_html(  apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?>
-            </p>
+
+        <p class="cozmoslabs-description cozmoslabs-description-space-left">
+            <?php printf( esc_html__( 'Checking only "Logged In Users" will show this %s to all logged in users, regardless of subscription plan.', 'paid-member-subscriptions' ), esc_html(  apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?>
+        </p>
+
+        <?php if( !empty( $subscription_plans ) ): ?>
+
             <p class="cozmoslabs-description cozmoslabs-description-space-left">
                 <?php printf( esc_html__( 'Checking "All Subscription Plans" will show this %s to users that are subscribed any of the plans.', 'paid-member-subscriptions' ), esc_html(  apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?>
             </p>
+
             <p class="cozmoslabs-description cozmoslabs-description-space-left">
                 <?php printf( esc_html__( 'Checking any subscription plan will show this %s only to users that are subscribed to those particular plans.', 'paid-member-subscriptions' ), esc_html(  apply_filters( 'pms_content_restrict_settings_description_cpt', $post->post_type ) ) ); ?>
             </p>
+
         <?php endif; ?>
 
     </div>

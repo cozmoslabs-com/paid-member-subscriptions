@@ -123,8 +123,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         // If there is a success message in the request add it directly
         if( isset( $_REQUEST['pmsscscd'] ) && isset( $_REQUEST['pmsscsmsg'] ) ) {
 
-            $message_code =  base64_decode( sanitize_text_field($_REQUEST['pmsscscd']) );
-            $message      =  base64_decode( sanitize_text_field($_REQUEST['pmsscsmsg']) );
+            $message_code =  base64_decode( sanitize_text_field( $_REQUEST['pmsscscd'] ) );
+            $message      =  base64_decode( sanitize_text_field( $_REQUEST['pmsscsmsg'] ) );
 
             pms_success()->add( $message_code, $message );
 

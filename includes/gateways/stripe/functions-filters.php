@@ -88,7 +88,7 @@ function pms_stripe_connect_payment_logs_system_error_messages( $message, $log )
             $message = __( 'Payment Intent created.', 'paid-member-subscriptions' );
             break;
         case 'stripe_intent_processing':
-            $message = __( 'Payment Intent is still processing. Subscription was activated until confirmation of success or failure is received.', 'paid-member-subscriptions' );
+            $message = __( 'Payment Intent is still processing. Subscription was activated or remains active until confirmation of success or failure is received.', 'paid-member-subscriptions' );
             break;
         case 'stripe_intent_attempted_confirmation':
             $message = __( 'Attempting to confirm Payment Intent.', 'paid-member-subscriptions' );

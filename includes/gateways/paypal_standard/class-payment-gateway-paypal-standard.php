@@ -64,13 +64,9 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
             }
 
         }
-        
-        add_filter( 'trp_home_url', 'pms_trp_paypal_return_absolute_home', 20, 2 );
-
+    
         // Set the notify URL
-        $notify_url = home_url() . '/?pay_gate_listener=paypal_ipn';
-
-        remove_filter( 'trp_home_url', 'pms_trp_paypal_return_absolute_home', 20 );
+        $notify_url = pms_get_home_url() . '/?pay_gate_listener=paypal_ipn';
 
         if( pms_is_payment_test_mode() )
             $paypal_link = 'https://www.sandbox.paypal.com/cgi-bin/webscr/?';

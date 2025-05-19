@@ -185,17 +185,6 @@ function pms_paypal_payment_logs_system_error_messages( $message, $log ) {
 add_filter( 'pms_payment_logs_system_error_messages', 'pms_paypal_payment_logs_system_error_messages', 10, 2 );
 
 /**
- * Used to remove the current language from the home_url when
- * TranslatePress is active and we generate the IPN URL
- *
- */
-function pms_trp_paypal_return_absolute_home( $new_url, $absolute_home ){
-
-    return $absolute_home;
-
-}
-
-/**
  * Returns an array with the API username, API password and API signature of the PayPal business account
  * if they all exist, if not will return false
  *

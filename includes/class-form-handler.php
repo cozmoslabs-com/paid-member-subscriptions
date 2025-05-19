@@ -1281,9 +1281,9 @@ Class PMS_Form_Handler {
                 $url = pms_get_register_success_url();
 
                 // Add success message
-                if( empty($url) ) {
+                if( empty( $url ) ) {
                     $url = pms_get_current_page_url( true );
-                    $url = add_query_arg( array( 'pmsscscd' => base64_encode('subscription_plans'), 'pmsscsmsg' => base64_encode( apply_filters( 'pms_register_subscription_success_message', __( 'Congratulations, you have successfully created an account.', 'paid-member-subscriptions' ) ) ) ), $url );
+                    $url = add_query_arg( array( 'pmsscscd' => base64_encode('subscription_plans'), 'pmsscsmsg' => urlencode( base64_encode( apply_filters( 'pms_register_subscription_success_message', __( 'Congratulations, you have successfully created an account.', 'paid-member-subscriptions' ) ) ) ) ), $url );
                 }
 
                 break;

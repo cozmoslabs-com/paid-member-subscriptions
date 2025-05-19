@@ -391,11 +391,11 @@ Class PMS_AJAX_Checkout_Handler {
 
                 $redirect_url = esc_url_raw( $_POST['current_page'] );
 
+                $payment = pms_get_payment( $payment_id );
+                $user    = get_userdata( $payment->user_id );
+
                 // WPPB Form
                 if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
-
-                    $payment = pms_get_payment( $payment_id );
-                    $user    = get_userdata( $payment->user_id );
 
                     // On the WPPB Form also take into account Form and Custom Redirects
                     $form = pms_wppb_get_form( isset( $_REQUEST['form_name'] ) ? sanitize_text_field( $_REQUEST['form_name'] ) : '' );
@@ -405,7 +405,7 @@ Class PMS_AJAX_Checkout_Handler {
                     } elseif( ! current_user_can( 'manage_options' ) && $form->args['form_type'] != 'edit_profile' && isset( $form->args['role'] ) ) {
                         $user_role = $form->args['role'];
                     } else {
-                        $user_role = NULL;
+                        $user_role = get_option( 'default_role' );
                     }
 
                     $wppb_redirect_url = false;
@@ -419,10 +419,13 @@ Class PMS_AJAX_Checkout_Handler {
                     if( empty( $wppb_redirect_url ) ){
                         $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'The account %1s has been successfully created!', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
 
-                        $wppb_admin_approval = wppb_get_admin_approval_option_value();
+                        if ( wppb_get_admin_approval_option_value() === 'yes' ) {
 
-                        if( $wppb_admin_approval == 'yes' )
-                            $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'Before you can access your account %1s, an administrator has to approve it. You will be notified via email.', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
+                            $wppb_general_settings = get_option( 'wppb_general_settings' );
+
+                            if( empty( $wppb_general_settings['adminApprovalOnUserRole'] ) || ( !empty( $wppb_general_settings['adminApprovalOnUserRole'] ) && in_array( $user_role, $wppb_general_settings['adminApprovalOnUserRole'] ) ) )
+                                $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'Before you can access your account %1s, an administrator has to approve it. You will be notified via email.', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
+                        }
 
                         $redirect_url = add_query_arg( 'pms_wppb_custom_success_message', true, $redirect_url );
                     } else {
@@ -439,10 +442,31 @@ Class PMS_AJAX_Checkout_Handler {
                     if( empty( $message ) )
                         $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'The account %1s has been successfully created!', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
 
-                } else
+                } else {
                     $message = apply_filters( 'pms_register_subscription_success_message', __( 'Congratulations, you have successfully created an account.', 'paid-member-subscriptions' ) );
 
-                $redirect_url = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pmsscsmsg' => base64_encode( $message ) ), $redirect_url );
+                    if ( wppb_get_admin_approval_option_value() === 'yes' ) {
+
+                        $wppb_general_settings = get_option( 'wppb_general_settings' );
+
+                        if( !empty( $wppb_general_settings['adminApprovalOnUserRole'] ) ){
+                            $user_has_admin_approval_role = false;
+
+                            foreach ( $user->roles as $role ) {
+                                if ( in_array( $role, $wppb_general_settings['adminApprovalOnUserRole'] ) ) {
+                                    $user_has_admin_approval_role = true;
+                                    break;
+                                }
+                            }
+
+                            if( $user_has_admin_approval_role )
+                                $message .= '<br><br>' . sprintf( __( 'Before you can access your account %1s, an administrator has to approve it. You will be notified via email.', 'paid-member-subscriptions' ), '<strong>' . $user->user_login . '</strong>' );
+                        }
+
+                    }
+                }
+
+                $redirect_url = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pmsscsmsg' => urlencode( base64_encode( $message ) ) ), $redirect_url );
 
             // Redirecting to a new page
             } else {

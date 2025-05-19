@@ -581,3 +581,12 @@ function pms_forms_output_account_details_wrapper_after(){
     echo '</div>';
 
 }
+
+function pms_get_home_url(){
+
+    $target_url = wp_parse_url( home_url() );
+    $target_url = $target_url['scheme'] . '://' . $target_url['host'];
+
+    return $target_url;
+
+}

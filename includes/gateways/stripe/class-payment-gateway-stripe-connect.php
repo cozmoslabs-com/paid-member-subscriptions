@@ -551,6 +551,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             $form_location = 'psp';
 
         if( !empty( $payment->amount ) ) {
+
             // create payment intent
             try {
                 $metadata = apply_filters( 'pms_stripe_transaction_metadata', array(
@@ -558,7 +559,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     'request_location'     => $form_location,
                     'subscription_id'      => $subscription_id,
                     'subscription_plan_id' => $this->subscription_plan->id,
-                    'home_url'             => home_url(),
+                    'home_url'             => pms_get_home_url(),
                 ), $payment, $form_location );
 
                 $args = apply_filters( 'pms_stripe_process_payment_args', array(
@@ -586,8 +587,17 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
 
-                    $payment->log_data( 'stripe_intent_confirmed' );
-                    $payment->update( array( 'status' => 'completed' ) );
+                    // Complete Payment
+                    if( $intent->status == 'succeeded' ){
+
+                        $payment->log_data( 'stripe_intent_confirmed' );
+                        $payment->update( array( 'status' => 'completed' ) );
+
+                    } else if ( $intent->status == 'processing' ){
+
+                        $payment->log_data( 'stripe_intent_processing' );
+
+                    }
 
                     // If subscription had a trial, save card fingerprint
                     $this->save_trial_card( $subscription_id, $this->stripe_token );
@@ -601,8 +611,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                         $payment->update( $update_data );
                         $subscription->update( $update_data );
-
-                        // TODO: add a log message for this change
 
                     }
 
@@ -732,7 +740,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     'request_location'     => $form_location,
                     'subscription_id'      => $subscription->id,
                     'subscription_plan_id' => !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id,
-                    'home_url'             => home_url(),
+                    'home_url'             => pms_get_home_url(),
                     'is_recurring'         => PMS_Form_Handler::checkout_is_recurring(),
                 ), $payment, $form_location )
             );
@@ -1042,7 +1050,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             //'customer'           => $customer->id,
             'setup_future_usage' => 'off_session',
             'metadata'           => array(
-                'home_url'             => home_url(),
+                'home_url'             => pms_get_home_url(),
             ),
             'automatic_payment_methods' => [
                 'enabled' => true,
@@ -1053,9 +1061,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             $args['customer'] = $customer->id;
         }
 
-        // Remove setup future usage when recurring payments are disabled
-        // NOTE:  Should explore if we can change this setting through a Payment Intent update. In that case we should update it all the time
-        //        based on the data coming from the form and always respect the recurring option
+        // Remove setup future usage when recurring payments are disabled globally
+        // When Payment Intents are updated we are updating the recurring option again
         $payment_settings = get_option( 'pms_payments_settings', false );
 
         if( isset( $payment_settings['recurring'] ) && $payment_settings['recurring'] == 3 ){
@@ -1105,7 +1112,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $args = array(
             //'customer' => $customer->id,
             'metadata' => array(
-                'home_url' => home_url(),
+                'home_url' => pms_get_home_url(),
             ),
         );
 
@@ -1179,6 +1186,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             'amount'      => $this->process_amount( $amount, $currency ),
             'description' => !empty( $subscription_plan->name ) ? $subscription_plan->name : '',
         );
+
+        // Set recurring option based on the whole checkout. PMS General Payments Settings + Subscription Plan specific settings
+        $checkout_is_recurring = PMS_Form_Handler::checkout_is_recurring();
+
+        if( $checkout_is_recurring )
+            $args['setup_future_usage'] = 'off_session';
+        else if( !$checkout_is_recurring )
+            $args['setup_future_usage'] = '';
 
         $args = self::add_application_fee( $args );
 
@@ -1631,14 +1646,21 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment->update( array( 'status' => 'refunded' ) );
 
-                $member_subscription = pms_get_member_subscription( $payment->member_subscription_id );
+                $pms_settings = get_option( 'pms_misc_settings', array() );
 
-                if( !empty( $member_subscription ) ){
+                // Maybe update subscription
+                if( !isset( $pms_settings['gateway-refund-behavior'] ) || $pms_settings['gateway-refund-behavior'] != 1 ){
 
-                    if( in_array( $member_subscription->status, array( 'active', 'canceled' ) ) ){
-                        $member_subscription->update( array( 'status' => 'expired' ) );
+                    $member_subscription = pms_get_member_subscription( $payment->member_subscription_id );
 
-                        pms_add_member_subscription_log( $member_subscription->id, 'stripe_webhook_subscription_expired' );
+                    if( !empty( $member_subscription ) ){
+    
+                        if( in_array( $member_subscription->status, array( 'active', 'canceled' ) ) ){
+                            $member_subscription->update( array( 'status' => 'expired' ) );
+    
+                            pms_add_member_subscription_log( $member_subscription->id, 'stripe_webhook_subscription_expired' );
+                        }
+    
                     }
 
                 }
@@ -2099,7 +2121,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         $current_domain = false;
-        $home_url       = home_url();
+        $home_url       = pms_get_home_url();
 
         // verify if domain exists
         if( !empty( $domains ) ) {
@@ -2138,8 +2160,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $stripe = new \Stripe\StripeClient( $this->secret_key );
 
         // Stripe expects a base url here without a path, so for multisite with subdirectories for example, we need to remove the directory
-        $target_url = wp_parse_url( home_url() );
-        $target_url = $target_url['scheme'] . '://' . $target_url['host'];
+        $target_url = pms_get_home_url();
 
         if( is_null( $stripe->paymentMethodDomains ) )
             return false;
@@ -2290,7 +2311,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         try {
 
             $customer = Customer::create( array(
-                'email'       => !empty( $this->user_email ) ? $this->user_email : '',
+                'email'       => !empty( $this->user_email ) ? strtolower( $this->user_email ) : '',
                 'description' => !empty( $this->user_id ) ? 'User ID: ' . $this->user_id : '',
                 'name'        => !empty( $this->user_id ) ? $this->get_user_name( $this->user_id ) : '',
                 'address'     => $this->get_billing_details(),
@@ -2323,7 +2344,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             if( !is_wp_error( $user ) ){
 
                 $customer_data = array(
-                    'email'       => !empty( $user->user_email ) ? $user->user_email : '',
+                    'email'       => !empty( $user->user_email ) ? strtolower( $user->user_email ) : '',
                     'description' => 'User ID: ' . $user->ID,
                     'name'        => $this->get_user_name( $user->ID ),
                     'address'     => $this->get_usermeta_billing_details( $user->ID ),

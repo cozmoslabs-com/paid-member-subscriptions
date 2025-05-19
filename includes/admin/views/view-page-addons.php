@@ -252,7 +252,7 @@ $ajax_nonce             = wp_create_nonce( 'pms-activate-addon' );
         <div class="plugin-card pms-recommended-plugin pms-add-on">
             <div class="plugin-card-top">
                 <a target="_blank" class="pms-recommended-plugin-logo pms-tp-logo" href="https://wordpress.org/plugins/translatepress-multilingual/">
-                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/translate-press-logo.png' ); ?>" width="100%">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ) . 'assets/images/pms-trp-cross-promotion.svg'; ?>" alt="TranslatePress Logo" width="100%"/>
                 </a>
                 <h3 class="pms-add-on-title">
                     <a target="_blank" href="https://wordpress.org/plugins/translatepress-multilingual/">TranslatePress</a>

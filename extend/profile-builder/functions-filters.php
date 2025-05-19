@@ -348,3 +348,45 @@ function pms_pb_before_processing_wppb_checkout( $form, $only_validate ){
 
     }
 }
+
+add_filter( 'pms_register_subscription_success_message', 'pms_pb_maybe_add_admin_approval_message', 10, 1 );
+function pms_pb_maybe_add_admin_approval_message( $message ){
+
+    if( !function_exists( 'wppb_get_admin_approval_option_value' ) || wp_doing_ajax() )
+        return $message;
+
+    if ( wppb_get_admin_approval_option_value() === 'yes' ) {
+
+        $user_email = isset( $_POST['user_email'] ) ? sanitize_email( $_POST['user_email'] ) : '';
+
+        if( empty( $user_email ) )
+            return $message;
+    
+        $user = get_user_by( 'email', $user_email );
+
+        if( empty( $user->ID ) )
+            return $message;
+
+        $message = __( 'Congratulations, you have successfully created an account.', 'paid-member-subscriptions' );
+
+        $wppb_general_settings = get_option( 'wppb_general_settings' );
+
+        if( !empty( $wppb_general_settings['adminApprovalOnUserRole'] ) ){
+            $user_has_admin_approval_role = false;
+
+            foreach ( $user->roles as $role ) {
+                if ( in_array( $role, $wppb_general_settings['adminApprovalOnUserRole'] ) ) {
+                    $user_has_admin_approval_role = true;
+                    break;
+                }
+            }
+
+            if( $user_has_admin_approval_role )
+                $message .= '<br><br>' . sprintf( __( 'Before you can access your account %1s, an administrator has to approve it. You will be notified via email.', 'paid-member-subscriptions' ), '<strong>' . $user->user_login . '</strong>' );
+        }
+
+    }
+
+    return $message;
+
+}

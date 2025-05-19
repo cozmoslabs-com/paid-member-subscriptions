@@ -292,12 +292,14 @@ function pms_restricted_post_redirect() {
     if( $current_url == $redirect_url )
         return;
 
+    // Pass the correct referer URL forward
+    $redirect_url = add_query_arg( array( 'redirect_to' => $current_url ), pms_add_missing_http( $redirect_url ) );
     /**
      * Redirect
      *
      */
     nocache_headers();
-    wp_redirect( apply_filters( 'pms_restricted_post_redirect_url', pms_add_missing_http( $redirect_url ) ) );
+    wp_redirect( apply_filters( 'pms_restricted_post_redirect_url', $redirect_url ) );
     exit;
 
 }

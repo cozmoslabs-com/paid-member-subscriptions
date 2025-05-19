@@ -99,10 +99,11 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
                         $styling = '';
 
-                        if( $this->active_tab === 'general' )
-                            $styling = 'style="margin-top: -143px;"';
-                        
-                        echo '<div class="submit cozmoslabs-submit" '.esc_attr( $styling ).'>';
+                        if( $this->active_tab === 'general' ){
+                            $styling = 'display: none;';
+                        }
+
+                        echo '<div class="submit cozmoslabs-submit"'. ( !empty( $styling ) ? ' style="' . esc_attr( $styling ) . '"' : '' ) .'>';
                             echo '<h3 class="cozmoslabs-subsection-title">'. esc_html__( 'Update Settings', 'paid-member-subscriptions' ) .'</h3>';
                             echo '<div class="cozmoslabs-publish-button-group">';
                                 submit_button( esc_html__( 'Save Settings', 'paid-member-subscriptions' ), 'primary cozmoslabs-save-settings-button' );

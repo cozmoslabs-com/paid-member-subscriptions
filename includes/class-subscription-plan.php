@@ -325,7 +325,12 @@ Class PMS_Subscription_Plan {
         //set the plan as the last one from the current group
         $plan_group = array_reverse( pms_get_subscription_plans_group( $post_id ) );
 
-        $new_post['post_parent'] = $plan_group[0]->id;
+        if( count( $plan_group ) > 1 ) {
+            $new_post['post_parent'] = $plan_group[0]->id;
+        }
+        else{
+            $new_post['post_parent'] = $post->post_parent;
+        }
 
         //copy post meta data
         $new_post['meta_input'] = array();

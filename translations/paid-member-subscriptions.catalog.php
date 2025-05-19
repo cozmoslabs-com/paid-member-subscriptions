@@ -19,8 +19,8 @@
 <?php __("No results match", "paid-member-subscriptions"); ?>
 <?php __("Get Support", "paid-member-subscriptions"); ?>
 <?php __("Congratulations, you have successfully created an account.", "paid-member-subscriptions"); ?>
-<?php __("The account %1s has been successfully created!", "paid-member-subscriptions"); ?>
 <?php __("Before you can access your account %1s, an administrator has to approve it. You will be notified via email.", "paid-member-subscriptions"); ?>
+<?php __("The account %1s has been successfully created!", "paid-member-subscriptions"); ?>
 <?php __("Billing Details", "paid-member-subscriptions"); ?>
 <?php __("Edit", "paid-member-subscriptions"); ?>
 <?php __("Member details saved successfully !", "paid-member-subscriptions"); ?>
@@ -801,6 +801,7 @@
 <?php __("Expiration date", "paid-member-subscriptions"); ?>
 <?php __("Auto-renewing", "paid-member-subscriptions"); ?>
 <?php __("Active Trial", "paid-member-subscriptions"); ?>
+<?php __("Next Payment Date", "paid-member-subscriptions"); ?>
 <?php __("Not Found - ID: %s", "paid-member-subscriptions"); ?>
 <?php __("Yes", "paid-member-subscriptions"); ?>
 <?php __("No", "paid-member-subscriptions"); ?>
@@ -824,6 +825,7 @@
 <?php __("Abandoned subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Edit Member", "paid-member-subscriptions"); ?>
 <?php __("Start date", "paid-member-subscriptions"); ?>
+<?php __("Next payment date", "paid-member-subscriptions"); ?>
 <?php __("View Abandoned Subscriptions", "paid-member-subscriptions"); ?>
 <?php __('%1$s %2$s abandoned subscription, "paid-member-subscriptions"); ?>
 <?php __(%1$s %2$s abandoned subscriptions', 'paid-member-subscriptions' ); ?>
@@ -1097,7 +1099,6 @@
 <?php __("Group", "paid-member-subscriptions"); ?>
 <?php __("Please select the type for this subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Plan Name", "paid-member-subscriptions"); ?>
-<?php __("Next Payment Date", "paid-member-subscriptions"); ?>
 <?php __("Auto Renewal", "paid-member-subscriptions"); ?>
 <?php __("On", "paid-member-subscriptions"); ?>
 <?php __("User does not have any subscriptions.", "paid-member-subscriptions"); ?>
@@ -1930,12 +1931,6 @@
 <?php __("By default, regular users cannot access the admin dashboard. This option disables that redirect.", "paid-member-subscriptions"); ?>
 <?php __("WordPress Date Format", "paid-member-subscriptions"); ?>
 <?php __("The date format selected in WordPress Settings --> General will be used for displaying dates.", "paid-member-subscriptions"); ?>
-<?php __("Subscriptions Expiration Date", "paid-member-subscriptions"); ?>
-<?php __("Always show Subscriptions Expiration Date.", "paid-member-subscriptions"); ?>
-<?php __("By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear.", "paid-member-subscriptions"); ?>
-<?php __("You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing.", "paid-member-subscriptions"); ?>
-<?php __("Include inactive subscription plans in the content restriction metabox", "paid-member-subscriptions"); ?>
-<?php __("By default, inactive subscription plans are not included in the content restriction metabox. Check this option to include them and make them available for selection.", "paid-member-subscriptions"); ?>
 <?php __("Marketing Optin", "paid-member-subscriptions"); ?>
 <?php __("Opt in to our security and feature updates notifications, and non-sensitive diagnostic tracking.", "paid-member-subscriptions"); ?>
 <?php __("Enable Password Strength", "paid-member-subscriptions"); ?>
@@ -1946,11 +1941,22 @@
 <?php __("Disabled", "paid-member-subscriptions"); ?>
 <?php __("Very weak", "paid-member-subscriptions"); ?>
 <?php __("A stronger password strength will probably force the user to not reuse passwords from other websites.", "paid-member-subscriptions"); ?>
+<?php __("Cleanup Postmeta", "paid-member-subscriptions"); ?>
+<?php __("Use this option to clean up the postmeta table from data that was added unnecessarily. This tool should be used only once so it will disappear after it is used.", "paid-member-subscriptions"); ?>
+<?php __("Subscriptions Settings", "paid-member-subscriptions"); ?>
+<?php __("Subscriptions Expiration Date", "paid-member-subscriptions"); ?>
+<?php __("Always show Subscriptions Expiration Date.", "paid-member-subscriptions"); ?>
+<?php __("By default, in certain cases, the Expiration Date when editing a Subscription is hidden. Check this option to make it always appear.", "paid-member-subscriptions"); ?>
+<?php __("You should only enable this option if you are following the advice of our support team or you are sure that you know what you are doing.", "paid-member-subscriptions"); ?>
+<?php __("Inactive Subscription Plans", "paid-member-subscriptions"); ?>
+<?php __("Include in Content Restriction metabox.", "paid-member-subscriptions"); ?>
+<?php __("By default, inactive subscription plans are not included in the content restriction metabox. Check this option to include and make them available for selection.", "paid-member-subscriptions"); ?>
+<?php __("Gateway refund behavior", "paid-member-subscriptions"); ?>
+<?php __("Don't expire subscriptions on gateway refund.", "paid-member-subscriptions"); ?>
+<?php __("When a payment is refunded in the payment gateway, by default the subscription will expire. Check this option to prevent the subscription from expiring automatically.", "paid-member-subscriptions"); ?>
 <?php __("Cron Jobs", "paid-member-subscriptions"); ?>
 <?php __("Reset cron jobs", "paid-member-subscriptions"); ?>
 <?php __("The plugin will try to register the cron jobs that it uses again.", "paid-member-subscriptions"); ?>
-<?php __("Cleanup Postmeta", "paid-member-subscriptions"); ?>
-<?php __("Use this option to clean up the postmeta table from data that was added unnecessarily. This tool should be used only once so it will disappear after it is used.", "paid-member-subscriptions"); ?>
 <?php __("Scripts", "paid-member-subscriptions"); ?>
 <?php __("Load Scripts only on specific pages", "paid-member-subscriptions"); ?>
 <?php __("Optimize the loading of scripts that are coming from Paid Member Subscriptions by only adding them on pages that actually use them in order to improve performance.", "paid-member-subscriptions"); ?>
@@ -2074,7 +2080,7 @@
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __('Your %3$s PayPal API credentials %4$s are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
-<?php __("Payment Intent is still processing. Subscription was activated until confirmation of success or failure is received.", "paid-member-subscriptions"); ?>
+<?php __("Payment Intent is still processing. Subscription was activated or remains active until confirmation of success or failure is received.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent has failed.", "paid-member-subscriptions"); ?>
 <?php __('Stripe webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>

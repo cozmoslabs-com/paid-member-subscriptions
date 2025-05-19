@@ -252,6 +252,10 @@ form.pms-form ul.pms-form-fields-wrapper {
     cursor: pointer;
 }
 
+.pms-account-subscription-action-link__update-payment-method {
+    font-size: 90%;
+}
+
 .pms-subscription-plan.pms-subscription-plan-has-actions,
 .pms-subscription-plans-header {
     border-bottom: 1px solid #ccc;

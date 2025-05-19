@@ -70,16 +70,26 @@ function pmsRepositionPublishMetaBox( settingsContainer, buttonContainer ) {
      */
     function pmsSetPublishMetaBoxPosition() {
         if ( pmsCalculateDistanceToTop( settingsContainer ) < 50 ) {
+
             buttonContainer.addClass('cozmoslabs-publish-metabox-fixed');
 
             buttonContainer.css({
-                'left': settingsContainer.offset().left + settingsContainer.outerWidth() + 'px',
+                'display': 'block',
+                'left'   : settingsContainer.offset().left + settingsContainer.outerWidth() + 'px',
             });
         } else {
+
+            if( jQuery( '#cozmoslabs-subsection-register-version').length > 0 ){
+                buttonContainer.css({
+                    'margin-top': -jQuery('#cozmoslabs-subsection-register-version').outerHeight() + 'px',
+                });
+            }
+
             buttonContainer.removeClass('cozmoslabs-publish-metabox-fixed');
 
             buttonContainer.css({
-                'left': 'unset',
+                'display': 'block',
+                'left'   : 'unset',
             });
         }
     }
@@ -113,6 +123,7 @@ function pmsRepositionPublishButton( buttonContainer ) {
      * Position the Publish Button
      */
     function pmsSetPublishButtonPosition() {
+
         let button = buttonContainer.find('input[type="submit"]');
 
         if ( pmsElementInViewport( buttonContainer ) ) {
@@ -121,14 +132,24 @@ function pmsRepositionPublishButton( buttonContainer ) {
             button.css({
                'max-width': 'unset',
                'left': 'unset',
-           });
+            });
+
+            buttonContainer.css({
+                'display': 'block',
+            });
+
         } else {
             buttonContainer.addClass('cozmoslabs-publish-button-fixed');
 
             button.css({
                'max-width': buttonContainer.outerWidth() + 'px',
                'left': buttonContainer.offset().left + 'px',
-           });
+            });
+
+            buttonContainer.css({
+                'display': 'block',
+            });
+        
         }
     }
 }
