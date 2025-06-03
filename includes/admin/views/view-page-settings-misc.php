@@ -432,6 +432,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <input type="text" id="payment-retry-retry-interval" class="widefat" name="pms_misc_settings[payments][payment_retry_retry_interval]" value="<?php echo ( isset($this->options['payments']['payment_retry_retry_interval']) ? esc_attr( $this->options['payments']['payment_retry_retry_interval'] ) : esc_attr( apply_filters( 'pms_retry_payment_interval', 3, '' ) ) ); ?>">
                     <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Enter the interval in days between retries for the payment retry functionality.', 'paid-member-subscriptions' ); ?></p>
                 </div>
+
+                <div class="cozmoslabs-form-field-wrapper">
+                    <label class="cozmoslabs-form-field-label" for="payment-retry-status"><?php esc_html_e( 'Status of the subscription while retrying', 'paid-member-subscriptions' ) ?></label>
+                    <select id="payment-retry-status" class="widefat" name="pms_misc_settings[payments][payment_retry_status]">
+                        <option value="expired" <?php selected( $this->options['payments']['payment_retry_status'], 'expired' ); ?>><?php esc_html_e( 'Expired', 'paid-member-subscriptions' ); ?></option>
+                        <option value="active" <?php selected( $this->options['payments']['payment_retry_status'], 'active' ); ?>><?php esc_html_e( 'Active', 'paid-member-subscriptions' ); ?></option>
+                    </select>
+                    
+                    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Select the status of the subscription while retrying. By default, the subscription will be set to expired.', 'paid-member-subscriptions' ); ?></p>
+                </div>
             </div>
 
         <?php endif; ?>
@@ -439,7 +449,5 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <?php do_action( $this->menu_slug . '_misc_after_payments_tab_content', $this->options ); ?>
     </div>
 
+    <?php do_action( $this->menu_slug . '_misc_after_subtabs', $this->options ); ?>
 </div>
-
-
-<?php do_action( $this->menu_slug . '_misc_after_subtabs', $this->options ); ?>

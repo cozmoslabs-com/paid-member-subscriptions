@@ -419,7 +419,7 @@ Class PMS_AJAX_Checkout_Handler {
                     if( empty( $wppb_redirect_url ) ){
                         $message = apply_filters( 'wppb_register_success_message', sprintf( __( 'The account %1s has been successfully created!', 'paid-member-subscriptions' ), $user->user_login ), $user->user_login );
 
-                        if ( wppb_get_admin_approval_option_value() === 'yes' ) {
+                        if ( function_exists( 'wppb_get_admin_approval_option_value' ) && wppb_get_admin_approval_option_value() === 'yes' ) {
 
                             $wppb_general_settings = get_option( 'wppb_general_settings' );
 
@@ -445,7 +445,7 @@ Class PMS_AJAX_Checkout_Handler {
                 } else {
                     $message = apply_filters( 'pms_register_subscription_success_message', __( 'Congratulations, you have successfully created an account.', 'paid-member-subscriptions' ) );
 
-                    if ( wppb_get_admin_approval_option_value() === 'yes' ) {
+                    if ( function_exists( 'wppb_get_admin_approval_option_value' ) && wppb_get_admin_approval_option_value() === 'yes' ) {
 
                         $wppb_general_settings = get_option( 'wppb_general_settings' );
 

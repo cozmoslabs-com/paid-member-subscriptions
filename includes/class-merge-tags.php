@@ -462,8 +462,17 @@ Class PMS_Merge_Tags{
             if( !empty( $subscription->id ) ){
                 $retry_count = pms_get_subscription_payments_retry_count( $subscription->id );
 
-                if( $retry_count < apply_filters( 'pms_retry_payment_count', 3 ) )
-                    return sprintf( __( 'The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired.', 'paid-member-subscriptions' ), '<strong>' . $subscription->billing_next_payment . '</strong>', '<strong>' . ( (int)apply_filters( 'pms_retry_payment_count', 3 ) - $retry_count ) . '</strong>' );
+                if( $retry_count < apply_filters( 'pms_retry_payment_count', 3 ) ){
+
+                    $retry_status = pms_get_subscription_payments_retry_status(); 
+                                        
+                    if( $retry_status == 'expired' )
+                        $message = sprintf( __( 'The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired.', 'paid-member-subscriptions' ), '<strong>' . $subscription->billing_next_payment . '</strong>', '<strong>' . ( (int)apply_filters( 'pms_retry_payment_count', 3 ) - $retry_count ) . '</strong>' );
+                    elseif( $retry_status == 'active' )
+                        $message = sprintf( __( 'The payment will be automatically retried on %s. After %s more attempts, the subscription will expire.', 'paid-member-subscriptions' ), '<strong>' . $subscription->billing_next_payment . '</strong>', '<strong>' . ( (int)apply_filters( 'pms_retry_payment_count', 3 ) - $retry_count ) . '</strong>' );
+
+                    return $message;
+                }
             }
 
         }

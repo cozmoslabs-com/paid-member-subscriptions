@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.14.9
+Stable tag: 2.15.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -258,6 +258,16 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.15.0 =
+* Enhancement: Added an option to select the status in which the subscription remains while payments are retried. Go to Settings -> Misc -> Payments to configure this
+* Fix: Security issue regarding Content Spoofing with paid version active
+* Fix: Issue between 100% discount codes for the first payment and PayPal
+* Fix: Disable all extra funding sources except PayPal Wallet for the PayPal integration
+* Fix: Make sure return URL for PayPal is always set to home_url() if our custom pages are not defined
+* Misc: Added support for multiple subscription plan ids when retrieving subscriptions
+* Misc: Added disabled state for form submit buttons on block themes
+* Misc: Make sure original form submit button is getting reset when the PayPal window is closed
+
 = 2.14.9 =
 * Enhancement: The Profile Builder Subscription Plans field now includes an `All` subscription plans option
 * Enhancement: Added compatibility with Profile Builder Admin Approval to the default registration success messages

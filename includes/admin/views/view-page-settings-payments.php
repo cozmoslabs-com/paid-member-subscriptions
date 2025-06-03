@@ -143,7 +143,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         </div>
 
                         <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Valid for the Stripe and PayPal payment gateways. ', 'paid-member-subscriptions' ); ?></p>
-                        <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php printf( esc_html__( 'Change settings from %sSettings -> %sMisc%s -> Payments page%s.', 'paid-member-subscriptions' ), '<strong>','<a href="'. esc_url( admin_url( 'admin.php?page=pms-settings-page&tab=misc' ) ) .'">', '</a>', '</strong>' ); ?></p>
+                        <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php printf( esc_html__( 'Change settings from %sSettings -> Misc -> %sPayments page%s%s.', 'paid-member-subscriptions' ), '<strong>','<a href="'. esc_url( admin_url( 'admin.php?page=pms-settings-page&tab=misc&nav_sub_tab=misc_payments' ) ) .'">', '</a>', '</strong>' ); ?></p>
 
                     </div>
 

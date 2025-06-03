@@ -1396,8 +1396,6 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
         if( empty( $subscription_plan->id ) )
             return false;
 
-        $account_url = pms_get_page( 'account' );
-
         $order_breakdown = pms_calculate_payment_amount( $subscription_plan, array(), false, true );
         $order_currency  = apply_filters( 'pms_ppcp_create_order_currency', pms_get_active_currency(), $subscription_plan );
 
@@ -1407,7 +1405,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
             $subscription = pms_get_member_subscription( $payment->member_subscription_id );
 
             if( !empty( $subscription ) && !empty( $subscription->billing_amount ) ){
-                $order_amount = $subscription->billing_amount;
+                $order_amount = apply_filters( 'pms_ppcp_psp_create_order_amount', $subscription->billing_amount, $subscription, $payment );
 
                 $purchase_units = array(
                     'amount' => array(
@@ -1486,8 +1484,8 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                     'experience_context' => array(
                         'user_action'         => 'PAY_NOW',
                         'shipping_preference' => 'NO_SHIPPING',
-                        'return_url'          => !empty( $account_url ) ? get_permalink( $account_url ) : home_url(),
-                        'cancel_url'          => !empty( $account_url ) ? get_permalink( $account_url ) : home_url(),
+                        'return_url'          => $this->get_return_url(),
+                        'cancel_url'          => $this->get_return_url(),
                     )
                 )
             ),
@@ -1568,8 +1566,6 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
         $request_url = $this->endpoint . '/v3/vault/setup-tokens';
 
-        $account_url = pms_get_page( 'account' );
-
         $description = __( 'Payment Method Update Request', 'paid-member-subscriptions' );
 
         if( !empty( $subscription_plan ) && !empty( $subscription_plan->name ) )
@@ -1585,8 +1581,8 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                     'customer_type'                  => 'CONSUMER',
                     'experience_context'             => array(
                         'shipping_preference' => 'NO_SHIPPING',
-                        'return_url'          => pms_get_current_page_url(),
-                        'cancel_url'          => !empty( $account_url ) ? get_permalink( $account_url ) : home_url(),
+                        'return_url'          => $this->get_return_url(),
+                        'cancel_url'          => $this->get_return_url(),
                     )
                 )
             )
@@ -2257,6 +2253,17 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
         return substr($hash, 0, $length);
         
+    }
+
+    private function get_return_url(){
+
+        $account_url = pms_get_page( 'account', true );
+
+        if( empty( $account_url ) )
+            return home_url();
+        else
+            return $account_url;
+
     }
 
 }

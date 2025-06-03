@@ -1102,7 +1102,7 @@ jQuery( function($) {
             else
                 $.pms_add_recaptcha_field_error( 'Please complete the reCaptcha.', current_button )
 
-            $.pms_form_reset_submit_button(current_button)
+            $.pms_form_reset_submit_button( current_button )
 
             return false
 

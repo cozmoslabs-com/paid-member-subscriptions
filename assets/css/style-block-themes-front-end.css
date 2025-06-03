@@ -226,6 +226,12 @@
     background-color: #444444;
 }
 
+#pms_login input[type="submit"]:disabled,
+.pms-form input[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
 
 /*********************************************************/
 /* ACCOUNT Page

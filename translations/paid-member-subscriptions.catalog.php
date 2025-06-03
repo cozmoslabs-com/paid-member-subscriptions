@@ -131,6 +131,7 @@
 <?php __("Unlimited", "paid-member-subscriptions"); ?>
 <?php __("Free", "paid-member-subscriptions"); ?>
 <?php __("until %s", "paid-member-subscriptions"); ?>
+<?php __("The payment will be automatically retried on %s. After %s more attempts, the subscription will expire.", "paid-member-subscriptions"); ?>
 <?php __("The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired.", "paid-member-subscriptions"); ?>
 <?php __("Hello! Seems like you've been using Paid Member Subscriptions to receive payments. That's awesome!", "paid-member-subscriptions"); ?>
 <?php __("If you can spare a few moments to rate it on WordPress.org, it would help us a lot (and boost my motivation).", "paid-member-subscriptions"); ?>
@@ -860,7 +861,7 @@
 <?php __("Subscription renewed until <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription renewed automatically.", "paid-member-subscriptions"); ?>
 <?php __("Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>.", "paid-member-subscriptions"); ?>
-<?php __("Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>. Payment will be retried in %s days.", "paid-member-subscriptions"); ?>
+<?php __("Tried to renew subscription automatically but failed. Subscription status set to <strong>%s</strong>. Payment will be retried in %s days.", "paid-member-subscriptions"); ?>
 <?php __("Subscription could not be renewed. Payment retry was disabled.", "paid-member-subscriptions"); ?>
 <?php __("User attempted to upgrade his subscription plan to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("User attempted to downgrade his subscription plan to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
@@ -1807,6 +1808,7 @@
 <?php __("Next Payment", "paid-member-subscriptions"); ?>
 <?php __("on", "paid-member-subscriptions"); ?>
 <?php __("Payment Retry", "paid-member-subscriptions"); ?>
+<?php __("A new payment attempt will be made on %s. After %s more attempts, the subscription will expire.", "paid-member-subscriptions"); ?>
 <?php __("A new payment attempt will be made on %s. After %s more attempts, the subscription will remain expired.", "paid-member-subscriptions"); ?>
 <?php __("Payment Gateway Subscription ID", "paid-member-subscriptions"); ?>
 <?php __("The subscription payment schedule is handled by the payment gateway.", "paid-member-subscriptions"); ?>
@@ -1983,6 +1985,8 @@
 <?php __("Enter how many retries the payment retry functionality should attempt.", "paid-member-subscriptions"); ?>
 <?php __("Retry Interval", "paid-member-subscriptions"); ?>
 <?php __("Enter the interval in days between retries for the payment retry functionality.", "paid-member-subscriptions"); ?>
+<?php __("Status of the subscription while retrying", "paid-member-subscriptions"); ?>
+<?php __("Select the status of the subscription while retrying. By default, the subscription will be set to expired.", "paid-member-subscriptions"); ?>
 <?php __("Gateways", "paid-member-subscriptions"); ?>
 <?php __("Test Mode", "paid-member-subscriptions"); ?>
 <?php __("Use with test accounts from your payment processors. <a href=\"%s\">More Details</a>", "paid-member-subscriptions"); ?>
@@ -2007,7 +2011,7 @@
 <?php __("Retry Payments", "paid-member-subscriptions"); ?>
 <?php __("If a payment fails, the plugin will try to charge the user again after %s days for %s maximum retries. ", "paid-member-subscriptions"); ?>
 <?php __("Valid for the Stripe and PayPal payment gateways. ", "paid-member-subscriptions"); ?>
-<?php __("Change settings from %sSettings -> %sMisc%s -> Payments page%s.", "paid-member-subscriptions"); ?>
+<?php __("Change settings from %sSettings -> Misc -> %sPayments page%s%s.", "paid-member-subscriptions"); ?>
 <?php __("Allow Subscription Downgrades", "paid-member-subscriptions"); ?>
 <?php __("Allow members to downgrade their subscription plan to a lower one from the same tier.", "paid-member-subscriptions"); ?>
 <?php __("Allow Subscription Change", "paid-member-subscriptions"); ?>

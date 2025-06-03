@@ -140,7 +140,13 @@ function pms_get_member_subscriptions( $args = array() ) {
     // Filter by subscription plan id
     if( ! empty( $args['subscription_plan_id'] ) ) {
 
-        $query_where .= " AND subscription_plan_id = '{$args['subscription_plan_id']}'";
+        if( is_array( $args['subscription_plan_id'] ) ) {
+            $subscription_plan_ids = implode( ',', array_map( 'absint', $args['subscription_plan_id'] ) );
+            $query_where .= " AND subscription_plan_id IN ($subscription_plan_ids)";
+        } else {
+            $subscription_plan_id = absint( $args['subscription_plan_id'] );
+            $query_where .= " AND subscription_plan_id = '{$subscription_plan_id}'";
+        }
 
     }
 

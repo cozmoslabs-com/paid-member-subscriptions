@@ -462,7 +462,13 @@ if( ! empty( $_POST ) ) {
 
                                         <span class="readonly medium"><strong><?php esc_html_e( 'Active', 'paid-member-subscriptions' ); ?></strong></span>
 
-                                        <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php printf( esc_html__( 'A new payment attempt will be made on %s. After %s more attempts, the subscription will remain expired.', 'paid-member-subscriptions' ), '<strong>' . esc_html( $member_subscription->billing_next_payment ) . '</strong>', '<strong>' . ( ( (int)apply_filters( 'pms_retry_payment_count', 3 ) - pms_get_subscription_payments_retry_count( $member_subscription->id ) ) + 1 ) . '</strong>' ); ?></p>
+                                        <?php $retry_status = pms_get_subscription_payments_retry_status(); 
+                                        
+                                        if( $retry_status == 'expired' ) : ?>
+                                            <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php printf( esc_html__( 'A new payment attempt will be made on %s. After %s more attempts, the subscription will remain expired.', 'paid-member-subscriptions' ), '<strong>' . esc_html( $member_subscription->billing_next_payment ) . '</strong>', '<strong>' . ( ( (int)apply_filters( 'pms_retry_payment_count', 3 ) - pms_get_subscription_payments_retry_count( $member_subscription->id ) ) + 1 ) . '</strong>' ); ?></p>
+                                        <?php elseif( $retry_status == 'active' ) : ?>
+                                            <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php printf( esc_html__( 'A new payment attempt will be made on %s. After %s more attempts, the subscription will expire.', 'paid-member-subscriptions' ), '<strong>' . esc_html( $member_subscription->billing_next_payment ) . '</strong>', '<strong>' . ( ( (int)apply_filters( 'pms_retry_payment_count', 3 ) - pms_get_subscription_payments_retry_count( $member_subscription->id ) ) + 1 ) . '</strong>' ); ?></p>
+                                        <?php endif; ?>
                                     </div>
                                     <?php
                                 }

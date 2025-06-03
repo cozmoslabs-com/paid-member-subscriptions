@@ -216,7 +216,7 @@ class Cozmoslabs_Plugin_Optin_PMS {
                     ],
                 );
     
-                $request = wp_remote_post( self::$base_url . 'pluginOptinArchiveSubscriber/', $args );
+                $request = wp_remote_post( self::$api_url . 'pluginOptinArchiveSubscriber/', $args );
     
             } else if ( isset( $settings['plugin-optin'] ) && $settings['plugin-optin'] == 'yes' && ( !isset( $previous_settings['plugin-optin'] ) || $settings['plugin-optin'] != $previous_settings['plugin-optin'] ) ) {
 
@@ -244,7 +244,7 @@ class Cozmoslabs_Plugin_Optin_PMS {
                 // Check if the other plugin might be active as well
                 $args = $this->add_other_plugin_version_information( $args );
     
-                $request = wp_remote_post( self::$base_url . 'pluginOptinSubscribe/', $args );
+                $request = wp_remote_post( self::$api_url . 'pluginOptinSubscribe/', $args );
     
             }
 
@@ -516,6 +516,9 @@ class Cozmoslabs_Plugin_Optin_Metadata_Builder_PMS extends Cozmoslabs_Plugin_Opt
             'pms_files_restriction_addon_already_activated',
             'pmsle',
             'pms_ipn_logger',
+            'pms_stripe_first_activation',
+            'pms_msfp_migration',
+            'pms_used_deprecated_addons',
         ];
 
         $this->blacklisted_option_names = [
@@ -527,7 +530,11 @@ class Cozmoslabs_Plugin_Optin_Metadata_Builder_PMS extends Cozmoslabs_Plugin_Opt
             'product_discounted_message',
             'exchange_api_key',
             'alpha_vantage_api_key',
-            'pms-paypal-unsupported-currencies'
+            'pms-paypal-unsupported-currencies',
+            'site_key',
+            'secret_key',
+            'v3_site_key',
+            'v3_secret_key',
         ];
 
         $this->blacklisted_option_patterns = [

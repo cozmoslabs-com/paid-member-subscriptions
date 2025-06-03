@@ -818,11 +818,11 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                 break;
             case 'subscription_renewal_failed_retry_enabled':
 	            if( !empty( $log['data']['days'] ) ) {
-		            $message = sprintf( __( 'Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>. Payment will be retried in %s days.', 'paid-member-subscriptions' ), $log['data']['days'] );
+		            $message = sprintf( __( 'Tried to renew subscription automatically but failed. Subscription status set to <strong>%s</strong>. Payment will be retried in %s days.', 'paid-member-subscriptions' ), pms_get_subscription_payments_retry_status(), $log['data']['days'] );
 	            } else {
 		            $subscription_id = isset( $_GET['subscription_id'] ) ? (int)$_GET['subscription_id'] : 0;
 
-		            $message = sprintf( __( 'Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>. Payment will be retried in %s days.', 'paid-member-subscriptions' ), apply_filters( 'pms_retry_payment_interval', 3, $subscription_id ) );
+		            $message = sprintf( __( 'Tried to renew subscription automatically but failed. Subscription status set to <strong>%s</strong>. Payment will be retried in %s days.', 'paid-member-subscriptions' ), pms_get_subscription_payments_retry_status(), apply_filters( 'pms_retry_payment_interval', 3, $subscription_id ) );
 	            }
                 break;
             case 'subscription_renewal_failed_retry_disabled':

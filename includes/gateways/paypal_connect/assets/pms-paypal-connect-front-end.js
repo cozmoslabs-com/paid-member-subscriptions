@@ -4,7 +4,7 @@ jQuery(function ($) {
         "client-id"             : pms_paypal.paypal_client_id,
         "merchant-id"           : pms_paypal.paypal_merchant_id,
         "components"            : "buttons",
-        "disable-funding"       : "card",
+        "disable-funding"       : "card,credit,paylater,bancontact,blik,eps,giropay,ideal,mercadopago,mybank,p24,sepa,sofort,venmo",
         "currency"              : pms_paypal.paypal_currency,
         "intent"                : 'capture',
         "commit"                : true,
@@ -15,7 +15,7 @@ jQuery(function ($) {
         "client-id"             : pms_paypal.paypal_client_id,
         "merchant-id"           : pms_paypal.paypal_merchant_id,
         "components"            : "buttons",
-        "disable-funding"       : "card",
+        "disable-funding"       : "card,credit,paylater,bancontact,blik,eps,giropay,ideal,mercadopago,mybank,p24,sepa,sofort,venmo",
         dataPartnerAttributionId: pms_paypal.paypal_partner_attribution_id,
     }
 
@@ -82,21 +82,17 @@ jQuery(function ($) {
 
             pms_ppcp_maybe_show_paypal_subscribe_button()
 
-            if( !$.pms_checkout_is_setup_intents() ) {
-
-                if ( pms_paypal.pms_ppcp_mc_addon_active )
-                    await pms_ppcp_validate_sdk_checkout_currency( $(this) );
-
-                pms_ppcp_initialize_sdk( paypal_sdk_checkout, 'checkout' )
-            }
-            else
-                pms_ppcp_initialize_sdk( paypal_sdk_setup_intents, 'setup_intents' )
+            pms_ppcp_reinitialize_sdk()
 
         })
 
         // Compatibility with Multi-Step Forms
         $(document).on('wppb_msf_next_step', pms_ppcp_maybe_show_paypal_subscribe_button )
         $(document).on('wppb_msf_previous_step', pms_ppcp_maybe_show_paypal_subscribe_button )
+
+        // Re-initialize the SDK when a discount is applied
+        $(document).on( 'pms_discount_success', pms_ppcp_reinitialize_sdk )
+        $(document).on( 'pms_discount_error', pms_ppcp_reinitialize_sdk )
 
     })
 
@@ -138,10 +134,14 @@ jQuery(function ($) {
                     createVaultSetupToken: pms_ppcp_create_vault_setup_token,
                     onApprove            : pms_ppcp_process_checkout,
                     onCancel             : function (data, actions) {
-                        //console.log("Customer cancelled the PayPal Checkout Flow")
+                        
+                        $.pms_form_reset_submit_button( $( '#pms-paygate-extra-fields-paypal_connect__placeholder' ).closest( '.pms-form, .wppb-register-user' ).find( 'input[type="submit"], button[type="submit"]' ).last() )
+
                     },
                     onError: function () {
-                        //console.log("An Error occurred as part of the PayPal JS SDK")
+                        
+                        $.pms_form_reset_submit_button( $( '#pms-paygate-extra-fields-paypal_connect__placeholder' ).closest( '.pms-form, .wppb-register-user' ).find( 'input[type="submit"], button[type="submit"]' ).last() )
+
                     }
                 }).render('#pms-paygate-extra-fields-paypal_connect__placeholder')
 
@@ -159,10 +159,14 @@ jQuery(function ($) {
                     createVaultSetupToken: pms_ppcp_update_payment_method_create_vault_setup_token,
                     onApprove            : pms_ppcp_process_checkout,
                     onCancel             : function (data, actions) {
-                        //console.log("Customer cancelled the PayPal Checkout Flow")
+                        
+                        $.pms_form_reset_submit_button( $( '#pms-paygate-extra-fields-paypal_connect__placeholder' ).closest( '.pms-form, .wppb-register-user' ).find( 'input[type="submit"], button[type="submit"]' ).last() )
+
                     },
                     onError: function () {
-                        //console.log("An Error occurred as part of the PayPal JS SDK")
+                        
+                        $.pms_form_reset_submit_button( $( '#pms-paygate-extra-fields-paypal_connect__placeholder' ).closest( '.pms-form, .wppb-register-user' ).find( 'input[type="submit"], button[type="submit"]' ).last() )
+
                     }
                 }).render('#pms-paygate-extra-fields-paypal_connect__placeholder')
 
@@ -175,10 +179,14 @@ jQuery(function ($) {
                     createOrder: pms_ppcp_create_order,
                     onApprove  : pms_ppcp_process_checkout,
                     onCancel   : function (data, actions) {
-                        //console.log("Customer cancelled the PayPal Checkout Flow")
+                        
+                        $.pms_form_reset_submit_button( $( '#pms-paygate-extra-fields-paypal_connect__placeholder' ).closest( '.pms-form, .wppb-register-user' ).find( 'input[type="submit"], button[type="submit"]' ).last() )
+
                     },
                     onError: function () {
-                        //console.log("An Error occurred as part of the PayPal JS SDK")
+                        
+                        $.pms_form_reset_submit_button( $( '#pms-paygate-extra-fields-paypal_connect__placeholder' ).closest( '.pms-form, .wppb-register-user' ).find( 'input[type="submit"], button[type="submit"]' ).last() )
+
                     }
                 }).render('#pms-paygate-extra-fields-paypal_connect__placeholder')
 
@@ -189,6 +197,20 @@ jQuery(function ($) {
         pms_ppcp_hide_spinner()
 
         return paypal
+
+    }
+
+    async function pms_ppcp_reinitialize_sdk(){
+
+        if( !$.pms_checkout_is_setup_intents() ) {
+
+            if ( pms_paypal.pms_ppcp_mc_addon_active )
+                await pms_ppcp_validate_sdk_checkout_currency( $pms_checked_subscription );
+
+            pms_ppcp_initialize_sdk( paypal_sdk_checkout, 'checkout' )
+        }
+        else
+            pms_ppcp_initialize_sdk( paypal_sdk_setup_intents, 'setup_intents' )
 
     }
 
@@ -614,8 +636,14 @@ jQuery(function ($) {
     }
 
     function pms_ppcp_hide_spinner(){
-        jQuery( '#pms-paypal-connect .pms-spinner__holder' ).hide()
-        jQuery( '#pms-paypal-connect #pms-paygate-extra-fields-paypal_connect__placeholder' ).show()
+
+        setTimeout( function(){
+
+            jQuery( '#pms-paypal-connect .pms-spinner__holder' ).hide()
+            jQuery( '#pms-paypal-connect #pms-paygate-extra-fields-paypal_connect__placeholder' ).show()
+
+        }, 100 )
+
     }
 
     function pms_ppcp_maybe_show_paypal_subscribe_button(){

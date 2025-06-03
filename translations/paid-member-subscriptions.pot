@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-19 09:05+0000\n"
+"POT-Creation-Date: 2025-06-03 10:11+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -549,7 +549,11 @@ msgstr ""
 msgid "until %s"
 msgstr ""
 
-#: includes/class-merge-tags.php:466
+#: includes/class-merge-tags.php:472
+msgid "The payment will be automatically retried on %s. After %s more attempts, the subscription will expire."
+msgstr ""
+
+#: includes/class-merge-tags.php:470
 msgid "The payment will be automatically retried on %s. After %s more attempts, the subscription will remain expired."
 msgstr ""
 
@@ -685,19 +689,19 @@ msgstr ""
 msgid "You are already logged in."
 msgstr ""
 
-#: includes/deprecated-functions.php:22, includes/functions-member-subscriptions.php:248, extend/woocommerce/woocommerce-integration.php:130, includes/admin/class-admin-members-add-new-bulk-list-table.php:169, includes/admin/class-admin-subscription-plans.php:382, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:220, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:259, includes/admin/views/view-page-export.php:64, includes/admin/views/view-page-members-add-new-edit-subscription.php:463, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:203, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:31, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:157, includes/features/discount-codes/includes/class-admin-discount-codes.php:264, includes/features/discount-codes/views/view-meta-box-discount-codes.php:143, includes/gateways/paypal_connect/admin/functions-admin-filters.php:119, includes/gateways/paypal_connect/admin/functions-admin-filters.php:143, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:44, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:124, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php:145
+#: includes/deprecated-functions.php:22, includes/functions-member-subscriptions.php:254, extend/woocommerce/woocommerce-integration.php:130, includes/admin/class-admin-members-add-new-bulk-list-table.php:169, includes/admin/class-admin-subscription-plans.php:382, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:220, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:259, includes/admin/views/view-page-export.php:64, includes/admin/views/view-page-members-add-new-edit-subscription.php:463, includes/admin/views/view-page-settings-misc.php:440, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:203, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:31, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:157, includes/features/discount-codes/includes/class-admin-discount-codes.php:264, includes/features/discount-codes/views/view-meta-box-discount-codes.php:143, includes/gateways/paypal_connect/admin/functions-admin-filters.php:119, includes/gateways/paypal_connect/admin/functions-admin-filters.php:143, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:44, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:124, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php:145
 msgid "Active"
 msgstr ""
 
-#: includes/deprecated-functions.php:23, includes/functions-member-subscriptions.php:249, includes/admin/views/view-page-export.php:65
+#: includes/deprecated-functions.php:23, includes/functions-member-subscriptions.php:255, includes/admin/views/view-page-export.php:65
 msgid "Canceled"
 msgstr ""
 
-#: includes/deprecated-functions.php:24, includes/functions-member-subscriptions.php:250, includes/admin/class-admin-members-add-new-bulk-list-table.php:171, includes/admin/views/view-page-export.php:66, includes/features/discount-codes/includes/class-admin-discount-codes.php:266
+#: includes/deprecated-functions.php:24, includes/functions-member-subscriptions.php:256, includes/admin/class-admin-members-add-new-bulk-list-table.php:171, includes/admin/views/view-page-export.php:66, includes/admin/views/view-page-settings-misc.php:439, includes/features/discount-codes/includes/class-admin-discount-codes.php:266
 msgid "Expired"
 msgstr ""
 
-#: includes/deprecated-functions.php:25, includes/functions-member-subscriptions.php:251, includes/functions-payment.php:453, includes/admin/class-admin-members-add-new-bulk-list-table.php:170, includes/admin/views/view-page-export.php:67, includes/admin/views/view-page-export.php:210
+#: includes/deprecated-functions.php:25, includes/functions-member-subscriptions.php:257, includes/functions-payment.php:453, includes/admin/class-admin-members-add-new-bulk-list-table.php:170, includes/admin/views/view-page-export.php:67, includes/admin/views/view-page-export.php:210
 msgid "Pending"
 msgstr ""
 
@@ -2441,7 +2445,7 @@ msgstr ""
 msgid "Are you sure ? Try again."
 msgstr ""
 
-#: includes/functions-member-subscriptions.php:252
+#: includes/functions-member-subscriptions.php:258
 msgid "Abandoned"
 msgstr ""
 
@@ -2561,7 +2565,7 @@ msgstr[1] ""
 msgid " with a %1$s %2$s free trial"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:639, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:244
+#: includes/functions-subscription-plan.php:639, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:250
 msgid " and a %1$s sign-up fee"
 msgstr ""
 
@@ -2629,7 +2633,7 @@ msgstr ""
 msgid "The currently active Form Style for Profile Builder forms is:  %1$s %3$s %2$s."
 msgstr ""
 
-#: add-ons-basic/form-designs/form-designs.php:278, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:265
+#: add-ons-basic/form-designs/form-designs.php:278, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:271
 msgid "Select Your Subscription Plan"
 msgstr ""
 
@@ -3450,7 +3454,7 @@ msgid "Tried to renew subscription automatically but failed. Subscription status
 msgstr ""
 
 #: includes/admin/class-admin-members.php:825, includes/admin/class-admin-members.php:821
-msgid "Tried to renew subscription automatically but failed. Subscription status set to <strong>expired</strong>. Payment will be retried in %s days."
+msgid "Tried to renew subscription automatically but failed. Subscription status set to <strong>%s</strong>. Payment will be retried in %s days."
 msgstr ""
 
 #: includes/admin/class-admin-members.php:829
@@ -5618,15 +5622,15 @@ msgstr ""
 msgid "Other Currencies"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:286, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:345, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:393, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:446, includes/admin/views/view-page-settings-payments.php:47
+#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:292, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:351, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:399, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:452, includes/admin/views/view-page-settings-payments.php:47
 msgid "Currency"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:1413
+#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:1419
 msgid "This discount code is not available."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:1684
+#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:1718
 msgid "The selected currency is not supported by PayPal, and conversion rates for this currency are unavailable. <br> Please reach out to the website administrator for further information."
 msgstr ""
 
@@ -7138,7 +7142,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-bulk.php:81, includes/admin/views/view-page-members-add-new-edit-subscription.php:488
+#: includes/admin/views/view-page-members-add-new-bulk.php:81, includes/admin/views/view-page-members-add-new-edit-subscription.php:494
 msgid "Add Subscription"
 msgstr ""
 
@@ -7211,7 +7215,11 @@ msgstr ""
 msgid "Payment Retry"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:465
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:470
+msgid "A new payment attempt will be made on %s. After %s more attempts, the subscription will expire."
+msgstr ""
+
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:468
 msgid "A new payment attempt will be made on %s. After %s more attempts, the subscription will remain expired."
 msgstr ""
 
@@ -7223,19 +7231,19 @@ msgstr ""
 msgid "The subscription payment schedule is handled by the payment gateway."
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:486
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:492
 msgid "Update Member Subscription"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:488
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:494
 msgid "Save Subscription"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:491
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:497
 msgid "Are you sure you want to delete this Subscription? \nThis action is irreversible."
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:491
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:497
 msgid "Delete Subscription"
 msgstr ""
 
@@ -7915,6 +7923,14 @@ msgstr ""
 msgid "Enter the interval in days between retries for the payment retry functionality."
 msgstr ""
 
+#: includes/admin/views/view-page-settings-misc.php:437
+msgid "Status of the subscription while retrying"
+msgstr ""
+
+#: includes/admin/views/view-page-settings-misc.php:443
+msgid "Select the status of the subscription while retrying. By default, the subscription will be set to expired."
+msgstr ""
+
 #: includes/admin/views/view-page-settings-payments.php:16
 msgid "Gateways"
 msgstr ""
@@ -8012,7 +8028,7 @@ msgid "Valid for the Stripe and PayPal payment gateways. "
 msgstr ""
 
 #: includes/admin/views/view-page-settings-payments.php:146
-msgid "Change settings from %sSettings -> %sMisc%s -> Payments page%s."
+msgid "Change settings from %sSettings -> Misc -> %sPayments page%s%s."
 msgstr ""
 
 #: includes/admin/views/view-page-settings-payments.php:154
@@ -8155,11 +8171,11 @@ msgstr ""
 msgid "Click the button below to update your payment method."
 msgstr ""
 
-#: includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:1573
+#: includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:1569
 msgid "Payment Method Update Request"
 msgstr ""
 
-#: includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:1576
+#: includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:1572
 msgid "Future payment authorization for: %s"
 msgstr ""
 

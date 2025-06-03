@@ -639,7 +639,7 @@ class PMS_Plugin_Updater {
     }
 
     public function admin_activation_notices() {
-        if ( isset( $_GET['pms_sl_activation'] ) && ! empty( $_GET['message'] ) ) {
+        if ( isset( $_GET['pms_sl_activation'] ) && ! empty( $_GET['message'] ) && isset( $_GET['pms_license_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_GET['pms_license_nonce'] ), 'pms_license_display_message' ) ) {
 
             switch( $_GET['pms_sl_activation'] ) {
                 case 'false':
@@ -747,7 +747,7 @@ class PMS_Plugin_Updater {
             // Check if anything passed on a message constituting a failure
             if ( ! empty( $message ) ) {
                 $message = implode( "<br/>", array_unique($message) );//if we got the same message for multiple addons show just one, and add a br in case we show multiple messages
-                $redirect = esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'false', 'message' => urlencode( $message ) ), $this->license_page_url() ) );
+                $redirect = esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'false', 'message' => urlencode( $message ) ), wp_nonce_url( $this->license_page_url(), 'pms_license_display_message', 'pms_license_nonce' ) ) );
 
                 $this->update_option( 'pms_license_status', isset( $license_data->error ) ? $license_data->error : $license_data->license );
 
@@ -758,7 +758,7 @@ class PMS_Plugin_Updater {
             // $license_data->license will be either "valid" or "invalid"
             $this->update_option( 'pms_license_status', isset( $license_data->error ) ? $license_data->error : $license_data->license );
 
-            wp_redirect( esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'true', 'message' => urlencode( __( 'You have successfully activated your license.', 'paid-member-subscriptions' ) ) ), $this->license_page_url() ) ) );
+            wp_redirect( esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'true', 'message' => urlencode( __( 'You have successfully activated your license.', 'paid-member-subscriptions' ) ) ), wp_nonce_url( $this->license_page_url(), 'pms_license_display_message', 'pms_license_nonce' ) ) ) );
             exit();
         }
     }
@@ -840,7 +840,7 @@ class PMS_Plugin_Updater {
                 else
                     $message = __( 'An error occurred, please try again.', 'paid-member-subscriptions' );
 
-                wp_redirect( esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'false', 'message' => urlencode( $message ) ), $this->license_page_url() ) ) );
+                wp_redirect( esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'false', 'message' => urlencode( $message ) ), wp_nonce_url( $this->license_page_url(), 'pms_license_display_message', 'pms_license_nonce' ) ) ) );
                 exit();
             }
 

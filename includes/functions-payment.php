@@ -677,8 +677,9 @@ function pms_cron_process_member_subscriptions_payments() {
                         if( $retry_count < apply_filters( 'pms_retry_payment_count', 3, $subscription->id ) ){
 
                             $plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+
                             $subscription_data = array(
-                                'status'                => 'expired',
+                                'status'                => pms_get_subscription_payments_retry_status(),
                                 'billing_duration'      => $subscription->billing_duration,
                                 'billing_duration_unit' => $subscription->billing_duration_unit,
                                 'billing_next_payment'  => $plan->is_fixed_period_membership() ? $subscription->billing_next_payment : date( 'Y-m-d H:i:s', strtotime( "+" . apply_filters( 'pms_retry_payment_interval', 3, $subscription->id ) . " day", strtotime( $subscription->billing_next_payment ) ) ),
@@ -840,6 +841,12 @@ function pms_is_payment_retry_enabled(){
 
 }
 
+/**
+ * Get the retry count for a subscription
+ *
+ * @param int $subscription_id - the id of the subscription
+ * @return int
+ */
 function pms_get_subscription_payments_retry_count( $subscription_id ){
 
     $retry_count = pms_get_member_subscription_meta( $subscription_id, 'pms_retry_payment_count', true );
@@ -848,6 +855,22 @@ function pms_get_subscription_payments_retry_count( $subscription_id ){
         $retry_count = 0;
 
     return absint( $retry_count );
+
+}
+
+/**
+ * Get the status that the subscription will retain while payments are retried
+ * 
+ * @return string
+ */
+function pms_get_subscription_payments_retry_status(){
+
+    $settings = get_option( 'pms_misc_settings', false );
+
+    if( !empty( $settings ) && isset( $settings['payments'] ) && !empty( $settings['payments']['payment_retry_status'] ) )
+        return sanitize_text_field( $settings['payments']['payment_retry_status'] );
+
+    return 'expired';
 
 }
 
