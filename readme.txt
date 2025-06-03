@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.15.0
+Stable tag: 2.15.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -258,6 +258,9 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.15.1 =
+* Fix: Latest update failure
+
 = 2.15.0 =
 * Enhancement: Added an option to select the status in which the subscription remains while payments are retried. Go to Settings -> Misc -> Payments to configure this
 * Fix: Security issue regarding Content Spoofing with paid version active
