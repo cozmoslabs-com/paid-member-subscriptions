@@ -1397,7 +1397,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
             return false;
 
         $order_breakdown = pms_calculate_payment_amount( $subscription_plan, array(), false, true );
-        $order_currency  = apply_filters( 'pms_ppcp_create_order_currency', pms_get_active_currency(), $subscription_plan );
+        $order_currency  = apply_filters( 'pms_ppcp_create_order_currency', pms_get_active_currency(), $subscription_plan, $payment );
 
         // If payment is provided, this is a PSP request and we need to use the saved Billing Amount from the subscription
         if( !empty( $payment ) && !empty( $payment->member_subscription_id ) ){

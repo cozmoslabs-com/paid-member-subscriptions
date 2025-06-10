@@ -122,7 +122,7 @@ Class PMS_Uninstaller {
 		global $wpdb;
 
 		// Grab all options prefixed by "pms_"
-		$options = $wpdb->get_results( "SELECT * FROM {$wpdb->options} WHERE option_name LIKE '%pms_%'", ARRAY_A );
+		$options = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->options} WHERE option_name LIKE %s", '%pms_%' ), ARRAY_A );
 
 		// If there are options, remove them
 		if( !empty( $options ) ) {

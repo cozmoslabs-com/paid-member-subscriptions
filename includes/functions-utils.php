@@ -496,6 +496,10 @@ function pms_is_paid_version_active(){
  */
 function pms_should_load_scripts(){
 
+    // Don't load scripts on the WooCommerce Checkout and Cart pages
+    if( ( function_exists( 'is_checkout' ) && is_checkout() ) || ( function_exists( 'is_cart' ) && is_cart() ) )
+        return false;
+
     if( is_admin() )
         return true;
 

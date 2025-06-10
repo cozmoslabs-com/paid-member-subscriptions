@@ -432,6 +432,7 @@ form.pms-form ul.pms-form-fields-wrapper {
 .pms-form .pms-gdpr-field label,
 .pms-subscription-plan-auto-renew label {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
     gap: 7px;

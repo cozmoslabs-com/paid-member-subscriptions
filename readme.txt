@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.15.1
+Stable tag: 2.15.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -258,6 +258,12 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.15.2 =
+Fix: Security issue with the deprecated PayPal Standard gateway relating to the IPN processing functionality. Thanks to ChuongVN and the Patchstack team
+Fix: Stripe connection redirect not going to the specified location
+Misc: Prevent scripts and styles from loading on the WooCommerce Checkout or Cart pages
+Misc: Added a filter to disable the referer redirect when logging in after trying to view a restricted page: pms_content_restriction_redirect_add_redirect_to_parameter
+
 = 2.15.1 =
 * Fix: Latest update failure
 

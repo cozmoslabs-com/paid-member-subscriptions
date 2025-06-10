@@ -1412,6 +1412,7 @@
 <?php __("Other Currencies", "paid-member-subscriptions"); ?>
 <?php __("Currency", "paid-member-subscriptions"); ?>
 <?php __("This discount code is not available.", "paid-member-subscriptions"); ?>
+<?php __("PayPal amount: %s", "paid-member-subscriptions"); ?>
 <?php __("The selected currency is not supported by PayPal, and conversion rates for this currency are unavailable. <br> Please reach out to the website administrator for further information.", "paid-member-subscriptions"); ?>
 <?php __("Some amounts could not be converted because the conversion rates are missing, and there is no active converter available.", "paid-member-subscriptions"); ?>
 <?php __("Converter limit reached or unsupported Extra Currencies selected.", "paid-member-subscriptions"); ?>

@@ -390,8 +390,9 @@ if( ! empty( $_POST ) ) {
                                     }
 
                                     $currency = pms_get_member_subscription_meta( $member_subscription->id, 'currency', true );
+                                    $extra_attributes = apply_filters( 'pms_subscription_next_payment_amount_extra_attributes', '', $member_subscription );
                                 ?>
-                                    <span class="readonly medium"><strong><?php echo !empty( $billing_amount ) ? esc_html( pms_format_price( $billing_amount, apply_filters( 'pms_edit_subscription_billing_next_payment_currency', $currency, $form_data ) ) ) : ''; ?></strong></span>
+                                    <span class="readonly medium" <?php echo wp_kses_post( $extra_attributes ) ?> ><strong><?php echo !empty( $billing_amount ) ? esc_html( pms_format_price( $billing_amount, apply_filters( 'pms_edit_subscription_billing_next_payment_currency', $currency, $form_data ) ) ) : ''; ?></strong></span>
                                     <?php echo esc_html_x( 'on', 'This is part of a payment amount: 100$ on 12/10/2025', 'paid-member-subscriptions' ); ?>
                                 <?php endif; ?>
 

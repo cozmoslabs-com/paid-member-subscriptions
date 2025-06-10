@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-03 14:05+0000\n"
+"POT-Creation-Date: 2025-06-10 08:10+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -689,7 +689,7 @@ msgstr ""
 msgid "You are already logged in."
 msgstr ""
 
-#: includes/deprecated-functions.php:22, includes/functions-member-subscriptions.php:254, extend/woocommerce/woocommerce-integration.php:130, includes/admin/class-admin-members-add-new-bulk-list-table.php:169, includes/admin/class-admin-subscription-plans.php:382, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:220, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:259, includes/admin/views/view-page-export.php:64, includes/admin/views/view-page-members-add-new-edit-subscription.php:463, includes/admin/views/view-page-settings-misc.php:440, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:203, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:31, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:157, includes/features/discount-codes/includes/class-admin-discount-codes.php:264, includes/features/discount-codes/views/view-meta-box-discount-codes.php:143, includes/gateways/paypal_connect/admin/functions-admin-filters.php:119, includes/gateways/paypal_connect/admin/functions-admin-filters.php:143, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:44, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:124, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php:145
+#: includes/deprecated-functions.php:22, includes/functions-member-subscriptions.php:254, extend/woocommerce/woocommerce-integration.php:130, includes/admin/class-admin-members-add-new-bulk-list-table.php:169, includes/admin/class-admin-subscription-plans.php:382, add-ons-basic/email-reminders/includes/class-admin-email-reminders.php:220, add-ons-pro/content-dripping/includes/class-admin-content-dripping.php:259, includes/admin/views/view-page-export.php:64, includes/admin/views/view-page-members-add-new-edit-subscription.php:464, includes/admin/views/view-page-settings-misc.php:440, add-ons-basic/email-reminders/includes/views/view-meta-box-email-reminders.php:203, add-ons-pro/content-dripping/includes/views/view-meta-box-content-dripping-details.php:31, includes/admin/meta-boxes/views/view-meta-box-subscription-details.php:157, includes/features/discount-codes/includes/class-admin-discount-codes.php:264, includes/features/discount-codes/views/view-meta-box-discount-codes.php:143, includes/gateways/paypal_connect/admin/functions-admin-filters.php:119, includes/gateways/paypal_connect/admin/functions-admin-filters.php:143, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:44, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-product-membership-discounts.php:124, extend/woocommerce/includes/admin/meta-boxes/class-meta-box-subscription-plan-product-discounts.php:145
 msgid "Active"
 msgstr ""
 
@@ -785,7 +785,7 @@ msgstr ""
 msgid "Your %s subscription is still pending. Do you wish to retry the payment?"
 msgstr ""
 
-#: includes/functions-content-filtering.php:857, includes/views/shortcodes/view-shortcode-account-subscription-details.php:213, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:182
+#: includes/functions-content-filtering.php:857, includes/views/shortcodes/view-shortcode-account-subscription-details.php:219, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:191
 msgid "Retry payment"
 msgstr ""
 
@@ -2617,7 +2617,7 @@ msgstr ""
 msgid "%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead."
 msgstr ""
 
-#: includes/functions-utils.php:573
+#: includes/functions-utils.php:577
 msgid "Account Details"
 msgstr ""
 
@@ -3183,7 +3183,7 @@ msgstr ""
 msgid "Export Data"
 msgstr ""
 
-#: includes/admin/class-admin-import.php:40, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:482
+#: includes/admin/class-admin-import.php:40, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:478
 msgid "Something went wrong!"
 msgstr ""
 
@@ -3195,7 +3195,7 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
-#: includes/admin/class-admin-member-payments-list-table.php:54, add-ons-pro/invoices/includes/class-pms-pdf-invoice-bulk-download.php:288, includes/views/shortcodes/view-shortcode-account-subscription-details.php:143, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:59, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:66, add-ons-pro/group-memberships/includes/views/view-members-list.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:131
+#: includes/admin/class-admin-member-payments-list-table.php:54, add-ons-pro/invoices/includes/class-pms-pdf-invoice-bulk-download.php:288, includes/views/shortcodes/view-shortcode-account-subscription-details.php:149, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:59, add-ons-pro/group-memberships/includes/admin/class-admin-group-members-list-table.php:66, add-ons-pro/group-memberships/includes/views/view-members-list.php:43, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:140
 msgid "Actions"
 msgstr ""
 
@@ -4421,7 +4421,7 @@ msgstr ""
 msgid "Manually collect payments from  Checks, Direct Bank Transfers or in person cash."
 msgstr ""
 
-#: includes/gateways/functions-payment-gateways.php:26, includes/gateways/functions-payment-gateways.php:32, includes/gateways/functions-payment-gateways.php:33, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:494, add-ons-pro/paypal-express-pro/includes/functions.php:16, add-ons-pro/paypal-express-pro/includes/admin/functions-admin-pages.php:16
+#: includes/gateways/functions-payment-gateways.php:26, includes/gateways/functions-payment-gateways.php:32, includes/gateways/functions-payment-gateways.php:33, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:490, add-ons-pro/paypal-express-pro/includes/functions.php:16, add-ons-pro/paypal-express-pro/includes/admin/functions-admin-pages.php:16
 msgid "PayPal"
 msgstr ""
 
@@ -4858,7 +4858,7 @@ msgstr ""
 msgid "Original: %s"
 msgstr ""
 
-#: add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:228, includes/admin/views/view-page-settings-misc.php:394, includes/admin/views/view-page-uninstall.php:46, includes/admin/views/view-page-uninstall.php:65, includes/views/shortcodes/view-shortcode-account-subscription-details.php:204, includes/views/shortcodes/view-shortcode-account-subscription-details.php:199, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:177
+#: add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:228, includes/admin/views/view-page-settings-misc.php:394, includes/admin/views/view-page-uninstall.php:46, includes/admin/views/view-page-uninstall.php:65, includes/views/shortcodes/view-shortcode-account-subscription-details.php:210, includes/views/shortcodes/view-shortcode-account-subscription-details.php:205, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:186
 msgid "Cancel"
 msgstr ""
 
@@ -5338,287 +5338,287 @@ msgstr ""
 msgid "Payments & Invoices"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:102, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:309, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:671, includes/admin/views/view-page-addons.php:91, includes/admin/views/view-page-basic-info.php:364
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:98, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:305, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:667, includes/admin/views/view-page-addons.php:91, includes/admin/views/view-page-basic-info.php:364
 msgid "Multiple Currencies"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:106
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:102
 msgid "Edit Prices for Other Currencies"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:107
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:103
 msgid "Specify a custom price for each available currency."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:118
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:114
 msgid "Don't Switch Currency"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:126
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:122
 msgid "Restrict the sale of this plan to the default currency only."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:177
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:173
 msgid "Enter the prices for this plan in different currencies. The available currencies are determined based on the settings from the %sSettings → Payments → Multiple Currencies%s page."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:178
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:174
 msgid "If a currency is defined but a plan does not have a specific price set for that currency, the value and currency of the original price will be used."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:179
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:175
 msgid "Enable the %sAuto Convert Prices%s option from the %sSettings → Payments → Multiple Currencies%s page to convert prices automatically."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:181
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:177
 msgid "Prices in different currencies"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:203
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:199
 msgid " + "
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:205
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:201
 msgid "Sign-up fee: "
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:212
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:208
 msgid "Min Price: "
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:217
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:213
 msgid "Max Price: "
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:233
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:229
 msgid "Save Prices"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:237
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:233
 msgid "Prices saved!"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:314
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:310
 msgid "Conversion Type"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:320
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:316
 msgid "Manual"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:325
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:321
 msgid "Automatic"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:330
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:326
 msgid "Prices will be displayed according to the custom price set for each currency in the Subscription Plan settings."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:331
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:327
 msgid "Prices will be automatically converted from the default currency to the selected one."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:335
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:331
 msgid "Default Currency"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:344
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:340
 msgid "The selected default currency is not supported by PayPal. Please switch to a supported currency in order for payments to work."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:345
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:341
 msgid "Other currencies can then be accepted by PayPal by converting the amount to the default supported currency."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:352
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:348
 msgid "Extra Currencies"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:366
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:362
 msgid "Choose any additional currencies you would like to use, apart from the default one."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:370
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:366
 msgid "Currency Switcher"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:377
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:373
 msgid "Enable the Manual Currency Switcher."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:382
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:378
 msgid "User Location"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:389
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:385
 msgid "Detect user location."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:392
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:388
 msgid "Show prices according to the user's location."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:396
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:392
 msgid "Auto Convert Prices"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:403
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:399
 msgid "Automatically convert Subscription Plan prices"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:405
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:401
 msgid "Automatically convert prices when a Subscription Plan price is not set for the required currency."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:412
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:408
 msgid "Currency Conversion"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:416
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:412
 msgid "Converter"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:420
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:416
 msgid "Select Converter..."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:421
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:417
 msgid "Exchange Converter"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:422
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:418
 msgid "Frankfurter Converter"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:423
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:419
 msgid "Alpha Vantage"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:427
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:423
 msgid "Choose your preferred Converter."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:428
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:424
 msgid "To get your API key, visit <a href=\"https://app.exchangerate-api.com\" target=\"_blank\">Exchange Converter</a> and follow the steps provided."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:429
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:425
 msgid "To get your API key, visit <a href=\"https://www.alphavantage.co/support/#api-key\" target=\"_blank\">Alpha Vantage</a> and follow the easy steps provided."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:434, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:440
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:430, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:436
 msgid "API Key"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:436
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:432
 msgid "Enter the API key provided by the Exchange Converter."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:442
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:438
 msgid "Enter the API key provided by the Alpha Vantage Converter."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:446
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:442
 msgid "Update Interval"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:450
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:446
 msgid "1 hour"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:451
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:447
 msgid "6 hours"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:452
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:448
 msgid "12 hours"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:453
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:449
 msgid "24 hours"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:457
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:453
 msgid "Specify how often the conversion rates should be updated."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:458
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:454
 msgid "Before setting the interval, make sure to check how often the selected Converter updates the rates to avoid making unnecessary requests."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:469
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:465
 msgid "Conversion Rates"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:471
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:467
 msgid "Update Rates"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:474
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:470
 msgid "Updated: "
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:478
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:474
 msgid "Update the rates to improve performance and reduce future requests."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:481
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:477
 msgid "Conversion rates updated successfully!"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:499
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:495
 msgid "Certain currencies cannot be accepted through PayPal due to Merchant Restrictions. %sView PayPal supported currencies%s"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:507
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:503
 msgid "Unsupported Currencies"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:521
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:517
 msgid "PayPal doesn't support these currencies for transactions. Simply remove them from the list to enable their use if support is added later."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:527
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:523
 msgid "Converting Currencies"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:556
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:552
 msgid "First define some extra currencies above and save the settings in order to setup these currencies."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:549
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:545
 msgid "NOTE: Missing conversion rates for %1$s %2$s. Either no converter is enabled, or the selected converter doesn't support the %2$s."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:559
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:555
 msgid "Payments using one of the above currencies will be converted into default currency before processing, as long as an active currency Converter is available to support the conversion."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:568
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:564
 msgid "Currency Labels"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:569
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:565
 msgid "Define custom labels or symbols for any additional currencies in use."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:696
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:692
 msgid "Checkout currency switched to <strong>%s</strong> based on the automatically detected user location and the user selected currency."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:699
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:695
 msgid "Extra currency price of <strong>%s</strong> converted to <strong>%s</strong>."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:731
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:727
 msgid "Currency availability"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:751
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:747
 msgid "Choose the currencies for which the discount code will be valid. If none selected, the code will apply to all."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:936
+#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:937
 msgid "Other Currencies"
 msgstr ""
 
@@ -5626,11 +5626,15 @@ msgstr ""
 msgid "Currency"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:1419
+#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:1443
 msgid "This discount code is not available."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:1718
+#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:1535
+msgid "PayPal amount: %s"
+msgstr ""
+
+#: add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:1780
 msgid "The selected currency is not supported by PayPal, and conversion rates for this currency are unavailable. <br> Please reach out to the website administrator for further information."
 msgstr ""
 
@@ -5658,15 +5662,15 @@ msgstr ""
 msgid "%sClick here%s to go now."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1235, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:688, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:732
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1262, add-ons-pro/paypal-standard-recurring-payments/includes/functions-paypal.php:688, includes/gateways/paypal_standard/functions-paypal-standard-recurring.php:732
 msgid "No request response received."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1333, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:698, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:310
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1360, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:698, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:317
 msgid "The selected gateway is not configured correctly: <strong>PayPal Address is missing</strong>. Contact the system administrator."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1336, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:701
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1363, add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-pro.php:701
 msgid "The selected gateway is not configured correctly: <strong>PayPal API credentials are missing</strong>. Contact the system administrator."
 msgstr ""
 
@@ -7018,7 +7022,7 @@ msgstr ""
 msgid "Choose the current subscription status"
 msgstr ""
 
-#: includes/admin/views/view-page-export.php:74, includes/admin/views/view-page-members-add-new-edit-subscription.php:413, includes/admin/views/view-page-members-add-new-edit-subscription.php:406
+#: includes/admin/views/view-page-export.php:74, includes/admin/views/view-page-members-add-new-edit-subscription.php:414, includes/admin/views/view-page-members-add-new-edit-subscription.php:407
 msgid "Payment Gateway"
 msgstr ""
 
@@ -7142,7 +7146,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-bulk.php:81, includes/admin/views/view-page-members-add-new-edit-subscription.php:494
+#: includes/admin/views/view-page-members-add-new-bulk.php:81, includes/admin/views/view-page-members-add-new-edit-subscription.php:495
 msgid "Add Subscription"
 msgstr ""
 
@@ -7206,20 +7210,20 @@ msgstr ""
 msgid "Next Payment"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:395
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:396
 msgctxt "This is part of a payment amount: 100$ on 12/10/2025"
 msgid "on"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:461, includes/admin/views/view-page-settings-misc.php:422
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:462, includes/admin/views/view-page-settings-misc.php:422
 msgid "Payment Retry"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:470
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:471
 msgid "A new payment attempt will be made on %s. After %s more attempts, the subscription will expire."
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:468
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:469
 msgid "A new payment attempt will be made on %s. After %s more attempts, the subscription will remain expired."
 msgstr ""
 
@@ -7231,19 +7235,19 @@ msgstr ""
 msgid "The subscription payment schedule is handled by the payment gateway."
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:492
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:493
 msgid "Update Member Subscription"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:494
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:495
 msgid "Save Subscription"
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:497
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:498
 msgid "Are you sure you want to delete this Subscription? \nThis action is irreversible."
 msgstr ""
 
-#: includes/admin/views/view-page-members-add-new-edit-subscription.php:497
+#: includes/admin/views/view-page-members-add-new-edit-subscription.php:498
 msgid "Delete Subscription"
 msgstr ""
 
@@ -7879,7 +7883,7 @@ msgstr ""
 msgid "Select which subscription actions should be disabled on the [pms-account] shortcode."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:368, includes/views/shortcodes/view-shortcode-account-subscription-details.php:162, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:148
+#: includes/admin/views/view-page-settings-misc.php:368, includes/views/shortcodes/view-shortcode-account-subscription-details.php:168, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:157
 msgid "Change"
 msgstr ""
 
@@ -7887,7 +7891,7 @@ msgstr ""
 msgid "Disable CHANGE Subscription Action."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:381, includes/views/shortcodes/view-shortcode-account-subscription-details.php:192, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:174
+#: includes/admin/views/view-page-settings-misc.php:381, includes/views/shortcodes/view-shortcode-account-subscription-details.php:198, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:183
 msgid "Renew"
 msgstr ""
 
@@ -7899,7 +7903,7 @@ msgstr ""
 msgid "Disable CANCEL Subscription Action."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:407, includes/views/shortcodes/view-shortcode-account-subscription-details.php:226, includes/views/shortcodes/view-shortcode-account-subscription-details.php:224, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:187
+#: includes/admin/views/view-page-settings-misc.php:407, includes/views/shortcodes/view-shortcode-account-subscription-details.php:232, includes/views/shortcodes/view-shortcode-account-subscription-details.php:230, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:196
 msgid "Abandon"
 msgstr ""
 
@@ -8459,7 +8463,7 @@ msgstr ""
 msgid "<strong>Action Required!</strong><br><br> The Stripe version you are using right now is deprecated. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. <br>Starting with <strong>June 2025</strong>, Stripe will <strong>charge you additional fees</strong> if you don't migrate. <br><br>Go to the %sSettings -> Payments -> Gateways%s page, enable the Stripe gateway and connect your account. %sMigration instructions%s"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:90, includes/views/shortcodes/view-shortcode-account-subscription-details.php:134, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:122
+#: includes/modules/labels-edit/index.php:90, includes/views/shortcodes/view-shortcode-account-subscription-details.php:140, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:131
 msgid "Update"
 msgstr ""
 
@@ -8619,36 +8623,36 @@ msgstr ""
 msgid "Trial End Date"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:91, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:80
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:94, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:85
 msgctxt "[amount] on [date]"
 msgid "%s on %s"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:104, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:92
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:110, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:101
 msgid "Payment Method"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:124, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:112
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:130, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:121
 msgid "Expires:"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:134, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:122
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:140, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:131
 msgid "Update the payment method attached to a recurring subscription."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:165, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:151
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:171, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:160
 msgid "Upgrade"
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:204
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:210
 msgid "Cancels recurring payments for this subscription, letting it expire at the end of the current period."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:199, includes/views/shortcodes/view-shortcode-account-subscription-details.php:224
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:205, includes/views/shortcodes/view-shortcode-account-subscription-details.php:230
 msgid "This action is not available because your website doesn't have https enabled."
 msgstr ""
 
-#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:226
+#: includes/views/shortcodes/view-shortcode-account-subscription-details.php:232
 msgid "Cancels recurring payments and then removes the subscription from your account immediately."
 msgstr ""
 

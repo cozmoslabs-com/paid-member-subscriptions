@@ -292,8 +292,17 @@ function pms_restricted_post_redirect() {
     if( $current_url == $redirect_url )
         return;
 
+    $add_redirect_to = apply_filters( 'pms_content_restriction_redirect_add_redirect_to_parameter', true, $current_url );
+
+    $query_args = array();
+
+    if ( $add_redirect_to ) {
+        $query_args['redirect_to'] = $current_url;
+    }
+
     // Pass the correct referer URL forward
-    $redirect_url = add_query_arg( array( 'redirect_to' => $current_url ), pms_add_missing_http( $redirect_url ) );
+    $redirect_url = add_query_arg( $query_args, pms_add_missing_http( $redirect_url ) );
+
     /**
      * Redirect
      *

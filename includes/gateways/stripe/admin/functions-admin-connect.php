@@ -125,7 +125,7 @@ function pms_stripe_connect_handle_authorization_return_admin_init(){
 
 	update_option( 'pms_payments_settings', $payments_settings );
 
-	if( isset( $_POST['return_location'] ) && $_POST['return_location'] == 'setup' ){
+	if( isset( $_GET['return_location'] ) && $_GET['return_location'] == 'setup' ){
 
 		$redirect_url = add_query_arg( array(
             'page'                       => 'pms-setup',
@@ -135,7 +135,7 @@ function pms_stripe_connect_handle_authorization_return_admin_init(){
 			admin_url( 'index.php' )
 		);
 
-	} elseif( isset( $_POST['return_location'] ) && $_POST['return_location'] == 'setup_new' ) {
+	} elseif( isset( $_GET['return_location'] ) && $_GET['return_location'] == 'setup_new' ) {
 
 		$redirect_url = add_query_arg( array(
 			'page'                       => 'pms-dashboard-page',

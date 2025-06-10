@@ -129,7 +129,6 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
         if( pms_is_payment_test_mode() )
             $ipn_verifier->is_sandbox = true;
 
-
         $verified = false;
 
         // Process the IPN
@@ -140,13 +139,21 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
         }
 
+        // Verify that the payment is associated with this website's PayPal Account
+        $paypal_email = pms_get_paypal_email();
+
+        $receiver_email = isset( $_POST['receiver_email'] ) ? sanitize_text_field( $_POST['receiver_email'] ) : '';
+
+        if( trim( $paypal_email ) !== trim( $receiver_email ) ) {
+            $verified = false;
+        }
 
         if( $verified ) {
 
             $post_data = $_POST;
 
             // Get payment id from custom variable sent by IPN
-            $payment_id = isset( $post_data['custom'] ) ? $post_data['custom'] : 0;
+            $payment_id = isset( $post_data['custom'] ) ? absint( $post_data['custom'] ) : 0;
 
             // Get the payment
             $payment = pms_get_payment( $payment_id );
@@ -157,12 +164,12 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
             $payment_data = apply_filters( 'pms_paypal_ipn_payment_data', array(
                 'payment_id'      => $payment_id,
                 'user_id'         => $user_id,
-                'type'            => isset( $post_data['txn_type'] ) ? $post_data['txn_type'] : '',
-                'status'          => isset( $post_data['payment_status'] ) ? strtolower( $post_data['payment_status'] ) : '',
-                'transaction_id'  => isset( $post_data['txn_id'] ) ? $post_data['txn_id'] : '',
+                'type'            => isset( $post_data['txn_type'] ) ? sanitize_text_field( $post_data['txn_type'] ) : '',
+                'status'          => isset( $post_data['payment_status'] ) ? strtolower( sanitize_text_field( $post_data['payment_status'] ) ) : '',
+                'transaction_id'  => isset( $post_data['txn_id'] ) ? sanitize_text_field( $post_data['txn_id'] ) : '',
                 'amount'          => isset( $post_data['mc_gross'] ) ? $post_data['mc_gross'] : '',
                 'date'            => isset( $post_data['payment_date'] ) ? $post_data['payment_date'] : '',
-                'subscription_id' => isset( $post_data['item_number'] ) ? $post_data['item_number'] : '',
+                'subscription_id' => isset( $post_data['item_number'] ) ? absint( $post_data['item_number'] ) : '',
             ), $post_data );
 
 
