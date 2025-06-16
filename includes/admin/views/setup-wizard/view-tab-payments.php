@@ -100,7 +100,7 @@
                                 'home_url'                  => home_url(),
                                 'pms_return_location'       => 'setup_new',
                                 'pms_nonce'                 => wp_create_nonce( 'stripe_connnect_account' ),
-                                'version'                   => 'v2'
+                                'version'                   => 'v3'
                             ],
                             $stripe_connect_base_url
                         );

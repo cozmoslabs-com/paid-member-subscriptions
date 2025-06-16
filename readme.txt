@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.15.2
+Stable tag: 2.15.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -258,11 +258,19 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.15.3 =
+* Feature: Pay in Installments – create subscription plans that automatically end after a set number of billing cycles. [Learn more](https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/#Limit_Payment_Cycles)
+* Fix: Allow users that are on the older Stripe versions to Update their Payment Details
+* Fix: An issue with the Retry Payments feature
+* Fix: Small fixes for Reports
+* Fix: The Content Restriction metabox is now displaying again on TutorLMS courses
+* Misc: Allow setting the payment gateway when manually adding members. This can be enabled using a filter: pms_view_add_new_edit_subscription_show_payment_gateway_field
+
 = 2.15.2 =
-Fix: Security issue with the deprecated PayPal Standard gateway relating to the IPN processing functionality. Thanks to ChuongVN and the Patchstack team
-Fix: Stripe connection redirect not going to the specified location
-Misc: Prevent scripts and styles from loading on the WooCommerce Checkout or Cart pages
-Misc: Added a filter to disable the referer redirect when logging in after trying to view a restricted page: pms_content_restriction_redirect_add_redirect_to_parameter
+* Fix: Security issue with the deprecated PayPal Standard gateway relating to the IPN processing functionality. Thanks to ChuongVN and the Patchstack team
+* Fix: Stripe connection redirect not going to the specified location
+* Misc: Prevent scripts and styles from loading on the WooCommerce Checkout or Cart pages
+* Misc: Added a filter to disable the referer redirect when logging in after trying to view a restricted page: pms_content_restriction_redirect_add_redirect_to_parameter
 
 = 2.15.1 =
 * Fix: Latest update failure

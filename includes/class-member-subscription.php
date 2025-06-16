@@ -267,6 +267,22 @@ Class PMS_Member_Subscription {
 
 
     /**
+     * Verifies if the current subscription has Payment Installments activated
+     *
+     * @return bool
+     * 
+     */
+    public function has_installments() {
+
+        if ( !empty( $this->billing_cycles ) )
+            return true;
+
+        return false;
+
+    }
+
+
+    /**
      * Checks to see if the current subscription is in its trial period or not
      *
      * @return bool

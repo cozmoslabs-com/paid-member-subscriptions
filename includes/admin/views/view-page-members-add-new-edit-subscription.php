@@ -288,6 +288,22 @@ if( ! empty( $_POST ) ) {
                     </div>
                     <?php endif; ?>
 
+                    <?php if( $subpage == 'add_subscription' && apply_filters( 'pms_view_add_new_edit_subscription_show_payment_gateway_field', false, $form_data ) ): ?>
+                        <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+
+                            <label for="pms-subscription-payment-gateway" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Payment Gateway', 'paid-member-subscriptions' ); ?> <span>*</span></label>
+                            <select id="pms-subscription-payment-gateway" name="payment_gateway" class="pms-subscription-field">
+                                <?php
+                                    $payment_gateways = pms_get_payment_gateways();
+                                    foreach( $payment_gateways as $gateway_slug => $gateway_data ) {
+                                        echo '<option value="' . esc_attr( $gateway_slug ) . '"' . selected( $gateway_slug, $form_data['payment_gateway'], false ) . '>' . esc_html( $gateway_data['display_name_admin'] ) . '</option>';
+                                    }
+                                ?>
+                            </select>
+
+                        </div>
+                    <?php endif; ?>
+
                     <!-- Group Name and Description -->
                     <?php
                     $multiple_subscription_addon_active = apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-multiple-subscriptions-per-user/index.php' );
@@ -450,6 +466,34 @@ if( ! empty( $_POST ) ) {
 
                                 echo '</div>';
                             ?>
+
+                            <!-- Payment Installments -->
+                            <?php if( $member_subscription->has_installments() && pms_payment_gateway_supports_cycles( $member_subscription->payment_gateway ) ) : ?>
+
+                                <?php $billing_processed_cycles = pms_get_member_subscription_billing_processed_cycles( $member_subscription->id ); ?>
+
+                                <!-- Processed Cycles -->
+                                <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                                    <label class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Processed Cycles', 'paid-member-subscriptions' ); ?></label>
+                                    <span class="readonly medium"><strong><?php echo esc_attr( $billing_processed_cycles ) .' out of '. esc_attr( $form_data['billing_cycles'] ); ?></strong></span>
+                                </div>
+
+                                <!-- Total Cycles -->
+                                <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                                    <label for="pms-subscription-billing-total-cycles" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Total Cycles', 'paid-member-subscriptions' ); ?></label>
+                                    <input
+                                            type="number"
+                                            name="billing_cycles"
+                                            id="pms-subscription-billing-total-cycles"
+                                            class="pms-subscription-field"
+                                            value="<?php echo ( ! empty( $form_data['billing_cycles'] ) ? esc_attr( pms_sanitize_date( $form_data['billing_cycles'] ) ) : '' ); ?>"
+                                            min="<?php echo ( esc_attr( $billing_processed_cycles + 1 ) ); ?>"
+                                        <?php echo ( $billing_processed_cycles == $form_data['billing_cycles'] ? 'disabled' : '' ); ?>
+                                    />
+
+                                </div>
+
+                            <?php endif; ?>
 
                             <?php
                             if( pms_is_payment_retry_enabled() ) {

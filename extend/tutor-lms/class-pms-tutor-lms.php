@@ -66,9 +66,12 @@ class PMS_IN_TutorLMS {
         add_action( 'pms_member_subscription_update', array( $this, 'handle_member_subscription_update' ), 10, 3 );
         add_action( 'pms_member_subscription_before_metadata_delete', array( $this, 'handle_member_subscription_remove' ), 10, 2 );
 
+        // Add Content Restriction meta-box to TutorLMS Course Builder page
+        add_action( 'tutor_course_builder_footer', array( $this, 'tutor_course_cr_metabox_output' ) );
 
-        // Add TutorLMS Integration admin notice
-        //add_action( 'admin_init', array( $this, 'add_admin_notification' ) );
+        // Handle Content Restriction settings when TutorLMS Course Builder is saved
+        add_action( 'tutor_before_course_builder_load', array( $this, 'enqueue_tutor_course_builder_scripts' ) );
+        add_action( 'wp_ajax_pms_tutor_course_cr_data_save', array( $this, 'tutor_course_cr_data_save' ) );
 
     }
 
@@ -230,7 +233,7 @@ class PMS_IN_TutorLMS {
         // update member enrollment status when the TutorLMS Restriction Type is changed
         $pms_tutor_settings = get_option( 'pms_tutor_lms_settings' );
 
-        if ( $_POST['pms_tutor_lms_settings']['restriction_type'] !== $pms_tutor_settings['restriction_type'] ) {
+        if ( empty( $pms_tutor_settings ) || $_POST['pms_tutor_lms_settings']['restriction_type'] !== $pms_tutor_settings['restriction_type'] ) {
 
             $tutor_course_post_type = tutor()->course_post_type;
             $all_tutor_course_ids = get_posts( array( 'fields' => 'ids', 'post_type' => $tutor_course_post_type ) );
@@ -384,6 +387,68 @@ class PMS_IN_TutorLMS {
 
         pms_add_member_subscription_meta( $subscription_id, 'pms_member_subscription_tutor_categories', $subscription_plan_categories, true );
 
+    }
+
+    /**
+     * Add Content Restriction meta-box to TutorLMS Course Builder page
+     *
+     * @return void
+     */
+    public function tutor_course_cr_metabox_output() {
+
+        if ( !isset( $_GET['page'] ) || $_GET['page'] != 'create-course' || !isset( $_GET['course_id'] ) || empty( $_GET['course_id'] ) )
+            return;
+
+        $post = get_post( sanitize_text_field( $_GET['course_id'] ) );
+
+        if ( empty( $post ) )
+            return;
+
+        // output the Content Restriction meta-box
+        $pms_meta_box_content_restriction = new PMS_Meta_Box_Content_Restriction( 'pms_post_content_restriction', esc_html__( 'Content Restriction', 'paid-member-subscriptions' ), $post->post_type, 'normal' );
+        $pms_meta_box_content_restriction->output( $post );
+
+    }
+
+    /**
+     * Enqueue Content Restriction scripts for Tutor LMS Course Builder
+     *
+     * @return void
+     */
+    public function enqueue_tutor_course_builder_scripts() {
+
+        if ( !isset( $_GET['page'] ) || $_GET['page'] !== 'create-course' || !isset( $_GET['course_id'] ) )
+            return;
+
+        if ( file_exists( PMS_IN_TUTOR_LMS_PLUGIN_DIR_PATH . 'assets/js/pms-tutor-course.js' ) )
+            wp_enqueue_script('pms-tutor-course-script', PMS_IN_TUTOR_LMS_PLUGIN_DIR_URL . 'assets/js/pms-tutor-course.js', array('jquery'), PMS_VERSION);
+
+        if ( file_exists( PMS_PLUGIN_DIR_PATH . 'assets/js/admin/meta-box-post-content-restriction.js' ) )
+            wp_enqueue_script( 'pms_post_content_restriction-js', PMS_PLUGIN_DIR_URL . 'assets/js/admin/meta-box-post-content-restriction.js', array( 'jquery' ) );
+
+        // localize data needed to identify the course id (post_id) for handling Content Restriction settings data
+        wp_localize_script('pms-tutor-course-script', 'pmsTutorCourse', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce'    => wp_create_nonce('pms_tutor_course_nonce'),
+            'course_id' => sanitize_text_field( $_GET['course_id'] )
+        ));
+
+    }
+
+    /**
+     * Save Content Restriction data when a Tutor LMS Course is updated
+     *
+     * @return void
+     */
+    function tutor_course_cr_data_save() {
+        check_ajax_referer('pms_tutor_course_nonce', 'security');
+
+        $post_id = isset( $_POST['course_id'] ) ? sanitize_text_field( $_POST['course_id'] ) : '';
+        $post = get_post( $post_id );
+
+        // update Course content restriction settings
+        $pms_meta_box_content_restriction = new PMS_Meta_Box_Content_Restriction( 'pms_post_content_restriction', esc_html__( 'Content Restriction', 'paid-member-subscriptions' ), $post->post_type, 'normal' );
+        $pms_meta_box_content_restriction->save_data( $post_id, $post );
     }
 
     /**

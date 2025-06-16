@@ -618,9 +618,13 @@
 <?php __("Subscription Upgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Downgrade Payment", "paid-member-subscriptions"); ?>
 <?php __("Subscription Retry Payment", "paid-member-subscriptions"); ?>
+<?php __("Installment - Initial Payment", "paid-member-subscriptions"); ?>
+<?php __("Installment - Recurring Payment", "paid-member-subscriptions"); ?>
+<?php __("Installment - Final Payment", "paid-member-subscriptions"); ?>
 <?php __("Add-ons Page", "paid-member-subscriptions"); ?>
 <?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("Buy now", "paid-member-subscriptions"); ?>
+<?php __(" payments of ", "paid-member-subscriptions"); ?>
 <?php __("%s Day", "paid-member-subscriptions"); ?>
 <?php __("%s Days", "paid-member-subscriptions"); ?>
 <?php __("%s Week", "paid-member-subscriptions"); ?>
@@ -1093,6 +1097,11 @@
 <?php __("Third plan:", "paid-member-subscriptions"); ?>
 <?php __("Choose a style that better suits your pricing page.", "paid-member-subscriptions"); ?>
 <?php __("Choose a style for Pricing Page", "paid-member-subscriptions"); ?>
+<?php __("expire", "paid-member-subscriptions"); ?>
+<?php __("remain active", "paid-member-subscriptions"); ?>
+<?php __('remain active for extra %1$s %2$s(s)', 'paid-member-subscriptions' ); ?>
+<?php __("The subscription will automatically renew for a limited number of cycles. <br> Select the <strong>Number of Payments</strong> and the <strong>Status After Last Cycle</strong> in the options above.", "paid-member-subscriptions"); ?>
+<?php __('The subscription will automatically renew for a total of %1$s cycles. <br> After the last cycle is completed, the subscription will %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Please %3$sactivate%4$s the %1$sGroup Memberships%2$s Add-On to enable this functionality.', 'paid-member-subscriptions' ); ?>
 <?php __('Group Memberships are available only with a %1$sPro%2$s or %1$sAgency%2$s license. %3$sBuy now%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Subscription Type", "paid-member-subscriptions"); ?>
@@ -1808,6 +1817,8 @@
 <?php __("Year(s)", "paid-member-subscriptions"); ?>
 <?php __("Next Payment", "paid-member-subscriptions"); ?>
 <?php __("on", "paid-member-subscriptions"); ?>
+<?php __("Processed Cycles", "paid-member-subscriptions"); ?>
+<?php __("Total Cycles", "paid-member-subscriptions"); ?>
 <?php __("Payment Retry", "paid-member-subscriptions"); ?>
 <?php __("A new payment attempt will be made on %s. After %s more attempts, the subscription will expire.", "paid-member-subscriptions"); ?>
 <?php __("A new payment attempt will be made on %s. After %s more attempts, the subscription will remain expired.", "paid-member-subscriptions"); ?>
@@ -2403,6 +2414,15 @@
 <?php __('This feature is available only with the Manual, %1$sStripe%2$s, %3$sPayPal Express%4$s gateways or %5$sRecurring Payments for PayPal Standard%6$s add-on.', 'paid-member-subscriptions' ); ?>
 <?php __("Amount you want to charge people upfront when subscribing to this plan.", "paid-member-subscriptions"); ?>
 <?php __("The free trial represents the amount of time before charging the first recurring payment. The sign-up fee applies regardless of the free trial.", "paid-member-subscriptions"); ?>
+<?php __("Limit Payment Cycles", "paid-member-subscriptions"); ?>
+<?php __("Enable this option to let customers pay in installments.", "paid-member-subscriptions"); ?>
+<?php __("Number of Payments", "paid-member-subscriptions"); ?>
+<?php __("Limit how many payments are made before the subscription ends.", "paid-member-subscriptions"); ?>
+<?php __("Status After Last Cycle", "paid-member-subscriptions"); ?>
+<?php __("Expire subscription", "paid-member-subscriptions"); ?>
+<?php __("Unlimited subscription", "paid-member-subscriptions"); ?>
+<?php __("Expire subscription after", "paid-member-subscriptions"); ?>
+<?php __("Select what happens to a member’s subscription once the final billing cycle is completed.", "paid-member-subscriptions"); ?>
 <?php __("Settings default", "paid-member-subscriptions"); ?>
 <?php __("Select renewal type. You can either allow the customer to opt in, force automatic renewal or force no renewal.", "paid-member-subscriptions"); ?>
 <?php __("Only active subscription plans will be displayed to the user.", "paid-member-subscriptions"); ?>

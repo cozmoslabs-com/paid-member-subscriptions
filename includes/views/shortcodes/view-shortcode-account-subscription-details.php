@@ -88,13 +88,22 @@ foreach( $subscriptions as $subscription ) :
                             $billing_amount = pms_in_calculate_discounted_amount( $billing_amount, $discount );
                         }
 
-                        $extra_attributes = apply_filters( 'pms_subscription_next_payment_amount_extra_attributes', '', $subscription );
+                    $extra_attributes = apply_filters( 'pms_subscription_next_payment_amount_extra_attributes', '', $subscription );
 
-                        echo wp_kses_post( sprintf(
-                                _x( '%s on %s', '[amount] on [date]', 'paid-member-subscriptions' ),
-                                '<span '. $extra_attributes .'>'. pms_format_price( $billing_amount, apply_filters( 'pms_account_next_payment_date_currency', pms_get_active_currency(), $subscription ) ) .'</span>',
-                                ucfirst( date_i18n( get_option('date_format'), strtotime( $subscription->billing_next_payment ) ) )
-                        ) );
+                    $next_payment_output = sprintf(
+                        _x( '%s on %s', '[amount] on [date]', 'paid-member-subscriptions' ),
+                        '<span ' . $extra_attributes . '>' . pms_format_price( $billing_amount, apply_filters( 'pms_account_next_payment_date_currency', pms_get_active_currency(), $subscription ) ) . '</span>',
+                        ucfirst( date_i18n( get_option( 'date_format' ), strtotime( $subscription->billing_next_payment ) ) )
+                    );
+
+                    // Append billing cycle info if enabled and supported
+                    if ( $subscription->has_installments() && pms_payment_gateway_supports_cycles( $subscription->payment_gateway ) ) {
+                        $next_cycle = pms_get_member_subscription_billing_processed_cycles( $subscription->id ) + 1;
+                        $next_payment_output .= ' (' . $next_cycle . ' of ' . $subscription->billing_cycles . ')';
+                    }
+
+                    echo wp_kses_post( $next_payment_output );
+
                     ?>
                 </td>
             </tr>

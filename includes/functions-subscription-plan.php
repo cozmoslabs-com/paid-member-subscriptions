@@ -403,7 +403,7 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
 
                         // Output subscription plan radio button and label
                         $subscription_plan_output .= '<label>';
-                        $subscription_plan_output .= '<input type="radio" name="subscription_plans" ' . pms_get_subscription_plan_input_data_attrs( $subscription_plan, $form_location ) . ' value="' . esc_attr( $subscription_plan->id ) . '" ' .  checked( $default_checked, $subscription_plan->id, false ) . ( $default_checked == $subscription_plan->id ? 'data-default-selected="true"' : 'data-default-checked="false"' ) . ' />';
+                            $subscription_plan_output .= '<input type="radio" name="subscription_plans" ' . pms_get_subscription_plan_input_data_attrs( $subscription_plan, $form_location ) . ' value="' . esc_attr( $subscription_plan->id ) . '" ' .  checked( $default_checked, $subscription_plan->id, false ) . ( $default_checked == $subscription_plan->id ? 'data-default-selected="true"' : 'data-default-checked="false"' ) . ' />';
 
                             $subscription_plan_output .= '<span class="pms-subscription-plan-name">' . apply_filters( 'pms_output_subscription_plan_name', esc_html( $subscription_plan->name ), $subscription_plan ) . '</span>';
 
@@ -477,12 +477,17 @@ function pms_get_output_subscription_plan_price( $subscription_plan = null, $for
     else
         $price_output = pms_format_price( $subscription_plan->price, pms_get_active_currency(), array( 'before_price' => '<span class="pms-subscription-plan-price-value">', 'after_price' => '</span>', 'before_currency' => '<span class="pms-subscription-plan-currency">', 'after_currency' => '</span>' ) );
 
+    $is_group = get_post_meta( $subscription_plan->id, 'pms_subscription_plan_type', true ) == 'group';
+    $is_pwyw = function_exists( 'pms_in_pwyw_pricing_enabled' ) ? pms_in_pwyw_pricing_enabled( $subscription_plan->id ) : false;
+
+    $cycles_output = $subscription_plan->has_installments() ? apply_filters( 'pms_subscription_plan_output_cycles', '<span class="pms-divider"> - </span><span class="pms-subscription-plan-billing-cycles '. ( $is_group || $is_pwyw ? 'pms-full-width' : '' ) .'">' . $subscription_plan->number_of_payments . esc_html__(' payments of ', 'paid-member-subscriptions' ), $subscription_plan, $form_location ) .'</span>' : '';
+
     $price_output = apply_filters( 'pms_subscription_plan_output_price', '<span class="pms-divider"> - </span>' . $price_output, $subscription_plan, $form_location );
 
     $duration_output = apply_filters( 'pms_subscription_plan_output_duration', pms_get_output_subscription_plan_duration( $subscription_plan, $form_location ), $subscription_plan, $form_location );
 
     // Return output
-    return $price_output . $duration_output;
+    return $cycles_output . $price_output . $duration_output;
 
 }
 
@@ -523,7 +528,7 @@ function pms_get_output_subscription_plan_duration( $subscription_plan = null, $
                     break;
             }
 
-            $duration_output = apply_filters('pms_subscription_plan_output_duration_limited', '<span class="pms-divider"> / </span>' . '<span class="pms-subscription-plan-duration">' . $duration . '</span>', $subscription_plan );
+            $duration_output = apply_filters('pms_subscription_plan_output_duration_limited', '<span class="pms-divider pms-duration-divider"> / </span>' . '<span class="pms-subscription-plan-duration">' . $duration . '</span>', $subscription_plan );
         }
 
     }

@@ -2059,8 +2059,11 @@ Class PMS_Form_Handler {
             );
 
             // Payment type
-            if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) )
-                $payment_data['type'] = 'subscription_initial_payment';
+            if( in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription' ) ) ) {
+                if ( $subscription_plan->has_installments() && pms_payment_gateways_support( array( $payment_data['payment_gateway'] ), 'billing_cycles' ) )
+                    $payment_data['type'] = 'subscription_installment_initial_payment';
+                else $payment_data['type'] = 'subscription_initial_payment';
+            }
 
             elseif( $form_location == 'renew_subscription' )
                 $payment_data['type'] = 'subscription_renewal_payment';
@@ -2071,8 +2074,6 @@ Class PMS_Form_Handler {
             elseif( $form_location == 'downgrade_subscription' )
                 $payment_data['type'] = 'subscription_downgrade_payment';
 
-            elseif( $form_location == 'change_subscription' )
-                $payment_data['type'] = 'subscription_initial_payment';
 
             // Payment for a non-recurring Fixed Period Membership has a free trial that ends on the expiration date and no sign up fee
             if( $has_trial && !$is_recurring && $subscription_plan->is_fixed_period_membership() && ( $subscription_plan->get_trial_expiration_date() == $subscription_plan->get_expiration_date() ) && !$subscription_plan->has_sign_up_fee() && ( $payment_data['payment_gateway'] == 'paypal_standard' || $payment_data['payment_gateway'] == 'paypal_express' ) ){
@@ -2308,7 +2309,7 @@ Class PMS_Form_Handler {
                      */
                     $expiration_date = apply_filters( 'pms_checkout_renew_subscription_expiration_date', $expiration_date, $subscription );
 
-                    if( $is_recurring ) {
+                    if( $is_recurring || ( $subscription->has_installments() && pms_payment_gateway_supports_cycles( $subscription->payment_gateway ) ) ) {
                         $subscription_data['billing_next_payment'] = $expiration_date;
                         $subscription_data['expiration_date']      = '';
                     } else {
@@ -2465,6 +2466,7 @@ Class PMS_Form_Handler {
             'payment_gateway'      => $pay_gate,
             // billing_amount is used for payments only for psp supported gateways, but if the price is modified (pwyw, dc) it will be updated here for all gateways
             'billing_amount'       => $subscription_plan->price,
+            'billing_cycles'       => $subscription_plan->number_of_payments,
         );
 
         // Add start date for new subscriptions
@@ -2506,7 +2508,7 @@ Class PMS_Form_Handler {
 
             $subscription_data['payment_profile_id'] = '';
 
-            if( $is_recurring && !$subscription_plan->is_fixed_period_membership() ) {
+            if( ( $is_recurring && !$subscription_plan->is_fixed_period_membership() ) || ( !$is_recurring && $subscription_plan->has_installments() && pms_payment_gateways_support( array( $subscription_data['payment_gateway'] ), 'billing_cycles' ) ) ) {
                 $subscription_data['expiration_date']       = '';
                 $subscription_data['billing_duration']      = $subscription_plan->duration;
                 $subscription_data['billing_duration_unit'] = $subscription_plan->duration_unit;

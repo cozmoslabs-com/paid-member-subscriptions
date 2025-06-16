@@ -232,7 +232,7 @@ function pms_get_member_subscription( $member_subscription_id = 0 ) {
 
     global $wpdb;
 
-    $result = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}pms_member_subscriptions WHERE id = {$member_subscription_id}", ARRAY_A );
+    $result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}pms_member_subscriptions WHERE id = %d", absint( $member_subscription_id ) ), ARRAY_A );
 
     if( ! is_null( $result ) )
         $result = new PMS_Member_Subscription( $result );
@@ -498,4 +498,82 @@ function pms_member_check_expired_subscriptions() {
 
     }
 
+}
+
+
+/**
+ * Adds the first billing cycle for the Payment Installments process
+ *
+ * @param $payment_response
+ * @param $subscription
+ * @param $form_location
+ *
+ */
+function pms_add_member_subscription_billing_initial_cycle( $payment_response, $subscription, $form_location ) {
+
+    if ( !is_object( $subscription ) || empty( $form_location ) )
+        return;
+
+    $initial_cycle = $subscription->is_trial_period() ? 0 : 1;
+
+    // using update_meta instead of add_meta for the change/renew subscription cases where this counter needs to be reset
+    if( in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation', 'renew_subscription', 'change_subscription', 'upgrade_subscription', 'downgrade_subscription' ) ) && $subscription->has_installments() )
+        pms_update_member_subscription_meta( $subscription->id, 'pms_member_subscription_billing_processed_cycles', $initial_cycle );
+
+}
+add_action( 'pms_checkout_after_payment_is_processed', 'pms_add_member_subscription_billing_initial_cycle', 10, 3 );
+
+
+/**
+ * Retrieves the completed billing cycles of the payment installments process
+ *
+ * @param $subscription_id
+ * @param $unique
+ *
+ * @return false|int
+ *
+ */
+function pms_get_member_subscription_billing_processed_cycles( $subscription_id, $unique = true ) {
+
+    if ( empty( $subscription_id ) )
+        return false;
+
+    return (int)pms_get_member_subscription_meta( $subscription_id, 'pms_member_subscription_billing_processed_cycles', $unique );
+}
+
+
+/**
+ * Process the current Member Subscription billing cycle
+ *
+ * @param $current_billing_cycle - current billing cycle (FALSE if Payment Installments are disabled)
+ * @param $subscription_data - subscription data that will be updated
+ * @param $subscription - current member subscription
+ * @param $subscription_plan - member subscription linked plan
+ * @return mixed
+ */
+function pms_process_subscription_billing_cycles( $current_billing_cycle, $subscription_data, $subscription, $subscription_plan ) {
+
+    if ( !is_numeric( $current_billing_cycle ) || !is_array( $subscription_data ) || !is_object( $subscription ) || !isset( $subscription->id ) || !isset( $subscription->billing_cycles ) )
+        return $subscription_data;
+
+    // update the member subscription processed billing cycles
+    pms_update_member_subscription_meta( $subscription->id, 'pms_member_subscription_billing_processed_cycles', $current_billing_cycle );
+
+    // stop the recurring process when the last billing cycle has been completed
+    if ( $current_billing_cycle == $subscription->billing_cycles && is_object( $subscription_plan ) && isset( $subscription_plan->status_after_last_cycle ) ) {
+
+        if ( $subscription_plan->status_after_last_cycle === 'unlimited' )
+            $subscription_data['expiration_date'] = '';
+        elseif ( $subscription_plan->status_after_last_cycle === 'expire' )
+            $subscription_data['expiration_date'] = $subscription_data['billing_next_payment'];
+        elseif ( $subscription_plan->status_after_last_cycle === 'expire_after' )
+            $subscription_data['expiration_date'] = date( 'Y-m-d H:i:s', strtotime( "+" . $subscription_plan->expire_after . " " . $subscription_plan->expire_after_unit, strtotime( $subscription_data['billing_next_payment'] ) ) );
+
+        $subscription_data['billing_next_payment'] = NULL;
+        $subscription_data['billing_duration'] = '';
+        $subscription_data['billing_duration_unit'] = '';
+
+    }
+
+    return $subscription_data;
 }

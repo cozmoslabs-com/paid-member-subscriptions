@@ -22,6 +22,8 @@ Class PMS_Merge_Tags{
         add_filter( 'pms_merge_tag_subscription_plan_price',      array( $this, 'pms_tag_subscription_plan_price' ), 10, 3 );
         add_filter( 'pms_merge_tag_subscription_plan_id',         array( $this, 'pms_tag_subscription_plan_id' ), 10, 3 );
         add_filter( 'pms_merge_tag_total_payment_amount',         array( $this, 'pms_tag_total_payment_amount' ), 10, 4 );
+        add_filter( 'pms_merge_tag_total_billing_cycles',         array( $this, 'pms_tag_total_billing_cycles' ), 10, 3 );
+        add_filter( 'pms_merge_tag_processed_billing_cycles',     array( $this, 'pms_tag_processed_billing_cycles' ), 10, 4 );
         add_filter( 'pms_merge_tag_subscription_duration',        array( $this, 'pms_tag_subscription_duration' ), 10, 3 );
         add_filter( 'pms_merge_tag_username',                     array( $this, 'pms_tag_username' ), 10, 2 );
         add_filter( 'pms_merge_tag_first_name',                   array( $this, 'pms_tag_firstname' ), 10, 2 );
@@ -83,6 +85,8 @@ Class PMS_Merge_Tags{
             'subscription_plan_price',
             'subscription_plan_id',
             'total_payment_amount',
+            'total_billing_cycles',
+            'processed_billing_cycles',
             'subscription_duration',
             'first_name',
             'last_name',
@@ -335,7 +339,7 @@ Class PMS_Merge_Tags{
     public function pms_tag_total_payment_amount( $value, $user_info, $subscription_id, $payment_id ){
 
         if ( empty( $payment_id ) )
-            return;
+            return '';
 
         $amount = false;
 
@@ -353,6 +357,42 @@ Class PMS_Merge_Tags{
         }
 
         return pms_format_price( $amount, $currency );
+
+    }
+
+    /**
+     * Replace the {{total_billing_cycles}} tag
+     */
+    public function pms_tag_total_billing_cycles( $value, $user_info, $subscription_id ){
+
+        if ( empty( $subscription_id ) )
+            return '';
+
+        $billing_cycles = '';
+        $subscription = pms_get_member_subscription( $subscription_id );
+
+        if ( $subscription->has_installments() && pms_payment_gateway_supports_cycles( $subscription->payment_gateway ) )
+            $billing_cycles = $subscription->billing_cycles;
+
+        return $billing_cycles;
+
+    }
+
+    /**
+     * Replace the {{processed_billing_cycles}} tag
+     */
+    public function pms_tag_processed_billing_cycles( $value, $user_info, $subscription_id ){
+
+        if ( empty( $subscription_id ) )
+            return '';
+
+        $processed_cycles = '';
+        $subscription = pms_get_member_subscription( $subscription_id );
+
+        if ( $subscription->has_installments() && pms_payment_gateway_supports_cycles( $subscription->payment_gateway ) )
+            $processed_cycles = pms_get_member_subscription_billing_processed_cycles( $subscription_id );
+
+        return $processed_cycles;
 
     }
 

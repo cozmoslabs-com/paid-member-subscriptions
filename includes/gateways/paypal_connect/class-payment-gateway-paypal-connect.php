@@ -104,6 +104,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
             'subscription_free_trial',
             'change_subscription_payment_method_admin',
             'update_payment_method',
+            'billing_cycles',
         );
 
         $this->endpoint    = $this->test_mode ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';

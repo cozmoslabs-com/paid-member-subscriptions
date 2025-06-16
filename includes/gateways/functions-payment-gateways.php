@@ -161,6 +161,22 @@ function pms_payment_gateways_support( $payment_gateways = array(), $feature = '
 
 
 /**
+ * Verifies if a specific payment gateway is compatible with the Payment Installments feature
+ *
+ * @return bool
+ *
+ */
+function pms_payment_gateway_supports_cycles( $payment_gateway ) {
+
+    if ( !empty( $payment_gateway ) && pms_payment_gateways_support( array( $payment_gateway ), 'billing_cycles' ) )
+        return true;
+
+    return false;
+
+}
+
+
+/**
  * Returns the active pay gates selected by the admin in the Payments tab in PMS Settings
  *
  * @return array

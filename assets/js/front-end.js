@@ -140,6 +140,9 @@ jQuery( function($) {
             // Show billing fields
             handle_billing_fields_display()
 
+            // Show/hide billing cycles
+            handle_billing_cycles_display( $pms_checked_paygate.val() )
+
         })
 
 
@@ -391,6 +394,21 @@ jQuery( function($) {
 
         }
 
+        /**
+         * Show/Hide Cycles information in Subscription Plan price section on forms
+         */
+        function handle_billing_cycles_display( selected_paygate ) {
+            let cyclesText = jQuery('.pms-subscription-plan-billing-cycles');
+
+            let gateways = ['manual', 'stripe_connect', 'paypal_connect'];
+
+            if ( gateways.includes(selected_paygate) )
+                cyclesText.show();
+            else
+                cyclesText.hide();
+
+        }
+
 
         /**
          * Disable the form submit button when the form is submitted
@@ -460,6 +478,13 @@ jQuery( function($) {
          *
          */
         $( '#pms-paygates-inner' ).css( 'visibility', 'visible' );
+
+
+        /**
+         * Show/Hide Subscription Plan billing cycle information
+         * - info displayed with the Subscription Plan price on forms
+         */
+        handle_billing_cycles_display( $pms_checked_paygate.val() )
 
         /**
          * Compatibility when the form is placed inside an Elementor Popup

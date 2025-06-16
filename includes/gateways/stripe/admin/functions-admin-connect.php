@@ -6,82 +6,10 @@ if( ! defined( 'ABSPATH' ) ) exit;
 // Return if PMS is not active
 if( ! defined( 'PMS_VERSION' ) ) return;
 
-add_action( 'admin_post_pms_stripe_connect_platform_authorization_return', 'pms_stripe_connect_handle_authorization_return' );
-function pms_stripe_connect_handle_authorization_return(){
-
-	if( !isset( $_POST['environment'] ) )
-		return;
-
-	if( !current_user_can( 'manage_options' ) )
-		return;
-
-    $environment = sanitize_text_field( $_POST['environment'] );
-
-    if( !empty( $_POST['account_id'] ) )
-        update_option( 'pms_stripe_connect_'. $environment .'_account_id', sanitize_text_field( $_POST['account_id'] ) );
-
-    if( !empty( $_POST['stripe_publishable_key'] ) )
-        update_option( 'pms_stripe_connect_'. $environment .'_publishable_key', sanitize_text_field( $_POST['stripe_publishable_key'] ) );
-
-    if( !empty( $_POST['stripe_secret_key'] ) )
-        update_option( 'pms_stripe_connect_'. $environment .'_secret_key', sanitize_text_field( $_POST['stripe_secret_key'] ) );
-
-	if( isset( $_POST['return_location'] ) && $_POST['return_location'] == 'setup' ){
-
-		$redirect_url = add_query_arg( array(
-            'page'                       => 'pms-setup',
-            'step'                       => 'payments',
-            'pms_stripe_connect_success' => 1,
-        ),
-			admin_url( 'index.php' )
-		);
-
-	} elseif( isset( $_POST['return_location'] ) && $_POST['return_location'] == 'setup_new' ) {
-
-		$redirect_url = add_query_arg( array(
-			'page'                       => 'pms-dashboard-page',
-			'subpage'                    => 'pms-setup',
-			'step'                       => 'payments',
-			'pms_stripe_connect_success' => 1,
-        ),
-			admin_url( 'admin.php' )
-		);
-
-	} else {
-
-		$redirect_url = add_query_arg( array(
-            'page'                       => 'pms-settings-page',
-            'tab'                        => 'payments',
-            'nav_sub_tab'                => 'payments_gateways',
-            'pms_stripe_connect_success' => 1,
-        ),
-			admin_url( 'admin.php#pms-stripe__gateway-settings' )
-		);
-
-	}
-
-	// flush rules to make sure apple domain verification file can be served
-	flush_rewrite_rules();
-
-    // set account country
-    $gateway = pms_get_payment_gateway( 'stripe_connect' );
-
-    $gateway->set_account_country( $environment );
-
-	if( !$gateway->domain_is_registered() ){
-		$gateway->register_domain();
-	}
-
-
-    wp_redirect( $redirect_url );
-    die();
-
-}
-
 add_action( 'init', 'pms_stripe_connect_handle_authorization_return_admin_init' );
 function pms_stripe_connect_handle_authorization_return_admin_init(){
 
-	if( !isset( $_GET['environment'] ) || !isset( $_GET['pms_stripe_connect_platform_authorization_return'] ) )
+	if( !isset( $_GET['environment'] ) || !isset( $_GET['pms_stripe_connect_platform_authorization_return'] ) || !isset( $_GET['state'] ) )
 		return;
 
 	if( !current_user_can( 'manage_options' ) )
@@ -89,14 +17,34 @@ function pms_stripe_connect_handle_authorization_return_admin_init(){
 
     $environment = sanitize_text_field( $_GET['environment'] );
 
-    if( !empty( $_GET['account_id'] ) )
-        update_option( 'pms_stripe_connect_'. $environment .'_account_id', sanitize_text_field( $_GET['account_id'] ) );
+	$state = sanitize_text_field( $_GET['state'] );
 
-    if( !empty( $_GET['stripe_publishable_key'] ) )
-        update_option( 'pms_stripe_connect_'. $environment .'_publishable_key', sanitize_text_field( $_GET['stripe_publishable_key'] ) );
+	// Make a requesst to retrieve credentials
+	$args = [
+		'pms_stripe_connect_retrieve_account_data' => true,
+		'state'                                    => $state,
+		'environment'                              => $environment,
+		'home_url'                                 => home_url(),
+	];
 
-    if( !empty( $_GET['stripe_secret_key'] ) )
-        update_option( 'pms_stripe_connect_'. $environment .'_secret_key', sanitize_text_field( $_GET['stripe_secret_key'] ) );
+	$response = wp_remote_get( add_query_arg( $args, 'https://www.cozmoslabs.com/' ) );
+
+	if( is_wp_error( $response ) )
+		return;
+
+	$response = json_decode( $response['body'], true );
+
+	if( !isset( $response['success'] ) || $response['success'] != true || empty( $response['data'] ) )
+		return;
+
+    if( !empty( $response['data']['account_id'] ) )
+        update_option( 'pms_stripe_connect_'. $environment .'_account_id', sanitize_text_field( $response['data']['account_id'] ) );
+
+    if( !empty( $response['data']['stripe_publishable_key'] ) )
+        update_option( 'pms_stripe_connect_'. $environment .'_publishable_key', sanitize_text_field( $response['data']['stripe_publishable_key'] ) );
+
+    if( !empty( $response['data']['stripe_secret_key'] ) )
+        update_option( 'pms_stripe_connect_'. $environment .'_secret_key', sanitize_text_field( $response['data']['stripe_secret_key'] ) );
 
 	if( $environment == 'live' )
 		update_option( 'pms_stripe_connect_live_account_connected', 'yes' );
@@ -511,10 +459,10 @@ function pms_stripe_add_settings_content( $options ) {
 
 							echo '</div>';
 
-							$domain_registration_status = pms_stripe_is_domain_registered_for_payment_methods();
+							$domain_registration_status         = pms_stripe_is_domain_registered_for_payment_methods();
 							$domain_registration_notice_dismiss = get_option( 'pms_stripe_connect_'. $environment .'_domain_registration_notice_dismiss', false );
 
-							if( $domain_registration_status !== true && $domain_registration_status['status'] == false && !$domain_registration_notice_dismiss ){
+							if( !empty( $domain_registration_status ) && $domain_registration_status !== true && $domain_registration_status['status'] == false && !$domain_registration_notice_dismiss ){
 								echo '<h3 class="cozmoslabs-subsection-title" style="margin-top:16px !important;">' , esc_html__( 'Domain Registration', 'paid-member-subscriptions' ) . '</h3>';
 
 								echo '<div class="cozmoslabs-form-field-wrapper">';
@@ -565,7 +513,7 @@ function pms_stripe_add_settings_content( $options ) {
 								'environment'               => $environment,
 								'home_url'                  => site_url(),
 								'pms_nonce'                 => wp_create_nonce( 'stripe_connnect_account' ),
-								'version'                   => 'v2'
+								'version'                   => 'v3'
 							],
 							$stripe_connect_base_url
 						);

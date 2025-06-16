@@ -404,6 +404,9 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                         break;
                 }
                 $duration = '<span class="pms-divider"> / </span>' . $duration;
+
+                if ( $subscription_plan->has_installments() )
+                    $duration .= ' for '. $subscription_plan->number_of_payments . ' cycles';
             }
             if( $subscription_plan->is_fixed_period_membership() ){
 

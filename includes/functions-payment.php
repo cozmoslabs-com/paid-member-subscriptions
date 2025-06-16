@@ -478,14 +478,17 @@ function pms_get_payment_statuses() {
 function pms_get_payment_types() {
 
     $payment_types = array(
-        'manual_payment'                 => __( 'Manual Payment', 'paid-member-subscriptions' ),
-        'web_accept_paypal_standard'     => __( 'PayPal Standard - One-Time Payment', 'paid-member-subscriptions' ),
-        'subscription_initial_payment'   => __( 'Subscription Initial Payment', 'paid-member-subscriptions' ),
-        'subscription_recurring_payment' => __( 'Subscription Recurring Payment', 'paid-member-subscriptions' ),
-        'subscription_renewal_payment'   => __( 'Subscription Renewal Payment', 'paid-member-subscriptions' ),
-        'subscription_upgrade_payment'   => __( 'Subscription Upgrade Payment', 'paid-member-subscriptions' ),
-        'subscription_downgrade_payment' => __( 'Subscription Downgrade Payment', 'paid-member-subscriptions' ),
-        'subscription_retry_payment'     => __( 'Subscription Retry Payment', 'paid-member-subscriptions' ),
+        'manual_payment'                             => __( 'Manual Payment', 'paid-member-subscriptions' ),
+        'web_accept_paypal_standard'                 => __( 'PayPal Standard - One-Time Payment', 'paid-member-subscriptions' ),
+        'subscription_initial_payment'               => __( 'Subscription Initial Payment', 'paid-member-subscriptions' ),
+        'subscription_recurring_payment'             => __( 'Subscription Recurring Payment', 'paid-member-subscriptions' ),
+        'subscription_renewal_payment'               => __( 'Subscription Renewal Payment', 'paid-member-subscriptions' ),
+        'subscription_upgrade_payment'               => __( 'Subscription Upgrade Payment', 'paid-member-subscriptions' ),
+        'subscription_downgrade_payment'             => __( 'Subscription Downgrade Payment', 'paid-member-subscriptions' ),
+        'subscription_retry_payment'                 => __( 'Subscription Retry Payment', 'paid-member-subscriptions' ),
+        'subscription_installment_initial_payment'   => __( 'Installment - Initial Payment', 'paid-member-subscriptions' ),
+        'subscription_installment_recurring_payment' => __( 'Installment - Recurring Payment', 'paid-member-subscriptions' ),
+        'subscription_installment_final_payment'     => __( 'Installment - Final Payment', 'paid-member-subscriptions' ),
     );
 
     /**
@@ -579,6 +582,7 @@ function pms_cron_process_member_subscriptions_payments() {
             $payment_gateway       = pms_get_payment_gateway( $subscription->payment_gateway );
             $subscription_plan     = pms_get_subscription_plan( $subscription->subscription_plan_id );
             $subscription_currency = pms_get_member_subscription_meta( $subscription->id, 'currency', true );
+            $current_billing_cycle = ( $subscription->has_installments() && pms_payment_gateway_supports_cycles( $subscription->payment_gateway ) ) ? pms_get_member_subscription_billing_processed_cycles( $subscription->id ) + 1 : false;
 
             if( is_null( $payment_gateway ) || !method_exists( $payment_gateway, 'process_payment' ) )
                 continue;
@@ -602,8 +606,22 @@ function pms_cron_process_member_subscriptions_payments() {
                 $subscription
             );
 
-            if( pms_is_payment_retry_enabled() && pms_get_member_subscription_meta( $subscription->id, 'pms_retry_payment', true ) == 'active' )
+            if( pms_is_payment_retry_enabled() && pms_get_member_subscription_meta( $subscription->id, 'pms_retry_payment', true ) == 'active' ) {
                 $payment_data['type'] = 'subscription_retry_payment';
+            }
+            elseif ( $current_billing_cycle ) {
+
+                if ( $current_billing_cycle == 1 ) {
+                    $payment_data['type'] = 'subscription_installment_initial_payment';
+                }
+                elseif ( $current_billing_cycle < $subscription->billing_cycles ) {
+                    $payment_data['type'] = 'subscription_installment_recurring_payment';
+                }
+                else {
+                    $payment_data['type'] = 'subscription_installment_final_payment';
+                }
+
+            }
 
             $payment = new PMS_Payment();
             $payment->insert( $payment_data );
@@ -650,6 +668,10 @@ function pms_cron_process_member_subscriptions_payments() {
                         $subscription_data['expiration_date'] = '';
 
                 }
+
+                // Process the current billing cycle if the Subscription has Payment Installments enabled
+                if ( $current_billing_cycle )
+                    $subscription_data = pms_process_subscription_billing_cycles( $current_billing_cycle, $subscription_data, $subscription, $subscription_plan );
 
                 pms_update_member_subscription_meta( $subscription->id, 'pms_retry_payment', 'inactive' );
                 pms_update_member_subscription_meta( $subscription->id, 'pms_retry_payment_count', 0 );
@@ -721,6 +743,10 @@ function pms_cron_process_member_subscriptions_payments() {
                         'billing_last_payment' => date( 'Y-m-d H:i:s' ),
                         'billing_next_payment' => ( !empty( $subscription->billing_duration ) ) ? $expiration_date : null,
                     );
+
+                    // Process the current billing cycle if the Subscription has Payment Installments enabled
+                    if ( $current_billing_cycle )
+                        $subscription_data = pms_process_subscription_billing_cycles( $current_billing_cycle, $subscription_data, $subscription, $subscription_plan );
 
                 }
 
@@ -816,7 +842,7 @@ function pms_add_retry_subscriptions_to_cron_query( $subscriptions, $args ){
 
         $subscription = pms_get_member_subscription( $result->member_subscription_id );
 
-        if( !empty( $subscription->id ) && in_array( $subscription->status, array( 'active', 'expired' ) ) && strtotime( $subscription->billing_next_payment ) < strtotime( $args['billing_next_payment_before'] ) )
+        if( !empty( $subscription->id ) && in_array( $subscription->status, array( 'expired' ) ) && strtotime( $subscription->billing_next_payment ) < strtotime( $args['billing_next_payment_before'] ) )
             $retry_subscriptions[] = $subscription;
 
     }

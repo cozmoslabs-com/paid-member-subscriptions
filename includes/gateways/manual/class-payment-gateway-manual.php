@@ -35,7 +35,8 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
             'subscription_sign_up_fee',
             'subscription_free_trial',
             'recurring_payments',
-            'change_subscription_payment_method_admin'
+            'change_subscription_payment_method_admin',
+            'billing_cycles',
         ) );
 
         // Add custom user messages for this gateway
@@ -100,7 +101,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
         }
 
-        if( $this->recurring ){
+        if( $this->recurring || $subscription->has_installments() ){
 
             $billing_next_payment = !empty( $this->subscription_data['trial_end'] ) ?  $this->subscription_data['trial_end'] : $this->subscription_data['expiration_date'];
 
@@ -110,6 +111,10 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
                 'billing_duration_unit' => $this->subscription_plan->is_fixed_period_membership() ? 'year' : $this->subscription_plan->duration_unit,
                 'billing_amount'        => $this->subscription_data['billing_amount'],
             );
+
+            // set the initial billing cycle if Payment Installments are enabled
+            if( $subscription->has_installments() )
+                pms_add_member_subscription_billing_initial_cycle( false, $subscription, $this->form_location );
 
             $subscription->update( $subscription_data );
 
@@ -150,7 +155,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
     }
 
 
-    /*
+    /**
      * Change the default success message for the different payment actions
      *
      * @param string $message
@@ -227,9 +232,6 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
         if( $payment->payment_gateway !== $this->payment_gateway )
             return;
-
-        // Get plan
-        $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
 
         // The subscription plan ID from the payment matches an existing subscription for this user
         $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $payment->user_id, 'subscription_plan_id' => $payment->subscription_id, 'number' => 1 ) );
@@ -327,6 +329,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
                 'expiration_date'      => $subscription_plan->get_expiration_date(),
                 'status'               => 'active',
                 'payment_gateway'      => $this->payment_gateway,
+                'billing_cycles'       => $subscription_plan->number_of_payments,
             );
             
             // reset custom schedule

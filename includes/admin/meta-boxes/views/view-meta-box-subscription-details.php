@@ -124,6 +124,75 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <?php do_action( 'pms_view_meta_box_subscription_details_free_trial_bottom', $subscription_plan->id ); ?>
 <?php endif; ?>
 
+<!-- Payment Installments -->
+<?php if( pms_payment_gateways_support( pms_get_active_payment_gateways(), 'billing_cycles' ) ) : ?>
+
+    <div id="payment-cycles">
+
+        <!-- Payment Cycles Toggle -->
+        <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+
+            <label for="pms-limit-payment-cycles" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Limit Payment Cycles', 'paid-member-subscriptions' ) ?></label>
+
+            <div class="cozmoslabs-toggle-container">
+                <input type="checkbox" id="pms-limit-payment-cycles" name="pms_subscription_plan_limit_payment_cycles" value="yes" <?php echo esc_attr( $subscription_plan->limit_payment_cycles ) === 'yes' ? checked( $subscription_plan->limit_payment_cycles, 'yes', false ) : ''; ?> />
+                <label class="cozmoslabs-toggle-track" for="pms-limit-payment-cycles"></label>
+            </div>
+
+            <div class="cozmoslabs-toggle-description">
+                <label for="pms-limit-payment-cycles" class="cozmoslabs-description"> <?php esc_html_e( 'Enable this option to let customers pay in installments.', 'paid-member-subscriptions' ) ?></label>
+            </div>
+
+        </div>
+
+        <!-- Payment Cycle options -->
+        <div id="pms-payment-cycle-options">
+
+            <!-- Number of Payments -->
+            <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                <label for="pms-subscription-plan-number-of-payments" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Number of Payments', 'paid-member-subscriptions' ) ?></label>
+
+                <input type="number" id="pms-subscription-plan-number-of-payments" name="pms_subscription_plan_number_of_payments" value="<?php echo esc_attr( $subscription_plan->number_of_payments ) ?>" />
+
+                <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Limit how many payments are made before the subscription ends.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <!-- Status after last cycle -->
+            <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper" id="pms-subscription-plan-status-after-last-cycle-field">
+                <label for="pms-subscription-plan-status-after-last-cycle" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Status After Last Cycle', 'paid-member-subscriptions' ); ?></label>
+
+                <select id="pms-subscription-plan-status-after-last-cycle" name="pms_subscription_plan_status_after_last_cycle">
+                    <option value="expire" <?php echo ( empty( $subscription_plan->status_after_last_cycle ) || $subscription_plan->status_after_last_cycle == 'expire' ? 'selected' : '' ); ?> ><?php esc_html_e( 'Expire subscription', 'paid-member-subscriptions' ); ?></option>
+                    <option value="unlimited" <?php echo ( !empty( $subscription_plan->status_after_last_cycle ) && ( $subscription_plan->status_after_last_cycle == 'unlimited' ) ? 'selected' : '' ); ?> ><?php esc_html_e( 'Unlimited subscription', 'paid-member-subscriptions' ); ?></option>
+                    <option value="expire_after" <?php echo ( !empty( $subscription_plan->status_after_last_cycle ) && ( $subscription_plan->status_after_last_cycle == 'expire_after' ) ? 'selected' : '' ); ?> ><?php esc_html_e( 'Expire subscription after', 'paid-member-subscriptions' ); ?></option>
+                </select>
+
+                <!-- Expire After options -->
+                <div class="cozmoslabs-form-field-wrapper cozmoslabs-description-align-right" id="pms-subscription-plan-expire-after-field">
+
+                    <!-- Expire After duration -->
+                    <input type="number" id="pms-subscription-plan-expire-after" name="pms_subscription_plan_expire_after" value="<?php echo esc_attr( $subscription_plan->expire_after ); ?>" />
+
+                    <!-- Expire After duration unit -->
+                    <select id="pms-subscription-plan-expire-after-unit" name="pms_subscription_plan_expire_after_unit">
+                        <option value="day"   <?php selected( 'day', $subscription_plan->expire_after_unit, true ); ?>><?php esc_html_e( 'Day(s)', 'paid-member-subscriptions' ); ?></option>
+                        <option value="week"  <?php selected( 'week', $subscription_plan->expire_after_unit, true ); ?>><?php esc_html_e( 'Week(s)', 'paid-member-subscriptions' ); ?></option>
+                        <option value="month" <?php selected( 'month', $subscription_plan->expire_after_unit, true ); ?>><?php esc_html_e( 'Month(s)', 'paid-member-subscriptions' ); ?></option>
+                        <option value="year"  <?php selected( 'year', $subscription_plan->expire_after_unit, true ); ?>><?php esc_html_e( 'Year(s)', 'paid-member-subscriptions' ); ?></option>
+                    </select>
+                </div>
+
+                <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Select what happens to a member’s subscription once the final billing cycle is completed.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+        </div>
+
+        <?php do_action( 'pms_view_meta_box_subscription_details_payment_installments_bottom', $subscription_plan->id ); ?>
+
+    </div>
+
+<?php endif; ?>
+
 <!-- Renewal option -->
 <?php if( pms_payment_gateways_support( pms_get_active_payment_gateways(), 'recurring_payments' ) ) : ?>
 
@@ -140,7 +209,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         </select>
 
-        <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Select renewal type. You can either allow the customer to opt in, force automatic renewal or force no renewal.', 'paid-member-subscriptions' ); ?></p>
+        <p class="cozmoslabs-description cozmoslabs-description-align-right" id="pms-renewal-description"><?php esc_html_e( 'Select renewal type. You can either allow the customer to opt in, force automatic renewal or force no renewal.', 'paid-member-subscriptions' ); ?></p>
+
+        <!-- Billing Cycles description -->
+        <?php pms_output_billing_cycles_renewal_message( $subscription_plan ) ?>
 
     </div>
 

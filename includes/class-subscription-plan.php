@@ -94,6 +94,21 @@ Class PMS_Subscription_Plan {
 
     public $allow_renew;
 
+    /**
+     * Subscription Plan Installments
+     *
+     * @access public
+     */
+    public $limit_payment_cycles;
+
+    public $number_of_payments;
+
+    public $status_after_last_cycle;
+
+    public $expire_after;
+
+    public $expire_after_unit;
+
 
     public function __construct( $id_or_post ) {
 
@@ -180,6 +195,13 @@ Class PMS_Subscription_Plan {
         // Subscription Plan Allow Renew
         $this->allow_renew = !empty( $post_meta_subscription['pms_subscription_plan_allow_renew'][0] ) ? $post_meta_subscription['pms_subscription_plan_allow_renew'][0] : '';
 
+        // Subscription Plan Installments
+        $this->limit_payment_cycles = !empty( $post_meta_subscription['pms_subscription_plan_limit_payment_cycles'][0] ) ? $post_meta_subscription['pms_subscription_plan_limit_payment_cycles'][0] : '';
+        $this->number_of_payments = !empty( $post_meta_subscription['pms_subscription_plan_number_of_payments'][0] ) ? $post_meta_subscription['pms_subscription_plan_number_of_payments'][0] : '';
+        $this->status_after_last_cycle = !empty( $post_meta_subscription['pms_subscription_plan_status_after_last_cycle'][0] ) ? $post_meta_subscription['pms_subscription_plan_status_after_last_cycle'][0] : '';
+        $this->expire_after = !empty( $post_meta_subscription['pms_subscription_plan_expire_after'][0] ) ? $post_meta_subscription['pms_subscription_plan_expire_after'][0] : '';
+        $this->expire_after_unit = !empty( $post_meta_subscription['pms_subscription_plan_expire_after_unit'][0] ) ? $post_meta_subscription['pms_subscription_plan_expire_after_unit'][0] : '';
+
     }
 
 
@@ -222,6 +244,16 @@ Class PMS_Subscription_Plan {
             return true;
         else
             return false;
+
+    }
+
+    /*
+     * Method that checks if the subscription plan has payment installments activated
+     *
+     */
+    public function has_installments(){
+
+        return ( isset( $this->limit_payment_cycles ) && $this->limit_payment_cycles == 'yes' );
 
     }
 

@@ -91,6 +91,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             'subscription_free_trial',
             'change_subscription_payment_method_admin',
             'update_payment_method',
+            'billing_cycles',
         );
 
         // don't add any hooks if the gateway is not active
@@ -1190,7 +1191,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         // Set recurring option based on the whole checkout. PMS General Payments Settings + Subscription Plan specific settings
         $checkout_is_recurring = PMS_Form_Handler::checkout_is_recurring();
 
-        if( $checkout_is_recurring )
+        if( $checkout_is_recurring || $subscription_plan->has_installments() )
             $args['setup_future_usage'] = 'off_session';
         else if( !$checkout_is_recurring )
             $args['setup_future_usage'] = '';
@@ -1348,7 +1349,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                  */
                 $expiration_date = apply_filters( 'pms_checkout_renew_subscription_expiration_date', $expiration_date, $subscription );
 
-                if( $is_recurring ) {
+                if( $is_recurring || $subscription->has_installments() ) {
                     $subscription_data['billing_next_payment'] = $expiration_date;
                     $subscription_data['expiration_date']      = '';
                 } else {
@@ -1792,9 +1793,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      * Add Publishable Key to the Update Payment Method form
      */
     public function update_payment_form_field_publishable_key( $member_subscription ){
-
-        if( empty( $member_subscription->payment_gateway ) || $member_subscription->payment_gateway != $this->gateway_slug )
-            return;
 
         $this->field_publishable_key( '', get_option( 'pms_payments_settings' ), false );
 

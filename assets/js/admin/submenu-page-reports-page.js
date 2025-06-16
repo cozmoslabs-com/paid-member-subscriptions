@@ -84,8 +84,7 @@ jQuery( function($) {
                         callbacks: {
                             label: function(context) {
                                 const datasetIndex = context.datasetIndex;
-                                const value        = context.dataset.data[context.dataIndex + 1];
-
+                                const value = pms_get_value_label(context.dataset.data, context.dataIndex);
                                 if (datasetIndex === 0)
                                     return datasets[0].label + ' (' + pms_default_currency_symbol + ') : ' + value;
                                     
@@ -150,6 +149,12 @@ jQuery( function($) {
                 }
             }
         });
+    }
+
+    function pms_get_value_label(data, dataIndex)
+    {
+        const values = Object.values(data);
+        return values[dataIndex];
     }
 
     $('#pms-reports-filter-month').on('change', function(){

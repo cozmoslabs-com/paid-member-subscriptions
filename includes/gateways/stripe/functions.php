@@ -37,10 +37,6 @@ function pms_stripe_connect_get_account_status(){
 
     } catch( Exception $e ){
 
-        // $environment = pms_is_payment_test_mode() ? 'test' : 'live';
-
-        // delete_option( 'pms_stripe_connect_'. $environment .'_account_id' );
-
         return [ 'message' => $e->getMessage() ];
 
     }

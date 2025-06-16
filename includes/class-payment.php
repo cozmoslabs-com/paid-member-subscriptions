@@ -148,10 +148,10 @@ Class PMS_Payment {
         }
 
         // Get payment data from the db
-        $data = $this->get_data( absint( $id ) );
+        $data = $this->get_data( $id );
 
         // Return if data is not in the db
-        if( is_null($data) ) {
+        if( is_null( $data ) ) {
             $this->id = 0;
             return;
         }
@@ -213,7 +213,7 @@ Class PMS_Payment {
 
         global $wpdb;
 
-        $result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}pms_payments WHERE id = %d", $id ), ARRAY_A );
+        $result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}pms_payments WHERE id = %d", absint( $id ) ), ARRAY_A );
 
         return $result;
 

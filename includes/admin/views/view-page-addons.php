@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             'type'        => 'add-on',
             'name'        => __( 'bbPress', 'paid-member-subscriptions' ),
             'description' => __( 'Integrate Paid Member Subscriptions with the popular forums plugin, bbPress. Restrict your forums and topics and allow only premium members to have access to them.', 'paid-member-subscriptions' ),
-            'icon'        => 'pms-add-on-bbpress-logo.jpg',
+            'icon'        => 'pms-add-on-bbpress-logo.png',
             'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/bbpress/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
         ),
         array(  'slug' => 'pms-add-on-member-subscription-fixed-period/index.php',
@@ -159,8 +159,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     );
 
     // The Stripe and PayPal Express add-ons were deprecated. We need to only show them to users that were using them before the deprecation.
-    $pms_deprecated_addons = get_option( 'pms_used_deprecated_addons', false );
-    
+    $pms_deprecated_addons = get_option( 'pms_used_deprecated_addons', array() );
+
     if( empty( $pms_deprecated_addons ) ) {
 
         $stripe_addon_active   = apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-stripe/index.php' );

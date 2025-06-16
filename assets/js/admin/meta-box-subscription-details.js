@@ -105,4 +105,79 @@ jQuery(document).ready(function($) {
     if( $.fn.chosen !== undefined ) {
         $('.pms-chosen').chosen();
     }
+
+    // Handle Payment Installments feature settings visibility
+    pms_handle_payment_cycle_options();
 });
+
+
+/**
+ * Handle Payment Installments feature settings visibility
+ *
+ */
+function pms_handle_payment_cycle_options() {
+    
+    // handle Payment Cycles visibility
+    let fixedPeriod = jQuery('#pms-subscription-plan-fixed-membership'),
+        paymentCycles = jQuery('#payment-cycles');
+
+    toggle_payment_cycles_field();
+
+    fixedPeriod.on('change', toggle_payment_cycles_field);
+
+    function toggle_payment_cycles_field() {
+        let isFixedPeriod = fixedPeriod.is(':checked');
+
+        if ( isFixedPeriod ) {
+            paymentCycles.hide();
+        } else {
+            paymentCycles.show();
+        }
+    }
+
+
+    // handle Payment Cycles & Renewal options and descriptions visibility
+    let limitCycles = jQuery('#pms-limit-payment-cycles'),
+        cycleOptions = jQuery('#pms-payment-cycle-options'),
+        renewalOption = jQuery('#pms-subscription-plan-recurring'),
+        renewalDescription = jQuery('#pms-renewal-description'),
+        renewalCyclesDescription = jQuery('#pms-renewal-cycles-description');
+
+    toggle_payment_cycle_options();
+
+    limitCycles.on('change', toggle_payment_cycle_options);
+
+    function toggle_payment_cycle_options() {
+        if ( limitCycles.is(':checked') ) {
+            cycleOptions.show();
+            renewalOption.hide();
+            renewalDescription.hide();
+            renewalCyclesDescription.show();
+        }
+        else {
+            cycleOptions.hide();
+            renewalOption.show();
+            renewalDescription.show();
+            renewalCyclesDescription.hide();
+        }
+    }
+
+
+    // handle Expire After Last Cycle options visibility
+    let statusAfter = jQuery('#pms-subscription-plan-status-after-last-cycle'),
+        expireOptions = jQuery('#pms-subscription-plan-expire-after-field');
+
+    toggle_expire_after_options();
+
+    statusAfter.on('change', toggle_expire_after_options);
+
+    function toggle_expire_after_options() {
+        if ( statusAfter.length > 0 && statusAfter.val() === 'expire_after' ) {
+            expireOptions.show();
+        }
+        else {
+            expireOptions.hide();
+        }
+    }
+
+}

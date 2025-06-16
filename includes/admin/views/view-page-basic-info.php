@@ -394,6 +394,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 <p class="cozmoslabs-description"><?php esc_html_e( 'Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription.', 'paid-member-subscriptions' ); ?></p>
             </div>
+
+            <div>
+                <a href="https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-files-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank">
+                    <h4 class="pms-add-on-name"><?php esc_html_e( 'Files Restriction', 'paid-member-subscriptions' ); ?></h4>
+                </a>
+
+                <a href="https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-files-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=basic-info" target="_blank" class="pms-addon-image-container">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-files-restriction.png" alt="Files Restriction" class="pms-addon-image" />
+                </a>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Restrict direct access to media files based on subscription plans making sure only paying members can view them.', 'paid-member-subscriptions' ); ?></p>
+            </div>
         </div>
 
         <div>

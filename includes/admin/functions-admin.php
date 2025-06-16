@@ -610,6 +610,37 @@ function pms_output_modal_style_pricing_page(){
 
 
 /**
+ * Output the Billing Cycles information for the Subscription Plan -> Renewal option
+ * - this will replace the Renewal option's Select and description, when the Limit Payment Cycles option is enabled
+ *
+ * @param $subscription_plan
+ * @return void
+ */
+function pms_output_billing_cycles_renewal_message( $subscription_plan ) {
+
+    if ( !is_object( $subscription_plan ) )
+        return;
+
+    if ( $subscription_plan->status_after_last_cycle == 'expire_after' ) {
+        $status_message = sprintf( __( 'remain active for extra %1$s %2$s(s)', 'paid-member-subscriptions' ), $subscription_plan->expire_after, ucfirst( $subscription_plan->expire_after_unit ) );
+    }
+    elseif ( $subscription_plan->status_after_last_cycle == 'unlimited' ) {
+        $status_message = esc_html__( 'remain active', 'paid-member-subscriptions' );
+    }
+    else {
+        $status_message = esc_html__( 'expire', 'paid-member-subscriptions' );
+    }
+
+    if ( !empty( $subscription_plan->number_of_payments ) )
+        $message = wp_kses_post( sprintf( __( 'The subscription will automatically renew for a total of %1$s cycles. <br> After the last cycle is completed, the subscription will %2$s.', 'paid-member-subscriptions' ), $subscription_plan->number_of_payments, $status_message ) );
+    else
+        $message = wp_kses_post( __('The subscription will automatically renew for a limited number of cycles. <br> Select the <strong>Number of Payments</strong> and the <strong>Status After Last Cycle</strong> in the options above.', 'paid-member-subscriptions') );
+
+    echo '<p class="cozmoslabs-description cozmoslabs-description-align-right" id="pms-renewal-cycles-description" style="padding-left: 0;">'. $message .'</p>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+
+
+/**
  * Upsell notice in PMS Free Version
  *
  *  - the Subscription Type option is displayed in Subscription Plan settings

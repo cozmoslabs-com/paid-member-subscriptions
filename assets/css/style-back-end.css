@@ -1903,13 +1903,19 @@ body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmos
 }
 
 body[class*="post-type-pms-"] .meta-box-sortables #pms-subscription-plan-duration,
-body[class*="post-type-pms-"] .meta-box-sortables #pms-subscription-plan-trial-duration {
+body[class*="post-type-pms-"] .meta-box-sortables #pms-subscription-plan-trial-duration,
+body[class*="post-type-pms-"] .meta-box-sortables #pms-subscription-plan-expire-after {
     flex-basis: 100px;
 }
 
 body[class*="post-type-pms-"] .meta-box-sortables #pms-subscription-plan-duration-unit,
-body[class*="post-type-pms-"] .meta-box-sortables #pms-subscription-plan-trial-duration-unit {
+body[class*="post-type-pms-"] .meta-box-sortables #pms-subscription-plan-trial-duration-unit,
+body[class*="post-type-pms-"] .meta-box-sortables #pms-subscription-plan-expire-after-unit {
     flex-basis: 150px;
+}
+
+body[class*="post-type-pms-"] .meta-box-sortables #pms-subscription-plan-expire-after-field{
+    margin-top: 0 !important;
 }
 
 body[class*="post-type-pms-"] .meta-box-sortables .cozmoslabs-form-field-label {

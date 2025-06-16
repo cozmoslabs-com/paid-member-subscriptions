@@ -188,12 +188,56 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
 
         }
 
+        // Handle Payment Installments meta data
+        if( isset( $_POST['pms_subscription_plan_limit_payment_cycles'] ) && $_POST['pms_subscription_plan_limit_payment_cycles'] === 'yes' &&
+            ( !isset( $_POST['pms_subscription_plan_fixed_membership'] ) || $_POST['pms_subscription_plan_fixed_membership'] != 'on' ) )
+        {
 
-        // Update subscription plan recurring
-        if( isset( $_POST['pms_subscription_plan_recurring'] ) ) {
+            // Update subscription plan limit payment cycles
+            update_post_meta( $post_id, 'pms_subscription_plan_limit_payment_cycles', sanitize_text_field( $_POST['pms_subscription_plan_limit_payment_cycles'] ) );
 
+            // Update subscription plan number of payments
+            if( !empty( $_POST['pms_subscription_plan_number_of_payments'] ) ) {
+                update_post_meta( $post_id, 'pms_subscription_plan_number_of_payments', sanitize_text_field( $_POST['pms_subscription_plan_number_of_payments'] ) );
+            }
+
+            // Update subscription plan status after last cycle
+            if( isset( $_POST['pms_subscription_plan_status_after_last_cycle'] ) ) {
+                update_post_meta( $post_id, 'pms_subscription_plan_status_after_last_cycle', sanitize_text_field( $_POST['pms_subscription_plan_status_after_last_cycle'] ) );
+            }
+
+            // Update subscription plan expire after
+            if( isset( $_POST['pms_subscription_plan_expire_after'] ) ) {
+                update_post_meta( $post_id, 'pms_subscription_plan_expire_after', sanitize_text_field( $_POST['pms_subscription_plan_expire_after'] ) );
+            }
+
+            // Update subscription plan expire after unit
+            if( isset( $_POST['pms_subscription_plan_expire_after_unit'] ) ) {
+                update_post_meta( $post_id, 'pms_subscription_plan_expire_after_unit', sanitize_text_field( $_POST['pms_subscription_plan_expire_after_unit'] ) );
+            }
+
+            // Update the subscription plan recurring option to "Always renew automatically"
+            if ( !isset( $_POST['pms_subscription_plan_recurring'] ) || $_POST['pms_subscription_plan_recurring'] !== '2' ) {
+                update_post_meta( $post_id, 'pms_subscription_plan_recurring', '2' );
+            }
+
+        }
+        else {
+
+            // Update Payment Installments meta data to default values if Limit Payment Cycles option is disabled
+            update_post_meta( $post_id, 'pms_subscription_plan_limit_payment_cycles', 'no' );
+            update_post_meta( $post_id, 'pms_subscription_plan_number_of_payments', '' );
+            update_post_meta( $post_id, 'pms_subscription_plan_status_after_last_cycle', '' );
+            update_post_meta( $post_id, 'pms_subscription_plan_expire_after', '' );
+            update_post_meta( $post_id, 'pms_subscription_plan_expire_after_unit', '' );
+
+        }
+
+
+        // Update subscription plan recurring if Payment Installments are disabled
+        // - if Payment Installments are enabled, the option is updated above along with the Payment Installments meta
+        if( isset( $_POST['pms_subscription_plan_recurring'] ) && ( !isset( $_POST['pms_subscription_plan_limit_payment_cycles'] ) || $_POST['pms_subscription_plan_limit_payment_cycles'] !== 'yes' ) ) {
             update_post_meta( $post_id, 'pms_subscription_plan_recurring', (int)$_POST['pms_subscription_plan_recurring'] );
-
         }
 
 
