@@ -238,6 +238,33 @@ function pms_save_gdpr_field( $userdata ){
 
 }
 
+// Save GDPR field for logged in users
+add_action( 'pms_member_subscription_update', 'pms_save_gdpr_field_for_logged_in_users', 10, 3 );
+function pms_save_gdpr_field_for_logged_in_users( $id, $data, $old_data ) {
+
+    if( empty( $_POST['user_consent_logged_in'] ) || empty( $old_data['user_id'] ) || empty( $old_data['subscription_plan_id'] ) )
+        return;
+
+    if( isset( $data['user_id'] ) && !empty( $data['user_id'] ) ){
+        $user_id = absint( $data['user_id'] );
+    }
+    else{
+        $user_id = absint( $old_data['user_id'] );
+    }
+
+    if( isset( $data['subscription_plan_id'] ) && !empty( $data['subscription_plan_id'] ) ){
+        $subscription_plan_id = absint( $data['subscription_plan_id'] );
+    }
+    else{
+        $subscription_plan_id = absint( $old_data['subscription_plan_id'] );
+    }
+
+    if( isset( $_POST['user_consent_logged_in'] ) && $_POST['user_consent_logged_in'] === '1' ) {
+        update_user_meta( $user_id, 'pms_gdpr_user_consent_for_' . $subscription_plan_id, 'yes' );
+        update_user_meta( $user_id, 'pms_gdpr_user_consent_time_for_' . $subscription_plan_id, time() );
+    }
+}
+
 //hook into the wp export compatibility
 add_filter( 'wp_privacy_personal_data_exporters', 'pms_register_pms_wp_exporter', 10 );
 function pms_register_pms_wp_exporter( $exporters ) {

@@ -37,7 +37,7 @@ function pms_ppcp_enqueue_front_end_scripts(){
         'pms_ppcp_create_order_nonce'          => wp_create_nonce( 'pms_ppcp_create_order' ),
         'pms_ppcp_create_setup_token_nonce'    => wp_create_nonce('pms_ppcp_create_setup_token'),
         'pms_ppcp_generate_client_token_nonce' => wp_create_nonce('pms_ppcp_generate_client_token'),
-        'pms_ppcp_validate_currency_nonce'     => wp_create_nonce('pms_ppcp_validate_currency'),
+        'pms_validate_currency_nonce'          => wp_create_nonce('pms_validate_currency'),
         'paypal_client_id'                     => $credentials['client_id'],
         'paypal_merchant_id'                   => $credentials['payer_id'],
         'paypal_partner_attribution_id'        => pms_ppcp_get_platform_bn_code(),

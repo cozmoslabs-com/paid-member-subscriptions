@@ -418,3 +418,44 @@ function pms_stripe_get_meta_entry( $meta_key, $meta_value ){
 
     return false;
 }
+
+function pms_stripe_generate_customer_session(){
+
+    if( !is_user_logged_in() )
+        return false;
+
+    $customer_id = get_user_meta( get_current_user_id(), 'pms_stripe_customer_id', true );
+
+    if( empty( $customer_id ) )
+        return false;
+
+    $api_credentials = pms_stripe_connect_get_api_credentials();
+
+    if( empty( $api_credentials['secret_key'] ) )
+        return false;
+
+    $stripe = new \Stripe\StripeClient( $api_credentials['secret_key'] );
+
+    try {
+
+        $customer_session = $stripe->customerSessions->create([
+            'customer' => $customer_id,
+            'components' => [
+                'payment_element' => [
+                    'enabled' => true,
+                    'features' => [
+                        'payment_method_redisplay' => 'enabled',
+                        'payment_method_save' => 'enabled',
+                        'payment_method_save_usage' => 'off_session',
+                    ],
+                ],
+            ],
+        ]);
+
+    } catch( Exception $e ){
+        return false;
+    }
+
+    return $customer_session->client_secret;
+
+}

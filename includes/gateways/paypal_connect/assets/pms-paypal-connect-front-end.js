@@ -86,6 +86,17 @@ jQuery(function ($) {
 
         })
 
+        $( document ).on( 'click', paygate_selector, async function() {
+
+            if ( pms_paypal.pms_ppcp_mc_addon_active ){
+                if( ($('input[type=hidden][name=pay_gate]').val() == 'paypal_connect' || $('input[type=radio][name=pay_gate]:checked').val() == 'paypal_connect') 
+                    && !$('input[type=hidden][name=pay_gate]').is(':disabled') && !$('input[type=radio][name=pay_gate]:checked').is(':disabled') ) {
+                    await pms_ppcp_validate_sdk_checkout_currency( $(this) );
+                }
+            }
+    
+        })
+
         // Compatibility with Multi-Step Forms
         $(document).on('wppb_msf_next_step', pms_ppcp_maybe_show_paypal_subscribe_button )
         $(document).on('wppb_msf_previous_step', pms_ppcp_maybe_show_paypal_subscribe_button )
@@ -357,7 +368,7 @@ jQuery(function ($) {
      * @param   {Object} response Response from PayPal
      * @param   {Object} actions  PayPal actions object
      */
-    function pms_ppcp_process_checkout( response, actions ) {
+    async function pms_ppcp_process_checkout( response, actions ) {
 
         if ( !response )
             return
@@ -368,7 +379,7 @@ jQuery(function ($) {
             return;
 
         // grab all data from the form
-        var data = $.pms_form_get_data( current_button, false )
+        var data = await $.pms_form_get_data( current_button, false )
 
         if ( data == false )
             return
@@ -418,10 +429,11 @@ jQuery(function ($) {
             url: pms_paypal.ajax_url,
             type: 'POST',
             data: {
-                action              : 'pms_ppcp_validate_sdk_currency',
-                ajax_nonce          : pms_paypal.pms_ppcp_validate_currency_nonce,
+                action              : 'pms_validate_sdk_currency',
+                pms_nonce           : pms_paypal.pms_validate_currency_nonce,
                 subscription_plan_id: subscriptionPlan.val(),
-                pms_mc_currency     : subscriptionPlan.data('mc_currency')
+                pms_mc_currency     : subscriptionPlan.data('mc_currency'),
+                pay_gate            : 'paypal_connect'
             },
             dataType: 'json',
         }).done( function ( response ) {
@@ -446,7 +458,7 @@ jQuery(function ($) {
         if (current_button.length == 0)
             return false
 
-        var data = $.pms_form_get_data( current_button )
+        var data = await $.pms_form_get_data( current_button )
 
         // Same data as a Process Checkout request, we only switch the action
         data.action = 'pms_validate_checkout'

@@ -93,12 +93,12 @@ async function pms_initialize_recaptcha_v3( event = null, current_form = null ){
                 } else {
                     // jQuery(document).trigger( "pms_v3_recaptcha_success", jQuery( ".pms-form-submit input[type=\'submit\']", recaptchaResponse.closest("form") ) );
                     jQuery(document).trigger( "pms_v3_recaptcha_success", currentForm.elements["pms_register"] );
-                    return true;
+                    // return true;
                 }
 
-            });
+                resolve( token );
 
-            resolve( token );
+            });
 
         });
     });

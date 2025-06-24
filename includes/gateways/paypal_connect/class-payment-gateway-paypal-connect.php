@@ -280,29 +280,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
                 // Save checkout data from $_POST to the payment
                 // This is used for Webhooks if they need to update the subscription
-                $target_keys = array(
-                    'subscription_plans',
-                    'pms_default_recurring',
-                    'discount_code',
-                    'pms_billing_address',
-                    'pms_billing_city',
-                    'pms_billing_zip',
-                    'pms_billing_country',
-                    'pms_billing_state',
-                    'pms_vat_number',
-                    'form_type',
-                    'pms_current_subscription',
-                );
-
-                if( !empty( $_POST['subscription_plans'] ) )
-                    $target_keys[] = sprintf( 'subscription_price_%s', absint( $_POST['subscription_plans'] ) );
-
-                $checkout_data = array();
-
-                foreach( $_POST as $key => $value ){
-                    if( in_array( $key, $target_keys ) )
-                        $checkout_data[$key] = $value;
-                }
+                $checkout_data = PMS_AJAX_Checkout_Handler::get_checkout_data();
 
                 $checkout_data['form_location'] = $this->form_location;
                 $checkout_data['is_recurring']  = $is_recurring;

@@ -65,6 +65,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
             </div>
 
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                <label class="cozmoslabs-form-field-label" for="gdpr-delete-button"><?php esc_html_e( 'GDPR for Logged in Users', 'paid-member-subscriptions' ) ?></label>
+
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="gdpr-logged-in-users" name="pms_misc_settings[gdpr][gdpr_logged_in_users]" value="enabled" <?php echo (isset($this->options['gdpr']['gdpr_logged_in_users']) && $this->options['gdpr']['gdpr_logged_in_users'] === 'enabled') ? 'checked' : ''; ?> />
+                    <label class="cozmoslabs-toggle-track" for="gdpr-logged-in-users"></label>
+                </div>
+
+                <div class="cozmoslabs-toggle-description">
+                    <label for="gdpr-logged-in-users" class="cozmoslabs-description"><?php esc_html_e( 'Display the GDPR checkbox each time a payment is made.', 'paid-member-subscriptions' ); ?></label>
+                </div>
+            </div>
+
             <?php do_action( $this->menu_slug . '_misc_after_gdpr_tab_content', $this->options ); ?>
         </div>
 

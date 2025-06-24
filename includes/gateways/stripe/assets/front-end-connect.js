@@ -1,4 +1,4 @@
-jQuery( function( $ ) {
+jQuery( async function( $ ) {
 
     if( !( $('#stripe-pk').length > 0 ) )
         return false
@@ -17,53 +17,10 @@ jQuery( function( $ ) {
         return false
     }
 
-    var $client_secret              = ''
-    var $client_secret_setup_intent = ''
-
-    var elements              = false
-    var elements_setup_intent = false
-    var stripe                = false
-
-    var updating_payment_intent = false
-
-    // Grab intents so we can generate the payment form
-    pms_stripe_get_payment_intents().then( function( result ){
-
-        let intents = JSON.parse( result )
-
-        $client_secret              = intents.payment_intent
-        $client_secret_id           = intents.payment_intent_id
-        $client_secret_setup_intent = intents.setup_intent
-        $client_secret_setup_id     = intents.setup_intent_id
-
-        $('.pms-form input[name="pms_stripe_connect_payment_intent"], .wppb-register-user input[name="pms_stripe_connect_payment_intent"]').val( $client_secret )
-        $('.pms-form input[name="pms_stripe_connect_setup_intent"], .wppb-register-user input[name="pms_stripe_connect_setup_intent"]').val( $client_secret_setup_intent )
-
-        var StripeData = {
-            stripeAccount: pms.stripe_connected_account
-        }
-
-        if( pms.stripe_locale )
-            StripeData.locale = pms.stripe_locale
-
-        var stripe_appearance = ''
-
-        if( pms.pms_elements_appearance_api )
-            stripe_appearance = pms.pms_elements_appearance_api
-
-        stripe = Stripe( stripe_pk, StripeData )
-
-        // This only exists on payment pages that display the payment element
-        if( $client_secret && $client_secret.length > 0 )
-            elements = stripe.elements({ clientSecret: $client_secret, appearance: stripe_appearance })
-
-        // This exists on payment pages and also on the Update Payment Method page
-        if ( $client_secret_setup_intent && $client_secret_setup_intent.length > 0 )
-            elements_setup_intent = stripe.elements({ clientSecret: $client_secret_setup_intent, appearance: stripe_appearance })
-
-        stripeConnectInit()
-
-    })
+    var elements                     = false
+    var elements_setup_intent        = false
+    var update_elements_setup_intent = false
+    var stripe                       = false
 
     var $payment_element        = ''
     var $elements_instance_slug = ''
@@ -71,43 +28,92 @@ jQuery( function( $ ) {
     var cardIsEmpty = true
 
     var subscription_plan_selector = 'input[name=subscription_plans]'
+    var paygate_selector           = 'input.pms_pay_gate'
 
+    var stripe_appearance = {}
+
+    if( pms.pms_elements_appearance_api )
+        stripe_appearance = pms.pms_elements_appearance_api
+
+    var StripeData = {
+        stripeAccount: pms.stripe_connected_account
+    }
+
+    if( pms.stripe_locale )
+        StripeData.locale = pms.stripe_locale
+
+    stripe = Stripe( stripe_pk, StripeData )
+
+    var stripe_payment_intent_options = {
+        mode                 : 'payment',
+        currency             : pms.currency,
+        amount               : 1099,
+        paymentMethodCreation: 'manual',
+        setupFutureUsage     : 'off_session',
+        appearance           : stripe_appearance,
+    }
+
+    var stripe_setup_intent_options = {
+        mode                 : 'setup',
+        currency             : pms.currency,
+        paymentMethodCreation: 'manual',
+        setupFutureUsage     : 'off_session',
+        appearance           : stripe_appearance,
+    }
+
+    if( pms.pms_customer_session ){
+        stripe_payment_intent_options.customerSessionClientSecret = pms.pms_customer_session
+        stripe_setup_intent_options.customerSessionClientSecret   = pms.pms_customer_session
+    }
+
+    elements              = stripe.elements( stripe_payment_intent_options )
+    elements_setup_intent = stripe.elements( stripe_setup_intent_options )
+
+    stripeConnectInit()
+
+    // Validate currency for currently selected subscription plan if MC add-on is active
+    if ( pms.pms_mc_addon_active )
+        await pms_stripe_validate_sdk_checkout_currency( $( $pms_checked_subscription ) );
+
+    // Declare reCaptcha callback as already executed
+    if( typeof pms_initialize_recaptcha_v3 == 'function' ){
+        window.pmsRecaptchaCallbackExecuted = true
+    }
 
     // Update Stripe Payment Intent on subscription plan change
-    $(document).on('click', subscription_plan_selector, function ( event ) {
+    $(document).on('click', subscription_plan_selector, async function ( event ) {
 
-        jQuery('#pms-stripe-payment-elements').hide()
-        jQuery( '#pms-stripe-connect .pms-spinner__holder' ).show()
-
-        stripeConnectInit( false )
-        stripeConnectUpdatePaymentIntent().then( function( result ){
-
-            jQuery('#pms-stripe-payment-elements').show()
-            jQuery( '#pms-stripe-connect .pms-spinner__holder' ).hide()
-
-        })
-
-    })
-
-    // Discount applied
-    $(document).on('pms_discount_success', function ( event ) {
+        if ( pms.pms_mc_addon_active ){
+            await pms_stripe_validate_sdk_checkout_currency( $(this) );
+        }
 
         stripeConnectInit()
 
     })
 
-    // Auto renew box click
-    $(document).on('click', '.pms-subscription-plan-auto-renew input', function ( event ) {
+    // Discount applied
+    $(document).on('pms_discount_success', stripeConnectInit )
+    $(document).on('pms_discount_error', stripeConnectInit )
+    
+    // Update elements price when taxes are applied or removed
+    $(document).on('pms_tax_applied', function ( event, data ) {
 
-        jQuery('#pms-stripe-payment-elements').hide()
-        jQuery( '#pms-stripe-connect .pms-spinner__holder' ).show()
+        if( data.total > 0 ){
+            elements.update( { amount: pms_stripe_convert_amount_to_cents( data.total ) } );
+        }
 
-        stripeConnectUpdatePaymentIntent().then( function( result ){
+    })
 
-            jQuery('#pms-stripe-payment-elements').show()
-            jQuery( '#pms-stripe-connect .pms-spinner__holder' ).hide()
+    $(document).on('pms_tax_removed', function ( event ) {
 
-        })
+        if( typeof $pms_checked_subscription != 'undefined' ){
+
+            let price = $pms_checked_subscription.data( 'price' )
+
+            if( price > 0 ){
+                elements.update( { amount: pms_stripe_convert_amount_to_cents( price ) } );
+            }
+        }
 
     })
 
@@ -129,10 +135,9 @@ jQuery( function( $ ) {
 
     // Payment Intents
     $(document).on( 'wppb_invisible_recaptcha_success', stripeConnectPaymentGatewayHandler )
-    $(document).on( 'wppb_v3_recaptcha_success', stripeConnectPaymentGatewayHandler )
-    $(document).on( 'pms_v3_recaptcha_success', stripeConnectPaymentGatewayHandler )
+    // $(document).on( 'wppb_v3_recaptcha_success', stripeConnectPaymentGatewayHandler )
 
-    $(document).on('submit', '.pms-form', function (e) {
+    $(document).on('submit', '.pms-form', async function (e) {
 
         if( e.target && ( jQuery( e.target ).attr('id') == 'pms_recover_password_form' || jQuery( e.target ).attr('id') == 'pms_new_password_form' || jQuery( e.target ).attr('id') == 'pms_login' ) )
             return
@@ -170,7 +175,7 @@ jQuery( function( $ ) {
 
     })
 
-    function stripeConnectPaymentGatewayHandler( e, target_button = false ){
+    async function stripeConnectPaymentGatewayHandler( e, target_button = false ){
 
         if( $('input[type=hidden][name=pay_gate]').val() != 'stripe_connect' && $('input[type=radio][name=pay_gate]:checked').val() != 'stripe_connect' )
             return
@@ -200,121 +205,219 @@ jQuery( function( $ ) {
         // Disable the button
         current_button.attr( 'disabled', true )
 
-        // Add error if credit card was not completed
-        if ( cardIsEmpty === true ){
-            $.pms_form_add_validation_errors([{ target: 'credit_card', message: pms.invalid_card_details_error } ], current_button )
+        return pms_stripe_maybe_validate_recaptcha( current_button, e ).then( async function( recaptcha_response ){
 
-            if( typeof paymentSidebarPosition == 'function' ){
-                paymentSidebarPosition()
+            let target_elements = elements
+
+            if( $.pms_checkout_is_setup_intents() )
+                target_elements = elements_setup_intent
+
+            const {error: submitError} = await target_elements.submit()
+
+            if (submitError) {
+                let message = ''
+
+                if( submitError.message && submitError.message != '' ){
+                    message = submitError.message
+                } else {
+                    message = 'An error occurred while processing your payment. Please try again.'
+                }
+
+                $.pms_stripe_add_credit_card_error( message )
+                $.pms_form_scrollTo( '#pms-paygates-wrapper', current_button )
+                return false
             }
 
-            return
-        }
+            // Create the ConfirmationToken using the details collected by the Payment Element
+            const {error, confirmationToken} = await stripe.createConfirmationToken({
+                elements : target_elements,
+            });
 
-        // Update Payment Intent
-        stripeConnectUpdatePaymentIntent().then( function( result ){
+            if (error) {
 
-            if( result == false )
-                return
+                let message = ''
 
-            // grab all data from the form
-            var data = $.pms_form_get_data( current_button, true )
+                if( error.message && error.message != '' ){
+                    message = error.message
+                } else {
+                    message = 'An error occurred while processing your payment. Please try again.'
+                }
 
-            if( data == false )
-                return
+                $.pms_stripe_add_credit_card_error( message )
+                $.pms_form_scrollTo( '#pms-paygates-wrapper', current_button )
+                return false
+            }
 
-            // Make request to process checkout (create user, add pending payment and subscription)
-            $.post( pms.ajax_url, data, function( response ) {
+            return pms_stripe_process_checkout( current_button, confirmationToken.id ).then( async function( response ){
 
-                if( response ){
-                    response = JSON.parse( response )
+                // Handle validation errors
+                if( response.success == false && ( typeof response.data != 'undefined' || typeof response.wppb_errors != 'undefined' || typeof response.pms_errors != 'undefined' ) ){
+                    pms_stripe_handle_validation_errors( response, current_button )
 
-                    if( response.success == true ){
+                    return false
+                } else if( response.success == false && typeof response.type != 'undefined' && response.type == 'use_stripe_sdk' ){
 
-                        if( data.form_type == 'wppb' ){
+                    var { error, paymentIntent } = await stripe.handleNextAction({
+                        clientSecret: response.client_secret
+                    });
 
-                            var return_url = new URL( pms.stripe_return_url )
-
-                            return_url.searchParams.set( 'form_type', 'wppb' )
-                            return_url.searchParams.set( 'form_name', data.form_name )
-
-                            pms.stripe_return_url = return_url.toString()
-
-                        }
-
-                        // Handle card setup for a trial subscription
-                        if( data.setup_intent && data.setup_intent === true ){
-
-                            stripe.confirmSetup({
-                                elements: elements_setup_intent,
-                                confirmParams: {
-                                    return_url         : pms.stripe_return_url,
-                                    payment_method_data: { billing_details: pms_stripe_get_billing_details() }
-                                },
-                                redirect: 'if_required',
-                            }).then(function(result) {
-
-                                // Make request to process payment
-                                stripeConnectProcessPayment( result, response, data, current_button )
-
-                            })
-
-                        // Take the payment if there's no trial
-                        } else {
-
-                            stripe.confirmPayment({
-                                elements,
-                                confirmParams: {
-                                    return_url         : pms.stripe_return_url,
-                                    payment_method_data: { billing_details: pms_stripe_get_billing_details() }
-                                },
-                                redirect : 'if_required',
-                            }).then(function(result){
-
-                                // Make request to process payment
-                                stripeConnectProcessPayment( result, response, data, current_button )
-                            })
-
-                        }
-
-                    // Error handling
-                    } else if( response.success == false ){
-
-                        var form_type = data.form_type = $('.wppb-register-user .wppb-subscription-plans').length > 0 ? 'wppb' : $('.pms-ec-register-form').length > 0 ? 'pms_email_confirmation' : 'pms'
-
-                        // Paid Member Subscription forms
-                        if (response.data && ( form_type == 'pms' || form_type == 'pms_email_confirmation' ) ){
-                            $.pms_form_add_validation_errors( response.data, current_button )
-                        // Profile Builder form
-                        } else {
-
-                            // Add PMS related errors (Billing Fields)
-                            // These are added first because the form will scroll to the error and these
-                            // are always placed at the end of the WPPB form
-                            if( response.pms_errors && response.pms_errors.length > 0 )
-                                $.pms_form_add_validation_errors( response.pms_errors, current_button )
-
-                            // Add WPPB related errors
-                            if( typeof response.wppb_errors == 'object' )
-                                $.pms_form_add_wppb_validation_errors( response.wppb_errors, current_button )
-
-                        }
-
-                        jQuery(document).trigger( 'pms_checkout_validation_error', response, current_button )
-
-                    } else {
-                        console.log( 'something unexpected happened' )
+                    if( error && error.payment_intent ){
+                        paymentIntent = error.payment_intent
                     }
+
+                    // Process the payment on the server
+                    const server_response = await pms_stripe_process_payment( paymentIntent, response, current_button )
+
+                    if ( typeof server_response.redirect_url != 'undefined' && server_response.redirect_url ){
+                        window.location.replace( server_response.redirect_url )
+
+                        return true
+                    }
+
+                    return false
 
                 }
 
-            })
+                //console.log( response );
 
+                // Redirect to the URL if the response contains a redirect URL
+                if ( typeof response.redirect_url != 'undefined' && response.redirect_url ){
+                    window.location.replace( response.redirect_url )
+                    return true
+                }
+
+                console.log( '[PMS Stripe] Something unexpected happened. Response: ' + response )
+
+                return false;
+
+            }) 
+
+        })
+    }
+
+    async function pms_stripe_process_checkout( current_button, confirmationToken ){
+
+        // grab all data from the form
+        var data = await $.pms_form_get_data( current_button, true )
+
+        if( confirmationToken ){
+            data['stripe_confirmation_token'] = confirmationToken
+        }
+
+        if( data == false )
+            return
+
+        // prepare data
+        var form_data = new FormData()
+
+        for (var key in data) {
+            form_data.append(key, data[key])
+        }
+
+        return fetch( pms.ajax_url, {
+            method     : 'post',
+            credentials: 'same-origin',   // Required for WordPress cookie authentication
+            body       : form_data
+        }).then(function (res) {
+            return res.json()
+        }).catch(error => {
+            console.error('Something went wrong:', error)
+            throw error
+        })
+
+    }
+
+    async function pms_stripe_process_payment( payment_intent, user_data, target_button ){
+
+        // update nonce
+        nonce_data = {}
+        nonce_data.action = 'pms_update_nonce'
+
+        // Update nonce
+        const nonce = await fetch(pms.ajax_url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                action: 'pms_update_nonce'
+            })
+        }).then(function (res) {
+            return res.json()
+        }).catch(error => {
+            console.error('Something went wrong:', error)
+            throw error
+        })
+
+        // get form data
+        var form_data = await $.pms_form_get_data( target_button )
+
+        form_data.pmstkn_original = form_data.pmstkn
+        form_data.pmstkn          = ''
+
+        const data = {
+            ...form_data,
+            action              : 'pms_process_payment',
+            user_id             : user_data.user_id,
+            payment_id          : user_data.payment_id,
+            subscription_id     : user_data.subscription_id,
+            subscription_plan_id: user_data.subscription_plan_id,
+            payment_intent      : payment_intent.id,
+            current_page        : window.location.href,
+            pms_nonce           : nonce
+        };
+
+        // Add subscription price if plans exist
+        if ( data.subscription_plans ) {
+            const priceKey = `subscription_price_${data.subscription_plans}`;
+
+            if ( form_data[priceKey] ) {
+                data[priceKey] = form_data[priceKey];
+            }
+        }
+
+        // prepare data
+        var request_data = new FormData()
+
+        for (var key in data) {
+            request_data.append(key, data[key])
+        }
+
+        // Process payment
+        return await fetch(pms.ajax_url, {
+            method     : 'POST',
+            credentials: 'same-origin',
+            body       : request_data
+        }).then(function (res) {
+            return res.json()
+        }).catch(error => {
+            console.error('Something went wrong:', error)
+            throw error
         })
 
     }
 
     // Update Payment Method
+    function stripeConnectInitUpdatePaymentMethod(){
+
+        var $client_secret_setup_intent = $('.pms-form input[name="pms_stripe_connect_setup_intent"]').val()
+
+        if( $client_secret_setup_intent && $client_secret_setup_intent.length > 0 ){
+
+            update_elements_setup_intent = stripe.elements({ clientSecret: $client_secret_setup_intent, appearance: stripe_appearance })
+
+            $update_element = update_elements_setup_intent.create( "payment" )
+            $update_element.mount("#pms-stripe-payment-elements")
+
+            // Show credit card form error messages to the user as they happpen
+            $update_element.addEventListener('change', creditCardErrorsHandler )
+
+            pms_stripe_hide_spinner()
+        }
+
+    }
+
     function stripeConnectUpdatePaymentMethod( e, target_button = false ){
 
         e.preventDefault()
@@ -336,7 +439,7 @@ jQuery( function( $ ) {
         }
 
         stripe.confirmSetup({
-            elements: elements_setup_intent,
+            elements: update_elements_setup_intent,
             confirmParams: {
                 return_url: pms.stripe_return_url,
                 payment_method_data: { billing_details: pms_stripe_get_billing_details() }
@@ -367,15 +470,15 @@ jQuery( function( $ ) {
 
     }
 
-    function stripeConnectInit( hide_spinner = true ){
+    function stripeConnectInit(){
 
         var target_elements_instance      = false
         var target_elements_instance_slug = ''
 
         // Update Payment Method SetupIntent
         if ( $('#pms-update-payment-method-form #pms-stripe-payment-elements').length > 0 ){
-            target_elements_instance = elements_setup_intent
-            target_elements_instance_slug = 'setup_intents'
+            stripeConnectInitUpdatePaymentMethod();
+            return false;
         // SetupIntent
         } else if ( $.pms_checkout_is_setup_intents() ) {
             target_elements_instance      = elements_setup_intent
@@ -386,11 +489,22 @@ jQuery( function( $ ) {
             target_elements_instance_slug = 'payment_intents'
         }
 
+        let selected_subscription = jQuery( subscription_plan_selector + '[type=radio]' ).length > 0 ? jQuery( subscription_plan_selector + '[type=radio]:checked' ) : jQuery( subscription_plan_selector + '[type=hidden]' )
+
         if( target_elements_instance != false ){
 
             if( $payment_element == '' ){
 
-                $payment_element = target_elements_instance.create("payment", { terms: { card: 'never' } } )
+                if( typeof selected_subscription != 'undefined' && target_elements_instance_slug == 'payment_intents' ){
+                    
+                    let price = selected_subscription.data( 'price' )
+
+                    if( price > 0 ){
+                        target_elements_instance.update( { amount: pms_stripe_convert_amount_to_cents( price ) } );
+                    }
+                }
+
+                $payment_element = target_elements_instance.create( "payment" )
                 $payment_element.mount("#pms-stripe-payment-elements")
 
                 // Show credit card form error messages to the user as they happpen
@@ -398,11 +512,20 @@ jQuery( function( $ ) {
 
             } else {
 
+                // Update the amount of the payment element
+                if( typeof selected_subscription != 'undefined' && target_elements_instance_slug == 'payment_intents'  ){
+                    let price = selected_subscription.data( 'price' )
+
+                    if( price > 0 ){
+                        target_elements_instance.update( { amount: pms_stripe_convert_amount_to_cents( price ) } );
+                    }
+                }
+
                 if( $elements_instance_slug != target_elements_instance_slug ){
 
                     $payment_element.destroy()
 
-                    $payment_element = target_elements_instance.create("payment", { terms: { card: 'never' } } )
+                    $payment_element = target_elements_instance.create( "payment" )
                     $payment_element.mount("#pms-stripe-payment-elements")
 
                     // Show credit card form error messages to the user as they happpen
@@ -414,10 +537,7 @@ jQuery( function( $ ) {
 
             $elements_instance_slug = target_elements_instance_slug
 
-            if( hide_spinner ){
-                jQuery('#pms-stripe-payment-elements').show()
-                jQuery( '#pms-stripe-connect .pms-spinner__holder' ).hide()
-            }            
+            pms_stripe_hide_spinner()
 
             if( typeof paymentSidebarPosition == 'function' ){
                 setTimeout( paymentSidebarPosition, 300 )
@@ -503,6 +623,7 @@ jQuery( function( $ ) {
             data.form_type                = form_data.form_type ? form_data.form_type : ''
             data.pmstkn_original          = form_data.pmstkn ? form_data.pmstkn : ''
             data.setup_intent             = form_data.setup_intent ? form_data.setup_intent : ''
+            data.user_consent_logged_in   = form_data.user_consent_logged_in ? form_data.user_consent_logged_in : ''
 
             if( data.setup_intent == '' )
                 data.payment_intent = $client_secret_id
@@ -650,15 +771,127 @@ jQuery( function( $ ) {
 
     }
 
-    async function pms_stripe_get_payment_intents(){
+    function pms_stripe_handle_validation_errors( response, current_button ){
 
-        var data = {
-            'action': 'pms_stripe_get_payment_intents'
+        var form_type = $('.wppb-register-user .wppb-subscription-plans').length > 0 ? 'wppb' : $('.pms-ec-register-form').length > 0 ? 'pms_email_confirmation' : 'pms'
+
+        // Paid Member Subscription forms
+        if (response.data && ( form_type == 'pms' || form_type == 'pms_email_confirmation' ) ){
+            $.pms_form_add_validation_errors( response.data, current_button )
+        // Profile Builder form
+        } else {
+
+            // Add PMS related errors (Billing Fields)
+            // These are added first because the form will scroll to the error and these
+            // are always placed at the end of the WPPB form
+            if( response.pms_errors && response.pms_errors.length > 0 )
+                $.pms_form_add_validation_errors( response.pms_errors, current_button )
+
+            // Add WPPB related errors
+            if( typeof response.wppb_errors == 'object' )
+                $.pms_form_add_wppb_validation_errors( response.wppb_errors, current_button )
+
         }
 
-        return await $.post( pms.ajax_url, data, function( response ) {
-            return response;
-        })
+        jQuery(document).trigger( 'pms_checkout_validation_error', response, current_button )
+
+    }
+
+    async function pms_stripe_maybe_validate_recaptcha( current_button, event = null ){
+
+        if( typeof pms_initialize_recaptcha_v3 == 'function' ){
+
+            let form = current_button.closest('form')
+
+            var recaptcha_field = jQuery('.pms-recaptcha', form )
+
+            if( recaptcha_field.length > 0 ){
+
+                return await pms_initialize_recaptcha_v3( event, form )
+    
+            }
+
+        }
+        
+        let wppb_form = current_button.closest('.wppb-register-user')
+
+        if( wppb_form.length > 0 && wppb_form[0].length > 0 && typeof wppbInitializeRecaptchaV3 == 'function' ){
+
+            let wppb_recaptcha_field = jQuery('.wppb-recaptcha .wppb-recaptcha-element', wppb_form )
+
+            if( wppb_recaptcha_field.length > 0 ){
+                return await wppbInitializeRecaptchaV3( event, wppb_form )
+            }
+            
+        }
+
+        return true
+
+    }
+
+    function pms_stripe_convert_amount_to_cents( amount ){
+
+        let currency = pms.currency
+
+        // List of zero-decimal currencies
+        const zero_decimal_currencies = [
+            'BIF', 'CLP', 'DJF', 'GNF', 'JPY', 'KMF', 'KRW', 'MGA', 
+            'PYG', 'RWF', 'UGX', 'VND', 'VUV', 'XAF', 'XOF', 'XPF'
+        ];
+
+        // If currency is not in zero-decimal list, multiply by 100
+        if ( !zero_decimal_currencies.includes( currency ) ) {
+            amount = amount * 100;
+        }
+
+        // Round to ensure we have a whole number
+        return Math.round( amount );
+    }
+
+    /**
+     * Validate custom currency
+     *
+     * @param subscriptionPlan
+     * @returns {Promise<*>}
+     */
+    async function pms_stripe_validate_sdk_checkout_currency( subscriptionPlan ) {
+
+        pms_stripe_show_spinner()
+
+        return $.ajax({
+            url: pms.ajax_url,
+            type: 'POST',
+            data: {
+                action              : 'pms_validate_sdk_currency',
+                pms_nonce           : pms.pms_validate_currency_nonce,
+                subscription_plan_id: subscriptionPlan.val(),
+                pms_mc_currency     : subscriptionPlan.data('mc_currency'),
+                pay_gate            : 'stripe_connect'
+            },
+            dataType: 'json',
+        }).done( function ( response ) {
+
+            if ( response && response.success && response.currency )
+                elements.update( { currency: response.currency.toLowerCase() } )
+
+            pms_stripe_hide_spinner()
+
+            return;
+
+        });
+    }
+
+    function pms_stripe_hide_spinner(){
+
+        jQuery('#pms-stripe-payment-elements').show()
+        jQuery( '#pms-stripe-connect .pms-spinner__holder' ).hide()
+
+    }
+
+    function pms_stripe_show_spinner(){
+
+        jQuery('#pms-stripe-payment-elements').hide()
+        jQuery( '#pms-stripe-connect .pms-spinner__holder' ).show()
 
     }
 

@@ -32,8 +32,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         $manage_fields[] = array( 'type' => 'text', 'slug' => 'subscription-plans-sort-order', 'title' => __( 'Subscription Plans Order', 'paid-member-subscriptions' ), 'description' => __( "Save the subscription plan order from the subscription plans checkboxes", 'paid-member-subscriptions' ) );
 
-        if( count( $subscription_plans_select ) > 1 )
+        if( count( $subscription_plans_select ) > 1 ){
+            unset( $subscription_plans_select[1] ); // remove the All option
             $manage_fields[] = array( 'type' => 'select', 'slug' => 'subscription-plan-selected', 'title' => __( 'Selected Subscription Plan', 'paid-member-subscriptions' ), 'options' => $subscription_plans_select, 'description' => __( "Select which plan will be by default selected when the front-end form loads.", 'paid-member-subscriptions' ) );
+        }
 
         return $manage_fields;
 

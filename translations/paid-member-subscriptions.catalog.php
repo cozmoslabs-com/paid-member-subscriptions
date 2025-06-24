@@ -604,6 +604,7 @@
 <?php __("Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>", "paid-member-subscriptions"); ?>
 <?php __('<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s', 'paid-member-subscriptions' ); ?>
+<?php __("I allow the website to collect and store the data I submit through this form. *", "paid-member-subscriptions"); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
 <?php __("Abandoned", "paid-member-subscriptions"); ?>
 <?php __("Pricing Table", "paid-member-subscriptions"); ?>
@@ -1930,10 +1931,11 @@
 <?php __("GDPR checkbox on Forms", "paid-member-subscriptions"); ?>
 <?php __("Select whether to show a GDPR checkbox on our forms.", "paid-member-subscriptions"); ?>
 <?php __("GDPR Checkbox Text", "paid-member-subscriptions"); ?>
-<?php __("I allow the website to collect and store the data I submit through this form. *", "paid-member-subscriptions"); ?>
 <?php __("Text for the GDPR checkbox. You can use {{privacy_policy}} to generate a link for the Privacy policy page.", "paid-member-subscriptions"); ?>
 <?php __("GDPR Delete Button on Forms", "paid-member-subscriptions"); ?>
 <?php __("Select whether to show a GDPR Delete button on our forms.", "paid-member-subscriptions"); ?>
+<?php __("GDPR for Logged in Users", "paid-member-subscriptions"); ?>
+<?php __("Display the GDPR checkbox each time a payment is made.", "paid-member-subscriptions"); ?>
 <?php __("Other Settings", "paid-member-subscriptions"); ?>
 <?php __("Admin Bar", "paid-member-subscriptions"); ?>
 <?php __("Remove the admin bar from all logged in users except Administrators.", "paid-member-subscriptions"); ?>
@@ -2651,7 +2653,7 @@
 <?php __("Page will refresh in 3 seconds...", "paid-member-subscriptions"); ?>
 <?php __("Please complete the reCaptcha.", "paid-member-subscriptions"); ?>
 <?php __("Could not validate reCAPTCHA. Please complete it again.", "paid-member-subscriptions"); ?>
-<?php __("Could not validate reCAPTCHA. Please refresh the page and try again.", "paid-member-subscriptions"); ?>
+<?php __("Could not validate reCAPTCHA. Please try again.", "paid-member-subscriptions"); ?>
 <?php __("Click the BACK button on your browser, and try again.", "paid-member-subscriptions"); ?>
 <?php __("You can add up to %s more members.", "paid-member-subscriptions"); ?>
 <?php __("User(s) to add as members of your Group Subscription:", "paid-member-subscriptions"); ?>

@@ -277,6 +277,10 @@
     margin: 0;
 }
 
+.pms-account-subscription-details-table tbody tr td div.pms-account-subscription-details-table__payment-method .pms-account-subscription-action-link__update-payment-method {
+    font-size: 85%;
+}
+
 /* payment & invoices */
 #pms-payment-history {
     border-collapse: collapse;

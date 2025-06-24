@@ -71,7 +71,7 @@ Class PMS_AJAX_Checkout_Handler {
          * We hook the action in order to return some data to the front-end js in order to complete the
          * processing of this payment
          */
-        add_action( 'pms_checkout_error_before_redirect', array( $this, 'handle_checkout_error_redirect' ), 20, 2 );
+        //add_action( 'pms_checkout_error_before_redirect', array( $this, 'handle_checkout_error_redirect' ), 20, 2 );
 
         // Add process checkout nonce to form
         add_filter( 'pms_get_output_payment_gateways', array( $this, 'add_process_checkout_nonce_to_form' ), 10, 2 );
@@ -531,6 +531,40 @@ Class PMS_AJAX_Checkout_Handler {
 
         return add_query_arg( array( 'pms_payment_error' => '1', 'pms_is_register' => $pms_is_register, 'pms_payment_id' => $payment_id ), $redirect_url );
 
+    }
+
+    /**
+     * Get the checkout data from the POST data
+     * 
+     * @return array The checkout data
+     */
+    public static function get_checkout_data(){
+
+        $target_keys = array(
+            'subscription_plans',
+            'pms_default_recurring',
+            'discount_code',
+            'pms_billing_address',
+            'pms_billing_city',
+            'pms_billing_zip',
+            'pms_billing_country',
+            'pms_billing_state',
+            'pms_vat_number',
+            'form_type',
+            'pms_current_subscription'
+        );
+
+        if( !empty( $_POST['subscription_plans'] ) )
+            $target_keys[] = sprintf( 'subscription_price_%s', absint( $_POST['subscription_plans'] ) );
+
+        $checkout_data = array();
+
+        foreach( $_POST as $key => $value ){
+            if( in_array( $key, $target_keys ) )
+                $checkout_data[$key] = $value;
+        }
+
+        return $checkout_data;
     }
 
 }

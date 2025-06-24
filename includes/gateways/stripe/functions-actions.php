@@ -19,7 +19,14 @@ function pms_stripe_enqueue_front_end_scripts(){
 
     wp_enqueue_script( 'pms-stripe-js', 'https://js.stripe.com/v3/', array( 'jquery' ) );
 
-    $pms_stripe_script_vars = array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'empty_credit_card_message' => __( 'Please enter a credit card number.', 'paid-member-subscriptions' ), 'invalid_card_details_error' => __( 'Your card details do not seem to be valid.', 'paid-member-subscriptions' ) );
+    $pms_stripe_script_vars = array( 
+        'ajax_url'                    => admin_url( 'admin-ajax.php' ),
+        'empty_credit_card_message'   => __( 'Please enter a credit card number.', 'paid-member-subscriptions' ),
+        'invalid_card_details_error'  => __( 'Your card details do not seem to be valid.', 'paid-member-subscriptions' ),
+        'pms_validate_currency_nonce' => wp_create_nonce( 'pms_validate_currency' ),
+        'currency'                    => strtolower( apply_filters( 'pms_stripe_sdk_currency', pms_get_active_currency() ) ),
+        'pms_mc_addon_active'         => apply_filters( 'pms_stripe_mc_addon_active', apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-multiple-currencies/index.php' ) ),
+    );
 
     wp_enqueue_script( 'pms-stripe-script', PMS_PLUGIN_DIR_URL . 'includes/gateways/stripe/assets/front-end-connect.js', array('jquery', 'pms-front-end'), PMS_VERSION );
 
@@ -42,14 +49,13 @@ function pms_stripe_enqueue_front_end_scripts(){
 
     $pms_stripe_script_vars['stripe_return_url']           = add_query_arg( 'pms_stripe_connect_return_url', 1, home_url() );
     $pms_stripe_script_vars['stripe_account_country']      = pms_stripe_connect_get_account_country();
-    $pms_stripe_script_vars['pms_active_currency']         = strtolower( pms_get_active_currency() );
     $pms_stripe_script_vars['pms_elements_appearance_api'] = apply_filters( 'pms_stripe_connect_elements_styling', array( 'theme' => 'stripe' ) );
+    $pms_stripe_script_vars['pms_customer_session']        = pms_stripe_generate_customer_session();
 
     wp_localize_script( 'pms-stripe-script', 'pms', $pms_stripe_script_vars );
 
 }
 
-// AJAX hooks
 /**
  * This is triggered each time a Subscription Plan is selected in the form in order to update
  * the amount of the Payment Intent
@@ -84,30 +90,6 @@ function pms_stripe_connect_update_payment_intent(){
     if( !empty( $response ) )
         echo json_encode( array( 'status' => $response->status, 'data' => array( 'plan_name' => $subscription_plan->name, 'amount' => $gateway->process_amount( $amount, pms_get_active_currency() ) ) ) );
 
-    die();
-
-}
-
-/**
- * Get payment and setup intents
- */
-add_action( 'wp_ajax_pms_stripe_get_payment_intents', 'pms_stripe_connect_get_payment_intents' );
-add_action( 'wp_ajax_nopriv_pms_stripe_get_payment_intents', 'pms_stripe_connect_get_payment_intents' );
-function pms_stripe_connect_get_payment_intents(){
-
-    $gateway = pms_get_payment_gateway( 'stripe_connect' );
-
-    $payment_intent = $gateway->create_initial_payment_intent();
-    $setup_intent   = $gateway->create_initial_setup_intent();
-
-    $data = array(
-        'payment_intent'    => isset( $payment_intent['client_secret'] ) ? $payment_intent['client_secret'] : '',
-        'payment_intent_id' => isset( $payment_intent['id'] ) ? $payment_intent['id'] : '',
-        'setup_intent'      => isset( $setup_intent['client_secret'] ) ? $setup_intent['client_secret'] : '',
-        'setup_intent_id'   => isset( $setup_intent['id'] ) ? $setup_intent['id'] : '',
-    );
-
-    echo json_encode( $data );
     die();
 
 }
@@ -149,6 +131,8 @@ function pms_stripe_connect_handle_payment_method_return_url(){
 
         $payment_id      = $payment[0]->id;
         $subscription_id = $payment[0]->member_subscription_id;
+
+        $payment[0]->log_data( 'stripe_intent_returned_after_redirect' );
 
     }
 

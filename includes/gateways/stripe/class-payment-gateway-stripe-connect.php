@@ -7,12 +7,6 @@ if( ! defined( 'ABSPATH' ) ) exit;
 if( ! defined( 'PMS_VERSION' ) ) return;
 
 use Stripe\Stripe;
-use Stripe\Account;
-use Stripe\Customer;
-use Stripe\Charge;
-use Stripe\PaymentMethod;
-use Stripe\PaymentIntent;
-use Stripe\SetupIntent;
 
 Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
@@ -41,6 +35,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      *
      */
     protected $discount = false;
+
+
+    protected $stripe_client;
 
     /**
      * The features supported by the payment gateway
@@ -108,6 +105,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $api_credentials  = pms_stripe_connect_get_api_credentials();
         $this->secret_key = ( !empty( $api_credentials['secret_key'] ) ? $api_credentials['secret_key'] : '' );
 
+        if( empty( $this->secret_key ) )
+            return;
+
+        $this->stripe_client = new \Stripe\StripeClient( $this->secret_key );
+
         // Set Stripe token obtained with Stripe JS
         $this->stripe_token = ( !empty( $_POST['stripe_token'] ) ? sanitize_text_field( $_POST['stripe_token'] ) : '' );
 
@@ -120,18 +122,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         if( empty( $this->form_location ) && isset( $_POST['form_location'] ) )
             $this->form_location = sanitize_text_field( $_POST['form_location'] );
-
-        /**
-         * When Stripe Connect is used for checkout we make an AJAX request to the website that triggers
-         * the normal flow of the plugin: validation -> register user -> process checkout
-         *
-         * The checkout will error out since we don't have the required payment data and we just want it
-         * to register the user, payment, subscription at this point, then it will reach this action
-         *
-         * We hook the action in order to return some data to the front-end js in order to complete the
-         * processing of this payment
-         */
-        add_action( 'pms_process_checkout_handle_error_redirect', array( $this, 'handle_checkout_error_redirect' ), 20, 2 );
 
         if( !is_admin() ) {
 
@@ -180,128 +170,115 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
-    /**
-     * Create the customer and save the customer's card id in Stripe and also save their ids as metadata
-     * for the provided subscription as the payment method metadata needed for future payments
-     *
-     * @param int $member_subscription_id
-     *
-     * @return bool
-     *
-     */
-    public function register_automatic_billing_info( $member_subscription_id = 0 ) {
+    public function reset_stripe_client(){
 
-        if( empty( $this->secret_key ) )
-            return false;
+        $api_credentials  = pms_stripe_connect_get_api_credentials();
+        $this->secret_key = ( !empty( $api_credentials['secret_key'] ) ? $api_credentials['secret_key'] : '' );
 
-        if( empty( $member_subscription_id ) )
-            return false;
-
-        // Set API key
-        Stripe::setApiKey( $this->secret_key );
-
-        // Verify API key
-        try {
-
-            Account::retrieve();
-
-        } catch( Exception $e ) {
-
-            return false;
-
+        if( !empty( $this->secret_key ) ){
+            $this->stripe_client = new \Stripe\StripeClient( $this->secret_key );
         }
-
-        if( !empty( $this->stripe_token ) ) {
-
-            try {
-                //if we receive a Setup Intent ID an error happened, log it
-                if( strpos( $this->stripe_token, 'seti_' ) !== false ){
-
-                    //retrieve error from setup intent
-                    $setup_intent = \Stripe\SetupIntent::retrieve( $this->stripe_token );
-
-                    if( !empty( $setup_intent['last_setup_error'] ) ) {
-                        $data       = array();
-                        $error      = $setup_intent['last_setup_error'];
-
-                        $data['data'] = array(
-                            'code'              => !empty( $error['code'] ) ? $error['code'] : '',
-                            'message'           => !empty( $error['message'] ) ? $error['message'] : '',
-                            'doc_url'           => !empty( $error['doc_url'] ) ? $error['doc_url'] : '',
-                            'payment_intent_id' => $this->stripe_token,
-                        );
-
-                        $error_code = !empty( $error['decline_code'] ) ? $error['decline_code'] : '';
-
-                        $data['message'] = !empty( $error['message'] ) ? $error['message'] : '';
-                        $data['desc']    = 'stripe response';
-
-                        $payment = pms_get_payment( $this->payment_id );
-
-                        $payment->log_data( 'payment_failed', $data, $error_code );
-                        $payment->update( array( 'status' => 'failed' ) );
-
-                        return false;
-                    }
-                }
-
-                // WPPB Setup Intent
-                if( !empty( $_REQUEST['setup_intent_id'] ) ){
-
-                    $setup_intent = \Stripe\SetupIntent::retrieve( sanitize_text_field( $_REQUEST['setup_intent_id'] ) );
-
-                    if( !empty( $setup_intent->customer ) ){
-
-                        // Save Customer and Card for this subscription
-                        pms_update_member_subscription_meta( $member_subscription_id, '_stripe_customer_id', $setup_intent->customer );
-                        pms_update_member_subscription_meta( $member_subscription_id, '_stripe_card_id', $this->stripe_token );
-
-                        $subscription = pms_get_member_subscription( $member_subscription_id );
-
-                        // Save Customer to usermeta
-                        update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $setup_intent->customer );
-
-                        $this->update_customer_information( $setup_intent->customer );
-
-                    }
-
-                }
-
-                // If subscription had a trial, save card fingerprint
-                $this->save_trial_card( $member_subscription_id, $this->stripe_token );
-
-                // Save card expiration info
-                $this->save_payment_method_expiration_data( $member_subscription_id, $this->stripe_token );
-
-            } catch( Exception $e ) {
-
-                $this->log_error_data( $e );
-
-                $payment = pms_get_payment( $this->payment_id );
-                $payment->update( array( 'status' => 'failed' ) );
-
-                return false;
-
-            }
-
-            return true;
-
-        }
-
-        return false;
 
     }
 
     /**
-     * TODO: add comment
+     * Create the customer and save the customer's card id in Stripe and also save their ids as metadata
+     * for the provided subscription as the payment method metadata needed for future payments
+     *
+     * @param int $subscription_id
+     *
+     * @return bool
+     *
      */
-    public function process_payment( $payment_id = 0, $subscription_id = 0 ) {
+    public function register_automatic_billing_info( $subscription_id = 0 ) {
 
-        if( empty( $this->secret_key ) )
+        if( empty( $subscription_id ) )
             return false;
 
-        // set API key
-        Stripe::setApiKey( $this->secret_key );
+        $subscription = pms_get_member_subscription( $subscription_id );
+
+        if( empty( $subscription->id ) )
+            return false;
+
+        $payment = pms_get_payment( $this->payment_id );
+
+        // Set subscription plan
+        if( empty( $this->subscription_plan ) ){
+
+            if( !empty( $payment ) )
+                $this->subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
+            else if( !empty( $_POST['subscription_plan_id'] ) )
+                $this->subscription_plan = pms_get_subscription_plan( absint( $_POST['subscription_plan_id'] ) );
+
+        }
+
+        if( !empty( $_REQUEST['stripe_confirmation_token'] ) ){
+
+            if( PMS_Form_Handler::checkout_has_trial() || ( !empty( $payment ) && $payment->amount == 0 ) || ( !is_null( $this->sign_up_amount ) && $this->sign_up_amount == 0 ) ){
+
+                $intent = $this->create_setup_intent( sanitize_text_field( $_REQUEST['stripe_confirmation_token'] ), $subscription );
+
+                if( !empty( $intent->next_action ) && !empty( $intent->next_action->type ) && $intent->next_action->type == 'redirect_to_url' ){
+    
+                    $data = array(
+                        'success'      => false,
+                        'type'         => $intent->next_action->type,
+                        'redirect_url' => $intent->next_action->redirect_to_url->url,
+                    );
+    
+                    echo json_encode( $data );
+                    die();
+    
+                }
+                
+                if( !empty( $intent->id ) ){
+                    // Save Customer and Card for this subscription
+                    pms_update_member_subscription_meta( $subscription->id, '_stripe_customer_id', $intent->customer );
+                    pms_update_member_subscription_meta( $subscription->id, '_stripe_card_id', $intent->payment_method->id );
+    
+                    // Save Customer to usermeta
+                    update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $intent->customer );
+    
+                    pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_initial_payment_intent', $intent->id );
+
+                    // In some cases, a payment exists so we can save the setup intent id to the payment
+                    if( !empty( $payment ) ){
+                        $payment->update( array(
+                            'transaction_id' => $intent->id
+                        ) );
+                    }
+                }
+    
+                if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
+
+                    // Set `allow_redisplay` parameter to `always` on the payment method for logged out users. Logged in users have an option to save the payment method in their form.
+                    if( !is_user_logged_in() ){
+                        $this->stripe_client->paymentMethods->update( $intent->payment_method->id, [ 'allow_redisplay' => 'always' ] );
+                    }
+
+                    // If subscription had a trial, save card fingerprint
+                    $this->save_trial_card( $subscription->id, $intent->payment_method );
+
+                    // Save card expiration info
+                    $this->save_payment_method_expiration_data( $subscription->id, $intent->payment_method );
+
+                    return true;
+
+
+                } else {
+
+                    return false;
+
+                }
+
+            }
+        }
+
+        return true;
+
+    }
+
+    public function process_payment( $payment_id = 0, $subscription_id = 0 ) {
 
         if( $payment_id != 0 )
             $this->payment_id = $payment_id;
@@ -312,7 +289,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         $form_location = PMS_Form_Handler::get_request_form_location( $target );
 
-        if( isset( $_REQUEST['payment_intent'] ) && isset( $_GET['pms_stripe_connect_return_url'] ) && $_GET['pms_stripe_connect_return_url'] == 1 )
+        if( isset( $_REQUEST['payment_intent'] ) && isset( $_REQUEST['pms_stripe_connect_return_url'] ) && $_REQUEST['pms_stripe_connect_return_url'] == 1 )
             $form_location = 'stripe_return_url';
 
         // Mark the start of a renewal for a subscription
@@ -338,204 +315,231 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         }
 
-        // Set subscription plan
-        if( empty( $this->subscription_plan ) ){
-
-            if( !empty( $payment ) )
-                $this->subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
-            else if( !empty( $_POST['subscription_plan_id'] ) )
-                $this->subscription_plan = pms_get_subscription_plan( absint( $_POST['subscription_plan_id'] ) );
-
-        }
-
-        $is_recurring = PMS_Form_Handler::checkout_is_recurring();
-
         $subscription = pms_get_member_subscription( $subscription_id );
 
         if( empty( $subscription->id ) )
             return false;
 
-        if( !empty( $_REQUEST['payment_intent'] ) ){
-            // SetupIntent
-            if( isset( $_REQUEST['setup_intent'] ) && sanitize_text_field( $_REQUEST['setup_intent'] ) == true ){
+        if( !empty( $_REQUEST['stripe_confirmation_token'] ) ){
 
-                $intent = SetupIntent::retrieve( sanitize_text_field( $_REQUEST['payment_intent'] ) );
+            // Create payment intent
+            $payment_intent = $this->create_payment_intent( sanitize_text_field( $_REQUEST['stripe_confirmation_token'] ), $subscription );
 
-                if( $form_location == 'stripe_return_url' ){
+            if( $payment_intent !== false && !empty( $payment_intent->id ) ){
 
-                    if( !empty( $intent->metadata->request_location ) )
-                        $form_location = $intent->metadata->request_location;
-
+                if( !empty( $payment ) ){
+                    $payment->log_data( 'stripe_intent_created' );
+    
+                    // Save checkout data from $_POST to the payment 
+                    // This is used for Webhooks if they need to update the subscription
+                    $checkout_data = PMS_AJAX_Checkout_Handler::get_checkout_data();
+    
+                    pms_add_payment_meta( $payment->id, 'pms_checkout_data', $checkout_data );
                 }
 
-                // Set PaymentMethod
-                if( !empty( $intent->customer ) ){
+                pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_initial_payment_intent', $payment_intent->id );
 
-                    // Save Customer and Card for this subscription
-                    pms_update_member_subscription_meta( $subscription_id, '_stripe_customer_id', $intent->customer );
-                    pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $intent->payment_method );
+                if( isset( $payment_intent->next_action ) && !is_null( $payment_intent->next_action ) && !empty( $payment_intent->next_action->type ) ){
 
-                    // Save Customer to usermeta
-                    update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $intent->customer );
 
-                    $this->update_customer_information( $intent->customer );
+                    if( !empty( $payment->id ) ){   
+                        if( $payment_intent->next_action->type == 'redirect_to_url' ){
+                            $payment->log_data( 'stripe_intent_redirecting_offsite' );
+                        }
 
-                }
-
-                if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
-
-                    // Update subscription
-                    $this->update_subscription( $subscription, $form_location, true, $is_recurring );
-
-                    // If subscription had a trial, save card fingerprint
-                    $this->save_trial_card( $subscription_id, $intent->payment_method );
-
-                    // Save card expiration info
-                    $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
-
-                    do_action( 'pms_stripe_checkout_processed', 'setup_intent', $subscription_id, $payment->id, $form_location );
-
-                    do_action( 'pms_checkout_after_payment_is_processed', true, $subscription, $form_location );
-
-                    $data = array(
-                        'success'      => true,
-                        'redirect_url' => PMS_AJAX_Checkout_Handler::get_success_redirect_url( $form_location ),
-                    );
-
-                    if( wp_doing_ajax() ){
-                        echo json_encode( $data );
-                        die();
-                    } else {
-                        return $data;
+                        $payment->update( array(
+                            'transaction_id' => $payment_intent->id
+                        ) );
                     }
 
-                } else {
-
                     $data = array(
-                        'success'      => false,
-                        'redirect_url' => PMS_AJAX_Checkout_Handler::get_payment_error_redirect_url(),
+                        'success'              => false,
+                        'client_secret'        => $payment_intent->client_secret,
+                        'type'                 => $payment_intent->next_action->type,
+                        'redirect_url'         => isset( $payment_intent->next_action->redirect_to_url->url ) ? $payment_intent->next_action->redirect_to_url->url : '',
+                        'payment_id'           => $payment->id,
+                        'subscription_id'      => $subscription->id,
+                        'user_id'              => $subscription->user_id,
+                        'subscription_plan_id' => $subscription->subscription_plan_id,
                     );
 
-                    if( wp_doing_ajax() ){
-                        echo json_encode( $data );
-                        die();
-                    } else {
-                        return $data;
-                    }
+                    echo json_encode( $data );
+                    die();
 
                 }
 
-            // PaymentIntent
-            } else {
+                // Save Customer and Card for this subscription
+                pms_update_member_subscription_meta( $subscription->id, '_stripe_customer_id', $payment_intent->customer );
+                pms_update_member_subscription_meta( $subscription->id, '_stripe_card_id', $payment_intent->payment_method->id );
 
-                // retrieve intent
-                $intent = PaymentIntent::retrieve( sanitize_text_field( $_REQUEST['payment_intent'] ) );
-
-                if( $form_location == 'stripe_return_url' ){
-
-                    if( !empty( $intent->metadata->request_location ) )
-                        $form_location = $intent->metadata->request_location;
-
-                }
-
-                // Set PaymentMethod
-                if( !empty( $intent->customer ) ){
-
-                    // Save Customer and Card for this subscription
-                    pms_update_member_subscription_meta( $subscription_id, '_stripe_customer_id', $intent->customer );
-                    pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $intent->payment_method );
-
-
-                    // Save Customer to usermeta
-                    update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $intent->customer );
-
-                    $this->update_customer_information( $intent->customer );
-
-                }
-
-                if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
+                // Save Customer to usermeta
+                update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $payment_intent->customer );
+                
+                if( !empty( $payment_intent->status ) && in_array( $payment_intent->status, array( 'succeeded', 'processing' ) ) ){
 
                     // Complete Payment
-                    if( $intent->status == 'succeeded' ){
+                    if( $payment_intent->status == 'succeeded' ){
 
                         $payment->log_data( 'stripe_intent_confirmed' );
-                        $payment->update( array( 'status' => 'completed' ) );
 
-                    } else if ( $intent->status == 'processing' ){
+                        $payment->update( array( 
+                            'status'         => 'completed',
+                            'transaction_id' => $payment_intent->id
+                        ) );
+
+                    } else if ( $payment_intent->status == 'processing' ){
 
                         $payment->log_data( 'stripe_intent_processing' );
 
+                        $payment->update( array( 
+                            'transaction_id' => $payment_intent->id
+                        ) );
+
                     }
 
-                    $checkout_data = array(
-                        'checkout_amount' => $intent->amount,
-                    );
-
-                    // Update subscription
-                    $this->update_subscription( $subscription, $form_location, false, $is_recurring, $checkout_data );
+                    // Set `allow_redisplay` parameter to `always` on the payment method for logged out users. Logged in users have an option to save the payment method in their form.
+                    if( !is_user_logged_in() ){
+                        $payment_method = $this->stripe_client->paymentMethods->update( $payment_intent->payment_method->id, [ 'allow_redisplay' => 'always' ] );
+                    }
 
                     // If subscription had a trial, save card fingerprint
-                    $this->save_trial_card( $subscription_id, $intent->payment_method );
+                    $this->save_trial_card( $subscription->id, $payment_intent->payment_method );
 
                     // Save card expiration info
-                    $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
-                    
-                    do_action( 'pms_stripe_checkout_processed', 'payment_intent', $subscription_id, $payment->id, $form_location );
+                    $this->save_payment_method_expiration_data( $subscription->id, $payment_intent->payment_method );
                     
                     do_action( 'pms_checkout_after_payment_is_processed', true, $subscription, $form_location );
 
-                    $data = array(
-                        'success'      => true,
-                        'redirect_url' => PMS_AJAX_Checkout_Handler::get_success_redirect_url( $form_location, $payment->id ),
-                    );
+                    return true;
 
-                    if( wp_doing_ajax() ){
-                        echo json_encode( $data );
-                        die();
-                    } else {
-                        return $data;
-                    }
 
-                /**
-                 *
-                 */
                 } else {
 
-                    $intent_error = $this->parse_intent_last_error( $intent );
-                    $error_code   = !empty( $intent_error['data']['decline_code'] ) ? $intent_error['data']['decline_code'] : ( !empty( $intent_error['data']['code'] ) ? $intent_error['data']['code'] : 'card_declined' );
+                    error_log( '[STRIPE] Error or Unexpected Payment Intent Status. Payment Intent: ' . json_encode( $payment_intent ) );
+
+                    $intent_error = $this->parse_intent_last_error( $payment_intent );
+
+                    $error_code = !empty( $intent_error['data']['decline_code'] ) ? $intent_error['data']['decline_code'] : ( !empty( $intent_error['data']['code'] ) ? $intent_error['data']['code'] : 'card_declined' );
 
                     $payment->log_data( 'payment_failed', $intent_error, $error_code );
                     $payment->update( array( 'status' => 'failed' ) );
 
-                    $data = array(
-                        'success'      => false,
-                        'redirect_url' => PMS_AJAX_Checkout_Handler::get_payment_error_redirect_url( $payment->id ),
-                    );
-
-                    if( wp_doing_ajax() ){
-                        echo json_encode( $data );
-                        die();
-                    } else {
-                        return $data;
-                    }
+                    return false;
 
                 }
-            }
-        } else {
-            // NOTE: When Apple Pay or Google Pay payment window is closed, Stripe returns an incomplete error, but the status of the payment intent does not change
-            // This needs to be treated as an error by the plugin because an account is created regardless if this window is closed or not
 
-            if( wp_doing_ajax() && isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'pms_stripe_connect_process_payment' && empty( $_REQUEST['payment_intent'] ) ){
+            } else {
+
+                return false;
+
+            }
+            
+        } else if( !empty( $_REQUEST['payment_intent'] ) ){
+
+            if( !empty( $_REQUEST['setup_intent'] ) && $_REQUEST['setup_intent'] == true ){
+                $intent = $this->stripe_client->setupIntents->retrieve( sanitize_text_field( $_REQUEST['payment_intent'] ) );
+            } else {
+                $intent = $this->stripe_client->paymentIntents->retrieve( sanitize_text_field( $_REQUEST['payment_intent'] ) );
+            }
+
+            if( $form_location == 'stripe_return_url' ){
+
+                if( !empty( $intent->metadata->request_location ) )
+                    $form_location = $intent->metadata->request_location;
+
+            }
+
+            // Set PaymentMethod
+            if( !empty( $intent->customer ) ){
+
+                // Save Customer and Card for this subscription
+                pms_update_member_subscription_meta( $subscription_id, '_stripe_customer_id', $intent->customer );
+                pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $intent->payment_method );
+
+                // Save Customer to usermeta
+                update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $intent->customer );
+
+                $this->update_customer_information( $intent->customer );
+
+            }
+
+            if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
+
+                $is_recurring = isset( $intent->metadata->is_recurring ) ? $intent->metadata->is_recurring : false;
+
+                $checkout_data = array();
+
+                // Complete Payment
+                if( !empty( $payment->id ) ){
+
+                    if( $intent->status == 'succeeded' ){
+
+                        $payment->log_data( 'stripe_intent_confirmed' );
+                        $payment->update( array( 'status' => 'completed' ) );
+    
+                    } else if ( $intent->status == 'processing' ){
+    
+                        $payment->log_data( 'stripe_intent_processing' );
+    
+                    }
+
+                    $checkout_data['checkout_amount'] = $payment->amount;
+
+                }
+
+                // Set `allow_redisplay` parameter to `always` on the payment method for logged out users. Logged in users have an option to save the payment method in their form.
+                if( !is_user_logged_in() ){
+                    $payment_method = $this->stripe_client->paymentMethods->update( $intent->payment_method->id, [ 'allow_redisplay' => 'always' ] );
+                }
+
+                // Update subscription
+                $this->update_subscription( $subscription, $form_location, true, $is_recurring, $checkout_data );
+
+                // If subscription had a trial, save card fingerprint
+                $this->save_trial_card( $subscription_id, $intent->payment_method );
+
+                // Save card expiration info
+                $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
+
+                do_action( 'pms_stripe_checkout_processed', isset( $_REQUEST['setup_intent'] ) ? 'setup_intent' : 'payment_intent', $subscription_id, $payment->id, $form_location );
+
+                do_action( 'pms_checkout_after_payment_is_processed', true, $subscription, $form_location );
+
+                $data = array(
+                    'success'      => true,
+                    'redirect_url' => PMS_AJAX_Checkout_Handler::get_success_redirect_url( $form_location, $payment->id ),
+                );
+
+                if( wp_doing_ajax() ){
+                    echo json_encode( $data );
+                    die();
+                } else {
+                    return $data;
+                }
+
+            } else {
+
+                $intent_error = $this->parse_intent_last_error( $intent );
+
+                $error_code = !empty( $intent_error['data']['decline_code'] ) ? $intent_error['data']['decline_code'] : ( !empty( $intent_error['data']['code'] ) ? $intent_error['data']['code'] : 'card_declined' );
+
+                $payment->log_data( 'payment_failed', $intent_error, $error_code );
+                $payment->update( array( 'status' => 'failed' ) );
 
                 $data = array(
                     'success'      => false,
                     'redirect_url' => PMS_AJAX_Checkout_Handler::get_payment_error_redirect_url( $payment->id ),
                 );
 
-                echo json_encode( $data );
-                die();
+                if( wp_doing_ajax() ){
+                    echo json_encode( $data );
+                    die();
+                } else {
+                    return $data;
+                }
 
             }
+
         }
 
         // Get the customer and card id from the database
@@ -550,6 +554,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         //if form location is empty, the request is from plugin scheduled payments
         if ( empty( $form_location ) )
             $form_location = 'psp';
+
+        if( empty( $this->subscription_plan ) )
+            $this->subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
 
         if( !empty( $payment->amount ) ) {
 
@@ -579,7 +586,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $args = self::add_application_fee( $args );
 
-                $intent = PaymentIntent::create( $args );
+                $intent = $this->stripe_client->paymentIntents->create( $args );
 
                 $payment->log_data( 'stripe_intent_created' );
 
@@ -623,30 +630,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $this->log_error_data( $e );
 
-                $trace = $e->getTrace();
-
-                if ( !empty( $trace[0]['args'][0] ) ) {
-                    $error_obj = json_decode( $trace[0]['args'][0] );
-
-                    if( isset( $error_obj->error->code ) && $error_obj->error->code == 'authentication_required' ){
-                        pms_add_payment_meta( $payment->id, 'authentication', 'yes' );
-                        do_action( 'pms_stripe_send_authentication_email', $payment->user_id, $this->generate_auth_url( $error_obj->error->payment_intent, $payment ), $payment->id );
-                    }
-                    else
-                        $payment->update( array( 'status' => 'failed' ) );
-
-                } else
-                    $payment->update( array( 'status' => 'failed' ) );
+                $payment->update( array( 'status' => 'failed' ) );
 
                 return false;
 
             }
         }
 
-        // if( wp_doing_ajax() )
-        //     $this->payment_response( $intent );
-
-        //if we get here, the payment has failed
+        // the payment has failed
         return false;
     }
 
@@ -669,187 +660,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         return array(
             'BIF', 'CLP', 'DJF', 'GNF', 'JPY', 'KMF', 'KRW', 'MGA', 'PYG', 'RWF', 'UGX', 'VND', 'VUV', 'XAF', 'XOF', 'XPF'
         );
-    }
-
-    /**
-     * Handle Checkout Error redirect after a Stripe payment request
-     *
-     * @param  object    $subscription   PMS_Member_Subscription object
-     * @param  object    $payment        PMS_Payment object, can be empty
-     * @return JSON
-     */
-    public function handle_checkout_error_redirect( $subscription, $payment ){
-
-        if( empty( $_POST['pay_gate'] ) || $_POST['pay_gate'] != $this->gateway_slug )
-            return;
-
-        if( empty( $_POST['pms_stripe_connect_payment_intent'] ) )
-            return;
-
-        // Save intent ID to Payment
-        $payment_intent_id = explode( '_secret_', sanitize_text_field( $_POST['pms_stripe_connect_payment_intent'] ) );
-
-        if( !empty( $payment ) ){
-            $payment->log_data( 'stripe_intent_created' );
-
-            if( !empty( $payment_intent_id[0] ) )
-                $payment->update( [ 'transaction_id' => $payment_intent_id[0] ] );
-
-            // Save checkout data from $_POST to the payment 
-            // This is used for Webhooks if they need to update the subscription
-            $target_keys = array(
-                'subscription_plans',
-                'pms_default_recurring',
-                'discount_code',
-                'pms_billing_address',
-                'pms_billing_city',
-                'pms_billing_zip',
-                'pms_billing_country',
-                'pms_billing_state',
-                'pms_vat_number',
-                'form_type',
-                'pms_current_subscription'
-            );
-
-            if( !empty( $_POST['subscription_plans'] ) )
-                $target_keys[] = sprintf( 'subscription_price_%s', absint( $_POST['subscription_plans'] ) );
-
-            $checkout_data = array();
-
-            foreach( $_POST as $key => $value ){
-                if( in_array( $key, $target_keys ) )
-                    $checkout_data[$key] = $value;
-            }
-
-            pms_add_payment_meta( $payment->id, 'pms_checkout_data', $checkout_data );
-        }
-
-        // Add metadata to Payment or Setup Intent
-        if( !empty( $this->secret_key ) ){
-
-            // Set API key
-            Stripe::setApiKey( $this->secret_key );
-
-            $form_location = PMS_Form_Handler::get_request_form_location();
-
-            if( empty( $form_location ) && !is_user_logged_in() )
-                $form_location = 'register';
-
-            $args = array(
-                'metadata' => apply_filters( 'pms_stripe_transaction_metadata', array(
-                    'payment_id'           => !empty( $payment ) ? $payment->id : '0',
-                    'request_location'     => $form_location,
-                    'subscription_id'      => $subscription->id,
-                    'subscription_plan_id' => !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id,
-                    'home_url'             => pms_get_home_url(),
-                    'is_recurring'         => PMS_Form_Handler::checkout_is_recurring(),
-                ), $payment, $form_location )
-            );
-
-            $subscription_plan = pms_get_subscription_plan( !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id );
-
-            $amount = pms_calculate_payment_amount( $subscription_plan );
-
-            // Setup necessary class data
-            if( empty( $this->user_id ) ){
-                $this->user_id = $subscription->user_id;
-            }
-
-            if( empty( $this->user_email ) ){
-                $user = get_userdata( $subscription->user_id );
-
-                $this->user_email = $user->user_email;
-            }
-
-            if( ( !PMS_Form_Handler::checkout_has_trial() || ( PMS_Form_Handler::checkout_has_trial() && $subscription_plan->has_sign_up_fee() ) ) && !empty( $payment_intent_id[0] ) && !empty( $amount ) ){
-
-                // Set the initial payment intent ID on the subscription.
-                // This is updated each the time user does a manual action on the subscription
-                pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_initial_payment_intent', $payment_intent_id[0] );
-
-                // Set Customer if necessary
-                try {
-
-                    $payment_intent_data = PaymentIntent::retrieve( $payment_intent_id[0] );
-
-                } catch( Exception $e ){ die(); }
-
-                if( empty( $payment_intent_data->customer ) ){
-                    $customer = $this->create_customer();
-
-                    $args['customer'] = $customer->id;
-                }
-
-                $this->update_payment_intent( sanitize_text_field( $_POST['pms_stripe_connect_payment_intent'] ), $amount, $subscription_plan );
-
-                try {
-
-                    $payment_intent = PaymentIntent::update( $payment_intent_id[0], $args );
-
-                } catch( Exception $e ){ die(); }
-
-            } else if( !empty( $_POST['pms_stripe_connect_setup_intent'] ) ) {
-
-                $setup_intent_id = explode( '_secret_', sanitize_text_field( $_POST['pms_stripe_connect_setup_intent'] ) );
-
-                // Set the initial payment intent ID on the subscription.
-                // This is updated each the time user does a manual action on the subscription
-                pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_initial_payment_intent', $setup_intent_id[0] );
-
-                // Set Customer if necessary
-                try {
-
-                    $payment_intent_data = SetupIntent::retrieve( $setup_intent_id[0] );
-
-                } catch( Exception $e ){ die(); }
-
-                if( empty( $payment_intent_data->customer ) ){
-                    $customer = $this->create_customer();
-
-                    $args['customer'] = $customer->id;
-                }
-
-                if( !empty( $setup_intent_id[0] ) ){
-
-                    try {
-
-                        $payment_intent = SetupIntent::update( $setup_intent_id[0], $args );
-
-                    } catch( Exception $e ){ die(); }
-
-                }
-
-            }
-
-        }
-
-        if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
-            $wppb_general_settings = get_option( 'wppb_general_settings' );
-
-            if( isset( $_REQUEST['send_credentials_via_email'] ) && ( $_REQUEST['send_credentials_via_email'] == 'sending' ) )
-                $send_credentials_via_email = 'sending';
-            else
-                $send_credentials_via_email = '';
-
-            $user = get_userdata( $subscription->user_id );
-
-            // Necessary for the function definition. Filter is added for the Auto-Generate password functionality from PB
-            $password = apply_filters( 'pms_stripe_wppb_password', '', $user->ID );
-
-            wppb_notify_user_registration_email( get_bloginfo( 'name' ), $user->user_login, $user->user_email, $send_credentials_via_email, $password, ( wppb_get_admin_approval_option_value() === 'yes' ? 'yes' : 'no' ) );
-        }
-
-        $data = array(
-            'success'              => true,
-            'user_id'              => $subscription->user_id,
-            'payment_id'           => !empty( $payment ) ? $payment->id : '0',
-            'subscription_id'      => $subscription->id,
-            'subscription_plan_id' => $subscription->subscription_plan_id,
-        );
-
-        echo json_encode( $data );
-        die();
-
     }
 
     protected function payment_response( $intent ) {
@@ -952,14 +762,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( ! isset( $_REQUEST['pmstkn'] ) || ! wp_verify_nonce( sanitize_text_field( $_REQUEST['pmstkn'] ), 'pms_update_payment_method' ) )
             return false;
 
-        if( empty( $this->secret_key ) )
-            return false;
-
         if( empty( $this->stripe_token ) )
             return false;
-
-        // Set API key
-        Stripe::setApiKey( $this->secret_key );
 
         if( empty( $member_subscription ) || empty( $_REQUEST['stripe_token'] ) )
             return false;
@@ -975,9 +779,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         try {
 
-            $payment_method = PaymentMethod::retrieve( $this->stripe_token );
+            $payment_method = $this->stripe_client->paymentMethods->retrieve( $this->stripe_token );
 
             $payment_method->attach( [ 'customer' => $customer->id ] );
+
+            // Set card to be redisplayed on the frontend when user is logged in
+            $this->stripe_client->paymentMethods->update( $this->stripe_token, [ 'allow_redisplay' => 'always' ] );
 
             pms_update_member_subscription_meta( $member_subscription->id, '_stripe_card_id', $this->stripe_token );
 
@@ -1026,189 +833,179 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
-    public function create_initial_payment_intent(){
-
-        if( empty( $this->secret_key ) )
-            return;
+    public function create_payment_intent( $confirmation_token, $subscription ){
 
         // Stripe Connect Account
         if( empty( $this->connected_account ) )
-            return;
+            return false;
 
-        // Set API key
-        Stripe::setApiKey( $this->secret_key );
+        $subscription_plan = pms_get_subscription_plan( !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id );
+
+        if( empty( $subscription_plan->id ) )
+            return false;
+
+        $payment = pms_get_payment( $this->payment_id );
+
+        if( !empty( $payment ) && !empty( $payment->user_id ) ){
+            if( empty( $this->user_id ) )
+                $this->user_id = $payment->user_id;
+
+            if( empty( $this->user_email )){
+                $user = get_userdata( $payment->user_id );
+                $this->user_email = $user->user_email;
+            }
+        }
 
         // Grab existing Customer if logged-in
         if( is_user_logged_in() )
             $customer = $this->get_customer( get_current_user_id() );
-
-        // if( !isset( $customer ) || !isset( $customer->id ) )
-        //     $customer = $this->create_customer();
+        else
+            $customer = $this->create_customer();
+        
+        $currency = apply_filters( 'pms_stripe_connect_create_payment_intent_currency', $this->currency, $subscription_plan, $payment );
 
         $args = array(
-            'amount'             => $this->get_initial_intent_amount(),
-            'currency'           => apply_filters( 'pms_stripe_connect_create_initial_payment_intent_currency', $this->currency ),
-            //'customer'           => $customer->id,
+            'amount'             => $this->process_amount( pms_calculate_payment_amount( $subscription_plan ), $currency ),
+            'currency'           => $currency,
+            'customer'           => $customer->id,
             'setup_future_usage' => 'off_session',
-            'metadata'           => array(
-                'home_url'             => pms_get_home_url(),
-            ),
-            'automatic_payment_methods' => [
-                'enabled' => true,
-            ],
+            'metadata'           => array(),
+            'confirm'            => true,
+            'confirmation_token' => $confirmation_token,
+            'return_url'         => $this->get_offsite_redirect_return_url(),
+            'expand'             => [ 'payment_method' ],
         );
 
-        if( is_user_logged_in() && !empty( $customer->id ) ){
-            $args['customer'] = $customer->id;
+        if( isset( $_POST['form_type'] ) && $_POST['form_type'] == 'wppb' ){
+            $args['return_url'] = add_query_arg( array( 'form_type' => 'wppb', 'form_name' => isset( $_POST['form_name'] ) ? sanitize_text_field( $_POST['form_name'] ) : '' ), $args['return_url'] );
         }
 
-        // Remove setup future usage when recurring payments are disabled globally
-        // When Payment Intents are updated we are updating the recurring option again
-        $payment_settings = get_option( 'pms_payments_settings', false );
-
-        if( isset( $payment_settings['recurring'] ) && $payment_settings['recurring'] == 3 ){
-            unset( $args['setup_future_usage'] );
-        }
-
-        $args['amount'] = $this->process_amount( $args['amount'], $args['currency'] );
+        $args = self::add_intent_metadata( $args, $subscription );
 
         $args = self::add_application_fee( $args );
 
         try {
-
-            $intent = PaymentIntent::create( apply_filters( 'pms_stripe_connect_create_initial_payment_intent_args', $args ), array( 'stripe_account' => $this->connected_account ) );
+                
+            $intent = $this->stripe_client->paymentIntents->create( apply_filters( 'pms_stripe_connect_create_payment_intent_args', $args ), array( 'stripe_account' => $this->connected_account ) );
 
         } catch( Exception $e ){
 
-            return;
+            if( !empty( $this->payment_id ) ){
+                $payment = pms_get_payment( $this->payment_id );
+                $payment->log_data( 'stripe_intent_created' );
+            }
+
+            error_log( '[STRIPE]Error creating payment intent: ' . $e->getMessage() );
+
+            $intent_error = $e->getError();
+
+            $error_code = !empty( $intent_error->decline_code ) ? $intent_error->decline_code : ( !empty( $intent_error->code ) ? $intent_error->code : 'card_declined' );
+
+            $payment->log_data( 'payment_failed', $intent_error, $error_code );
+
+            $payment->update( array( 'status' => 'failed' ) );
+
+            return false;
 
         }
 
-        return [
-            'client_secret' => $intent->client_secret,
-            'id'            => $intent->id,
-        ];
+        return $intent;
 
     }
 
-    public function create_initial_setup_intent(){
-
-        if( empty( $this->secret_key ) )
-            return;
+    public function create_setup_intent( $confirmation_token, $subscription ){
 
         // Stripe Connect Account
         if( empty( $this->connected_account ) )
-            return;
+            return false;
 
-        // Set API key
-        Stripe::setApiKey( $this->secret_key );
+        $subscription_plan = pms_get_subscription_plan( !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id );
+
+        if( empty( $subscription_plan->id ) )
+            return false;
+
+        // Necessary for the Create Customer method
+        if( !empty( $subscription->user_id ) ){
+
+            if( empty( $this->user_id ) )
+                $this->user_id = $subscription->user_id;
+
+            if( empty( $this->user_email ) ){
+                $user = get_userdata( $subscription->user_id );
+                $this->user_email = $user->user_email;
+            }
+
+        }
 
         // Grab existing Customer if logged-in
         if( is_user_logged_in() )
             $customer = $this->get_customer( get_current_user_id() );
-
-        // if( !isset( $customer ) || !isset( $customer->id ) )
-        //     $customer = $this->create_customer();
+        else
+            $customer = $this->create_customer();
 
         $args = array(
-            //'customer' => $customer->id,
-            'metadata' => array(
-                'home_url' => pms_get_home_url(),
-            ),
+            'customer'                  => $customer->id,
+            'metadata'                  => array(),
+            'confirm'                   => true,
+            'confirmation_token'        => $confirmation_token,
+            'automatic_payment_methods' => [ 'enabled' => true ],
+            'return_url'                => $this->get_offsite_redirect_return_url(),
+            'expand'                    => [ 'payment_method' ],
         );
 
-        if( is_user_logged_in() && !empty( $customer->id ) ){
-            $args['customer'] = $customer->id;
-        }
+        $args = self::add_intent_metadata( $args, $subscription );
 
         try {
 
-            $intent = \Stripe\SetupIntent::create( $args );
+            $intent = $this->stripe_client->setupIntents->create( apply_filters( 'pms_stripe_connect_create_setup_intent_args', $args ), array( 'stripe_account' => $this->connected_account ) );
 
         } catch( Exception $e ){
 
-            return;
+            error_log( '[STRIPE]Error creating setup intent: ' . $e->getMessage() );
+            return false;
 
         }
 
-        return [
-            'client_secret' => $intent->client_secret,
-            'id'            => $intent->id,
-        ];
+        return $intent;
 
     }
 
-    /**
-     *
-     */
-    public function update_payment_intent( $client_secret, $amount, $subscription_plan ){
+    public function add_intent_metadata( $args, $subscription ){
 
-        if( empty( $this->secret_key ) )
-            die();
+        $target        = isset( $_REQUEST['pmstkn_original'] ) ? 'pmstkn_original' : 'pmstkn';
+        $form_location = PMS_Form_Handler::get_request_form_location( $target );
 
-        if( empty( $client_secret ) || empty( $amount ) || empty( $subscription_plan ) )
-            die();
+        if( isset( $_REQUEST['payment_intent'] ) && isset( $_REQUEST['pms_stripe_connect_return_url'] ) && $_REQUEST['pms_stripe_connect_return_url'] == 1 )
+            $form_location = 'stripe_return_url';
 
-        if( is_user_logged_in() ){
-            $user  = get_userdata( get_current_user_id() );
-            $email = $user->user_email;
-        } else
-            $email = isset( $_POST['user_email'] ) ? sanitize_email( $_POST['user_email'] ) : ( isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '' );
+        if( empty( $form_location ) && !is_user_logged_in() )
+            $form_location = 'register';
 
-        if( !empty( $email ) )
-            $this->user_email = $email;
+        $args['metadata'] = apply_filters( 'pms_stripe_transaction_metadata', array(
+            'home_url'             => home_url(),
+            'payment_id'           => !empty( $this->payment_id ) ? $this->payment_id : '0',
+            'request_location'     => $form_location,
+            'subscription_id'      => $subscription->id,
+            'subscription_plan_id' => !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id,
+            'home_url'             => home_url(),
+            'is_recurring'         => PMS_Form_Handler::checkout_is_recurring(),
+        ), $this->payment_id, $subscription, $form_location );
 
-        // Set API key
-        Stripe::setApiKey( $this->secret_key );
+        return $args;
 
-        $payment_intent_id = explode( '_secret_', $client_secret );
+    }
 
-        if( empty( $payment_intent_id[0] ) )
-            die();
+    public function get_offsite_redirect_return_url(){
 
-        $payment_intent_id = $payment_intent_id[0];
+        $return_url = home_url();
+        $account    = pms_get_page( 'account', true );
 
-        try {
+        if( !empty( $account ) )
+            $return_url = $account;
 
-            $payment_intent = PaymentIntent::retrieve( $payment_intent_id );
+        $return_url = add_query_arg( 'pms_stripe_connect_return_url', 1, $return_url );
 
-        } catch( Exception $e ){
-
-            die();
-
-        }
-
-        if( empty( $payment_intent ) )
-            die();
-
-        $currency = apply_filters( 'pms_stripe_connect_update_payment_intent_currency', $this->currency, $subscription_plan, $payment_intent );
-
-        $args = array(
-            'amount'      => $this->process_amount( $amount, $currency ),
-            'description' => !empty( $subscription_plan->name ) ? $subscription_plan->name : '',
-        );
-
-        // Set recurring option based on the whole checkout. PMS General Payments Settings + Subscription Plan specific settings
-        $checkout_is_recurring = PMS_Form_Handler::checkout_is_recurring();
-
-        if( $checkout_is_recurring || $subscription_plan->has_installments() )
-            $args['setup_future_usage'] = 'off_session';
-        else if( !$checkout_is_recurring )
-            $args['setup_future_usage'] = '';
-
-        $args = self::add_application_fee( $args );
-
-        try {
-
-            $payment_intent = PaymentIntent::update( $payment_intent_id, apply_filters( 'pms_stripe_connect_update_payment_intent_args', $args, $subscription_plan, $payment_intent ) );
-
-        } catch( Exception $e ){
-
-            die();
-
-        }
-
-        return $payment_intent; // maybe remove all the dies
+        return $return_url;
 
     }
 
@@ -1400,15 +1197,22 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
-    // TODO: add comment, refactor to accept payment method without retrieving it
+    /**
+     * Save payment method expiration data
+     * 
+     * @param int $subscription_id
+     * @param object $payment_method
+     */
     public function save_payment_method_expiration_data( $subscription_id, $payment_method ){
 
         if( empty( $subscription_id ) )
             return;
 
-        if( !empty( $payment_method ) ){
+        if( !is_object( $payment_method ) ){
+            $payment_method = $this->stripe_client->paymentMethods->retrieve( $payment_method );
+        }
 
-            $payment_method = PaymentMethod::retrieve( $payment_method );
+        if( !empty( $payment_method ) ){
 
             if( !empty( $payment_method->card ) ){
 
@@ -1750,7 +1554,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $latest_charge ) )
             return false;
 
-        $charge = Charge::retrieve( $latest_charge );
+        $charge = $this->stripe_client->charges->retrieve( $latest_charge );
 
         if( empty( $charge->payment_method_details ) )
             return false;
@@ -1839,6 +1643,50 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
+    public function create_initial_setup_intent(){
+
+        if( empty( $this->secret_key ) )
+            return;
+
+        // Stripe Connect Account
+        if( empty( $this->connected_account ) )
+            return;
+
+        // Set API key
+        Stripe::setApiKey( $this->secret_key );
+
+        // Grab existing Customer if logged-in
+        if( is_user_logged_in() )
+            $customer = $this->get_customer( get_current_user_id() );
+
+        $args = array(
+            //'customer' => $customer->id,
+            'metadata' => array(
+                'home_url' => home_url(),
+            ),
+        );
+
+        if( is_user_logged_in() && !empty( $customer->id ) ){
+            $args['customer'] = $customer->id;
+        }
+
+        try {
+
+            $intent = \Stripe\SetupIntent::create( $args );
+
+        } catch( Exception $e ){
+
+            return;
+
+        }
+
+        return [
+            'client_secret' => $intent->client_secret,
+            'id'            => $intent->id,
+        ];
+
+    }
+
     // Extra fields
     /**
      * Register the Credit Card and Billing Details sections
@@ -1890,7 +1738,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $fields['pms_credit_card_heading'] = array(
             'section'         => 'credit_card_information',
             'type'            => 'heading',
-            'default'         => '<h4>' . __( 'Payment Details', 'paid-member-subscriptions' ) . '</h4>',
+            'default'         => '<h3>' . __( 'Payment Details', 'paid-member-subscriptions' ) . '</h3>',
             'element_wrapper' => 'li',
         );
 
@@ -1954,7 +1802,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             if( !empty( $subscription_plan->trial_duration ) ){
 
                 $plan_fingerprints = get_option( 'pms_used_trial_cards_' . $subscription_plan->id, false );
-                $payment_method    = PaymentMethod::retrieve( $payment_method );
 
                 if( !empty( $payment_method->card->fingerprint ) ){
                     if( $plan_fingerprints == false )
@@ -1997,13 +1844,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $plan->id ) )
             return $has_trial;
 
-        if( empty( $this->secret_key ) )
-            return $has_trial;
-
-        // Set API key
-        Stripe::setApiKey( $this->secret_key );
-
-        $payment_method = PaymentMethod::retrieve( $this->stripe_token );
+        $payment_method = $this->stripe_client->paymentMethods->retrieve( $this->stripe_token );
 
         if( empty( $payment_method->card->fingerprint ) )
             return $has_trial;
@@ -2070,15 +1911,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     public function set_account_country( $environment ){
 
-        if( empty( $this->secret_key ) )
-            return false;
-
-        // set API key
-        Stripe::setApiKey( $this->secret_key );
-
         try {
 
-            $account = Account::retrieve();
+            $account = $this->stripe_client->accounts->retrieve();
 
         } catch ( Exception $e ) {
 
@@ -2098,19 +1933,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     // Apple Pay, Google Pay, Link
     public function domain_is_registered(){
 
-        if( empty( $this->secret_key ) )
-            return false;
-
-        // set API key
-        $stripe = new \Stripe\StripeClient( $this->secret_key );
-
-        if( is_null( $stripe->paymentMethodDomains ) )
+        if( is_null( $this->stripe_client->paymentMethodDomains ) )
             return [ 'status' => false, 'message' => 'could_not_verify_domain' ];
 
         // get domains
         try {
 
-            $domains = $stripe->paymentMethodDomains->all();
+            $domains = $this->stripe_client->paymentMethodDomains->all();
 
         } catch ( Exception $e ) {
 
@@ -2139,7 +1968,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         // check if domain is validated with Apple Pay
         if( $current_domain->apple_pay->status != 'active' ){
-            $current_domain = $stripe->paymentMethodDomains->validate( $current_domain->id );
+            $current_domain = $this->stripe_client->paymentMethodDomains->validate( $current_domain->id );
         }
 
         if( $current_domain->enabled == true )
@@ -2151,21 +1980,15 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     public function register_domain(){
 
-        if( empty( $this->secret_key ) )
-            return false;
-
-        // set API key
-        $stripe = new \Stripe\StripeClient( $this->secret_key );
-
         // Stripe expects a base url here without a path, so for multisite with subdirectories for example, we need to remove the directory
         $target_url = pms_get_home_url();
 
-        if( is_null( $stripe->paymentMethodDomains ) )
+        if( is_null( $this->stripe_client->paymentMethodDomains ) )
             return false;
 
         try {
 
-            $domain = $stripe->paymentMethodDomains->create( array(
+            $domain = $this->stripe_client->paymentMethodDomains->create( array(
                 'domain_name' => $target_url,
             ) );
 
@@ -2176,7 +1999,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         if( !empty( $domain->id ) )
-            $stripe->paymentMethodDomains->validate( $domain->id );
+            $this->stripe_client->paymentMethodDomains->validate( $domain->id );
 
         return $domain;
 
@@ -2245,9 +2068,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( $user_id == 0 )
             $user_id = $this->user_id;
 
-        // Set API key
-        Stripe::setApiKey( $this->secret_key );
-
         try {
 
             // Get saved Stripe ID
@@ -2259,7 +2079,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 // Try to find customer by Email address
                 $user = get_userdata( $user_id );
 
-                $customers = Customer::all( [ 'email' => $user->user_email, 'limit' => 1 ] );
+                $customers = $this->stripe_client->customers->all( [ 'email' => $user->user_email, 'limit' => 1 ] );
 
                 if( empty( $customers ) )
                     return false;
@@ -2269,7 +2089,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             }
 
             // Get customer
-            $customer = Customer::retrieve( $customer_stripe_id );
+            $customer = $this->stripe_client->customers->retrieve( $customer_stripe_id );
 
             // If empty name on the Stripe Customer try to add it from the website
             if( apply_filters( 'pms_stripe_update_customer_name', true ) && empty( $customer->name ) ){
@@ -2277,7 +2097,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $name = $this->get_user_name( $user_id );
 
                 if( !empty( $name ) ){
-                    Customer::update(
+                    $this->stripe_client->customers->update(
                         $customer_stripe_id,
                         array(
                             'name' => $name
@@ -2300,16 +2120,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     protected function create_customer() {
 
-        // Set API key
-        Stripe::setApiKey( $this->secret_key );
-
         if( empty( $this->connected_account ) )
             return false;
 
         try {
 
-            $customer = Customer::create( array(
-                'email'       => !empty( $this->user_email ) ? strtolower( $this->user_email ) : '',
+            $customer = $this->stripe_client->customers->create( array(
+                'email'       => !empty( $this->user_email ) ? $this->user_email : '',
                 'description' => !empty( $this->user_id ) ? 'User ID: ' . $this->user_id : '',
                 'name'        => !empty( $this->user_id ) ? $this->get_user_name( $this->user_id ) : '',
                 'address'     => $this->get_billing_details(),
@@ -2351,7 +2168,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 try {
 
-                    Customer::update(
+                    $this->stripe_client->customers->update(
                         $customer,
                         $customer_data
                     );
@@ -2372,24 +2189,24 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
-    protected function get_initial_intent_amount(){
+    // protected function get_initial_intent_amount(){
 
-        $plans = pms_get_subscription_plans();
+    //     $plans = pms_get_subscription_plans();
 
-        $amount = 100;
+    //     $amount = 100;
 
-        if( !empty( $plans ) ){
-            foreach( $plans as $plan ){
-                if( !empty( $plan->price ) && $plan->price > 1 ){
-                    $amount = $plan->price;
-                    break;
-                }
-            }
-        }
+    //     if( !empty( $plans ) ){
+    //         foreach( $plans as $plan ){
+    //             if( !empty( $plan->price ) && $plan->price > 1 ){
+    //                 $amount = $plan->price;
+    //                 break;
+    //             }
+    //         }
+    //     }
 
-        return $amount;
+    //     return $amount;
 
-    }
+    // }
 
     // LEGACY CLASS ADDITIONS
     /**
@@ -2422,9 +2239,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      */
     public function get_billing_details() {
 
-        if( empty( $_POST ) )
-            return array();
-
         $billing_details = array();
 
         $keys = array(
@@ -2435,9 +2249,22 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             'state'       => 'pms_billing_state'
         );
 
-        foreach( $keys as $stripe_key => $pms_key ) {
-            if( !empty( $_POST[$pms_key] ) )
-                $billing_details[$stripe_key] = sanitize_text_field( $_POST[$pms_key] );
+        // First check if we have billing details in the POST data
+        if( !empty( $_POST ) ) {
+            foreach( $keys as $stripe_key => $pms_key ) {
+                if( !empty( $_POST[$pms_key] ) )
+                    $billing_details[$stripe_key] = sanitize_text_field( $_POST[$pms_key] );
+            }
+        }
+
+        // If we don't have all billing details and we have a user_id, try to get them from user meta
+        if( empty( $billing_details ) && !empty( $this->user_id ) ) {
+            foreach( $keys as $stripe_key => $pms_key ) {
+                $meta_value = get_user_meta( $this->user_id, $pms_key, true );
+                
+                if( !empty( $meta_value ) )
+                    $billing_details[$stripe_key] = $meta_value;
+            }
         }
 
         return $billing_details;

@@ -54,6 +54,7 @@ function pms_stripe_connect_handle_authorization_return_admin_init(){
 
     // set account country
     $gateway = pms_get_payment_gateway( 'stripe_connect' );
+	$gateway->reset_stripe_client();
 
     $gateway->set_account_country( $environment );
 

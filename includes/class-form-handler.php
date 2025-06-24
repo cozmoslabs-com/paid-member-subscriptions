@@ -169,8 +169,8 @@ Class PMS_Form_Handler {
          */
         $gdpr_settings = pms_get_gdpr_settings();
         if( !empty( $gdpr_settings ) ) {
-            if (!empty($gdpr_settings['gdpr_checkbox']) && $gdpr_settings['gdpr_checkbox'] === 'enabled') {
-                if (!isset($_POST['user_consent']))
+            if ( !empty($gdpr_settings['gdpr_checkbox']) && $gdpr_settings['gdpr_checkbox'] === 'enabled' ) {
+                if ( !isset($_POST['user_consent']) )
                     pms_errors()->add('user_consent', __('This field is required.', 'paid-member-subscriptions'));
             }
         }
@@ -280,6 +280,20 @@ Class PMS_Form_Handler {
         if( !$subscription_plan->is_valid() || !$subscription_plan->is_active() ){
             pms_errors()->add( 'subscription_plans', __( 'The selected subscription plan does not exist or is inactive.', 'paid-member-subscriptions' ) );
             return false;
+        }
+
+        /**
+         * GDPR
+         *
+         */
+        $gdpr_settings = pms_get_gdpr_settings();
+        if( !empty( $gdpr_settings ) ) {
+            if ( !empty( $gdpr_settings['gdpr_logged_in_users'] ) && $gdpr_settings['gdpr_logged_in_users'] === 'enabled' && is_user_logged_in() ) {
+                if ( !isset($_POST['user_consent_logged_in']) ){
+                    pms_errors()->add('user_consent_logged_in', __('This field is required.', 'paid-member-subscriptions'));
+                    return false;
+                }
+            }
         }
 
         return true;

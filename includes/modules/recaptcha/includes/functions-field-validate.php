@@ -112,7 +112,7 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
         $message = esc_html__( 'Could not validate reCAPTCHA. Please complete it again.', 'paid-member-subscriptions' );
 
         if ( isset( $settings['v3'] ) && $settings['v3'] === 'yes' ){
-            $message = esc_html__( 'Could not validate reCAPTCHA. Please refresh the page and try again.', 'paid-member-subscriptions' );
+            $message = esc_html__( 'Could not validate reCAPTCHA. Please try again.', 'paid-member-subscriptions' );
         }
 
         pms_errors()->add( 'recaptcha-' . $form_location, $message );

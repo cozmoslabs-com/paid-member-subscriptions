@@ -148,6 +148,57 @@ add_action( 'pms_update_payment_method_form_bottom', 'pms_add_form_extra_fields'
 
 
 /**
+ * Display GDPR checkbox for logged in users
+ *
+ */
+
+function pms_show_gdpr_checkbox_for_logged_in_users(){
+
+    $hook = current_action();
+    $gdpr_settings = pms_get_gdpr_settings();
+
+    if ( empty( $gdpr_settings ) ) {
+        return;
+    }
+
+    $is_logged_in = is_user_logged_in();
+    $gdpr_enabled = !empty( $gdpr_settings['gdpr_checkbox'] ) && $gdpr_settings['gdpr_checkbox'] === 'enabled';
+    $gdpr_logged_in_enabled = !empty( $gdpr_settings['gdpr_logged_in_users'] ) && $gdpr_settings['gdpr_logged_in_users'] === 'enabled';
+
+    // Return early if GDPR is not enabled at all
+    if ( !$gdpr_enabled && !$gdpr_logged_in_enabled ) return;
+
+    // Return early if user is logged in but their checkbox is not enabled
+    if ( $is_logged_in && !$gdpr_logged_in_enabled ) return;
+
+
+    $field_id = $is_logged_in ? 'pms_user_consent_logged_in' : 'pms_user_consent';
+    $field_name = $is_logged_in ? 'user_consent_logged_in' : 'user_consent';
+    $field_errors = pms_errors()->get_error_messages($field_name);
+
+    // Only show for registration hook if user is not logged in
+    if ( !$is_logged_in && $hook !== 'pms_register_form_after_fields' ) return;
+
+    ?>
+    <li style="list-style-type: none;" class="pms-field pms-gdpr-field <?php echo ( !empty($field_errors) ? 'pms-field-error' : '' ); ?>">
+        <label for="<?php echo esc_attr( $field_id ); ?>">
+            <input id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $field_name ); ?>" type="checkbox" value="1">
+            <?php
+            echo isset( $gdpr_settings['gdpr_checkbox_text'] ) ? wp_kses_post(str_replace('{{privacy_policy}}', get_the_privacy_policy_link(), pms_icl_t('plugin paid-member-subscriptions', 'gdpr_checkbox_text', $gdpr_settings['gdpr_checkbox_text']))) : esc_html__('I allow the website to collect and store the data I submit through this form. *', 'paid-member-subscriptions');
+            ?>
+        </label>
+        <?php pms_display_field_errors($field_errors); ?>
+    </li>
+    <?php
+}
+
+add_action( 'pms_new_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+add_action( 'pms_renew_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+add_action( 'pms_change_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+add_action( 'pms_register_form_after_fields', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+
+
+/**
  * Returns the output of a form field, given a set of parameters for the field
  *
  * @param array $field

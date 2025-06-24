@@ -120,24 +120,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <?php pms_display_field_errors( $field_errors ); ?>
         </li>
 
-        <?php
-        $gdpr_settings = pms_get_gdpr_settings();
-        if( !empty( $gdpr_settings ) ){
-            if( !empty( $gdpr_settings['gdpr_checkbox'] ) && $gdpr_settings['gdpr_checkbox'] === 'enabled' ){
-                $field_errors = pms_errors()->get_error_messages('user_consent'); ?>
-                <li class="pms-field pms-gdpr-field <?php echo ( !empty( $field_errors ) ? 'pms-field-error' : '' ); ?>">
-                    <label for="pms_user_consent">
-                        <input id="pms_user_consent" name="user_consent" type="checkbox" value="1">
-                        <?php echo ( isset($gdpr_settings['gdpr_checkbox_text']) ? wp_kses_post( str_replace( '{{privacy_policy}}', get_the_privacy_policy_link(), pms_icl_t( 'plugin paid-member-subscriptions', 'gdpr_checkbox_text', $gdpr_settings['gdpr_checkbox_text'] ) ) ) : esc_html__( 'I allow the website to collect and store the data I submit through this form. *', 'paid-member-subscriptions' ) ); ?>
-                    </label>
-
-                    <?php pms_display_field_errors( $field_errors ); ?>
-                </li>
-                <?php
-            }
-        }
-        ?>
-
         <?php do_action( 'pms_register_form_after_fields', $atts ); ?>
 
         <?php

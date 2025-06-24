@@ -1072,7 +1072,7 @@ jQuery( function($) {
 
     }
 
-    $.pms_form_get_data = function( current_button, verify_captcha = false ) {
+    $.pms_form_get_data = async function( current_button, verify_captcha = false ) {
 
         if (!current_button)
             return false
@@ -1086,10 +1086,10 @@ jQuery( function($) {
         }, {})
 
         // setup our custom AJAX action and add the current page URL
-        data.action = 'pms_process_checkout'
+        data.action       = 'pms_process_checkout'
         data.current_page = window.location.href
-        data.pms_nonce = $('#pms-process-checkout-nonce').val()
-        data.form_type = $('.wppb-register-user .wppb-subscription-plans').length > 0 ? 'wppb' : $('.pms-ec-register-form').length > 0 ? 'pms_email_confirmation' : 'pms'
+        data.pms_nonce    = $('#pms-process-checkout-nonce').val()
+        data.form_type    = $('.wppb-register-user .wppb-subscription-plans').length > 0 ? 'wppb' : $('.pms-ec-register-form').length > 0 ? 'pms_email_confirmation' : 'pms'
 
         /**
          * Add the name of the submit button as a key to the request data

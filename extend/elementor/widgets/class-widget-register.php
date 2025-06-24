@@ -54,12 +54,14 @@ class PMS_Elementor_Register_Widget extends \Elementor\Widget_Base {
 			)
 		);
 
+        $test = pms_get_subscription_plans_list();
+        $test[0] = 'None';
         $this->add_control(
             'pms_subscription_plans',
             array(
                 'label'    => __( 'Subscription Plans', 'paid-member-subscriptions' ),
                 'type'     => \Elementor\Controls_Manager::SELECT2,
-                'options'  => pms_get_subscription_plans_list(),
+                'options'  => $test/*pms_get_subscription_plans_list()*/,
                 'multiple' => 'true',
             )
         );

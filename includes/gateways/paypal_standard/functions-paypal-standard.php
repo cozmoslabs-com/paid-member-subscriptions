@@ -30,16 +30,16 @@ function pms_add_settings_content_paypal_standard( $options ) {
 
         <div class="cozmoslabs-form-field-wrapper">
             <label class="cozmoslabs-form-field-label" for="paypal-standard-email"><?php esc_html_e( 'PayPal E-mail Address', 'paid-member-subscriptions' ); ?></label>
-            <input id="paypal-standard-email" type="text" name="pms_payments_settings[gateways][paypal_standard][email_address]" value="<?php echo isset( $options['gateways']['paypal_standard']['email_address' ]) ? esc_attr( $options['gateways']['paypal_standard']['email_address'] ) : ''; ?>" class="widefat" />
+            <input id="paypal-standard-email" type="text" name="pms_payments_settings[gateways][paypal][email_address]" value="<?php echo isset( $options['gateways']['paypal']['email_address' ]) ? esc_attr( $options['gateways']['paypal']['email_address'] ) : ''; ?>" class="widefat" />
 
-            <input type="hidden" name="pms_payments_settings[gateways][paypal_standard][name]" value="PayPal" />
+            <input type="hidden" name="pms_payments_settings[gateways][paypal][name]" value="PayPal" />
 
             <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Enter your PayPal e-mail address', 'paid-member-subscriptions' ); ?></p>
         </div>
 
         <div class="cozmoslabs-form-field-wrapper">
             <label class="cozmoslabs-form-field-label" for="paypal-standard-test-email"><?php esc_html_e( 'Test PayPal E-mail Address', 'paid-member-subscriptions' ); ?></label>
-            <input id="paypal-standard-test-email" type="text" name="pms_payments_settings[gateways][paypal_standard][test_email_address]" value="<?php echo isset( $options['gateways']['paypal_standard']['test_email_address' ]) ? esc_attr( $options['gateways']['paypal_standard']['test_email_address'] ) : ''; ?>" class="widefat" />
+            <input id="paypal-standard-test-email" type="text" name="pms_payments_settings[gateways][paypal][test_email_address]" value="<?php echo isset( $options['gateways']['paypal']['test_email_address' ]) ? esc_attr( $options['gateways']['paypal']['test_email_address'] ) : ''; ?>" class="widefat" />
 
             <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'PayPal E-mail address to use for test transactions', 'paid-member-subscriptions' ); ?></p>
         </div>
@@ -147,6 +147,9 @@ function pms_get_paypal_email() {
 
     if ( !empty( $settings['gateways']['paypal_standard'][$slug] ) )
         return $settings['gateways']['paypal_standard'][$slug];
+
+    if ( !empty( $settings['gateways']['paypal'][$slug] ) )
+        return $settings['gateways']['paypal'][$slug];
 
     return false;
 }
@@ -305,5 +308,21 @@ function pms_is_paypal_payment_profile_id( $payment_profile_id = '' ) {
         return true;
     else
         return false;
+
+}
+
+add_filter( 'pms_sanitize_settings', 'pms_sanitize_paypal_settings', 10, 2 );
+function pms_sanitize_paypal_settings( $options, $previous_options ) {
+
+    $settings = get_option( 'pms_payments_settings' );
+    $slug     = 'email_address';
+
+    if( isset( $settings['test_mode'] ) && $settings['test_mode'] == '1' )
+        $slug = 'test_email_address';
+
+    if ( isset( $options['gateways']['paypal_standard'][$slug] ) )
+        $options['gateways']['paypal'][$slug] = $options['gateways']['paypal_standard'][$slug];
+
+    return $options;
 
 }

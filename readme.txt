@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.15.3
+Stable tag: 2.15.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -104,6 +104,9 @@ Admin emails can also be customized.
 
 = Free Trial and Sign-up Fees =
 You can configure your subscription to have a free trial period and a sign-up fee, allowing you to have more control on your subscription setup.
+
+= Pay in Installments =
+Configure a subscription that ends after a certain amount of billing cycles.
 
 = Stripe =
 
@@ -258,6 +261,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.15.4 =
+* Enhancement: Stripe payment gateway updates for improved loading speed, processing speed and reliability
+* Enhancement: Added an option that let's you show the GDPR checkbox for logged in payments. Go to the Settings -> Misc -> GDPR page to enable
+* Feature: Customers can now re-use already entered payment methods without having to enter them again. When a logged in user is paying, he can choose if he wants to save the payment method or not
+* Fix: The Stripe payment gateway will not generate incomplete Payment Intents in your Stripe account when loading the payment form
+* Fix: Issue with Apple Pay/Google Pay not working sometimes
+* Misc: Don't display the All subscription plans option for the Profile Builder Default selected Subscription Plan field
+
 = 2.15.3 =
 * Feature: Pay in Installments – create subscription plans that automatically end after a set number of billing cycles. [Learn more](https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/#Limit_Payment_Cycles)
 * Fix: Allow users that are on the older Stripe versions to Update their Payment Details

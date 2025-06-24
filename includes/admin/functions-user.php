@@ -25,6 +25,8 @@ function pms_display_subscriptions_details( $user ){
     } else {
 
         $date_format = get_option('date_format');
+        $gdpr_settings = pms_get_gdpr_settings();
+
         foreach ( $subscriptions as $subscription ){
 
             $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
@@ -61,6 +63,9 @@ function pms_display_subscriptions_details( $user ){
 
                             echo esc_html( $formated_expiration_date );
                         }
+                        else{
+                            echo esc_html__( '-', 'paid-member-subscriptions' );
+                        }
                     ?>
                 </td>
             </tr>
@@ -84,7 +89,6 @@ function pms_display_subscriptions_details( $user ){
             </table>
 <?php
             }
-
     }
 ?>
 
@@ -102,31 +106,33 @@ function pms_gdpr_agreement( $user ){
 
     $gdpr_settings = pms_get_gdpr_settings();
 
-    if( !empty( $gdpr_settings ) &&  !empty( $gdpr_settings['gdpr_checkbox'] ) && $gdpr_settings['gdpr_checkbox'] === 'enabled' ){
+    if( !empty( $gdpr_settings ) ){
+        if( !empty( $gdpr_settings['gdpr_checkbox'] ) && $gdpr_settings['gdpr_checkbox'] === 'enabled' ){
 
-        $gdpr_agreement_time = get_user_meta( $user->ID, 'pms_gdpr_user_consent_time',true );
+            $gdpr_agreement_time = get_user_meta( $user->ID, 'pms_gdpr_user_consent_time',true );
 
-        if( $gdpr_agreement_time ){
+            if( $gdpr_agreement_time ){
 
-            $gdpr_formated_time = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ),  $gdpr_agreement_time  + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
-            ?>
-            <table class="form-table">
-                <tr>
-                    <th><?php echo esc_html__( 'GDPR', 'paid-member-subscriptions' ); ?></th>
-                    <td><?php echo esc_html__( 'Agreed on ', 'paid-member-subscriptions' ) . esc_html( $gdpr_formated_time ); ?></td>
-                </tr>
-            </table>
-            <?php
-        }
-        else{
-            ?>
-            <table class="form-table">
-                <tr>
-                    <th><?php echo esc_html__( 'GDPR', 'paid-member-subscriptions' ); ?></th>
-                    <td><?php echo esc_html__( 'Not Agreed', 'paid-member-subscriptions' ); ?></td>
-                </tr>
-            </table>
-            <?php
+                $gdpr_formated_time = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ),  $gdpr_agreement_time  + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
+                ?>
+                <table class="form-table">
+                    <tr>
+                        <th><?php echo esc_html__( 'GDPR', 'paid-member-subscriptions' ); ?></th>
+                        <td><?php echo esc_html__( 'Agreed on ', 'paid-member-subscriptions' ) . esc_html( $gdpr_formated_time ); ?></td>
+                    </tr>
+                </table>
+                <?php
+            }
+            else{
+                ?>
+                <table class="form-table">
+                    <tr>
+                        <th><?php echo esc_html__( 'GDPR', 'paid-member-subscriptions' ); ?></th>
+                        <td><?php echo esc_html__( 'Not Agreed', 'paid-member-subscriptions' ); ?></td>
+                    </tr>
+                </table>
+                <?php
+            }
         }
     }
 
