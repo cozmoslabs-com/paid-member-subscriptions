@@ -622,7 +622,6 @@
 <?php __("Installment - Initial Payment", "paid-member-subscriptions"); ?>
 <?php __("Installment - Recurring Payment", "paid-member-subscriptions"); ?>
 <?php __("Installment - Final Payment", "paid-member-subscriptions"); ?>
-<?php __("Add-ons Page", "paid-member-subscriptions"); ?>
 <?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("Buy now", "paid-member-subscriptions"); ?>
 <?php __(" payments of ", "paid-member-subscriptions"); ?>

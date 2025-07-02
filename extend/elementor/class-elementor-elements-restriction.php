@@ -100,10 +100,13 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
             )
         );
 
+        $pms_restrict_subscription_list = pms_get_subscription_plans_list();
+        $pms_restrict_subscription_list = [ 'all' => 'All Subscriptions' ] + $pms_restrict_subscription_list;
+
 		$element->add_control(
             'pms_restriction_subscription_plans', array(
                 'type'        => Controls_Manager::SELECT2,
-                'options'     => pms_get_subscription_plans_list(),
+                'options'     => $pms_restrict_subscription_list,
                 'multiple'    => 'true',
 				'label_block' => 'true',
                 'condition'   => array(
@@ -234,7 +237,7 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
                     $hidden = true;
 
             }
-            elseif ( !empty( $settings['pms_restriction_subscription_plans'] ) && !pms_is_member_of_plan( $settings['pms_restriction_subscription_plans'] ) )
+            elseif ( !empty( $settings['pms_restriction_subscription_plans'] ) && !pms_is_member_of_plan( $settings['pms_restriction_subscription_plans'] ) && ( !in_array( 'all', $settings['pms_restriction_subscription_plans']) || !pms_is_member() ) )
                 $hidden = true;
 
         }

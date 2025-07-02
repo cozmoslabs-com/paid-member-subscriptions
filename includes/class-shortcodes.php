@@ -766,7 +766,7 @@ Class PMS_Shortcodes {
 
                     if( $args['restrict_free_trial'] == 'true' && !pms_is_member_of_plan( $subscription_plans ) && pms_member_has_free_trial( $subscription_plans ) )
                         return $message;
-                    else if ( !pms_is_member_of_plan( $subscription_plans ) ) 
+                    else if ( !pms_is_member_of_plan( $subscription_plans ) && !in_array( 'all', $subscription_plans ) )
                         return do_shortcode( $content );
                     else 
                         return $message;
@@ -775,7 +775,7 @@ Class PMS_Shortcodes {
 
                     if( $args['restrict_free_trial'] == 'true' && pms_is_member_of_plan( $subscription_plans ) && pms_member_has_free_trial( $subscription_plans ) )
                         return $message;
-                    else if( pms_is_member_of_plan( $subscription_plans ) )
+                    else if( pms_is_member_of_plan( $subscription_plans ) || ( in_array( 'all', $subscription_plans) &&  pms_is_member() ) )
                         return do_shortcode( $content );
                     else
                         return $message;

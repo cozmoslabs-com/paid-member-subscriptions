@@ -57,7 +57,16 @@ class PMS_Setup_Wizard {
         reset( $default_steps );
 
         $this->steps = apply_filters( 'pms_setup_wizard_steps', $default_steps );
-        $this->step  = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : key( $default_steps );
+
+        // Get the step from the URL
+        $step = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : key( $default_steps );
+
+        // If the step is not in the default steps, set it to the first step
+        if ( !in_array( $step, array_keys( $this->steps ) ) ){
+            $step = 'user-pages';
+        }
+
+        $this->step = $step;
 
         include_once 'views/view-page-setup-wizard.php';
 
@@ -211,7 +220,7 @@ class PMS_Setup_Wizard {
         // step completion for setup
         $steps_completion = $this->get_completed_progress_steps();
 
-        if( !empty( $this->step ) && !in_array( $this->step, array( 'addons' ) ) ){
+        if( !empty( $this->step ) ){
             if( empty( $steps_completion ) ){
 
                 $steps_completion = array(

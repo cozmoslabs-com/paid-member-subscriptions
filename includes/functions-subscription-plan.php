@@ -767,8 +767,13 @@ function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null, 
     if( pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_free_trial' ) ) {
 
         // These should not be added for every form location, only where sign-up fees are applied
-        if( empty( $form_location ) || in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'upgrade_subscription', 'wppb_register' ) ) )
-            $subscription_plan_input_data_arr['trial'] = ( ! empty( $subscription_plan->trial_duration ) ? '1' : '0' );
+        if( empty( $form_location ) || in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'upgrade_subscription', 'wppb_register' ) ) ){
+
+            // Don't add trial attribute if the user has already used it so that front-end JS is aware a trial won't be applied
+            if( PMS_Form_Handler::user_can_access_trial( $subscription_plan ) )
+                $subscription_plan_input_data_arr['trial'] = ( ! empty( $subscription_plan->trial_duration ) ? '1' : '0' );
+
+        }
 
     }
 

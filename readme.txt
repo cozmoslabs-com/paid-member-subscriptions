@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.15.4
+Stable tag: 2.15.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.15.5 =
+* Enhancement: Added options to restrict content based on All subscription plans to the pms-restrict shortcode and Elementor Content Restriction functionality
+* Enhancement: Allow adding a Registration form without subscription plans through the Elementor Registration Widget
+* Fix: Security issue relating to LFI on Windows environments. Thanks to LVT-tholv2k and the Patchstack team
+* Fix: Some compatibility issues with other plugins that load the Stripe PHP library
+* Fix: An issue with the trial already used functionality and Stripe
+* Fix: Make sure a customer exists when attempting to process a payment through Stripe
+* Fix: Compatibility issue with GiveWP
+
 = 2.15.4 =
 * Enhancement: Stripe payment gateway updates for improved loading speed, processing speed and reliability
 * Enhancement: Added an option that let's you show the GDPR checkbox for logged in payments. Go to the Settings -> Misc -> GDPR page to enable
@@ -593,81 +602,5 @@ For more information please check out [Paid Member Subscriptions documentation](
 * Misc: Add a link to see who used a discount code over the Uses column of the Discount Codes listing
 * Misc: Add a class over the duration of a subscription plan in front-end
 * Misc: Added a link over the transaction ID for payments linking to the payment gateway dashboard
-
-= 2.11.9 =
-* Fix: Made some changes to the Stripe account onboarding process to make it more reliable
-* Fix: Hide license notification in cases where it was being shown incorrectly
-* Misc: Hide payment gateways when they are added in a Profile Builder form and the form is being viewed by an admin
-
-= 2.11.8 =
-* Fix: Add support to Stripe for recurring payments done through SEPA Direct Debit. Also applies to payment methods which use SEPA Direct Debit for recurring (iDeal for example)
-* Fix: A notice happening in the Setup Wizard
-* Fix: Properly initialize chosen on the Reports page when it's missing
-* Misc: Remove before unload event for Stripe so payments which redirect off-site don't require an extra click
-* Misc: Updated Stripe PHP bindings to the latest version (13.17.0)
-* Misc: Bumped the minimum supported version of Stripe PHP bindings to 7.33.0 when other plugins are loading this library
-
-= 2.11.7 =
-* Feature: Added the ability to select predefined or custom date intervals for the Reports page
-* Feature: Added subscription plans filter to the Reports page
-* Fix: Issue with the automatically login option from Profile Builder forms not working with Stripe
-* Fix: Notice that could appear in some scenarios
-* Misc: Make sure back-end members page script only loads on the page that needs it
-* Misc: Added a filter that can be set to false to disable the automatic paragraph formatting when sending emails: pms_emails_auto_format
-
-= 2.11.6 =
-* Feature: Enabled support for Apple Pay and Google Pay through Stripe. Enable these payment gateways by going to your Stripe Dashboard -> Payment Methods page
-* Fix: Notice appearing in some cases relating to Gutenberg blocks
-* Misc: Added a new merge tag for emails: subscription_plan_id
-* Misc: Update the Uninstall page to the new plugin styles
-* Misc: Fix a small CSS error regarding the Pricing Tables templates
-* Misc: Random adjustments for back-end pages
-
-= 2.11.5 =
-* Fix an issue where the plugin couldn't be activated in some scenarios
-
-= 2.11.4 =
-* Feature: Pricing Tables templates. Easily create a pricing page for your subscription plans. Go to Subscription Plans -> Create Pricing Page to get started
-* Fix: Issue with Group Memberships extra fields not being updated when changing a membership through Stripe
-* Fix: Double activation messages from payments and subscriptions when Stripe Webhooks were configured
-* Fix: An issue with login errors not being displayed when LearnDash was active
-* Misc: GDPR field will now show the agreement time on the back-end Users -> Edit User page
-* Misc: Change plugin icon from admin menu
-* Misc: Random changes for back-end pages design
-
-= 2.11.3 =
-* Feature: Added Content Restriction options for Divi Builder modules
-* Fix: Issue with Stripe connection when it was initialized from the Setup Wizard
-* Fix: Improvements to how Stripe Customer objects are created and handled by the plugin
-* Fix: Issue with child memberships when a group membership owner renewed or upgraded his subscription through Stripe
-* Fix: Issue with Discount Codes field displaying when no disocunts were defined
-* Fix: Dismiss action for the PSP notice
-* Fix: Make sure certain Manual gateway functionality is only hooked once
-* Misc: Show a button to go to the Add Member Subscriptions page directly from the Edit User page
-* Misc: Show connected Stripe Account ID and Country on the admin page
-* Misc: Added plugin marketing optin process
-* Misc: Compatibility with new LearnDash add-on
-
-= 2.11.2 =
-* Fix: Security issue. Thanks to Lucio Sá
-* Fix: Add nonce check when creating pricing pages. Thanks to Lucio Sá
-* Misc: Declare translations domain path so the .pot file with translations can be identified properly
-
-= 2.11.1 =
-* Fix: Issue with subscription not activating correctly when Stripe was used after a Profile Builder Email Confirmation
-* Fix: Add nonce check when dismissing SSL notice. Thanks to Dhabaleshwar Das for the report
-* Fix: A notice regarding the Discounts functionality
-* Fix: Back-end pages styling when plugin name is localized
-* Fix: An issue with Password Strength functionality not loading correctly
-* Fix: Issue with PSP notice not appearing for Stripe gateway
-* Misc: Added actions after the plugin adds or removes a user role from a member: pms_add_user_role and pms_remove_user_role
-* Misc: Small styling change for Setup Wizard active tabs
-
-= 2.11.0 =
-* Fix: Issue with plugin logo from Basic Information page not being displayed correctly on multisite
-* Fix: Notice coming from the Gutenberg Content Restriction functionality
-* Fix: Issue with serial number detection on certain multisite WordPress setups
-* Misc: Disable auto hide discount codes box functionality when the website has too many discount codes defined
-* Misc: Display future subscription billing amount when viewing a subscription in the back-end
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

@@ -214,7 +214,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         if( !empty( $_REQUEST['stripe_confirmation_token'] ) ){
 
-            if( PMS_Form_Handler::checkout_has_trial() || ( !empty( $payment ) && $payment->amount == 0 ) || ( !is_null( $this->sign_up_amount ) && $this->sign_up_amount == 0 ) ){
+            if( ( PMS_Form_Handler::checkout_has_trial() && PMS_Form_Handler::user_can_access_trial( $this->subscription_plan ) ) || ( !empty( $payment ) && $payment->amount == 0 ) || ( !is_null( $this->sign_up_amount ) && $this->sign_up_amount == 0 ) ){
 
                 $intent = $this->create_setup_intent( sanitize_text_field( $_REQUEST['stripe_confirmation_token'] ), $subscription );
 
@@ -857,10 +857,15 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         // Grab existing Customer if logged-in
-        if( is_user_logged_in() )
+        if( is_user_logged_in() ){
             $customer = $this->get_customer( get_current_user_id() );
-        else
+
+            if( empty( $customer ) )
+                $customer = $this->create_customer();
+
+        } else {
             $customer = $this->create_customer();
+        }
         
         $currency = apply_filters( 'pms_stripe_connect_create_payment_intent_currency', $this->currency, $subscription_plan, $payment );
 
@@ -938,10 +943,15 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         // Grab existing Customer if logged-in
-        if( is_user_logged_in() )
+        if( is_user_logged_in() ){
             $customer = $this->get_customer( get_current_user_id() );
-        else
+
+            if( empty( $customer ) )
+                $customer = $this->create_customer();
+
+        } else {
             $customer = $this->create_customer();
+        }
 
         $args = array(
             'customer'                  => $customer->id,
@@ -1766,7 +1776,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             'PE', 'PG', 'PH', 'PK', 'PY', 'QA', 'RO', 'RS', 'RW', 'SA', 'SB', 'SC', 'SL', 'SM', 'SN', 'SR', 'SV', 'TG', 'TH', 'TJ', 
             'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UY', 'UZ', 'VC', 'VN', 'WS', 'ZA', 'ZM' );
 
-        if( in_array( $account_country, $restricted_countries ) )
+        if( !empty( $account_country ) && in_array( $account_country, $restricted_countries ) )
             return $args;
 
         $serial_number        = pms_get_serial_number();
@@ -1933,7 +1943,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     // Apple Pay, Google Pay, Link
     public function domain_is_registered(){
 
-        if( is_null( $this->stripe_client->paymentMethodDomains ) )
+        if( !isset( $this->stripe_client->paymentMethodDomains ) || is_null( $this->stripe_client->paymentMethodDomains ) )
             return [ 'status' => false, 'message' => 'could_not_verify_domain' ];
 
         // get domains

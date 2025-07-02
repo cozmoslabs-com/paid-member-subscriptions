@@ -25,8 +25,15 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
         // output method
         add_action( 'pms_output_content_submenu_page_' . $this->menu_slug, array( $this, 'output' ) );
 
-        if ( isset( $_GET['tab'] ) )
-            $this->active_tab = sanitize_text_field( $_GET['tab'] );
+        if ( isset( $_GET['tab'] ) ){
+            $tab = sanitize_text_field( $_GET['tab'] );
+
+            if ( !in_array( $tab, array_keys( $this->get_tabs() ) ) ){
+                $tab = 'general';
+            }
+
+            $this->active_tab = $tab;
+        }
 
         add_action( 'pms_submenu_page_enqueue_admin_scripts_' . $this->menu_slug, array( $this, 'admin_scripts' ) );
 
@@ -119,7 +126,6 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
         <?php
     }
-
 
     /*
      * Callback overwrite for sanitizing settings
@@ -233,7 +239,6 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
         return $options;
     }
 
-
     /*
      * Returns the tabs we want for this page
      *
@@ -312,7 +317,6 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
         }
 
     }
-
 
 }
 

@@ -1,5 +1,9 @@
 <?php
 
+// NOTE: 13.9.0 is the requirement for CusomerSession support. 12.2.0 is the requirement for PaymentMethodDomain support.
+// We don't enforce this because a lot of plugins are using older versions of Stripe and we give them priority.
+// This simply does not allow the feature to re-use payment methods for logged in users.
+
 if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
     version_compare( Stripe\Stripe::VERSION, '7.33.0' ) >= 0 
   ){

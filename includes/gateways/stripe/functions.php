@@ -424,6 +424,9 @@ function pms_stripe_generate_customer_session(){
     if( !is_user_logged_in() )
         return false;
 
+    if( !class_exists('\Stripe\Service\CustomerSessionService') )
+        return false;
+
     $customer_id = get_user_meta( get_current_user_id(), 'pms_stripe_customer_id', true );
 
     if( empty( $customer_id ) )

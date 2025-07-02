@@ -54,14 +54,15 @@ class PMS_Elementor_Register_Widget extends \Elementor\Widget_Base {
 			)
 		);
 
-        $test = pms_get_subscription_plans_list();
-        $test[0] = 'None';
+        $pms_subscription_plans_list = pms_get_subscription_plans_list();
+        $pms_subscription_plans_list['none'] = 'None';
+
         $this->add_control(
             'pms_subscription_plans',
             array(
                 'label'    => __( 'Subscription Plans', 'paid-member-subscriptions' ),
                 'type'     => \Elementor\Controls_Manager::SELECT2,
-                'options'  => $test/*pms_get_subscription_plans_list()*/,
+                'options'  => $pms_subscription_plans_list,
                 'multiple' => 'true',
             )
         );
@@ -99,11 +100,17 @@ class PMS_Elementor_Register_Widget extends \Elementor\Widget_Base {
 	protected function render() {
 
 		$settings = $this->get_settings_for_display();
+        $pms_selected_plans = $settings['pms_subscription_plans'];
 
-		if ( !empty( $settings['pms_subscription_plans'] ) )
-			$plans = 'subscription_plans="'.esc_attr( implode( ',', $settings['pms_subscription_plans'] ) ).'"';
-		else
-			$plans = '';
+        if ( !empty( $pms_selected_plans ) ){
+            if ( count($pms_selected_plans) === 1 && $pms_selected_plans[0] === 'none' ) {
+                $plans = 'subscription_plans="__none__"';
+            } else {
+                $plans = 'subscription_plans="' . esc_attr( implode(',', $pms_selected_plans) ) . '"';
+            }
+        }
+        else
+            $plans = '';
 
 
         //check why the subscription plans parameter one isn't workking

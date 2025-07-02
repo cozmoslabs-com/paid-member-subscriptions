@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-24 09:25+0000\n"
+"POT-Creation-Date: 2025-07-02 09:34+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -38,57 +38,57 @@ msgstr ""
 msgid "This Paid Member Subscriptions add-on has been migrated to the main plugin and is no longer used. You can delete it."
 msgstr ""
 
-#: index.php:276
+#: index.php:274
 msgid "To enable updates, your licence needs to be renewed. Please go to the <a href=\"%s\" target=\"_blank\">Cozmoslabs Account</a> page and login to renew."
 msgstr ""
 
-#: index.php:269
+#: index.php:267
 msgid "To enable updates, please enter your serial number on the %sSettings%s page. If you don't have a serial number, please see %sdetails & pricing%s."
 msgstr ""
 
-#: index.php:383
+#: index.php:381
 msgid "You must be logged in to view this content."
 msgstr ""
 
-#: index.php:386
+#: index.php:384
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:1163, index.php:1163, includes/functions-patterns.php:9, includes/functions-user.php:272, add-ons-pro/files-restriction/index.php:52, add-ons-pro/group-memberships/index.php:112, add-ons-pro/invoices/index.php:105, add-ons-pro/multiple-currencies/index.php:56, add-ons-pro/stripe/index.php:135, add-ons-pro/tax/index.php:78, extend/tutor-lms/class-pms-tutor-lms.php:1044, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/functions-admin.php:412, includes/admin/views/view-page-basic-info.php:15, includes/modules/labels-edit/index.php:467, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18, includes/gateways/paypal_connect/admin/functions-admin-filters.php:247
+#: index.php:1147, index.php:1147, includes/functions-patterns.php:9, includes/functions-user.php:272, add-ons-pro/files-restriction/index.php:52, add-ons-pro/group-memberships/index.php:112, add-ons-pro/invoices/index.php:105, add-ons-pro/multiple-currencies/index.php:56, add-ons-pro/stripe/index.php:135, add-ons-pro/tax/index.php:78, extend/tutor-lms/class-pms-tutor-lms.php:1044, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/functions-admin.php:412, includes/admin/views/view-page-basic-info.php:15, includes/modules/labels-edit/index.php:467, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18, includes/gateways/paypal_connect/admin/functions-admin-filters.php:247
 msgid "Paid Member Subscriptions"
 msgstr ""
 
-#: index.php:1182, includes/admin/class-admin-uninstall.php:81, includes/admin/class-admin-uninstall.php:81, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:64
+#: index.php:1166, includes/admin/class-admin-uninstall.php:81, includes/admin/class-admin-uninstall.php:81, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:64
 msgid "Uninstall"
 msgstr ""
 
-#: index.php:1184, includes/admin/class-admin-settings.php:57, includes/admin/class-admin-settings.php:321, includes/admin/class-admin-settings.php:321, includes/admin/views/view-page-basic-info.php:122, includes/admin/views/view-page-basic-info.php:183
+#: index.php:1168, includes/admin/class-admin-settings.php:64, includes/admin/class-admin-settings.php:325, includes/admin/class-admin-settings.php:325, includes/admin/views/view-page-basic-info.php:122, includes/admin/views/view-page-basic-info.php:183
 msgid "Settings"
 msgstr ""
 
-#: index.php:1186
+#: index.php:1170
 msgid "Docs"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1261
+#: index.php:1245
 msgid "Type %s to confirm deleting your account and all data associated with it:"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1263
+#: index.php:1247
 msgid "You did not type %s. Try again!"
 msgstr ""
 
-#: index.php:1281
+#: index.php:1265
 msgid "Select an option"
 msgstr ""
 
-#: index.php:1282
+#: index.php:1266
 msgid "No results match"
 msgstr ""
 
-#: index.php:1301, index.php:1301
+#: index.php:1285, index.php:1285
 msgid "Get Support"
 msgstr ""
 
@@ -529,7 +529,7 @@ msgstr ""
 msgid "Profile updated successfully"
 msgstr ""
 
-#: includes/class-form-handler.php:1854
+#: includes/class-form-handler.php:1883
 msgid "Something went wrong while registering the user. Contact the website administrator."
 msgstr ""
 
@@ -577,7 +577,7 @@ msgstr ""
 msgid "No, thanks."
 msgstr ""
 
-#: includes/class-review.php:98, includes/functions-core.php:1402, includes/functions-core.php:1373, includes/functions-plugin-notifications.php:116, includes/functions-plugin-notifications.php:143, includes/functions-plugin-notifications.php:131, add-ons-basic/form-designs/form-designs.php:302, add-ons-pro/files-restriction/files-restriction-activator.php:90, extend/tutor-lms/class-pms-tutor-lms.php:1156
+#: includes/class-review.php:98, includes/functions-core.php:1402, includes/functions-core.php:1373, includes/functions-plugin-notifications.php:122, includes/functions-plugin-notifications.php:149, includes/functions-plugin-notifications.php:137, add-ons-basic/form-designs/form-designs.php:302, add-ons-pro/files-restriction/files-restriction-activator.php:90, extend/tutor-lms/class-pms-tutor-lms.php:1156
 msgid "Dismiss this notice."
 msgstr ""
 
@@ -609,7 +609,7 @@ msgstr ""
 msgid "Edit Profile"
 msgstr ""
 
-#: includes/class-shortcodes.php:261, includes/admin/class-admin-dashboard.php:267, includes/admin/class-admin-payments.php:559, includes/admin/class-admin-payments.php:559, includes/admin/class-admin-reports.php:1339, includes/admin/class-admin-settings.php:245, includes/admin/class-admin-setup-wizard.php:37, includes/admin/views/view-page-basic-info.php:114, includes/admin/views/view-page-settings-misc.php:19
+#: includes/class-shortcodes.php:261, includes/admin/class-admin-dashboard.php:267, includes/admin/class-admin-payments.php:559, includes/admin/class-admin-payments.php:559, includes/admin/class-admin-reports.php:1339, includes/admin/class-admin-settings.php:250, includes/admin/class-admin-setup-wizard.php:37, includes/admin/views/view-page-basic-info.php:114, includes/admin/views/view-page-settings-misc.php:19
 msgid "Payments"
 msgstr ""
 
@@ -2513,15 +2513,11 @@ msgstr ""
 msgid "Installment - Final Payment"
 msgstr ""
 
-#: includes/functions-plugin-notifications.php:115
-msgid "Add-ons Page"
-msgstr ""
-
-#: includes/functions-plugin-notifications.php:115, includes/functions-plugin-notifications.php:142, includes/functions-plugin-notifications.php:130, extend/bbpress/functions.php:36, extend/tutor-lms/class-pms-tutor-lms.php:1155, includes/admin/views/setup-wizard/view-tab-woocommerce.php:12, includes/admin/views/setup-wizard/view-tab-woocommerce.php:24, includes/admin/views/setup-wizard/view-tab-woocommerce.php:36
+#: includes/functions-plugin-notifications.php:121, includes/functions-plugin-notifications.php:148, includes/functions-plugin-notifications.php:136, extend/bbpress/functions.php:36, extend/tutor-lms/class-pms-tutor-lms.php:1155, includes/admin/views/setup-wizard/view-tab-woocommerce.php:12, includes/admin/views/setup-wizard/view-tab-woocommerce.php:24, includes/admin/views/setup-wizard/view-tab-woocommerce.php:36
 msgid "Learn More"
 msgstr ""
 
-#: includes/functions-plugin-notifications.php:141
+#: includes/functions-plugin-notifications.php:147
 msgid "Buy now"
 msgstr ""
 
@@ -2593,11 +2589,11 @@ msgstr ""
 msgid "Automatically renew subscription"
 msgstr ""
 
-#: includes/functions-subscription-plan.php:841
+#: includes/functions-subscription-plan.php:846
 msgid "You need to create Subscription Plans before you can use this form. Go to your <strong>Dashboard -> Paid Member Subscriptions -> Subscriptions Plans</strong> to do this."
 msgstr ""
 
-#: includes/functions-subscription-plan.php:842, add-ons-pro/stripe/includes/functions-actions.php:26, includes/gateways/paypal_standard/functions-paypal-standard.php:97, includes/gateways/paypal_standard/functions-paypal-standard.php:125, includes/gateways/paypal_standard/functions-paypal-standard.php:255, includes/gateways/paypal_standard/functions-paypal-standard.php:283
+#: includes/functions-subscription-plan.php:847, add-ons-pro/stripe/includes/functions-actions.php:26, includes/gateways/paypal_standard/functions-paypal-standard.php:97, includes/gateways/paypal_standard/functions-paypal-standard.php:125, includes/gateways/paypal_standard/functions-paypal-standard.php:255, includes/gateways/paypal_standard/functions-paypal-standard.php:283
 msgid "This message is visible only by Administrators."
 msgstr ""
 
@@ -2765,7 +2761,7 @@ msgstr ""
 msgid "VAT"
 msgstr ""
 
-#: extend/bbpress/functions.php:16, extend/elementor/class-elementor.php:122, extend/learndash/functions.php:38, extend/tutor-lms/class-pms-tutor-lms.php:408, extend/tutor-lms/class-pms-tutor-lms.php:450, includes/admin/class-admin-settings.php:246, includes/admin/meta-boxes/class-meta-box-single-content-restriction.php:134, add-ons-basic/bbpress/includes/admin/meta-boxes/functions-meta-box-content-restriction.php:28
+#: extend/bbpress/functions.php:16, extend/elementor/class-elementor.php:122, extend/learndash/functions.php:38, extend/tutor-lms/class-pms-tutor-lms.php:408, extend/tutor-lms/class-pms-tutor-lms.php:450, includes/admin/class-admin-settings.php:251, includes/admin/meta-boxes/class-meta-box-single-content-restriction.php:134, add-ons-basic/bbpress/includes/admin/meta-boxes/functions-meta-box-content-restriction.php:28
 msgid "Content Restriction"
 msgstr ""
 
@@ -2809,47 +2805,47 @@ msgstr ""
 msgid "Restrict to Non-Members by Subscription Plans"
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:118
+#: extend/elementor/class-elementor-elements-restriction.php:121
 msgid "Allow only %1$s MEMBERS %2$s of the selected plans to see this content."
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:130
+#: extend/elementor/class-elementor-elements-restriction.php:133
 msgid "Allow only %1$s NON-MEMBERS %2$s of the selected plans to see this content."
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:141, includes/admin/views/view-page-settings-content_restriction.php:82, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:164
+#: extend/elementor/class-elementor-elements-restriction.php:144, includes/admin/views/view-page-settings-content_restriction.php:82, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:164
 msgid "Restriction Messages"
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:149
+#: extend/elementor/class-elementor-elements-restriction.php:152
 msgid "Enable Restriction Messages"
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:151
+#: extend/elementor/class-elementor-elements-restriction.php:154
 msgid "Replace hidden content with the default messages from PMS -> Settings -> Content Restriction, a custom message or an Elementor Template."
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:157, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:170
+#: extend/elementor/class-elementor-elements-restriction.php:160, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:170
 msgid "Enable Custom Messages"
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:159
+#: extend/elementor/class-elementor-elements-restriction.php:162
 msgid "Add a custom message or template."
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:168
+#: extend/elementor/class-elementor-elements-restriction.php:171
 msgid "Content type"
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:172
+#: extend/elementor/class-elementor-elements-restriction.php:175
 msgid "Text"
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:176, includes/admin/views/view-page-settings-content_restriction.php:26, includes/admin/views/view-page-settings-content_restriction.php:103, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:21
+#: extend/elementor/class-elementor-elements-restriction.php:179, includes/admin/views/view-page-settings-content_restriction.php:26, includes/admin/views/view-page-settings-content_restriction.php:103, includes/admin/meta-boxes/views/view-meta-box-single-content-restriction.php:21
 msgid "Template"
 msgstr ""
 
-#: extend/elementor/class-elementor-elements-restriction.php:193
+#: extend/elementor/class-elementor-elements-restriction.php:196
 msgid "Select Template"
 msgstr ""
 
@@ -2857,7 +2853,7 @@ msgstr ""
 msgid "Paid Member Subscriptions Shortcodes"
 msgstr ""
 
-#: extend/elementor/class-elementor.php:138, extend/wpbakery/class-wpbakery.php:28, includes/admin/class-admin-reports.php:972, includes/admin/class-admin-subscription-plans.php:1296, extend/elementor/widgets/class-widget-register.php:62, extend/tutor-lms/views/view-settings-tab-tutor-lms.php:71, includes/admin/views/view-page-basic-info.php:95, extend/beaver-builder/modules/pms-register/pms-register.php:35, extend/beaver-builder/modules/pms-register/pms-register.php:47, extend/siteorigin/widgets/pms-register/pms-register.php:23
+#: extend/elementor/class-elementor.php:138, extend/wpbakery/class-wpbakery.php:28, includes/admin/class-admin-reports.php:972, includes/admin/class-admin-subscription-plans.php:1296, extend/elementor/widgets/class-widget-register.php:63, extend/tutor-lms/views/view-settings-tab-tutor-lms.php:71, includes/admin/views/view-page-basic-info.php:95, extend/beaver-builder/modules/pms-register/pms-register.php:35, extend/beaver-builder/modules/pms-register/pms-register.php:47, extend/siteorigin/widgets/pms-register/pms-register.php:23
 msgid "Subscription Plans"
 msgstr ""
 
@@ -3847,7 +3843,7 @@ msgstr ""
 msgid "Select only the Subscriptions Plans you want to see the statistics for."
 msgstr ""
 
-#: includes/admin/class-admin-reports.php:967, includes/admin/class-admin-settings.php:244, includes/admin/views/view-page-settings-content_restriction.php:16, includes/admin/views/view-page-settings-payments.php:15, extend/beaver-builder/modules/pms-account/pms-account.php:29, extend/beaver-builder/modules/pms-login/pms-login.php:29, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:29, extend/beaver-builder/modules/pms-register/pms-register.php:29
+#: includes/admin/class-admin-reports.php:967, includes/admin/class-admin-settings.php:249, includes/admin/views/view-page-settings-content_restriction.php:16, includes/admin/views/view-page-settings-payments.php:15, extend/beaver-builder/modules/pms-account/pms-account.php:29, extend/beaver-builder/modules/pms-login/pms-login.php:29, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:29, extend/beaver-builder/modules/pms-register/pms-register.php:29
 msgid "General"
 msgstr ""
 
@@ -3975,27 +3971,27 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
-#: includes/admin/class-admin-settings.php:63
+#: includes/admin/class-admin-settings.php:70
 msgid "Test Payments are enabled"
 msgstr ""
 
-#: includes/admin/class-admin-settings.php:63
+#: includes/admin/class-admin-settings.php:70
 msgid "Live Payments are enabled"
 msgstr ""
 
-#: includes/admin/class-admin-settings.php:107
+#: includes/admin/class-admin-settings.php:114
 msgid "Update Settings"
 msgstr ""
 
-#: includes/admin/class-admin-settings.php:109
+#: includes/admin/class-admin-settings.php:116
 msgid "Save Settings"
 msgstr ""
 
-#: includes/admin/class-admin-settings.php:247
+#: includes/admin/class-admin-settings.php:252
 msgid "E-Mails"
 msgstr ""
 
-#: includes/admin/class-admin-settings.php:248, includes/admin/views/view-page-settings-content_restriction.php:139
+#: includes/admin/class-admin-settings.php:253, includes/admin/views/view-page-settings-content_restriction.php:139
 msgid "Misc"
 msgstr ""
 
@@ -4015,39 +4011,39 @@ msgstr ""
 msgid "Ready!"
 msgstr ""
 
-#: includes/admin/class-admin-setup-wizard.php:292
+#: includes/admin/class-admin-setup-wizard.php:301
 msgid "Create user pages for registration, login, account and password reset."
 msgstr ""
 
-#: includes/admin/class-admin-setup-wizard.php:296
+#: includes/admin/class-admin-setup-wizard.php:305
 msgid "Choose a design and optimize the login and registration flow for your users."
 msgstr ""
 
-#: includes/admin/class-admin-setup-wizard.php:300
+#: includes/admin/class-admin-setup-wizard.php:309
 msgid "Setup how your currency is displayed and choose & configure a payment gateway."
 msgstr ""
 
-#: includes/admin/class-admin-setup-wizard.php:304
+#: includes/admin/class-admin-setup-wizard.php:313
 msgid "Create a subscription plan and start registering new members."
 msgstr ""
 
-#: includes/admin/class-admin-setup-wizard.php:308
+#: includes/admin/class-admin-setup-wizard.php:317
 msgid "Restrict your content based on the newly created subscription plans."
 msgstr ""
 
-#: includes/admin/class-admin-setup-wizard.php:313
+#: includes/admin/class-admin-setup-wizard.php:322
 msgid "Create a Pricing Page to sell your plans."
 msgstr ""
 
-#: includes/admin/class-admin-setup-wizard.php:321
+#: includes/admin/class-admin-setup-wizard.php:330
 msgid "Integrate with WooCommerce: discount for members, restrict products or sell subscriptions."
 msgstr ""
 
-#: includes/admin/class-admin-setup-wizard.php:375
+#: includes/admin/class-admin-setup-wizard.php:384
 msgid "Progress Review"
 msgstr ""
 
-#: includes/admin/class-admin-setup-wizard.php:376
+#: includes/admin/class-admin-setup-wizard.php:385
 msgid "Follow these steps to start a membership site quickly. %1s out of %2s complete."
 msgstr ""
 
@@ -6198,19 +6194,19 @@ msgstr ""
 msgid "After recovery"
 msgstr ""
 
-#: extend/elementor/widgets/class-widget-register.php:72, extend/siteorigin/widgets/pms-register/pms-register.php:29
+#: extend/elementor/widgets/class-widget-register.php:73, extend/siteorigin/widgets/pms-register/pms-register.php:29
 msgid "Selected Plan"
 msgstr ""
 
-#: extend/elementor/widgets/class-widget-register.php:81
+#: extend/elementor/widgets/class-widget-register.php:82
 msgid "Plans Position"
 msgstr ""
 
-#: extend/elementor/widgets/class-widget-register.php:84, extend/beaver-builder/modules/pms-register/pms-register.php:50, extend/siteorigin/widgets/pms-register/pms-register.php:37
+#: extend/elementor/widgets/class-widget-register.php:85, extend/beaver-builder/modules/pms-register/pms-register.php:50, extend/siteorigin/widgets/pms-register/pms-register.php:37
 msgid "Top"
 msgstr ""
 
-#: extend/elementor/widgets/class-widget-register.php:85, extend/beaver-builder/modules/pms-register/pms-register.php:51, extend/siteorigin/widgets/pms-register/pms-register.php:38
+#: extend/elementor/widgets/class-widget-register.php:86, extend/beaver-builder/modules/pms-register/pms-register.php:51, extend/siteorigin/widgets/pms-register/pms-register.php:38
 msgid "Bottom"
 msgstr ""
 
@@ -7363,7 +7359,7 @@ msgstr ""
 msgid "Add New Payment"
 msgstr ""
 
-#: includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1741
+#: includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1751
 msgid "Payment Details"
 msgstr ""
 

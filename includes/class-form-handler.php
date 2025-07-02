@@ -1768,6 +1768,35 @@ Class PMS_Form_Handler {
 
     }
 
+    /**
+     * Determines if the currently logged in user can access a free trial
+     *
+     * @param object $subscription_plan
+     * @return bool
+     *
+     */
+    public static function user_can_access_trial( $subscription_plan = '' ) {
+
+        if( empty( $subscription_plan ) && !empty( $_POST['subscription_plans'] ) ){
+            $subscription_plan = pms_get_subscription_plan( absint( $_POST['subscription_plans'] ) );
+        }
+
+        if( is_user_logged_in() ){
+            $user = get_userdata( get_current_user_id() );
+    
+            if( !empty( $user->user_email ) ){
+    
+                $used_trial = get_option( 'pms_used_trial_' . $subscription_plan->id, false );
+
+                if( $used_trial !== false && in_array( $user->user_email, $used_trial ) )
+                    return false;
+    
+            }
+        }
+
+        return true;
+    }
+
 
     /**
      * Returns the payment gateway object from the user's selection on the checkout page
