@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.15.5
+Stable tag: 2.15.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,9 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.15.6 = 
+* Fix: Issue with custom tables metadata retrieval
+
 = 2.15.5 =
 * Enhancement: Added options to restrict content based on All subscription plans to the pms-restrict shortcode and Elementor Content Restriction functionality
 * Enhancement: Allow adding a Registration form without subscription plans through the Elementor Registration Widget

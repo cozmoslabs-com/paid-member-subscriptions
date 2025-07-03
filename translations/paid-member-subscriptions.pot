@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-02 09:34+0000\n"
+"POT-Creation-Date: 2025-07-03 11:21+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -38,57 +38,57 @@ msgstr ""
 msgid "This Paid Member Subscriptions add-on has been migrated to the main plugin and is no longer used. You can delete it."
 msgstr ""
 
-#: index.php:274
+#: index.php:288
 msgid "To enable updates, your licence needs to be renewed. Please go to the <a href=\"%s\" target=\"_blank\">Cozmoslabs Account</a> page and login to renew."
 msgstr ""
 
-#: index.php:267
+#: index.php:281
 msgid "To enable updates, please enter your serial number on the %sSettings%s page. If you don't have a serial number, please see %sdetails & pricing%s."
 msgstr ""
 
-#: index.php:381
+#: index.php:395
 msgid "You must be logged in to view this content."
 msgstr ""
 
-#: index.php:384
+#: index.php:398
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:1147, index.php:1147, includes/functions-patterns.php:9, includes/functions-user.php:272, add-ons-pro/files-restriction/index.php:52, add-ons-pro/group-memberships/index.php:112, add-ons-pro/invoices/index.php:105, add-ons-pro/multiple-currencies/index.php:56, add-ons-pro/stripe/index.php:135, add-ons-pro/tax/index.php:78, extend/tutor-lms/class-pms-tutor-lms.php:1044, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/functions-admin.php:412, includes/admin/views/view-page-basic-info.php:15, includes/modules/labels-edit/index.php:467, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18, includes/gateways/paypal_connect/admin/functions-admin-filters.php:247
+#: index.php:1161, index.php:1161, includes/functions-patterns.php:9, includes/functions-user.php:272, add-ons-pro/files-restriction/index.php:52, add-ons-pro/group-memberships/index.php:112, add-ons-pro/invoices/index.php:105, add-ons-pro/multiple-currencies/index.php:56, add-ons-pro/stripe/index.php:135, add-ons-pro/tax/index.php:78, extend/tutor-lms/class-pms-tutor-lms.php:1044, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/functions-admin.php:412, includes/admin/views/view-page-basic-info.php:15, includes/modules/labels-edit/index.php:467, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18, includes/gateways/paypal_connect/admin/functions-admin-filters.php:247
 msgid "Paid Member Subscriptions"
 msgstr ""
 
-#: index.php:1166, includes/admin/class-admin-uninstall.php:81, includes/admin/class-admin-uninstall.php:81, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:64
+#: index.php:1180, includes/admin/class-admin-uninstall.php:81, includes/admin/class-admin-uninstall.php:81, includes/admin/views/view-page-uninstall.php:45, includes/admin/views/view-page-uninstall.php:64
 msgid "Uninstall"
 msgstr ""
 
-#: index.php:1168, includes/admin/class-admin-settings.php:64, includes/admin/class-admin-settings.php:325, includes/admin/class-admin-settings.php:325, includes/admin/views/view-page-basic-info.php:122, includes/admin/views/view-page-basic-info.php:183
+#: index.php:1182, includes/admin/class-admin-settings.php:64, includes/admin/class-admin-settings.php:325, includes/admin/class-admin-settings.php:325, includes/admin/views/view-page-basic-info.php:122, includes/admin/views/view-page-basic-info.php:183
 msgid "Settings"
 msgstr ""
 
-#: index.php:1170
+#: index.php:1184
 msgid "Docs"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1245
+#: index.php:1259
 msgid "Type %s to confirm deleting your account and all data associated with it:"
 msgstr ""
 
 #. translators: %s the word DELETE
-#: index.php:1247
+#: index.php:1261
 msgid "You did not type %s. Try again!"
 msgstr ""
 
-#: index.php:1265
+#: index.php:1279
 msgid "Select an option"
 msgstr ""
 
-#: index.php:1266
+#: index.php:1280
 msgid "No results match"
 msgstr ""
 
-#: index.php:1285, index.php:1285
+#: index.php:1299, index.php:1299
 msgid "Get Support"
 msgstr ""
 

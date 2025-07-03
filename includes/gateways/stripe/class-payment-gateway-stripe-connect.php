@@ -1943,7 +1943,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     // Apple Pay, Google Pay, Link
     public function domain_is_registered(){
 
-        if( !isset( $this->stripe_client->paymentMethodDomains ) || is_null( $this->stripe_client->paymentMethodDomains ) )
+        if( !class_exists( '\Stripe\Service\PaymentMethodDomainService' ) )
             return [ 'status' => false, 'message' => 'could_not_verify_domain' ];
 
         // get domains

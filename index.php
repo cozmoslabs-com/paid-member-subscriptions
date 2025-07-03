@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.15.5
+ * Version: 2.15.6
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.15.5' );
+        define( 'PMS_VERSION', '2.15.6' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -102,6 +102,8 @@ Class Paid_Member_Subscriptions {
         // Check if this is a newer version
         add_action( 'plugins_loaded', array( $this, 'update_check' ) );
 
+        add_action( 'plugins_loaded', array( $this, 'register_custom_meta_tables' ) );
+
         // Include dependencies
         $this->include_dependencies();
 
@@ -110,6 +112,18 @@ Class Paid_Member_Subscriptions {
 
     }
 
+    /**
+     * Registers custom meta tables with WP's $wpdb object
+     *
+     */
+     public function register_custom_meta_tables() {
+
+        global $wpdb;
+
+        $wpdb->member_subscriptionmeta = $wpdb->prefix . $this->prefix . 'member_subscriptionmeta';
+        $wpdb->paymentmeta = $wpdb->prefix . $this->prefix . 'paymentmeta';
+
+    }
 
     /*
      * Method that gets executed on plugin activation
