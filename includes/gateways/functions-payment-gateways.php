@@ -16,8 +16,8 @@ function pms_get_payment_gateways( $only_slugs = false ) {
 
     $payment_gateways = apply_filters( 'pms_payment_gateways', array(
         'manual'          => array(
-            'display_name_user'  => __( 'Manual/Offline', 'paid-member-subscriptions' ),
-            'display_name_admin' => __( 'Manual/Offline', 'paid-member-subscriptions' ),
+            'display_name_user'  => __( 'Manual / Offline', 'paid-member-subscriptions' ),
+            'display_name_admin' => __( 'Manual / Offline', 'paid-member-subscriptions' ),
             'class_name'         => 'PMS_Payment_Gateway_Manual',
             'description'        =>  __( 'Manually collect payments from  Checks, Direct Bank Transfers or in person cash.', 'paid-member-subscriptions' )
         ),

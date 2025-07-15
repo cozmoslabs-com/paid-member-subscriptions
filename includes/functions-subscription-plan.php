@@ -504,7 +504,7 @@ function pms_get_output_subscription_plan_duration( $subscription_plan = null, $
 
     if( $subscription_plan->is_fixed_period_membership() ){
         if( $subscription_plan->fixed_expiration_date != '' )
-            $duration_output = '<span class="pms-divider">' . ' ' . esc_html__( 'until', 'paid-member-subscriptions' ) . ' ' . '</span>' . '<span class="pms-subscription-plan-duration">' . esc_html( date_i18n( get_option( 'date_format' ), strtotime( $subscription_plan->get_expiration_date() ) ) ) . '</span>';
+            $duration_output = '<span class="pms-divider pms-duration-divider">' . ' ' . esc_html__( 'until', 'paid-member-subscriptions' ) . ' ' . '</span>' . '<span class="pms-subscription-plan-duration">' . esc_html( date_i18n( get_option( 'date_format' ), strtotime( $subscription_plan->get_expiration_date() ) ) ) . '</span>';
         else
             $duration_output = '';
     } else {

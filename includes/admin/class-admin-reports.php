@@ -668,7 +668,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      * Count any type of payment
      *
      */
-    public function pms_counting_type_of_payment( $payment_type, $types_wanted, &$count ) {
+    public function pms_counting_type_of_payment( $payment_type, $types_wanted, $count ) {
         if ( in_array( $payment_type, $types_wanted ) )
             $count++;
 
@@ -679,7 +679,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
      * Gather any type of payment
      *
      */
-    public function pms_sum_type_of_payment( $payment_type, $types_wanted, $payment_amount, &$total ) {
+    public function pms_sum_type_of_payment( $payment_type, $types_wanted, $payment_amount, $total ) {
         if ( in_array( $payment_type, $types_wanted ) )
             $total += $payment_amount;
 
@@ -723,6 +723,41 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         }
 
         return $count_attempts_payments;
+    }
+
+
+    /**
+     *
+     * Counting payments with any status but type of 'subscription_renewal_payment'
+     */
+    public function pms_return_counting_renewal_payments( $queried ){
+        $renewal_payments = ['subscription_renewal_payment'];
+        $count_renewal_payments = 0;
+
+        if( !empty( $queried ) ) {
+            foreach( $queried as $payment ){
+                $count_renewal_payments = $this->pms_counting_type_of_payment( $payment->type, $renewal_payments, $count_renewal_payments );
+            }
+        }
+
+        return $count_renewal_payments;
+    }
+
+    /**
+     *
+     * Counting payments with any status but type of 'subscription_upgrade_payment'
+     */
+    public function pms_return_counting_upgrade_payments( $queried ){
+        $upgrade_payments = ['subscription_upgrade_payment'];
+        $count_upgrade_payments = 0;
+
+        if( !empty( $queried ) ) {
+            foreach( $queried as $payment ){
+                $count_upgrade_payments = $this->pms_counting_type_of_payment( $payment->type, $upgrade_payments, $count_upgrade_payments );
+            }
+        }
+
+        return $count_upgrade_payments;
     }
 
     /**
@@ -992,9 +1027,13 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
             $class_section = 'previous';
 
             $summary_data['total_retry_attempts'] = esc_html( $this->pms_return_counting_attempts( $this->queried_previous_attempts ) );
+            $summary_data['total_renewal_payments'] = esc_html( $this->pms_return_counting_renewal_payments( $this->queried_previous_attempts ) );
+            $summary_data['total_upgrade_payments'] = esc_html( $this->pms_return_counting_upgrade_payments( $this->queried_previous_attempts ) );
         }
         else {
             $summary_data['total_retry_attempts'] = esc_html( $this->pms_return_counting_attempts( $this->queried_payments_attempts ) );
+            $summary_data['total_renewal_payments'] = esc_html( $this->pms_return_counting_renewal_payments( $this->queried_payments_attempts ) );
+            $summary_data['total_upgrade_payments'] = esc_html( $this->pms_return_counting_upgrade_payments( $this->queried_payments_attempts ) );
         }
 
         $default_currency = $summary_data['default_currency'];
@@ -1227,6 +1266,16 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                             <span><?php echo esc_html__( '-', 'paid-member-subscriptions'); ?></span>
                             <?php
                         }?>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of renewal payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Renewal Payments', 'paid-member-subscriptions' ); ?></label>
+                        <span><?php echo esc_html( $summary_data['total_renewal_payments'] ); ?></span>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of upgraded payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Upgraded Payments', 'paid-member-subscriptions' ); ?></label>
+                        <span><?php echo esc_html( $summary_data['total_upgrade_payments'] ); ?></span>
                     </div>
 
                     <div class="cozmoslabs-form-field-wrapper pms-gateway-revenue">

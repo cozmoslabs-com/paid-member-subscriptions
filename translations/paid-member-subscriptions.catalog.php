@@ -831,6 +831,7 @@
 <?php __("Edit Member", "paid-member-subscriptions"); ?>
 <?php __("Start date", "paid-member-subscriptions"); ?>
 <?php __("Next payment date", "paid-member-subscriptions"); ?>
+<?php __("Price", "paid-member-subscriptions"); ?>
 <?php __("View Abandoned Subscriptions", "paid-member-subscriptions"); ?>
 <?php __('%1$s %2$s abandoned subscription, "paid-member-subscriptions"); ?>
 <?php __(%1$s %2$s abandoned subscriptions', 'paid-member-subscriptions' ); ?>
@@ -972,6 +973,10 @@
 <?php __("The plan with the most income for the selected period", "paid-member-subscriptions"); ?>
 <?php __("Best Performing Plan", "paid-member-subscriptions"); ?>
 <?php __("-", "paid-member-subscriptions"); ?>
+<?php __("Total number of renewal payments for the selected period", "paid-member-subscriptions"); ?>
+<?php __("Renewal Payments", "paid-member-subscriptions"); ?>
+<?php __("Total number of upgraded payments for the selected period", "paid-member-subscriptions"); ?>
+<?php __("Upgraded Payments", "paid-member-subscriptions"); ?>
 <?php __("Payment Gateways Revenue", "paid-member-subscriptions"); ?>
 <?php __("There aren't any gateways activated.", "paid-member-subscriptions"); ?>
 <?php __("There are no payments for the selected period.", "paid-member-subscriptions"); ?>
@@ -1021,7 +1026,6 @@
 <?php __("Add Upgrade", "paid-member-subscriptions"); ?>
 <?php __("Add Downgrade", "paid-member-subscriptions"); ?>
 <?php __("Duplicate", "paid-member-subscriptions"); ?>
-<?php __("Price", "paid-member-subscriptions"); ?>
 <?php __("Sign Up Fee", "paid-member-subscriptions"); ?>
 <?php __("Free Trial", "paid-member-subscriptions"); ?>
 <?php __("Move Subscription Plan Up", "paid-member-subscriptions"); ?>
@@ -1115,7 +1119,7 @@
 <?php __("GDPR", "paid-member-subscriptions"); ?>
 <?php __("Not Agreed", "paid-member-subscriptions"); ?>
 <?php __("Agreed on ", "paid-member-subscriptions"); ?>
-<?php __("Manual/Offline", "paid-member-subscriptions"); ?>
+<?php __("Manual / Offline", "paid-member-subscriptions"); ?>
 <?php __("Manually collect payments from  Checks, Direct Bank Transfers or in person cash.", "paid-member-subscriptions"); ?>
 <?php __("PayPal", "paid-member-subscriptions"); ?>
 <?php __("PayPal Standard", "paid-member-subscriptions"); ?>

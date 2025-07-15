@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.15.6
+Stable tag: 2.15.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,19 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.15.7 =
+* Enhancement: Show information about Upgrades or Renewals in the Reports area
+* Enhancement: Show subscription price when hovering over the subscribed plan on the Members Table
+* Fix: Issue with license key activation or deactivation not working
+* Fix: Issue with Stripe Trial payments not working correctly when the card enforced 3D Secure validation
+* Fix: Add back Subscription Plan name to Stripe transactions
+* Fix: Restore duration divider for fixed period plans when they are displayed on the front-end form
+* Fix: Allow searching for discounts that contain special characters in their title
+* Misc: Match label spacing between front-end and back-end for the Manual payment gateway
+* Misc: Extend Payments search support
+* Misc: The WooCommerce Product Restriction metabox is now listing plans in the same order as the Content Restriction metabox
+* Misc: Added a filter so the PayPal Standard account check for IPNs can be disabled
+
 = 2.15.6 = 
 * Fix: Issue with custom tables metadata retrieval
 

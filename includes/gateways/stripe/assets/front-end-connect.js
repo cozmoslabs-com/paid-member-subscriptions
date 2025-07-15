@@ -257,16 +257,31 @@ jQuery( async function( $ ) {
                     return false
                 } else if( response.success == false && typeof response.type != 'undefined' && response.type == 'use_stripe_sdk' ){
 
-                    var { error, paymentIntent } = await stripe.handleNextAction({
-                        clientSecret: response.client_secret
-                    });
+                    let intent 
+
+                    if( $.pms_checkout_is_setup_intents() ){
+                        var { error, setupIntent } = await stripe.handleNextAction({
+                            clientSecret: response.client_secret
+                        });
+
+                        intent = setupIntent
+
+                    } else {
+                        var { error, paymentIntent } = await stripe.handleNextAction({
+                            clientSecret: response.client_secret
+                        });
+
+                        intent = paymentIntent
+                    }
 
                     if( error && error.payment_intent ){
-                        paymentIntent = error.payment_intent
+                        intent = error.payment_intent
+                    } else if ( error && error.setup_intent ){
+                        intent = error.setup_intent
                     }
 
                     // Process the payment on the server
-                    const server_response = await pms_stripe_process_payment( paymentIntent, response, current_button )
+                    const server_response = await pms_stripe_process_payment( intent, response, current_button )
 
                     if ( typeof server_response.redirect_url != 'undefined' && server_response.redirect_url ){
                         window.location.replace( server_response.redirect_url )

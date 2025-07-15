@@ -218,12 +218,17 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $intent = $this->create_setup_intent( sanitize_text_field( $_REQUEST['stripe_confirmation_token'] ), $subscription );
 
-                if( !empty( $intent->next_action ) && !empty( $intent->next_action->type ) && $intent->next_action->type == 'redirect_to_url' ){
+                if( isset( $intent->next_action ) && !is_null( $intent->next_action ) && !empty( $intent->next_action->type ) ){
     
                     $data = array(
-                        'success'      => false,
-                        'type'         => $intent->next_action->type,
-                        'redirect_url' => $intent->next_action->redirect_to_url->url,
+                        'success'              => false,
+                        'client_secret'        => $intent->client_secret,
+                        'type'                 => $intent->next_action->type,
+                        'redirect_url'         => isset( $intent->next_action->redirect_to_url->url ) ? $intent->next_action->redirect_to_url->url : '',
+                        'payment_id'           => isset( $payment ) && isset( $payment->id ) ? $payment->id : 0,
+                        'subscription_id'      => $subscription->id,
+                        'user_id'              => $subscription->user_id,
+                        'subscription_plan_id' => $subscription->subscription_plan_id,
                     );
     
                     echo json_encode( $data );
@@ -340,7 +345,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_initial_payment_intent', $payment_intent->id );
 
                 if( isset( $payment_intent->next_action ) && !is_null( $payment_intent->next_action ) && !empty( $payment_intent->next_action->type ) ){
-
 
                     if( !empty( $payment->id ) ){   
                         if( $payment_intent->next_action->type == 'redirect_to_url' ){
@@ -877,6 +881,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             'metadata'           => array(),
             'confirm'            => true,
             'confirmation_token' => $confirmation_token,
+            'description'        => $subscription_plan->name,
             'return_url'         => $this->get_offsite_redirect_return_url(),
             'expand'             => [ 'payment_method' ],
         );
@@ -959,6 +964,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             'confirm'                   => true,
             'confirmation_token'        => $confirmation_token,
             'automatic_payment_methods' => [ 'enabled' => true ],
+            'description'               => $subscription_plan->name,
             'return_url'                => $this->get_offsite_redirect_return_url(),
             'expand'                    => [ 'payment_method' ],
         );
@@ -1511,7 +1517,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $checkout_data = array( 'subscription_plans' => $payment->subscription_id );
             }
             
-            $this->update_subscription( $subscription, sanitize_text_field( $data->metadata->request_location ), false, $is_recurring, $checkout_data );
+            if( apply_filters( 'pms_stripe_connect_webhooks_always_update_subscription', true, $subscription, $data ) ) {
+                $this->update_subscription( $subscription, sanitize_text_field( $data->metadata->request_location ), false, $is_recurring, $checkout_data );
+            }
 
             // Save Customer to Subscription and User if it's not present
             $subscription_customer = pms_get_member_subscription_meta( $subscription->id, '_stripe_customer_id', true );

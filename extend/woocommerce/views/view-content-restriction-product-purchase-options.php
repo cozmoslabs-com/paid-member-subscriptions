@@ -11,6 +11,7 @@
     <?php
     $user_status          = get_post_meta( $post_id, 'pms-purchase-restrict-user-status', true );
     $subscription_plans   = pms_get_subscription_plans();
+    usort($subscription_plans, 'pms_compare_subscription_plan_objects');
     $selected_subscription_plans = get_post_meta( $post_id, 'pms-purchase-restrict-subscription-plan' );
     ?>
 

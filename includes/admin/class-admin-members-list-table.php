@@ -535,10 +535,18 @@ Class PMS_Members_List_Table extends WP_List_Table {
                 $output .= '<div class="pms-bubble">';
 
                     $statuses = pms_get_member_subscription_statuses();
+                    $amount = ( isset( $member_subscription->billing_amount ) ? ( $member_subscription->billing_amount == 0 ? esc_html__( 'Free', 'paid-member-subscriptions' ) : $member_subscription->billing_amount ) : '' );
+                    if( $amount != 'Free' ){
+                        $subscription_currency = pms_get_member_subscription_meta( $member_subscription->id, 'currency', true );
+                        $currency = !empty( $subscription_currency ) ? $subscription_currency : pms_get_active_currency();
+                        $amount = pms_format_price( $amount, $currency );
+                    }
+
 
                     $output .= '<div><span class="alignleft">' . esc_html__( 'Start date', 'paid-member-subscriptions' ) . '</span><span class="alignright">' . date( get_option( 'date_format' ), strtotime( pms_sanitize_date( $member_subscription->start_date ) ) ) . '</span></div>';
                     $output .= '<div><span class="alignleft">' . ( !$member_subscription->is_auto_renewing() ? esc_html__( 'Expiration date', 'paid-member-subscriptions' ) : esc_html__( 'Next payment date', 'paid-member-subscriptions' ) ) . '</span><span class="alignright">' . ( ! empty( $member_subscription->expiration_date ) ? date( get_option( 'date_format' ), strtotime( pms_sanitize_date( $member_subscription->expiration_date ) ) ) : ( !empty( $member_subscription->billing_next_payment ) ? date( get_option( 'date_format' ), strtotime( pms_sanitize_date( $member_subscription->billing_next_payment ) ) ) : __( 'Unlimited', 'paid-member-subscriptions' ) ) ) . '</span></div>';
                     $output .= '<div><span class="alignleft">' . esc_html__( 'Status', 'paid-member-subscriptions' ) . '</span><span class="alignright">' . ( isset( $statuses[ $member_subscription->status ] ) ? $statuses[ $member_subscription->status ] : '' ) . '</span></div>';
+                    $output .= '<div><span class="alignleft">' . esc_html__( 'Price', 'paid-member-subscriptions' ) . '</span><span class="alignright">' . $amount . '</span></div>';
 
                     if( pms_payment_gateways_support( pms_get_active_payment_gateways(), 'recurring_payments' ) )
                         $output .= '<div><span class="alignleft">' . esc_html__( 'Auto-renewing', 'paid-member-subscriptions' ) . '</span><span class="alignright">' . ( $member_subscription->is_auto_renewing() ? esc_html__( 'Yes', 'paid-member-subscriptions' ) : esc_html__( 'No', 'paid-member-subscriptions' ) ) . '</span></div>';

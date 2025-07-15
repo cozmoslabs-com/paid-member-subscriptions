@@ -2391,7 +2391,7 @@ Class PMS_Form_Handler {
 
                 $data = array(
                     'success'      => false,
-                    'redirect_url' => PMS_AJAX_Checkout_Handler::get_payment_error_redirect_url( $payment->id ),
+                    'redirect_url' => PMS_AJAX_Checkout_Handler::get_payment_error_redirect_url( isset( $payment ) && isset( $payment->id ) ? $payment->id : 0 ),
                 );
 
                 echo json_encode( $data );

@@ -1114,12 +1114,39 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     }
 
+    function pms_is_psp_gateway_enabled(){
+
+        $payments_settings = get_option( 'pms_payments_settings', array() );
+
+        if( empty( $payments_settings ) || empty( $payments_settings['active_pay_gates'] ) )
+            return false;
+
+        $gateways = [
+            'stripe',
+            'stripe_intents',
+            'stripe_connect',
+            'paypal_connect',
+        ];
+
+        foreach( $gateways as $gateway ){
+            if( in_array( $gateway, $payments_settings['active_pay_gates'] ) ){
+                return true;
+            }
+        }
+
+        // Separate check for PayPal Express
+        if( in_array( 'paypal_express', $payments_settings['active_pay_gates'] ) && isset( $payments_settings['gateways']['paypal'] ) && isset( $payments_settings['gateways']['paypal']['reference_transactions'] ) && $payments_settings['gateways']['paypal']['reference_transactions'] == '1' )
+            return true;
+
+        return false;
+    }
+
     add_action( 'admin_init', 'pms_admin_general_notices', 9 );
     function pms_admin_general_notices(){
 
         $payments_settings = get_option( 'pms_payments_settings', array() );
 
-        if( pms_website_was_previously_initialized() && ( !empty( $payments_settings ) && ( in_array( 'stripe_intents', $payments_settings['active_pay_gates'] ) || in_array( 'stripe_connect', $payments_settings['active_pay_gates'] ) || ( in_array( 'paypal_express', $payments_settings['active_pay_gates'] ) && isset( $payments_settings['gateways']['paypal'] ) && isset( $payments_settings['gateways']['paypal']['reference_transactions'] ) && $payments_settings['gateways']['paypal']['reference_transactions'] == '1' ) ) ) ) {
+        if( pms_website_was_previously_initialized() && pms_is_psp_gateway_enabled() ) {
 
             $message = sprintf( __( 'It looks like this website is a clone of another one. In order to not generate errors like double payments, the Plugin Scheduled Payments functionality from <strong>Paid Member Subscriptions</strong> has been disabled. %sLearn More%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/payments/#Duplicate_Website_Message" target="_blank">', '</a><br>' ) ;
             $message .= __( 'In order to restore it, you need to put the plugin into <strong>Test Mode</strong>.', 'paid-member-subscriptions' );

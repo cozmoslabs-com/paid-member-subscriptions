@@ -266,19 +266,27 @@ function pms_add_register_version_form() {
                 <label class="cozmoslabs-form-field-label" for="pms_serial_number"><?php esc_html_e( 'License key', 'paid-member-subscriptions' ); ?></label>
                 <div class="cozmoslabs-serial-wrap__holder">
                     <input id="pms_serial_number" name="pms_serial_number" type="text" class="regular-text" value="<?php echo esc_attr( $license ); ?>" />
+
                     <?php wp_nonce_field( 'pms_license_nonce', 'pms_license_nonce' ); ?>
+
                     <?php if( $status !== false && $status == 'valid' ) {
+
                         $button_name =  'pms_edd_license_deactivate';
-                        $button_value = __('Deactivate License', 'paid-member-subscriptions' );
+                        $button_value = __( 'Deactivate License', 'paid-member-subscriptions' );
+
                         if( empty( $details['invalid'] ) )
                             echo '<span title="'. esc_html__( 'Active on this site', 'paid-member-subscriptions' ) .'" class="pms-active-license dashicons dashicons-yes"></span>';
                         else
                             echo '<span title="'. esc_html__( 'Your license is invalid', 'paid-member-subscriptions' ) .'" class="pms-invalid-license dashicons dashicons-warning"></span>';
+
                     } else {
+
                         $button_name =  'pms_edd_license_activate';
                         $button_value = __('Activate License', 'paid-member-subscriptions');
+
                     }
                     ?>
+                    <input type="hidden" name="<?php echo esc_attr( $button_name ); ?>" value="" />
                     <input type="submit" class="button-secondary" name="<?php echo esc_attr( $button_name ); ?>" value="<?php echo esc_attr( $button_value ); ?>"/>
                 </div>
 
@@ -311,6 +319,10 @@ function pms_add_register_version_form() {
     <?php
 }
 
+function pms_register_serial_number_setting(){
+    register_setting( 'pms_serial_number', 'pms_serial_number' );
+}
+add_action( 'admin_init', 'pms_register_serial_number_setting' );
 
 /**
  * Insert the PMS Admin area Header Banner
