@@ -823,6 +823,7 @@ body[class*="post-type-pms-"] .submitdelete:focus,
 .cozmoslabs-toggle-container input:checked + .cozmoslabs-toggle-track:before {
     transform: translateX(18px);
     background-color: #ffffff;
+    top: 2px;
 }
 
 .cozmoslabs-toggle-container input:disabled + .cozmoslabs-toggle-track {
@@ -1522,6 +1523,10 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
 
 .cozmoslabs-sub-tab.tab-active {
     display: block;
+}
+
+.cozmoslabs-sub-tab-upsell {
+    width: calc( 100% - 300px );
 }
 
 .cozmoslabs-email-heading-wrap {
@@ -3035,8 +3040,9 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
     line-height: 28px;
 }
 
-.pms-notice a.button-primary{
+.pms-notice a.button-primary, .wppb-serial-notification a.button-primary, .wppb-notice a.button-primary {
     height: 30px !important;
+    min-width: auto !important;
 }
 
 .pms-notice {
@@ -3198,6 +3204,9 @@ body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .s
         width: 100%;
     }
 
+    .cozmoslabs-sub-tab-upsell {
+        width: 100%;
+    }
 }
 
 /* Publish Meta-Box Position */
@@ -4866,4 +4875,8 @@ div.wppb-serial-notification {
 .title-section-subscriptions-details{
     display: flex;
     gap: 8px;
+}
+
+#pms_add-new-rule-container .pms-add-rule {
+    display: none;
 }

@@ -429,18 +429,21 @@ form.pms-form ul.pms-form-fields-wrapper {
     margin-bottom: 1em;
 }
 
-.pms-subscription-plan-auto-renew input[type=checkbox] {
-    margin-right: 7px;
-}
-
 .pms-form .pms-gdpr-field label,
 .pms-subscription-plan-auto-renew label {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
-    gap: 7px;
+    gap: 4px;
     cursor: pointer;
+}
+
+.pms-subscription-plan-auto-renew label {
+    align-items: center;
+}
+
+.pms-form .pms-gdpr-field label .pms-gdpr-field-text a {
+    line-height: 20px;
 }
 
 .pms-subscription-plan-auto-renew label input[type="checkbox"],

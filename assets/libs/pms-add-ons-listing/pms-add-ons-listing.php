@@ -26,6 +26,7 @@ class PMS_Addons_List_Table extends WP_List_Table {
 
     public $tooltip_header;
     public $tooltip_content;
+    public $tooltip_content_license_inactive;
 
     function __construct(){
 
@@ -51,7 +52,18 @@ class PMS_Addons_List_Table extends WP_List_Table {
     function pms_print_assets(){
         wp_enqueue_style('wp-pointer');
         wp_enqueue_script('wp-pointer');
-        wp_localize_script( 'wp-pointer', 'pms_add_ons_pointer', array( 'tooltip_header' => $this->tooltip_header, 'tooltip_content' => $this->tooltip_content ) );
+        wp_localize_script( 
+            'wp-pointer', 
+            'pms_add_ons_pointer', 
+            array( 
+                'tooltip_header'                   => $this->tooltip_header,
+                'tooltip_content'                  => $this->tooltip_content,
+                'tooltip_content_license_inactive' => $this->tooltip_content_license_inactive,
+                'license_status'                   => pms_get_serial_number_status(),
+                'paid_version'                     => defined( 'PMS_PAID_PLUGIN_DIR' ) ? true : false
+                ) 
+            );
+
 
         wp_enqueue_style('pms-add-ons-listing-css', plugin_dir_url(__FILE__) . 'assets/css/pms-add-ons-listing.css', false);
         wp_enqueue_script('pms-add-ons-listing-js', plugin_dir_url(__FILE__) . 'assets/js/pms-add-ons-listing.js', array('jquery'));
@@ -144,13 +156,42 @@ class PMS_Addons_List_Table extends WP_List_Table {
         }
         elseif ( $item['type'] === 'add-on' ){//this is more complicated as there are multiple cases, I think it should be done through filters in each plugin
 
+            //get license status
+            $license_status = pms_get_serial_number_status();
+
+            //set some default values
             in_array( $this->current_version, $this->section_versions ) ? $disabled = '' : $disabled = 'disabled'; //add disabled if the current version isn't eligible
 
-            if ( $this->is_add_on_active( $item['slug'] ) ) {
-                $action = '<a class="right button button-secondary" '.$disabled.' href="'. esc_url( wp_nonce_url( add_query_arg( 'pms_add_ons', $item['slug'], admin_url( 'admin.php?page='. sanitize_text_field( $_REQUEST['page'] ) . '&pms_add_ons_action=deactivate' ) ), 'pms_add_ons_action' ) ) .'">' . __('Deactivate', $this->text_domain) . '</a>';//phpcs:ignore
-            } else {
-                $action = '<a class="right button button-primary" '.$disabled.' href="'. esc_url( wp_nonce_url( add_query_arg( 'pms_add_ons', $item['slug'], admin_url( 'admin.php?page='. sanitize_text_field( $_REQUEST['page'] ). '&pms_add_ons_action=activate' ) ), 'pms_add_ons_action' ) ) .'">' . __('Activate', $this->text_domain) . '</a>';//phpcs:ignore
+            $onclick = '';
+
+            //construct the action URL based on the add-on status
+            $base_url = admin_url( 'admin.php?page='. sanitize_text_field( $_REQUEST['page'] ) );
+
+            if ( $this->is_add_on_active( $item['slug'] ) )
+                $base_url .= '&pms_add_ons_action=deactivate';
+            else
+                $base_url .= '&pms_add_ons_action=activate';
+
+            $action_url = esc_url( wp_nonce_url( add_query_arg( 'pms_add_ons', $item['slug'], $base_url ), 'pms_add_ons_action' ) );
+
+            //if we don't have a valid license we can't activate the add-on and throw a confirmation dialog
+            if ( $license_status !== 'valid' ) {
+
+                if( $this->is_add_on_active( $item['slug'] ) ) {
+                    $onclick    = 'onclick="return confirm(\'' . esc_js( __( 'This add-on can not be activated back without a valid license. Are you sure you want to deactivate it?', 'paid-member-subscriptions' ) ) . '\')"';
+                    // $action_url = '';
+                } else {
+                    $disabled = 'disabled'; //if the license is not valid, disable the button
+                }
+
             }
+
+            if ( $this->is_add_on_active( $item['slug'] ) ) {
+                $action = '<a class="right button button-secondary" '.$disabled.' href="'. $action_url .'" '.$onclick.'>' . __( 'Deactivate', $this->text_domain ) . '</a>'; //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+            } else {
+                $action = '<a class="right button button-primary" '.$disabled.' href="'. $action_url .'">' . __( 'Activate', $this->text_domain ) . '</a>'; //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralDomain
+            }
+
         }
 
 
@@ -348,7 +389,9 @@ function pms_add_ons_listing_process_actions(){
             }
         }
 
-        wp_safe_redirect( add_query_arg( 'pms_add_ons_listing_success', 'true', admin_url( 'admin.php?page='. sanitize_text_field( $_REQUEST['page'] ) ) ) );//phpcs:ignore
+        // Check if the Add-on was activated/deactivated successfully before displaying the success message
+        if ( pms_add_on_action_success() )
+            wp_safe_redirect( add_query_arg( 'pms_add_ons_listing_success', 'true', admin_url( 'admin.php?page='. sanitize_text_field( $_REQUEST['page'] ) ) ) );//phpcs:ignore
     }
 }
 
@@ -356,13 +399,34 @@ function pms_add_ons_listing_process_actions(){
  * Add a notice on the add-ons page if the save was successful
  */
 function pms_add_ons_listing_success_notice() {
-    if ( isset($_GET['pms_add_ons_listing_success']) ){
-        if( class_exists('PMS_Add_General_Notices') ) {
-            new PMS_Add_General_Notices('pms_add_ons_listing_success',
-                sprintf(__('%1$sAdd-ons settings saved successfully%2$s', 'paid-member-subscriptions'), "<p>", "</p>"),
-                'updated notice is-dismissible');
-        }
+
+    if ( isset($_GET['pms_add_ons_listing_success']) && class_exists('PMS_Add_General_Notices') ){
+        new PMS_Add_General_Notices('pms_add_ons_listing_success', __('Add-ons settings saved successfully', 'paid-member-subscriptions'), 'updated notice is-dismissible');
     }
+
 }
 add_action( 'init', 'pms_add_ons_listing_success_notice' );
+
+/**
+ * Check if the Add-on was activated/deactivated successfully
+ *
+ * @return bool
+ */
+function pms_add_on_action_success() {
+
+    if ( !isset( $_GET['page'] ) || $_GET['page'] != 'pms-addons-page' || !isset( $_GET['pms_add_ons_action'] ) || !isset( $_GET['pms_add_ons'] ) )
+        return true;
+
+    $add_on = sanitize_text_field( $_GET['pms_add_ons'] );
+    $action = sanitize_text_field( $_GET['pms_add_ons_action'] );
+
+    $pms_add_ons_settings = get_option( 'pms_add_ons_settings', array() );
+    $add_on_active = !empty( $pms_add_ons_settings[$add_on] ) ? $pms_add_ons_settings[$add_on] : false;
+
+    if ( ( $action == 'activate' && !$add_on_active  ) || ( $action == 'deactivate' && $add_on_active ) )
+        return false;
+
+    return true;
+
+}
 

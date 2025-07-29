@@ -11,7 +11,7 @@ if( class_exists( 'Stripe\Stripe' ) && !empty( Stripe\Stripe::VERSION ) &&
 } else {
 
   require __DIR__ . '/lib/Util/ApiVersion.php';
-
+  
   // Stripe singleton
   require __DIR__ . '/lib/Stripe.php';
 

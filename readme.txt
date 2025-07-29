@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.15.7
+Stable tag: 2.15.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,18 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.15.8 =
+* Enhancement: Improved back-end messages informing what features are available depending on license
+* Fix: An error triggered on registration when another plugin is loading an older version of the Stripe library
+* Fix: Conflict with the Formidable Stripe plugin, allowing our on-session payments to process normally
+* Fix: Issue with Free Trials and Signup fees on the same plan not working with Stripe
+* Fix: The logged in GDPR option is now displaying on the Retry Payment form as well
+* Fix: Issue with the Payments List Table not displaying the date correctly in certain situations when the Match WP Date format option was used
+* Fix: Compatibility issue between the Profile Builder reCaptcha v3 option and Stripe
+* Fix: Use the correct subscription price when updating the payment element in front-end and the Multiple Currencies add-on is used
+* Misc: Add support for searching payments based on user display name
+* Misc: Alignment fixes for GDPR field
+
 = 2.15.7 =
 * Enhancement: Show information about Upgrades or Renewals in the Reports area
 * Enhancement: Show subscription price when hovering over the subscribed plan on the Members Table

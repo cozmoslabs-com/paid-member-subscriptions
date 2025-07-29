@@ -45,7 +45,12 @@ jQuery( function(){
 
         //add a tooltip
         pointer_content = '<h3>'+ pms_add_ons_pointer.tooltip_header +'</h3>';
-        pointer_content += '<p>'+ pms_add_ons_pointer.tooltip_content +'</p>';
+
+        if( pms_add_ons_pointer.paid_version && pms_add_ons_pointer.license_status && pms_add_ons_pointer.license_status == 'missing' ) {
+            pointer_content += '<p>'+ pms_add_ons_pointer.tooltip_content_license_inactive +'</p>';
+        } else {
+            pointer_content += '<p>'+ pms_add_ons_pointer.tooltip_content +'</p>';
+        }
 
         jQuery( this ).pointer({
             content: pointer_content,

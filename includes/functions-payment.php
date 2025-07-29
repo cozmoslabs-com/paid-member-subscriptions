@@ -71,7 +71,7 @@ function pms_get_payments( $args = array() ) {
     // Add search query
     if( !empty($args['search']) ) {
         $search_term    = sanitize_text_field( $args['search'] );
-        $query_where    = $query_where . " AND " . " ( pms_payments.discount_code LIKE '%s' OR pms_payments.transaction_id LIKE '%s' OR users.user_nicename LIKE '%%%s%%' OR users.user_login LIKE '%%%s%%' OR users.user_email LIKE '%%%s%%' OR posts.post_title LIKE '%%%s%%' ) ". " ";
+        $query_where    = $query_where . " AND " . " ( pms_payments.discount_code LIKE '%s' OR pms_payments.transaction_id LIKE '%s' OR users.user_nicename LIKE '%%%s%%' OR users.user_login LIKE '%%%s%%' OR users.user_email LIKE '%%%s%%' OR users.display_name LIKE '%%%s%%' OR posts.post_title LIKE '%%%s%%' ) ". " ";
     }
 
     // Filter by status
@@ -193,7 +193,7 @@ function pms_get_payments( $args = array() ) {
 
     // Return results
     if (!empty($search_term))
-        $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ) , $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
+        $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ) , $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
     else
         $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1 ), ARRAY_A );
 

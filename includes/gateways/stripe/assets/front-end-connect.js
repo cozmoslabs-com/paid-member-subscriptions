@@ -80,6 +80,10 @@ jQuery( async function( $ ) {
         window.pmsRecaptchaCallbackExecuted = true
     }
 
+    if( typeof wppbInitializeRecaptchaV3 == 'function' ){
+        window.wppbRecaptchaCallbackExecuted = true
+    }
+
     // Update Stripe Payment Intent on subscription plan change
     $(document).on('click', subscription_plan_selector, async function ( event ) {
 
@@ -133,9 +137,10 @@ jQuery( async function( $ ) {
     // Profile Builder submit buttons
     payment_buttons += '.wppb-register-user input[name=register]';
 
-    // Payment Intents
+    // WPPB Recaptcha
     $(document).on( 'wppb_invisible_recaptcha_success', stripeConnectPaymentGatewayHandler )
-    // $(document).on( 'wppb_v3_recaptcha_success', stripeConnectPaymentGatewayHandler )
+    //$(document).on( 'wppb_v3_recaptcha_success', stripeConnectPaymentGatewayHandler )
+    //$(document).on( 'pms_v3_recaptcha_success', stripeConnectPaymentGatewayHandler ) // ????
 
     $(document).on('submit', '.pms-form', async function (e) {
 
@@ -165,7 +170,7 @@ jQuery( async function( $ ) {
 
     $(document).on('submit', '.wppb-register-user', function (e) {
 
-        if ( ! ( $( '.wppb-recaptcha .wppb-recaptcha-element', $(e.currentTarget) ).hasClass( 'wppb-invisible-recaptcha' ) || $( '.wppb-recaptcha .wppb-recaptcha-element', $(e.currentTarget) ).hasClass( 'wppb-v3-recaptcha' ) ) ) {
+        if ( ! ( $( '.wppb-recaptcha .wppb-recaptcha-element', $(e.currentTarget) ).hasClass( 'wppb-invisible-recaptcha' ) ) ) {
 
             var target_button = $('input[type="submit"], button[type="submit"]', $(this)).not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
 
@@ -293,7 +298,6 @@ jQuery( async function( $ ) {
 
                 }
 
-                //console.log( response );
 
                 // Redirect to the URL if the response contains a redirect URL
                 if ( typeof response.redirect_url != 'undefined' && response.redirect_url ){
@@ -511,8 +515,10 @@ jQuery( async function( $ ) {
             if( $payment_element == '' ){
 
                 if( typeof selected_subscription != 'undefined' && target_elements_instance_slug == 'payment_intents' ){
-                    
-                    let price = selected_subscription.data( 'price' )
+
+                    // Use default price if custom currency price is unavailable
+                    let price = (selected_subscription.data('mc_price') !== undefined && selected_subscription.data('mc_price') !== null) ? selected_subscription.data('mc_price') : selected_subscription.data('price');
+
 
                     if( price > 0 ){
                         target_elements_instance.update( { amount: pms_stripe_convert_amount_to_cents( price ) } );
@@ -529,7 +535,9 @@ jQuery( async function( $ ) {
 
                 // Update the amount of the payment element
                 if( typeof selected_subscription != 'undefined' && target_elements_instance_slug == 'payment_intents'  ){
-                    let price = selected_subscription.data( 'price' )
+
+                    // Use default price if custom currency price is unavailable
+                    let price = (selected_subscription.data('mc_price') !== undefined && selected_subscription.data('mc_price') !== null) ? selected_subscription.data('mc_price') : selected_subscription.data('price');
 
                     if( price > 0 ){
                         target_elements_instance.update( { amount: pms_stripe_convert_amount_to_cents( price ) } );

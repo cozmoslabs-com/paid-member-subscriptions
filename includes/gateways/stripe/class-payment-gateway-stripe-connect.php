@@ -214,7 +214,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         if( !empty( $_REQUEST['stripe_confirmation_token'] ) ){
 
-            if( ( PMS_Form_Handler::checkout_has_trial() && PMS_Form_Handler::user_can_access_trial( $this->subscription_plan ) ) || ( !empty( $payment ) && $payment->amount == 0 ) || ( !is_null( $this->sign_up_amount ) && $this->sign_up_amount == 0 ) ){
+            if( ( PMS_Form_Handler::checkout_has_trial() && PMS_Form_Handler::user_can_access_trial( $this->subscription_plan ) && ( !isset( $payment->id ) || $payment->amount == 0 ) ) || ( !isset( $payment->id ) && $payment->amount == 0 ) || ( !is_null( $this->sign_up_amount ) && $this->sign_up_amount == 0 ) ){
 
                 $intent = $this->create_setup_intent( sanitize_text_field( $_REQUEST['stripe_confirmation_token'] ), $subscription );
 
@@ -492,7 +492,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 }
 
                 // Set `allow_redisplay` parameter to `always` on the payment method for logged out users. Logged in users have an option to save the payment method in their form.
-                if( !is_user_logged_in() ){
+                if( !is_user_logged_in() && !empty( $intent->payment_method ) && !empty( $intent->payment_method->id ) ){
                     $payment_method = $this->stripe_client->paymentMethods->update( $intent->payment_method->id, [ 'allow_redisplay' => 'always' ] );
                 }
 
@@ -874,16 +874,17 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $currency = apply_filters( 'pms_stripe_connect_create_payment_intent_currency', $this->currency, $subscription_plan, $payment );
 
         $args = array(
-            'amount'             => $this->process_amount( pms_calculate_payment_amount( $subscription_plan ), $currency ),
-            'currency'           => $currency,
-            'customer'           => $customer->id,
-            'setup_future_usage' => 'off_session',
-            'metadata'           => array(),
-            'confirm'            => true,
-            'confirmation_token' => $confirmation_token,
-            'description'        => $subscription_plan->name,
-            'return_url'         => $this->get_offsite_redirect_return_url(),
-            'expand'             => [ 'payment_method' ],
+            'amount'                    => $this->process_amount( pms_calculate_payment_amount( $subscription_plan ), $currency ),
+            'currency'                  => $currency,
+            'customer'                  => $customer->id,
+            'setup_future_usage'        => 'off_session',
+            'metadata'                  => array(),
+            'confirm'                   => true,
+            'confirmation_token'        => $confirmation_token,
+            'description'               => $subscription_plan->name,
+            'return_url'                => $this->get_offsite_redirect_return_url(),
+            'expand'                    => [ 'payment_method' ],
+            'automatic_payment_methods' => [ 'enabled' => true ],
         );
 
         if( isset( $_POST['form_type'] ) && $_POST['form_type'] == 'wppb' ){

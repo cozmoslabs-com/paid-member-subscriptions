@@ -96,7 +96,7 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
     }
 
     // Save valid results when they are being triggered from an ajax request
-    if( wp_doing_ajax() && isset( $_POST['action'] ) && $_POST['action'] == 'pms_validate_checkout' ){
+    if( wp_doing_ajax() && isset( $_POST['action'] ) && in_array( $_POST['action'], array( 'pms_validate_checkout', 'pms_process_checkout' ) ) ){
 
         $saved = get_option( 'pms_recaptcha_validations', array() );
 

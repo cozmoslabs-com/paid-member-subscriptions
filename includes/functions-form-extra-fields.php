@@ -183,9 +183,14 @@ function pms_show_gdpr_checkbox_for_logged_in_users(){
     <li style="list-style-type: none;" class="pms-field pms-gdpr-field <?php echo ( !empty($field_errors) ? 'pms-field-error' : '' ); ?>">
         <label for="<?php echo esc_attr( $field_id ); ?>">
             <input id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $field_name ); ?>" type="checkbox" value="1">
+
+            <span class="pms-gdpr-field-text">
             <?php
-            echo isset( $gdpr_settings['gdpr_checkbox_text'] ) ? wp_kses_post(str_replace('{{privacy_policy}}', get_the_privacy_policy_link(), pms_icl_t('plugin paid-member-subscriptions', 'gdpr_checkbox_text', $gdpr_settings['gdpr_checkbox_text']))) : esc_html__('I allow the website to collect and store the data I submit through this form. *', 'paid-member-subscriptions');
+            echo isset( $gdpr_settings['gdpr_checkbox_text'] )
+                ? wp_kses_post(str_replace('{{privacy_policy}}', get_the_privacy_policy_link(), pms_icl_t('plugin paid-member-subscriptions', 'gdpr_checkbox_text', $gdpr_settings['gdpr_checkbox_text'])))
+                : esc_html__('I allow the website to collect and store the data I submit through this form. *', 'paid-member-subscriptions');
             ?>
+            </span>
         </label>
         <?php pms_display_field_errors($field_errors); ?>
     </li>
@@ -196,6 +201,7 @@ add_action( 'pms_new_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logg
 add_action( 'pms_renew_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
 add_action( 'pms_change_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
 add_action( 'pms_register_form_after_fields', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+add_action( 'pms_retry_payment_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
 
 
 /**

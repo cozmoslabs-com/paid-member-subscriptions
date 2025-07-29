@@ -2127,14 +2127,10 @@ Class PMS_Form_Handler {
             /**
              * Filter the subscription data after its been set
              *
-             * @NOTE: This is not used when the payment happens through the Stripe (Payment Intents) gateway
-             * since the gateway is called directly through AJAX to build the data
-             *
              * @param array $payment_data
              *
              */
             $payment_data = apply_filters( 'pms_process_checkout_payment_data', $payment_data, $checkout_data );
-
 
             /**
              * Insert the payment into the db

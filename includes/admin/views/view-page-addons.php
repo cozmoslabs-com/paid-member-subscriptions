@@ -21,8 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     else
         $pms_addons_listing->current_version = 'Paid Member Subscriptions';//in free version we do not define the constant as free version needs to be active always
     $pms_addons_listing->tooltip_header = __( 'Paid Member Subscriptions Add-ons', 'paid-member-subscriptions' );
-    $pms_addons_listing->tooltip_content = sprintf( __( 'You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ), '<a target="_blank" href="'. 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMSFree#pricing'.'">', '</a>' );
-
+    $pms_addons_listing->tooltip_content = sprintf( __( 'You need an active license to have access to the addon. %1$sRenew%2$s or %3$spurchase a new one here%4$s.', 'paid-member-subscriptions' ), '<a target="_blank" href="'. 'https://www.cozmoslabs.com/account/?utm_source=pms-addons&utm_medium=client-site&utm_campaign=pms-expired-license'.'">', '</a>', '<a target="_blank" href="'. 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-addons&utm_medium=client-site&utm_campaign=pms-expired-license#pricing'.'">', '</a>' );
+    $pms_addons_listing->tooltip_content_license_inactive = sprintf( __( 'To activate this add-on, you must first %senter your license key%s.', 'paid-member-subscriptions' ), '<a href="'.admin_url( 'admin.php?page=pms-settings-page' ).'">', '</a>' );
 
     //Add Basic section
     $pms_addons_listing->section_header      = array( 'title' => __('Basic Add-ons', 'paid-member-subscriptions' ), 'description' => __( 'These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Agency plans.', 'paid-member-subscriptions' )  );

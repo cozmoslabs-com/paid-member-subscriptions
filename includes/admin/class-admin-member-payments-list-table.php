@@ -115,7 +115,7 @@ Class PMS_Member_Payments_List_Table extends WP_List_Table {
             $data[] = apply_filters( 'pms_member_payments_list_table_entry_data', array(
                 'subscription_plan' => $subscription_plan->name,
                 'amount'            => pms_format_price( $payment->amount, pms_get_currency_symbol( $payment_currency ) ),
-                'date'              => apply_filters('pms_match_date_format_to_wp_settings', ucfirst( date_i18n( 'F d, Y H:i:s', strtotime( $payment->date ) + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) ), true),
+                'date'              => apply_filters('pms_match_date_format_to_wp_settings', ucfirst( date_i18n( 'F d, Y H:i:s', strtotime( $payment->date ) + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) ), true, $payment->date ),
                 'status'            => ucfirst( $payment->status ),
                 'actions'           => $payment->id
             ), $payment );

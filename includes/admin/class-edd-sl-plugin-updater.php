@@ -667,8 +667,7 @@ class PMS_Plugin_Updater {
             if( ! check_admin_referer( 'pms_license_nonce', 'pms_license_nonce' ) )
                 return; // get out if we didn't click the Activate button
 
-
-            if ( isset( $_POST['pms_serial_number'] ) && preg_match('/^[*]+$/', $_POST['pms_serial_number']) && strlen( $_POST['pms_serial_number'] ) > 5 ) { //phpcs:ignore
+            if ( isset( $_POST['pms_serial_number'] ) && preg_match('/[*]{3,}/', $_POST['pms_serial_number']) && strlen( $_POST['pms_serial_number'] ) > 5 ) { //phpcs:ignore
                 // pressed submit without altering the existing license key (containing only * as outputted by default)
                 // useful for Deactivating/Activating valid license back
                 $license = get_option('pms_serial_number', '');

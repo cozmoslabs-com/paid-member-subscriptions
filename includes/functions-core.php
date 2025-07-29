@@ -1251,13 +1251,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 else
                     $register_url = network_admin_url( 'admin.php?page=pms-register-page' );
 
-                $message = __( 'Your <strong>Paid Member Subscriptions</strong> license is invalid or missing. <br/>Please %1$sregister your copy%2$s to receive access to automatic updates and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' );
+                $message = __( 'Your <strong>Paid Member Subscriptions</strong> license is missing or invalid. <br/>Please %1$sregister Your Copy%2$s to receive access to premium addons, automatic updates and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' );
 
                 if( in_array( 'stripe_connect', pms_get_active_payment_gateways() ) )
                     $message .= '<br>' . __( 'Without an active license you are also paying additional <strong>Stripe fees</strong>.', 'paid-member-subscriptions' );
 
-                $message = sprintf( '<p>' . $message . '</p>', "<a href='". esc_url( $register_url ) ."'>", "</a>", "<a href='https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=license-key-notification&utm_campaign=PMSFree#pricing' target='_blank' class='button-primary'>", "</a>" );
-
+                $message = sprintf( '<p>' . $message . '</p>', "<a href='". esc_url( $register_url ) ."'>", "</a>", "<a href='https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp-dashboard&utm_medium=client-site&utm_campaign=pms-pro-no-active-license#pricing' target='_blank' class='button-primary'>", "</a>" );
+                
                 /* if we are on our own plugin pages make the expired license notification non dismissible */
                 $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
                 if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin
@@ -1287,7 +1287,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 if( in_array( 'stripe_connect', pms_get_active_payment_gateways() ) )
                     $message .= '<br>' . __( 'Without an active license you are also paying additional <strong>Stripe fees</strong>.', 'paid-member-subscriptions' );
 
-                $message = sprintf( '<p>' . $message . '</p>', "<a href='". esc_url( $register_url ) ."'>", "</a>", "<a href='https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=license-key-notification&utm_campaign=PMSFree#pricing' target='_blank' class='button-primary'>", "</a>" );
+                $message = sprintf( '<p>' . $message . '</p>', "<a href='". esc_url( $register_url ) ."'>", "</a>", "<a href='https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp-dashboard&utm_medium=client-site&utm_campaign=pms-pro-license-not-activated#pricing' target='_blank' class='button-primary'>", "</a>" );
 
                 /* if we are on our own plugin pages make the expired license notification non dismissible */
                 $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
@@ -1308,12 +1308,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             } elseif ( $pms_serial_number_status == 'expired' ) {
 
-                $pms_expired_message = __( 'Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>.', 'paid-member-subscriptions' ) . '<br>';
+                $pms_expired_message = __( 'Your <strong>Paid Member Subscriptions license has expired</strong>.', 'paid-member-subscriptions' ) . '<br><br>';
 
-                $pms_expired_message .= sprintf( __( 'Please <strong>renew</strong> your license in order to continue receiving access to updates and support. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=license-key-expired-notification' ) );;
+                $pms_expired_message .= sprintf( __( 'Please <a target="_blank" href="%s">Renew Your License</a> to continue receiving access to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility.', 'paid-member-subscriptions' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wp-dashboard&utm_medium=client-site&utm_campaign=pms-expired-license' ) );
 
                 if( in_array( 'stripe_connect', pms_get_active_payment_gateways() ) )
                     $pms_expired_message .= '<br>' . __( 'Without an active license you are also paying additional <strong>Stripe fees</strong>.', 'paid-member-subscriptions' );
+
+                $pms_expired_message .= '<br><br><a class="button-primary" href="' . esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wp-dashboard&utm_medium=client-site&utm_campaign=pms-expired-license' ) . '">Renew now</a>';
 
                 /* if we are on our own plugin pages make the expired license notification non dismissible */
                 $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
@@ -1336,7 +1338,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 // Maybe add about to expire notice
                 if( ( !isset( $license_details->subscription_status ) || $license_details->subscription_status != 'active' ) && strtotime( $license_details->expires ) < strtotime( '+14 days' ) ){
                     new PMS_Add_General_Notices( 'pms_about_to_expire_licence',
-                        sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class="button-primary" href="%s">Renew now</a>', 'paid-member-subscriptions' ), date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=license-key-about-to-expire-notification' ) ).
+                        sprintf( __( 'Your <strong>Paid Member Subscriptions</strong> license is about to expire on <strong>%1$s</strong>.<br/>Please <a href="%2$s" target="_blank">Renew Your Licence</a> to maintain access to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility. <a class="button-primary" href="%3$s">Renew now</a>', 'paid-member-subscriptions' ), date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wp-dashboard&utm_medium=client-site&utm_campaign=pms-expire-soon' ), esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wp-dashboard&utm_medium=client-site&utm_campaign=pms-expire-soon' ) ).
                         sprintf( __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . esc_url( wp_nonce_url( add_query_arg( 'pms_about_to_expire_licence_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>"),
                         'notice-warning' );
                 }
@@ -1347,7 +1349,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 if( isset( $license_details->error ) && $license_details->error == 'no_activations_left' ){
 
-                    $pms_activations_limit_message = sprintf( __( 'Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class="button-primary" href="%s">Upgrade now</a>', 'paid-member-subscriptions' ), PAID_MEMBER_SUBSCRIPTIONS, esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_campaign=PMSFree&utm_content=license-key-activation-limit' ) );
+                    $pms_activations_limit_message = sprintf( __( 'Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class="button-primary" href="%s">Upgrade now</a>', 'paid-member-subscriptions' ), PAID_MEMBER_SUBSCRIPTIONS, esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wp-dashboard&utm_medium=client-site&utm_campaign=pms-license-key-activation-limit' ) );
 
                     $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
                     if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin

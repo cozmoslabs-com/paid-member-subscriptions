@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-15 07:02+0000\n"
+"POT-Creation-Date: 2025-07-29 06:50+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -54,7 +54,7 @@ msgstr ""
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:1161, index.php:1161, includes/functions-patterns.php:9, includes/functions-user.php:272, add-ons-pro/files-restriction/index.php:52, add-ons-pro/group-memberships/index.php:112, add-ons-pro/invoices/index.php:105, add-ons-pro/multiple-currencies/index.php:56, add-ons-pro/stripe/index.php:135, add-ons-pro/tax/index.php:78, extend/tutor-lms/class-pms-tutor-lms.php:1044, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/functions-admin.php:424, includes/admin/views/view-page-basic-info.php:15, includes/modules/labels-edit/index.php:467, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18, includes/gateways/paypal_connect/admin/functions-admin-filters.php:247
+#: index.php:1161, index.php:1161, includes/functions-patterns.php:9, includes/functions-user.php:272, add-ons-pro/files-restriction/index.php:52, add-ons-pro/group-memberships/index.php:112, add-ons-pro/invoices/index.php:105, add-ons-pro/multiple-currencies/index.php:56, add-ons-pro/stripe/index.php:135, add-ons-pro/tax/index.php:78, extend/tutor-lms/class-pms-tutor-lms.php:1044, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/functions-admin.php:676, includes/admin/views/view-page-basic-info.php:15, includes/modules/labels-edit/index.php:467, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18, includes/gateways/paypal_connect/admin/functions-admin-filters.php:247
 msgid "Paid Member Subscriptions"
 msgstr ""
 
@@ -577,7 +577,7 @@ msgstr ""
 msgid "No, thanks."
 msgstr ""
 
-#: includes/class-review.php:98, includes/functions-core.php:1429, includes/functions-core.php:1400, includes/functions-plugin-notifications.php:122, includes/functions-plugin-notifications.php:149, includes/functions-plugin-notifications.php:137, add-ons-basic/form-designs/form-designs.php:302, add-ons-pro/files-restriction/files-restriction-activator.php:90, extend/tutor-lms/class-pms-tutor-lms.php:1156
+#: includes/class-review.php:98, includes/functions-core.php:1431, includes/functions-core.php:1402, includes/functions-plugin-notifications.php:122, includes/functions-plugin-notifications.php:149, includes/functions-plugin-notifications.php:137, add-ons-basic/form-designs/form-designs.php:302, add-ons-pro/files-restriction/files-restriction-activator.php:90, add-ons-pro/multiple-currencies/multiple-currencies-activator.php:109, add-ons-pro/pro-rate/pro-rate-activator.php:64, extend/tutor-lms/class-pms-tutor-lms.php:1156
 msgid "Dismiss this notice."
 msgstr ""
 
@@ -2393,7 +2393,7 @@ msgstr ""
 msgid "In order to restore it, you need to put the plugin into <strong>Test Mode</strong>."
 msgstr ""
 
-#: includes/functions-core.php:1163, includes/functions-core.php:1202, includes/functions-core.php:1230, includes/functions-core.php:1340, includes/functions-core.php:1321, includes/functions-core.php:1295, includes/functions-core.php:1264, includes/functions-core.php:1354, includes/functions-core.php:1472, includes/functions-core.php:1515, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:294, add-ons-pro/group-memberships/includes/functions.php:314, includes/gateways/stripe/functions-filters.php:401, includes/gateways/paypal_connect/admin/functions-admin-filters.php:454, includes/gateways/paypal_connect/admin/functions-admin-filters.php:486
+#: includes/functions-core.php:1163, includes/functions-core.php:1202, includes/functions-core.php:1230, includes/functions-core.php:1342, includes/functions-core.php:1323, includes/functions-core.php:1295, includes/functions-core.php:1264, includes/functions-core.php:1356, includes/functions-core.php:1474, includes/functions-core.php:1517, add-ons-pro/group-memberships/index.php:44, add-ons-pro/group-memberships/includes/functions.php:294, add-ons-pro/group-memberships/includes/functions.php:314, includes/gateways/stripe/functions-filters.php:401, includes/gateways/paypal_connect/admin/functions-admin-filters.php:454, includes/gateways/paypal_connect/admin/functions-admin-filters.php:486
 msgid " %1$sDismiss%2$s"
 msgstr ""
 
@@ -2405,16 +2405,16 @@ msgstr ""
 msgid "Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate."
 msgstr ""
 
-#: includes/functions-core.php:1339
-msgid "Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>"
+#: includes/functions-core.php:1341
+msgid "Your <strong>Paid Member Subscriptions</strong> license is about to expire on <strong>%1$s</strong>.<br/>Please <a href=\"%2$s\" target=\"_blank\">Renew Your Licence</a> to maintain access to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility. <a class=\"button-primary\" href=\"%3$s\">Renew now</a>"
 msgstr ""
 
 #: includes/functions-core.php:1311
-msgid "Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>."
+msgid "Your <strong>Paid Member Subscriptions license has expired</strong>."
 msgstr ""
 
 #: includes/functions-core.php:1313
-msgid "Please <strong>renew</strong> your license in order to continue receiving access to updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>"
+msgid "Please <a target=\"_blank\" href=\"%s\">Renew Your License</a> to continue receiving access to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility."
 msgstr ""
 
 #: includes/functions-core.php:1316, includes/functions-core.php:1288, includes/functions-core.php:1257
@@ -2426,26 +2426,26 @@ msgid "Your <strong>Paid Member Subscriptions</strong> license is not activated.
 msgstr ""
 
 #: includes/functions-core.php:1254
-msgid "Your <strong>Paid Member Subscriptions</strong> license is invalid or missing. <br/>Please %1$sregister your copy%2$s to receive access to automatic updates and support. Need a license key? %3$sPurchase one now%4$s"
+msgid "Your <strong>Paid Member Subscriptions</strong> license is missing or invalid. <br/>Please %1$sregister Your Copy%2$s to receive access to premium addons, automatic updates and support. Need a license key? %3$sPurchase one now%4$s"
 msgstr ""
 
-#: includes/functions-core.php:1350
+#: includes/functions-core.php:1352
 msgid "Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>"
 msgstr ""
 
-#: includes/functions-core.php:1470
+#: includes/functions-core.php:1472
 msgid "<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\"%1$s\" target=\"_blank\">have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\"%2$s\" target=\"_blank\">account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>"
 msgstr ""
 
-#: includes/functions-core.php:1504
+#: includes/functions-core.php:1506
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s"
 msgstr ""
 
-#: includes/functions-form-extra-fields.php:187, includes/admin/views/view-page-settings-misc.php:51
+#: includes/functions-form-extra-fields.php:191, includes/admin/views/view-page-settings-misc.php:51
 msgid "I allow the website to collect and store the data I submit through this form. *"
 msgstr ""
 
-#: includes/functions-form-extra-fields.php:660
+#: includes/functions-form-extra-fields.php:666
 msgid "Are you sure ? Try again."
 msgstr ""
 
@@ -2709,19 +2709,19 @@ msgstr ""
 msgid "Are you sure you want to delete this invoice archive?"
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/multiple-currencies-activator.php:35
+#: add-ons-pro/multiple-currencies/multiple-currencies-activator.php:37
 msgid "The Multiple Currencies Add-On is not compatible with the Pro-Rate Add-On. To use Multiple Currencies, please deactivate the Pro-Rate Add-On."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/multiple-currencies-activator.php:31
+#: add-ons-pro/multiple-currencies/multiple-currencies-activator.php:33
 msgid "The version of Paid Member Subscriptions you are using is not compatible with the Multiple Currencies add-on. Please update Paid Member Subscriptions to version 2.13.5 or higher."
 msgstr ""
 
-#: add-ons-pro/multiple-currencies/multiple-currencies-activator.php:150
+#: add-ons-pro/multiple-currencies/multiple-currencies-activator.php:156
 msgid "Every 6 Hours"
 msgstr ""
 
-#: add-ons-pro/pro-rate/pro-rate-activator.php:21
+#: add-ons-pro/pro-rate/pro-rate-activator.php:23
 msgid "The Pro-Rate Add-On is not compatible with the Multiple Currencies Add-On. To use Pro-Rate, please deactivate the Multiple Currencies Add-On."
 msgstr ""
 
@@ -4131,7 +4131,7 @@ msgid_plural "for %d seats"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-admin-subscription-plans.php:668, includes/admin/functions-admin.php:475
+#: includes/admin/class-admin-subscription-plans.php:668, includes/admin/functions-admin.php:727
 msgid "Create Pricing Page"
 msgstr ""
 
@@ -4253,35 +4253,35 @@ msgstr ""
 msgid "You do not have permission to install plugin updates"
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:710
+#: includes/admin/class-edd-sl-plugin-updater.php:709
 msgid "Your license key expired on %s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:715
+#: includes/admin/class-edd-sl-plugin-updater.php:714
 msgid "Your license key has been disabled."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:718
+#: includes/admin/class-edd-sl-plugin-updater.php:717
 msgid "Invalid license."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:722
+#: includes/admin/class-edd-sl-plugin-updater.php:721
 msgid "Your license is not active for this URL."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:725
+#: includes/admin/class-edd-sl-plugin-updater.php:724
 msgid "This appears to be an invalid license key for %s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:728
+#: includes/admin/class-edd-sl-plugin-updater.php:727
 msgid "Your license key has reached its activation limit."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:731, includes/admin/class-edd-sl-plugin-updater.php:699, includes/admin/class-edd-sl-plugin-updater.php:841
+#: includes/admin/class-edd-sl-plugin-updater.php:730, includes/admin/class-edd-sl-plugin-updater.php:698, includes/admin/class-edd-sl-plugin-updater.php:840
 msgid "An error occurred, please try again."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:761
+#: includes/admin/class-edd-sl-plugin-updater.php:760
 msgid "You have successfully activated your license."
 msgstr ""
 
@@ -4289,152 +4289,236 @@ msgstr ""
 msgid "Completed successfully."
 msgstr ""
 
-#: includes/admin/functions-admin.php:261
+#: includes/admin/functions-admin.php:268
 msgid "Register Version "
 msgstr ""
 
-#: includes/admin/functions-admin.php:266
+#: includes/admin/functions-admin.php:273
 msgid "License key"
 msgstr ""
 
-#: includes/admin/functions-admin.php:285
+#: includes/admin/functions-admin.php:292
 msgid "Activate License"
 msgstr ""
 
-#: includes/admin/functions-admin.php:275
+#: includes/admin/functions-admin.php:282
 msgid "Deactivate License"
 msgstr ""
 
-#: includes/admin/functions-admin.php:280
+#: includes/admin/functions-admin.php:287
 msgid "Your license is invalid"
 msgstr ""
 
-#: includes/admin/functions-admin.php:278
+#: includes/admin/functions-admin.php:285
 msgid "Active on this site"
 msgstr ""
 
-#: includes/admin/functions-admin.php:310
+#: includes/admin/functions-admin.php:317
 msgid "Enter your license key. Your license key can be found in your %sCozmoslabs account%s. "
 msgstr ""
 
-#: includes/admin/functions-admin.php:311
+#: includes/admin/functions-admin.php:318
 msgid "You can use this core version of Paid Member Subscription for free. For priority support and advanced functionality, a license key is required. %sClick here%s to buy one."
 msgstr ""
 
-#: includes/admin/functions-admin.php:305
+#: includes/admin/functions-admin.php:312
 msgid "Your %s license has reached its activation limit."
 msgstr ""
 
-#: includes/admin/functions-admin.php:306
+#: includes/admin/functions-admin.php:313
 msgid "%sUpgrade now%s for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more."
 msgstr ""
 
-#: includes/admin/functions-admin.php:300
+#: includes/admin/functions-admin.php:307
 msgid "Your %s license has expired."
 msgstr ""
 
-#: includes/admin/functions-admin.php:301
-msgid "Please %1$sRenew Your Licence%2$s to continue receiving access to product downloads, automatic updates and support."
+#: includes/admin/functions-admin.php:308
+msgid "Please %1$sRenew Your Licence%2$s to continue receiving access  to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility."
 msgstr ""
 
-#: includes/admin/functions-admin.php:295
+#: includes/admin/functions-admin.php:302
 msgid "Your %s license is about to expire on %s"
 msgstr ""
 
-#: includes/admin/functions-admin.php:296
-msgid "Please %sRenew Your Licence%s to continue receiving access to product downloads, automatic updates and support."
+#: includes/admin/functions-admin.php:303
+msgid "Please %sRenew Your Licence%s to continue receiving access to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility."
 msgstr ""
 
-#: includes/admin/functions-admin.php:455, includes/admin/functions-user.php:23, add-ons-pro/multiple-subscriptions-per-user/includes/functions.php:83
+#: includes/admin/functions-admin.php:487
+msgid "You need an active license to add new Email Reminders. %1$sRenew%2$s or %3$spurchase a new one%4$s."
+msgstr ""
+
+#: includes/admin/functions-admin.php:485
+msgid "Please %1$senter your license key%2$s first, to add new Email Reminders."
+msgstr ""
+
+#: includes/admin/functions-admin.php:481
+msgid "You need an active license to add new Content Dripping. %1$sRenew%2$s or %3$spurchase a new one%4$s."
+msgstr ""
+
+#: includes/admin/functions-admin.php:479
+msgid "Please %1$senter your license key%2$s first, to add new Content Dripping sets."
+msgstr ""
+
+#: includes/admin/functions-admin.php:556
+msgid "You need an active license to add new Global Content Restriction rules. %1$sRenew%2$s or %3$spurchase a new one%4$s."
+msgstr ""
+
+#: includes/admin/functions-admin.php:557
+msgid "You need an active license to configure Fixed Membership plans. %1$sRenew%2$s or %3$spurchase a new one%4$s."
+msgstr ""
+
+#: includes/admin/functions-admin.php:558
+msgid "You need an active license to configure Pay What You Want plans. %1$sRenew%2$s or %3$spurchase a new one%4$s."
+msgstr ""
+
+#: includes/admin/functions-admin.php:559
+msgid "You need an active license to configure LearnDash course access. %1$sRenew%2$s or %3$spurchase a new one%4$s."
+msgstr ""
+
+#: includes/admin/functions-admin.php:551
+msgid "Please %1$senter your license key%2$s first, to add new Global Content Restriction rules."
+msgstr ""
+
+#: includes/admin/functions-admin.php:552
+msgid "Please %1$senter your license key%2$s first, to configure Fixed Period Membership plans."
+msgstr ""
+
+#: includes/admin/functions-admin.php:553
+msgid "Please %1$senter your license key%2$s first, to configure Pay What You Want plans."
+msgstr ""
+
+#: includes/admin/functions-admin.php:554
+msgid "Please %1$senter your license key%2$s first, to configure LearnDash course access."
+msgstr ""
+
+#: includes/admin/functions-admin.php:707, includes/admin/functions-user.php:23, add-ons-pro/multiple-subscriptions-per-user/includes/functions.php:83
 msgid "Add New Subscription"
 msgstr ""
 
-#: includes/admin/functions-admin.php:482
+#: includes/admin/functions-admin.php:734
 msgid "PMS → Settings → Membership Pages → Registration"
 msgstr ""
 
-#: includes/admin/functions-admin.php:483
+#: includes/admin/functions-admin.php:735
 msgid "%sAlert:%s It appears that the register page is not configured. To address this, please navigate to %s and choose the page containing the %s shortcode."
 msgstr ""
 
-#: includes/admin/functions-admin.php:496
+#: includes/admin/functions-admin.php:748
 msgid "PMS → Subscription Plans → Add New"
 msgstr ""
 
-#: includes/admin/functions-admin.php:497
+#: includes/admin/functions-admin.php:749
 msgid "%sAlert:%s It seems that you do not have any subscriptions plans set. To resolve this, please navigate to %s and create a new subscription plan."
 msgstr ""
 
-#: includes/admin/functions-admin.php:505
+#: includes/admin/functions-admin.php:757
 msgid "Select the subscription plan(s) you want to use to generate a pricing page. You can choose a maximum of 3 plans."
 msgstr ""
 
-#: includes/admin/functions-admin.php:510
+#: includes/admin/functions-admin.php:762
 msgid "First plan:"
 msgstr ""
 
-#: includes/admin/functions-admin.php:514, includes/admin/functions-admin.php:529, includes/admin/functions-admin.php:545
+#: includes/admin/functions-admin.php:766, includes/admin/functions-admin.php:781, includes/admin/functions-admin.php:797
 msgid "Select a plan..."
 msgstr ""
 
-#: includes/admin/functions-admin.php:525
+#: includes/admin/functions-admin.php:777
 msgid "Second plan:"
 msgstr ""
 
-#: includes/admin/functions-admin.php:541
+#: includes/admin/functions-admin.php:793
 msgid "Third plan:"
 msgstr ""
 
-#: includes/admin/functions-admin.php:557, includes/admin/functions-admin.php:599
+#: includes/admin/functions-admin.php:809, includes/admin/functions-admin.php:851
 msgid "Choose a style that better suits your pricing page."
 msgstr ""
 
-#: includes/admin/functions-admin.php:594
+#: includes/admin/functions-admin.php:846
 msgid "Choose a style for Pricing Page"
 msgstr ""
 
-#: includes/admin/functions-admin.php:643
+#: includes/admin/functions-admin.php:895
 msgid "expire"
 msgstr ""
 
-#: includes/admin/functions-admin.php:640
+#: includes/admin/functions-admin.php:892
 msgid "remain active"
 msgstr ""
 
-#: includes/admin/functions-admin.php:637
+#: includes/admin/functions-admin.php:889
 msgid "remain active for extra %1$s %2$s(s)"
 msgstr ""
 
-#: includes/admin/functions-admin.php:649
+#: includes/admin/functions-admin.php:901
 msgid "The subscription will automatically renew for a limited number of cycles. <br> Select the <strong>Number of Payments</strong> and the <strong>Status After Last Cycle</strong> in the options above."
 msgstr ""
 
-#: includes/admin/functions-admin.php:647
+#: includes/admin/functions-admin.php:899
 msgid "The subscription will automatically renew for a total of %1$s cycles. <br> After the last cycle is completed, the subscription will %2$s."
 msgstr ""
 
-#: includes/admin/functions-admin.php:672
+#: includes/admin/functions-admin.php:924
 msgid "Please %3$sactivate%4$s the %1$sGroup Memberships%2$s Add-On to enable this functionality."
 msgstr ""
 
-#: includes/admin/functions-admin.php:668
+#: includes/admin/functions-admin.php:920
 msgid "Group Memberships are available only with a %1$sPro%2$s or %1$sAgency%2$s license. %3$sBuy now%4$s"
 msgstr ""
 
-#: includes/admin/functions-admin.php:682, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:112
+#: includes/admin/functions-admin.php:933
+msgid "You need an active license to create new Group Memberships. Add-On. %1$sRenew%2$s or purchase a new %3$sone%4$s."
+msgstr ""
+
+#: includes/admin/functions-admin.php:931
+msgid "Please %1$senter your license key%2$s first, to activate the %1$sGroup Memberships%2$s Add-On."
+msgstr ""
+
+#: includes/admin/functions-admin.php:944, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:112
 msgid "Subscription Type"
 msgstr ""
 
-#: includes/admin/functions-admin.php:686, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:102
+#: includes/admin/functions-admin.php:948, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:102
 msgid "Regular"
 msgstr ""
 
-#: includes/admin/functions-admin.php:687, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:103, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:132, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:200
+#: includes/admin/functions-admin.php:949, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:103, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:132, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:200
 msgid "Group"
 msgstr ""
 
-#: includes/admin/functions-admin.php:691, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:122
+#: includes/admin/functions-admin.php:953, add-ons-pro/group-memberships/includes/admin/class-admin-group-memberships.php:122
 msgid "Please select the type for this subscription plan."
+msgstr ""
+
+#: includes/admin/functions-admin.php:1005, includes/admin/functions-admin.php:1046, includes/admin/functions-admin.php:1086
+msgid "You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s."
+msgstr ""
+
+#: includes/admin/functions-admin.php:1003
+msgid "To use the %1$sTax%2$s add-on, you need to %3$senter your license key%4$s first."
+msgstr ""
+
+#: includes/admin/functions-admin.php:1014, add-ons-pro/tax/includes/functions-admin.php:20
+msgid "Tax"
+msgstr ""
+
+#: includes/admin/functions-admin.php:1044
+msgid "To use the %1$sInvoices%2$s add-on, you need to %3$senter your license key%4$s first."
+msgstr ""
+
+#: includes/admin/functions-admin.php:1055, add-ons-pro/invoices/includes/functions-admin.php:21, includes/admin/views/view-page-addons.php:126, includes/admin/views/view-page-basic-info.php:339, includes/admin/views/setup-wizard/view-tab-addons.php:15
+msgid "Invoices"
+msgstr ""
+
+#: includes/admin/functions-admin.php:1084
+msgid "To use the %1$sMultiple Currencies%2$s add-on, you need to %3$senter your license key%4$s first."
+msgstr ""
+
+#: includes/admin/functions-admin.php:1094, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:98, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:305, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:667, includes/admin/views/view-page-addons.php:91, includes/admin/views/view-page-basic-info.php:364
+msgid "Multiple Currencies"
 msgstr ""
 
 #: includes/admin/functions-user.php:36
@@ -5362,10 +5446,6 @@ msgstr ""
 msgid "%s items"
 msgstr ""
 
-#: add-ons-pro/invoices/includes/functions-admin.php:21, includes/admin/views/view-page-addons.php:126, includes/admin/views/view-page-basic-info.php:339, includes/admin/views/setup-wizard/view-tab-addons.php:15
-msgid "Invoices"
-msgstr ""
-
 #: add-ons-pro/invoices/includes/functions-admin.php:74
 msgid "Company Details are required in order to create invoices."
 msgstr ""
@@ -5388,10 +5468,6 @@ msgstr ""
 
 #: add-ons-pro/invoices/includes/functions-invoices.php:474
 msgid "Payments & Invoices"
-msgstr ""
-
-#: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:98, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:305, add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:667, includes/admin/views/view-page-addons.php:91, includes/admin/views/view-page-basic-info.php:364
-msgid "Multiple Currencies"
 msgstr ""
 
 #: add-ons-pro/multiple-currencies/admin/class-multiple-currencies-admin.php:102
@@ -6070,10 +6146,6 @@ msgstr ""
 msgid "* Taxes might be applied at the end of the checkout."
 msgstr ""
 
-#: add-ons-pro/tax/includes/functions-admin.php:20
-msgid "Tax"
-msgstr ""
-
 #: add-ons-pro/tax/includes/functions-admin.php:139
 msgid "Upload failed. Your CSV file must contain the column: %s. Please try again."
 msgstr ""
@@ -6571,7 +6643,11 @@ msgid "Paid Member Subscriptions Add-ons"
 msgstr ""
 
 #: includes/admin/views/view-page-addons.php:24
-msgid "You must first purchase this version to have access to the addon %1$shere%2$s"
+msgid "You need an active license to have access to the addon. %1$sRenew%2$s or %3$spurchase a new one here%4$s."
+msgstr ""
+
+#: includes/admin/views/view-page-addons.php:25
+msgid "To activate this add-on, you must first %senter your license key%s."
 msgstr ""
 
 #: includes/admin/views/view-page-addons.php:28, includes/admin/views/view-page-addons.php:29, includes/admin/views/view-page-basic-info.php:210
@@ -7375,7 +7451,7 @@ msgstr ""
 msgid "Add New Payment"
 msgstr ""
 
-#: includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1759
+#: includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1760
 msgid "Payment Details"
 msgstr ""
 

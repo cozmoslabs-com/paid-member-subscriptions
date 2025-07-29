@@ -595,12 +595,12 @@
 <?php __(' %1$sDismiss%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Your %s Stripe Account is disconnected%s. In order to restore payments functionality for this website, please go to the %sPaid Member Subscriptions -> Settings -> Payments -> Gateways%s page and %sConnect%s your account again.", "paid-member-subscriptions"); ?>
 <?php __("Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate.", "paid-member-subscriptions"); ?>
-<?php __("Your <strong>Paid Member Subscriptions</strong> serial number will expire on <strong>%s</strong>.<br/>Please Renew Your Licence to continue receiving access to product downloads, automatic updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
-<?php __("Your <strong>Paid Member Subscriptions</strong> serial number has <strong>expired</strong>.", "paid-member-subscriptions"); ?>
-<?php __("Please <strong>renew</strong> your license in order to continue receiving access to updates and support. <a class=\"button-primary\" href=\"%s\">Renew now</a>", "paid-member-subscriptions"); ?>
+<?php __('Your <strong>Paid Member Subscriptions</strong> license is about to expire on <strong>%1$s</strong>.<br/>Please <a href=\%2$s\ target=\_blank\>Renew Your Licence</a> to maintain access to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility. <a class=\button-primary\ href=\%3$s\>Renew now</a>', 'paid-member-subscriptions' ); ?>
+<?php __("Your <strong>Paid Member Subscriptions license has expired</strong>.", "paid-member-subscriptions"); ?>
+<?php __("Please <a target=\"_blank\" href=\"%s\">Renew Your License</a> to continue receiving access to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility.", "paid-member-subscriptions"); ?>
 <?php __("Without an active license you are also paying additional <strong>Stripe fees</strong>.", "paid-member-subscriptions"); ?>
 <?php __('Your <strong>Paid Member Subscriptions</strong> license is not activated. <br/>Please %1$sactivate%2$s your license in order to receive access to automatic updates and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' ); ?>
-<?php __('Your <strong>Paid Member Subscriptions</strong> license is invalid or missing. <br/>Please %1$sregister your copy%2$s to receive access to automatic updates and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' ); ?>
+<?php __('Your <strong>Paid Member Subscriptions</strong> license is missing or invalid. <br/>Please %1$sregister Your Copy%2$s to receive access to premium addons, automatic updates and support. Need a license key? %3$sPurchase one now%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>", "paid-member-subscriptions"); ?>
 <?php __('<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s', 'paid-member-subscriptions' ); ?>
@@ -1086,9 +1086,21 @@
 <?php __("Your %s license has reached its activation limit.", "paid-member-subscriptions"); ?>
 <?php __("%sUpgrade now%s for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more.", "paid-member-subscriptions"); ?>
 <?php __("Your %s license has expired.", "paid-member-subscriptions"); ?>
-<?php __('Please %1$sRenew Your Licence%2$s to continue receiving access to product downloads, automatic updates and support.', 'paid-member-subscriptions' ); ?>
+<?php __('Please %1$sRenew Your Licence%2$s to continue receiving access  to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility.', 'paid-member-subscriptions' ); ?>
 <?php __("Your %s license is about to expire on %s", "paid-member-subscriptions"); ?>
-<?php __("Please %sRenew Your Licence%s to continue receiving access to product downloads, automatic updates and support.", "paid-member-subscriptions"); ?>
+<?php __("Please %sRenew Your Licence%s to continue receiving access to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility.", "paid-member-subscriptions"); ?>
+<?php __('You need an active license to add new Email Reminders. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Please %1$senter your license key%2$s first, to add new Email Reminders.', 'paid-member-subscriptions' ); ?>
+<?php __('You need an active license to add new Content Dripping. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Please %1$senter your license key%2$s first, to add new Content Dripping sets.', 'paid-member-subscriptions' ); ?>
+<?php __('You need an active license to add new Global Content Restriction rules. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('You need an active license to configure Fixed Membership plans. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('You need an active license to configure Pay What You Want plans. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('You need an active license to configure LearnDash course access. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Please %1$senter your license key%2$s first, to add new Global Content Restriction rules.', 'paid-member-subscriptions' ); ?>
+<?php __('Please %1$senter your license key%2$s first, to configure Fixed Period Membership plans.', 'paid-member-subscriptions' ); ?>
+<?php __('Please %1$senter your license key%2$s first, to configure Pay What You Want plans.', 'paid-member-subscriptions' ); ?>
+<?php __('Please %1$senter your license key%2$s first, to configure LearnDash course access.', 'paid-member-subscriptions' ); ?>
 <?php __("Add New Subscription", "paid-member-subscriptions"); ?>
 <?php __("PMS → Settings → Membership Pages → Registration", "paid-member-subscriptions"); ?>
 <?php __("%sAlert:%s It appears that the register page is not configured. To address this, please navigate to %s and choose the page containing the %s shortcode.", "paid-member-subscriptions"); ?>
@@ -1108,10 +1120,19 @@
 <?php __('The subscription will automatically renew for a total of %1$s cycles. <br> After the last cycle is completed, the subscription will %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Please %3$sactivate%4$s the %1$sGroup Memberships%2$s Add-On to enable this functionality.', 'paid-member-subscriptions' ); ?>
 <?php __('Group Memberships are available only with a %1$sPro%2$s or %1$sAgency%2$s license. %3$sBuy now%4$s', 'paid-member-subscriptions' ); ?>
+<?php __('You need an active license to create new Group Memberships. Add-On. %1$sRenew%2$s or purchase a new %3$sone%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Please %1$senter your license key%2$s first, to activate the %1$sGroup Memberships%2$s Add-On.', 'paid-member-subscriptions' ); ?>
 <?php __("Subscription Type", "paid-member-subscriptions"); ?>
 <?php __("Regular", "paid-member-subscriptions"); ?>
 <?php __("Group", "paid-member-subscriptions"); ?>
 <?php __("Please select the type for this subscription plan.", "paid-member-subscriptions"); ?>
+<?php __('You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('To use the %1$sTax%2$s add-on, you need to %3$senter your license key%4$s first.', 'paid-member-subscriptions' ); ?>
+<?php __("Tax", "paid-member-subscriptions"); ?>
+<?php __('To use the %1$sInvoices%2$s add-on, you need to %3$senter your license key%4$s first.', 'paid-member-subscriptions' ); ?>
+<?php __("Invoices", "paid-member-subscriptions"); ?>
+<?php __('To use the %1$sMultiple Currencies%2$s add-on, you need to %3$senter your license key%4$s first.', 'paid-member-subscriptions' ); ?>
+<?php __("Multiple Currencies", "paid-member-subscriptions"); ?>
 <?php __("Plan Name", "paid-member-subscriptions"); ?>
 <?php __("Auto Renewal", "paid-member-subscriptions"); ?>
 <?php __("On", "paid-member-subscriptions"); ?>
@@ -1345,14 +1366,12 @@
 <?php __("Archive Name", "paid-member-subscriptions"); ?>
 <?php __("Download", "paid-member-subscriptions"); ?>
 <?php __("%s items", "paid-member-subscriptions"); ?>
-<?php __("Invoices", "paid-member-subscriptions"); ?>
 <?php __("Company Details are required in order to create invoices.", "paid-member-subscriptions"); ?>
 <?php __("Invoice", "paid-member-subscriptions"); ?>
 <?php __("The {{number}} tag is required under Format.", "paid-member-subscriptions"); ?>
 <?php __("Invoice-%d", "paid-member-subscriptions"); ?>
 <?php __("Download Invoice", "paid-member-subscriptions"); ?>
 <?php __("Payments & Invoices", "paid-member-subscriptions"); ?>
-<?php __("Multiple Currencies", "paid-member-subscriptions"); ?>
 <?php __("Edit Prices for Other Currencies", "paid-member-subscriptions"); ?>
 <?php __("Specify a custom price for each available currency.", "paid-member-subscriptions"); ?>
 <?php __("Don't Switch Currency", "paid-member-subscriptions"); ?>
@@ -1522,7 +1541,6 @@
 <?php __("Total (%s): %s", "paid-member-subscriptions"); ?>
 <?php __("TAX/VAT", "paid-member-subscriptions"); ?>
 <?php __("* Taxes might be applied at the end of the checkout.", "paid-member-subscriptions"); ?>
-<?php __("Tax", "paid-member-subscriptions"); ?>
 <?php __("Upload failed. Your CSV file must contain the column: %s. Please try again.", "paid-member-subscriptions"); ?>
 <?php __("This tax rate was successfully deleted", "paid-member-subscriptions"); ?>
 <?php __("All tax rates were successfully deleted.", "paid-member-subscriptions"); ?>
@@ -1647,7 +1665,8 @@
 <?php __("Terms of Service", "paid-member-subscriptions"); ?>
 <?php __("Addons", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Add-ons", "paid-member-subscriptions"); ?>
-<?php __('You must first purchase this version to have access to the addon %1$shere%2$s', 'paid-member-subscriptions' ); ?>
+<?php __('You need an active license to have access to the addon. %1$sRenew%2$s or %3$spurchase a new one here%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __("To activate this add-on, you must first %senter your license key%s.", "paid-member-subscriptions"); ?>
 <?php __("Basic Add-ons", "paid-member-subscriptions"); ?>
 <?php __("These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Agency plans.", "paid-member-subscriptions"); ?>
 <?php __("Get access to these Add-ons with a Basic, Pro or Agency license. %sBuy now%s", "paid-member-subscriptions"); ?>

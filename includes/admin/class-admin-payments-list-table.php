@@ -354,7 +354,7 @@ Class PMS_Payments_List_Table extends WP_List_Table {
                 'username'        => $username,
                 'subscription'    => $payment->subscription_id,
                 'amount'          => $payment->amount,
-                'date'            => apply_filters('pms_match_date_format_to_wp_settings', ucfirst( date_i18n( 'F d, Y H:i:s', strtotime( $payment->date ) + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) ), true),
+                'date'            => apply_filters('pms_match_date_format_to_wp_settings', ucfirst( date_i18n( 'F d, Y H:i:s', strtotime( $payment->date ) + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) ), true, $payment->date),
                 'type'            => pms_get_payment_type_name( $payment->type ),
                 'payment_gateway' => $payment_gateway_name,
                 'transaction_id'  => $payment->transaction_id,

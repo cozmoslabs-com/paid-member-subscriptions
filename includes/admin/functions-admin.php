@@ -92,7 +92,7 @@ function pms_compare_subscription_plan_objects($a, $b) {
 // add filters to match WP Date Format if PMS -> Misc -> Others -> "WordPress Date Format" setting is Enabled
 $misc_settings = get_option( 'pms_misc_settings', array() );
 if ( isset( $misc_settings['match-wp-date-format'] ) ) {
-    add_filter( 'pms_match_date_format_to_wp_settings', 'pms_match_date_format', 10, 2 );
+    add_filter( 'pms_match_date_format_to_wp_settings', 'pms_match_date_format', 10, 3 );
     add_filter( 'post_date_column_time', 'pms_cpt_last_modified_date_fromat', 10, 4 );
 }
 
@@ -101,9 +101,10 @@ if ( isset( $misc_settings['match-wp-date-format'] ) ) {
  *
  * @param $date - date or timestamp
  * @param $display_time - true/false for displaying the time along with the date
+ * @param $raw_date - raw date string
  *
  */
-function pms_match_date_format( $date , $display_time ) {
+function pms_match_date_format( $date , $display_time, $raw_date = '' ) {
 
     if ( $display_time )
         $wp_time_format = get_option( 'time_format' );
@@ -111,7 +112,13 @@ function pms_match_date_format( $date , $display_time ) {
 
     if ( !empty( $date )) {
         $wp_date_format = get_option( 'date_format' );
-        $timestamp = ( strtotime( $date )) ? strtotime( $date ) : $date;
+
+        if( !empty( $raw_date ) ) {
+            $timestamp = strtotime( $raw_date );
+        } else {
+            $timestamp = strtotime( $date );
+        }
+
         $date = ucfirst( wp_date( $wp_date_format . ' ' .  $wp_time_format, $timestamp ));
     }
 
@@ -293,12 +300,12 @@ function pms_add_register_version_form() {
                 <?php if( $status != 'expired' && ( !empty( $license_details ) && !empty( $license_details->expires ) && $license_details->expires !== 'lifetime' ) && ( ( !isset( $license_details->subscription_status ) || $license_details->subscription_status != 'active' ) && strtotime( $license_details->expires ) < strtotime( '+14 days' ) ) ) : ?>
                     <div class="cozmoslabs-description-container yellow">
                         <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Your %s license is about to expire on %s', 'paid-member-subscriptions' ), '<strong>' . PAID_MEMBER_SUBSCRIPTIONS . '</strong>', '<strong>' . date_i18n( get_option( 'date_format' ), strtotime( $license_details->expires ) ) . '</strong>' ) ); ?>
-                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Please %sRenew Your Licence%s to continue receiving access to product downloads, automatic updates and support.', 'paid-member-subscriptions' ), "<a href='https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMS-Renewal' target='_blank'>", "</a>" ) ); ?></p>
+                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Please %sRenew Your Licence%s to continue receiving access to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility.', 'paid-member-subscriptions' ), "<a href='https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMS-Renewal' target='_blank'>", "</a>" ) ); ?></p>
                     </div>
                 <?php elseif( $status == 'expired' ) : ?>
                     <div class="cozmoslabs-description-container red">
                         <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Your %s license has expired.', 'paid-member-subscriptions' ), '<strong>' . PAID_MEMBER_SUBSCRIPTIONS . '</strong>' ) ); ?>
-                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Please %1$sRenew Your Licence%2$s to continue receiving access to product downloads, automatic updates and support.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree" target="_blank">', '</a>' ) ); ?></p>
+                        <p class="cozmoslabs-description"><?php echo wp_kses_post( sprintf( __( 'Please %1$sRenew Your Licence%2$s to continue receiving access  to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-settings-page&utm_campaign=PMSFree" target="_blank">', '</a>' ) ); ?></p>
                     </div>
                 <?php elseif( $status == 'no_activations_left' ) : ?>
                     <div class="cozmoslabs-description-container red">
@@ -347,6 +354,37 @@ function pms_insert_page_banner() {
 
 }
 add_action( 'in_admin_header', 'pms_insert_page_banner' );
+
+
+function pms_remove_class_action( $tag, $class, $method ) {
+
+    global $wp_filter;
+
+    if ( ! isset( $wp_filter[$tag] ) || !isset( $wp_filter[$tag]->callbacks ) ) 
+        return;
+
+    $hooks = $wp_filter[$tag];
+
+    foreach ( $hooks->callbacks as $priority => $callbacks ) {
+        foreach ( $callbacks as $cb_key => $cb ) {
+            if ( is_array( $cb['function'] )
+                && is_object( $cb['function'][0] )
+                && get_class( $cb['function'][0] ) === $class
+                && $cb['function'][1] === $method ) {
+
+                    remove_action( $tag, array( $cb['function'][0], $method ), $priority );
+
+                    // Clean up if empty
+                    if ( empty($wp_filter[$tag]->callbacks[$priority]) ) {
+                        unset( $wp_filter[$tag]->callbacks[$priority] );
+                    }
+
+                    return;
+            }
+        }
+    }
+
+}
 
 
 /**
@@ -405,6 +443,220 @@ function pms_output_page_banner( $page_name ) {
     echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
+add_action('admin_head', 'pms_maybe_replace_back_end_buttons' );
+function pms_maybe_replace_back_end_buttons() {
+
+    global $pagenow;
+    
+    $target_slugs    = [ 'pms-content-dripping', 'pms-email-reminders' ];
+    $current_slug    = '';
+    $pointer_content = '';
+
+    $correct_page = false;
+
+    if ( $pagenow === 'edit.php' && isset( $_GET['post_type'] ) && in_array( sanitize_text_field( $_GET['post_type'] ), $target_slugs ) ) {
+        $correct_page = true;
+        $current_slug = sanitize_text_field( $_GET['post_type'] );
+    } else if( $pagenow === 'post.php' && isset( $_GET['post'] ) ) {
+
+        $post_type = get_post_type( absint( $_GET['post'] ) );
+
+        if ( in_array( $post_type, $target_slugs ) ) {
+            $correct_page = true;
+            $current_slug = $post_type;
+        }
+
+    }
+    
+    if ( $correct_page ) {
+        $license_status = pms_get_serial_number_status();
+
+        wp_enqueue_style('wp-pointer');
+        wp_enqueue_script('wp-pointer');
+
+        if( $current_slug === 'pms-content-dripping' ) {
+            if( $license_status == 'missing' ) {
+                $pointer_content .= '<p>' . sprintf( __( 'Please %1$senter your license key%2$s first, to add new Content Dripping sets.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) . '</p>';
+            } else {
+                $pointer_content .= '<p>' . sprintf( __( 'You need an active license to add new Content Dripping. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-content-dripping&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-content-dripping&utm_medium=client-site&utm_campaign=pms-multi-content-dripping-addon#pricing" target="_blank">', '</a>' ) . '</p>';
+            }
+        } else if( $current_slug === 'pms-email-reminders' ) {
+            if( $license_status == 'missing' ) {
+                $pointer_content .= '<p>' . sprintf( __( 'Please %1$senter your license key%2$s first, to add new Email Reminders.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) . '</p>';
+            } else {
+                $pointer_content .= '<p>' . sprintf( __( 'You need an active license to add new Email Reminders. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-email-reminders&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-email-reminders&utm_medium=client-site&utm_campaign=pms-multi-email-reminders-addon#pricing" target="_blank">', '</a>' ) . '</p>';
+            }
+        }
+
+        if( $license_status !== 'valid' ) {
+            echo '
+            <script>
+                jQuery(document).ready(function($) {
+                    let button_text = $(".page-title-action").text();
+                    $(".page-title-action").remove();
+
+                    $(".wrap .wp-heading-inline").after(`<a class="page-title-action page-title-action-disabled" style="cursor:pointer;">${button_text}</a>`);
+
+                    $(".page-title-action-disabled").on("click", function(e) {
+                        e.preventDefault();
+
+                        let pointer_content = '. json_encode( $pointer_content ) .';
+
+                        jQuery( this ).pointer({
+                            content: pointer_content,
+                            position: { edge: "right", align: "middle" }
+                        }).pointer("open");
+                    });
+                });
+            </script>';
+        }
+
+    }
+
+    $correct_page = false;
+    
+    // This shows the Add new button. Since the above action removes it completelty, we can just attempt to show it here
+    echo '<script>
+        jQuery(document).ready(function($) {
+            if( $(".page-title-action").length > 0 ) {
+                $(".page-title-action").css("display", "inline-flex");
+            }
+        });
+    </script>';
+
+    if ( $pagenow === 'post-new.php' && isset( $_GET['post_type'] ) && in_array( sanitize_text_field( $_GET['post_type'] ), [ 'pms-subscription' ] ) ) {
+        $correct_page = true;
+        $current_slug = sanitize_text_field( $_GET['post_type'] );
+
+    } else if( $pagenow === 'post.php' && isset( $_GET['post'] ) ) {
+
+        $post_type = get_post_type( absint( $_GET['post'] ) );
+
+        if ( in_array( $post_type, [ 'pms-subscription' ] ) ) {
+            $correct_page = true;
+            $current_slug = $post_type;
+        }
+
+    }
+
+    if( $correct_page ) {
+
+        $license_status       = pms_get_serial_number_status();
+        $pointer_content_gcr  = '';
+        $pointer_content_fxp  = '';
+        $pointer_content_pwyw = '';
+        $pointer_content_ld   = '';
+
+        if( $license_status == 'missing' ) {
+            $pointer_content_gcr  .= '<p>' . sprintf( __( 'Please %1$senter your license key%2$s first, to add new Global Content Restriction rules.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) . '</p>';
+            $pointer_content_fxp  .= '<p>' . sprintf( __( 'Please %1$senter your license key%2$s first, to configure Fixed Period Membership plans.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) . '</p>';
+            $pointer_content_pwyw .= '<p>' . sprintf( __( 'Please %1$senter your license key%2$s first, to configure Pay What You Want plans.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) . '</p>';
+            $pointer_content_ld   .= '<p>' . sprintf( __( 'Please %1$senter your license key%2$s first, to configure LearnDash course access.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) . '</p>';
+        } else {
+            $pointer_content_gcr  .= '<p>' . sprintf( __( 'You need an active license to add new Global Content Restriction rules. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-global-content-restriction&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-global-content-restriction&utm_medium=client-site&utm_campaign=pms-global-content-restriction-settings#pricing" target="_blank">', '</a>' ) . '</p>';
+            $pointer_content_fxp  .= '<p>' . sprintf( __( 'You need an active license to configure Fixed Membership plans. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-fixed-membership&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-fixed-membership&utm_medium=client-site&utm_campaign=pms-fixed-membership-settings#pricing" target="_blank">', '</a>' ) . '</p>';
+            $pointer_content_pwyw .= '<p>' . sprintf( __( 'You need an active license to configure Pay What You Want plans. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-pay-what-you-want&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-pay-what-you-want&utm_medium=client-site&utm_campaign=pms-pay-what-you-want-settings#pricing" target="_blank">', '</a>' ) . '</p>';
+            $pointer_content_ld   .= '<p>' . sprintf( __( 'You need an active license to configure LearnDash course access. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-learndash&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-learndash&utm_medium=client-site&utm_campaign=pms-learndash-settings#pricing" target="_blank">', '</a>' ) . '</p>';
+        }
+
+        if( $license_status != 'valid' ) {
+
+            wp_enqueue_style('wp-pointer');
+            wp_enqueue_script('wp-pointer');
+            
+            echo '<script>
+                jQuery(document).ready(function($) {
+
+                    if( $("#pms_add-new-rule-container").length > 0 ) {
+
+                        $("#pms_add-new-rule-container .pms-add-rule").remove();
+
+                        $("#pms_add-new-rule-container").append(`<a href="#" class="pms-add-rule pms-add-rule-disabled"><span class="dashicons dashicons-plus"></span>Add Rule</a>`);
+                    
+                        $(".pms-add-rule-disabled").on("click", function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+
+                            let pointer_content = '. json_encode( $pointer_content_gcr ) .';
+
+                            jQuery( this ).pointer({
+                                content: pointer_content,
+                                position: { edge: "middle", align: "middle" }
+                            }).pointer("open");
+                        });
+
+                    }
+
+                    if( $("#pms-subscription-plan-fixed-membership").length > 0 ) {
+
+                        $("#pms-subscription-plan-fixed-membership").on("click", function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+
+                            let pointer_content = '. json_encode( $pointer_content_fxp ) .';
+
+                            $( this ).parent( ".cozmoslabs-toggle-container" ).pointer({
+                                content: pointer_content,
+                                position: { edge: "left", align: "middle" }
+                            }).pointer("open");
+                        });
+
+                    }
+
+                    if( $("#pms-subscription-plan-pay-what-you-want").length > 0 ) {
+
+                        $("#pms-subscription-plan-pay-what-you-want").on("click", function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+
+                            let pointer_content = '. json_encode( $pointer_content_pwyw ) .';
+
+                            $( this ).parent( ".cozmoslabs-toggle-container" ).pointer({
+                                content: pointer_content,
+                                position: { edge: "left", align: "middle" }
+                            }).pointer("open");
+                        });
+
+                    }
+
+                    if( $("#pms-subscription-learndash").length > 0 ) {
+
+                        $(".pms-meta-box-field-wrapper-learndash").remove();
+
+                        $("#pms-subscription-learndash").on("click", function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+
+                            let pointer_content = '. json_encode( $pointer_content_ld ) .';
+
+                            $( this ).parent( ".cozmoslabs-toggle-container" ).pointer({
+                                content: pointer_content,
+                                position: { edge: "left", align: "middle" }
+                            }).pointer("open");
+                        });
+
+                    }
+
+                });
+            </script>';
+
+            remove_action( 'pms_save_meta_box_pms-subscription', 'pms_in_pwyw_save_subscription_plan_settings_fields' );
+        }
+
+        echo '<script>
+            jQuery(document).ready(function($) {
+                if( $("#pms_add-new-rule-container .pms-add-rule").length > 0 ) {
+                    $("#pms_add-new-rule-container .pms-add-rule").css("display", "block");
+                }
+            });
+        </script>';
+
+    }
+}
 
 /**
  * Include Script for repositioning the Publish Box/Button in Admin Dashboard --> PMS CPTs & Custom Pages
@@ -672,6 +924,16 @@ function pms_group_memberships_addon_upsell( $subscription_plan_id ) {
         $message = sprintf( esc_html__( 'Please %3$sactivate%4$s the %1$sGroup Memberships%2$s Add-On to enable this functionality.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'.admin_url( 'admin.php?page=pms-addons-page' ).'">', '</a>' );;
     }
 
+    if( empty( $message ) ) {
+        $license_status = pms_get_serial_number_status();
+
+        if( $license_status === 'missing' ) {
+            $message = sprintf( esc_html__( 'Please %1$senter your license key%2$s first, to activate the %1$sGroup Memberships%2$s Add-On.', 'paid-member-subscriptions' ), '<a href="'.admin_url( 'admin.php?page=pms-settings-page' ).'">', '</a>' );
+        } else if( $license_status != 'valid' ) {
+            $message = sprintf( esc_html__( 'You need an active license to create new Group Memberships. Add-On. %1$sRenew%2$s or purchase a new %3$sone%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-group-memberships&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-group-memberships&utm_medium=client-site&utm_campaign=pms-group-memberships-settings#pricing" target="_blank">', '</a>' );
+        }
+    }
+
     // return if the user has a paid PMS version and the add-on is active
     if ( empty( $message ) )
         return;
@@ -691,16 +953,157 @@ function pms_group_memberships_addon_upsell( $subscription_plan_id ) {
                        '. esc_html__( 'Please select the type for this subscription plan.', 'paid-member-subscriptions' ) .'
                    </p>
                    
-                   <p class="cozmoslabs-description cozmoslabs-description-space-left cozmoslabs-description-upsell" id="pms-group-memberships-addon-notice" style="max-width: 600px; margin-left: 230px; display: none;">
-                       '. $message .'
-                   </p>
-                   
+                   <div style="width: 100%;">
+                    <p class="cozmoslabs-description cozmoslabs-description-space-left cozmoslabs-description-upsell" id="pms-group-memberships-addon-notice" style="max-width: 600px; margin-left: 230px; display: none;">
+                        '. $message .'
+                    </p>
+                   </div>
                </div>';
 
     echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
-add_action( 'pms_view_meta_box_subscription_details_top', 'pms_group_memberships_addon_upsell' );
+add_action( 'pms_view_meta_box_subscription_details_top', 'pms_group_memberships_addon_upsell', 1 );
 
+add_action( 'admin_init', 'pms_maybe_remove_hooks', 5 );
+function pms_maybe_remove_hooks() {
+    $license_status = pms_get_serial_number_status();
+
+    if( $license_status != 'valid' ) {
+        pms_remove_class_action( 'admin_init', 'PMS_IN_Admin_Group_Memberships', 'hook_subscription_plan_type_change' );
+        remove_action( 'pms_save_meta_box_pms-subscription', 'pms_in_pwyw_save_subscription_plan_settings_fields' );
+        remove_action( 'pms_save_meta_box_pms-subscription', 'pms_in_msfp_save_subscription_plan_settings_fields', 9 );
+        pms_remove_class_action( 'pms_save_meta_box_pms-subscription', 'PMS_LearnDash_Course_Access', 'save_learndash_settings' );
+        pms_remove_class_action( 'admin_enqueue_scripts', 'PMS_IN_LearnDash', 'enqueue_learndash_admin_scripts' );
+
+        pms_remove_class_action( 'pms-settings-page_payments_after_subtabs', 'PMS_Multiple_Currencies_Admin', 'settings_page_content' );
+        add_action( 'pms-settings-page_payments_after_subtabs', 'pms_multiple_currencies_upsell' );
+
+        remove_action( 'pms_settings_tab_content', 'pms_in_inv_add_invoices_tab_content', 20 );
+        add_action( 'pms_settings_tab_content', 'pms_invoices_upsell', 20, 3 );
+
+        remove_action( 'pms_settings_tab_content', 'pms_in_tax_add_tax_tab_content', 20 );
+        add_action( 'pms_settings_tab_content', 'pms_tax_upsell', 20, 3 );
+
+    }
+}
+
+function pms_tax_upsell( $output, $active_tab, $options ){
+
+    if( $active_tab != 'tax' )
+        return $output;
+
+    $tax_active = apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-tax/index.php' );
+
+    if( !$tax_active )
+        return $output;
+
+    $license_status = pms_get_serial_number_status();
+
+    if( $license_status === 'missing' ){
+        $message = sprintf( esc_html__( 'To use the %1$sTax%2$s add-on, you need to %3$senter your license key%4$s first.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'.admin_url( 'admin.php?page=pms-settings-page' ).'">', '</a>' );
+    } else {
+        $message = sprintf( esc_html__( 'You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-tax&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-tax&utm_medium=client-site&utm_campaign=pms-tax-settings#pricing" target="_blank">', '</a>' );
+    }
+
+    ob_start();
+    ?>
+    <div id="payments-tax" class="cozmoslabs-sub-tab cozmoslabs-sub-tab-upsell cozmoslabs-sub-tab-tax <?php echo ( $active_tab == 'tax' ? 'tab-active' : '' ); ?>">
+
+        <div class="cozmoslabs-form-subsection-wrapper">
+            <h4 class="cozmoslabs-subsection-title">
+                    <?php esc_html_e( 'Tax', 'paid-member-subscriptions' ); ?>
+                <a href=" https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/tax/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            </h4>
+
+            <div class="cozmoslabs-form-field-wrapper">
+                <p class="cozmoslabs-description cozmoslabs-description-space-left cozmoslabs-description-upsell"><?php echo wp_kses_post( $message ); ?></p>
+            </div>
+
+        </div>
+    </div>
+    <?php
+    $output = ob_get_clean();
+
+    return $output;
+
+}
+
+function pms_invoices_upsell( $output, $active_tab, $options ){
+
+    if( $active_tab != 'invoices' )
+        return $output;
+
+    $invoices_active = apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-invoices/index.php' );
+
+    if( !$invoices_active )
+        return $output;
+
+    $license_status = pms_get_serial_number_status();
+
+    if( $license_status === 'missing' ){
+        $message = sprintf( esc_html__( 'To use the %1$sInvoices%2$s add-on, you need to %3$senter your license key%4$s first.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'.admin_url( 'admin.php?page=pms-settings-page' ).'">', '</a>' );
+    } else {
+        $message = sprintf( esc_html__( 'You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-invoices&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-invoices&utm_medium=client-site&utm_campaign=pms-invoices-settings#pricing" target="_blank">', '</a>' );
+    }
+
+    ob_start();
+    ?>
+    <div id="payments-invoices" class="cozmoslabs-sub-tab cozmoslabs-sub-tab-upsell cozmoslabs-sub-tab-invoices <?php echo ( $active_tab == 'invoices' ? 'tab-active' : '' ); ?>">
+
+        <div class="cozmoslabs-form-subsection-wrapper">
+            <h4 class="cozmoslabs-subsection-title">
+                <?php esc_html_e( 'Invoices', 'paid-member-subscriptions' ); ?>
+                <a href=" https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/invoices/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            </h4>
+
+            <div class="cozmoslabs-form-field-wrapper">
+                <p class="cozmoslabs-description cozmoslabs-description-space-left cozmoslabs-description-upsell"><?php echo wp_kses_post( $message ); ?></p>
+            </div>
+
+        </div>
+    </div>
+    <?php
+    $output = ob_get_clean();
+
+    return $output;
+
+}
+
+function pms_multiple_currencies_upsell(){
+
+    $multiple_currencies_active = apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-multiple-currencies/index.php' );
+
+    if( !$multiple_currencies_active )
+        return;
+
+    $active_sub_tab = ( ! empty( $_GET['nav_sub_tab'] ) ? sanitize_text_field( $_GET['nav_sub_tab'] ) : 'payments_general' );
+
+    $license_status = pms_get_serial_number_status();
+
+    if( $license_status === 'missing' ){
+        $message = sprintf( esc_html__( 'To use the %1$sMultiple Currencies%2$s add-on, you need to %3$senter your license key%4$s first.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'.admin_url( 'admin.php?page=pms-settings-page' ).'">', '</a>' );
+    } else {
+        $message = sprintf( esc_html__( 'You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-multiple-currencies&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-multiple-currencies&utm_medium=client-site&utm_campaign=pms-multiple-currencies-settings#pricing" target="_blank">', '</a>' );
+    }
+        
+    ?>
+    <div id="payments-multiple-currencies" class="cozmoslabs-sub-tab cozmoslabs-sub-tab-multiple-currencies <?php echo ( $active_sub_tab == 'payments_multiple_currencies' ? 'tab-active' : '' ); ?>" data-sub-tab-slug="payments_multiple_currencies">
+
+        <div class="cozmoslabs-form-subsection-wrapper">
+            <h4 class="cozmoslabs-subsection-title">
+                <?php esc_html_e( 'Multiple Currencies', 'paid-member-subscriptions' ); ?>
+                <a href=" https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/multiple-currencies/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            </h4>
+
+            <div class="cozmoslabs-form-field-wrapper">
+                <p class="cozmoslabs-description cozmoslabs-description-space-left cozmoslabs-description-upsell"><?php echo wp_kses_post( $message ); ?></p>
+            </div>
+
+        </div>
+    </div>
+
+<?php
+}
 
 /**
  * Handle "Active Payment Gateways" settings relocation notification from Payments settings page
