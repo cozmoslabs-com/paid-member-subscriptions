@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.15.8
+Stable tag: 2.15.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.15.9 =
+* Feature: Payment refunds - refunds can now be issued from the Payments page with support for full and partial refunds. Supports all current and past payment gateways
+* Enhancement: Automatically expire subscriptions when they are viewed and expired, but the status didn't change yet. Before, this was only handled by a cron which is still available, but we now also show instant feedback to admins or users, without waiting for the cron to execute
+* Fix: Rewrite logic that determines if the subscription plans field is active or not in order to show payment gateways for Profile Builder Conditional Logic compatibility
+* Fix: Allow processing CHF payments through the new PayPal integration
+* Misc: Allow page regeneration through Setup Wizard if the pages are not set in General Settings
+* Misc: Add a filter to be able to force the retrieval of an IP address using REMOTE_ADDR. This basically ignores other params like HTTP_FORWARDED_FOR or HTTP_CLIENT_IP and only relies on that key. Enable with the following filter: pms_get_user_ip_address_force_remote_address
+
 = 2.15.8 =
 * Enhancement: Improved back-end messages informing what features are available depending on license
 * Fix: An error triggered on registration when another plugin is loading an older version of the Stripe library

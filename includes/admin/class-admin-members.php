@@ -861,6 +861,12 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'subscription_payment_method_updated':
                 $message = __( 'Payment method for the subscription updated by user.', 'paid-member-subscriptions' );
                 break;
+            case 'subscription_payment_refunded':
+                $message = sprintf( __( 'Subscription <strong>%s</strong> due to refunded payment <strong>#%s</strong>.', 'paid-member-subscriptions' ), ucwords( $log['data']['new_status'] ), $log['data']['payment_id'] );
+                break;
+            case 'subscription_payment_refunded_expiration_update':
+                $message = sprintf( __( '<strong>Expiration date</strong> updated to <strong>%s</strong> following payment <strong>#%s</strong> refund.', 'paid-member-subscriptions' ), date_i18n( get_option('date_format'), strtotime( $log['data']['new_expiration_date'] ) ), $log['data']['payment_id'] );
+                break;
             case 'admin_subscription_edit':
                 $admin_name = ucwords( $this->get_display_name( !empty( $log['data']['who'] ) ? $log['data']['who'] : '' ) );
 

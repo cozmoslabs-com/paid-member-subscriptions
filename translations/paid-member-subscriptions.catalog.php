@@ -5,8 +5,8 @@
 <?php __("Please install and activate the Paid Member Subscriptions plugin", "paid-member-subscriptions"); ?>
 <?php __("Install & Activate", "paid-member-subscriptions"); ?>
 <?php __("This Paid Member Subscriptions add-on has been migrated to the main plugin and is no longer used. You can delete it.", "paid-member-subscriptions"); ?>
-<?php __("To enable updates, your licence needs to be renewed. Please go to the <a href=\"%s\" target=\"_blank\">Cozmoslabs Account</a> page and login to renew.", "paid-member-subscriptions"); ?>
-<?php __("To enable updates, please enter your serial number on the %sSettings%s page. If you don't have a serial number, please see %sdetails & pricing%s.", "paid-member-subscriptions"); ?>
+<?php __('To enable updates, you need an active license. %1$sRenew%2$s or %3$spurchase a new license%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __("To enable updates, please enter your serial number on the %sSettings%s page. If you don't have a serial number, you can %sbuy one now%s.", "paid-member-subscriptions"); ?>
 <?php __("You must be logged in to view this content.", "paid-member-subscriptions"); ?>
 <?php __("This content is restricted for your membership level.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions", "paid-member-subscriptions"); ?>
@@ -879,6 +879,8 @@
 <?php __("Subscription trial started until <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription trial ended.", "paid-member-subscriptions"); ?>
 <?php __("Payment method for the subscription updated by user.", "paid-member-subscriptions"); ?>
+<?php __("Subscription <strong>%s</strong> due to refunded payment <strong>#%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __("<strong>Expiration date</strong> updated to <strong>%s</strong> following payment <strong>#%s</strong> refund.", "paid-member-subscriptions"); ?>
 <?php __("%s changed <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("%s changed <strong>%s</strong> from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription activated successfully (by admin, manual offline)", "paid-member-subscriptions"); ?>
@@ -915,6 +917,7 @@
 <?php __("Transaction ID", "paid-member-subscriptions"); ?>
 <?php __("User no longer exists", "paid-member-subscriptions"); ?>
 <?php __("Edit Payment", "paid-member-subscriptions"); ?>
+<?php __("Refund", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Payment?", "paid-member-subscriptions"); ?>
 <?php __("Delete", "paid-member-subscriptions"); ?>
 <?php __("Edit Subscription", "paid-member-subscriptions"); ?>
@@ -924,7 +927,9 @@
 <?php __("Modal Data", "paid-member-subscriptions"); ?>
 <?php __("No logs found for this payment.", "paid-member-subscriptions"); ?>
 <?php __("Payment has failed. Reason: <strong>%s</strong>", "paid-member-subscriptions"); ?>
-<?php __("Payment created manually by <strong>%s<strong>.", "paid-member-subscriptions"); ?>
+<?php __("Payment created manually by <strong>%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __('Payment refunded by <strong>%1$s</strong>. %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Note: ", "paid-member-subscriptions"); ?>
 <?php __('Payment status changed from <strong>%1$s</strong> to <strong>%2$s</strong>', 'paid-member-subscriptions' ); ?>
 <?php __('Payment %1$s changed from <strong>%2$s</strong> to <strong>%3$s</strong>', 'paid-member-subscriptions' ); ?>
 <?php __("New payment added by <strong>%s</strong>.", "paid-member-subscriptions"); ?>
@@ -941,6 +946,15 @@
 <?php __("Payment successfully completed.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a date for the payment.", "paid-member-subscriptions"); ?>
 <?php __("This user already has a subscription (%s) from the same group with the one you selected. Select it or remove it to be able to complete this payment.", "paid-member-subscriptions"); ?>
+<?php __("Invalid payment ID", "paid-member-subscriptions"); ?>
+<?php __("Security check failed.", "paid-member-subscriptions"); ?>
+<?php __("Something went wrong! Please try again.", "paid-member-subscriptions"); ?>
+<?php __("No payment found!", "paid-member-subscriptions"); ?>
+<?php __("Refund amount not set!", "paid-member-subscriptions"); ?>
+<?php __("Refund amount cannot exceed the original payment amount.", "paid-member-subscriptions"); ?>
+<?php __("Payment gateway does not support refunds!", "paid-member-subscriptions"); ?>
+<?php __("Payment refund data", "paid-member-subscriptions"); ?>
+<?php __(' Member subscription %3$s #%1$s %4$s status updated to \%2$s\.', 'paid-member-subscriptions' ); ?>
 <?php __("Register Your Version", "paid-member-subscriptions"); ?>
 <?php __("Register Version", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions Register", "paid-member-subscriptions"); ?>
@@ -1113,6 +1127,27 @@
 <?php __("Third plan:", "paid-member-subscriptions"); ?>
 <?php __("Choose a style that better suits your pricing page.", "paid-member-subscriptions"); ?>
 <?php __("Choose a style for Pricing Page", "paid-member-subscriptions"); ?>
+<?php __("Refund Payment #", "paid-member-subscriptions"); ?>
+<?php __("Refunding this payment will create a negative transaction, reversing all or part of the original payment amount. This action is permanent and cannot be undone. Please confirm the refund details below before proceeding", "paid-member-subscriptions"); ?>
+<?php __("Payment Details", "paid-member-subscriptions"); ?>
+<?php __("Payment ID: ", "paid-member-subscriptions"); ?>
+<?php __("Payment Date: ", "paid-member-subscriptions"); ?>
+<?php __("Payment Amount: ", "paid-member-subscriptions"); ?>
+<?php __("Payment Gateway: ", "paid-member-subscriptions"); ?>
+<?php __("Refund Settings", "paid-member-subscriptions"); ?>
+<?php __("Refund Amount", "paid-member-subscriptions"); ?>
+<?php __("Enter the amount you want to refund.", "paid-member-subscriptions"); ?>
+<?php __("The refund amount cannot exceed the payment amount.", "paid-member-subscriptions"); ?>
+<?php __("Refund Note", "paid-member-subscriptions"); ?>
+<?php __("Refund reason", "paid-member-subscriptions"); ?>
+<?php __("Enter a refund reason/note.", "paid-member-subscriptions"); ?>
+<?php __("Subscription Status After Refund", "paid-member-subscriptions"); ?>
+<?php __("Keep Current Status", "paid-member-subscriptions"); ?>
+<?php __("Expire Subscription", "paid-member-subscriptions"); ?>
+<?php __("Cancel Subscription", "paid-member-subscriptions"); ?>
+<?php __("Choose what should happen to the user's subscription after the refund.", "paid-member-subscriptions"); ?>
+<?php __("Refund Payment", "paid-member-subscriptions"); ?>
+<?php __("Cancel", "paid-member-subscriptions"); ?>
 <?php __("expire", "paid-member-subscriptions"); ?>
 <?php __("remain active", "paid-member-subscriptions"); ?>
 <?php __('remain active for extra %1$s %2$s(s)', 'paid-member-subscriptions' ); ?>
@@ -1232,7 +1267,6 @@
 <?php __("Group Owner", "paid-member-subscriptions"); ?>
 <?php __("Limit logged in users to Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Retry Payment", "paid-member-subscriptions"); ?>
-<?php __("Cancel Subscription", "paid-member-subscriptions"); ?>
 <?php __("Add to Menu", "paid-member-subscriptions"); ?>
 <?php __("%s (Pending)", "paid-member-subscriptions"); ?>
 <?php __("%s (Invalid)", "paid-member-subscriptions"); ?>
@@ -1253,7 +1287,6 @@
 <?php __("Down one", "paid-member-subscriptions"); ?>
 <?php __("To the top", "paid-member-subscriptions"); ?>
 <?php __("Original: %s", "paid-member-subscriptions"); ?>
-<?php __("Cancel", "paid-member-subscriptions"); ?>
 <?php __("Pay What You Want", "paid-member-subscriptions"); ?>
 <?php __("Enable Pay What You Want Pricing?", "paid-member-subscriptions"); ?>
 <?php __("Enabling this will allow users to set their own price when purchasing this subscription. This will override the subscription price set above, which will be used as the recommended price.", "paid-member-subscriptions"); ?>
@@ -1455,6 +1488,14 @@
 <?php __("No request response received.", "paid-member-subscriptions"); ?>
 <?php __("The selected gateway is not configured correctly: <strong>PayPal Address is missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
 <?php __("The selected gateway is not configured correctly: <strong>PayPal API credentials are missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
+<?php __("PayPal API credentials not configured.", "paid-member-subscriptions"); ?>
+<?php __("Invalid payment ID or amount.", "paid-member-subscriptions"); ?>
+<?php __("Payment not found.", "paid-member-subscriptions"); ?>
+<?php __("No transaction ID found for this payment.", "paid-member-subscriptions"); ?>
+<?php __("PayPal API request failed: %s", "paid-member-subscriptions"); ?>
+<?php __("PayPal API returned error code: %s", "paid-member-subscriptions"); ?>
+<?php __("PayPal refund was not successful!", "paid-member-subscriptions"); ?>
+<?php __("Payment refunded successfully!", "paid-member-subscriptions"); ?>
 <?php __("Credit Card Information", "paid-member-subscriptions"); ?>
 <?php __("Card Number", "paid-member-subscriptions"); ?>
 <?php __("Card CVV", "paid-member-subscriptions"); ?>
@@ -1867,10 +1908,10 @@
 <?php __("Clear Filters", "paid-member-subscriptions"); ?>
 <?php __("Payment #%s", "paid-member-subscriptions"); ?>
 <?php __("Add New Payment", "paid-member-subscriptions"); ?>
-<?php __("Payment Details", "paid-member-subscriptions"); ?>
 <?php __("Enter the username you wish to associate a payment with. You can create a new user <a href=\"%s\">here</a>.", "paid-member-subscriptions"); ?>
 <?php __("The Transaction ID will be provided by the payment gateway when the payment is registered within their system.", "paid-member-subscriptions"); ?>
 <?php __("Gateway", "paid-member-subscriptions"); ?>
+<?php __("View Transaction", "paid-member-subscriptions"); ?>
 <?php __("Save Payment", "paid-member-subscriptions"); ?>
 <?php __("Add Payment", "paid-member-subscriptions"); ?>
 <?php __("Payment Logs", "paid-member-subscriptions"); ?>
@@ -2081,6 +2122,8 @@
 <?php __("Thank you for subscribing. The subscription will be activated after the payment is received.", "paid-member-subscriptions"); ?>
 <?php __("The subscription will be activated after the payment is received.", "paid-member-subscriptions"); ?>
 <?php __("Complete Payment", "paid-member-subscriptions"); ?>
+<?php __("Failed to get PayPal access token.", "paid-member-subscriptions"); ?>
+<?php __("<strong>PayPal: </strong> Refund failed!", "paid-member-subscriptions"); ?>
 <?php __("The email address of the PayPal account currently used for billing is: %s", "paid-member-subscriptions"); ?>
 <?php __("Click the button below to update your payment method.", "paid-member-subscriptions"); ?>
 <?php __("Payment Method Update Request", "paid-member-subscriptions"); ?>
@@ -2120,6 +2163,12 @@
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __('Your %3$s PayPal API credentials %4$s are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Stripe API key not configured.", "paid-member-subscriptions"); ?>
+<?php __("Refund was not successful!", "paid-member-subscriptions"); ?>
+<?php __("<strong>Stripe:</strong> %s", "paid-member-subscriptions"); ?>
+<?php __("<strong>Stripe:</strong> The payment intent was not found.", "paid-member-subscriptions"); ?>
+<?php __("<strong>Stripe:</strong> The payment transaction was not found.", "paid-member-subscriptions"); ?>
+<?php __("<strong>Stripe:</strong> This payment has already been refunded.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent is still processing. Subscription was activated or remains active until confirmation of success or failure is received.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent has failed.", "paid-member-subscriptions"); ?>
 <?php __('Stripe webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>

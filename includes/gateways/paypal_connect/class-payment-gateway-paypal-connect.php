@@ -105,6 +105,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
             'change_subscription_payment_method_admin',
             'update_payment_method',
             'billing_cycles',
+            'refunds'
         );
 
         $this->endpoint    = $this->test_mode ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';
@@ -402,6 +403,135 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
         // payment has failed
         return false;
+
+    }
+
+    /**
+     * Process the payment refund
+     *
+     * @param $payment_id - the ID of the payment
+     * @param $amount     - the amount to be refunded
+     * @param $reason     - refund reason
+     *
+     * @return array|string[]
+     */
+    public function process_refund( $payment_id = 0, $amount = 0, $reason = '' ) {
+
+        if( empty( $this->client_id ) || empty( $this->client_secret ) ) {
+            return array( 'error' => esc_html__( 'PayPal API credentials not configured.', 'paid-member-subscriptions' ) );
+        }
+
+        if( empty( $payment_id ) || empty( $amount ) ) {
+            return array( 'error' => esc_html__( 'Invalid payment ID or amount.', 'paid-member-subscriptions' ) );
+        }
+
+        // Get payment
+        $payment = pms_get_payment( $payment_id );
+
+        if( !$payment || !$payment->is_valid() ) {
+            return array( 'error' => esc_html__( 'Payment not found.', 'paid-member-subscriptions' ) );
+        }
+
+        if( empty( $payment->transaction_id ) ) {
+            return array( 'error' => esc_html__( 'No transaction ID found for this payment.', 'paid-member-subscriptions' ) );
+        }
+
+        // Get access token
+        $access_token = $this->get_access_token();
+
+        if( empty( $access_token ) ) {
+            return array( 'error' => esc_html__( 'Failed to get PayPal access token.', 'paid-member-subscriptions' ) );
+        }
+
+        $payment_currency = !empty( $payment->currency ) ? strtoupper( $payment->currency ) : pms_get_active_currency();
+
+        // Prepare refund data
+        $refund_data = array(
+            'amount' => array(
+                'value' => number_format( $amount, 2, '.', '' ),
+                'currency_code' => $payment_currency
+            )
+        );
+
+        // Add reason if provided
+        if( !empty( $reason ) ) {
+            $refund_data['note_to_payer'] = $reason;
+        }
+
+        // PayPal refund API endpoint
+        $request_url = $this->endpoint . '/v2/payments/captures/' . $payment->transaction_id . '/refund';
+
+        $args = array(
+            'method'  => 'POST',
+            'headers' => array(
+                'Authorization'  => 'Bearer ' . $access_token,
+                'Content-Type'   => 'application/json',
+                'Accept'         => 'application/json',
+                'PayPal-Request-Id' => uniqid( 'pms-refund-' ),
+            ),
+            'body'    => json_encode( $refund_data ),
+            'timeout' => 30,
+        );
+
+        $response = wp_remote_post( $request_url, $args );
+
+        if( is_wp_error( $response ) ) {
+            return array( 'error' => sprintf( esc_html__( 'PayPal API request failed: %s', 'paid-member-subscriptions' ), $response->get_error_message() ) );
+        }
+
+        $status_code = wp_remote_retrieve_response_code( $response );
+        $body = wp_remote_retrieve_body( $response );
+        $data = json_decode( $body, true );
+
+        if( in_array( $status_code, array( 200, 201 ) ) ) {
+
+            // Check if refund was successful
+            if( !empty( $data['status'] ) && in_array( $data['status'], array( 'COMPLETED', 'PENDING' ) ) ) {
+
+                return array(
+                    'success'         => true,
+                    'message'         => esc_html__( 'Payment refunded successfully!', 'paid-member-subscriptions' ),
+                    'payment_id'      => $payment_id,
+                    'payment_gateway' => $payment->payment_gateway,
+                    'transaction_id'  => $data['id'],
+                    'user_id'         => $payment->user_id,
+                    'amount'          => $amount,
+                    'currency'        => $payment_currency,
+                    'refunded_by'     => get_current_user_id(),
+                    'reason'          => $reason,
+                );
+
+            } else {
+                return array( 'error' => esc_html__( 'PayPal refund was not successful!', 'paid-member-subscriptions' ) );
+            }
+
+        } else {
+
+            // Handle refund process errors
+            $error_message = __( '<strong>PayPal: </strong> Refund failed!', 'paid-member-subscriptions' );
+
+            if( !empty( $data['details'] ) && is_array( $data['details'] ) ) {
+                $error_details = array();
+
+                foreach( $data['details'] as $detail ) {
+
+                    if( !empty( $detail['description'] ) ) {
+                        $error_details[] = $detail['description'];
+                    }
+
+                }
+
+                if( !empty( $error_details ) ) {
+                    $error_message .= ' ' . implode( ' ', $error_details );
+                }
+
+            } elseif( !empty( $data['message'] ) ) {
+                $error_message .= ' ' . $data['message'];
+            }
+
+            return array( 'error' => wp_kses_post( $error_message ) );
+
+        }
 
     }
 

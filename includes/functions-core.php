@@ -1349,7 +1349,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 if( isset( $license_details->error ) && $license_details->error == 'no_activations_left' ){
 
-                    $pms_activations_limit_message = sprintf( __( 'Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class="button-primary" href="%s">Upgrade now</a>', 'paid-member-subscriptions' ), PAID_MEMBER_SUBSCRIPTIONS, esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wp-dashboard&utm_medium=client-site&utm_campaign=pms-license-key-activation-limit' ) );
+                    $pms_activations_limit_message = sprintf( __( 'Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class="button-primary" href="%s">Upgrade now</a>', 'paid-member-subscriptions' ), PAID_MEMBER_SUBSCRIPTIONS, esc_url( 'https://www.cozmoslabs.com/account/?utm_source=wp-dashboard&utm_medium=client-site&utm_campaign=pms-activation-limit' ) );
 
                     $pms_notifications_instance = PMS_Plugin_Notifications::get_instance();
                     if( !$pms_notifications_instance->is_plugin_page() ) {//add the dismiss button only on other pages in admin

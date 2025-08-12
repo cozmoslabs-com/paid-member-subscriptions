@@ -15,7 +15,7 @@ Class PMS_Member_Subscription {
 
 	public $expiration_date;
 
-	public $status;
+	protected $status;
 
 	public $payment_profile_id;
 
@@ -45,6 +45,38 @@ Class PMS_Member_Subscription {
 
 		$this->set_instance( $data );
 
+	}
+
+    /**
+	 * Handle property access
+	 * Performs additional actions when status property is accessed
+	 * 
+	 * @param string $property - the property name to access
+	 * @return mixed
+	 */
+	public function __get( $property ) {
+
+		if ( property_exists( $this, $property ) ) {
+
+			if ( $property === 'status' ) {
+				return $this->get_status();
+			}
+			
+			return $this->$property;
+		}
+		
+		return null;
+	}
+
+
+	/**
+	 * Magic method to handle isset() checks on properties
+	 * 
+	 * @param string $property - the property name to check
+	 * @return bool
+	 */
+	public function __isset( $property ) {
+		return property_exists( $this, $property );
 	}
 
 
@@ -300,6 +332,38 @@ Class PMS_Member_Subscription {
 
     }
 
+
+    /**
+     * Get the status of the current subscription
+     *
+     * @return string
+     *
+     */
+    public function get_status() {
+
+        if( in_array( $this->status, array( 'active', 'canceled' ) ) ) {
+
+            $expiration_date = strtotime( $this->expiration_date );
+
+            // For PayPal Standard and Express we need to add 24 hours to the current time to account for the delay in the payment processing
+            if( in_array( $this->payment_gateway, array( 'paypal_standard', 'paypal_express' ) ) ) {
+                $expiration_date = $expiration_date + 24 * HOUR_IN_SECONDS;
+            }
+
+            if( !empty( $this->expiration_date ) && $this->expiration_date != '0000-00-00 00:00:00' && $expiration_date < time() ) {
+
+                // Expire the subscription
+                $this->update( array( 'status' => 'expired' ) );
+
+                pms_add_member_subscription_log( $this->id, 'subscription_expired' );
+
+                return $this->status;
+
+            }
+        }
+
+        return $this->status;
+    }
 
 	/**
 	 * Eliminate all values from the provided data array that are not a part of the object

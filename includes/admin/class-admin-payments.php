@@ -31,6 +31,8 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
         // Add Ajax hooks
         add_action( 'wp_ajax_populate_subscription_price', array( $this, 'ajax_populate_subscription_price' ) );
         add_action( 'wp_ajax_check_payment_username', array( $this, 'ajax_check_payment_username' ) );
+        add_action( 'wp_ajax_render_modal_payment_refund', array( $this, 'ajax_render_modal_payment_refund' ) );
+        add_action( 'wp_ajax_pms_process_refund', array( $this, 'ajax_process_refund' ) );
 
         if( isset( $_GET['page'] ) && $_GET['page'] == 'pms-payments-page' )
             add_action( 'current_screen', array( $this, 'load_table' ) );
@@ -66,7 +68,7 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
         }
 
         // Register script to display confirmation message in case of bulk delete
-        wp_register_script( 'pms-payments-bulk-actions-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-payments-page.js', array('jquery'), PMS_VERSION );
+        wp_register_script( 'pms-payments-bulk-actions-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-payments-page.js', array( 'jquery', 'jquery-ui-dialog' ), PMS_VERSION );
         $confirmation_message = array(
             'message'   => __( 'Are you sure you want to delete these Payments? \nThis action is irreversible.', 'paid-member-subscriptions' )
         );
@@ -532,6 +534,162 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
         echo 0;
         wp_die();
+
+    }
+
+    /**
+     * Method that retrieves the refund modal for a specific payment
+     *
+     * @return void
+     */
+    function ajax_render_modal_payment_refund() {
+        $payment_id = isset( $_POST['pms_payment_id'] ) ? absint( $_POST['pms_payment_id'] ) : 0;
+
+        if ( ! $payment_id ) {
+            wp_send_json_error( array( 'message' => __( 'Invalid payment ID', 'paid-member-subscriptions' ) ) );
+        }
+
+        $refund_modal = pms_render_modal_payment_refund( pms_get_payment( $payment_id ) );
+
+        wp_send_json_success( array( 'html' => $refund_modal ) );
+    }
+
+    /**
+     * Method handles the payment refund process
+     *
+     * @return void
+     */
+    function ajax_process_refund() {
+
+        if ( ! isset( $_POST['pmstkn'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['pmstkn'] ), 'pms-payment-refund-token' ) )
+            wp_send_json_error( array( 'message' => __( 'Security check failed.', 'paid-member-subscriptions' ) ) );
+
+        if ( !isset( $_POST['action'] ) || $_POST['action'] !== 'pms_process_refund' )
+            wp_send_json_error( array( 'message' => __( 'Something went wrong! Please try again.', 'paid-member-subscriptions' ) ) );
+
+        $refund_data = isset( $_POST['pms_refund_data'] ) && is_array( $_POST['pms_refund_data'] ) ? array_map( 'sanitize_text_field', $_POST['pms_refund_data'] ) : array();
+        $refund_amount = isset( $refund_data['refund_amount'] ) ? floatval( $refund_data['refund_amount'] ) : 0;
+        $payment_id = isset( $refund_data['payment_id'] ) ? $refund_data['payment_id'] : 0;
+        $payment = pms_get_payment( $payment_id );
+
+        if ( ! $payment->is_valid() || ! $payment->amount )
+            wp_send_json_error( array( 'message' => __( 'No payment found!', 'paid-member-subscriptions' ) ) );
+
+        if ( ! $refund_amount )
+            wp_send_json_error( array( 'message' => __( 'Refund amount not set!', 'paid-member-subscriptions' ) ) );
+
+        if ( $refund_amount > $payment->amount )
+            wp_send_json_error( array( 'message' => __( 'Refund amount cannot exceed the original payment amount.', 'paid-member-subscriptions' ) ) );
+
+        $gateway_slug = isset( $refund_data['payment_gateway'] ) ? $refund_data['payment_gateway'] : false;
+
+        if ( ! $gateway_slug || ! pms_payment_gateways_support( array( $gateway_slug ), 'refunds' ) )
+            wp_send_json_error( array( 'message' => __( 'Payment gateway does not support refunds!', 'paid-member-subscriptions' ) ) );
+
+        $payment_gateway = pms_get_payment_gateway( $gateway_slug );
+        $response = $payment_gateway->process_refund( $payment_id, $refund_amount, $refund_data['refund_note'] );
+
+        if ( isset( $response['success'] ) ) {
+
+            // Store refund ID as payment meta
+            if( !empty( $response['transaction_id'] ) ) {
+                pms_add_payment_meta( $payment_id, $gateway_slug . '_refund_id', $response['transaction_id'] );
+            }
+
+            // Update payment status
+            $payment_status_updated = $payment->update( array( 'status' => 'refunded' ) );
+
+            // Add refund information to payment logs
+            $payment->log_data( 'payment_refunded', array(
+                'desc' => __( 'Payment refund data', 'paid-member-subscriptions' ),
+                'data' => $response )
+            );
+
+            $member_subscription_id = $payment->member_subscription_id;
+            $status_after_refund = isset( $refund_data['subscription_status_after'] ) && $refund_data['subscription_status_after'] !== 'current_status' ? $refund_data['subscription_status_after'] : false;
+
+            // Update Subscription status if requested
+            if ( $payment_status_updated && $status_after_refund && !empty( $member_subscription_id ) )  {
+                $subscription = pms_get_member_subscription( $member_subscription_id );
+
+                // Set the new expiration date
+                if ( $status_after_refund === 'canceled') {
+                    $expiration_date = !empty( $subscription->billing_next_payment ) ? $subscription->billing_next_payment : $subscription->expiration_date;
+                }
+                else {
+                    $expiration_date = date( 'Y-m-d H:i:s' );
+                }
+
+                if ( $subscription ) {
+
+                    // Subscription data to update after refund
+                    $subscription_data = array(
+                        'status'                => $status_after_refund,
+                        'expiration_date'       => $expiration_date,
+                        'billing_duration'      => '',
+                        'billing_duration_unit' => '',
+                        'billing_next_payment'  => NULL,
+                    );
+
+                    /**
+                     * Filter the subscription data before it's updated, after a payment refund
+                     *
+                     * @param string $subscription_data - subscription data that will be updated after a payment refund
+                     *
+                     */
+                    $subscription_data = apply_filters( 'pms_update_subscription_data_after_payment_refund', $subscription_data );
+
+                    // Update subscription status
+                    $subscription->update( $subscription_data );
+
+                    // Log subscription status change after payment refund
+                    pms_add_member_subscription_log( $member_subscription_id, 'subscription_payment_refunded', array(
+                        'new_status' => $subscription_data['status'],
+                        'payment_id' => $payment_id,
+                    ) );
+
+                    // Log subscription expiration date update after payment refund
+                    pms_add_member_subscription_log( $member_subscription_id, 'subscription_payment_refunded_expiration_update', array(
+                        'new_expiration_date' => $subscription_data['expiration_date'],
+                        'payment_id' => $payment_id,
+                    ) );
+
+                    // Mention the Subscription status update in the success message
+                    $response['message'] .= sprintf(
+                        __( ' Member subscription %3$s #%1$s %4$s status updated to "%2$s".', 'paid-member-subscriptions' ),
+                        $subscription->id,
+                        $subscription_data['status'],
+                        '<a href="'. esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'subpage' => 'edit_subscription', 'subscription_id' => $subscription->id ), admin_url( 'admin.php' ) ) ) .'">',
+                        '</a>'
+                    );
+
+                }
+            }
+
+            /**
+             * Action fires after a successful refund
+             *
+             * @param array $response - payment refund data
+             *
+             */
+            do_action( 'pms_payment_refund_success', $response );
+
+            wp_send_json_success( $response );
+
+        }
+        elseif ( isset( $response['error'] ) ) {
+
+            /**
+             * Action fires after a failed refund attempt
+             *
+             * @param string $response - refund failure reason
+             *
+             */
+            do_action( 'pms_payment_refund_failed', $response );
+
+            wp_send_json_error( array( 'message' => $response['error'] ) );
+
+        }
 
     }
 

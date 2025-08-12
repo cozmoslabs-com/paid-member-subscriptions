@@ -51,8 +51,11 @@ function pms_pb_email_confirmation_payment_form( $message ) {
     // if PB autologin is enabled, don't show the form until the user is logged in
     $wppb_general_settings = get_option( 'wppb_general_settings' );
 
-    if( ( ( isset( $wppb_general_settings['automaticallyLogIn'] ) && strcasecmp( $wppb_general_settings['automaticallyLogIn'], 'Yes' ) == 0 ) || strcasecmp( apply_filters( 'wppb_automatically_login_after_register', 'No' ), 'Yes' ) == 0 ) && !is_user_logged_in() )
-        return $message;
+    // If Admin Approval is enabled, the user will not be logged in automatically so we need to bypass this check
+    if( empty( $wppb_general_settings['adminApproval'] ) || $wppb_general_settings['adminApproval'] != 'yes' ) {
+        if( ( ( isset( $wppb_general_settings['automaticallyLogIn'] ) && strcasecmp( $wppb_general_settings['automaticallyLogIn'], 'Yes' ) == 0 ) || strcasecmp( apply_filters( 'wppb_automatically_login_after_register', 'No' ), 'Yes' ) == 0 ) && !is_user_logged_in() )
+            return $message;
+    }
 
     // Get cached user meta-data
     $signup_data = wppb_get_signup_data( $activation_key );

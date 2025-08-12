@@ -25,7 +25,7 @@
             <p><?php esc_html_e( 'New users can choose the subscription plan, enter their name and email and if needed payment details on this page.', 'paid-member-subscriptions' ); ?></p>
         </div>
 
-        <?php if( empty( $this->general_settings['register_page'] ) ) : ?>
+        <?php if( empty( $this->general_settings['register_page'] ) || $this->general_settings['register_page'] == '-1' ) : ?>
             <div class="cozmoslabs-toggle-switch">
                 <div class="cozmoslabs-toggle-container">
                     <input type="checkbox" id="register" name="pms_user_pages[register]" value="1" />
@@ -60,7 +60,7 @@
             <p><?php esc_html_e( 'Once users have an account, they can use the login page to get access to the restricted content you might offer.', 'paid-member-subscriptions' ); ?></p>
         </div>
 
-        <?php if( empty( $this->general_settings['login_page'] ) ) : ?>
+        <?php if( empty( $this->general_settings['login_page'] ) || $this->general_settings['login_page'] == '-1' ) : ?>
             <div class="cozmoslabs-toggle-switch">
                 <div class="cozmoslabs-toggle-container">
                     <input type="checkbox" id="login" name="pms_user_pages[login]" value="1" />
@@ -84,7 +84,7 @@
             <p><?php esc_html_e( 'Through the account page, users can manage existing subscriptions, download invoices and edit their details like first and last name.', 'paid-member-subscriptions' ); ?></p>
         </div>
 
-        <?php if( empty( $this->general_settings['account_page'] ) ) : ?>
+        <?php if( empty( $this->general_settings['account_page'] ) || $this->general_settings['account_page'] == '-1' ) : ?>
             <div class="cozmoslabs-toggle-switch">
                 <div class="cozmoslabs-toggle-container">
                     <input type="checkbox" id="account" name="pms_user_pages[account]" value="1" />
@@ -110,7 +110,7 @@
             <p><?php esc_html_e( 'A simple form where users can reset their password in case they forgot it.', 'paid-member-subscriptions' ); ?></p>
         </div>
 
-        <?php if( empty( $this->general_settings['lost_password_page'] ) ) : ?>
+        <?php if( empty( $this->general_settings['lost_password_page'] ) || $this->general_settings['lost_password_page'] == '-1' ) : ?>
             <div class="cozmoslabs-toggle-switch">
                 <div class="cozmoslabs-toggle-container">
                     <input type="checkbox" id="password-reset" name="pms_user_pages[password-reset]" value="1" />

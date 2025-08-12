@@ -265,26 +265,76 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
             <?php endif; ?>
 
-            <!-- Payment Download Invoice -->
-            <?php if ( $action == 'edit_payment' && function_exists('pms_in_inv_get_generate_invoice_pdf_link') ) :
+            <!-- Payment Actions -->
+            <?php if ( isset( $payment ) && $action == 'edit_payment' ) : ?>
 
-                    // Get generate PDF invoice link
-                    if( pms_in_inv_is_invoice_allowed( $payment_id ) )
-                        $invoice_link = pms_in_inv_get_generate_invoice_pdf_link( $payment_id );
-                    else
-                        $invoice_link = '';
+                <?php
+                if( !empty( $payment->payment_gateway ) && !empty( $payment->transaction_id ) ){
 
-                    if( !empty( $invoice_link ) ){
-                        ?>
-                        <div class="cozmoslabs-form-field-wrapper">
+                    $test_mode = pms_is_payment_test_mode();
 
-                            <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Invoice', 'paid-member-subscriptions' ); ?></label>
-                            <span class="readonly medium"><a target="_blank" href="<?php echo esc_html( $invoice_link ); ?>"><?php echo esc_html( 'Download', 'paid-member-subscriptions' ); ?></a></span>
+                    if( in_array( $payment->payment_gateway, array( 'paypal_connect', 'paypal_standard', 'paypal_express' ) ) ){
+
+                        if( $test_mode ){
+                            $transaction_url = 'https://www.sandbox.paypal.com/activity/payment/' . $payment->transaction_id;
+                        } else {
+                            $transaction_url = 'https://www.paypal.com/activity/payment/' . $payment->transaction_id;
+                        }
+
+                    } else if( in_array( $payment->payment_gateway, array( 'stripe_connect' ) ) ){
+
+                        if( $test_mode ){
+                            $transaction_url = 'https://dashboard.stripe.com/test/payments/' . $payment->transaction_id;
+                        } else {
+                            $transaction_url = 'https://dashboard.stripe.com/payments/' . $payment->transaction_id;
+                        }
+
+                    }
+
+                }
+                ?>
+
+                <?php $invoice_link = ( function_exists('pms_in_inv_get_generate_invoice_pdf_link') && pms_in_inv_is_invoice_allowed( $payment_id ) ) ? pms_in_inv_get_generate_invoice_pdf_link( $payment_id ) : ''; ?>
+
+                <?php if ( !empty( $transaction_url ) || !empty( $invoice_link ) ) : ?>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+
+                        <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Actions', 'paid-member-subscriptions' ); ?></label>
+
+                        <div id="payment-actions">
+
+                            <?php if ( !empty( $transaction_url ) ) : ?>
+
+                                <!-- Payment Transaction URL -->
+                                <a class="pms-transaction-url button button-secondary" href="<?php echo esc_url( $transaction_url ) ?>" target="_blank"><?php esc_html_e( 'View Transaction', 'paid-member-subscriptions' ) ?></a>
+
+                                <?php $payment_status = ( $action == 'edit_payment' ) ? $payment->status : $form_data['pms-payment-status']; ?>
+
+                                <?php if( $payment_status === 'completed' && !empty( $payment->payment_gateway ) && pms_payment_gateways_support( array( $payment->payment_gateway ), 'refunds' ) ) : ?>
+
+                                    <!-- Payment Refund -->
+                                    <a class="pms-refund-payment button button-secondary" data-payment-id="<?php echo esc_attr( $payment->id ); ?>" href="#"><?php esc_html_e( 'Refund Payment', 'paid-member-subscriptions' ) ?></a>
+
+                                <?php endif; ?>
+
+                            <?php endif; ?>
+
+                            <?php if( !empty( $invoice_link ) ) : ?>
+
+                                <!-- Payment Download Invoice -->
+                                <a class="pms-download-invoice button button-secondary" data-payment-id="<?php echo esc_attr( $payment->id ); ?>" href="<?php echo esc_html( $invoice_link ); ?>" target="_blank"><?php esc_html_e( 'Download Invoice', 'paid-member-subscriptions' ) ?></a>
+
+                            <?php endif; ?>
 
                         </div>
-                        <?php
-                    }
-                  endif; ?>
+
+                    </div>
+
+                <?php endif; ?>
+
+
+            <?php endif; ?>
 
             <?php
             if ( $action == 'edit_payment' )
@@ -302,7 +352,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             ?>
 
             <div class="submit">
-<!--                <h3 class="cozmoslabs-subsection-title">--><?php //esc_html_e( 'Update Payment', 'paid-member-subscriptions' ); ?><!--</h3>-->
                 <div class="cozmoslabs-publish-button-group">
                     <?php submit_button( $submit_text, 'primary', $submit_name, false ); ?>
                     <a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-payments-page' ) ); ?>" class="button button-secondary"><?php esc_html_e( 'Go Back', 'paid-member-subscriptions' ); ?></a>

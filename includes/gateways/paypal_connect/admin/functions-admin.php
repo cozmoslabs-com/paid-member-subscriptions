@@ -160,7 +160,7 @@ function pms_ppcp_get_platform_bn_code(){
  */
 function pms_ppcp_get_paypal_unsupported_currencies() {
 
-    $supported_currencies   = array( 'AUD', 'BRL', 'CAD', 'CNY', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'TWD', 'NZD', 'NOK', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'THB', 'USD' );
+    $supported_currencies   = array( 'AUD', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MYR', 'MXN', 'TWD', 'NZD', 'NOK', 'PHP', 'PLN', 'GBP', 'SGD', 'SEK', 'THB', 'USD' );
     $unsupported_currencies = pms_get_currencies();
 
     foreach ( $unsupported_currencies as $currency_code => $currency_name ) {

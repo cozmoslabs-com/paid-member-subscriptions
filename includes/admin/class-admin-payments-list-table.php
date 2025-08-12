@@ -446,11 +446,16 @@ Class PMS_Payments_List_Table extends WP_List_Table {
      */
     public function column_username( $item ) {
 
+        $payment = pms_get_payment( $item['id'] );
+
         // Add row actions
         $actions = array();
 
         // Edit payment row action
         $actions['edit'] = '<a href="' . esc_url( add_query_arg( array( 'pms-action' => 'edit_payment', 'payment_id' => $item['id'] ), admin_url( 'admin.php?page=pms-payments-page' ) ) ) . '">' . esc_html__( 'Edit Payment', 'paid-member-subscriptions' ) . '</a>';
+
+        if ( $item['status'] === 'completed' && !empty( $payment->payment_gateway ) && pms_payment_gateways_support( array( $payment->payment_gateway ), 'refunds' ) )
+            $actions['refund'] = '<a href="#" class="pms-refund-payment" data-payment-id="'. $item['id'] .'" >' . esc_html__( 'Refund', 'paid-member-subscriptions' ) . '</a>';
 
         // Delete row action
         $actions['delete'] = '<a onclick="return confirm( \'' . esc_html__( "Are you sure you want to delete this Payment?", "paid-member-subscriptions" ) . ' \' )" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'delete_payment', 'payment_id' => $item['id'] ) ), 'pms_payment_nonce' ) ) . '">' . esc_html__( 'Delete', 'paid-member-subscriptions' ) . '</a>';
@@ -463,8 +468,6 @@ Class PMS_Payments_List_Table extends WP_List_Table {
          *
          */
         $actions = apply_filters( 'pms_payments_list_table_entry_actions', $actions, $item );
-
-        $payment = pms_get_payment( $item['id'] );
 
         $output  = '<a href="' . esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'member_id' => $payment->user_id, 'subpage' => 'edit_member' ), admin_url( 'admin.php' ) ) ) . '" title="' . __( 'Edit Member', 'paid-member-subscriptions' ) . '">' . $item['username'] . '</a>';
         $output .= $this->row_actions( $actions );
@@ -511,7 +514,7 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
         $payment_statuses = pms_get_payment_statuses();
 
-        $output = apply_filters( 'pms_list_table_' . $this->_args['plural'] . '_show_status_dot', '<span class="pms-status-dot ' . esc_attr( $item['status'] ) . '"></span>' );
+        $output = apply_filters( 'pms_list_table_' . $this->_args['plural'] . '_show_status_dot', '<span class="pms-status-dot ' . esc_attr( $item['status'] ) . '" data-payment-id="'. $item['id'] .'"></span>' );
 
         $output .= ( isset( $payment_statuses[ $item['status'] ] ) ? esc_html( $payment_statuses[ $item['status'] ] ) : $item['status'] );
 

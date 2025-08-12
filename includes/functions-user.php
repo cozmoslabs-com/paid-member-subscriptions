@@ -12,6 +12,16 @@ function pms_get_user_ip_address() {
 
     $ip_address = '';
 
+    if( apply_filters( 'pms_get_user_ip_address_force_remote_address', false ) && !empty( $_SERVER['REMOTE_ADDR'] ) ){
+
+        $ip_address = sanitize_text_field( $_SERVER['REMOTE_ADDR'] );
+
+        if ( filter_var( $ip_address, FILTER_VALIDATE_IP ) !== false ) {
+            return $ip_address;
+        }
+
+    }
+
     foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
         if (array_key_exists($key, $_SERVER) === true) {
             foreach ( array_map('trim', explode( ',', $_SERVER[$key]) ) as $ip ) {//phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized

@@ -202,7 +202,10 @@ Class PMS_Payments_Log_List_Table extends WP_List_Table {
                 $message = sprintf( __( 'Payment has failed. Reason: <strong>%s</strong>', 'paid-member-subscriptions' ), ( !empty( $log['data']['message'] ) ? $log['data']['message'] : 'no information provided by gateway, see details.' ) );
                 break;
             case 'payment_added':
-                $message = sprintf( __( 'Payment created manually by <strong>%s<strong>.', 'paid-member-subscriptions' ), $this->get_display_name( $log['data']['user'] ) );
+                $message = sprintf( __( 'Payment created manually by <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->get_display_name( $log['data']['user'] ) );
+                break;
+            case 'payment_refunded':
+                $message = sprintf( __( 'Payment refunded by <strong>%1$s</strong>. %2$s', 'paid-member-subscriptions' ), $this->get_display_name( $log['data']['data']['refunded_by'] ), ( !empty( $log['data']['data']['reason'] ) ? __( 'Note: ', 'paid-member-subscriptions' ) . $log['data']['data']['reason'] : '' ) );
                 break;
             case 'status_changed':
                 $message = sprintf( __( 'Payment status changed from <strong>%1$s</strong> to <strong>%2$s</strong>', 'paid-member-subscriptions' ), ucwords( $log['data']['old_data']['status'] ), ucwords( $log['data']['new_data']['status'] ) );
@@ -410,6 +413,9 @@ Class PMS_Payments_Log_List_Table extends WP_List_Table {
             return true;
         //Payment Updated
         else if ( !empty( $data['new_data'] ) && !empty( $data['old_data'] ) )
+            return true;
+        //Payment Refunded
+        else if ( !empty( $data['response']['refunded_by'] ) )
             return true;
         //Default data structure
         else if ( !empty( $data['data'] ) )

@@ -3097,6 +3097,58 @@ body[class*="_page_pms-"] #screen-meta {
     margin-left: 20px;
 }
 
+/* Payment Refund Modal */
+.ui-dialog[aria-describedby^='pms-modal-payment-refund'] .ui-widget-header {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #dcdcde;
+}
+
+.ui-dialog[aria-describedby^='pms-modal-payment-refund'] .ui-button,
+.ui-dialog[aria-describedby^='pms-modal-payment-refund'] .ui-button:focus,
+.ui-dialog[aria-describedby^='pms-modal-payment-refund'] .ui-button:hover {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.pms-refund-modal__payment-details,
+.pms-refund-modal__refund_settings{
+    margin: 35px 0;
+}
+
+.pms-refund-modal__payment-details .pms-modal__fullrow {
+    margin-bottom: 16px;
+    padding-left: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.pms-refund-modal__payment-details .pms-modal__fullrow label {
+    min-width: 150px;
+}
+
+.pms-refund-modal__refund_settings .cozmoslabs-form-field-wrapper {
+    padding-left: 16px;
+    margin-top: 0 !important;
+    margin-bottom: 16px;
+}
+
+#payment-actions,
+.pms-modal__bottom .pms-modal__button-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.pms-modal__bottom .pms-modal__button-group {
+    padding: 20px 10px;
+}
 
 /***********************************************************/
 /* Position Save/Publish buttons container

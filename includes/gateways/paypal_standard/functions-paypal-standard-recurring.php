@@ -1003,7 +1003,7 @@ function pms_in_ppsrp_cancel_subscription_on_api_subscription_cancelation( $id, 
     if( empty( $old_data['payment_profile_id'] ) || !pms_is_paypal_payment_profile_id( $old_data['payment_profile_id'] ) )
         return;
 
-    if( !empty( $data['status'] ) && ( $data['status'] == 'canceled' ||  $data['status'] == 'abandoned' ) && $data['status'] != $old_data )
+    if( !empty( $data['status'] ) && in_array( $data['status'], [ 'canceled', 'abandoned', 'expired' ] ) && $data['status'] != $old_data )
         pms_in_api_cancel_paypal_subscription( $old_data['payment_profile_id'], 'cancel', 'Subscription canceled because an admin deleted the user from the website.' );
 
 }

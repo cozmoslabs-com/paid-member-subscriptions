@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.15.8
+ * Version: 2.15.9
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.15.8' );
+        define( 'PMS_VERSION', '2.15.9' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -278,14 +278,14 @@ Class Paid_Member_Subscriptions {
 
                 if( pms_get_serial_number() === false ){
 
-                    echo '<br />' . wp_kses_post( sprintf( __('To enable updates, please enter your serial number on the %sSettings%s page. If you don\'t have a serial number, please see %sdetails & pricing%s.', 'paid-member-subscriptions' ), '<a href="'. esc_url( admin_url('admin.php?page=pms-settings-page') ). '">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
+                    echo '<br />' . wp_kses_post( sprintf( __('To enable updates, please enter your serial number on the %sSettings%s page. If you don\'t have a serial number, you can %sbuy one now%s.', 'paid-member-subscriptions' ), '<a href="'. esc_url( admin_url('admin.php?page=pms-settings-page') ). '">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
 
                 } else {
 
                     $serial_number_status = pms_get_serial_number_status();
 
-                    if( $serial_number_status == 'expired' )
-                        echo '<br />' . wp_kses_post( sprintf( __('To enable updates, your licence needs to be renewed. Please go to the <a href="%s" target="_blank">Cozmoslabs Account</a> page and login to renew.', 'paid-member-subscriptions' ), 'https://www.cozmoslabs.com/account/?utm_source=wpbackend&utm_medium=pms-plugins-page&utm_campaign=PMSPro' ) );
+                    if( $serial_number_status != 'valid' )
+                        echo '<br />' . wp_kses_post( sprintf( __('To enable updates, you need an active license. %1$sRenew%2$s or %3$spurchase a new license%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
 
                 }
 

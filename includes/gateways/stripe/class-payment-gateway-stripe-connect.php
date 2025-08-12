@@ -89,6 +89,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             'change_subscription_payment_method_admin',
             'update_payment_method',
             'billing_cycles',
+            'refunds'
         );
 
         // don't add any hooks if the gateway is not active
@@ -643,6 +644,121 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         // the payment has failed
         return false;
+    }
+
+    /**
+     * Process the payment refund
+     *
+     * @param $payment_id - the ID of the payment
+     * @param $amount     - the amount to be refunded
+     * @param $reason     - refund reason
+     *
+     * @return array
+     */
+    public function process_refund( $payment_id = 0, $amount = 0, $reason = '' ) {
+
+        if( empty( $this->secret_key ) ) {
+            return array( 'error' => esc_html__( 'Stripe API key not configured.', 'paid-member-subscriptions' ) );
+        }
+
+        if( empty( $payment_id ) || empty( $amount ) ) {
+            return array( 'error' => esc_html__( 'Invalid payment ID or amount.', 'paid-member-subscriptions' ) );
+        }
+
+        // Get payment
+        $payment = pms_get_payment( $payment_id );
+
+        if( !$payment || !$payment->is_valid() ) {
+            return array( 'error' => esc_html__( 'Payment not found.', 'paid-member-subscriptions' ) );
+        }
+
+        if( empty( $payment->transaction_id ) ) {
+            return array( 'error' => esc_html__( 'No transaction ID found for this payment.', 'paid-member-subscriptions' ) );
+        }
+
+        try {
+
+            // Add connected account if available
+            $stripe_options = array();
+            if( !empty( $this->connected_account ) ) {
+                $stripe_options['stripe_account'] = $this->connected_account;
+            }
+
+            // Convert amount to cents for Stripe
+            $payment_currency = !empty( $payment->currency ) ? strtoupper( $payment->currency ) : pms_get_active_currency();
+            $refund_amount = $this->process_amount( $amount, $payment_currency );
+
+            $refund_data = array(
+                'payment_intent' => $payment->transaction_id,
+                'amount'         => $refund_amount,
+            );
+
+            // Get the user who initiated the refund
+            $user = wp_get_current_user();
+
+            // Add reason if provided
+            if( !empty( $reason ) ) {
+                $refund_data['reason'] = 'requested_by_customer';
+                $refund_data['metadata'] = array(
+                    'reason'      => $reason,
+                    'refunded_by' => $user->user_email
+                );
+            }
+
+            // Create refund via Stripe client
+            $refund = $this->stripe_client->refunds->create( $refund_data, $stripe_options );
+
+            if( $refund && $refund->status === 'succeeded' ) {
+
+                return array(
+                    'success'         => true,
+                    'message'         => esc_html__( 'Payment refunded successfully!', 'paid-member-subscriptions' ),
+                    'payment_id'      => $payment_id,
+                    'payment_gateway' => $payment->payment_gateway,
+                    'transaction_id'  => $refund->id,
+                    'user_id'         => $payment->user_id,
+                    'amount'          => $amount,
+                    'currency'        => $payment_currency,
+                    'refunded_by'     => $user->ID,
+                    'reason'          => $reason,
+                );
+
+            } else {
+                return array( 'error' => esc_html__( 'Refund was not successful!', 'paid-member-subscriptions' ) );
+            }
+
+        } catch( \Stripe\Exception\InvalidRequestException $e ) {
+
+            $stripe_error = $e->getMessage();
+
+            // Handle refund process errors
+            if( strpos( $stripe_error, 'already been refunded' ) !== false ) {
+
+                $error_message = __( '<strong>Stripe:</strong> This payment has already been refunded.', 'paid-member-subscriptions' );
+
+            } elseif( strpos( $stripe_error, 'No such charge' ) !== false ) {
+
+                $error_message = __( '<strong>Stripe:</strong> The payment transaction was not found.', 'paid-member-subscriptions' );
+
+            } elseif( strpos( $stripe_error, 'No such payment_intent' ) !== false ) {
+
+                $error_message = __( '<strong>Stripe:</strong> The payment intent was not found.', 'paid-member-subscriptions' );
+
+            } else {
+
+                $error_message = sprintf( __( '<strong>Stripe:</strong> %s', 'paid-member-subscriptions' ), $stripe_error );
+
+            }
+
+            return array( 'error' => wp_kses_post( $error_message ) );
+
+        } catch( Exception $e ) {
+
+            $this->log_error_data( $e );
+
+            return array( 'error' => wp_kses_post( sprintf( __( '<strong>Stripe:</strong> %s', 'paid-member-subscriptions' ), $e->getMessage() ) ) );
+
+        }
     }
 
     // Fixes amount issue for zero decimal currencies

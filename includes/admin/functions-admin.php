@@ -478,13 +478,13 @@ function pms_maybe_replace_back_end_buttons() {
             if( $license_status == 'missing' ) {
                 $pointer_content .= '<p>' . sprintf( __( 'Please %1$senter your license key%2$s first, to add new Content Dripping sets.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) . '</p>';
             } else {
-                $pointer_content .= '<p>' . sprintf( __( 'You need an active license to add new Content Dripping. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-content-dripping&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-content-dripping&utm_medium=client-site&utm_campaign=pms-multi-content-dripping-addon#pricing" target="_blank">', '</a>' ) . '</p>';
+                $pointer_content .= '<p>' . sprintf( __( 'You need an active license to add new Content Dripping. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-content-drip&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-content-drip&utm_medium=client-site&utm_campaign=pms-content-drip-addon#pricing" target="_blank">', '</a>' ) . '</p>';
             }
         } else if( $current_slug === 'pms-email-reminders' ) {
             if( $license_status == 'missing' ) {
                 $pointer_content .= '<p>' . sprintf( __( 'Please %1$senter your license key%2$s first, to add new Email Reminders.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) . '</p>';
             } else {
-                $pointer_content .= '<p>' . sprintf( __( 'You need an active license to add new Email Reminders. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-email-reminders&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-email-reminders&utm_medium=client-site&utm_campaign=pms-multi-email-reminders-addon#pricing" target="_blank">', '</a>' ) . '</p>';
+                $pointer_content .= '<p>' . sprintf( __( 'You need an active license to add new Email Reminders. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-email-reminders&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-email-reminders&utm_medium=client-site&utm_campaign=pms-email-reminders-addon#pricing" target="_blank">', '</a>' ) . '</p>';
             }
         }
 
@@ -553,10 +553,10 @@ function pms_maybe_replace_back_end_buttons() {
             $pointer_content_pwyw .= '<p>' . sprintf( __( 'Please %1$senter your license key%2$s first, to configure Pay What You Want plans.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) . '</p>';
             $pointer_content_ld   .= '<p>' . sprintf( __( 'Please %1$senter your license key%2$s first, to configure LearnDash course access.', 'paid-member-subscriptions' ), '<a href="'. admin_url( 'admin.php?page=pms-settings-page' ) .'">', '</a>' ) . '</p>';
         } else {
-            $pointer_content_gcr  .= '<p>' . sprintf( __( 'You need an active license to add new Global Content Restriction rules. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-global-content-restriction&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-global-content-restriction&utm_medium=client-site&utm_campaign=pms-global-content-restriction-settings#pricing" target="_blank">', '</a>' ) . '</p>';
-            $pointer_content_fxp  .= '<p>' . sprintf( __( 'You need an active license to configure Fixed Membership plans. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-fixed-membership&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-fixed-membership&utm_medium=client-site&utm_campaign=pms-fixed-membership-settings#pricing" target="_blank">', '</a>' ) . '</p>';
-            $pointer_content_pwyw .= '<p>' . sprintf( __( 'You need an active license to configure Pay What You Want plans. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-pay-what-you-want&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-pay-what-you-want&utm_medium=client-site&utm_campaign=pms-pay-what-you-want-settings#pricing" target="_blank">', '</a>' ) . '</p>';
-            $pointer_content_ld   .= '<p>' . sprintf( __( 'You need an active license to configure LearnDash course access. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-learndash&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-learndash&utm_medium=client-site&utm_campaign=pms-learndash-settings#pricing" target="_blank">', '</a>' ) . '</p>';
+            $pointer_content_gcr  .= '<p>' . sprintf( __( 'You need an active license to add new Global Content Restriction rules. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-subscriptions-global-restriction&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-subscriptions-global-restriction&utm_medium=client-site&utm_campaign=pms-global-restriction-addon#pricing" target="_blank">', '</a>' ) . '</p>';
+            $pointer_content_fxp  .= '<p>' . sprintf( __( 'You need an active license to configure Fixed Membership plans. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-subscriptions-fixed&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-subscriptions-fixed&utm_medium=client-site&utm_campaign=pms-fixed-membership-addon#pricing" target="_blank">', '</a>' ) . '</p>';
+            $pointer_content_pwyw .= '<p>' . sprintf( __( 'You need an active license to configure Pay What You Want plans. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-subscriptions-pay-what-you-want&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-subscriptions-pay-what-you-want&utm_medium=client-site&utm_campaign=pms-pay-what-you-want-addon#pricing" target="_blank">', '</a>' ) . '</p>';
+            $pointer_content_ld   .= '<p>' . sprintf( __( 'You need an active license to configure LearnDash course access. %1$sRenew%2$s or %3$spurchase a new one%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-subscriptions-learndash&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-subscriptions-learndash&utm_medium=client-site&utm_campaign=pms-learndash-addon#pricing" target="_blank">', '</a>' ) . '</p>';
         }
 
         if( $license_status != 'valid' ) {
@@ -872,6 +872,113 @@ function pms_output_modal_style_pricing_page(){
     <?php
 }
 
+/**
+ * Function returns the refund modal HTML for a specific payment
+ *
+ */
+function pms_render_modal_payment_refund( $payment ){
+    $payment_gateways = pms_get_payment_gateways();
+    $payment_gateway_name = isset( $payment_gateways[$payment->payment_gateway] ) ? $payment_gateways[$payment->payment_gateway]['display_name_admin'] : '';
+
+    ob_start();
+
+    ?>
+
+    <div id="pms-modal-payment-refund" class="pms-refund-modal" title="<?php echo esc_html__( 'Refund Payment #', 'paid-member-subscriptions' ) . esc_attr( $payment->id ); ?>">
+        <div class="pms-modal__holder">
+            <p class="cozmoslabs-description">
+                <?php esc_html_e( 'Refunding this payment will create a negative transaction, reversing all or part of the original payment amount. This action is permanent and cannot be undone. Please confirm the refund details below before proceeding', 'paid-member-subscriptions' ); ?>
+            </p>
+
+            <div class="pms-refund-modal__payment-details">
+                <h3><?php esc_html_e( 'Payment Details', 'paid-member-subscriptions' ); ?></h3>
+
+                <div class="pms-modal__fullrow pms-modal__payment-id">
+                    <label class="pms-modal__label"><?php esc_html_e( 'Payment ID: ', 'paid-member-subscriptions' ); ?></label>
+                    <strong><?php echo esc_attr( $payment->id ); ?></strong>
+                </div>
+
+                <div class="pms-modal__fullrow pms-modal__payment-date">
+                    <label class="pms-modal__label"><?php esc_html_e( 'Payment Date: ', 'paid-member-subscriptions' ); ?></label>
+                    <strong><?php echo esc_attr( $payment->date ); ?></strong>
+                </div>
+
+                <div class="pms-modal__fullrow pms-modal__payment-amount">
+                    <label class="pms-modal__label"><?php esc_html_e( 'Payment Amount: ', 'paid-member-subscriptions' ); ?></label>
+                    <strong><?php echo esc_attr( pms_format_price( $payment->amount, $payment->currency ) ) ?></strong>
+                </div>
+
+                <div class="pms-modal__fullrow pms-modal__payment-gateway">
+                    <label class="pms-modal__label"><?php esc_html_e( 'Payment Gateway: ', 'paid-member-subscriptions' ); ?></label>
+                    <strong><?php echo esc_attr( $payment_gateway_name ) ?></strong>
+                </div>
+            </div>
+
+            <form id="pms-payment-refund-form">
+                <div class="pms-refund-modal__refund_settings">
+                    <h3><?php esc_html_e( 'Refund Settings', 'paid-member-subscriptions' ); ?></h3>
+
+                    <div class="cozmoslabs-form-field-wrapper pms-modal__refund-amount">
+                        <label class="cozmoslabs-form-field-label pms-modal__label" for="pms-refund-amount">
+                            <?php esc_html_e( 'Refund Amount', 'paid-member-subscriptions' ); ?>
+                        </label>
+                        <input type="number" id="pms-refund-amount" name="pms_refund_data[refund_amount]" value="" placeholder="<?php echo esc_attr( $payment->amount ); ?>" min="0" max="<?php echo esc_attr( $payment->amount ); ?>" step="0.001" required>
+
+                        <p class="cozmoslabs-description cozmoslabs-description-space-left">
+                            <?php esc_html_e( 'Enter the amount you want to refund.', 'paid-member-subscriptions' ); ?>
+                            <?php esc_html_e( 'The refund amount cannot exceed the payment amount.', 'paid-member-subscriptions' ); ?>
+                        </p>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper pms-modal__refund-note">
+                        <label class="cozmoslabs-form-field-label pms-modal__label" for="pms-refund-note">
+                            <?php esc_html_e( 'Refund Note', 'paid-member-subscriptions' ); ?>
+                        </label>
+                        <input type="text" id="pms-refund-note" name="pms_refund_data[refund_note]" value="" placeholder="<?php esc_html_e( 'Refund reason', 'paid-member-subscriptions' ); ?>">
+
+                        <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Enter a refund reason/note.', 'paid-member-subscriptions' ); ?></p>
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper pms-modal__refund-subscription-status-after">
+                        <label class="cozmoslabs-form-field-label pms-modal__label" for="pms-refund-subscription-status-after">
+                            <?php esc_html_e( 'Subscription Status After Refund', 'paid-member-subscriptions' ); ?>
+                        </label>
+
+                        <select id="pms-refund-subscription-status-after" name="pms_refund_data[subscription_status_after]" required>
+                            <option value="current_status"><?php esc_html_e( 'Keep Current Status', 'paid-member-subscriptions' ); ?></option>
+                            <option value="expired"><?php esc_html_e( 'Expire Subscription', 'paid-member-subscriptions' ); ?></option>
+                            <option value="canceled"><?php esc_html_e( 'Cancel Subscription', 'paid-member-subscriptions' ); ?></option>
+                        </select>
+
+                        <p class="cozmoslabs-description cozmoslabs-description-space-left">
+                            <?php esc_html_e( 'Choose what should happen to the user\'s subscription after the refund.', 'paid-member-subscriptions' ); ?>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pms-modal__bottom">
+                    <input type="hidden" name="pmstkn" value="<?php echo esc_attr( wp_create_nonce( 'pms-payment-refund-token' ) ) ?>" />
+                    <input type="hidden" name="pms_refund_data[payment_id]" data-payment-id="<?php echo esc_attr( $payment->id ); ?>" value="<?php echo esc_attr( $payment->id ); ?>" />
+                    <input type="hidden" name="pms_refund_data[payment_gateway]" data-payment-gateway="<?php echo esc_attr( $payment->payment_gateway ); ?>" value="<?php echo esc_attr( $payment->payment_gateway ); ?>" />
+
+                    <div class="pms-modal__button-group">
+                        <button type="submit"  class="button button-primary pms-modal__save" style="height: 40px;">
+                            <?php esc_html_e( 'Refund Payment', 'paid-member-subscriptions' ) ?>
+                        </button>
+
+                        <button type="button"  class="button button-secondary pms-modal__cancel">
+                            <?php esc_html_e( 'Cancel', 'paid-member-subscriptions' ) ?>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <?php
+
+    return ob_get_clean();
+}
 
 /**
  * Output the Billing Cycles information for the Subscription Plan -> Renewal option
@@ -1002,7 +1109,7 @@ function pms_tax_upsell( $output, $active_tab, $options ){
     if( $license_status === 'missing' ){
         $message = sprintf( esc_html__( 'To use the %1$sTax%2$s add-on, you need to %3$senter your license key%4$s first.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'.admin_url( 'admin.php?page=pms-settings-page' ).'">', '</a>' );
     } else {
-        $message = sprintf( esc_html__( 'You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-tax&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-tax&utm_medium=client-site&utm_campaign=pms-tax-settings#pricing" target="_blank">', '</a>' );
+        $message = sprintf( esc_html__( 'You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-tax&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-tax&utm_medium=client-site&utm_campaign=pms-tax-addon#pricing" target="_blank">', '</a>' );
     }
 
     ob_start();
@@ -1043,7 +1150,7 @@ function pms_invoices_upsell( $output, $active_tab, $options ){
     if( $license_status === 'missing' ){
         $message = sprintf( esc_html__( 'To use the %1$sInvoices%2$s add-on, you need to %3$senter your license key%4$s first.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'.admin_url( 'admin.php?page=pms-settings-page' ).'">', '</a>' );
     } else {
-        $message = sprintf( esc_html__( 'You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-invoices&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-invoices&utm_medium=client-site&utm_campaign=pms-invoices-settings#pricing" target="_blank">', '</a>' );
+        $message = sprintf( esc_html__( 'You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-invoices&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-invoices&utm_medium=client-site&utm_campaign=pms-invoices-addon#pricing" target="_blank">', '</a>' );
     }
 
     ob_start();
@@ -1083,7 +1190,7 @@ function pms_multiple_currencies_upsell(){
     if( $license_status === 'missing' ){
         $message = sprintf( esc_html__( 'To use the %1$sMultiple Currencies%2$s add-on, you need to %3$senter your license key%4$s first.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'.admin_url( 'admin.php?page=pms-settings-page' ).'">', '</a>' );
     } else {
-        $message = sprintf( esc_html__( 'You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-multiple-currencies&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-multiple-currencies&utm_medium=client-site&utm_campaign=pms-multiple-currencies-settings#pricing" target="_blank">', '</a>' );
+        $message = sprintf( esc_html__( 'You need an active license to configure this add-on. %1$sRenew%2$s or purchase a new one %3$shere%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=pms-multiple-currencies&utm_medium=client-site&utm_campaign=pms-expired-license" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-multiple-currencies&utm_medium=client-site&utm_campaign=pms-multiple-currencies-addon#pricing" target="_blank">', '</a>' );
     }
         
     ?>

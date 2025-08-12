@@ -515,6 +515,8 @@ jQuery( function($) {
 
             $(document).on( "wppbRemoveRequiredAttributeEvent", pmsHandleGatewaysDisplayRemove )
             $(document).on( "wppbAddRequiredAttributeEvent", pmsHandleGatewaysDisplayShow )
+            $(document).on( "wppb_msf_next_step", pmsHandleGatewaysDisplayRemove )
+            $(document).on( "wppb_msf_next_step", pmsHandleGatewaysDisplayShow )
 
             function pmsHandleGatewaysDisplayRemove( event = '' ) {
 
@@ -522,36 +524,39 @@ jQuery( function($) {
                     return
 
                 if( event != '' ){
-                    var element = event.target
 
-                    if ( typeof $(element).attr('conditional-name') == 'undefined' || $(element).attr('conditional-name') != 'subscription_plans' )
-                        return
+                    if( event.type && event.type != 'wppb_msf_next_step' ){
+                        var element = event.target
+
+                        if ( typeof $(element).attr('conditional-name') == 'undefined' || $(element).attr('conditional-name') != 'subscription_plans' )
+                            return
+                    }
+
                 }
 
                 var visible_plans = false
 
-                $('.wppb-subscription-plans').each( function( index, item ){
+                $('.wppb-subscription-plans').each( function (index, item) {
 
-                    if( $( item ).is( ':visible' ) ){
+                    var only_free_plans = true
 
-                        var only_free_plans = true
+                    var $checked = $('.pms-subscription-plan input[type=radio]:checked', $(item))
 
-                        $( '.pms-subscription-plan input[name="subscription_plans"]', $( item ) ).each( function( index, item ){
-
-                            if( $( item ).data('price') && $( item ).data('price') > 0 ){
-                                only_free_plans = false
-                                return false
-                            }
-
-                        })
-
-                        if( only_free_plans )
-                            visible_plans = false
-                        else
-                            visible_plans = true
-
+                    // Check if field is hidden via conditional logic
+                    if ( $checked.attr('conditional-name') === 'subscription_plans' ) {
                         return false
                     }
+
+                    if ( $checked.data('price') && $checked.data('price') > 0 ) {
+                        only_free_plans = false
+                    }
+
+                    if ( only_free_plans )
+                        visible_plans = false
+                    else
+                        visible_plans = true
+
+                    return false
 
                 })
 
@@ -566,7 +571,9 @@ jQuery( function($) {
 
                     $('.pms-price-breakdown__holder').hide()
 
-                    $('input[type="submit"], button[type="submit"]', $(element).closest( '.pms-form, .wppb-register-user' ) ).show()
+                    if(typeof element != 'undefined' && element.length > 0 ){
+                        $('input[type="submit"], button[type="submit"]', $(element).closest( '.pms-form, .wppb-register-user' ) ).show()
+                    }
 
                 } else {
                     pmsHandleDefaultWPPBFormSelectedPlanOnLoad()
@@ -577,36 +584,37 @@ jQuery( function($) {
             function pmsHandleGatewaysDisplayShow(event = '') {
 
                 if (event != '') {
-                    var element = event.target
+                    if( event.type && event.type != 'wppb_msf_next_step' ){
+                        var element = event.target
 
-                    if (typeof $(element).attr('conditional-name') == 'undefined' || $(element).attr('conditional-name') != 'subscription_plans')
-                        return
+                        if ( typeof $(element).attr('conditional-name') == 'undefined' || $(element).attr('conditional-name') != 'subscription_plans' )
+                            return
+                    }
                 }
 
                 var visible_plans = false
 
-                $('.wppb-subscription-plans').each(function (index, item) {
+                $('.wppb-subscription-plans').each( function (index, item) {
 
-                    if ($(item).is(':visible')) {
+                    var only_free_plans = true
 
-                        var only_free_plans = true
+                    var $checked = $('.pms-subscription-plan input[type=radio]:checked', $(item) )
 
-                        $('.pms-subscription-plan', $(item)).each(function (index, plan) {
-
-                            if ($('input', $(plan)).data('price') && $('input', $(plan)).data('price') > 0) {
-                                only_free_plans = false
-                                return false
-                            }
-
-                        })
-
-                        if (only_free_plans)
-                            visible_plans = false
-                        else
-                            visible_plans = true
-
+                    // Check if field is hidden via conditional logic
+                    if ( $checked.attr('conditional-name') === 'subscription_plans' ) {
                         return false
                     }
+
+                    if ( $checked.data('price') && $checked.data('price' ) > 0) {
+                        only_free_plans = false
+                    }
+
+                    if ( only_free_plans )
+                        visible_plans = false
+                    else
+                        visible_plans = true
+
+                    return false
 
                 })
 
@@ -621,7 +629,9 @@ jQuery( function($) {
 
                     $('.pms-price-breakdown__holder').hide()
 
-                    $('input[type="submit"], button[type="submit"]', $(element).closest( '.pms-form, .wppb-register-user' ) ).show()
+                    if(typeof element != 'undefined' && element.length > 0 ){
+                        $('input[type="submit"], button[type="submit"]', $(element).closest( '.pms-form, .wppb-register-user' ) ).show()
+                    }
 
                 } else {
 
