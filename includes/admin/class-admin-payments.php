@@ -561,6 +561,9 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
      */
     function ajax_process_refund() {
 
+        if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'pms_edit_capability' ) )
+            wp_send_json_error( array( 'message' => __( 'You do not have the required capabilities to perform this action.', 'paid-member-subscriptions' ) ) );
+
         if ( ! isset( $_POST['pmstkn'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['pmstkn'] ), 'pms-payment-refund-token' ) )
             wp_send_json_error( array( 'message' => __( 'Security check failed.', 'paid-member-subscriptions' ) ) );
 

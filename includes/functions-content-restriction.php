@@ -449,7 +449,7 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
     add_action( 'pre_get_posts', 'pmsc_exclude_post_from_query', 40 );
     function pmsc_exclude_post_from_query( $query ) {
 
-        if( !function_exists( 'pms_is_post_restricted' ) || is_admin() || is_singular() )
+        if( !function_exists( 'pms_is_post_restricted' ) || is_admin() )
             return;
 
         if( isset( $query->query_vars['wc_query'] ) && $query->query_vars['wc_query'] == 'product_query' )

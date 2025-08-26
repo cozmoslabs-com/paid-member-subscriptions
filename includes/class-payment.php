@@ -61,7 +61,7 @@ Class PMS_Payment {
      * Payment amount
      *
      * @access public
-     * @var int
+     * @var float
      */
     public $amount;
 

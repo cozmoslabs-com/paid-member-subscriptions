@@ -2322,6 +2322,10 @@ Class PMS_Form_Handler {
                         $subscription_data['billing_duration_unit'] = '';
                     }
 
+                    if( in_array( $subscription_data['payment_gateway'], array( 'stripe_connect', 'paypal_connect' ) ) ){
+                        $subscription_data['payment_profile_id'] = '';
+                    }
+
                     $subscription->update( $subscription_data );
 
                     do_action( 'pms_psp_after_'. $form_location, $subscription, isset( $payment ) ? $payment : 0 );
@@ -2355,7 +2359,15 @@ Class PMS_Form_Handler {
                         $subscription_data['expiration_date']      = $expiration_date;
                     }
 
+                    if( in_array( $subscription_data['payment_gateway'], array( 'stripe_connect', 'paypal_connect' ) ) ){
+                        $subscription_data['payment_profile_id'] = '';
+                    }
+
                     $subscription->update( $subscription_data );
+
+                    if( !empty( $payment ) && !empty( $payment->id ) ){
+                        pms_update_member_subscription_meta( $subscription->id, 'pms_subscription_renewal_' . $payment->id, 'finished' );
+                    }
 
                     pms_add_member_subscription_log( $subscription->id, 'subscription_renewed_manually', array( 'until' => $expiration_date ) );
 

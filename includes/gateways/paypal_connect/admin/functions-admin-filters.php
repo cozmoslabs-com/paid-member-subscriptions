@@ -34,7 +34,7 @@ function pms_ppcp_add_settings_content( $options ){
 
                     if( empty( $paypal_credentials['client_id'] ) || empty( $paypal_credentials['client_secret'] ) ) :
                         $paypal_url = pms_ppcp_get_paypal_connect_url();
-                        $ajax_nonce = wp_create_nonce('pms_paypal_connect_onboarding_nonce');
+                        $ajax_nonce = wp_create_nonce( 'pms_paypal_connect_onboarding_nonce' );
 
                         echo '<a id="pms-paypal-connect-onboarding" class="cozmoslabs-paypal-connect__button" target="_blank" data-paypal-onboard-complete="pms_ppcp_connect_callback" href="'. esc_url( $paypal_url ) .'" data-paypal-button="true" data-ajax-nonce="'. esc_attr( $ajax_nonce ) .'"><img src="' . esc_attr( PMS_PLUGIN_DIR_URL ) . 'includes/gateways/paypal_connect/assets/img/paypal-connect.png" /></a>';
                         echo '<p class="cozmoslabs-description">'
@@ -45,9 +45,10 @@ function pms_ppcp_add_settings_content( $options ){
 
                     else :
 
-                        $merchant_status = pms_ppcp_get_merchant_status();
-                        $vaulting_status = pms_ppcp_vaulting_status( $merchant_status );
+                        $merchant_status      = pms_ppcp_get_merchant_status();
+                        $vaulting_status      = pms_ppcp_vaulting_status( $merchant_status );
                         $is_payment_test_mode = pms_is_payment_test_mode();
+                        $disconnect_nonce     = wp_create_nonce( 'pms_paypal_connect_disconnect_nonce' );
 
                         // connection status
                         echo '<div class="cozmoslabs-form-field-wrapper">';
@@ -215,7 +216,7 @@ function pms_ppcp_add_settings_content( $options ){
 
                             echo '<label class="cozmoslabs-form-field-label">' . esc_html__( 'Disconnect', 'paid-member-subscriptions' ) . '</label>';
 
-                            echo '<a class="pms-paypal-connect__disconnect-handler button-secondary" href="#">Disconnect</a>';
+                            echo '<a class="pms-paypal-connect__disconnect-handler button-secondary" href="#" data-ajax-nonce="'. esc_attr( $disconnect_nonce ) .'">Disconnect</a>';
 
                             echo '<p class="cozmoslabs-description cozmoslabs-description-align-right">' . esc_html__( 'Disconnecting your account will stop all payments from being processed.', 'paid-member-subscriptions' ) . '</p>';
 
@@ -298,15 +299,22 @@ function pms_ppcp_process_onboarding(){
  *
  */
 add_action( 'wp_ajax_pms_ppcp_disconnect_paypal', 'pms_ppcp_disconnect_paypal' );
-add_action( 'wp_ajax_nopriv_pms_ppcp_disconnect_paypal', 'pms_ppcp_disconnect_paypal' );
 function pms_ppcp_disconnect_paypal(){
-    $paypal_credentials = pms_ppcp_get_api_credentials();
 
-    if( empty( $paypal_credentials['payer_id'] ) )
-        die();
+    check_ajax_referer( 'pms_paypal_connect_disconnect_nonce', 'ajaxNonce' );
 
-    $gateway = pms_get_payment_gateway( 'paypal_connect' );
-    $gateway->disconnect_paypal_merchant( $paypal_credentials );
+    if( current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' ) ){
+
+        $paypal_credentials = pms_ppcp_get_api_credentials();
+    
+        if( empty( $paypal_credentials['payer_id'] ) )
+            die();
+    
+        $gateway = pms_get_payment_gateway( 'paypal_connect' );
+        $gateway->disconnect_paypal_merchant( $paypal_credentials );
+
+    }
+
 }
 
 /**

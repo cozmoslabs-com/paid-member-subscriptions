@@ -2041,7 +2041,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
         $access_token = $this->get_access_token();
         
         if( empty( $access_token ) )
-            return false;
+            return [];
 
         // Generate a unique request ID
         $request_id = wp_generate_password( 32, false );

@@ -454,7 +454,7 @@ Class PMS_Payments_List_Table extends WP_List_Table {
         // Edit payment row action
         $actions['edit'] = '<a href="' . esc_url( add_query_arg( array( 'pms-action' => 'edit_payment', 'payment_id' => $item['id'] ), admin_url( 'admin.php?page=pms-payments-page' ) ) ) . '">' . esc_html__( 'Edit Payment', 'paid-member-subscriptions' ) . '</a>';
 
-        if ( $item['status'] === 'completed' && !empty( $payment->payment_gateway ) && pms_payment_gateways_support( array( $payment->payment_gateway ), 'refunds' ) )
+        if ( ( current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' ) ) && $item['status'] === 'completed' && !empty( $payment->payment_gateway ) && pms_payment_gateways_support( array( $payment->payment_gateway ), 'refunds' ) )
             $actions['refund'] = '<a href="#" class="pms-refund-payment" data-payment-id="'. $item['id'] .'" >' . esc_html__( 'Refund', 'paid-member-subscriptions' ) . '</a>';
 
         // Delete row action

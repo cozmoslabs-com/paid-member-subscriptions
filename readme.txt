@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.15.9
+Stable tag: 2.16.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,7 @@ Paid Member Subscriptions integrates beautifully with [WooCommerce](https://www.
 * **Sell subscription plans as products** - associate products with Subscription Plans to offer customers a membership with a product purchase or allow customers to purchase Paid Member Subscriptions plans using the WooCommerce Checkout
 
 = Others =
+* automatic refunds directly from your WordPress dashboard
 * GDPR
 * automatically log users in
 * hide admin bar
@@ -261,6 +262,17 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.16.0 =
+* Fix: Security issue regarding broken access control. Thanks to MD Ismail and the Patchstack team
+* Fix: Issue with Stripe manual renewals not being properly marked as finished by the front-end request
+* Fix: Clear payment gateway billing info from old style PayPal subscriptions on renewals and change, downgrade, upgrade using the new integration and Stripe
+* Fix: An error that could appear in some situations when making PayPal requests
+* Fix: Issue with Payment Gateways selector not appearing on the Profile Builder form if a single subscription plan was selected in Profile Builder settings
+* Fix: Improve security for refunds
+* Fix: A notice that could appear in some cases when filtering restricted posts
+* Misc: Fixed some wrong type hints
+* Misc: Fixed a situation where a subscription plan price was wrongly cast to absolute instead of float
+
 = 2.15.9 =
 * Feature: Payment refunds - refunds can now be issued from the Payments page with support for full and partial refunds. Supports all current and past payment gateways
 * Enhancement: Automatically expire subscriptions when they are viewed and expired, but the status didn't change yet. Before, this was only handled by a cron which is still available, but we now also show instant feedback to admins or users, without waiting for the cron to execute

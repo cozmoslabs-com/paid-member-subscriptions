@@ -947,6 +947,7 @@
 <?php __("Please enter a date for the payment.", "paid-member-subscriptions"); ?>
 <?php __("This user already has a subscription (%s) from the same group with the one you selected. Select it or remove it to be able to complete this payment.", "paid-member-subscriptions"); ?>
 <?php __("Invalid payment ID", "paid-member-subscriptions"); ?>
+<?php __("You do not have the required capabilities to perform this action.", "paid-member-subscriptions"); ?>
 <?php __("Security check failed.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong! Please try again.", "paid-member-subscriptions"); ?>
 <?php __("No payment found!", "paid-member-subscriptions"); ?>

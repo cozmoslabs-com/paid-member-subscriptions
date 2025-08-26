@@ -163,43 +163,6 @@ foreach( $subscriptions as $subscription ) :
 
                         if( $subscription->status != 'pending' ) {
 
-                            // Show the Change action if any other subscription plan besides the current one exists
-                            $plans           = pms_get_subscription_plan_others( $user_id );
-                            $plan_upgrades   = pms_get_subscription_plan_upgrades( $subscription_plan->id );
-                            $plan_downgrades = pms_get_subscription_plan_downgrades( $subscription_plan->id );
-
-                            // remove current plan
-                            if( isset( $plans[$subscription->subscription_plan_id ] ) )
-                                unset( $plans[$subscription->subscription_plan_id ] );
-
-                            $payments_settings = get_option( 'pms_payments_settings' );
-
-                            $change_action_name = __( 'Change', 'paid-member-subscriptions' );
-
-                            if( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-change'] ) )
-                                $change_action_name = __( 'Upgrade', 'paid-member-subscriptions' );
-                                                    
-                            // Display logic
-                            $display_action = false;
-
-                            if( ( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-change'] ) ) && !empty( $plan_upgrades ) )
-                                $display_action = true;
-                            else if( ( !isset( $payments_settings['allow-downgrades'] ) && isset( $payments_settings['allow-change'] ) ) && ( !empty( $plans ) || !empty( $plan_upgrades ) ) )
-                                $display_action = true;
-                            else if( ( !isset( $payments_settings['allow-change'] ) && isset( $payments_settings['allow-downgrades'] ) ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
-                                $display_action = true;
-                            else if( isset( $payments_settings['allow-change'] ) && ( !empty( $plans ) || !empty( $plan_upgrades ) ) )
-                                $display_action = true;
-                            else if( isset( $payments_settings['allow-downgrades'] ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
-                                $display_action = true;
-
-                            if( $display_action === true ){
-                                $change_plan_button = apply_filters( 'pms_output_subscription_plan_action_change', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__change" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'change_subscription', 'subscription_id' => $subscription->id, 'subscription_plan' => $subscription_plan->id ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '">' . $change_action_name . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id );
-
-                                if( !empty( $change_plan_button ) )
-                                    echo wp_kses_post( $change_plan_button );
-                            }
-
                             // Number of days before expiration to show the renewal action
                             $renewal_display_time = apply_filters( 'pms_output_subscription_plan_action_renewal_time', 15 );
 
@@ -209,18 +172,6 @@ foreach( $subscriptions as $subscription ) :
                                 if( !empty( $renew_plan_button ) )
                                     echo wp_kses_post( $renew_plan_button );
                             }
-
-                            if( !pms_is_https() )
-                                $cancel_plan_button = apply_filters( 'pms_output_subscription_plan_action_cancel', '<span class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" title="'. __( 'This action is not available because your website doesn\'t have https enabled.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</span>', $subscription_plan, $subscription->to_array(), $member->user_id );
-                            elseif( $subscription->status == 'active' && ( 
-                                    ( $subscription_plan->duration != '0' || ( $subscription_plan->is_fixed_period_membership() && $subscription_plan->fixed_expiration_date != '' ) )
-                                    && ( $subscription_plan->price > 0 )
-                                    ) ){
-                                $cancel_plan_button = apply_filters( 'pms_output_subscription_plan_action_cancel', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'cancel_subscription', 'subscription_id' => $subscription->id  ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '" title="'. __( 'Cancels recurring payments for this subscription, letting it expire at the end of the current period.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id );
-                            }
-                            
-                            if( !empty( $cancel_plan_button ) )
-                                echo wp_kses_post( $cancel_plan_button );
 
                         } else {
 
@@ -234,6 +185,58 @@ foreach( $subscriptions as $subscription ) :
                         }
 
                     }
+
+                    if( $subscription->status != 'pending' ) {
+
+                        // Show the Change action if any other subscription plan besides the current one exists
+                        $plans           = pms_get_subscription_plan_others( $user_id );
+                        $plan_upgrades   = pms_get_subscription_plan_upgrades( $subscription_plan->id );
+                        $plan_downgrades = pms_get_subscription_plan_downgrades( $subscription_plan->id );
+
+                        // remove current plan
+                        if( isset( $plans[$subscription->subscription_plan_id ] ) )
+                            unset( $plans[$subscription->subscription_plan_id ] );
+
+                        $payments_settings = get_option( 'pms_payments_settings' );
+
+                        $change_action_name = __( 'Change', 'paid-member-subscriptions' );
+
+                        if( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-change'] ) )
+                            $change_action_name = __( 'Upgrade', 'paid-member-subscriptions' );
+                                                
+                        // Display logic
+                        $display_action = false;
+
+                        if( ( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-change'] ) ) && !empty( $plan_upgrades ) )
+                            $display_action = true;
+                        else if( ( !isset( $payments_settings['allow-downgrades'] ) && isset( $payments_settings['allow-change'] ) ) && ( !empty( $plans ) || !empty( $plan_upgrades ) ) )
+                            $display_action = true;
+                        else if( ( !isset( $payments_settings['allow-change'] ) && isset( $payments_settings['allow-downgrades'] ) ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
+                            $display_action = true;
+                        else if( isset( $payments_settings['allow-change'] ) && ( !empty( $plans ) || !empty( $plan_upgrades ) ) )
+                            $display_action = true;
+                        else if( isset( $payments_settings['allow-downgrades'] ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
+                            $display_action = true;
+
+                        if( $display_action === true ){
+                            $change_plan_button = apply_filters( 'pms_output_subscription_plan_action_change', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__change" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'change_subscription', 'subscription_id' => $subscription->id, 'subscription_plan' => $subscription_plan->id ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '">' . $change_action_name . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id );
+
+                            if( !empty( $change_plan_button ) )
+                                echo wp_kses_post( $change_plan_button );
+                        }
+
+                        if( !pms_is_https() )
+                            $cancel_plan_button = apply_filters( 'pms_output_subscription_plan_action_cancel', '<span class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" title="'. __( 'This action is not available because your website doesn\'t have https enabled.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</span>', $subscription_plan, $subscription->to_array(), $member->user_id );
+                        elseif( $subscription->status == 'active' && ( 
+                                ( $subscription_plan->duration != '0' || ( $subscription_plan->is_fixed_period_membership() && $subscription_plan->fixed_expiration_date != '' ) )
+                                && ( $subscription_plan->price > 0 )
+                                ) ){
+                            $cancel_plan_button = apply_filters( 'pms_output_subscription_plan_action_cancel', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'cancel_subscription', 'subscription_id' => $subscription->id  ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '" title="'. __( 'Cancels recurring payments for this subscription, letting it expire at the end of the current period.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id );
+                        }
+                    }
+
+                    if( !empty( $cancel_plan_button ) )
+                        echo wp_kses_post( $cancel_plan_button );
 
 					if( !pms_is_https() )
                         $abandon_plan_button = apply_filters( 'pms_output_subscription_plan_action_abandon', '<span class="pms-account-subscription-action-link pms-account-subscription-action-link__abandon" title="'. __( 'This action is not available because your website doesn\'t have https enabled.', 'paid-member-subscriptions' ) .'">' . __( 'Abandon', 'paid-member-subscriptions' ) . '</span>', $subscription_plan, $subscription->to_array(), $member->user_id );

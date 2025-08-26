@@ -540,7 +540,7 @@ jQuery( function($) {
 
                     var only_free_plans = true
 
-                    var $checked = $('.pms-subscription-plan input[type=radio]:checked', $(item))
+                    var $checked = $('.pms-subscription-plan input[type=radio]:checked, .pms-subscription-plan input[type=hidden]', $(item))
 
                     // Check if field is hidden via conditional logic
                     if ( $checked.attr('conditional-name') === 'subscription_plans' ) {
@@ -598,7 +598,7 @@ jQuery( function($) {
 
                     var only_free_plans = true
 
-                    var $checked = $('.pms-subscription-plan input[type=radio]:checked', $(item) )
+                    var $checked = $('.pms-subscription-plan input[type=radio]:checked, .pms-subscription-plan input[type=hidden]', $(item) )
 
                     // Check if field is hidden via conditional logic
                     if ( $checked.attr('conditional-name') === 'subscription_plans' ) {

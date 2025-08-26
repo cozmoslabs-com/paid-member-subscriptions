@@ -915,7 +915,7 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
         $subscription_price = isset( $request_data['subscription_price_' . $subscription_plan->id ] ) ? $request_data['subscription_price_' . $subscription_plan->id ] : ( isset( $_POST['subscription_price_' . $subscription_plan->id ] ) ? sanitize_text_field( $_POST['subscription_price_' . $subscription_plan->id ] ) : 0 );
 
         if( !empty( $subscription_price ) )
-            $amount = absint( $subscription_price );
+            $amount = floatval( $subscription_price );
 
     }
 

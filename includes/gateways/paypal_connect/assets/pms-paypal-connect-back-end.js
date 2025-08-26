@@ -39,8 +39,11 @@ jQuery(document).ready(function() {
 
         if ( pmsPaypalDisconnectPrompt === 'DISCONNECT' ) {
 
+            let ajaxNonce = jQuery(this).data('ajax-nonce');
+
             jQuery.post(ajaxurl, {
-                action: 'pms_ppcp_disconnect_paypal',
+                action   : 'pms_ppcp_disconnect_paypal',
+                ajaxNonce: ajaxNonce
             }, function (response) {
                 try {
                     let data = JSON.parse(response);

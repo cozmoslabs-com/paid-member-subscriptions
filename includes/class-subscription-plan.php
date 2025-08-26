@@ -33,7 +33,7 @@ Class PMS_Subscription_Plan {
      * Subscription plan price
      *
      * @access public
-     * @var int
+     * @var float
      */
     public $price;
 
@@ -78,20 +78,68 @@ Class PMS_Subscription_Plan {
     public $top_parent;
 
 
+    /**
+     * Subscription plan sign-up fee
+     *
+     * @access public
+     * @var float
+     */
     public $sign_up_fee;
 
+    /**
+     * Subscription plan trial duration
+     *
+     * @access public
+     * @var int
+     */
     public $trial_duration;
 
+    /**
+     * Subscription plan trial duration unit
+     *
+     * @access public
+     * @var string
+     */
     public $trial_duration_unit;
 
+    /**
+     * Subscription plan recurring
+     *
+     * @access public
+     * @var int
+     */
     public $recurring;
 
+    /**
+     * Subscription plan type
+     *
+     * @access public
+     * @var string
+     */
     public $type;
 
+    /**
+     * Subscription plan fixed membership
+     *
+     * @access public
+     * @var string
+     */
     public $fixed_membership;
 
+    /**
+     * Subscription plan fixed expiration date
+     *
+     * @access public
+     * @var string
+     */
     public $fixed_expiration_date;
 
+    /**
+     * Subscription plan allow renew
+     *
+     * @access public
+     * @var string
+     */
     public $allow_renew;
 
     /**
@@ -101,14 +149,37 @@ Class PMS_Subscription_Plan {
      */
     public $limit_payment_cycles;
 
+    /**
+     * Subscription plan number of payments
+     *
+     * @access public
+     * @var int
+     */
     public $number_of_payments;
 
+    /**
+     * Subscription plan status after last cycle
+     *
+     * @access public
+     * @var string
+     */
     public $status_after_last_cycle;
 
+    /**
+     * Subscription plan expire after
+     *
+     * @access public
+     * @var int
+     */
     public $expire_after;
 
+    /**
+     * Subscription plan expire after unit
+     *
+     * @access public
+     * @var string
+     */
     public $expire_after_unit;
-
 
     public function __construct( $id_or_post ) {
 
@@ -158,17 +229,17 @@ Class PMS_Subscription_Plan {
         $this->description =  isset( $post_meta_subscription['pms_subscription_plan_description'] ) ? esc_attr( $post_meta_subscription['pms_subscription_plan_description'][0] ) : '';
 
         // Subscription plan price
-        $this->price =  isset( $post_meta_subscription['pms_subscription_plan_price'] ) ? $post_meta_subscription['pms_subscription_plan_price'][0] : 0;
+        $this->price =  isset( $post_meta_subscription['pms_subscription_plan_price'] ) ? floatval( $post_meta_subscription['pms_subscription_plan_price'][0] ) : 0;
 
         // Subscription plan status
         $this->status =  isset( $post_meta_subscription['pms_subscription_plan_status'] ) ? $post_meta_subscription['pms_subscription_plan_status'][0] : '';
 
         // Subscription plan duration and duration unit
-        $this->duration = ( isset( $post_meta_subscription['pms_subscription_plan_duration'] ) && !empty( $post_meta_subscription['pms_subscription_plan_duration'][0] ) ) ? $post_meta_subscription['pms_subscription_plan_duration'][0] : 0;
+        $this->duration = ( isset( $post_meta_subscription['pms_subscription_plan_duration'] ) && !empty( $post_meta_subscription['pms_subscription_plan_duration'][0] ) ) ? absint( $post_meta_subscription['pms_subscription_plan_duration'][0] ) : 0;
         $this->duration_unit = isset( $post_meta_subscription['pms_subscription_plan_duration_unit'] ) ? $post_meta_subscription['pms_subscription_plan_duration_unit'][0] : '';
 
         // Subscription plan sign-up fee
-        $this->sign_up_fee = ( isset( $post_meta_subscription['pms_subscription_plan_sign_up_fee'] ) && !empty( $post_meta_subscription['pms_subscription_plan_sign_up_fee'][0] ) ) ? $post_meta_subscription['pms_subscription_plan_sign_up_fee'][0] : 0;
+        $this->sign_up_fee = ( isset( $post_meta_subscription['pms_subscription_plan_sign_up_fee'] ) && !empty( $post_meta_subscription['pms_subscription_plan_sign_up_fee'][0] ) ) ? floatval( $post_meta_subscription['pms_subscription_plan_sign_up_fee'][0] ) : 0;
 
         // Subscription plan trial duration and duration unit
         $this->trial_duration = ( isset( $post_meta_subscription['pms_subscription_plan_trial_duration'] ) && !empty( $post_meta_subscription['pms_subscription_plan_trial_duration'][0] ) ) ? $post_meta_subscription['pms_subscription_plan_trial_duration'][0] : 0;
@@ -196,11 +267,11 @@ Class PMS_Subscription_Plan {
         $this->allow_renew = !empty( $post_meta_subscription['pms_subscription_plan_allow_renew'][0] ) ? $post_meta_subscription['pms_subscription_plan_allow_renew'][0] : '';
 
         // Subscription Plan Installments
-        $this->limit_payment_cycles = !empty( $post_meta_subscription['pms_subscription_plan_limit_payment_cycles'][0] ) ? $post_meta_subscription['pms_subscription_plan_limit_payment_cycles'][0] : '';
-        $this->number_of_payments = !empty( $post_meta_subscription['pms_subscription_plan_number_of_payments'][0] ) ? $post_meta_subscription['pms_subscription_plan_number_of_payments'][0] : '';
+        $this->limit_payment_cycles    = !empty( $post_meta_subscription['pms_subscription_plan_limit_payment_cycles'][0] ) ? $post_meta_subscription['pms_subscription_plan_limit_payment_cycles'][0] : '';
+        $this->number_of_payments      = !empty( $post_meta_subscription['pms_subscription_plan_number_of_payments'][0] ) ? $post_meta_subscription['pms_subscription_plan_number_of_payments'][0] : '';
         $this->status_after_last_cycle = !empty( $post_meta_subscription['pms_subscription_plan_status_after_last_cycle'][0] ) ? $post_meta_subscription['pms_subscription_plan_status_after_last_cycle'][0] : '';
-        $this->expire_after = !empty( $post_meta_subscription['pms_subscription_plan_expire_after'][0] ) ? $post_meta_subscription['pms_subscription_plan_expire_after'][0] : '';
-        $this->expire_after_unit = !empty( $post_meta_subscription['pms_subscription_plan_expire_after_unit'][0] ) ? $post_meta_subscription['pms_subscription_plan_expire_after_unit'][0] : '';
+        $this->expire_after            = !empty( $post_meta_subscription['pms_subscription_plan_expire_after'][0] ) ? $post_meta_subscription['pms_subscription_plan_expire_after'][0] : '';
+        $this->expire_after_unit       = !empty( $post_meta_subscription['pms_subscription_plan_expire_after_unit'][0] ) ? $post_meta_subscription['pms_subscription_plan_expire_after_unit'][0] : '';
 
     }
 

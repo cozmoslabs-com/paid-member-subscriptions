@@ -311,7 +311,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                                 <?php $payment_status = ( $action == 'edit_payment' ) ? $payment->status : $form_data['pms-payment-status']; ?>
 
-                                <?php if( $payment_status === 'completed' && !empty( $payment->payment_gateway ) && pms_payment_gateways_support( array( $payment->payment_gateway ), 'refunds' ) ) : ?>
+                                <?php if( ( current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' ) ) && $payment_status === 'completed' && !empty( $payment->payment_gateway ) && pms_payment_gateways_support( array( $payment->payment_gateway ), 'refunds' ) ) : ?>
 
                                     <!-- Payment Refund -->
                                     <a class="pms-refund-payment button button-secondary" data-payment-id="<?php echo esc_attr( $payment->id ); ?>" href="#"><?php esc_html_e( 'Refund Payment', 'paid-member-subscriptions' ) ?></a>
