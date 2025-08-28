@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.16.0
+Stable tag: 2.16.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -262,6 +262,9 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.16.1 =
+* Fix: Issue with post content restriction not working correctly 
+
 = 2.16.0 =
 * Fix: Security issue regarding broken access control. Thanks to MD Ismail and the Patchstack team
 * Fix: Issue with Stripe manual renewals not being properly marked as finished by the front-end request
