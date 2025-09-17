@@ -657,11 +657,10 @@
 <?php __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.', 'paid-member-subscriptions' ); ?>
 <?php __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'paid-member-subscriptions' ); ?>
 <?php __("Account Details", "paid-member-subscriptions"); ?>
-<?php __("bbPress needs to be installed and activated for Paid Member Subscriptions - bbPress Add-on to work as expected!", "paid-member-subscriptions"); ?>
+<?php __("%s needs to be installed and activated for the %s to work as expected!", "paid-member-subscriptions"); ?>
 <?php __('For a consistent design on your website, it is best to set the same Form Style for both %1$sPaid Member Subscriptions%2$s and %1$sProfile Builder%2$s plugins.', 'paid-member-subscriptions' ); ?>
 <?php __('The currently active Form Style for Profile Builder forms is:  %1$s %3$s %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Select Your Subscription Plan", "paid-member-subscriptions"); ?>
-<?php __("%s needs to be installed and activated for the %s to work as expected!", "paid-member-subscriptions"); ?>
 <?php __('The Nginx web server needs to be restarted for the new File Restriction rules to take effect. %1$sLearn more%2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this member ?", "paid-member-subscriptions"); ?>
@@ -1078,8 +1077,11 @@
 <?php __("%d subscription plans have been successfully activated", "paid-member-subscriptions"); ?>
 <?php __("%d subscription plan has been successfully deactivated", "paid-member-subscriptions"); ?>
 <?php __("%d subscription plans have been successfully deactivated", "paid-member-subscriptions"); ?>
-<?php __('There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'paid-member-subscriptions' ); ?>
-<?php __('There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'paid-member-subscriptions' ); ?>
+<?php __('There is a new version of %1$s available.', 'paid-member-subscriptions' ); ?>
+<?php __("Update now.", "paid-member-subscriptions"); ?>
+<?php __('%1$sView version %2$s details%3$s or %4$supdate now%5$s.', 'paid-member-subscriptions' ); ?>
+<?php __('%1$sView version %2$s details%3$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Contact your network administrator to install the update.", "paid-member-subscriptions"); ?>
 <?php __("You do not have permission to install plugin updates", "paid-member-subscriptions"); ?>
 <?php __("Your license key expired on %s.", "paid-member-subscriptions"); ?>
 <?php __("Your license key has been disabled.", "paid-member-subscriptions"); ?>

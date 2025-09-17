@@ -49,7 +49,9 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
 
         //change strings
         add_filter( 'gettext', array( $this, 'change_strings' ), 8, 3 );
+        add_filter( 'gettext_with_context', array( $this, 'change_gettext_with_context_strings' ), 8, 4 );
         add_filter( 'ngettext', array( $this,'change_ngettext_strings' ), 8, 5 );
+        add_filter( 'ngettext_with_context', array( $this,'change_ngettext_with_context_strings' ), 8, 6 );
 
         //scan strings if we don't have any yet
         add_action( 'admin_init', array( $this, 'init_strings' ) );
@@ -493,7 +495,55 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
         return $translated_text;
     }
 
+    public function change_gettext_with_context_strings( $translated_text, $text, $context, $domain ) {
+        if( $domain != 'paid-member-subscriptions' )
+            return $translated_text;
+
+        $edited_labels = get_option( 'pmsle', false );
+
+        if( empty( $edited_labels ) || $edited_labels == false )
+            return $translated_text;
+
+        if( is_array( $edited_labels ) ) {
+            foreach( $edited_labels as $label ) {
+
+                if( $text === $label['pmsle-label'] ) {
+                    $translated_text = wp_kses_post( $label['pmsle-newlabel'] );
+                    break;
+                }
+
+            }
+        }
+
+        return $translated_text;
+    }
+
     public function change_ngettext_strings( $translated_text, $single, $plural, $number, $domain ){
+        if( $domain != 'paid-member-subscriptions' )
+            return $translated_text;
+
+        $edited_labels = get_option( 'pmsle', false );
+
+        if( empty( $edited_labels ) || $edited_labels == false )
+            return $translated_text;
+
+        if( is_array( $edited_labels ) ) {
+            foreach( $edited_labels as $label ) {
+                if( $single === $label['pmsle-label'] ) {
+                    $translated_text = wp_kses_post( $label['pmsle-newlabel'] );
+                    break;
+                }
+                if( $plural === $label['pmsle-label'] ) {
+                    $translated_text = wp_kses_post( $label['pmsle-newlabel'] );
+                    break;
+                }
+            }
+        }
+
+        return $translated_text;
+    }
+
+    public function change_ngettext_with_context_strings( $translated_text, $single, $plural, $number, $context, $domain ){
         if( $domain != 'paid-member-subscriptions' )
             return $translated_text;
 
@@ -544,7 +594,7 @@ function pms_in_le_output_string( $string ) {
     }
 }
 
-add_action( 'init', 'pms_in_le_init' );
+add_action( 'init', 'pms_in_le_init', 1 );
 function pms_in_le_init() {
 
     // Initialize Labels Edit module if selected accordingly in Settings

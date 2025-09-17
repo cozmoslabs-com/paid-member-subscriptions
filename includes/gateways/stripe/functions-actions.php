@@ -52,6 +52,14 @@ function pms_stripe_enqueue_front_end_scripts(){
     $pms_stripe_script_vars['pms_elements_appearance_api'] = apply_filters( 'pms_stripe_connect_elements_styling', array( 'theme' => 'stripe' ) );
     $pms_stripe_script_vars['pms_customer_session']        = pms_stripe_generate_customer_session();
 
+    $pms_stripe_script_vars['off_session_payments'] = 1;
+
+    // Disable off-session payments if the global recurring setting is set to Never renew automatically
+    $payment_settings = get_option( 'pms_payments_settings', array() );
+
+    if( isset( $payment_settings['recurring'] ) && $payment_settings['recurring'] == 3 )
+        $pms_stripe_script_vars['off_session_payments'] = 0;
+
     wp_localize_script( 'pms-stripe-script', 'pms', $pms_stripe_script_vars );
 
 }

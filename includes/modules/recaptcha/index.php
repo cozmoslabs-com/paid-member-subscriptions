@@ -22,8 +22,8 @@ if( !is_plugin_active( 'pms-add-on-recaptcha/index.php' ) ){
                 add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
                 add_action( 'login_head',         array( $this, 'register_scripts' ) );
 
-                add_action( 'wp_footer',    array( $this, 'print_scripts' ) );
-                add_action( 'login_footer', array( $this, 'print_scripts' ) );
+                add_action( 'wp_footer',    array( $this, 'print_scripts' ), 11 );
+                add_action( 'login_footer', array( $this, 'print_scripts' ), 11 );
 
                 add_action( 'login_head',         array( $this, 'print_style' ) );
             }

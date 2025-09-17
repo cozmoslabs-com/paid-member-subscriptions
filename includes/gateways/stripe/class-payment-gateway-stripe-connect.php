@@ -403,7 +403,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     }
 
                     // Set `allow_redisplay` parameter to `always` on the payment method for logged out users. Logged in users have an option to save the payment method in their form.
-                    if( !is_user_logged_in() ){
+                    if( !is_user_logged_in() && !empty( $payment_intent->payment_method ) && !empty( $payment_intent->payment_method->id ) && isset( $payment_intent->setup_future_usage ) && in_array( $payment_intent->setup_future_usage, array( 'off_session', 'on_session' ) ) ){
                         $payment_method = $this->stripe_client->paymentMethods->update( $payment_intent->payment_method->id, [ 'allow_redisplay' => 'always' ] );
                     }
 
@@ -1008,6 +1008,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         $args = self::add_intent_metadata( $args, $subscription );
+
+        // Set recurring option based on the whole checkout. PMS General Payments Settings + Subscription Plan specific settings
+        $checkout_is_recurring = PMS_Form_Handler::checkout_is_recurring();
+
+        if( $checkout_is_recurring || $subscription_plan->has_installments() )
+            $args['setup_future_usage'] = 'off_session';
+        else if( !$checkout_is_recurring )
+            unset( $args['setup_future_usage'] );
 
         $args = self::add_application_fee( $args );
 

@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-28 08:47+0000\n"
+"POT-Creation-Date: 2025-09-17 09:21+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -54,7 +54,7 @@ msgstr ""
 msgid "This content is restricted for your membership level."
 msgstr ""
 
-#: index.php:1161, index.php:1161, includes/functions-patterns.php:9, includes/functions-user.php:282, add-ons-pro/files-restriction/index.php:52, add-ons-pro/group-memberships/index.php:112, add-ons-pro/invoices/index.php:105, add-ons-pro/multiple-currencies/index.php:56, add-ons-pro/stripe/index.php:135, add-ons-pro/tax/index.php:78, extend/tutor-lms/class-pms-tutor-lms.php:1044, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/functions-admin.php:676, includes/admin/views/view-page-basic-info.php:15, includes/modules/labels-edit/index.php:467, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18, includes/gateways/paypal_connect/admin/functions-admin-filters.php:248
+#: index.php:1161, index.php:1161, includes/functions-patterns.php:9, includes/functions-user.php:282, add-ons-pro/files-restriction/index.php:52, add-ons-pro/group-memberships/index.php:112, add-ons-pro/invoices/index.php:105, add-ons-pro/multiple-currencies/index.php:56, add-ons-pro/stripe/index.php:135, add-ons-pro/tax/index.php:78, extend/tutor-lms/class-pms-tutor-lms.php:1044, extend/wpbakery/class-wpbakery.php:23, extend/wpbakery/class-wpbakery.php:58, extend/wpbakery/class-wpbakery.php:77, extend/wpbakery/class-wpbakery.php:104, includes/admin/functions-admin.php:676, includes/admin/views/view-page-basic-info.php:15, includes/modules/labels-edit/index.php:469, extend/beaver-builder/modules/pms-account/pms-account.php:18, extend/beaver-builder/modules/pms-login/pms-login.php:18, extend/beaver-builder/modules/pms-recover-password/pms-recover-password.php:18, extend/beaver-builder/modules/pms-register/pms-register.php:18, includes/gateways/paypal_connect/admin/functions-admin-filters.php:248
 msgid "Paid Member Subscriptions"
 msgstr ""
 
@@ -108,7 +108,7 @@ msgstr ""
 msgid "Billing Details"
 msgstr ""
 
-#: includes/class-billing-details.php:50, includes/admin/class-admin-member-subscription-list-table.php:346, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:142, includes/admin/views/view-page-settings-general.php:121, includes/admin/views/view-page-settings-general.php:160, includes/admin/views/view-page-settings-general.php:188, includes/admin/views/view-page-settings-general.php:218, includes/admin/views/view-page-settings-general.php:245, includes/modules/labels-edit/index.php:285, includes/modules/labels-edit/index.php:306, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:204
+#: includes/class-billing-details.php:50, includes/admin/class-admin-member-subscription-list-table.php:346, add-ons-basic/navigation-menu-filtering/includes/class-pms_walker_nav_menu.php:142, includes/admin/views/view-page-settings-general.php:121, includes/admin/views/view-page-settings-general.php:160, includes/admin/views/view-page-settings-general.php:188, includes/admin/views/view-page-settings-general.php:218, includes/admin/views/view-page-settings-general.php:245, includes/modules/labels-edit/index.php:287, includes/modules/labels-edit/index.php:308, add-ons-pro/group-memberships/includes/admin/class-admin-group-info-list-table.php:204
 msgid "Edit"
 msgstr ""
 
@@ -577,7 +577,7 @@ msgstr ""
 msgid "No, thanks."
 msgstr ""
 
-#: includes/class-review.php:98, includes/functions-core.php:1431, includes/functions-core.php:1402, includes/functions-plugin-notifications.php:122, includes/functions-plugin-notifications.php:149, includes/functions-plugin-notifications.php:137, add-ons-basic/form-designs/form-designs.php:302, add-ons-pro/files-restriction/files-restriction-activator.php:90, add-ons-pro/multiple-currencies/multiple-currencies-activator.php:109, add-ons-pro/pro-rate/pro-rate-activator.php:64, extend/tutor-lms/class-pms-tutor-lms.php:1156
+#: includes/class-review.php:98, includes/functions-core.php:1431, includes/functions-core.php:1402, includes/functions-plugin-notifications.php:122, includes/functions-plugin-notifications.php:149, includes/functions-plugin-notifications.php:137, add-ons-basic/bbpress/index.php:100, add-ons-basic/form-designs/form-designs.php:302, add-ons-basic/learndash/index.php:147, add-ons-pro/files-restriction/files-restriction-activator.php:90, add-ons-pro/multiple-currencies/multiple-currencies-activator.php:109, add-ons-pro/pro-rate/pro-rate-activator.php:64, extend/tutor-lms/class-pms-tutor-lms.php:1156
 msgid "Dismiss this notice."
 msgstr ""
 
@@ -797,11 +797,11 @@ msgstr ""
 msgid "Comments are restricted for your membership level."
 msgstr ""
 
-#: includes/functions-content-restriction.php:84
+#: includes/functions-content-restriction.php:83
 msgid "You do not have access to this content. You need the proper subscription."
 msgstr ""
 
-#: includes/functions-content-restriction.php:82
+#: includes/functions-content-restriction.php:81
 msgid "You do not have access to this content. You need to create an account."
 msgstr ""
 
@@ -2637,8 +2637,8 @@ msgstr ""
 msgid "Account Details"
 msgstr ""
 
-#: add-ons-basic/bbpress/index.php:95
-msgid "bbPress needs to be installed and activated for Paid Member Subscriptions - bbPress Add-on to work as expected!"
+#: add-ons-basic/bbpress/index.php:99, add-ons-basic/learndash/index.php:146
+msgid "%s needs to be installed and activated for the %s to work as expected!"
 msgstr ""
 
 #: add-ons-basic/form-designs/form-designs.php:91
@@ -2651,10 +2651,6 @@ msgstr ""
 
 #: add-ons-basic/form-designs/form-designs.php:278, add-ons-pro/multiple-currencies/includes/class-multiple-currencies.php:277
 msgid "Select Your Subscription Plan"
-msgstr ""
-
-#: add-ons-basic/learndash/index.php:142
-msgid "%s needs to be installed and activated for the %s to work as expected!"
 msgstr ""
 
 #: add-ons-pro/files-restriction/files-restriction-activator.php:80
@@ -3191,7 +3187,7 @@ msgstr ""
 msgid "Nonce verification failed"
 msgstr ""
 
-#: includes/admin/class-admin-export.php:119, includes/admin/class-edd-sl-plugin-updater.php:422, includes/admin/export/class-batch-export.php:138, includes/admin/export/class-export.php:172, includes/gateways/paypal_standard/functions-paypal-standard.php:253, includes/features/discount-codes/includes/class-admin-discount-codes-bulk-add.php:45, includes/features/discount-codes/includes/class-admin-discount-codes-bulk-add.php:48, includes/features/discount-codes/includes/class-admin-discount-codes-bulk-add.php:53, includes/features/discount-codes/includes/class-admin-discount-codes-bulk-add.php:56
+#: includes/admin/class-admin-export.php:119, includes/admin/class-edd-sl-plugin-updater.php:645, includes/admin/export/class-batch-export.php:138, includes/admin/export/class-export.php:172, includes/gateways/paypal_standard/functions-paypal-standard.php:253, includes/features/discount-codes/includes/class-admin-discount-codes-bulk-add.php:45, includes/features/discount-codes/includes/class-admin-discount-codes-bulk-add.php:48, includes/features/discount-codes/includes/class-admin-discount-codes-bulk-add.php:53, includes/features/discount-codes/includes/class-admin-discount-codes-bulk-add.php:56
 msgid "Error"
 msgstr ""
 
@@ -4301,47 +4297,60 @@ msgid_plural "%d subscription plans have been successfully deactivated"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:228
-msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s."
+#. translators: the plugin name.
+#: includes/admin/class-edd-sl-plugin-updater.php:311
+msgid "There is a new version of %1$s available."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:220
-msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
+#: includes/admin/class-edd-sl-plugin-updater.php:341
+msgid "Update now."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:422
+#: includes/admin/class-edd-sl-plugin-updater.php:330
+msgid "%1$sView version %2$s details%3$s or %4$supdate now%5$s."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:322
+msgid "%1$sView version %2$s details%3$s."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:317
+msgid "Contact your network administrator to install the update."
+msgstr ""
+
+#: includes/admin/class-edd-sl-plugin-updater.php:645
 msgid "You do not have permission to install plugin updates"
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:709
+#: includes/admin/class-edd-sl-plugin-updater.php:924
 msgid "Your license key expired on %s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:714
+#: includes/admin/class-edd-sl-plugin-updater.php:929
 msgid "Your license key has been disabled."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:717
+#: includes/admin/class-edd-sl-plugin-updater.php:932
 msgid "Invalid license."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:721
+#: includes/admin/class-edd-sl-plugin-updater.php:936
 msgid "Your license is not active for this URL."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:724
+#: includes/admin/class-edd-sl-plugin-updater.php:939
 msgid "This appears to be an invalid license key for %s."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:727
+#: includes/admin/class-edd-sl-plugin-updater.php:942
 msgid "Your license key has reached its activation limit."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:730, includes/admin/class-edd-sl-plugin-updater.php:698, includes/admin/class-edd-sl-plugin-updater.php:840
+#: includes/admin/class-edd-sl-plugin-updater.php:945, includes/admin/class-edd-sl-plugin-updater.php:913, includes/admin/class-edd-sl-plugin-updater.php:1055
 msgid "An error occurred, please try again."
 msgstr ""
 
-#: includes/admin/class-edd-sl-plugin-updater.php:760
+#: includes/admin/class-edd-sl-plugin-updater.php:975
 msgid "You have successfully activated your license."
 msgstr ""
 
@@ -4509,7 +4518,7 @@ msgstr ""
 msgid "Refunding this payment will create a negative transaction, reversing all or part of the original payment amount. This action is permanent and cannot be undone. Please confirm the refund details below before proceeding"
 msgstr ""
 
-#: includes/admin/functions-admin.php:894, includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1876
+#: includes/admin/functions-admin.php:894, includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1884
 msgid "Payment Details"
 msgstr ""
 
@@ -7290,11 +7299,11 @@ msgstr ""
 msgid "Learn more about shortcodes"
 msgstr ""
 
-#: includes/admin/views/view-page-export.php:25, includes/admin/views/view-page-import.php:25, includes/admin/views/view-page-reports.php:25, includes/modules/labels-edit/index.php:388
+#: includes/admin/views/view-page-export.php:25, includes/admin/views/view-page-import.php:25, includes/admin/views/view-page-reports.php:25, includes/modules/labels-edit/index.php:390
 msgid "Export"
 msgstr ""
 
-#: includes/admin/views/view-page-export.php:26, includes/admin/views/view-page-import.php:26, includes/admin/views/view-page-reports.php:26, includes/modules/labels-edit/index.php:376
+#: includes/admin/views/view-page-export.php:26, includes/admin/views/view-page-import.php:26, includes/admin/views/view-page-reports.php:26, includes/modules/labels-edit/index.php:378
 msgid "Import"
 msgstr ""
 
@@ -7358,7 +7367,7 @@ msgstr ""
 msgid "User meta key"
 msgstr ""
 
-#: includes/admin/views/view-page-export.php:131, includes/admin/views/view-page-export.php:160, includes/modules/labels-edit/index.php:254
+#: includes/admin/views/view-page-export.php:131, includes/admin/views/view-page-export.php:160, includes/modules/labels-edit/index.php:256
 msgid "...Choose"
 msgstr ""
 
@@ -8003,7 +8012,7 @@ msgstr ""
 msgid "Add the honeypot field to the PMS Registration form to prevent spambot attacks."
 msgstr ""
 
-#: includes/admin/views/view-page-settings-misc.php:122, includes/modules/labels-edit/index.php:554, includes/modules/labels-edit/index.php:554
+#: includes/admin/views/view-page-settings-misc.php:122, includes/modules/labels-edit/index.php:604, includes/modules/labels-edit/index.php:604
 msgid "Labels Edit"
 msgstr ""
 
@@ -8803,135 +8812,135 @@ msgstr ""
 msgid "<strong>Action Required!</strong><br><br> The Stripe version you are using right now is deprecated. In order to benefit from the latest security updates please <strong>migrate to the Stripe Connect gateway</strong> as soon as possible. <br>Starting with <strong>June 2025</strong>, Stripe will <strong>charge you additional fees</strong> if you don't migrate. <br><br>Go to the %sSettings -> Payments -> Gateways%s page, enable the Stripe gateway and connect your account. %sMigration instructions%s"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:90, includes/views/shortcodes/view-shortcode-account-subscription-details.php:149, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:137
+#: includes/modules/labels-edit/index.php:92, includes/views/shortcodes/view-shortcode-account-subscription-details.php:149, add-ons-pro/group-memberships/includes/views/view-shortcode-account-subscriptions-row.php:137
 msgid "Update"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:105
+#: includes/modules/labels-edit/index.php:107
 msgid "Label added successfully."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:106
+#: includes/modules/labels-edit/index.php:108
 msgid "You must select a label to edit!"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:107
+#: includes/modules/labels-edit/index.php:109
 msgid "Label updated successfully."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:108
+#: includes/modules/labels-edit/index.php:110
 msgid "Label deleted successfully."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:109
+#: includes/modules/labels-edit/index.php:111
 msgid "All labels deleted successfully."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:110
+#: includes/modules/labels-edit/index.php:112
 msgid "Labels rescanned successfully."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:111
+#: includes/modules/labels-edit/index.php:113
 msgid "Label edited successfully."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:244, includes/modules/labels-edit/index.php:302
+#: includes/modules/labels-edit/index.php:246, includes/modules/labels-edit/index.php:304
 msgid "Label to Edit:"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:264
+#: includes/modules/labels-edit/index.php:266
 msgid "Here you will see the default label so you can copy it."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:269, includes/modules/labels-edit/index.php:303, includes/modules/labels-edit/index.php:359
+#: includes/modules/labels-edit/index.php:271, includes/modules/labels-edit/index.php:305, includes/modules/labels-edit/index.php:361
 msgid "New Label:"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:273
+#: includes/modules/labels-edit/index.php:275
 msgid "Add Entry"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:283
+#: includes/modules/labels-edit/index.php:285
 msgid "#"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:284
+#: includes/modules/labels-edit/index.php:286
 msgid "Labels"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:286
+#: includes/modules/labels-edit/index.php:288
 msgid "Are you sure you want to delete all items?"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:286
+#: includes/modules/labels-edit/index.php:288
 msgid "Delete all"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:307
+#: includes/modules/labels-edit/index.php:309
 msgid "Delete this item?"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:332
+#: includes/modules/labels-edit/index.php:334
 msgid "Rescan all Paid Member Subscriptions labels."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:344
+#: includes/modules/labels-edit/index.php:346
 msgid "Variables"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:353
+#: includes/modules/labels-edit/index.php:355
 msgid "Place them like in the default string."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:356
+#: includes/modules/labels-edit/index.php:358
 msgid "Example:"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:358
+#: includes/modules/labels-edit/index.php:360
 msgid "Old Label:"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:362
+#: includes/modules/labels-edit/index.php:364
 msgid "Read more detailed information"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:373
+#: includes/modules/labels-edit/index.php:375
 msgid "Import Labels"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:376
+#: includes/modules/labels-edit/index.php:378
 msgid "This will overwrite all your old edited labels! \n\rAre you sure you want to continue?"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:381
+#: includes/modules/labels-edit/index.php:383
 msgid "Import Labels from a .json file."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:382
+#: includes/modules/labels-edit/index.php:384
 msgid "Easily import the labels from another site."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:386
+#: includes/modules/labels-edit/index.php:388
 msgid "Export Labels"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:392
+#: includes/modules/labels-edit/index.php:394
 msgid "Export Labels as a .json file."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:393
+#: includes/modules/labels-edit/index.php:395
 msgid "Easily import the labels into another site."
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:429
+#: includes/modules/labels-edit/index.php:431
 msgid "No labels edited, nothing to export!"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:457, includes/modules/labels-edit/includes/class-pmsle-import.php:54
+#: includes/modules/labels-edit/index.php:459, includes/modules/labels-edit/includes/class-pmsle-import.php:54
 msgid "Please select a .json file to import!"
 msgstr ""
 
-#: includes/modules/labels-edit/index.php:461
+#: includes/modules/labels-edit/index.php:463
 msgid "Labels imported successfully."
 msgstr ""
 

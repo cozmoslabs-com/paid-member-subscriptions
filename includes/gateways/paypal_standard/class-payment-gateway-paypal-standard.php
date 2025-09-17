@@ -141,9 +141,9 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
         // Verify that the payment is associated with this website's PayPal Account
         if( apply_filters( 'pms_paypal_standard_verify_paypal_email', true ) ){
-            $paypal_email = pms_get_paypal_email();
+            $paypal_email = strtolower( pms_get_paypal_email() );
 
-            $receiver_email = isset( $_POST['receiver_email'] ) ? sanitize_text_field( $_POST['receiver_email'] ) : '';
+            $receiver_email = isset( $_POST['receiver_email'] ) ? strtolower( sanitize_text_field( $_POST['receiver_email'] ) ) : '';
     
             if( trim( $paypal_email ) !== trim( $receiver_email ) ) {
                 $verified = false;

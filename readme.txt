@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.16.1
+Stable tag: 2.16.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -262,6 +262,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.16.2 =
+* Enhancement: The Stripe form is now respecting the global and the specific plan recurring settings when taking payments. This will basically make the Stripe form change to reflect if the payment method will be used for future recurring payments or not
+* Enhancement: Add automatic updates support for paid verisons
+* Fix: An issue with the old PayPal Email verification where it was failing if the saved email from the website had different letter case
+* Fix: Scenario in which form couldn't be submitted when reCaptcha v3 and Stripe was being used
+* Fix: The Labels Edit add-on is now able to also change gettext strings with context
+* Fix: Labels Edit not being able to change some plugin strings
+* Fix: A notice that could appear in some cases thrown from the content restriction functionality
+
 = 2.16.1 =
 * Fix: Issue with post content restriction not working correctly 
 

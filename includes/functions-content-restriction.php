@@ -13,10 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function pms_is_post_restricted( $post_id = null ) {
 
-    //fixes some php warnings with Onfleek theme
-    if( is_array( $post_id ) && empty( $post_id ) )
-        $post_id = null;
-
     global $post, $pms_show_content, $pms_is_post_restricted_arr;
 
     if( empty( $post_id ) ){
@@ -27,6 +23,9 @@ function pms_is_post_restricted( $post_id = null ) {
             return false;
 
     }
+
+    if( is_array( $post_id ) )
+        $post_id = null;
 
     /**
      * If we have a cached result, return it

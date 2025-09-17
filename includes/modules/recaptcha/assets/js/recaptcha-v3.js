@@ -123,5 +123,10 @@ function pmsRecaptchaInitializationError(){
 }
 
 jQuery( window ).on( "load", function () {   
-    pms_recaptcha_callback();
+
+    // Initialize with a delay
+    setTimeout(function() {
+        pms_recaptcha_callback();
+    }, 500);
+
 } );

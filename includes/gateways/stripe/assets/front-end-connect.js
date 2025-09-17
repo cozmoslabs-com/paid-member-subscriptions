@@ -49,7 +49,6 @@ jQuery( async function( $ ) {
         currency             : pms.currency,
         amount               : 1099,
         paymentMethodCreation: 'manual',
-        setupFutureUsage     : 'off_session',
         appearance           : stripe_appearance,
     }
 
@@ -57,8 +56,12 @@ jQuery( async function( $ ) {
         mode                 : 'setup',
         currency             : pms.currency,
         paymentMethodCreation: 'manual',
-        setupFutureUsage     : 'off_session',
         appearance           : stripe_appearance,
+    }
+
+    if( pms.off_session_payments && pms.off_session_payments == 1 ){
+        stripe_payment_intent_options.setupFutureUsage = 'off_session'
+        stripe_setup_intent_options.setupFutureUsage   = 'off_session'
     }
 
     if( pms.pms_customer_session ){
@@ -78,6 +81,8 @@ jQuery( async function( $ ) {
     // Declare reCaptcha callback as already executed
     if( typeof pms_initialize_recaptcha_v3 == 'function' ){
         window.pmsRecaptchaCallbackExecuted = true
+        
+        jQuery('.pms-form').off('submit', pms_initialize_recaptcha_v3 );
     }
 
     if( typeof wppbInitializeRecaptchaV3 == 'function' ){
@@ -91,7 +96,34 @@ jQuery( async function( $ ) {
             await pms_stripe_validate_sdk_checkout_currency( $(this) );
         }
 
+        let subscription_plan = $(this)
+        
+        if( subscription_plan.data('recurring') == 0 || subscription_plan.data('recurring') == 1 ){
+
+            // Verify renew checkbox status and update the payment element accordingly
+            if( $('.pms-subscription-plan-auto-renew input[name="pms_recurring"]').prop('checked') ){
+                elements.update( { setupFutureUsage: 'off_session' } );
+            } else {
+                elements.update( { setupFutureUsage: null } );
+            }
+
+        } else if( subscription_plan.data('recurring') == 2 ){
+            elements.update( { setupFutureUsage: 'off_session' } );
+        } else if( subscription_plan.data('recurring') == 3 ){
+            elements.update( { setupFutureUsage: null } );
+        }
+
         stripeConnectInit()
+
+    })
+
+    $(document).on('click', '.pms-subscription-plan-auto-renew input[name="pms_recurring"]', function ( event ) {
+
+        if( $(this).prop('checked') ){
+            elements.update( { setupFutureUsage: 'off_session' } );
+        } else {
+            elements.update( { setupFutureUsage: null } );
+        }
 
     })
 
