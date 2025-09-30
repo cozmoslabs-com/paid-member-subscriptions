@@ -10,9 +10,9 @@
  * Domain Path: /translations
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 10.1
- * Elementor tested up to: 3.32.0
- * Elementor Pro tested up to: 3.32.0
+ * WC tested up to: 10.2
+ * Elementor tested up to: 3.32.3
+ * Elementor Pro tested up to: 3.32.3
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
