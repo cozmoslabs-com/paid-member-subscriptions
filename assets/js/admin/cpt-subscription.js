@@ -223,3 +223,92 @@ function previousSlide( currentSlide, themeID ){
 
     }
 }
+
+/**
+ * Extra Subscription and Discount Options add-on --> Extra Options validations
+ * */
+
+jQuery(document).ready(function($) {
+
+    // Date picker for subscription start and end date
+    $("input.pms_datepicker").datepicker({dateFormat: 'yy-mm-dd'});
+
+    //Validation for subscription start/end date
+    const $form = $('#post');
+    const $start = $('#pms-subscription-availability-start-date');
+    const $end = $('#pms-subscription-availability-end-date');
+    const $limitMembers = $('#pms-subscription-limit-members');
+
+    if ($('#pms-date-error').length === 0) {
+        $end.after('<p id="pms-date-error" class="cozmoslabs-description cozmoslabs-description-space-left"></p>');
+    }
+
+    if ($('#pms-limit-error').length === 0) {
+        $limitMembers.after('<p id="pms-limit-error" class="cozmoslabs-description cozmoslabs-description-space-left"></p>');
+    }
+
+    const $errorBox = $('#pms-date-error');
+    const $limitError = $('#pms-limit-error');
+
+    function validateDates(){
+        const startVal = $start.val();
+        const endVal = $end.val();
+
+        if (!startVal || !endVal){
+            $errorBox.hide();
+            return true;
+        }
+
+        const startDate = new Date(startVal);
+        const endDate = new Date(endVal);
+
+        if (endDate < startDate) {
+            $errorBox.text('End date cannot be earlier than the start date. Please correct it before saving.').show();
+            $end.focus();
+            return false;
+        }
+
+        $errorBox.hide();
+        return true;
+    }
+
+    function validateLimitMembers(){
+        const limitVal = $limitMembers.val().trim();
+
+        if(!limitVal){
+            $limitError.hide();
+            return true;
+        }
+
+        if (!/^\d+$/.test(limitVal) || parseInt(limitVal) <= 0) {
+            $limitError.text('Limit Members must be a number greater than 0.').show();
+            $limitMembers.focus();
+            return false;
+        }
+
+        $limitError.hide();
+        return true;
+    }
+
+    $form.on('submit', function(e) {
+        const validDates = validateDates();
+        const validLimit = validateLimitMembers();
+
+        if (!validDates || !validLimit)
+            e.preventDefault();
+    });
+});
+
+// Function that copies the shortcode from a text
+jQuery(document).ready(function() {
+    jQuery('.pms-shortcode_copy-text').click(function (e) {
+        e.preventDefault();
+
+        navigator.clipboard.writeText(jQuery(this).text());
+
+        // Show copy message
+        var copyMessage = jQuery(this).next('.pms-copy-message');
+        copyMessage.fadeIn(400).delay(2000).fadeOut(400);
+
+    })
+});

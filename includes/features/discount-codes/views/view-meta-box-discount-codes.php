@@ -181,5 +181,4 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
 </div>
 
-
 <?php do_action( 'pms_view_meta_box_discount_codes_bottom', $discount->id ); ?>

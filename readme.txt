@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.16.2
+Stable tag: 2.16.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -144,7 +144,7 @@ Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslab
 
 * [Global Content Restriction](https://www.cozmoslabs.com/add-ons/global-content-restriction/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - add global content restriction rules to subscription plans, based on post type, taxonomy and terms
 * [Email Reminders](https://www.cozmoslabs.com/add-ons/email-reminders/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)
-* [Advanced Subscription Toolkit](https://www.cozmoslabs.com/add-ons/advanced-subscription-toolkit/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)
+* [Advanced Subscription Toolkit](https://www.cozmoslabs.com/add-ons/advanced-subscription-toolkit/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - extend your Subscription Plans and Discount Codes with extra options like automatic downgrade after expiration, limit member count, schedule availability for subscription plans and more
 * [LearnDash](https://www.cozmoslabs.com/add-ons/learndash/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)
 * [Navigation Menu Filtering](https://www.cozmoslabs.com/add-ons/navigation-menu-filtering/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - dynamically display menu items based on logged-in status as well as selected subscription plans
 * [Fixed Period Membership](https://www.cozmoslabs.com/add-ons/fixed-period-membership/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - create subscriptions plans that end at a specific date, no matter when a member subscribes to it.
@@ -263,6 +263,20 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.16.3 =
+* Feature: Added support for Stripe Link in purchase forms. Go to your Stripe account to enable this payment method
+* Fix: When a 100% non-recurring discount code is used in combination with free trials, extend the trial duration with a subscription period
+* Fix: Stripe issue with sign-up fees not being taken into account for Apple Pay, Google Pay payments
+* Fix: Stripe conversion issue for zero decimal currencies and payment gateways like Apple Pay, Google Pay
+* Fix: More edge cases where the Stripe form was not being updated correctly based on global/plan recurring settings
+* Fix: Improved performance for the Product Discounts Subscription Plans metabox
+* Fix: Issue with the Profile Builder form not sending the user registration email when plans were being bought from the form
+* Fix: Issue with 100% discount codes vs failed payment method registration leaving wrongly completed payments behind
+* Misc: Fixed some notices appearing in some cases
+* Misc: Remove an extra key from payment exports that was breaking the csv in some cases
+* Misc: Small styling improvements for reports
+* Misc: New add-on release compatibility
+
 = 2.16.2 =
 * Enhancement: The Stripe form is now respecting the global and the specific plan recurring settings when taking payments. This will basically make the Stripe form change to reflect if the payment method will be used for future recurring payments or not
 * Enhancement: Add automatic updates support for paid verisons
@@ -473,7 +487,7 @@ For more information please check out [Paid Member Subscriptions documentation](
 * Fix: Issue with the Members List not showing subscription information in the Subscribed To column when navigating to different pages than the first one
 * Fix: An issue that was causing PWYW subcriptions with a price of 0 to require that a payment gateway be selected
 * Fix: Set the end time of Fixed Period Subscriptions to the end of the selected day (23:59:59)
-*Fix: Make sure our own custom post type post meta keys are not being saved in postmeta for random post types. Next version will contain a tool to remove unnecessary post meta entries that were created
+* Fix: Make sure our own custom post type post meta keys are not being saved in postmeta for random post types. Next version will contain a tool to remove unnecessary post meta entries that were created
 * Fix: Disable autoloading for some bigger options which do not need it
 * Fix: Make sure the Failed Payment webhook from Stripe does not process the subscription if there's a newer Completed payment for the same subscription
 * Fix: Compatibility issues with the Elementor Loop Grid widget

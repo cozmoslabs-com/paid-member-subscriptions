@@ -802,27 +802,27 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
     public function get_summary_data( $queried_payments ){
 
         $default_currency = pms_get_active_currency();
-        $payments_count  = array();
-        $payments_amount = array();
+        $payments_count   = array();
+        $payments_amount  = array();
 
         $subscriptions_plans_result = array();
 
-        $completed_payments = ['subscription_initial_payment', 'recurring_payment_profile_created', 'expresscheckout', 'subscription_renewal_payment', 'subscription_upgrade_payment', 'subscription_downgrade_payment'];
-        $recurring_payments = ['subscription_recurring_payment', 'recurring_payment', 'subscr_payment'];
-        $attempts_payments = ['subscription_retry_payment'];
-        $status = ['completed'];
+        $completed_payments       = ['subscription_initial_payment', 'recurring_payment_profile_created', 'expresscheckout', 'subscription_renewal_payment', 'subscription_upgrade_payment', 'subscription_downgrade_payment'];
+        $recurring_payments       = ['subscription_recurring_payment', 'recurring_payment', 'subscr_payment'];
+        $attempts_payments        = ['subscription_retry_payment'];
+        $status                   = ['completed'];
         $total_successful_retries = 0;
         $total_completed_payments = $total_recurring_payments = $total_recovered_payments = array();
 
-        $discount_codes_result = $this->pms_prepare_discount_codes( array(), $queried_payments );
+        $discount_codes_result   = $this->pms_prepare_discount_codes( array(), $queried_payments );
         $payment_gateways_result = $this->pms_prepare_payment_gateway( array() );
 
         $default_currency_totals = array(
-            'payments_amount' => 0,
-            'payments_count' => 0,
+            'payments_amount'          => 0,
+            'payments_count'           => 0,
             'total_completed_payments' => 0,
             'total_recurring_payments' => 0,
-            'payment_gateways_result' => $payment_gateways_result,
+            'payment_gateways_result'  => $payment_gateways_result,
             'total_recovered_payments' => 0,
         );
 
@@ -834,8 +834,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                     $subscriptions_plans_result[$sub_id] = array( 'name' => '', 'earnings' => array(), 'count' => array(), 'default_currency_total' => 0 );
                 }
             }
-        }
-        else{
+        } else {
             $specific_subs = pms_get_subscription_plans(false);
 
             foreach ( $specific_subs as $plan ){
@@ -849,19 +848,16 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         if( !empty( $queried_payments ) ) {
 
             foreach( $queried_payments as $payment ) {
-                $currency = !empty( $payment->currency ) ? $payment->currency : $default_currency;
+                $currency             = !empty( $payment->currency ) ? $payment->currency : $default_currency;
+                $currency             = apply_filters( 'pms_reports_payment_currency', $currency, $payment );
                 $base_currency_amount = get_metadata( 'payment', $payment->id, 'base_currency_amount', true );
 
-
                 // Total Payment Amounts in Default Currency
-
                 if ( $currency === $default_currency ) {
                     $default_currency_payment_amount = $payment->amount;
-                }
-                elseif ( !empty( $base_currency_amount ) ) {
+                } elseif ( !empty( $base_currency_amount ) ) {
                     $default_currency_payment_amount = $base_currency_amount;
-                }
-                else {
+                } else {
                     $default_currency_payment_amount = function_exists( 'pms_convert_currency' ) ? pms_convert_currency( $payment->amount, $currency, $default_currency,  date('Y-m-d', strtotime( $payment->date ) ) ) : $payment->amount;
                 }
 
@@ -881,77 +877,62 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                 $subscriptions_plans_result[intval( $payment->subscription_id )]['default_currency_total'] += $default_currency_payment_amount;
 
-
                 // Total Earnings
-
                 if ( isset( $payments_amount[$currency] ) )
                     $payments_amount[$currency] += $payment->amount;
-                else $payments_amount[$currency] = $payment->amount;
-
+                else 
+                    $payments_amount[$currency] = $payment->amount;
 
                 // Total Payments
-
                 $default_currency_totals['payments_count']++;
 
                 if ( isset( $payments_count[$currency] ) )
                     $payments_count[$currency]++;
-                else $payments_count[$currency] = 1;
-
+                else 
+                    $payments_count[$currency] = 1;
 
                 // New Revenue
-
                 $total_completed_payments[$currency] = isset( $total_completed_payments[$currency] ) ? $total_completed_payments[$currency] : 0;
                 $total_completed_payments[$currency] = $this->pms_sum_type_of_payment( $payment->type, $completed_payments, $payment->amount,  $total_completed_payments[$currency] );
 
-
                 // Recurring Revenue
-
                 $total_recurring_payments[$currency] = isset( $total_recurring_payments[$currency] ) ? $total_recurring_payments[$currency] : 0;
                 $total_recurring_payments[$currency] = $this->pms_sum_type_of_payment( $payment->type, $recurring_payments, $payment->amount, $total_recurring_payments[$currency] );
 
-
                 // Payment Gateways Revenue
-
                 if ( !empty( $payment->payment_gateway ) && !is_array( $payment_gateways_result[ $payment->payment_gateway ]['earnings'] ) && $payment_gateways_result[ $payment->payment_gateway ]['earnings'] == 0 )
                     $payment_gateways_result[ $payment->payment_gateway ]['earnings'] = array();
 
                 if( isset( $payment_gateways_result[ $payment->payment_gateway ]['earnings'][ $currency ] ) ){
                     $payment_gateways_result[ $payment->payment_gateway ]['earnings'][ $currency ] += $payment->amount;
-                }
-                else {
+                } else {
                     $payment_gateways_result[ $payment->payment_gateway ]['earnings'][ $currency ] = $payment->amount;
                 }
                 // TODO: simplify the above: maybe update the pms_prepare_payment_gateway() function to return "earnings" as empty array instead of 0
 
-
-
                 // Payment Retries
-
                 $total_successful_retries            = $this->pms_count_type_and_status_of_payment( $payment->type, $attempts_payments, $payment->status, $status, $total_successful_retries );
 
                 $total_recovered_payments[$currency] = isset( $total_recovered_payments[$currency] ) ? $total_recovered_payments[$currency] : 0;
                 $total_recovered_payments[$currency] = $this->pms_sum_type_and_status_of_payment( $payment->type, $attempts_payments, $payment->status, $status, $payment->amount, $total_recovered_payments[$currency] );
 
-
                 // Subscription Plans
-
                 if ( isset( $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['earnings'][$currency] ) )
                     $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['earnings'][$currency] += $payment->amount;
-                else $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['earnings'][$currency] = $payment->amount;
+                else 
+                    $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['earnings'][$currency] = $payment->amount;
 
                 if ( isset( $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['count'][$currency] ) )
                     $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['count'][$currency]++;
-                else $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['count'][$currency] = 1;
-
+                else 
+                    $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['count'][$currency] = 1;
 
                 if( empty( $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['name'] ) ){
                     $plan = pms_get_subscription_plan( $payment->subscription_id );
                     $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['name'] = $plan->name;
                 }
 
-
                 // Discount Codes
-
                 $discount_codes_result[ $payment->discount_code ]['count']++;
             }
 
@@ -968,17 +949,17 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
 
         $summary_data = array(
-            'payments_amount' => $payments_amount,
-            'payments_count' => $payments_count,
-            'total_completed_payments' => $total_completed_payments,
-            'total_recurring_payments' => $total_recurring_payments,
+            'payments_amount'            => $payments_amount,
+            'payments_count'             => $payments_count,
+            'total_completed_payments'   => $total_completed_payments,
+            'total_recurring_payments'   => $total_recurring_payments,
             'subscriptions_plans_result' => $subscriptions_plans_result,
-            'payment_gateways_result' => $payment_gateways_result,
-            'total_successful_retries' => $total_successful_retries,
-            'total_recovered_payments' => $total_recovered_payments,
-            'discount_codes_result' => $discount_codes_result,
-            'default_currency' => $default_currency,
-            'default_currency_totals' => $default_currency_totals
+            'payment_gateways_result'    => $payment_gateways_result,
+            'total_successful_retries'   => $total_successful_retries,
+            'total_recovered_payments'   => $total_recovered_payments,
+            'discount_codes_result'      => $discount_codes_result,
+            'default_currency'           => $default_currency,
+            'default_currency_totals'    => $default_currency_totals
         );
 
         return $summary_data;
@@ -998,25 +979,26 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
         $nav_tabs = array(
             'general' => array(
-                'id' => 'pms-general-link',
-                'title' => esc_html__( 'General', 'paid-member-subscriptions' ),
+                'id'            => 'pms-general-link',
+                'title'         => esc_html__( 'General', 'paid-member-subscriptions' ),
                 'section_class' => 'pms-general-section'
             ),
             'subscription_plans' => array(
-                'id' => 'pms-subscription-plans-link',
-                'title' => esc_html__( 'Subscription Plans', 'paid-member-subscriptions' ),
+                'id'            => 'pms-subscription-plans-link',
+                'title'         => esc_html__( 'Subscription Plans', 'paid-member-subscriptions' ),
                 'section_class' => 'pms-subscription-plans-section'
             ),
             'discount_codes' => array(
-                'id' => 'pms-discount-codes-link',
-                'title' => esc_html__( 'Discount Codes', 'paid-member-subscriptions' ),
+                'id'            => 'pms-discount-codes-link',
+                'title'         => esc_html__( 'Discount Codes', 'paid-member-subscriptions' ),
                 'section_class' => 'pms-discount-codes-section'
             )
         );
 
-
         $nav_tabs = apply_filters( 'pms_reports_summary_tabs', $nav_tabs );
+
         $class_section = 'present';
+        $active_tab    = 'pms-general-section';
 
         if( $previous ){
             foreach ( $nav_tabs as $tab => $data ) {
@@ -1049,13 +1031,14 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                 <div class="pms-summary-tabs">
                     <?php
                         foreach ( $nav_tabs as $tab ) {
-                            echo '<a class="pms-summary-tab" id="'. esc_html( $tab['id'] ) .'">'. esc_html( $tab['title'] ) .'</a>';
+                            $active_class = $active_tab === $tab['section_class'] ? ' active' : '';
+                            echo '<a class="pms-summary-tab pms-reports-tab'. esc_attr( $active_class ) .'" id="'. esc_html( $tab['id'] ) .'" data-target="'. esc_attr( $tab['section_class'] ) .'" data-period="'. esc_attr( $class_section ) .'">'. esc_html( $tab['title'] ) .'</a>';
                         }
                     ?>
                 </div>
 
                 <div class="pms-summary-section <?php echo esc_html( $nav_tabs['general']['section_class'] ); ?>">
-                    <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                    <div class="cozmoslabs-form-field-wrapper">
                         <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total earnings for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Total Earnings', 'paid-member-subscriptions' ); ?></label>
 
                         <div class="pms-total-container" id="total-earnings-amount">
@@ -1095,7 +1078,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                         </div>
                     </div>
 
-                    <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                    <div class="cozmoslabs-form-field-wrapper">
                         <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Total Payments', 'paid-member-subscriptions' ); ?></label>
 
                         <div class="pms-total-container" id="total-payments-count">
@@ -1139,7 +1122,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                     </div>
 
-                    <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                    <div class="cozmoslabs-form-field-wrapper">
                         <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total earnings of completed payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'New Revenue', 'paid-member-subscriptions' ); ?></label>
 
                         <div class="pms-total-container" id="new-revenue-amount">
@@ -1194,7 +1177,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                     </div>
 
-                    <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                    <div class="cozmoslabs-form-field-wrapper">
                         <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total earnings of recurring payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Recurring Revenue', 'paid-member-subscriptions' ); ?></label>
 
                         <div class="pms-total-container" id="recurring-revenue-amount">
@@ -1248,7 +1231,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                     </div>
 
-                    <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                    <div class="cozmoslabs-form-field-wrapper">
                         <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'The plan with the most income for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Best Performing Plan', 'paid-member-subscriptions' ); ?></label>
                         <?php if( !empty( $summary_data['subscriptions_plans_result'] ) && isset( $summary_data['subscriptions_plans_result'][0] ) ){
                             $best_performing_plan = $summary_data['subscriptions_plans_result'][0];
@@ -1268,13 +1251,13 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                         }?>
                     </div>
 
-                    <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                    <div class="cozmoslabs-form-field-wrapper">
                         <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of renewal payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Renewal Payments', 'paid-member-subscriptions' ); ?></label>
                         <span><?php echo esc_html( $summary_data['total_renewal_payments'] ); ?></span>
                     </div>
 
-                    <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
-                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of upgraded payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Upgraded Payments', 'paid-member-subscriptions' ); ?></label>
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of upgrade payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Upgrade Payments', 'paid-member-subscriptions' ); ?></label>
                         <span><?php echo esc_html( $summary_data['total_upgrade_payments'] ); ?></span>
                     </div>
 
@@ -1296,7 +1279,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                                                 <div class="payment-gateway-amount">
 
-                                                    <p style="margin: 0 0 5px 0;" title="<?php
+                                                    <span title="<?php
                                                     if( $default_currency_totals['payments_amount'] != 0)
                                                         $payment_gateway['percent'] = ( 100 * $payment_gateway['earnings'] ) / $default_currency_totals['payments_amount'];
                                                     else $payment_gateway['percent'] = 0;
@@ -1305,7 +1288,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                                                     ?>">
                                                         <?php echo esc_html( pms_format_price( $payment_gateway['earnings'], $default_currency ) ); ?>
-                                                    </p>
+                                                    </span>
 
                                                 </div>
 
@@ -1393,7 +1376,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                         if( !empty( $plan['earnings'] ) ){
                             $nr_plans++; ?>
-                            <div class="cozmoslabs-form-field-wrapper pms-plans-section cozmoslabs-toggle-switch">
+                            <div class="cozmoslabs-form-field-wrapper pms-plans-section">
                                 <label class="cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total earnings for the selected subscription plan', 'paid-member-subscriptions' ); ?>"><?php echo esc_html( $plan['name'] ); ?></label>
 
                                 <div class="cozmoslabs-form-field-label pms-subscription-plan-amount" style="display: flex; flex-direction: column; gap: 5px;">
@@ -1469,7 +1452,6 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                 </div>
 
                 <?php do_action( 'pms_reports_summary_sections_bottom', $summary_data, $results_arrow, $previous ); ?>
-
 
             </div>
         </div>

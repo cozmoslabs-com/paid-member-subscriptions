@@ -169,6 +169,21 @@ if( !class_exists('PMS_EDD_SL_Plugin_Updater') ) {
                 if ( ! isset( $version_info->requires_php ) ) {
                     $version_info->requires_php = '';
                 }
+                if ( ! isset( $version_info->url ) ) {
+                    $version_info->url = '';
+                }
+                if ( ! isset( $version_info->package ) ) {
+                    $version_info->package = '';
+                }
+                if ( ! isset( $version_info->icons ) ) {
+                    $version_info->icons = array();
+                }
+                if ( ! isset( $version_info->banners ) ) {
+                    $version_info->banners = array();
+                }
+                if ( ! isset( $version_info->new_version ) ) {
+                    $version_info->new_version = '';
+                }
 
                 $this->set_version_info_cache( $version_info );
             }

@@ -52,6 +52,10 @@ if( file_exists( PMS_IN_DC_PLUGIN_DIR_PATH . 'includes/class-admin-discount-code
 if( file_exists( PMS_IN_DC_PLUGIN_DIR_PATH . 'includes/class-metabox-discount-codes-details.php' ) )
     include_once( PMS_IN_DC_PLUGIN_DIR_PATH . 'includes/class-metabox-discount-codes-details.php' );
 
+// Meta box for discount codes extra options
+if( file_exists( PMS_IN_DC_PLUGIN_DIR_PATH . 'includes/class-metabox-discount-codes-extra-options.php' ) )
+    include_once( PMS_IN_DC_PLUGIN_DIR_PATH . 'includes/class-metabox-discount-codes-extra-options.php' );
+
 
 /**
  * Adding Admin scripts
@@ -433,6 +437,44 @@ function pms_in_dc_register_payment_data_after_discount( $payment_data, $payment
 }
 add_filter( 'pms_register_payment_data', 'pms_in_dc_register_payment_data_after_discount', 20, 2 ); //has a later execution so we can discount the Pay What You Want pricing as well
 
+
+/**
+ * In case a 100% discount code is used with a recurring checkout, the above function will set the payment to completed before we attempt to register the users payment method.
+ * If the payment method registration fails, we need to set the payment to failed.
+ */
+function pms_in_dc_maybe_set_payment_to_failed( $subscription, $payment, $form_location ) {
+
+    if( empty( $payment ) || empty( $payment->id ) )
+        return;
+
+    // Payment object was not updated in the Form Handler class, we need to grab it again
+    $payment = pms_get_payment( $payment->id );
+
+    if( $payment->status !== 'completed' )
+        return;
+
+    $discount = pms_in_get_discount_by_code( $payment->discount_code );
+
+    if( empty( $discount->id ) )
+        return;
+
+    if( !empty( $discount->recurring_payments ) && $discount->recurring_payments == 'checked' )
+        return;
+
+    $checkout_is_recurring = PMS_Form_Handler::checkout_is_recurring();
+
+    if( !$checkout_is_recurring )
+        return;
+
+    if( $payment->amount != 0 )
+        return;
+
+    $payment->update( array( 'status' => 'failed' ) );
+    $payment->log_data( 'payment_method_registration_failed' );
+
+}
+add_action( 'pms_checkout_error_before_redirect', 'pms_in_dc_maybe_set_payment_to_failed', 10, 3 );
+
 /**
  * Modifies the billing amount on the checkout subscription data to the discounted value
  *
@@ -459,8 +501,29 @@ function pms_in_dc_modify_subscription_data_billing_amount( $subscription_data =
     if( false == $discount )
         return $subscription_data;
 
-    if( empty( $discount->recurring_payments ) )
+    if( empty( $discount->recurring_payments ) ){
+
+        // For non-recurring discounts, we need to verify if this is a full discount being applied to a Free Trial subscription
+        // In that case, we need to extend the free trial period with the subscription duration, to apply the discount to the initial payment
+        $subscription_plan = pms_get_subscription_plan( $subscription_data['subscription_plan_id'] );
+
+        if( $subscription_plan->has_trial() && !empty( $subscription_data['trial_end'] ) ){
+
+            $discounted_amount = pms_in_calculate_discounted_amount( $subscription_data['billing_amount'], $discount );
+
+            if( $discounted_amount == 0 ){
+                $trial_end     = strtotime( $subscription_data['trial_end'] );
+                $new_trial_end = strtotime( $subscription_plan->duration . ' ' . $subscription_plan->duration_unit, $trial_end );
+    
+                $subscription_data['trial_end']            = date( 'Y-m-d H:i:s', $new_trial_end );
+                $subscription_data['billing_next_payment'] = date( 'Y-m-d H:i:s', $new_trial_end );
+            }
+            
+        }
+
         return $subscription_data;
+
+    }
 
     /**
      * If the subscription has a set billing amount, calculate the discounted price from it
@@ -524,8 +587,12 @@ function pms_in_dc_save_discount_inside_subscriptionmeta( $subscription, $checko
         // Make sure discount doesn't apply to all recurring payment (just the first one)
         if( !empty( $discount ) && ( empty( $discount->recurring_payments ) || !$checkout_data['is_recurring'] ) && function_exists( 'pms_update_member_subscription_meta' ) ) {
 
-            // Save the discount inside _pms_member_subscriptionmeta
-            pms_update_member_subscription_meta($subscription->id, '_discount_code_id', $discount->id);
+            // Verify that the discounted amount is not zero
+            $discounted_amount = pms_in_calculate_discounted_amount( $subscription->billing_amount, $discount );
+            if( $discounted_amount != 0 ){
+                // Save the discount inside _pms_member_subscriptionmeta
+                pms_update_member_subscription_meta($subscription->id, '_discount_code_id', $discount->id);
+            }
 
         }
     }

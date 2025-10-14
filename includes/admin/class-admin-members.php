@@ -966,6 +966,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'paypal_webhook_payment_token_created':
                 $message = __( 'Payment token created and assigned to the subscription.', 'paid-member-subscriptions' );
                 break;
+            case 'esdo_automatically_downgrade':
+                $message = sprintf( __( 'Automatically downgraded plan to %s', 'paid-member-subscriptions' ), $log['data']['subscription_name'] );
+                break;
             default:
                 $message = __( 'Something went wrong.', 'paid-member-subscriptions' );
                 break;

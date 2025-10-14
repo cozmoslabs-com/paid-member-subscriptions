@@ -2319,7 +2319,7 @@ body.learndash-post-type #pms_post_content_restriction_learndash .button-primary
     margin-top: 35px;
 }
 
-.cozmoslabs-form-field-wrapper.pms-group-memberships-field {
+.cozmoslabs-form-field-wrapper.pms-group-memberships-field, .cozmoslabs-form-field-wrapper.pms-invite-code-field {
     display: none;
 }
 
@@ -4816,8 +4816,23 @@ body.admin-color-fresh ul#adminmenu .toplevel_page_paid-member-subscriptions.wp-
     margin-right: -10px;
 }
 
-.pms-general-section .cozmoslabs-form-field-wrapper, .pms-general-section-previous .cozmoslabs-form-field-wrapper{
-    margin-top: 24px !important;
+.pms-general-section .cozmoslabs-form-field-wrapper, .pms-general-section-previous .cozmoslabs-form-field-wrapper {
+    margin-top: 14px !important;
+}
+
+.pms-general-section .pms-gateway-revenue .cozmoslabs-form-field-wrapper, 
+.pms-general-section .pms-payment-retries .cozmoslabs-form-field-wrapper, 
+.pms-general-section-previous .pms-gateway-revenue .cozmoslabs-form-field-wrapper, 
+.pms-general-section-previous .pms-payment-retries .cozmoslabs-form-field-wrapper {
+    margin-top: 8px !important;
+}
+
+.pms-general-section .pms-gateway-revenue,
+.pms-general-section .pms-payment-retries,
+.pms-general-section-previous .pms-gateway-revenue,
+.pms-general-section-previous .pms-payment-retries {
+    border-top: 1px solid #dcdcde;
+    padding-top: 12px;
 }
 
 /*.pms-general-section .pms-gateway-revenue, .pms-general-section-previous .pms-gateway-revenue,*/
@@ -4931,4 +4946,57 @@ div.wppb-serial-notification {
 
 #pms_add-new-rule-container .pms-add-rule {
     display: none;
+}
+
+/***********************************************************/
+/* Extra Subscription and Discount Options add-on
+/***********************************************************/
+
+.pms-arrow-extra-options {
+    display: inline-block;
+    transition: transform 0.2s ease;
+    margin-left: 5px;
+}
+
+.pms-arrow-extra-options.open {
+    transform: rotate(90deg); /* down arrow */
+}
+
+.pms-toggle-extra-options{
+    font-size: 14px !important;
+    margin-top: 30px;
+    display: inline-block;
+}
+
+#pms-date-error, #pms-limit-error{
+    color: red !important;
+    display: none;
+}
+
+.pms-addon-upsell-wrapper {
+    position: relative;
+}
+
+.pms-addon-upsell-wrapper .cozmoslabs-description-upsell {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
+
+    font-size: 16px;
+    font-weight: 500;
+    width: auto !important;
+    padding: 18px;
+}
+
+.pms-addon-upsell-wrapper .button-primary {
+    margin-top: 12px;
+    font-size: 16px !important;
+    line-height: 100% !important
+}
+
+.pms-esdo-start-date, .pms-esdo-end-date{
+    margin-left: 9px;
 }

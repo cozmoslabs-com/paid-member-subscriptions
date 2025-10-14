@@ -380,10 +380,6 @@ form.pms-form ul.pms-form-fields-wrapper {
     border-color: #0056ba;
 }
 
-/* #pms-paygates-inner input:checked + span {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-} */
-
 #pms-paygates-inner input[value="manual"] + span {
     font-style: normal;
     font-weight: 500;
@@ -902,4 +898,15 @@ label[for="pms_subscription_plans_discount"] {
 .pms-billing-details .pms-billing-zip,
 .pms-billing-details .pms-billing-country {
     flex-basis: calc( 50% - 9px ); /* 18px gap / 2 */
+}
+
+/* ESDO invite code description */
+.pms-invite-code-description{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    color: #6E7A86;
+    margin-left: 10px;
+    margin-top: 5px;
+    font-style: italic;
 }

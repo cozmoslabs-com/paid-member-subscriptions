@@ -64,6 +64,8 @@ Class PMS_Shortcodes {
          */
         if( ! empty( $atts['subscription_plans'] ) )
             $atts['subscription_plans'] = apply_filters( 'pms_register_form_subscription_plans', array_map( 'trim', explode(',', $atts['subscription_plans'] ) ) );
+        else
+            $atts['subscription_plans'] = apply_filters( 'pms_register_form_subscription_plans', $atts['subscription_plans'] );
 
         if ( ( ! empty($atts['subscription_plans']) ) && ( strtolower( $atts['subscription_plans'][0] ) == 'none' ) )
             pms_errors()->remove('subscription_plans');

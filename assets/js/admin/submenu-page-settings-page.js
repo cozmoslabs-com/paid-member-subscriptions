@@ -249,6 +249,35 @@ jQuery( function($) {
 
     })
 
+    $(document).on( 'click', '.pms-stripe-customize-appearance .cozmoslabs-toggle-expansion', function () {
+
+        $(this).siblings('.cozmoslabs-toggle-container').toggle();
+        $(this).siblings('.cozmoslabs-toggle-description').toggle();
+
+
+        if( jQuery('.pms-stripe-customize-appearance .pms-addon-upsell-wrapper').length > 0 ){
+            $(this).siblings('.cozmoslabs-toggle-container').css('pointer-events', 'none');
+            $(this).siblings('.cozmoslabs-toggle-description').css('pointer-events', 'none');
+
+            if( $(this).siblings('.cozmoslabs-toggle-container').is(':visible') ){
+                $(this).siblings('.cozmoslabs-toggle-container').css('opacity', '0.5');
+            }
+
+            if( $(this).siblings('.cozmoslabs-form-field-label').is(':visible') ){
+                $(this).siblings('.cozmoslabs-form-field-label').css('opacity', '0.5');
+            }
+
+            if( $(this).siblings('.cozmoslabs-toggle-description').is(':visible') ){
+                $(this).siblings('.cozmoslabs-toggle-description').css('opacity', '0.5');
+            }
+        }
+
+        $('.pms-stripe-customize-appearance .pms-stripe-customize-appearance__options').toggle();
+        $(this).hide()
+
+
+    });
+
     $(document).on( 'change', '.pms-form-field-active-payment-gateways #paypal_connect', function () {
 
         if ( this.checked )

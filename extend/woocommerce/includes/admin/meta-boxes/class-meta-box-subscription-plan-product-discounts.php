@@ -30,13 +30,16 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
         $product_discounts = get_post_meta( $post->ID, 'pms-woo-subscription-plan-product-discounts', true );
         $product_discounts = !empty( $product_discounts ) ? $product_discounts : array();
 
+
+        $max_products = apply_filters( 'pms_woo_subscription_plan_product_discounts_limit', 2500 );
+
         // Add a nonce field
         wp_nonce_field( 'pms_woo_subscription_plan_product_discounts', 'pmstkn_dc' );
 
         // Add some global js variables
         $products_count = $this->count_products();
 
-        if( $products_count < 5000 ){
+        if( $products_count < $max_products ){
             $products = get_posts( array( 'post_type' => array('product', /*'product_variation'*/), 'numberposts' => -1 ) );
         }
 
@@ -66,7 +69,7 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
         echo '<tr>';
         echo '<td><h4><label>' . esc_html( __( 'Discount for', 'paid-member-subscriptions' ) ) . '</label></h4></td>';
 
-        if( $products_count < 5000 )
+        if( $products_count < $max_products )
             echo '<td><h4><label>' . esc_html( __( 'Name', 'paid-member-subscriptions' ) ) . '</label></h4></td>';
         else
             echo '<td><h4><label>' . esc_html( __( 'ID / Name', 'paid-member-subscriptions' ) ) . '</label></h4></td>';
@@ -102,7 +105,7 @@ Class PMS_Meta_Box_Subscription_Plan_Product_Discounts extends PMS_Meta_Box {
 
                 echo '<td>';
 
-                if( $products_count < 5000 ){
+                if( $products_count < $max_products ){
                     echo '<select name="pms-woo-subscription-product-discounts[' . esc_attr($key) . '][name][]" multiple data-placeholder='. esc_attr( __("Select... or leave blank to apply to all", "paid-member-subscriptions") ) . ' class="widefat pms-chosen pms-select-name">';
 
                     $values = isset( $discount['discount-for'] ) && $discount['discount-for'] == 'products' ? $products : $product_categories;

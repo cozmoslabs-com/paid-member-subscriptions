@@ -286,16 +286,20 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
 
 
     // Get all subscription plans
-    if( empty( $include ) )
+    if( empty( $include ) ){
         $subscription_plans = pms_get_subscription_plans();
+    }
     else {
         $include = array_values( $include );
-        
+
         if( !is_object( $include[0] ) )
             $subscription_plans = pms_get_subscription_plans( true, $include );
         else
             $subscription_plans = $include;
     }
+
+    $subscription_plans = apply_filters( 'pms_output_subscription_plans_included_plans', $subscription_plans );
+
 
 
     /*
@@ -366,8 +370,11 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
             $subscription_plan_output .= '</label>';
 
             // Description
-            if( !empty($subscription_plan->description) )
-                $subscription_plan_output .= '<div class="pms-subscription-plan-description">' . apply_filters( 'pms_output_subscription_plan_description', htmlspecialchars_decode( esc_html( $subscription_plan->description ) ), $subscription_plan )  . '</div>';
+            $plan_description = apply_filters( 'pms_output_subscription_plan_description', !empty( $subscription_plan->description ) ? htmlspecialchars_decode( esc_html( $subscription_plan->description ) ) : '', $subscription_plan );
+
+            if ( !empty( $plan_description ) ) {
+                $subscription_plan_output .= '<div class="pms-subscription-plan-description">' . $plan_description . '</div>';
+            }
 
             $subscription_plan_output .= '</div>';
 
@@ -398,12 +405,14 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
 
                     foreach( $subscriptions as $subscription_plan ) {
 
+                        $disabled = apply_filters( 'pms_output_subscription_plan_disabled_attribute', '', $subscription_plan->id );
+
                         // Output subscription plan wrapper
                         $subscription_plan_output = '<div class="pms-subscription-plan pms-subscription-plan-'. $subscription_plan->id .'">';
 
                         // Output subscription plan radio button and label
                         $subscription_plan_output .= '<label>';
-                            $subscription_plan_output .= '<input type="radio" name="subscription_plans" ' . pms_get_subscription_plan_input_data_attrs( $subscription_plan, $form_location ) . ' value="' . esc_attr( $subscription_plan->id ) . '" ' .  checked( $default_checked, $subscription_plan->id, false ) . ( $default_checked == $subscription_plan->id ? 'data-default-selected="true"' : 'data-default-checked="false"' ) . ' />';
+                            $subscription_plan_output .= '<input type="radio" name="subscription_plans" ' . pms_get_subscription_plan_input_data_attrs( $subscription_plan, $form_location ) . ' value="' . esc_attr( $subscription_plan->id ) . '" ' .  checked( $default_checked, $subscription_plan->id, false ) . ( $default_checked == $subscription_plan->id ? 'data-default-selected="true"' : 'data-default-checked="false"' ) . $disabled . ' />';
 
                             $subscription_plan_output .= '<span class="pms-subscription-plan-name">' . apply_filters( 'pms_output_subscription_plan_name', esc_html( $subscription_plan->name ), $subscription_plan ) . '</span>';
 
@@ -427,8 +436,11 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
                         $subscription_plan_output .= '</label>';
 
                         // Description
-                        if( !empty($subscription_plan->description) )
-                            $subscription_plan_output .= '<div class="pms-subscription-plan-description">' . apply_filters( 'pms_output_subscription_plan_description', htmlspecialchars_decode( esc_html( $subscription_plan->description ) ), $subscription_plan )  . '</div>';
+                        $plan_description = apply_filters( 'pms_output_subscription_plan_description', !empty( $subscription_plan->description ) ? htmlspecialchars_decode( esc_html( $subscription_plan->description ) ) : '', $subscription_plan );
+
+                        if ( !empty( $plan_description ) ) {
+                            $subscription_plan_output .= '<div class="pms-subscription-plan-description">' . $plan_description . '</div>';
+                        }
 
                         $subscription_plan_output .= '</div>';
 
@@ -909,6 +921,11 @@ function pms_output_subscription_plans_filter( $action ){
             remove_filter( 'pms_output_subscription_plans', array( $pms_group_memberships, 'add_purchase_message' ), 7 );
         }
 
+        global $pms_esdo;
+        if( isset( $pms_esdo ) ){
+            remove_filter( 'pms_output_subscription_plans', array( $pms_esdo, 'esdo_add_custom_fields' ), 8 );
+        }
+
     } else if( $action === 'add' ){
 
         if( function_exists( 'pms_output_subscription_plans_payment_gateways' ) )
@@ -928,6 +945,11 @@ function pms_output_subscription_plans_filter( $action ){
         if( isset( $pms_group_memberships ) ){
             add_filter( 'pms_output_subscription_plans', array( $pms_group_memberships, 'add_custom_fields' ), 8, 7 );
             add_filter( 'pms_output_subscription_plans', array( $pms_group_memberships, 'add_purchase_message' ), 7, 7 );
+        }
+
+        global $pms_esdo;
+        if( isset( $pms_esdo ) ){
+            add_filter( 'pms_output_subscription_plans', array( $pms_esdo, 'esdo_add_custom_fields' ), 8, 7 );
         }
 
     }
@@ -954,4 +976,22 @@ function pms_get_change_subscription_plan_context( $current_subscription_plan_id
 
     return $context;
 
+}
+
+/**
+ * Returns the current number of members enrolled in the respective subscription
+ *
+ */
+
+function pms_get_member_count_by_subscription_plan( $subscription_plan_id )
+{
+    global $wpdb;
+
+    $table_name = $wpdb->prefix . 'pms_member_subscriptions';
+
+    $query = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE subscription_plan_id = %d AND status NOT IN ('pending', 'abandoned')", $subscription_plan_id );
+
+    $count = $wpdb->get_var( $query );
+
+    return (int) $count;
 }

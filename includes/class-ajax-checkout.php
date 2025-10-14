@@ -391,8 +391,17 @@ Class PMS_AJAX_Checkout_Handler {
 
                 $redirect_url = esc_url_raw( $_POST['current_page'] );
 
-                $payment = pms_get_payment( $payment_id );
-                $user    = get_userdata( $payment->user_id );
+                if( empty( $payment_id ) ){
+
+                    $user_email = isset( $_POST['user_email'] ) ? sanitize_text_field( $_POST['user_email'] ) : ( isset( $_POST['email'] ) ? sanitize_text_field( $_POST['email'] ) : '' );
+                    $user       = get_user_by( 'email', $user_email );
+
+                } else {
+
+                    $payment = pms_get_payment( $payment_id );
+                    $user    = get_userdata( $payment->user_id );
+
+                }
 
                 // WPPB Form
                 if( isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){

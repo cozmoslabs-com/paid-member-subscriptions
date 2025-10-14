@@ -240,6 +240,9 @@ Class PMS_Payments_Log_List_Table extends WP_List_Table {
             case 'new_payment':
                 $message = sprintf( __( 'New payment added by <strong>%s</strong>.', 'paid-member-subscriptions' ), $this->get_display_name( $log['data']['user'] ) );
                 break;
+            case 'payment_method_registration_failed':
+                $message = __( 'Payment was reverted to failed because the payment method registration is required but it failed.', 'paid-member-subscriptions' );
+                break;
             default:
                 $message = __( 'Something went wrong.', 'paid-member-subscriptions' );
                 break;

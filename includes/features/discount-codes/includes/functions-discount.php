@@ -255,12 +255,15 @@ function pms_in_dc_apply_discount_success_message( $code, $subscription, $user_c
     }
 
     // Set currency position according to the PMS Settings page
-    $initial_payment_price = pms_format_price( $initial_payment, $currency );
-    $after_trial_payment   = pms_format_price( $subscription_plan_price, $currency );
+    $initial_payment_price      = pms_format_price( $initial_payment, $currency );
+    $after_trial_payment        = pms_format_price( $subscription_plan_price, $currency );
+    $after_trial_payment_amount = $subscription_plan_price;
 
     // If both trial and sign-up fees are added, add discount to both initial payment and after trial payment
-    if( !empty( $trial_duration ) && !empty( $subscription_plan->sign_up_fee ) )
-        $after_trial_payment = pms_format_price( pms_in_calculate_discounted_amount( $subscription_plan_price, $discount ), $currency );
+    if( !empty( $trial_duration ) && !empty( $subscription_plan->sign_up_fee ) ){
+        $after_trial_payment        = pms_format_price( pms_in_calculate_discounted_amount( $subscription_plan_price, $discount ), $currency );
+        $after_trial_payment_amount = pms_in_calculate_discounted_amount( $subscription_plan_price, $discount );
+    }
 
     /**
      * Start building the response
@@ -274,8 +277,22 @@ function pms_in_dc_apply_discount_success_message( $code, $subscription, $user_c
         if ( !empty( $trial_duration ) && empty( $subscription_plan->sign_up_fee ) ){
             if( $subscription_plan->is_fixed_period_membership() ){
                 $response .= sprintf( __( 'Amount to be charged after %1$s is %2$s %3$s, then %4$s repeated yearly.', 'paid-member-subscriptions' ), $trial_duration, $initial_payment_price, $duration, $recurring_payment_price );
-            } else{
+            } else {
+
+                // Trial, but the initial payment after the trial is actually 0, so the user will receive trial + free duration period
+                if( $initial_payment == 0 ){
+                    $new_trial_duration_in_days = pms_in_dc_convert_duration_to_days( $subscription_plan->trial_duration, $subscription_plan->trial_duration_unit );
+                    $plan_duration_in_days      = pms_in_dc_convert_duration_to_days( $subscription_plan->duration, $subscription_plan->duration_unit );
+    
+                    $total_duration_in_days = $new_trial_duration_in_days + $plan_duration_in_days;
+                    $total_duration_in_days = $total_duration_in_days . ' days';
+    
+                    $trial_duration        = $total_duration_in_days;
+                    $initial_payment_price = $recurring_payment_price;
+                }
+
                 $response .= sprintf( __( 'Amount to be charged after %1$s is %2$s, then %3$s every %4$s.', 'paid-member-subscriptions' ), $trial_duration, $initial_payment_price, $recurring_payment_price, $duration );
+
             }
         }
         else if ( !empty( $trial_duration ) && !empty( $subscription_plan->sign_up_fee ) ){
@@ -306,7 +323,7 @@ function pms_in_dc_apply_discount_success_message( $code, $subscription, $user_c
 
         if ( !empty( $trial_duration ) && empty( $subscription_plan->sign_up_fee ) )
             $response .= sprintf( __( 'Amount to be charged after %1$s is %2$s.', 'paid-member-subscriptions' ), $trial_duration, $initial_payment_price );
-        else if ( !empty( $trial_duration ) && !empty( $subscription_plan->sign_up_fee ) )
+        else if ( !empty( $trial_duration ) && !empty( $subscription_plan->sign_up_fee ) && $after_trial_payment_amount != 0 )
             $response .= sprintf( __( 'Amount to be charged now is %1$s, then after %2$s %3$s.', 'paid-member-subscriptions' ), $initial_payment_price, $trial_duration, $after_trial_payment );
         else
             $response .= sprintf( __( 'Amount to be charged is %s.', 'paid-member-subscriptions' ), $initial_payment_price );
@@ -562,5 +579,34 @@ function pms_in_are_active_discounts_defined(){
     }
 
     return $pms_discounts_are_defined;
+
+}
+
+
+/**
+ * Convert duration to days
+ *
+ * @param int    $duration The duration value
+ * @param string $unit     The duration unit ('day', 'week', 'month', 'year')
+ * @return int             The duration converted to days
+ */
+function pms_in_dc_convert_duration_to_days( $duration, $unit ) {
+
+    if ( empty( $duration ) || $duration <= 0 ) {
+        return 0;
+    }
+
+    switch ( $unit ) {
+        case 'day':
+            return (int) $duration;
+        case 'week':
+            return (int) $duration * 7;
+        case 'month':
+            return (int) $duration * 30; // Using 30 days as average month
+        case 'year':
+            return (int) $duration * 365; // Using 365 days as average year
+        default:
+            return 0;
+    }
 
 }

@@ -683,7 +683,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
         // Clear the member subscriptions payment method details
         // PayPal is saving it's own information and these need to be cleared so they don't display in the member subscription details
-        $targets = array( 'pms_payment_method_number', 'pms_payment_method_type', 'pms_payment_method_expiration_month', 'pms_payment_method_expiration_year' );
+        $targets = array( 'pms_payment_method_type', 'pms_payment_method_number', 'pms_payment_method_brand', 'pms_payment_method_expiration_month', 'pms_payment_method_expiration_year' );
 
         foreach( $targets as $target ){
             pms_delete_member_subscription_meta( $subscription->id, $target );
@@ -700,7 +700,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
             
         // Clear the member subscriptions payment method details
         // PayPal is saving it's own information and these need to be cleared so they don't display in the member subscription details
-        $targets = array( 'pms_payment_method_number', 'pms_payment_method_type', 'pms_payment_method_expiration_month', 'pms_payment_method_expiration_year' );
+        $targets = array( 'pms_payment_method_type', 'pms_payment_method_number', 'pms_payment_method_brand', 'pms_payment_method_expiration_month', 'pms_payment_method_expiration_year' );
 
         foreach( $targets as $target ){
             pms_delete_member_subscription_meta( $subscription->id, $target );

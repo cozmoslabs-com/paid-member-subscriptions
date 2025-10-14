@@ -51,6 +51,15 @@ function pms_stripe_enqueue_front_end_scripts(){
     $pms_stripe_script_vars['stripe_account_country']      = pms_stripe_connect_get_account_country();
     $pms_stripe_script_vars['pms_elements_appearance_api'] = apply_filters( 'pms_stripe_connect_elements_styling', array( 'theme' => 'stripe' ) );
     $pms_stripe_script_vars['pms_customer_session']        = pms_stripe_generate_customer_session();
+    
+    if( is_user_logged_in() ){
+        $user = get_userdata( get_current_user_id() );
+        $pms_stripe_script_vars['pms_customer_email'] = $user->user_email;
+        $pms_stripe_script_vars['pms_customer_name'] = $user->display_name;
+    } else {
+        $pms_stripe_script_vars['pms_customer_email'] = '';
+        $pms_stripe_script_vars['pms_customer_name'] = '';
+    }
 
     $pms_stripe_script_vars['off_session_payments'] = 1;
 

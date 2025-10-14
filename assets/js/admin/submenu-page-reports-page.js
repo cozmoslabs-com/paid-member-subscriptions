@@ -178,101 +178,24 @@ jQuery( function($) {
         $('.pms-chosen').chosen();
     }
 
-    // General and Subscription Plans links
-
-    // $('.pms-subscription-plans-section').hide();
-    // $('.pms-subscription-plans-section-previous').hide();
-    //
-    // $('.pms-discount-codes-section').hide();
-    // $('.pms-discount-codes-section-previous').hide();
-    //
-    // $('.pms-other-currencies-section').hide();
-    // $('.pms-other-currencies-section-previous').hide();
-
-    $('#pms-general-link').addClass('active');
-    $('#pms-general-link-previous').addClass('active');
-
-    $('#pms-general-link').click(function(){
-
-        $('.present .inside a').removeClass('active');
-        $(this).addClass('active');
-
-        $('.pms-subscription-plans-section').hide();
-        $('.pms-discount-codes-section').hide();
-        $('.pms-other-currencies-section').hide();
-        $('.pms-general-section').show();
-    });
-
-    $('#pms-general-link-previous').click(function(){
-
-        $('.previous .inside a').removeClass('active');
-        $(this).addClass('active');
-
-        $('.pms-subscription-plans-section-previous').hide();
-        $('.pms-discount-codes-section-previous').hide();
-        $('.pms-other-currencies-section-previous').hide();
-        $('.pms-general-section-previous').show();
-    });
-
-    $('#pms-subscription-plans-link').click(function(){
-
-        $('.present .inside a').removeClass('active');
-        $(this).addClass('active');
-
-        $('.pms-general-section').hide();
-        $('.pms-discount-codes-section').hide();
-        $('.pms-other-currencies-section').hide();
-        $('.pms-subscription-plans-section').show();
-    });
-
-    $('#pms-subscription-plans-link-previous').click(function(){
-
-        $('.previous .inside a').removeClass('active');
-        $(this).addClass('active');
-
-        $('.pms-general-section-previous').hide();
-        $('.pms-discount-codes-section-previous').hide();
-        $('.pms-other-currencies-section-previous').hide();
-        $('.pms-subscription-plans-section-previous').show();
-    });
-
-    $('#pms-discount-codes-link').click(function(){
-        $('.present .inside a').removeClass('active');
-        $(this).addClass('active');
-
-        $('.pms-general-section').hide();
-        $('.pms-subscription-plans-section').hide();
-        $('.pms-other-currencies-section').hide();
-        $('.pms-discount-codes-section').show();
-    });
-
-    $('#pms-discount-codes-link-previous').click(function(){
-        $('.previous .inside a').removeClass('active');
-        $(this).addClass('active');
-
-        $('.pms-general-section-previous').hide();
-        $('.pms-subscription-plans-section-previous').hide();
-        $('.pms-other-currencies-section-previous').hide();
-        $('.pms-discount-codes-section-previous').show();
-    });
-
-    $('#pms-other-currencies-link').click(function(){
-        $('.present .inside a').removeClass('active');
-        $(this).addClass('active');
-
-        $('.pms-general-section').hide();
-        $('.pms-subscription-plans-section').hide();
-        $('.pms-discount-codes-section').hide();
-        $('.pms-other-currencies-section').show();
-    });
-
-    $('#pms-other-currencies-link-previous').click(function(){
-        $('.previous .inside a').removeClass('active');
-        $(this).addClass('active');
-
-        $('.pms-general-section-previous').hide();
-        $('.pms-subscription-plans-section-previous').hide();
-        $('.pms-discount-codes-section-previous').hide();
-        $('.pms-other-currencies-section-previous').show();
+    // Handle tab clicks
+    $(document).on('click', '.pms-reports-tab', function(e){
+        e.preventDefault();
+        
+        var $clickedTab   = $(this);
+        var targetSection = $clickedTab.data('target');  // e.g., 'pms-general-section'
+        var period        = $clickedTab.data('period');  // 'present' or 'previous'
+        
+        // Remove active class from all tabs in the same period
+        $('.' + period + ' .inside .pms-reports-tab').removeClass('active');
+        
+        // Add active class to clicked tab
+        $clickedTab.addClass('active');
+        
+        // Hide all sections in the same period
+        $('.' + period + ' .pms-summary-section').hide();
+        
+        // Show the target section
+        $('.' + period + ' .' + targetSection).show();
     });
 });

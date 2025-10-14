@@ -447,10 +447,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
 
                 <div class="cozmoslabs-form-field-wrapper">
+                    <?php
+                        $payment_retry_status = isset( $this->options['payments']['payment_retry_status'] ) ? $this->options['payments']['payment_retry_status'] : 'expired';
+                    ?>
                     <label class="cozmoslabs-form-field-label" for="payment-retry-status"><?php esc_html_e( 'Status of the subscription while retrying', 'paid-member-subscriptions' ) ?></label>
                     <select id="payment-retry-status" class="widefat" name="pms_misc_settings[payments][payment_retry_status]">
-                        <option value="expired" <?php selected( $this->options['payments']['payment_retry_status'], 'expired' ); ?>><?php esc_html_e( 'Expired', 'paid-member-subscriptions' ); ?></option>
-                        <option value="active" <?php selected( $this->options['payments']['payment_retry_status'], 'active' ); ?>><?php esc_html_e( 'Active', 'paid-member-subscriptions' ); ?></option>
+                        <option value="expired" <?php selected( $payment_retry_status, 'expired' ); ?>><?php esc_html_e( 'Expired', 'paid-member-subscriptions' ); ?></option>
+                        <option value="active" <?php selected( $payment_retry_status, 'active' ); ?>><?php esc_html_e( 'Active', 'paid-member-subscriptions' ); ?></option>
                     </select>
                     
                     <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Select the status of the subscription while retrying. By default, the subscription will be set to expired.', 'paid-member-subscriptions' ); ?></p>

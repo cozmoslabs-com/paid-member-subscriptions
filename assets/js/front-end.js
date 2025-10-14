@@ -1116,6 +1116,13 @@ jQuery( function($) {
         // add WPPB fields metadata to request if necessary
         if (data.form_type == 'wppb') {
             data.wppb_fields = $.pms_form_get_wppb_fields(current_button)
+            
+            // Add the send credentials checkbox to the request separately
+            if( $('input[name="send_credentials_via_email"]', form).length > 0 && $('input[name="send_credentials_via_email"]', form).is(':checked') )
+                data.send_credentials_via_email = 'sending'
+            else
+                data.send_credentials_via_email = ''
+
         }
 
         // if user is logged in, set form type to current form
@@ -1414,4 +1421,37 @@ jQuery( function($) {
 
     }
 
+    /**
+     * Extra Subscription and Discount Options add-on -> Show/Hide Invite code input
+     *
+     */
+
+    var $inviteCodeField = $(".pms-invite-code-field");
+    function toggleInviteCodeField() {
+
+        var $subscriptionPlans = $("input[name='subscription_plans']");
+        var $selected;
+
+        if($subscriptionPlans.length === 1){
+            $selected = $subscriptionPlans;
+        }
+        else if($subscriptionPlans.length > 1){
+            $selected = $("input[name='subscription_plans']:checked");
+        }
+
+        if (!$selected.length) {
+            $inviteCodeField.hide();
+            return;
+        }
+
+        var hasInviteCode = ($selected.attr("data-has_invite_code") || "").toLowerCase();
+
+        $inviteCodeField.toggle(hasInviteCode === "yes");
+    }
+
+    toggleInviteCodeField();
+
+    $(document).on("change", "input[name='subscription_plans']", toggleInviteCodeField);
 })
+
+

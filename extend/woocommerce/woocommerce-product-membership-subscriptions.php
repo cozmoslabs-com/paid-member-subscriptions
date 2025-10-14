@@ -35,6 +35,7 @@ function pms_woo_subscription_tab_content() {
 
     $options = array( '0' => __('None', 'paid-member-subscriptions' ));
     $subscription_plans = pms_get_subscription_plans();
+    $subscription_plans = apply_filters('pms_woo_subscription_plans', $subscription_plans );
     $existing_subscription = array( 'id' => pms_woo_get_product_subscription_id( $post->ID ));
 
     foreach( $subscription_plans as $sub ) {
@@ -490,7 +491,10 @@ function pms_woo_handle_member_subscription( $order_id ) {
                 pms_woo_update_member_subscription( $subscription_data, $subscription_renewal, $user_existing_subscriptions, $order_id, $order_key );
             }
             elseif ( empty( $current_subscription_from_tier ) && ( empty( $user_existing_subscriptions ) || class_exists( 'PMS_IN_Multiple_Subscriptions_Per_User' ))) {
-                pms_woo_add_new_member_subscription( $subscription_data, $order_id, $order_key );
+                $limit_reached = apply_filters( 'pms_woo_subscription_limit_reached', false, $subscription_plan_id );
+
+                if( !$limit_reached )
+                    pms_woo_add_new_member_subscription( $subscription_data, $order_id, $order_key );
             }
         }
     }

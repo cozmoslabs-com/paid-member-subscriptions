@@ -124,8 +124,10 @@ if( ! empty( $_POST ) ) {
 
                         <input type="hidden" name="user_id" value="<?php echo esc_attr( $user_id ); ?>" />
                         <div id="pms-user-details">
-                        <strong><?php echo esc_html( $user->display_name ); ?></strong><br />
-                        <?php echo esc_html( $user->user_email ); ?>
+                             <?php if( $user ): ?>
+                                <strong><?php echo isset( $user->display_name ) ? esc_html( $user->display_name ) : ''; ?></strong><br />
+                                <?php echo isset( $user->user_email ) ? esc_html( $user->user_email ) : ''; ?>
+                             <?php endif; ?>
                         </div>
                         <div id="pms-user-subscriptions">
                         <a class="button-secondary" href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'edit_member', 'member_id' => (int)$user_id ), admin_url( 'admin.php' ) ) ); ?>"><?php echo esc_html__( 'View all subscriptions', 'paid-member-subscriptions' ); ?></a>
@@ -402,7 +404,11 @@ if( ! empty( $_POST ) ) {
                                     if( !empty( $discount_id ) && function_exists( 'pms_in_get_discount' ) ){
                                         $discount = pms_in_get_discount( $discount_id );
 
-                                        $billing_amount = pms_in_calculate_discounted_amount( $billing_amount, $discount );
+                                        $discounted_amount = pms_in_calculate_discounted_amount( $billing_amount, $discount );
+
+                                        if( $discounted_amount != 0 ){
+                                            $billing_amount = $discounted_amount;
+                                        }
                                     }
 
                                     $currency = pms_get_member_subscription_meta( $member_subscription->id, 'currency', true );

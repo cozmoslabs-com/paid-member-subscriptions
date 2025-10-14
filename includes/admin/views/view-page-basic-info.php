@@ -210,7 +210,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Basic Add-ons', 'paid-member-subscriptions' );?></label>
         </div>
         <?php if( !pms_is_paid_version_active() ) : ?>
-            <p class="cozmoslabs-description cozmoslabs-description-upsell" style="width: auto;"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">Basic and PRO</a> versions.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-link&utm_campaign=PMSFree#pricing' ); ?></p>
+            <p class="cozmoslabs-description cozmoslabs-description-upsell" style="width: auto;"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">Basic and PRO</a> versions.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-basic-addons-upsell#pricing' ); ?></p>
         <?php endif; ?>
 
         <div class="cozmoslabs-basic-info-addons">
@@ -290,12 +290,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 <p class="cozmoslabs-description"><?php esc_html_e( 'Let subscribers pay what they want by offering a variable pricing option when they purchase a membership plan.', 'paid-member-subscriptions' ); ?></p>
             </div>
+            <div>
+                <a href="https://www.cozmoslabs.com/add-ons/advanced-subscription-toolkit/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-advanced-subscription-toolkit-addon" target="_blank">
+                    <h4 class="pms-add-on-name"><?php esc_html_e( 'Advanced Subscription Toolkit', 'paid-member-subscriptions' ); ?></h4>
+                </a>
+
+                <a href="https://www.cozmoslabs.com/add-ons/advanced-subscription-toolkit/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-advanced-subscription-toolkit-addon" target="_blank" class="pms-addon-image-container">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-extra-subscription-and-discount-options.png" alt="Advanced Subscription Toolkit" class="pms-addon-image" />
+                </a>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Add plan controls and targeted discounts to Paid Member Subscriptions. Limit seats, auto-downgrade on expiry, schedule availability, allow one-time or invite-only plans, and offer upgrade-only, expired-only, or time-locked discounts.', 'paid-member-subscriptions' ); ?></p>
+            </div>
         </div>
         <div>
             <?php if( pms_is_paid_version_active() ) : ?>
                 <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-addons-page' ) ); ?>" class="button-primary pms-cta"><?php esc_html_e( 'Activate Basic Add-ons', 'paid-member-subscriptions' ); ?></a></p>
             <?php else : ?>
-                <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-basic-btn&utm_campaign=PMSFree#pricing" class="button-primary pms-cta"><?php esc_html_e( 'Get Basic Add-ons', 'paid-member-subscriptions' ); ?></a></p>
+                <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-basic-addons-upsell#pricing" class="button-primary pms-cta"><?php esc_html_e( 'Get Basic Add-ons', 'paid-member-subscriptions' ); ?></a></p>
             <?php endif; ?>
         </div>
 
@@ -305,7 +316,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Pro Add-ons', 'paid-member-subscriptions' );?></label>
         </div>
         <?php if( !pms_is_paid_version_active() ) : ?>
-            <p class="cozmoslabs-description cozmoslabs-description-upsell" style="width: auto;"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">PRO version</a> only.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-pro-link&utm_campaign=PMSFree#pricing' ); ?></p>
+            <p class="cozmoslabs-description cozmoslabs-description-upsell" style="width: auto;"><?php printf( wp_kses_post( __( 'These addons extend your WordPress Membership Plugin and are available with the <a href="%s">PRO version</a> only.', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-pro-addons-upsell#pricing' ); ?></p>
         <?php endif; ?>
 
         <div class="cozmoslabs-basic-info-addons">
@@ -412,7 +423,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <?php if( pms_is_paid_version_active() ) : ?>
                 <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=pms-addons-page' ) ); ?>" class="button-primary pms-cta"><?php esc_html_e( 'Activate Pro Add-ons', 'paid-member-subscriptions' ); ?></a></p>
             <?php else : ?>
-                <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=basicinfo-addons-pro-btn&utm_campaign=PMSFree#pricing" class="button-primary pms-cta"><?php esc_html_e( 'Get Pro Add-ons', 'paid-member-subscriptions' ); ?></a></p>
+                <p><a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-pro-addons-upsell#pricing" class="button-primary pms-cta"><?php esc_html_e( 'Get Pro Add-ons', 'paid-member-subscriptions' ); ?></a></p>
             <?php endif; ?>
         </div>
 

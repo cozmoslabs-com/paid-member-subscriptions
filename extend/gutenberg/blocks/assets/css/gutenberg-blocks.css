@@ -16,7 +16,7 @@
     display: none;
 }
 
-.pms-group-memberships-field {
+.pms-group-memberships-field, .pms-invite-code-field {
     display: none;
 }
 

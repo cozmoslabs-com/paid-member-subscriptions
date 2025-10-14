@@ -65,8 +65,14 @@ function pms_get_member_subscriptions( $args = array() ) {
     // Filter by status
     if( !empty( $args['status'] ) ) {
 
-        $status       = sanitize_text_field( $args['status'] );
-        $query_where .= " AND status LIKE '{$status}'";
+        if( is_array( $args['status'] ) ){
+            $status = implode(',', array_map( fn($s) => "'" . sanitize_text_field($s) . "'", $args['status'] ) );
+            $query_where .= " AND status IN ($status)";
+        }
+        else{
+            $status       = sanitize_text_field( $args['status'] );
+            $query_where .= " AND status LIKE '{$status}'";
+        }
 
     }
 
@@ -388,7 +394,7 @@ function pms_get_member_subscription_payment_method_details( $member_subscriptio
         return array();
 
     $data    = array();
-    $targets = array( 'pms_payment_method_number', 'pms_payment_method_type', 'pms_payment_method_expiration_month', 'pms_payment_method_expiration_year' );
+    $targets = array( 'pms_payment_method_type', 'pms_payment_method_number', 'pms_payment_method_brand', 'pms_payment_method_expiration_month', 'pms_payment_method_expiration_year' );
 
     foreach( $targets as $target ){
         $value = pms_get_member_subscription_meta( $member_subscription_id, $target, true );

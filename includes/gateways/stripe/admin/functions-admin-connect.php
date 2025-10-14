@@ -486,6 +486,61 @@ function pms_stripe_add_settings_content( $options ) {
 							}
 
 
+                            $settings_updated = false;
+
+                            if( isset( $_REQUEST['settings-updated'] ) && $_REQUEST['settings-updated'] == 'true' ){
+                                $settings_updated = true;
+                            }
+
+                            // Customize appearance
+                            echo '<div class="pms-stripe-customize-appearance">';
+                                echo '<div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">';
+                                    echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-customize-appearance">' . esc_html__( 'Customize Appearance', 'paid-member-subscriptions' ) . '</label>';
+
+                                    echo '<div class="cozmoslabs-toggle-container"' . ($settings_updated ? '' : ' style="display: none;"') . '>';
+                                        echo '<input type="checkbox" name="pms_payments_settings[gateways][stripe_connect][customize_appearance]" id="stripe-connect-customize-appearance" value="1" ' . ( !empty( $options['gateways']['stripe_connect']['customize_appearance'] ) && $options['gateways']['stripe_connect']['customize_appearance'] == 1 ? 'checked="checked"' : '' ) . '/>';
+                                        echo '<label class="cozmoslabs-toggle-track" for="stripe-connect-customize-appearance"></label>';
+                                    echo '</div>';
+
+                                    echo '<div class="cozmoslabs-toggle-description"'. ($settings_updated ? '' : ' style="display: none;"') .'>';
+                                        echo '<label for="stripe-connect-customize-appearance" class="cozmoslabs-description">' . esc_html__( 'Customize the appearance of the Stripe payment form.', 'paid-member-subscriptions' ) . '</label>';
+                                    echo '</div>';
+
+                                    if( !$settings_updated ) {
+                                        echo '<div class="cozmoslabs-toggle-expansion">';
+                                            echo '<label class="cozmoslabs-description" title="' . esc_html__( 'Click to expand the appearance options.', 'paid-member-subscriptions' ) . '">';
+                                                echo '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-corner-right-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 6h6a3 3 0 0 1 3 3v10l-4 -4m8 0l-4 4" /></svg>';
+                                            echo '</label>';
+                                        echo '</div>';
+                                    }
+
+                                echo '</div>';
+
+                                echo '<div class="pms-stripe-customize-appearance__options"'. ($settings_updated ? '' : ' style="display: none;"') .'>';
+
+                                    do_action( 'pms_stripe_customize_appearance_options', $options );
+
+                                    if( !function_exists( 'pms_stripe_customize_appearance_admin_options' ) ){
+
+                                        // Upsell message
+                                        $image   = '<img src="' . esc_url( PMS_PLUGIN_DIR_URL ) . 'assets/images/pms-stripe-customization-options-upsell.png" alt="Customization Options" class="pms-addon-upsell-image" style="opacity: 0.5;" />';
+                                        $message = '';
+
+                                        $message = sprintf( esc_html__( 'Customization options for the Stripe form are available only with a %1$sBasic%2$s, %1$sPro%2$s or %1$sAgency%2$s license. %3$sBuy now%4$s', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a class="button-primary" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-stripe-settings&utm_medium=client-site&utm_campaign=pms-stripe#pricing" target="_blank">', '</a>' );
+
+                                        $output = '<div class="pms-addon-upsell-wrapper">';
+                                            $output .= $image;
+                                            $output .= '<p class="cozmoslabs-description-upsell">' . $message . '</p>';
+                                        $output .= '</div>';
+
+                                        echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+                                    }
+
+                                echo '</div>';
+
+                            echo '</div>';
+
 						echo '</div>';
 
 					} else {

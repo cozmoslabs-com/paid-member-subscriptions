@@ -13,7 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <!-- Type of Restriction -->
     <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-restriction-type">
 
-        <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'General', 'paid-member-subscriptions' ); ?></h4>
+        <h4 class="cozmoslabs-subsection-title">
+            <?php esc_html_e( 'General', 'paid-member-subscriptions' ); ?>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/content-restriction/?utm_source=pms-content-restriction-settings&utm_medium=client-site&utm_campaign=pms-content-restriction-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+        </h4>
 
         <div class="cozmoslabs-form-field-wrapper">
 

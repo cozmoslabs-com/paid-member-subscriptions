@@ -26,24 +26,28 @@ $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'change_subsc
     if( empty( $subscription_plan_downgrades ) && empty( $subscription_plan_others ) )
         pms_output_subscription_plans_filter( 'add' );
 
+
     if( !empty( $subscription_plan_upgrades ) ) : ?>
 
-        <div class="pms-upgrade__group pms-upgrade__group--upgrade">
+        <?php $subscription_plan_upgrades_output = pms_output_subscription_plans( $subscription_plan_upgrades, array(), false, '', 'upgrade_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
+        if( !empty( $subscription_plan_upgrades_output ) ) : ?>
 
-            <div class="pms-upgrade__message">
-                <?php if( count( $subscription_plan_upgrades ) == 1 ) : ?>
-                    <?php echo wp_kses_post( sprintf( __( 'Upgrade %1$s to %2$s', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>', '<strong>' . $subscription_plan_upgrades[0]->name . '</strong>' ) ); ?>
-                <?php else : ?>
-                    <?php echo wp_kses_post( sprintf(  __( 'Upgrade %s to:', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>' ) ); ?>
-                <?php endif; ?>
+            <div class="pms-upgrade__group pms-upgrade__group--upgrade">
 
-                <?php do_action('pms_change_subscription_message_extra_info', 'upgrade_subscription', $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others );?>
+                <div class="pms-upgrade__message">
+                    <?php if( count( $subscription_plan_upgrades ) == 1 ) : ?>
+                        <?php echo wp_kses_post( sprintf( __( 'Upgrade %1$s to %2$s', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>', '<strong>' . $subscription_plan_upgrades[0]->name . '</strong>' ) ); ?>
+                    <?php else : ?>
+                        <?php echo wp_kses_post( sprintf(  __( 'Upgrade %s to:', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>' ) ); ?>
+                    <?php endif; ?>
+
+                    <?php do_action('pms_change_subscription_message_extra_info', 'upgrade_subscription', $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others );?>
+                </div>
+
+                <?php echo $subscription_plan_upgrades_output; //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+
             </div>
-
-            <?php echo pms_output_subscription_plans( $subscription_plan_upgrades, array(), false, '', 'upgrade_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-
-        </div>
-
+        <?php endif; ?>
     <?php endif; ?>
 
     <?php
@@ -52,22 +56,26 @@ $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'change_subsc
 
     if( !empty( $subscription_plan_downgrades ) ) : ?>
 
-    <div class="pms-upgrade__group pms-upgrade__group--downgrade">
+    <?php $subscription_plan_downgrades_output = pms_output_subscription_plans( $subscription_plan_downgrades, array(), false, '', 'downgrade_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
 
-        <div class="pms-upgrade__message">
-            <?php if( count( $subscription_plan_downgrades ) == 1 ) : ?>
-                <?php echo wp_kses_post( sprintf( __( 'Downgrade %1$s to %2$s', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>', '<strong>' . $subscription_plan_downgrades[0]->name . '</strong>' ) ); ?>
-            <?php else : ?>
-                <?php echo wp_kses_post( sprintf(  __( 'Downgrade %s to:', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>' ) ); ?>
-            <?php endif; ?>
+        if( !empty( $subscription_plan_downgrades_output ) ) : ?>
 
-            <?php do_action('pms_change_subscription_message_extra_info', 'downgrade_subscription', $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others );?>
-        </div>
+            <div class="pms-upgrade__group pms-upgrade__group--downgrade">
 
-        <?php echo pms_output_subscription_plans( $subscription_plan_downgrades, array(), false, '', 'downgrade_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                <div class="pms-upgrade__message">
+                    <?php if( count( $subscription_plan_downgrades ) == 1 ) : ?>
+                        <?php echo wp_kses_post( sprintf( __( 'Downgrade %1$s to %2$s', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>', '<strong>' . $subscription_plan_downgrades[0]->name . '</strong>' ) ); ?>
+                    <?php else : ?>
+                        <?php echo wp_kses_post( sprintf(  __( 'Downgrade %s to:', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>' ) ); ?>
+                    <?php endif; ?>
 
-    </div>
+                    <?php do_action('pms_change_subscription_message_extra_info', 'downgrade_subscription', $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others );?>
+                </div>
 
+                <?php echo $subscription_plan_downgrades_output; //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
 
     <?php do_action( 'pms_change_subscription_form_after_downgrade_group', $current_subscription, $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others ); ?>
@@ -77,18 +85,22 @@ $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'change_subsc
 
     if( !empty( $subscription_plan_others ) ) : ?>
 
-    <div class="pms-upgrade__group pms-upgrade__group--change">
+    <?php $subscription_plan_others_output = pms_output_subscription_plans( $subscription_plan_others, array(), false, '', 'change_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
 
-        <div class="pms-upgrade__message">
-            <?php echo wp_kses_post( sprintf(  __( 'Change %s to:', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>' ) ); ?>
+        if( !empty( $subscription_plan_others_output ) ) : ?>
 
-            <?php do_action('pms_change_subscription_message_extra_info', 'change_subscription', $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others );?>
-        </div>
+            <div class="pms-upgrade__group pms-upgrade__group--change">
 
-        <?php echo pms_output_subscription_plans( $subscription_plan_others, array(), false, '', 'change_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                <div class="pms-upgrade__message">
+                    <?php echo wp_kses_post( sprintf(  __( 'Change %s to:', 'paid-member-subscriptions' ), '<strong>' . $current_subscription_plan->name . '</strong>' ) ); ?>
 
-    </div>
+                    <?php do_action('pms_change_subscription_message_extra_info', 'change_subscription', $subscription_plan_upgrades, $subscription_plan_downgrades, $subscription_plan_others );?>
+                </div>
 
+                <?php echo $subscription_plan_others_output; //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
 
     <input type="hidden" name="pms_current_subscription" value="<?php echo isset( $_GET['subscription_id'] ) ? esc_attr( $_GET['subscription_id'] ) : ''; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized ?>" />

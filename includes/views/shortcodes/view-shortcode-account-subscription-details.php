@@ -122,24 +122,32 @@ foreach( $subscriptions as $subscription ) :
 
                             <?php if( !empty( $payment_method_data ) ) : ?>
                                 <div class="pms-account-subscription-details-table__payment-method__wrap">
-                                    <span class="pms-account-subscription-details-table__payment-method__brand">
-                                        <?php
-                                        $assets_src = esc_url( PMS_PLUGIN_DIR_PATH ) . 'assets/images/card-icons/';
+                                    <?php if( !empty( $payment_method_data['pms_payment_method_brand'] ) || !empty( $payment_method_data['pms_payment_method_type'] ) ) : ?>
+                                        <span class="pms-account-subscription-details-table__payment-method__brand">
+                                            <?php
+                                            $assets_src = esc_url( PMS_PLUGIN_DIR_PATH ) . 'assets/images/card-icons/';
 
-                                        if( !empty( $payment_method_data['pms_payment_method_type'] ) ) 
-                                            echo file_get_contents( $assets_src . $payment_method_data['pms_payment_method_type'] . '.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                        ?>
-                                    </span>
+                                            if( !empty( $payment_method_data['pms_payment_method_brand'] ) )
+                                                echo file_get_contents( $assets_src . $payment_method_data['pms_payment_method_brand'] . '.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            else if( !empty( $payment_method_data['pms_payment_method_type'] ) )
+                                                echo file_get_contents( $assets_src . $payment_method_data['pms_payment_method_type'] . '.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            ?>
+                                        </span>
+                                    <?php endif; ?>
 
-                                    <span class="pms-account-subscription-details-table__payment-method__number">
-                                        <?php echo !empty( $payment_method_data['pms_payment_method_number'] ) ? '&bull;&bull;&bull;&bull; ' . esc_html( $payment_method_data['pms_payment_method_number'] ) : '' ?>
-                                    </span>
-                                    
-                                    <span class="pms-account-subscription-details-table__payment-method__expiration">
-                                        <?php esc_html_e( 'Expires:', 'paid-member-subscriptions' ) ?>
-                                        <?php echo !empty( $payment_method_data['pms_payment_method_expiration_month'] ) ? esc_html( $payment_method_data['pms_payment_method_expiration_month'] ) . ' /' : '' ?>
-                                        <?php echo !empty( $payment_method_data['pms_payment_method_expiration_year'] ) ? esc_html( $payment_method_data['pms_payment_method_expiration_year'] ) : '' ?>
-                                    </span>
+                                    <?php if( !empty( $payment_method_data['pms_payment_method_number'] ) ) : ?>
+                                        <span class="pms-account-subscription-details-table__payment-method__number">
+                                            <?php echo '&bull;&bull;&bull;&bull; ' . esc_html( $payment_method_data['pms_payment_method_number'] ); ?>
+                                        </span>
+                                    <?php endif; ?>
+
+                                    <?php if( !empty( $payment_method_data['pms_payment_method_expiration_month'] ) || !empty( $payment_method_data['pms_payment_method_expiration_year'] ) ) : ?>
+                                        <span class="pms-account-subscription-details-table__payment-method__expiration">
+                                            <?php esc_html_e( 'Expires:', 'paid-member-subscriptions' ) ?>
+                                            <?php echo !empty( $payment_method_data['pms_payment_method_expiration_month'] ) ? esc_html( $payment_method_data['pms_payment_method_expiration_month'] ) . ' /' : '' ?>
+                                            <?php echo !empty( $payment_method_data['pms_payment_method_expiration_year'] ) ? esc_html( $payment_method_data['pms_payment_method_expiration_year'] ) : '' ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                                 <?php else : 
                                     // If we don't deal with a traditional Card payment method, run a custom action so the payment gateway can add it's own output

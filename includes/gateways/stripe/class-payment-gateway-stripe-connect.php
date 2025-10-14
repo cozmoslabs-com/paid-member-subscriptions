@@ -215,7 +215,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         if( !empty( $_REQUEST['stripe_confirmation_token'] ) ){
 
-            if( ( PMS_Form_Handler::checkout_has_trial() && PMS_Form_Handler::user_can_access_trial( $this->subscription_plan ) && ( !isset( $payment->id ) || $payment->amount == 0 ) ) || ( !isset( $payment->id ) && $payment->amount == 0 ) || ( !is_null( $this->sign_up_amount ) && $this->sign_up_amount == 0 ) ){
+            if( ( PMS_Form_Handler::checkout_has_trial() && PMS_Form_Handler::user_can_access_trial( $this->subscription_plan ) && ( !isset( $payment->id ) || $payment->amount == 0 ) ) || ( isset( $payment->id ) && $payment->amount == 0 ) || ( !is_null( $this->sign_up_amount ) && $this->sign_up_amount == 0 ) ){
 
                 $intent = $this->create_setup_intent( sanitize_text_field( $_REQUEST['stripe_confirmation_token'] ), $subscription );
 
@@ -908,21 +908,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             pms_update_member_subscription_meta( $member_subscription->id, '_stripe_card_id', $this->stripe_token );
 
-            // Update saved credit card details
-            if( !empty( $payment_method->card ) ){
-
-                if( !empty( $payment_method->card->last4 ) )
-                    pms_update_member_subscription_meta( $member_subscription->id, 'pms_payment_method_number', $payment_method->card->last4 );
-
-                if( !empty( $payment_method->card->brand ) )
-                    pms_update_member_subscription_meta( $member_subscription->id, 'pms_payment_method_type', $payment_method->card->brand );
-
-                if( !empty( $payment_method->card->exp_month ) )
-                    pms_update_member_subscription_meta( $member_subscription->id, 'pms_payment_method_expiration_month', $payment_method->card->exp_month );
-
-                if( !empty( $payment_method->card->exp_year ) )
-                    pms_update_member_subscription_meta( $member_subscription->id, 'pms_payment_method_expiration_year', $payment_method->card->exp_year );
-            }
+            $this->save_payment_method_expiration_data( $member_subscription->id, $payment_method );
 
             pms_add_member_subscription_log( $member_subscription->id, 'subscription_payment_method_updated' );
 
@@ -1355,13 +1341,17 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         if( !empty( $payment_method ) ){
 
+            if( !empty( $payment_method->type  ) ) {
+                pms_update_member_subscription_meta( $subscription_id, 'pms_payment_method_type', $payment_method->type );
+            }
+
             if( !empty( $payment_method->card ) ){
 
                 if( !empty( $payment_method->card->last4 ) )
                     pms_update_member_subscription_meta( $subscription_id, 'pms_payment_method_number', $payment_method->card->last4 );
 
                 if( !empty( $payment_method->card->brand ) )
-                    pms_update_member_subscription_meta( $subscription_id, 'pms_payment_method_type', $payment_method->card->brand );
+                    pms_update_member_subscription_meta( $subscription_id, 'pms_payment_method_brand', $payment_method->card->brand );
 
                 if( !empty( $payment_method->card->exp_month ) )
                     pms_update_member_subscription_meta( $subscription_id, 'pms_payment_method_expiration_month', $payment_method->card->exp_month );

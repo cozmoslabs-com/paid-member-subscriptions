@@ -2463,9 +2463,28 @@ Class PMS_Form_Handler {
 
         } else {
 
-            // This is a WPPB form and this situation is reached when the checkout is using PayPal. The pms_pb_save_subscription_plans_value function is executing the checkout process from PMS.
-            // Errors are handled separately in the AJAX Checkout Class
+            // This is a WPPB form. The pms_pb_save_subscription_plans_value function is executing the checkout process from PMS and it short-circuits the Profile Builder form processing.
+            // The Subscription Plans field is always the last one to process, so all the other fields were already saved.
             if( wp_doing_ajax() && isset( $_REQUEST['form_type'] ) && $_REQUEST['form_type'] == 'wppb' ){
+
+                // Since the WPPB process is ended abruptly, the registration email is not sent, we need to send it manually from here
+                if( function_exists( 'wppb_notify_user_registration_email' ) ){
+                    if( empty( $user_id ) && !empty( $user_data['user_id'] ) )
+                        $user_id = $user_data['user_id'];
+
+                    if ( !empty( $user_id ) ){
+                        //$wppb_general_settings = get_option( 'wppb_general_settings' );
+                        
+                        $form = pms_wppb_get_form( isset( $_REQUEST['form_name'] ) ? sanitize_text_field( $_REQUEST['form_name'] ) : '' );
+
+                        if( ( isset( $_REQUEST['send_credentials_via_email'] ) && ( $_REQUEST['send_credentials_via_email'] == 'sending' ) ) || apply_filters( 'wppb_register_send_credentials_via_email', false, $user_id, $form->args ) )
+                            $send_credentials_via_email = 'sending';
+                        else
+                            $send_credentials_via_email = '';
+
+                        wppb_notify_user_registration_email( get_bloginfo( 'name' ), ( isset( $user_data['user_login'] ) ? trim( $user_data['user_login'] ) : trim( $user_data['user_email'] ) ), trim( $user_data['user_email'] ), $send_credentials_via_email, trim( $user_data['user_pass'] ), ( wppb_get_admin_approval_option_value() === 'yes' ? 'yes' : 'no' ) );
+                    }
+                }
 
                 $payment_id = isset( $payment ) && isset( $payment->id ) ? $payment->id : 0;
 
