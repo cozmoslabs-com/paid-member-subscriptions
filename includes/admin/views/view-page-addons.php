@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     //Add Basic section
     $pms_addons_listing->section_header      = array( 'title' => __('Basic Add-ons', 'paid-member-subscriptions' ), 'description' => __( 'These addons extend Paid Member Subscriptions and are available in the Basic, Pro and Agency plans.', 'paid-member-subscriptions' )  );
-    $pms_addons_listing->section_header_free = array( 'title' => __('Basic Add-ons', 'paid-member-subscriptions' ), 'description' => sprintf( __( 'Get access to these Add-ons with a Basic, Pro or Agency license. %sBuy now%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page-notice&utm_campaign=PMS#pricing" taget="_blank">', '</a>' )  );
+    $pms_addons_listing->section_header_free = array( 'title' => __('Basic Add-ons', 'paid-member-subscriptions' ), 'description' => sprintf( __( 'Get access to these Add-ons with a Basic, Pro or Agency license. %sBuy now%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-addons-basic&utm_medium=client-site&utm_campaign=pms-basic-addons-upsell#pricing" taget="_blank">', '</a>' )  );
     $pms_addons_listing->section_versions    = array( 'Paid Member Subscriptions - Basic', 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Agency', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Basic', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Agency', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
     $pms_addons_listing->items               = array(
         array(  'slug' => 'pms-add-on-learndash/index.php',
@@ -34,35 +34,35 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             'name'        => __( 'LearnDash', 'paid-member-subscriptions' ),
             'description' => __( 'Generate revenue from your LMS website by selling access to courses through single or recurring payments. Restrict content of courses, lessons and quizzes to members.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-learndash.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/learndash/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/learndash/?utm_source=pms-addons-basic&utm_medium=client-site&utm_campaign=pms-learndash-addon',
         ),
         array(  'slug' => 'pms-add-on-global-content-restriction/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Global Content Restriction', 'paid-member-subscriptions' ),
             'description' => __( 'Easy way to add global content restriction rules to subscription plans, based on post type, taxonomy and terms.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-global-content-restriction-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/global-content-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/global-content-restriction/?utm_source=pms-addons-basic&utm_medium=client-site&utm_campaign=pms-global-content-restriction-addon',
         ),
         array(  'slug' => 'pms-add-on-email-reminders/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Email Reminders', 'paid-member-subscriptions' ),
             'description' => __( 'Create multiple automated email reminders that are sent to members before or after certain events take place (subscription expires, subscription activated etc.)', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-email-reminders-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/email-reminders/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/email-reminders/?utm_source=pms-addons-basic&utm_medium=client-site&utm_campaign=pms-email-reminders-addon',
         ),
         array(  'slug' => 'pms-add-on-pay-what-you-want/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Pay What You Want', 'paid-member-subscriptions' ),
             'description' => __( 'Let subscribers pay what they want by offering a variable pricing option when they purchase a membership plan.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-pay-what-you-want.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/pay-what-you-want-variable-pricing/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/pay-what-you-want-variable-pricing/?utm_source=pms-addons-basic&utm_medium=client-site&utm_campaign=pms-pay-what-you-want-addon',
         ),
         array(  'slug' => 'pms-add-on-bbpress/index.php',
             'type'        => 'add-on',
             'name'        => __( 'bbPress', 'paid-member-subscriptions' ),
             'description' => __( 'Integrate Paid Member Subscriptions with the popular forums plugin, bbPress. Restrict your forums and topics and allow only premium members to have access to them.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-bbpress-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/bbpress/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/bbpress/?utm_source=pms-addons-basic&utm_medium=client-site&utm_campaign=pms-bbpress-addon',
         ),
         array(  'slug' => 'pms-add-on-extra-subscription-discount-options/index.php',
             'type'        => 'add-on',
@@ -76,21 +76,21 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             'name'        => __( 'Fixed Period Membership', 'paid-member-subscriptions' ),
             'description' => __( 'The Fixed Period Membership Add-On allows your Subscriptions to end at a specific date, no matter when a client subscribes to it.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-fixed-period-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/fixed-period-membership/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/fixed-period-membership/?utm_source=pms-addons-basic&utm_medium=client-site&utm_campaign=pms-fixed-membership-addon',
         ),
         array(  'slug' => 'pms-add-on-navigation-menu-filtering/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Navigation Menu Filtering', 'paid-member-subscriptions' ),
             'description' => __( 'Dynamically display menu items based on logged-in status as well as selected subscription plans.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-navigation-menu-filter-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/navigation-menu-filtering/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/navigation-menu-filtering/?utm_source=pms-addons-basic&utm_medium=client-site&utm_campaign=pms-navigation-menu-filtering-addon',
         ),
     );
     $pms_addons_listing->add_section();
 
     //Add Pro Section
     $pms_addons_listing->section_header = array( 'title' => __('Pro Add-ons', 'paid-member-subscriptions' ), 'description' => __('These addons extend Paid Member Subscriptions and are available in the Pro and Agency plans.', 'paid-member-subscriptions')  );
-    $pms_addons_listing->section_header_free = array( 'title' => __('Pro Add-ons', 'paid-member-subscriptions' ), 'description' => sprintf( __( 'Get access to these Add-ons with a Pro or Agency license. %sBuy now%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page-notice&utm_campaign=PMS#pricing" taget="_blank">', '</a>' )  );
+    $pms_addons_listing->section_header_free = array( 'title' => __('Pro Add-ons', 'paid-member-subscriptions' ), 'description' => sprintf( __( 'Get access to these Add-ons with a Pro or Agency license. %sBuy now%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-pro-addons-upsell#pricing" taget="_blank">', '</a>' )  );
     $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Agency', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Agency', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
     $pms_addons_listing->items = array(
         array(  'slug' => 'pms-add-on-multiple-currencies/index.php',
@@ -98,70 +98,70 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             'name'        => __( 'Multiple Currencies', 'paid-member-subscriptions' ),
             'description' => __( 'Enable visitors to pay in their local currency, either through automatic location detection or by manually selecting their preferred currency.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-multiple-currencies-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/multiple-currencies/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/multiple-currencies/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-multiple-currencies-addon',
         ),
         array(  'slug' => 'pms-add-on-files-restriction/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Files Restriction', 'paid-member-subscriptions' ),
             'description' => __( 'Restrict direct access to media files based on subscription plans making sure only paying members can view them.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-pro-files-restriction-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/files-restriction/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/files-restriction/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-files-restriction-addon',
         ),
         array(  'slug' => 'pms-add-on-pro-rate/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Pro-Rate', 'paid-member-subscriptions' ),
             'description' => __( 'Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-pro-rate-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/pro-rate/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/pro-rate/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-pro-rate-addon',
         ),
         array(  'slug' => 'pms-add-on-content-dripping/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Content Dripping', 'paid-member-subscriptions' ),
             'description' => __( 'Create schedules for your content, making posts or categories available for your members only after a certain time has passed since they signed up for a subscription plan.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-content-dripping-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/content-dripping/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/content-dripping/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-content-dripping-addon',
         ),
         array(  'slug' => 'pms-add-on-group-memberships/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Group Memberships', 'paid-member-subscriptions' ),
             'description' => __( 'Sell umbrella memberships that contain multiple member seats but are managed and purchased by a single account.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-group-memberships-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/group-memberships/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/group-memberships/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-group-memberships-addon',
         ),
         array(  'slug' => 'pms-add-on-invoices/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Invoices', 'paid-member-subscriptions' ),
             'description' => __( 'Automatically generate PDF invoices for each subscription payment using the new Invoices add-on.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-invoices-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/invoices/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/invoices/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-invoices-addon',
         ),
         array(  'slug' => 'pms-add-on-multiple-subscriptions-per-user/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Multiple Subscriptions Per User', 'paid-member-subscriptions' ),
             'description' => __( 'Setup multiple subscription level blocks and allow members to sign up for more than one subscription plan (one per block).', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-multiple-subscriptions-per-users-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/multiple-subscriptions-per-user/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/multiple-subscriptions-per-user/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-multiple-subscriptions-addon',
         ),
         array(  'slug' => 'pms-add-on-paypal-express-pro/index.php',
             'type'        => 'add-on',
             'name'        => __( 'PayPal Express (deprecated)', 'paid-member-subscriptions' ),
             'description' => __( 'Old PayPal Express implementation not available for new users.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-paypal-express-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/paypal-pro-and-express-checkout/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/paypal-pro-and-express-checkout/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-paypal-express-addon',
         ),
         array(  'slug' => 'pms-add-on-stripe/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Stripe (deprecated)', 'paid-member-subscriptions' ),
             'description' => __( 'Old Stripe implementation not available for new users.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-stripe-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/stripe-payment-gateway/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-stripe-addon',
         ),
         array(  'slug' => 'pms-add-on-tax/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Tax & EU VAT', 'paid-member-subscriptions' ),
             'description' => __( 'Helps you collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-tax-logo.png',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/tax-eu-vat/?utm_source=wpbackend&utm_medium=clientsite&utm_content=add-on-page&utm_campaign=PMS',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/tax-eu-vat/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-tax-eu-vat-addon',
         ),
     );
 
@@ -267,7 +267,7 @@ $ajax_nonce             = wp_create_nonce( 'pms-activate-addon' );
                 <h3 class="pms-add-on-price"><?php  esc_html_e( 'Free', 'paid-member-subscriptions' ) ?></h3>
                 <p class="pms-add-on-description">
                     <?php esc_html_e( 'Translate your Paid Member Subscriptions checkout with a WordPress translation plugin that anyone can use. It offers a simpler way to translate WordPress sites, with full support for WooCommerce and site builders.', 'paid-member-subscriptions' ) ?>
-                    <a href="<?php echo esc_url( admin_url() . 'plugin-install.php?tab=plugin-information&plugin=translatepress-multilingual&TB_iframe=true&width=772&height=875' ); ?>" class="thickbox" aria-label="More information about TranslatePress - Multilingual" data-title="TranslatePress - Multilingual"><?php esc_html_e( 'More Details', 'paid-member-subscriptions' ); ?></a>
+                    <a href="<?php echo esc_url( 'https://translatepress.com/docs/translatepress/?utm_source=pms-addons&utm_medium=client-site&utm_campaign=pms-tp-upsell' ); ?>" class="thickbox" aria-label="More information about TranslatePress - Multilingual" data-title="TranslatePress - Multilingual"><?php esc_html_e( 'More Details', 'paid-member-subscriptions' ); ?></a>
                 </p>
             </div>
             <div class="plugin-card-bottom pms-add-on-compatible">
@@ -330,16 +330,16 @@ $ajax_nonce             = wp_create_nonce( 'pms-activate-addon' );
         ?>
         <div class="plugin-card pms-recommended-plugin pms-add-on">
             <div class="plugin-card-top">
-                <a target="_blank" class="pms-recommended-plugin-logo pms-pb-logo" href="http://wordpress.org/plugins/profile-builder/">
+                <a target="_blank" class="pms-recommended-plugin-logo pms-pb-logo" href="https://wordpress.org/plugins/profile-builder/">
                     <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/pb-banner.svg' ); ?>">
                 </a>
                 <h3 class="pms-add-on-title">
-                    <a target="_blank" href="http://wordpress.org/plugins/profile-builder/">Profile Builder</a>
+                    <a target="_blank" href="https://wordpress.org/plugins/profile-builder/">Profile Builder</a>
                 </h3>
                 <h3 class="pms-add-on-price"><?php  esc_html_e( 'Free', 'paid-member-subscriptions' ) ?></h3>
                 <p class="pms-add-on-description">
-                    <?php esc_html_e( "Capture more user information on the registration form with the help of Profile Builder's custom user profile fields and/or add an Email Confirmation process to verify your customers accounts.", 'paid-member-subscriptions' ) ?>
-                    <a href="<?php echo esc_url( admin_url() . 'plugin-install.php?tab=plugin-information&plugin=profile-builder&TB_iframe=true&width=772&height=875' );?>" class="thickbox" aria-label="More information about Profile Builder" data-title="Profile Builder"><?php esc_html_e( 'More Details', 'paid-member-subscriptions' ); ?></a>
+                    <?php esc_html_e( "Add custom form fields to your Paid Member Subscriptions registration, login, and account forms. With Profile Builder you can fully customize all your user forms to match your exact needs.", 'paid-member-subscriptions' ) ?>
+                    <a href="<?php echo esc_url( 'https://www.cozmoslabs.com/docs/profile-builder/?utm_source=pms-addons&utm_medium=client-site&utm_campaign=pms-pb-upsell' ); ?>" class="thickbox" aria-label="More information about Profile Builder" data-title="Profile Builder"><?php esc_html_e( 'More Details', 'paid-member-subscriptions' ); ?></a>
                 </p>
             </div>
             <div class="plugin-card-bottom pms-add-on-compatible">
@@ -408,7 +408,7 @@ $ajax_nonce             = wp_create_nonce( 'pms-activate-addon' );
                 <h3 class="pms-add-on-price"><?php  esc_html_e( 'Free', 'paid-member-subscriptions' ) ?></h3>
                 <p class="pms-add-on-description">
                     <?php esc_html_e( 'Easily create powerful no-code automations that connect your WordPress plugins, sites and apps together.', 'paid-member-subscriptions' ) ?>
-                    <a href="<?php echo esc_url( admin_url() . 'plugin-install.php?tab=plugin-information&plugin=wp-webhooks&TB_iframe=true&width=772&height=875' ); ?>" class="thickbox" aria-label="More information about WP Webhooks" data-title="Wp Webhooks"><?php esc_html_e( 'More Details', 'paid-member-subscriptions' ); ?></a>
+                    <a href="<?php echo esc_url( 'https://wp-webhooks.com/integrations/?utm_source=pms-addons&utm_medium=client-site&utm_campaign=pms-wpwh-upsell' ); ?>" class="thickbox" aria-label="More information about WP Webhooks" data-title="Wp Webhooks"><?php esc_html_e( 'More Details', 'paid-member-subscriptions' ); ?></a>
                 </p>
             </div>
             <div class="plugin-card-bottom pms-add-on-compatible">

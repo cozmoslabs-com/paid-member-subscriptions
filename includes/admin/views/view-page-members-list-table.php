@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <h1 class="wp-heading-inline">
         <?php echo esc_html( $this->page_title ); ?>
 
-        <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-management/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+        <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/member-management/?utm_source=pms-members&utm_medium=client-site&utm_campaign=pms-members-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
 
         <a href="<?php echo esc_url( add_query_arg( array( 'page' => $this->menu_slug, 'subpage' => 'add_subscription' ), admin_url( 'admin.php' ) ) ); ?>" class="add-new-h2 page-title-action"><?php echo esc_html__( 'Add New', 'paid-member-subscriptions' ); ?></a>
         <a href="<?php echo esc_url( add_query_arg( array( 'page' => $this->menu_slug, 'subpage' => 'add_new_members_bulk' ), admin_url( 'admin.php' ) ) ); ?>" class="add-new-h2 page-title-action"><?php echo esc_html__( 'Bulk Add New', 'paid-member-subscriptions' ); ?></a>

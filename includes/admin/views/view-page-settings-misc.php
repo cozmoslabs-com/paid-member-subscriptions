@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             <h4 class="cozmoslabs-subsection-title">
                 <?php esc_html_e( 'GDPR Settings', 'paid-member-subscriptions' ); ?>
-                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#GDPR" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=pms-misc-settings&utm_medium=client-site&utm_campaign=pms-gdpr-docs#GDPR " target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h4>
 
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
@@ -89,7 +89,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-other-settings">
             <h4 class="cozmoslabs-subsection-title">
                 <?php esc_html_e( 'Other Settings', 'paid-member-subscriptions' ); ?>
-                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Others" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=pms-misc-settings&utm_medium=client-site&utm_campaign=pms-other-settings-docs#Others" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h4>
 
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
@@ -229,7 +229,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-subscriptions-settings">
             <h4 class="cozmoslabs-subsection-title">
                 <?php esc_html_e( 'Subscriptions Settings', 'paid-member-subscriptions' ); ?>
-                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Others" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=pms-misc-settings&utm_medium=client-site&utm_campaign=pms-other-settings-docs#Others" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h4>
 
 
@@ -342,7 +342,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-payment-settings">
             <h4 class="cozmoslabs-subsection-title">
                 <?php esc_html_e( 'Payment Settings', 'paid-member-subscriptions' ); ?>
-                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Payments" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=pms-misc-settings&utm_medium=client-site&utm_campaign=pms-payments-docs#Payments" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h4>
 
             <div class="cozmoslabs-form-field-wrapper">

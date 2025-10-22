@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     <div class="cozmoslabs-page-header">
         <div class="cozmoslabs-section-title">
             <h3 class="cozmoslabs-page-title"><?php echo esc_html( $this->page_title ); ?></h3>
-            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/export-and-import/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Import" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/export-and-import/?utm_source=pms-reports&utm_medium=client-site&utm_campaign=pms-import-data-docs#Import" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </div>
     </div>
 
@@ -76,14 +76,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                     
                                     <p>The rules are the same as above, the file needs a <strong>subscription_plan_id</strong> and either a <strong>user_email</strong> or <strong>subscription_user_id</strong> in order to match the existing user.</p>
 
-                                    <p>You can read more information on <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/export-and-import/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Import" target="_blank">our documentation</a> page.</p>
+                                    <p>You can read more information on <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/export-and-import/?utm_source=pms-reports&utm_medium=client-site&utm_campaign=pms-update-members-docs#Update_Members" target="_blank">our documentation</a> page.</p>
 
                                     <p><strong>Note:</strong> please take into account recurring subscriptions. <br>Currently with PayPal, no changes can be done to existing agreements so you shouldn't use this tool to try to manipulate those subscriptions. The changes will only happen on your website.</p>
                                     <p>Stripe allows changes so you could use this tool to perform Bulk Cancelations or Bulk Change Renewal Dates as an example.</p>
                                 </div>
 
                                 <div>
-									<input type="submit" class="button-primary" value="<?php esc_html_e( 'Upload CSV', 'paid-member-subscriptions' ); ?>"/>
+									<input type="submit" class="button-primary" value="<?php esc_html_e( 'Import', 'paid-member-subscriptions' ); ?>"/>
 									<span class="spinner"></span>
 								</div>
                             </form>
@@ -98,5 +98,38 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     </div><!-- #dashboard-widgets-wrap -->
 
     <?php do_action( 'pms_import_page_bottom' ); ?>
+
+    <!-- Import Confirmation Modal -->
+    <div id="pms-import-confirmation-modal" style="display: none;">
+        <div class="pms-modal-overlay"></div>
+        <div class="pms-modal-content">
+            <div class="pms-modal-header">
+                <h2><?php esc_html_e( 'Import Confirmation Required', 'paid-member-subscriptions' ); ?></h2>
+            </div>
+            <div class="pms-modal-body">
+                <div class="pms-warning-message">
+                    <p><strong><?php esc_html_e( 'This import operation will modify your database and cannot be undone without a backup.', 'paid-member-subscriptions' ); ?></strong></p>
+                    <ul>
+                        <li><?php esc_html_e( 'User accounts may be created or modified', 'paid-member-subscriptions' ); ?></li>
+                        <li><?php esc_html_e( 'Subscription data will be added or updated', 'paid-member-subscriptions' ); ?></li>
+                        <li><?php esc_html_e( 'Changes cannot be automatically reverted', 'paid-member-subscriptions' ); ?></li>
+                    </ul>
+                    <p class="pms-backup-recommendation">
+                        <strong><?php esc_html_e( 'We strongly recommend that you create a complete database backup before proceeding with this import.', 'paid-member-subscriptions' ); ?></strong>
+                    </p>
+                </div>
+                <div class="pms-confirmation-checkbox">
+                    <label>
+                        <input type="checkbox" id="pms-backup-confirmation" />
+                        <strong><?php esc_html_e( 'I have created a database backup and understand the risks', 'paid-member-subscriptions' ); ?></strong>
+                    </label>
+                </div>
+            </div>
+            <div class="pms-modal-footer">
+                <button type="button" class="button button-secondary pms-modal-cancel"><?php esc_html_e( 'Cancel', 'paid-member-subscriptions' ); ?></button>
+                <button type="button" class="button button-primary pms-modal-proceed" disabled><?php esc_html_e( 'Proceed with Import', 'paid-member-subscriptions' ); ?></button>
+            </div>
+        </div>
+    </div>
 
 </div>

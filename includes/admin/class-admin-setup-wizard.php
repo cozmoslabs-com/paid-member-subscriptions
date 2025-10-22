@@ -93,24 +93,28 @@ class PMS_Setup_Wizard {
 
                 $pages = array(
                     'register' => array(
-                        'title'   => 'Register',
-                        'option'  => 'register_page',
-                        'content' => '[pms-register]',
+                        'title'         => 'Register',
+                        'option'        => 'register_page',
+                        'content'       => '[pms-register]',
+                        'block_content' => '<!-- wp:pms/register /-->',
                     ),
                     'login' => array(
-                        'title'   => 'Login',
-                        'option'  => 'login_page',
-                        'content' => '[pms-login]',
+                        'title'         => 'Login',
+                        'option'        => 'login_page',
+                        'content'       => '[pms-login]',
+                        'block_content' => '<!-- wp:pms/login /-->',
                     ),
                     'account' => array(
-                        'title'   => 'Account',
-                        'option'  => 'account_page',
-                        'content' => '[pms-account]',
+                        'title'         => 'Account',
+                        'option'        => 'account_page',
+                        'content'       => '[pms-account]',
+                        'block_content' => '<!-- wp:pms/account /-->',
                     ),
                     'password-reset' => array(
-                        'title'   => 'Password Reset',
-                        'option'  => 'lost_password_page',
-                        'content' => '[pms-recover-password]',
+                        'title'         => 'Password Reset',
+                        'option'        => 'lost_password_page',
+                        'content'       => '[pms-recover-password]',
+                        'block_content' => '<!-- wp:pms/recover-password /-->',
                     ),
                 );
 
@@ -118,7 +122,7 @@ class PMS_Setup_Wizard {
 
                 foreach( $user_pages as $page_slug => $value ){
                     if( $value == 1 ){
-                        $this->create_page( $pages[$page_slug]['option'], $pages[$page_slug]['title'], $pages[$page_slug]['content'] );
+                        $this->create_page( $pages[$page_slug]['option'], $pages[$page_slug]['title'], $pages[$page_slug]['content'], $pages[$page_slug]['block_content'] );
                     }
                 }
 
@@ -262,18 +266,37 @@ class PMS_Setup_Wizard {
         return esc_url_raw( add_query_arg( 'step', $keys[$step_index + 1] ) );
     }
 
-    private function create_page( $option, $title, $content = '' ){
+    /**
+     * Check if Gutenberg block editor is available and active
+     *
+     * @return bool
+     */
+    private function is_gutenberg_available() {
+        // use_block_editor_for_post_type() checks if block editor is available (WP 5.0+),
+        // respects Classic Editor plugin settings, and any filters
+        return function_exists( 'use_block_editor_for_post_type' ) && use_block_editor_for_post_type( 'page' );
+    }
+
+    private function create_page( $option, $title, $content = '', $block_content = '' ) {
         if( empty( $this->general_settings ) )
             $this->general_settings = get_option( 'pms_general_settings', array() );
 
-        //try to find an existing page with the shortcode
+        //try to find an existing page with the shortcode or block
         if( empty( $this->general_settings[$option] ) || $this->general_settings[$option] == '-1' ) {
 
             if( !empty( $content ) ){
                 global $wpdb;
 
+                // Clean shortcode for searching (remove wp:shortcode wrapper if present)
                 $shortcode = str_replace( array( '<!-- wp:shortcode -->', '<!-- /wp:shortcode -->' ), '', $content );
+
+                // Search for existing page with shortcode
                 $existing_page = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' ) AND post_content LIKE %s LIMIT 1;", '%' . $shortcode . '%' ) );
+
+                // If no shortcode page found, and we have block content, search for block
+                if( empty( $existing_page ) && !empty( $block_content ) ) {
+                    $existing_page = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' ) AND post_content LIKE %s LIMIT 1;", '%' . $wpdb->esc_like( $block_content ) . '%' ) );
+                }
 
                 if( !empty( $existing_page ) ) {
                     $this->general_settings[$option] = $existing_page;
@@ -282,11 +305,17 @@ class PMS_Setup_Wizard {
                 }
             }
 
+            // Determine which content to use: blocks if available, otherwise shortcodes
+            $page_content = $content;
+            if( $this->is_gutenberg_available() && !empty( $block_content ) ) {
+                $page_content = $block_content;
+            }
+
             $page = array(
                 'post_type'    => 'page',
                 'post_status'  => 'publish',
                 'post_title'   => $title,
-                'post_content' => $content
+                'post_content' => $page_content
             );
 
             $page_id = wp_insert_post( $page );

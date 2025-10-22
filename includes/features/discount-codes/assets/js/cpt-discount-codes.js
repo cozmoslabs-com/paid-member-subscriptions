@@ -76,7 +76,7 @@ jQuery( function($) {
      * */
     $(document).ready( function () {
         $(function(){
-            $('.wp-admin.edit-php.post-type-pms-discount-codes .wrap .wp-heading-inline').append('<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/discount-codes/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>');
+            $('.wp-admin.edit-php.post-type-pms-discount-codes .wrap .wp-heading-inline').append('<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/discount-codes/?utm_source=pms-discount-codes&utm_medium=client-site&utm_campaign=pms-discount-codes-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>');
         });
     });
 

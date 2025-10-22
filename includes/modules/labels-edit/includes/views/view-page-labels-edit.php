@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             <h3 class="cozmoslabs-page-title">
                 <?php echo esc_html( $this->page_title ); ?>
-                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/labels-edit/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/labels-edit/?utm_source=pms-labels-edit&utm_medium=client-site&utm_campaign=pms-labels-edit-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h3>
 
         </div>

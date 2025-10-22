@@ -42,6 +42,7 @@ jQuery( function($) {
         currentURL = pms_remove_query_arg( 'pmsscsmsg', currentURL );
         currentURL = pms_remove_query_arg( 'pms_gateway_payment_action', currentURL );
         currentURL = pms_remove_query_arg( 'pms_gateway_payment_id', currentURL );
+        currentURL = pms_remove_query_arg( 'subscription_plan_id', currentURL );
         currentURL = pms_remove_query_arg( 'pms_wppb_custom_success_message', currentURL );
         currentURL = pms_remove_query_arg( 'redirect_to', currentURL );
 
@@ -1425,33 +1426,40 @@ jQuery( function($) {
      * Extra Subscription and Discount Options add-on -> Show/Hide Invite code input
      *
      */
-
     var $inviteCodeField = $(".pms-invite-code-field");
+
+    if( $inviteCodeField.length > 0 ){
+        toggleInviteCodeField();
+    
+        $(document).on("change", "input[name='subscription_plans']", toggleInviteCodeField);
+    }
+    
     function toggleInviteCodeField() {
-
         var $subscriptionPlans = $("input[name='subscription_plans']");
+    
+        if( $subscriptionPlans.length == 0 ) {
+            $inviteCodeField.hide();
+            return;
+        }
+    
         var $selected;
-
+    
         if($subscriptionPlans.length === 1){
             $selected = $subscriptionPlans;
         }
         else if($subscriptionPlans.length > 1){
             $selected = $("input[name='subscription_plans']:checked");
         }
-
-        if (!$selected.length) {
+    
+        if (!$selected || !$selected.length) {
             $inviteCodeField.hide();
             return;
         }
-
+    
         var hasInviteCode = ($selected.attr("data-has_invite_code") || "").toLowerCase();
-
+    
         $inviteCodeField.toggle(hasInviteCode === "yes");
     }
-
-    toggleInviteCodeField();
-
-    $(document).on("change", "input[name='subscription_plans']", toggleInviteCodeField);
 })
 
 

@@ -2452,7 +2452,7 @@ Class PMS_Form_Handler {
             } else {
 
                 if ( isset( $payment ) && isset( $payment->id ) )
-                    $success_redirect_link = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pms_gateway_payment_action' => base64_encode( $form_location ), 'pms_gateway_payment_id' => base64_encode( $payment->id ) ), self::get_redirect_url() );
+                    $success_redirect_link = add_query_arg( array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pms_gateway_payment_action' => base64_encode( $form_location ), 'pms_gateway_payment_id' => base64_encode( $payment->id ), 'subscription_plan_id' => base64_encode( $payment->subscription_id ) ), self::get_redirect_url() );
                 else
                     $success_redirect_link = add_query_arg (array( 'pmsscscd' => base64_encode( 'subscription_plans' ), 'pms_gateway_payment_action' => base64_encode( $form_location ) ), self::get_redirect_url() );
 

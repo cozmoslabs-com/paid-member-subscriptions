@@ -1777,6 +1777,100 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
     width: 500px;
 }
 
+/* Import Confirmation Modal */
+#pms-import-confirmation-modal .pms-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 100000;
+}
+
+#pms-import-confirmation-modal .pms-modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100001;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+#pms-import-confirmation-modal .pms-modal-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #ddd;
+    background: #f8f8f8;
+}
+
+#pms-import-confirmation-modal .pms-modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+#pms-import-confirmation-modal .pms-modal-body {
+    padding: 15px;
+}
+
+#pms-import-confirmation-modal .pms-warning-message {
+    padding: 15px;
+}
+
+#pms-import-confirmation-modal .pms-warning-message ul {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+#pms-import-confirmation-modal .pms-warning-message li {
+    margin-bottom: 8px;
+}
+
+#pms-import-confirmation-modal .pms-backup-recommendation strong {
+    color: #d63638;
+}
+
+#pms-import-confirmation-modal .pms-confirmation-checkbox label {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+    margin: 0;
+}
+
+#pms-import-confirmation-modal .pms-confirmation-checkbox input[type="checkbox"] {
+    margin: 0;
+}
+
+#pms-import-confirmation-modal .pms-confirmation-checkbox {
+    padding: 15px;
+    text-align: center;
+}
+
+#pms-import-confirmation-modal .pms-modal-footer {
+    padding: 15px 25px;
+    border-top: 1px solid #ddd;
+    background: #f8f8f8;
+    text-align: right;
+}
+
+#pms-import-confirmation-modal .pms-modal-footer button {
+    margin-left: 10px;
+    height: 32px;
+    vertical-align: middle;
+    box-sizing: border-box;
+    min-height: 32px;
+}
+
+#pms-import-confirmation-modal .pms-modal-proceed:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 
 /***********************************************************/
 /* MetaBox

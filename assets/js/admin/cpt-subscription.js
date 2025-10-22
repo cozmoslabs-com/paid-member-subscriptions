@@ -49,7 +49,7 @@ jQuery( function($) {
     * */
    $(document).ready( function () {
        $(function(){
-           $('.wp-admin.edit-php.post-type-pms-subscription .wrap .wp-heading-inline').append('<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>');
+           $('.wp-admin.edit-php.post-type-pms-subscription .wrap .wp-heading-inline').append('<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/?utm_source=pms-subscription-plans&utm_medium=client-site&utm_campaign=pms-subscription-plans-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>');
        });
    });
 
@@ -230,8 +230,11 @@ function previousSlide( currentSlide, themeID ){
 
 jQuery(document).ready(function($) {
 
+    var $datepicker = $("input.pms_datepicker");
+
     // Date picker for subscription start and end date
-    $("input.pms_datepicker").datepicker({dateFormat: 'yy-mm-dd'});
+    if ($datepicker.length > 0)
+        $("input.pms_datepicker").datepicker({dateFormat: 'yy-mm-dd'});
 
     //Validation for subscription start/end date
     const $form = $('#post');

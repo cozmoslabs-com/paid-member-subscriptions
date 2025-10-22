@@ -1800,7 +1800,7 @@
 <?php __("Plugin is <strong>active</strong>", "paid-member-subscriptions"); ?>
 <?php __("Plugin is <strong>inactive</strong>", "paid-member-subscriptions"); ?>
 <?php __("Could not install plugin. Retry or <a href=\"%s\" target=\"_blank\">install manually</a>.", "paid-member-subscriptions"); ?>
-<?php __("Capture more user information on the registration form with the help of Profile Builder's custom user profile fields and/or add an Email Confirmation process to verify your customers accounts.", "paid-member-subscriptions"); ?>
+<?php __("Add custom form fields to your Paid Member Subscriptions registration, login, and account forms. With Profile Builder you can fully customize all your user forms to match your exact needs.", "paid-member-subscriptions"); ?>
 <?php __("Easily create powerful no-code automations that connect your WordPress plugins, sites and apps together.", "paid-member-subscriptions"); ?>
 <?php __("Downloading and installing...", "paid-member-subscriptions"); ?>
 <?php __("Installation complete", "paid-member-subscriptions"); ?>
@@ -1827,8 +1827,6 @@
 <?php __("Overview of all your members and their subscription plans. Easily add/remove members or edit their subscription details.", "paid-member-subscriptions"); ?>
 <?php __("Keep track of all member payments, payment statuses, purchased subscription plans but also figure out why a Payment failed.", "paid-member-subscriptions"); ?>
 <?php __("Set the payment gateway used to accept payments, select messages seen by users when accessing a restricted content page or customize default member emails. Everything is just a few clicks away.", "paid-member-subscriptions"); ?>
-<?php __("Recurring Payments", "paid-member-subscriptions"); ?>
-<?php __("Setup recurring payments for your subscription plans.", "paid-member-subscriptions"); ?>
 <?php __("Friction-less discount code creation for running promotions, making price reductions or simply rewarding your users.", "paid-member-subscriptions"); ?>
 <?php __("WooCommerce Integration", "paid-member-subscriptions"); ?>
 <?php __("Integrates beautifully with WooCommerce, for extended functionality.", "paid-member-subscriptions"); ?>
@@ -1909,7 +1907,14 @@
 <?php __("Upload a CSV with your user subscriptions.", "paid-member-subscriptions"); ?>
 <?php __("Members File", "paid-member-subscriptions"); ?>
 <?php __("Choose the file you wish to upload", "paid-member-subscriptions"); ?>
-<?php __("Upload CSV", "paid-member-subscriptions"); ?>
+<?php __("Import Confirmation Required", "paid-member-subscriptions"); ?>
+<?php __("This import operation will modify your database and cannot be undone without a backup.", "paid-member-subscriptions"); ?>
+<?php __("User accounts may be created or modified", "paid-member-subscriptions"); ?>
+<?php __("Subscription data will be added or updated", "paid-member-subscriptions"); ?>
+<?php __("Changes cannot be automatically reverted", "paid-member-subscriptions"); ?>
+<?php __("We strongly recommend that you create a complete database backup before proceeding with this import.", "paid-member-subscriptions"); ?>
+<?php __("I have created a database backup and understand the risks", "paid-member-subscriptions"); ?>
+<?php __("Proceed with Import", "paid-member-subscriptions"); ?>
 <?php __("Bulk Add Subscription Plans to Users", "paid-member-subscriptions"); ?>
 <?php __("Filter Users", "paid-member-subscriptions"); ?>
 <?php __("User Role...", "paid-member-subscriptions"); ?>
@@ -2694,6 +2699,7 @@
 <?php __("Select the start date for the discount (yyyy-mm-dd). Leave blank for no start date.", "paid-member-subscriptions"); ?>
 <?php __("Select the expiration date for the discount (yyyy-mm-dd). Leave blank for no expiration.", "paid-member-subscriptions"); ?>
 <?php __("Select discount code status.", "paid-member-subscriptions"); ?>
+<?php __("Recurring Payments", "paid-member-subscriptions"); ?>
 <?php __("Apply discount to all future recurring payments (not just the first one).", "paid-member-subscriptions"); ?>
 <?php __("New Users Only", "paid-member-subscriptions"); ?>
 <?php __("Apply discount only for new users.", "paid-member-subscriptions"); ?>

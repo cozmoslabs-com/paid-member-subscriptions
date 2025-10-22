@@ -27,7 +27,7 @@ function pms_recaptcha_settings_tab( $options ) {
         <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-recaptcha">
             <h4 class="cozmoslabs-subsection-title">
                 <?php esc_html_e( 'reCaptcha Settings', 'paid-member-subscriptions' ); ?>
-                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/recaptcha/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/recaptcha/?utm_source=pms-misc-settings&utm_medium=client-site&utm_campaign=pms-recaptcha-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h4>
             
                 <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">

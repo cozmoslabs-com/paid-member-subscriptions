@@ -361,7 +361,7 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
                 <p class="cozmoslabs-description"><strong><?php esc_html_e( 'New Label:', 'paid-member-subscriptions' ); ?></strong> click %2$s.%3$s in %1$d sec</p>
             </div>
             <p class="cozmoslabs-description cozmoslabs-description-space-left">
-                <a href="http://www.cozmoslabs.com/?p=40126" target="_blank"><?php esc_html_e( 'Read more detailed information', 'paid-member-subscriptions' ); ?></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/labels-edit/?utm_source=pms-labels-edit&utm_medium=client-site&utm_campaign=pms-labels-edit-info" target="_blank"><?php esc_html_e( 'Read more detailed information', 'paid-member-subscriptions' ); ?></a>
             </p>
         </div>
 

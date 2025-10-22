@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.16.3
+Stable tag: 2.16.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -263,6 +263,14 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.16.4 =
+* Fix: Security issue regarding improper authorization on an AJAX handler function. Thanks to Rafshanzani Suhada and the Wordfence team
+* Fix: A javascript error being triggered on non registration forms
+* Fix: Show the correct price in the back-end Members page tooltip for PayPal Standard or Express subscriptions
+* Misc: Added subscription plan id parameter to the success URL after user makes a purchase
+* Misc: Use Gutenberg Blocks instead of shortcodes when plugin pages are created automatically through the Setup Wizard
+* Misc: Added a confirmation popup when importing subscriptions
+
 = 2.16.3 =
 * Feature: Added support for Stripe Link in purchase forms. Go to your Stripe account to enable this payment method
 * Fix: When a 100% non-recurring discount code is used in combination with free trials, extend the trial duration with a subscription period

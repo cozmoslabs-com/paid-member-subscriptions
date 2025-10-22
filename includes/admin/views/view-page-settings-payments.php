@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 <div class="cozmoslabs-toggle-description">
                     <label for="payment-test-mode" class="cozmoslabs-description">
-                        <?php printf( wp_kses_post( __( 'Use with test accounts from your payment processors. <a href="%s">More Details</a>', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/payments/#Test_Mode' ); ?>
+                        <?php printf( wp_kses_post( __( 'Use with test accounts from your payment processors. <a href="%s">More Details</a>', 'paid-member-subscriptions' ) ), 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/payments/?utm_source=pms-payments-settings&utm_medium=client-site&utm_campaign=pms-payments-test-mode#Test_Mode' ); ?>
                     </label>
                 </div>
             </div>

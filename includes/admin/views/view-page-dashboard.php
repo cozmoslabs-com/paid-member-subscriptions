@@ -191,7 +191,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
             </div>
 
-            <a class="button button-secondary" href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/"><?php esc_html_e( 'Learn more about shortcodes', 'paid-member-subscriptions' ); ?></a>
+            <a class="button button-secondary" href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/shortcodes/?utm_source=pms-dashboard&utm_medium=client-site&utm_campaign=pms-shortcodes"><?php esc_html_e( 'Learn more about shortcodes', 'paid-member-subscriptions' ); ?></a>
         </div>
 
         <?php PMS_Setup_Wizard::output_modal_progress_steps(); ?>

@@ -323,7 +323,7 @@ function pms_stripe_add_settings_content( $options ) {
                 echo '<img class="cozmoslabs-payment-gateway__metabox-icon" src="' . esc_attr( PMS_PLUGIN_DIR_URL ) . 'includes/gateways/stripe/assets/img/stripe-icon.jpeg"  alt="PayPal" />';
                 echo '<h4 class="cozmoslabs-subsection-title" id="pms-stripe__gateway-settings">'
                     . esc_html__( 'Stripe', 'paid-member-subscriptions' ) .
-                    '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Initial_Setup" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                    '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/?utm_source=pms-payments-settings&utm_medium=client-site&utm_campaign=pms-stripe-docs#Initial_Setup" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
                         </h4>';
             echo '</div>';
 

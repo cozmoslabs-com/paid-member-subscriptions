@@ -361,6 +361,7 @@ Class PMS_AJAX_Checkout_Handler {
                     'pmsscscd'                   => base64_encode( 'subscription_plans' ),
                     'pms_gateway_payment_action' => base64_encode( $form_location ),
                     'pms_gateway_payment_id'     => !empty( $payment_id ) ? base64_encode( $payment_id ) : '',
+                    'subscription_plan_id'       => !empty( $_POST['subscription_plans'] ) ? base64_encode( sanitize_text_field( $_POST['subscription_plans'] ) ) : '',
                 ),
             $redirect_url );
 
@@ -378,6 +379,7 @@ Class PMS_AJAX_Checkout_Handler {
                     'pmsscscd'                   => base64_encode( 'subscription_plans' ),
                     'pms_gateway_payment_action' => base64_encode( $form_location ),
                     'pms_gateway_payment_id'     => !empty( $payment_id ) ? base64_encode( $payment_id ) : '',
+                    'subscription_plan_id'       => !empty( $_POST['subscription_plans'] ) ? base64_encode( sanitize_text_field( $_POST['subscription_plans'] ) ) : '',
                 ),
             $redirect_url );
 
@@ -501,6 +503,7 @@ Class PMS_AJAX_Checkout_Handler {
                     'pmsscscd'                   => base64_encode( 'subscription_plans' ),
                     'pms_gateway_payment_action' => base64_encode( $form_location ),
                     'pms_gateway_payment_id'     => !empty( $payment_id ) ? base64_encode( $payment_id ) : '',
+                    'subscription_plan_id'       => !empty( $_POST['subscription_plans'] ) ? base64_encode( sanitize_text_field( $_POST['subscription_plans'] ) ) : '',
                 ),
             $redirect_url );
 

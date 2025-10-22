@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <h3 class="cozmoslabs-subsection-title">
             <?php esc_html_e( 'Restriction Settings', 'paid-member-subscriptions' ); ?>
-            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/tutor-lms/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/tutor-lms/?utm_source=pms-tutor-lms-settings&utm_medium=client-site&utm_campaign=pms-tutor-lms-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </h3>
 
         <!-- Restriction Type -->

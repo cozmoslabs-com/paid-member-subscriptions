@@ -58,7 +58,7 @@ class PMS_Register_Version {
             <div class="cozmoslabs-page-header">
                 <div class="cozmoslabs-section-title">
                     <h2 class="cozmoslabs-page-title"><?php esc_html_e( "Register your version of Paid Member Subscriptions", 'paid-member-subscriptions' ); ?></h2>
-                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/basic-information-and-installation?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Add_Serial_Number" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                    <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/basic-information-and-installation/?utm_source=pms-serial-number-settings&utm_medium=client-site&utm_campaign=pms-serial-number-docs#Add_Serial_Number" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
                 </div>
             </div>
 

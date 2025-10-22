@@ -397,17 +397,17 @@ function pms_output_page_banner( $page_name ) {
     if ( !empty( $page_name ) )
         $page_title = ' ' . $page_name;
 
-    $upgrade_button = '<a class="cozmoslabs-banner-link cozmoslabs-upgrade-link" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=upgrade-link&utm_campaign=PMSFree#pricing" target="_blank">
+    $upgrade_button = '<a class="cozmoslabs-banner-link cozmoslabs-upgrade-link" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-settings&utm_medium=client-site&utm_campaign=pms-header-upsell#pricing" target="_blank">
                          <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/upgrade-link-icon.svg" alt="">
                          Upgrade to PRO
                        </a>';
 
-    $upgrade_button_basic = '<a class="cozmoslabs-banner-link cozmoslabs-upgrade-link" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=upgrade-link&utm_campaign=PMSBasic#pricing" target="_blank">
+    $upgrade_button_basic = '<a class="cozmoslabs-banner-link cozmoslabs-upgrade-link" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-settings&utm_medium=client-site&utm_campaign=pms-header-upsell#pricing" target="_blank">
                          <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/upgrade-link-icon.svg" alt="">
                          Upgrade to PRO
                        </a>';
 
-    $support_url = 'https://www.cozmoslabs.com/support?utm_source=wpbackend&utm_medium=pms-support&utm_campaign=PMSSupport';
+    $support_url = 'https://www.cozmoslabs.com/support/?utm_source=pms-settings&utm_medium=client-site&utm_campaign=pms-header-upsell';
 
     if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) )
         $support_url = 'https://wordpress.org/support/plugin/paid-member-subscriptions/';
@@ -423,7 +423,7 @@ function pms_output_page_banner( $page_name ) {
                            Support
                        </a>
 
-                       <a class="cozmoslabs-banner-link cozmoslabs-documentation-link" href="https://www.cozmoslabs.com/docs/paid-member-subscriptions?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank">
+                       <a class="cozmoslabs-banner-link cozmoslabs-documentation-link" href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/?utm_source=pms-settings&utm_medium=client-site&utm_campaign=pms-header-upsell" target="_blank">
                            <img src="'. esc_url(PMS_PLUGIN_DIR_URL) . 'assets/images/docs-link-icon.svg" alt="">
                            Documentation
                        </a>';
@@ -1119,7 +1119,7 @@ function pms_tax_upsell( $output, $active_tab, $options ){
         <div class="cozmoslabs-form-subsection-wrapper">
             <h4 class="cozmoslabs-subsection-title">
                     <?php esc_html_e( 'Tax', 'paid-member-subscriptions' ); ?>
-                <a href=" https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/tax/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/tax-eu-vat/?utm_source=pms-tax-settings&utm_medium=client-site&utm_campaign=pms-tax-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h4>
 
             <div class="cozmoslabs-form-field-wrapper">
@@ -1160,7 +1160,7 @@ function pms_invoices_upsell( $output, $active_tab, $options ){
         <div class="cozmoslabs-form-subsection-wrapper">
             <h4 class="cozmoslabs-subsection-title">
                 <?php esc_html_e( 'Invoices', 'paid-member-subscriptions' ); ?>
-                <a href=" https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/invoices/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/invoices/?utm_source=pms-invoices-settings&utm_medium=client-site&utm_campaign=pms-invoices-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h4>
 
             <div class="cozmoslabs-form-field-wrapper">
@@ -1199,7 +1199,7 @@ function pms_multiple_currencies_upsell(){
         <div class="cozmoslabs-form-subsection-wrapper">
             <h4 class="cozmoslabs-subsection-title">
                 <?php esc_html_e( 'Multiple Currencies', 'paid-member-subscriptions' ); ?>
-                <a href=" https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/multiple-currencies/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/multiple-currencies/?utm_source=pms-payments-settings&utm_medium=client-site&utm_campaign=pms-multiple-currencies-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h4>
 
             <div class="cozmoslabs-form-field-wrapper">

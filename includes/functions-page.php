@@ -248,7 +248,7 @@ function pms_get_upgrade_url( $upgrade_plan_id = '' ) {
  * @return string              Processed permalink with the correct tab added.
  */
 function pms_account_get_tab_url( $tab, $permalink ) {
-    $permalink = remove_query_arg( array( 'pms_gateway_payment_action', 'pms_gateway_payment_id', 'pmsscscd' ), $permalink );
+    $permalink = remove_query_arg( array( 'pms_gateway_payment_action', 'pms_gateway_payment_id', 'pmsscscd', 'subscription_plan_id' ), $permalink );
 
     if ( get_option( 'permalink_structure' ) && pms_get_page( 'account' ) && !apply_filters( 'pms_account_rewrite_tab_urls', false ) ) {
         if ( strstr( $permalink, '?' ) ) {

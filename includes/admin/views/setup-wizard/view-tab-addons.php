@@ -12,32 +12,32 @@
         <?php
         $paid_version_addons = array(
             array(
-                'name' => esc_html__( 'Invoices', 'paid-member-subscriptions' ),
-                'slug' => 'pms-add-on-invoices',
-                'image' => 'pms-add-on-invoices-logo.png',
+                'name'        => esc_html__( 'Invoices', 'paid-member-subscriptions' ),
+                'slug'        => 'pms-add-on-invoices',
+                'image'       => 'pms-add-on-invoices-logo.png',
                 'description' => esc_html__( 'Generate downloadable PDF Invoices for payments. Available to admins and users.', 'paid-member-subscriptions' ),
-                'notice' => esc_html__( 'Available in the Pro version', 'paid-member-subscriptions' ),
+                'notice'      => esc_html__( 'Available in the Pro version', 'paid-member-subscriptions' ),
             ),
             array(
-                'name' => esc_html__( 'Multiple Subscriptions Per User', 'paid-member-subscriptions' ),
-                'slug' => 'pms-add-on-multiple-subscriptions-per-user',
-                'image' => 'pms-add-on-multiple-subscriptions-per-users-logo.png',
+                'name'        => esc_html__( 'Multiple Subscriptions Per User', 'paid-member-subscriptions' ),
+                'slug'        => 'pms-add-on-multiple-subscriptions-per-user',
+                'image'       => 'pms-add-on-multiple-subscriptions-per-users-logo.png',
                 'description' => esc_html__( 'Set up multiple subscription level blocks and allow members to sign up for more than one subscription plan.', 'paid-member-subscriptions' ),
-                'notice' => esc_html__( 'Available in the Pro version', 'paid-member-subscriptions' ),
+                'notice'      => esc_html__( 'Available in the Pro version', 'paid-member-subscriptions' ),
             ),
             array(
-                'name' => esc_html__( 'Global Content Restriction', 'paid-member-subscriptions' ),
-                'slug' => 'pms-add-on-global-content-restriction',
-                'image' => 'pms-add-on-global-content-restriction-logo.png',
+                'name'        => esc_html__( 'Global Content Restriction', 'paid-member-subscriptions' ),
+                'slug'        => 'pms-add-on-global-content-restriction',
+                'image'       => 'pms-add-on-global-content-restriction-logo.png',
                 'description' => esc_html__( 'Setup global content restriction rules based on Post Type, Taxonomies and Terms.', 'paid-member-subscriptions' ),
-                'notice' => esc_html__( 'Available in the Basic and Pro versions', 'paid-member-subscriptions' ),
+                'notice'      => esc_html__( 'Available in the Basic and Pro versions', 'paid-member-subscriptions' ),
             ),
             array(
-                'name' => esc_html__( 'Pay What You Want', 'paid-member-subscriptions' ),
-                'slug' => 'pms-add-on-pay-what-you-want',
-                'image' => 'pms-add-on-pay-what-you-want.png',
+                'name'        => esc_html__( 'Pay What You Want', 'paid-member-subscriptions' ),
+                'slug'        => 'pms-add-on-pay-what-you-want',
+                'image'       => 'pms-add-on-pay-what-you-want.png',
                 'description' => esc_html__( 'Accept donations or let subscribers pay what they want by offering a variable pricing option when they purchase a membership plan.', 'paid-member-subscriptions' ),
-                'notice' => esc_html__( 'Available in the Basic and Pro versions', 'paid-member-subscriptions' ),
+                'notice'      => esc_html__( 'Available in the Basic and Pro versions', 'paid-member-subscriptions' ),
             ),
         );
 
@@ -80,7 +80,7 @@
         </p>
     <?php else: ?>
         <p class="pms-setup-form-styles__upsell" style="padding-top: 14px; padding-bottom: 14px; font-size: 110%;">
-            <?php printf( esc_html__( 'Get access to 14+ premimum add-ons with a %sPro%s license. %sBuy Now%s', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wpbackend&utm_medium=clientsite&utm_content=setup-wizard-addons&utm_campaign=PMSFree#pricing" target="_blank">', '</a>' ); ?>
+            <?php printf( esc_html__( 'Get access to 14+ premimum add-ons with a %sPro%s license. %sBuy Now%s', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-setup-wizard&utm_medium=client-site&utm_campaign=pms-pro-addons-upsell#pricing" target="_blank">', '</a>' ); ?>
         </p>
     <?php endif; ?>
 

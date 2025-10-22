@@ -15,7 +15,7 @@
 
         <h3 class="cozmoslabs-subsection-title">
             <?php esc_html_e( 'Products', 'paid-member-subscriptions' ); ?>
-            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Allow_cumulative_discounts" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=pms-woocommerce-settings&utm_medium=client-site&utm_campaign=pms-woo-products-docs " target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </h3>
 
         <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
@@ -73,7 +73,7 @@
 
         <h3 class="cozmoslabs-subsection-title">
             <?php esc_html_e( 'Product Messages', 'paid-member-subscriptions' ); ?>
-            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Product_Discounted_8211_Membership_Required_Custom_Message" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=pms-woocommerce-settings&utm_medium=client-site&utm_campaign=pms-product-messages-docs#Product_Discounted_8211_Membership_Required_Custom_Message" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </h3>
 
         <div class="cozmoslabs-form-field-wrapper cozmoslabs-wysiwyg-wrapper cozmoslabs-wysiwyg-indented">
@@ -90,7 +90,7 @@
 
         <h3 class="cozmoslabs-subsection-title">
             <?php esc_html_e( 'Product Memberships', 'paid-member-subscriptions' ); ?>
-            <a href=" https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Sell_a_subscription_plan_thorough_WooCommerce" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=pms-woocommerce-settings&utm_medium=client-site&utm_campaign=pms-product-memberships-docs#Sell_a_subscription_plan_thorough_WooCommerce" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </h3>
 
         <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">

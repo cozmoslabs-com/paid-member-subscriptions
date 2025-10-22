@@ -23,7 +23,7 @@ function pms_ppcp_add_settings_content( $options ){
                 echo '<img class="cozmoslabs-payment-gateway__metabox-icon" src="' . esc_attr( PMS_PLUGIN_DIR_URL ) . 'includes/gateways/paypal_connect/assets/img/paypal-icon.png"  alt="PayPal" />';
                 echo '<h4 class="cozmoslabs-subsection-title" id="pms-paypal__gateway-settings">'
                         . esc_html__( ' PayPal', 'paid-member-subscriptions' ) .
-                        '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/paypal/#Initial_Setup" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+                        '<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/paypal/?utm_source=pms-payments-settings&utm_medium=client-site&utm_campaign=pms-paypal-docs#Initial_Setup" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
                     </h4>';
             echo '</div>';
 

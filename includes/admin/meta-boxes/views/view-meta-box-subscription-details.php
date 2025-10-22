@@ -60,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <label for="pms-subscription-plan-sign-up-fee" class="pms-meta-box-field-label cozmoslabs-form-field-label">
             <?php esc_html_e( 'Sign-up Fee', 'paid-member-subscriptions' ); ?>
-            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Sign-up_Fee" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/?utm_source=pms-subscription-plans&utm_medium=client-site&utm_campaign=pms-sign-up-fee#Sign-up_Fee" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </label>
 
         <input type="text" id="pms-subscription-plan-sign-up-fee" name="pms_subscription_plan_sign_up_fee" class="small" value="<?php echo esc_attr( $subscription_plan->sign_up_fee ); ?>" /> <strong><?php echo esc_html( pms_get_active_currency() ); ?></strong>
@@ -88,7 +88,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <label for="pms-subscription-plan-trial-duration" class="pms-meta-box-field-label cozmoslabs-form-field-label">
             <?php esc_html_e( 'Free Trial', 'paid-member-subscriptions' ); ?>
-            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/?utm_source=wpbackend&utm_medium=pms-documentation&utm_campaign=PMSDocs#Free_Trial" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
+            <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/?utm_source=pms-subscription-plans&utm_medium=client-site&utm_campaign=pms-free-trial#Free_Trial" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </label>
 
         <input type="text" id="pms-subscription-plan-trial-duration" name="pms_subscription_plan_trial_duration" value="<?php echo esc_attr( $subscription_plan->trial_duration ); ?>" />
