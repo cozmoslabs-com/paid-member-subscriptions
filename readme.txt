@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.16.4
+Stable tag: 2.16.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -263,6 +263,9 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.16.5 =
+* Include missing security changes from last update
+
 = 2.16.4 =
 * Fix: Security issue regarding improper authorization on an AJAX handler function. Thanks to Rafshanzani Suhada and the Wordfence team
 * Fix: A javascript error being triggered on non registration forms

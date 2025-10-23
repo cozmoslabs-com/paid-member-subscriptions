@@ -50,11 +50,11 @@ Class PMS_AJAX_Checkout_Handler {
         add_action( 'wp_ajax_pms_process_checkout', array( $this, 'process_ajax_checkout' ) );
         add_action( 'wp_ajax_nopriv_pms_process_checkout', array( $this, 'process_ajax_checkout' ) );
 
-        // Process Payment
+        // Process Payment - Only used for Stripe when further front-end processing is required
         add_action( 'wp_ajax_pms_process_payment', array( $this, 'process_payment' ) );
         add_action( 'wp_ajax_nopriv_pms_process_payment', array( $this, 'process_payment' ) );
 
-        // Grab a fresh process payment nonce
+        // Grab a fresh process payment nonce - Only used for Stripe when further front-end processing is required
         add_action( 'wp_ajax_pms_update_nonce', array( $this, 'refresh_nonce' ) );
         add_action( 'wp_ajax_nopriv_pms_update_nonce', array( $this, 'refresh_nonce' ) );
 
@@ -134,14 +134,57 @@ Class PMS_AJAX_Checkout_Handler {
         if( empty( $payment_gateway ) )
             die();
 
-        // Make sure that payment gateway is enabled
+        // Make sure the payment gateway is enabled
         $active_gateways = pms_get_active_payment_gateways();
 
         if( !in_array( $payment_gateway, $active_gateways ) )
             die();
+        
+        $intent_id = !empty( $_POST['payment_intent'] ) ? sanitize_text_field( $_POST['payment_intent'] ) : '';
 
-        $payment_id      = !empty( $_POST['payment_id'] ) ? absint( $_POST['payment_id'] ) : 0;
-        $subscription_id = !empty( $_POST['subscription_id'] ) ? absint( $_POST['subscription_id'] ) : 0;
+        if( empty( $intent_id ) )
+            die();
+
+        // Make sure payment exists
+        $payment_id = !empty( $_POST['payment_id'] ) ? absint( $_POST['payment_id'] ) : 0;
+
+        if( empty( $payment_id ) )
+            die();
+
+        $payment = pms_get_payment( $payment_id );
+
+        if( !isset( $payment->id ) )
+            die();
+
+        // Only process payments that are in the next action state
+        $next_action = pms_get_payment_meta( $payment->id, 'pms_stripe_next_action', true );
+
+        if( empty( $next_action ) || $next_action != 1 )
+            die();
+
+        // Verify that the saved payment intent id is the same as the one processed in this request
+        $payment_intent_id = pms_get_payment_meta( $payment->id, 'pms_stripe_next_action_intent_id', true );
+
+        if( empty( $payment_intent_id ) || $payment_intent_id != $intent_id )
+            die();
+
+        $subscription_id      = !empty( $_POST['subscription_id'] ) ? absint( $_POST['subscription_id'] ) : 0;
+        $user_id              = !empty( $_POST['user_id'] ) ? absint( $_POST['user_id'] ) : 0;
+        $subscription_plan_id = !empty( $_POST['subscription_plan_id'] ) ? absint( $_POST['subscription_plan_id'] ) : 0;
+
+        if( empty( $user_id ) || empty( $subscription_plan_id ) )
+            die();
+
+        // Verify that the target subscription belongs to the correct user
+        $subscription = pms_get_member_subscriptions( array( 'user_id' => $user_id, 'subscription_plan_id' => $subscription_plan_id ) );
+
+        if( empty( $subscription ) || !isset( $subscription[0] ) || !isset( $subscription[0]->id ) )
+            die();
+
+        $subscription = $subscription[0];
+
+        if( $subscription->id != $subscription_id )
+            die();
 
         // Initialize gateway
         $gateway = pms_get_payment_gateway( $payment_gateway );

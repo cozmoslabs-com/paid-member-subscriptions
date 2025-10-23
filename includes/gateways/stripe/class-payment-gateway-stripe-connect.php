@@ -345,6 +345,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_initial_payment_intent', $payment_intent->id );
 
+                // Maybe send request back to front-end for further actions
                 if( isset( $payment_intent->next_action ) && !is_null( $payment_intent->next_action ) && !empty( $payment_intent->next_action->type ) ){
 
                     if( !empty( $payment->id ) ){   
@@ -356,6 +357,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                             'transaction_id' => $payment_intent->id
                         ) );
                     }
+
+                    // Save the next step to the payment as well
+                    pms_update_payment_meta( $payment->id, 'pms_stripe_next_action', 1 );
+                    pms_update_payment_meta( $payment->id, 'pms_stripe_next_action_intent_id', $payment_intent->id );
 
                     $data = array(
                         'success'              => false,

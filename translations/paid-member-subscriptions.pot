@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-22 06:40+0000\n"
+"POT-Creation-Date: 2025-10-23 09:00+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -120,15 +120,15 @@ msgstr ""
 msgid "Labels"
 msgstr ""
 
-#: includes/class-ajax-checkout.php:457, includes/class-form-handler.php:1300, extend/profile-builder/functions-filters.php:370
+#: includes/class-ajax-checkout.php:500, includes/class-form-handler.php:1300, extend/profile-builder/functions-filters.php:370
 msgid "Congratulations, you have successfully created an account."
 msgstr ""
 
-#: includes/class-ajax-checkout.php:474, includes/class-ajax-checkout.php:438, extend/profile-builder/functions-filters.php:385
+#: includes/class-ajax-checkout.php:517, includes/class-ajax-checkout.php:481, extend/profile-builder/functions-filters.php:385
 msgid "Before you can access your account %1s, an administrator has to approve it. You will be notified via email."
 msgstr ""
 
-#: includes/class-ajax-checkout.php:431, includes/class-ajax-checkout.php:454
+#: includes/class-ajax-checkout.php:474, includes/class-ajax-checkout.php:497
 msgid "The account %1s has been successfully created!"
 msgstr ""
 
@@ -4562,7 +4562,7 @@ msgstr ""
 msgid "Refunding this payment will create a negative transaction, reversing all or part of the original payment amount. This action is permanent and cannot be undone. Please confirm the refund details below before proceeding"
 msgstr ""
 
-#: includes/admin/functions-admin.php:894, includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1874
+#: includes/admin/functions-admin.php:894, includes/admin/views/view-page-payments-add-new-edit.php:55, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:1879
 msgid "Payment Details"
 msgstr ""
 
@@ -5691,7 +5691,7 @@ msgstr ""
 msgid "Member removed successfully !"
 msgstr ""
 
-#: add-ons-pro/group-memberships/includes/class-group-memberships.php:960, add-ons-pro/group-memberships/includes/class-group-memberships.php:988, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1480, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:894, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:922
+#: add-ons-pro/group-memberships/includes/class-group-memberships.php:960, add-ons-pro/group-memberships/includes/class-group-memberships.php:988, add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1480, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:899, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:927
 msgid "Something went wrong, please try again."
 msgstr ""
 
@@ -6131,15 +6131,15 @@ msgstr ""
 msgid "PayPal API credentials not configured."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1392, includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:425, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:342, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:665
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1392, includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:425, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:342, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:670
 msgid "Invalid payment ID or amount."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1399, includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:432, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:349, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:672
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1399, includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:432, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:349, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:677
 msgid "Payment not found."
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1403, includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:436, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:353, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:676
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1403, includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:436, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:353, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:681
 msgid "No transaction ID found for this payment."
 msgstr ""
 
@@ -6155,7 +6155,7 @@ msgstr ""
 msgid "PayPal refund was not successful!"
 msgstr ""
 
-#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1468, includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:493, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:418, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:715
+#: add-ons-pro/paypal-express-pro/includes/class-payment-gateway-paypal-express-legacy.php:1468, includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:493, includes/gateways/paypal_standard/class-payment-gateway-paypal-standard.php:418, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:720
 msgid "Payment refunded successfully!"
 msgstr ""
 
@@ -6411,7 +6411,7 @@ msgstr ""
 msgid "User returned to the website for authentication."
 msgstr ""
 
-#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1489, includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:1092, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:931
+#: add-ons-pro/stripe/includes/class-payment-gateway-stripe-payment-intents.php:1489, includes/gateways/paypal_connect/class-payment-gateway-paypal-connect.php:1092, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:936
 msgid "Payment method updated successfully."
 msgstr ""
 
@@ -8856,27 +8856,27 @@ msgstr ""
 msgid "Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s."
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:661
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:666
 msgid "Stripe API key not configured."
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:727
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:732
 msgid "Refund was not successful!"
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:749, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:759
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:754, includes/gateways/stripe/class-payment-gateway-stripe-connect.php:764
 msgid "<strong>Stripe:</strong> %s"
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:745
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:750
 msgid "<strong>Stripe:</strong> The payment intent was not found."
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:741
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:746
 msgid "<strong>Stripe:</strong> The payment transaction was not found."
 msgstr ""
 
-#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:737
+#: includes/gateways/stripe/class-payment-gateway-stripe-connect.php:742
 msgid "<strong>Stripe:</strong> This payment has already been refunded."
 msgstr ""
 
