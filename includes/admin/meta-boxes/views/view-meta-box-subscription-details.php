@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     <label for="pms-subscription-plan-price" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Price', 'paid-member-subscriptions' ); ?></label>
 
-    <input type="text" id="pms-subscription-plan-price" name="pms_subscription_plan_price" class="small" value="<?php echo esc_attr( $subscription_plan->price ); ?>" /> <strong><?php echo esc_html( pms_get_active_currency() ); ?></strong>
+    <input type="text" id="pms-subscription-plan-price" name="pms_subscription_plan_price" class="small" value="<?php echo esc_attr( $subscription_plan->price ); ?>" /> <strong><span id="pms-default-currency"><?php echo esc_html( pms_get_active_currency() ); ?></span></strong>
 
     <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Amount you want to charge people who join this plan. Leave 0 if you want this plan to be free.', 'paid-member-subscriptions' ); ?></p>
 
@@ -149,7 +149,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div id="pms-payment-cycle-options">
 
             <!-- Number of Payments -->
-            <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+            <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper" id="pms-subscription-plan-number-of-payments-field">
                 <label for="pms-subscription-plan-number-of-payments" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Number of Payments', 'paid-member-subscriptions' ) ?></label>
 
                 <input type="number" id="pms-subscription-plan-number-of-payments" name="pms_subscription_plan_number_of_payments" value="<?php echo esc_attr( $subscription_plan->number_of_payments ) ?>" />

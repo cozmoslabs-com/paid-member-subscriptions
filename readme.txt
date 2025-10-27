@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.16.5
+Stable tag: 2.16.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -263,6 +263,11 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.16.6 =
+* Fix: Error being triggered when trying to checkout using the Manual / Offline payment gateway
+* Misc: Extended description for the Payment Cycles feature to display exactly the payment terms configured to the admin
+* Misc: Small changes for the Setup Wizard
+
 = 2.16.5 =
 * Include missing security changes from last update
 

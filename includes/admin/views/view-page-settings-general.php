@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             } elseif ( PAID_MEMBER_SUBSCRIPTIONS === 'Paid Member Subscriptions' ) {
 
                 echo pms_display_form_designs_preview(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                printf( esc_html__( '%3$sYou can now beautify your forms using pre-made templates. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s', 'paid-member-subscriptions' ),'<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-general-settings&utm_medium=client-site&utm_campaign=pms-form-design-templates#pricing" target="_blank">', '</a>', '<p class="cozmoslabs-description cozmoslabs-description-upsell">', '</p>' );
+                printf( esc_html__( '%3$sBeautify your forms using pre-made templates. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s', 'paid-member-subscriptions' ),'<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-general-settings&utm_medium=client-site&utm_campaign=pms-form-design-templates#pricing" target="_blank">', '</a>', '<p class="cozmoslabs-description cozmoslabs-description-upsell">', '</p>' );
                     
             }
             ?>

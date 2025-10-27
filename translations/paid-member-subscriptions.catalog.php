@@ -2016,7 +2016,7 @@
 <?php __("Design & User Experience", "paid-member-subscriptions"); ?>
 <?php __("Choose a style that better suits your website.", "paid-member-subscriptions"); ?>
 <?php __("The default style is there to let you customize the CSS and in general will receive the look and feel from your own themes styling.", "paid-member-subscriptions"); ?>
-<?php __('%3$sYou can now beautify your forms using pre-made templates. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s', 'paid-member-subscriptions' ); ?>
+<?php __('%3$sBeautify your forms using pre-made templates. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Optimize The login and Registration flow for your members", "paid-member-subscriptions"); ?>
 <?php __("Automatically Log In", "paid-member-subscriptions"); ?>
 <?php __("Select \"Yes\" to automatically log in new members after successful registration.", "paid-member-subscriptions"); ?>
@@ -2566,9 +2566,9 @@
 <?php __("Set up multiple subscription level blocks and allow members to sign up for more than one subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Setup global content restriction rules based on Post Type, Taxonomies and Terms.", "paid-member-subscriptions"); ?>
 <?php __("Available in the Basic and Pro versions", "paid-member-subscriptions"); ?>
-<?php __("Accept donations or let subscribers pay what they want by offering a variable pricing option when they purchase a membership plan.", "paid-member-subscriptions"); ?>
-<?php __("Get access to 14+ premimum add-ons with a %sPro%s license. %sBuy Now%s", "paid-member-subscriptions"); ?>
-<?php __('Explore 14+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete.', 'paid-member-subscriptions' ); ?>
+<?php __("Extend your Subscription Plans and Discount Codes with extra options like automatic downgrade after expiration, limit member count, schedule availability for subscription plans and more.", "paid-member-subscriptions"); ?>
+<?php __("Get access to 16+ premium add-ons with a %sPro%s license. %sBuy Now%s", "paid-member-subscriptions"); ?>
+<?php __('Explore 16+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete.', 'paid-member-subscriptions' ); ?>
 <?php __("Continue", "paid-member-subscriptions"); ?>
 <?php __("Design & User Experience Settings", "paid-member-subscriptions"); ?>
 <?php __("Customize the way your users interact with the website!", "paid-member-subscriptions"); ?>
@@ -2600,7 +2600,7 @@
 <?php __("You are connected in %s mode. You can start accepting payments.", "paid-member-subscriptions"); ?>
 <?php __("You are connected in %s mode. You can start accepting payments", "paid-member-subscriptions"); ?>
 <?php __("Safe and secure payments handled by PayPal using the customers account.", "paid-member-subscriptions"); ?>
-<?php __("Go to the Paid Member Subscriptions -> Settings -> Payments -> Gateways page to connect your PayPal account and start accepting payments.", "paid-member-subscriptions"); ?>
+<?php __("After finishing the setup wizard, go to the Paid Member Subscriptions -> Settings -> Payments -> Gateways page to connect your PayPal account and start accepting payments.", "paid-member-subscriptions"); ?>
 <?php __("Manually collect payments from your customers through Checks, Direct Bank Transfers or in person cash.", "paid-member-subscriptions"); ?>
 <?php __("Quick Setup Wizard", "paid-member-subscriptions"); ?>
 <?php __("Ready to welcome your new users?", "paid-member-subscriptions"); ?>

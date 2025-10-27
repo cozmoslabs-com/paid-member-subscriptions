@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-23 09:00+0000\n"
+"POT-Creation-Date: 2025-10-27 08:44+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -5323,7 +5323,7 @@ msgstr ""
 msgid "Original: %s"
 msgstr ""
 
-#: add-ons-basic/pay-what-you-want/includes/functions-admin.php:19, add-ons-basic/pay-what-you-want/includes/functions-admin.php:26, includes/admin/views/view-page-addons.php:55, includes/admin/views/view-page-basic-info.php:276, includes/admin/views/setup-wizard/view-tab-addons.php:36
+#: add-ons-basic/pay-what-you-want/includes/functions-admin.php:19, add-ons-basic/pay-what-you-want/includes/functions-admin.php:26, includes/admin/views/view-page-addons.php:55, includes/admin/views/view-page-basic-info.php:276
 msgid "Pay What You Want"
 msgstr ""
 
@@ -7047,7 +7047,7 @@ msgstr ""
 msgid "Integrate Paid Member Subscriptions with the popular forums plugin, bbPress. Restrict your forums and topics and allow only premium members to have access to them."
 msgstr ""
 
-#: includes/admin/views/view-page-addons.php:69, includes/admin/views/view-page-basic-info.php:287
+#: includes/admin/views/view-page-addons.php:69, includes/admin/views/view-page-basic-info.php:287, includes/admin/views/setup-wizard/view-tab-addons.php:36
 msgid "Advanced Subscription Toolkit"
 msgstr ""
 
@@ -8049,7 +8049,7 @@ msgid "The default style is there to let you customize the CSS and in general wi
 msgstr ""
 
 #: includes/admin/views/view-page-settings-general.php:27, includes/admin/views/setup-wizard/view-tab-general.php:20
-msgid "%3$sYou can now beautify your forms using pre-made templates. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s"
+msgid "%3$sBeautify your forms using pre-made templates. Enable Form Designs by upgrading to %1$sBasic or PRO versions%2$s.%4$s"
 msgstr ""
 
 #: includes/admin/views/view-page-settings-general.php:36
@@ -10244,15 +10244,15 @@ msgid "Available in the Basic and Pro versions"
 msgstr ""
 
 #: includes/admin/views/setup-wizard/view-tab-addons.php:39
-msgid "Accept donations or let subscribers pay what they want by offering a variable pricing option when they purchase a membership plan."
+msgid "Extend your Subscription Plans and Discount Codes with extra options like automatic downgrade after expiration, limit member count, schedule availability for subscription plans and more."
 msgstr ""
 
 #: includes/admin/views/setup-wizard/view-tab-addons.php:83
-msgid "Get access to 14+ premimum add-ons with a %sPro%s license. %sBuy Now%s"
+msgid "Get access to 16+ premium add-ons with a %sPro%s license. %sBuy Now%s"
 msgstr ""
 
 #: includes/admin/views/setup-wizard/view-tab-addons.php:79
-msgid "Explore 14+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete."
+msgid "Explore 16+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete."
 msgstr ""
 
 #: includes/admin/views/setup-wizard/view-tab-addons.php:88, includes/admin/views/setup-wizard/view-tab-general.php:71, includes/admin/views/setup-wizard/view-tab-payments.php:170, includes/admin/views/setup-wizard/view-tab-user-pages.php:126, includes/admin/views/setup-wizard/view-tab-woocommerce.php:43
@@ -10380,7 +10380,7 @@ msgid "Safe and secure payments handled by PayPal using the customers account."
 msgstr ""
 
 #: includes/admin/views/setup-wizard/view-tab-payments.php:141
-msgid "Go to the Paid Member Subscriptions -> Settings -> Payments -> Gateways page to connect your PayPal account and start accepting payments."
+msgid "After finishing the setup wizard, go to the Paid Member Subscriptions -> Settings -> Payments -> Gateways page to connect your PayPal account and start accepting payments."
 msgstr ""
 
 #: includes/admin/views/setup-wizard/view-tab-payments.php:157

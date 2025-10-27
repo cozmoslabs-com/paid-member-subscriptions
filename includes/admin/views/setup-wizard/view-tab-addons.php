@@ -33,10 +33,10 @@
                 'notice'      => esc_html__( 'Available in the Basic and Pro versions', 'paid-member-subscriptions' ),
             ),
             array(
-                'name'        => esc_html__( 'Pay What You Want', 'paid-member-subscriptions' ),
-                'slug'        => 'pms-add-on-pay-what-you-want',
-                'image'       => 'pms-add-on-pay-what-you-want.png',
-                'description' => esc_html__( 'Accept donations or let subscribers pay what they want by offering a variable pricing option when they purchase a membership plan.', 'paid-member-subscriptions' ),
+                'name'        => esc_html__( 'Advanced Subscription Toolkit', 'paid-member-subscriptions' ),
+                'slug'        => 'pms-add-on-extra-subscription-discount-options',
+                'image'       => 'pms-add-on-extra-subscription-and-discount-options-logo.png',
+                'description' => esc_html__( 'Extend your Subscription Plans and Discount Codes with extra options like automatic downgrade after expiration, limit member count, schedule availability for subscription plans and more.', 'paid-member-subscriptions' ),
                 'notice'      => esc_html__( 'Available in the Basic and Pro versions', 'paid-member-subscriptions' ),
             ),
         );
@@ -76,11 +76,11 @@
     
     <?php if( defined( 'PMS_PAID_PLUGIN_DIR' ) ) : ?>
         <p class="pms-setup-addons-info">
-            <?php printf( esc_html__( 'Explore 14+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ); ?>
+            <?php printf( esc_html__( 'Explore 16+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ); ?>
         </p>
     <?php else: ?>
         <p class="pms-setup-form-styles__upsell" style="padding-top: 14px; padding-bottom: 14px; font-size: 110%;">
-            <?php printf( esc_html__( 'Get access to 14+ premimum add-ons with a %sPro%s license. %sBuy Now%s', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-setup-wizard&utm_medium=client-site&utm_campaign=pms-pro-addons-upsell#pricing" target="_blank">', '</a>' ); ?>
+            <?php printf( esc_html__( 'Get access to 16+ premium add-ons with a %sPro%s license. %sBuy Now%s', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-setup-wizard&utm_medium=client-site&utm_campaign=pms-pro-addons-upsell#pricing" target="_blank">', '</a>' ); ?>
         </p>
     <?php endif; ?>
 

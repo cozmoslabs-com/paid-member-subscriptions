@@ -209,7 +209,7 @@ class PMS_Setup_Wizard {
                 'pms-add-on-invoices',
                 'pms-add-on-multiple-subscriptions-per-user',
                 'pms-add-on-global-content-restriction',
-                'pms-add-on-pay-what-you-want',
+                'pms-add-on-extra-subscription-discount-options',
             );
 
             foreach( $target_addons as $addon ){

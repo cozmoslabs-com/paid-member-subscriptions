@@ -108,6 +108,9 @@ jQuery(document).ready(function($) {
 
     // Handle Payment Installments feature settings visibility
     pms_handle_payment_cycle_options();
+
+    // Handle the Payment Installments feature subscription payment related details notice
+    pms_handle_payment_cycle_notice();
 });
 
 
@@ -178,6 +181,46 @@ function pms_handle_payment_cycle_options() {
         else {
             expireOptions.hide();
         }
+    }
+
+}
+
+
+/**
+ * Handle the Payment Installments feature subscription payment related details notice
+ *
+ */
+function pms_handle_payment_cycle_notice() {
+
+    handle_note_output();
+
+    jQuery(document).on('change', '#pms-subscription-plan-duration, #pms-subscription-plan-duration-unit, #pms-subscription-plan-price, #pms-subscription-plan-number-of-payments, #pms-limit-payment-cycles', handle_note_output )
+
+    function handle_note_output() {
+        jQuery('#pms-payment-cycles-note').remove();
+
+        let $limitCycles = jQuery('#pms-limit-payment-cycles'),
+            price = jQuery('#pms-subscription-plan-price').val();
+
+        if ( ! price || ! $limitCycles.is(':checked') )
+            return;
+
+        let $fieldWrapper = jQuery('#pms-subscription-plan-number-of-payments-field'),
+            duration      = jQuery('#pms-subscription-plan-duration').val(),
+            durationUnit  = jQuery('#pms-subscription-plan-duration-unit').val(),
+            currency      = jQuery('#pms-default-currency').text().trim(),
+            payments      = jQuery('#pms-subscription-plan-number-of-payments').val(),
+            note          = 'Subscribers will pay <strong>' + price + ' ' + currency + '</strong>';
+
+        if ( duration && durationUnit )
+            note += ' every <strong>' + duration + ' ' + durationUnit + '(s)</strong>';
+
+        if ( payments )
+            note += ' for a total of  <strong>' + payments + ' payments</strong>';
+
+        note += '.';
+
+        $fieldWrapper.append('<p class="cozmoslabs-description cozmoslabs-description-space-left" id="pms-payment-cycles-note" style="color: #1E1E1E !important; margin-top: 10px;"><span style="padding: 10px 20px; background: #FDFBE6;">'+ note +'</span></p>');
     }
 
 }

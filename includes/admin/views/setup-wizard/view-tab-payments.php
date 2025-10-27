@@ -138,7 +138,7 @@
                     $paypal_credentials = pms_ppcp_get_api_credentials();
     
                         if( empty( $paypal_credentials['client_id'] ) || empty( $paypal_credentials['client_secret'] ) ):
-                            echo wp_kses( __( 'Go to the Paid Member Subscriptions -> Settings -> Payments -> Gateways page to connect your PayPal account and start accepting payments.', 'paid-member-subscriptions' ), $this->kses_args );
+                            echo wp_kses( __( 'After finishing the setup wizard, go to the Paid Member Subscriptions -> Settings -> Payments -> Gateways page to connect your PayPal account and start accepting payments.', 'paid-member-subscriptions' ), $this->kses_args );
                         else :
                             echo wp_kses( sprintf( __( 'You are connected in %s mode. You can start accepting payments.', 'paid-member-subscriptions' ), pms_is_payment_test_mode() ? '<strong>Test</strong>' : '<strong>Live</strong>' ), $this->kses_args );
                         endif;
