@@ -425,19 +425,25 @@ form.pms-form ul.pms-form-fields-wrapper {
     margin-bottom: 1em;
 }
 
+.pms-form .pms-email-marketing-field label,
 .pms-form .pms-gdpr-field label,
 .pms-subscription-plan-auto-renew label {
     display: flex;
-    align-items: flex-start;
     justify-content: flex-start;
     gap: 4px;
     cursor: pointer;
 }
 
+.pms-form .pms-gdpr-field label {
+    align-items: flex-start;
+}
+
+.pms-form .pms-email-marketing-field label,
 .pms-subscription-plan-auto-renew label {
     align-items: center;
 }
 
+.pms-form .pms-email-marketing-field label .pms-email-marketing-field-text a,
 .pms-form .pms-gdpr-field label .pms-gdpr-field-text a {
     line-height: 20px;
 }

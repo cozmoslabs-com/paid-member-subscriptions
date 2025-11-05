@@ -409,6 +409,30 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 <p class="cozmoslabs-description"><?php esc_html_e( 'Restrict direct access to media files based on subscription plans making sure only paying members can view them.', 'paid-member-subscriptions' ); ?></p>
             </div>
+
+            <div>
+                <a href="https://www.cozmoslabs.com/add-ons/mailchimp-paid-member-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-mailchimp-addon" target="_blank">
+                    <h4 class="pms-add-on-name"><?php esc_html_e( 'Mailchimp', 'paid-member-subscriptions' ); ?></h4>
+                </a>
+
+                <a href="https://www.cozmoslabs.com/add-ons/mailchimp-paid-member-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-mailchimp-addon" target="_blank" class="pms-addon-image-container">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-mailchimp.png" alt="Mailchimp" class="pms-addon-image" />
+                </a>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Integrate Mailchimp to keep your membership audience up to date. Automatically add or update subscribers, enable Double Opt-In, and sync custom fields between Mailchimp and member profiles.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div>
+                <a href="https://www.cozmoslabs.com/add-ons/brevo/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-brevo-addon" target="_blank">
+                    <h4 class="pms-add-on-name"><?php esc_html_e( 'Brevo', 'paid-member-subscriptions' ); ?></h4>
+                </a>
+
+                <a href="https://www.cozmoslabs.com/add-ons/brevo/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-brevo-addon" target="_blank" class="pms-addon-image-container">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-brevo.png" alt="Brevo" class="pms-addon-image" />
+                </a>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Sync your members with Brevo to manage contacts smoothly. Automate newsletter subscriptions, use Double Opt-In for compliance, and link custom fields between Brevo and your member data.', 'paid-member-subscriptions' ); ?></p>
+            </div>
         </div>
 
         <div>

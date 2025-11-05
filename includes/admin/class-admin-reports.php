@@ -295,17 +295,19 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         $payments = array();
 
         $args_attempts = array(
-            'status' => array( 'completed', 'pending', 'failed' ),
-            'date'   => array( $this->start_date, $this->end_date ),
-            'order'  => 'ASC',
-            'number' => '-1'
+            'status'       => array( 'completed', 'pending', 'failed' ),
+            'date'         => array( $this->start_date, $this->end_date ),
+            'order'        => 'ASC',
+            'number'       => '-1',
+            'return_array' => true
         );
 
         $args_previous_attempts = array(
-            'status' => array( 'completed', 'pending', 'failed' ),
-            'date'   => array( $this->start_previous_date, $this->end_previous_date ),
-            'order'  => 'ASC',
-            'number' => '-1'
+            'status'       => array( 'completed', 'pending', 'failed' ),
+            'date'         => array( $this->start_previous_date, $this->end_previous_date ),
+            'order'        => 'ASC',
+            'number'       => '-1',
+            'return_array' => true
         );
 
         if( isset( $_REQUEST['pms-filter-subscription-plans'] ) && !empty( $_GET['pms-filter-subscription-plans'] ) ){
@@ -507,27 +509,27 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
         if( !empty( $payments ) ) {
             foreach( $payments as $payment ) {
-                $payment_date = new DateTime( $payment->date );
+                $payment_date = new DateTime( $payment['date'] );
 
                 if( $date === 'today' || $date === 'yesterday' ){
-                    $results[ $payment_date->format('G') ]['earnings'] += $payment->amount;
+                    $results[ $payment_date->format('G') ]['earnings'] += $payment['amount'];
                     $results[ $payment_date->format('G') ]['payments'] += 1;
                 }
                 else if( $date === 'this_week' || $date === 'last_week' || $date === '30days' || $date === 'this_month' || $date === 'last_month' ){
-                        $results[ $payment_date->format('j') ]['earnings'] += $payment->amount;
+                        $results[ $payment_date->format('j') ]['earnings'] += $payment['amount'];
                         $results[ $payment_date->format('j') ]['payments'] += 1;
                 }
                 else if( $date === 'this_year' || $date === 'last_year'){
-                        $results[ $payment_date->format('n') ]['earnings'] += $payment->amount;
+                        $results[ $payment_date->format('n') ]['earnings'] += $payment['amount'];
                         $results[ $payment_date->format('n') ]['payments'] += 1;
                 }
                 else if( $date === 'custom_date' ){
 
                     $first = new DateTime( $this->start_date );
 
-                    $first_year = $first->format('Y');
+                    $first_year  = $first->format('Y');
                     $first_month = $first->format('n');
-                    $first_day = $first->format('j');
+                    $first_day   = $first->format('j');
 
                     $last = new DateTime( $this->end_date );
 
@@ -548,7 +550,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                                 if ( $payment_date->format('Y') == $current_year &&  $payment_date->format('n') == $current_month )
                                 {
-                                    $results[ $key ]['earnings'] += $payment->amount;
+                                    $results[ $key ]['earnings'] += $payment['amount'];
                                     $results[ $key ]['payments'] += 1;
                                 }
                             }
@@ -558,23 +560,23 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                         $gap_between_months = $last_month - $first_month;
 
                         if( $gap_between_months > 0 ){
-                                $results[ $payment_date->format('n') ]['earnings'] += $payment->amount;
+                                $results[ $payment_date->format('n') ]['earnings'] += $payment['amount'];
                                 $results[ $payment_date->format('n') ]['payments'] += 1;
                         }
                         else{
                             if( $first_day === $last_day ){
-                                $results[ $payment_date->format('G') ]['earnings'] += $payment->amount;
+                                $results[ $payment_date->format('G') ]['earnings'] += $payment['amount'];
                                 $results[ $payment_date->format('G') ]['payments'] += 1;
                             }
                             else{
-                                $results[ $payment_date->format('j') ]['earnings'] += $payment->amount;
+                                $results[ $payment_date->format('j') ]['earnings'] += $payment['amount'];
                                 $results[ $payment_date->format('j') ]['payments'] += 1;
                             }
                         }
                     }
                 }
                 else{
-                    $results[ $payment_date->format('j') ]['earnings'] += $payment->amount;
+                    $results[ $payment_date->format('j') ]['earnings'] += $payment['amount'];
                     $results[ $payment_date->format('j') ]['payments'] += 1;
                 }
             }
@@ -718,7 +720,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
         if( !empty( $queried ) ) {
             foreach( $queried as $payment ){
-                $count_attempts_payments = $this->pms_counting_type_of_payment( $payment->type, $attempts_payments, $count_attempts_payments );
+                $count_attempts_payments = $this->pms_counting_type_of_payment( $payment['type'], $attempts_payments, $count_attempts_payments );
             }
         }
 
@@ -736,7 +738,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
         if( !empty( $queried ) ) {
             foreach( $queried as $payment ){
-                $count_renewal_payments = $this->pms_counting_type_of_payment( $payment->type, $renewal_payments, $count_renewal_payments );
+                $count_renewal_payments = $this->pms_counting_type_of_payment( $payment['type'], $renewal_payments, $count_renewal_payments );
             }
         }
 
@@ -753,7 +755,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
         if( !empty( $queried ) ) {
             foreach( $queried as $payment ){
-                $count_upgrade_payments = $this->pms_counting_type_of_payment( $payment->type, $upgrade_payments, $count_upgrade_payments );
+                $count_upgrade_payments = $this->pms_counting_type_of_payment( $payment['type'], $upgrade_payments, $count_upgrade_payments );
             }
         }
 
@@ -767,8 +769,8 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
     public function pms_prepare_discount_codes( $discount_codes_result, $queried_payments ){
         if( !empty( $queried_payments ) ) {
             foreach( $queried_payments as $payment ){
-                if( !isset( $discount_codes_result[ $payment->discount_code ] ) )
-                    $discount_codes_result[ $payment->discount_code ] = array( 'name' => $payment->discount_code, 'count' => 0 );
+                if( !isset( $discount_codes_result[ $payment['discount_code'] ] ) )
+                    $discount_codes_result[ $payment['discount_code'] ] = array( 'name' => $payment['discount_code'], 'count' => 0 );
             }
         }
 
@@ -848,40 +850,40 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         if( !empty( $queried_payments ) ) {
 
             foreach( $queried_payments as $payment ) {
-                $currency             = !empty( $payment->currency ) ? $payment->currency : $default_currency;
+                $currency             = !empty( $payment['currency'] ) ? $payment['currency'] : $default_currency;
                 $currency             = apply_filters( 'pms_reports_payment_currency', $currency, $payment );
-                $base_currency_amount = get_metadata( 'payment', $payment->id, 'base_currency_amount', true );
+                $base_currency_amount = get_metadata( 'payment', $payment['id'], 'base_currency_amount', true );
 
                 // Total Payment Amounts in Default Currency
                 if ( $currency === $default_currency ) {
-                    $default_currency_payment_amount = $payment->amount;
+                    $default_currency_payment_amount = $payment['amount'];
                 } elseif ( !empty( $base_currency_amount ) ) {
                     $default_currency_payment_amount = $base_currency_amount;
                 } else {
-                    $default_currency_payment_amount = function_exists( 'pms_convert_currency' ) ? pms_convert_currency( $payment->amount, $currency, $default_currency,  date('Y-m-d', strtotime( $payment->date ) ) ) : $payment->amount;
+                    $default_currency_payment_amount = function_exists( 'pms_convert_currency' ) ? pms_convert_currency( $payment['amount'], $currency, $default_currency,  date('Y-m-d', strtotime( $payment['date'] ) ) ) : $payment['amount'];
                 }
 
                 $default_currency_totals['payments_amount'] += $default_currency_payment_amount;
 
-                if ( in_array( $payment->type, $completed_payments ) )
+                if ( in_array( $payment['type'], $completed_payments ) )
                     $default_currency_totals['total_completed_payments'] += $default_currency_payment_amount;
 
-                if ( in_array( $payment->type, $recurring_payments ) )
+                if ( in_array( $payment['type'], $recurring_payments ) )
                     $default_currency_totals['total_recurring_payments'] += $default_currency_payment_amount;
 
-                if ( !empty( $payment->payment_gateway ) )
-                    $default_currency_totals['payment_gateways_result'][$payment->payment_gateway]['earnings'] += $default_currency_payment_amount;
+                if ( !empty( $payment['payment_gateway'] ) )
+                    $default_currency_totals['payment_gateways_result'][$payment['payment_gateway']]['earnings'] += $default_currency_payment_amount;
 
-                if ( in_array( $payment->type, $attempts_payments ) && in_array( $payment->status, $status ) )
+                if ( in_array( $payment['type'], $attempts_payments ) && in_array( $payment['status'], $status ) )
                     $default_currency_totals['total_recovered_payments'] += $default_currency_payment_amount;
 
-                $subscriptions_plans_result[intval( $payment->subscription_id )]['default_currency_total'] += $default_currency_payment_amount;
+                $subscriptions_plans_result[intval( $payment['subscription_id'] )]['default_currency_total'] += $default_currency_payment_amount;
 
                 // Total Earnings
                 if ( isset( $payments_amount[$currency] ) )
-                    $payments_amount[$currency] += $payment->amount;
+                    $payments_amount[$currency] += $payment['amount'];
                 else 
-                    $payments_amount[$currency] = $payment->amount;
+                    $payments_amount[$currency] = $payment['amount'];
 
                 // Total Payments
                 $default_currency_totals['payments_count']++;
@@ -893,47 +895,47 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                 // New Revenue
                 $total_completed_payments[$currency] = isset( $total_completed_payments[$currency] ) ? $total_completed_payments[$currency] : 0;
-                $total_completed_payments[$currency] = $this->pms_sum_type_of_payment( $payment->type, $completed_payments, $payment->amount,  $total_completed_payments[$currency] );
+                $total_completed_payments[$currency] = $this->pms_sum_type_of_payment( $payment['type'], $completed_payments, $payment['amount'],  $total_completed_payments[$currency] );
 
                 // Recurring Revenue
                 $total_recurring_payments[$currency] = isset( $total_recurring_payments[$currency] ) ? $total_recurring_payments[$currency] : 0;
-                $total_recurring_payments[$currency] = $this->pms_sum_type_of_payment( $payment->type, $recurring_payments, $payment->amount, $total_recurring_payments[$currency] );
+                $total_recurring_payments[$currency] = $this->pms_sum_type_of_payment( $payment['type'], $recurring_payments, $payment['amount'], $total_recurring_payments[$currency] );
 
                 // Payment Gateways Revenue
-                if ( !empty( $payment->payment_gateway ) && !is_array( $payment_gateways_result[ $payment->payment_gateway ]['earnings'] ) && $payment_gateways_result[ $payment->payment_gateway ]['earnings'] == 0 )
-                    $payment_gateways_result[ $payment->payment_gateway ]['earnings'] = array();
+                if ( !empty( $payment['payment_gateway'] ) && !is_array( $payment_gateways_result[ $payment['payment_gateway'] ]['earnings'] ) && $payment_gateways_result[ $payment['payment_gateway'] ]['earnings'] == 0 )
+                    $payment_gateways_result[ $payment['payment_gateway'] ]['earnings'] = array();
 
-                if( isset( $payment_gateways_result[ $payment->payment_gateway ]['earnings'][ $currency ] ) ){
-                    $payment_gateways_result[ $payment->payment_gateway ]['earnings'][ $currency ] += $payment->amount;
+                if( isset( $payment_gateways_result[ $payment['payment_gateway'] ]['earnings'][ $currency ] ) ){
+                    $payment_gateways_result[ $payment['payment_gateway'] ]['earnings'][ $currency ] += $payment['amount'];
                 } else {
-                    $payment_gateways_result[ $payment->payment_gateway ]['earnings'][ $currency ] = $payment->amount;
+                    $payment_gateways_result[ $payment['payment_gateway'] ]['earnings'][ $currency ] = $payment['amount'];
                 }
                 // TODO: simplify the above: maybe update the pms_prepare_payment_gateway() function to return "earnings" as empty array instead of 0
 
                 // Payment Retries
-                $total_successful_retries            = $this->pms_count_type_and_status_of_payment( $payment->type, $attempts_payments, $payment->status, $status, $total_successful_retries );
+                $total_successful_retries            = $this->pms_count_type_and_status_of_payment( $payment['type'], $attempts_payments, $payment['status'], $status, $total_successful_retries );
 
                 $total_recovered_payments[$currency] = isset( $total_recovered_payments[$currency] ) ? $total_recovered_payments[$currency] : 0;
-                $total_recovered_payments[$currency] = $this->pms_sum_type_and_status_of_payment( $payment->type, $attempts_payments, $payment->status, $status, $payment->amount, $total_recovered_payments[$currency] );
+                $total_recovered_payments[$currency] = $this->pms_sum_type_and_status_of_payment( $payment['type'], $attempts_payments, $payment['status'], $status, $payment['amount'], $total_recovered_payments[$currency] );
 
                 // Subscription Plans
-                if ( isset( $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['earnings'][$currency] ) )
-                    $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['earnings'][$currency] += $payment->amount;
+                if ( isset( $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['earnings'][$currency] ) )
+                    $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['earnings'][$currency] += $payment['amount'];
                 else 
-                    $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['earnings'][$currency] = $payment->amount;
+                    $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['earnings'][$currency] = $payment['amount'];
 
-                if ( isset( $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['count'][$currency] ) )
-                    $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['count'][$currency]++;
+                if ( isset( $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['count'][$currency] ) )
+                    $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['count'][$currency]++;
                 else 
-                    $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['count'][$currency] = 1;
+                    $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['count'][$currency] = 1;
 
-                if( empty( $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['name'] ) ){
-                    $plan = pms_get_subscription_plan( $payment->subscription_id );
-                    $subscriptions_plans_result[ intval( $payment->subscription_id ) ]['name'] = $plan->name;
+                if( empty( $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['name'] ) ){
+                    $plan = pms_get_subscription_plan( $payment['subscription_id'] );
+                    $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['name'] = $plan->name;
                 }
 
                 // Discount Codes
-                $discount_codes_result[ $payment->discount_code ]['count']++;
+                $discount_codes_result[ $payment['discount_code'] ]['count']++;
             }
 
             // Sort Subscription Plans after best performing earnings (calculated in default currency)
@@ -1451,7 +1453,14 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                     ?>
                 </div>
 
-                <?php do_action( 'pms_reports_summary_sections_bottom', $summary_data, $results_arrow, $previous ); ?>
+                <?php 
+                $queried_payments = $this->queried_payments;
+
+                if( $class_section == 'previous' ){
+                    $queried_payments = $this->queried_previous_payments;
+                }
+
+                do_action( 'pms_reports_summary_sections_bottom', $summary_data, $results_arrow, $previous, $queried_payments ); ?>
 
             </div>
         </div>
@@ -1574,7 +1583,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
     public function filter_get_completed_payments( $item ){
 
-        if( $item->status == 'completed' )
+        if( $item['status'] == 'completed' )
             return true;
 
         return false;

@@ -975,8 +975,8 @@ class PMS_Plugin_Updater {
 
             // Check if anything passed on a message constituting a failure
             if ( ! empty( $message ) ) {
-                $message = implode( "<br/>", array_unique($message) );//if we got the same message for multiple addons show just one, and add a br in case we show multiple messages
-                $redirect = esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'false', 'message' => urlencode( $message ) ), wp_nonce_url( $this->license_page_url(), 'pms_license_display_message', 'pms_license_nonce' ) ) );
+                $message = implode( "<br/>", array_unique($message) );
+                $redirect = esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'false', 'message' => urlencode( $message ), 'pms_license_nonce' => wp_create_nonce( 'pms_license_display_message' ) ), $this->license_page_url() ) );
 
                 $this->update_option( 'pms_license_status', isset( $license_data->error ) ? $license_data->error : $license_data->license );
 
@@ -987,7 +987,7 @@ class PMS_Plugin_Updater {
             // $license_data->license will be either "valid" or "invalid"
             $this->update_option( 'pms_license_status', isset( $license_data->error ) ? $license_data->error : $license_data->license );
 
-            wp_redirect( esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'true', 'message' => urlencode( __( 'You have successfully activated your license.', 'paid-member-subscriptions' ) ) ), wp_nonce_url( $this->license_page_url(), 'pms_license_display_message', 'pms_license_nonce' ) ) ) );
+            wp_redirect( esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'true', 'message' => urlencode( __( 'You have successfully activated your license.', 'paid-member-subscriptions' ) ), 'pms_license_nonce' => wp_create_nonce( 'pms_license_display_message' ) ), $this->license_page_url() ) ) );
             exit();
         }
     }
@@ -1069,7 +1069,7 @@ class PMS_Plugin_Updater {
                 else
                     $message = __( 'An error occurred, please try again.', 'paid-member-subscriptions' );
 
-                wp_redirect( esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'false', 'message' => urlencode( $message ) ), wp_nonce_url( $this->license_page_url(), 'pms_license_display_message', 'pms_license_nonce' ) ) ) );
+                wp_redirect( esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'false', 'message' => urlencode( $message ), 'pms_license_nonce' => wp_create_nonce( 'pms_license_display_message' ) ), $this->license_page_url() ) ) );
                 exit();
             }
 

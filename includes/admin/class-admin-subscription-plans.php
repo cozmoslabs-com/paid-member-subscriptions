@@ -126,6 +126,8 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
             global $wpdb;
 
             $wpdb->delete( $wpdb->prefix . 'postmeta', array( 'meta_key' => 'pms-content-restrict-subscription-plan', 'meta_value' => $plan_id ) );
+
+            do_action( 'pms_after_delete_subscription_plan', $plan_id );
         }
 
         // Move subscription plan up
@@ -154,6 +156,8 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                 $child_post = $children_posts[0];
                 wp_update_post( array( 'ID' => $child_post->ID, 'post_parent' => $parent_post->ID ) );
             }
+
+            do_action( 'pms_after_move_subscription_plan_up', $current_post->ID, $parent_post->ID );
 
             wp_redirect( esc_url_raw( add_query_arg( array( 'post_type' => $this->post_type ), pms_get_current_page_url(true) ) ) );
             die();
@@ -189,6 +193,8 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
                 $child_post = $children_posts[0];
                 wp_update_post( array( 'ID' => $child_post->ID, 'post_parent' => $current_post->ID ) );
             }
+
+            do_action( 'pms_after_move_subscription_plan_down', $current_post->ID, $child_post->ID );
 
             wp_redirect( esc_url_raw( add_query_arg( array( 'post_type' => $this->post_type ), pms_get_current_page_url(true) ) ) );
             die();
@@ -1140,6 +1146,8 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
         );
 
         wp_update_post( $reference_post_update_args );
+
+        do_action( 'pms_after_add_upgrade', $post_id, $reference_post_id );
 
     }
 

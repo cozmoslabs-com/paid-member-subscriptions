@@ -630,7 +630,8 @@
 <?php __("Installment - Recurring Payment", "paid-member-subscriptions"); ?>
 <?php __("Installment - Final Payment", "paid-member-subscriptions"); ?>
 <?php __("Add-ons Page", "paid-member-subscriptions"); ?>
-<?php __("Learn More", "paid-member-subscriptions"); ?>
+<?php __("Mailchimp Details", "paid-member-subscriptions"); ?>
+<?php __("Brevo Details", "paid-member-subscriptions"); ?>
 <?php __(" payments of ", "paid-member-subscriptions"); ?>
 <?php __("%s Day", "paid-member-subscriptions"); ?>
 <?php __("%s Days", "paid-member-subscriptions"); ?>
@@ -670,6 +671,16 @@
 <?php __('For a consistent design on your website, it is best to set the same Form Style for both %1$sPaid Member Subscriptions%2$s and %1$sProfile Builder%2$s plugins.', 'paid-member-subscriptions' ); ?>
 <?php __('The currently active Form Style for Profile Builder forms is:  %1$s %3$s %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Select Your Subscription Plan", "paid-member-subscriptions"); ?>
+<?php __('The %1$s Brevo Add-On %2$s is not compatible with the %1$s Mailchimp Add-On %2$s. To use %1$s Brevo %2$s, please deactivate the %1$s Mailchimp Add-On %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Brevo", "paid-member-subscriptions"); ?>
+<?php __("API Key", "paid-member-subscriptions"); ?>
+<?php __("Brevo API Key for authentication", "paid-member-subscriptions"); ?>
+<?php __("List ID", "paid-member-subscriptions"); ?>
+<?php __("Contact List ID to add subscribers to", "paid-member-subscriptions"); ?>
+<?php __("Template ID", "paid-member-subscriptions"); ?>
+<?php __("Email Template ID used for Double Opt-In confirmations", "paid-member-subscriptions"); ?>
+<?php __("Redirect Url", "paid-member-subscriptions"); ?>
+<?php __("URL users are redirected to after confirming their subscription (must be an absolute URL including the http or https protocol)", "paid-member-subscriptions"); ?>
 <?php __('The Nginx web server needs to be restarted for the new File Restriction rules to take effect. %1$sLearn more%2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this member ?", "paid-member-subscriptions"); ?>
@@ -683,6 +694,11 @@
 <?php __("Failed to create zip file.", "paid-member-subscriptions"); ?>
 <?php __("Working, please wait...", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this invoice archive?", "paid-member-subscriptions"); ?>
+<?php __("Mailchimp", "paid-member-subscriptions"); ?>
+<?php __("Mailchimp API Key for authentication", "paid-member-subscriptions"); ?>
+<?php __("Audience ID", "paid-member-subscriptions"); ?>
+<?php __("Audience ID where new subscribers are added", "paid-member-subscriptions"); ?>
+<?php __('The %1$s Mailchimp Add-On %2$s is not compatible with the %1$s Brevo Add-On %2$s. To use %1$s Mailchimp %2$s, please deactivate the %1$s Brevo Add-On %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("The Multiple Currencies Add-On is not compatible with the Pro-Rate Add-On. To use Multiple Currencies, please deactivate the Pro-Rate Add-On.", "paid-member-subscriptions"); ?>
 <?php __("The version of Paid Member Subscriptions you are using is not compatible with the Multiple Currencies add-on. Please update Paid Member Subscriptions to version 2.13.5 or higher.", "paid-member-subscriptions"); ?>
 <?php __("Every 6 Hours", "paid-member-subscriptions"); ?>
@@ -699,6 +715,7 @@
 <?php __("Content Restriction", "paid-member-subscriptions"); ?>
 <?php __("Create member only forums with just a few clicks.", "paid-member-subscriptions"); ?>
 <?php __("Allow only members to have access to forums and topics with Paid Member Subscriptions's bbPress Add-On.", "paid-member-subscriptions"); ?>
+<?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("Restrict to logged in users", "paid-member-subscriptions"); ?>
 <?php __("Allow only logged in users to see this content.", "paid-member-subscriptions"); ?>
 <?php __("Restrict to logged out users", "paid-member-subscriptions"); ?>
@@ -1349,6 +1366,13 @@
 <?php __("Please enter a price less than or equal to %s.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a price greater than or equal to %s.", "paid-member-subscriptions"); ?>
 <?php __('Please enter a price between %1$s and %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("API Key successfully validated!", "paid-member-subscriptions"); ?>
+<?php __("List ID successfully validated!", "paid-member-subscriptions"); ?>
+<?php __("No users selected.", "paid-member-subscriptions"); ?>
+<?php __("The List ID is missing.", "paid-member-subscriptions"); ?>
+<?php __("Bulk action could not be performed.", "paid-member-subscriptions"); ?>
+<?php __("Bulk %s completed: no users were updated out of %d processed.", "paid-member-subscriptions"); ?>
+<?php __("Bulk %s completed: %d users updated out of %d processed.", "paid-member-subscriptions"); ?>
 <?php __("Active", "paid-member-subscriptions"); ?>
 <?php __("Inactive", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete this Content Dripping Set?", "paid-member-subscriptions"); ?>
@@ -1368,6 +1392,58 @@
 <?php __("By Post", "paid-member-subscriptions"); ?>
 <?php __("List of Posts", "paid-member-subscriptions"); ?>
 <?php __("By Taxonomy", "paid-member-subscriptions"); ?>
+<?php __("Email Marketing", "paid-member-subscriptions"); ?>
+<?php __("Subscribed", "paid-member-subscriptions"); ?>
+<?php __("Not Subscribed", "paid-member-subscriptions"); ?>
+<?php __("Newsletter Status:", "paid-member-subscriptions"); ?>
+<?php __('%1$s to %2$s %3$s %4$s', 'paid-member-subscriptions' ); ?>
+<?php __("Either the API Key is not valid or we could not connect to the platform to validate it!", "paid-member-subscriptions"); ?>
+<?php __("Either the List ID is not valid or we could not connect to the platform to validate it!", "paid-member-subscriptions"); ?>
+<?php __("Redirect URL successfully validated!", "paid-member-subscriptions"); ?>
+<?php __("The Redirect URL is not valid or not an absolute URL!", "paid-member-subscriptions"); ?>
+<?php __('%1$s NOTE %2$s %5$s%5$s The %3$s Subscribe User %4$s option is currently set to %1$s Automatically %2$s, meaning users who register will be subscribed by default, if this %1$s Email Marketing %2$s field is present on the form. %5$s%5$s Switch it to %1$s Show opt-in checkbox %2$s to display the checkbox on forms and access its related settings. %5$s%5$s You can change this option under: %5$s %3$s Paid Member Subscriptions → Settings → Email Marketing → Subscribe Settings → Subscribe User option %4$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Checkbox Label", "paid-member-subscriptions"); ?>
+<?php __("Enter a custom checkbox label. If left empty, the checkbox label set in Paid Member Subscriptions -> Settings -> Email Marketing -> Subscribe Settings section will be used.", "paid-member-subscriptions"); ?>
+<?php __("Checkbox Description", "paid-member-subscriptions"); ?>
+<?php __("Enter a custom checkbox description. If left empty, the checkbox description set in Paid Member Subscriptions -> Settings -> Email Marketing -> Subscribe Settings section will be used.", "paid-member-subscriptions"); ?>
+<?php __("Checked by Default", "paid-member-subscriptions"); ?>
+<?php __("If checked the Subscribe checkbox in the front-end will be checked by default on register forms", "paid-member-subscriptions"); ?>
+<?php __("No active platform configured.", "paid-member-subscriptions"); ?>
+<?php __("Remote fields updated successfully!", "paid-member-subscriptions"); ?>
+<?php __("Remote fields update failed -> ", "paid-member-subscriptions"); ?>
+<?php __("Permission denied.", "paid-member-subscriptions"); ?>
+<?php __("No users found matching the selected filters.", "paid-member-subscriptions"); ?>
+<?php __("Choose an action and select at least one user.", "paid-member-subscriptions"); ?>
+<?php __("No email marketing platform is active.", "paid-member-subscriptions"); ?>
+<?php __("Action Scheduler not available.", "paid-member-subscriptions"); ?>
+<?php __('%1$s action queued for %2$d users. Processing will continue in the background. %3$s User consent will be updated once the action is successfully processed.', 'paid-member-subscriptions' ); ?>
+<?php __("User subscribed to the email marketing list. Platform: %s", "paid-member-subscriptions"); ?>
+<?php __("User unsubscribed from the email marketing list. Platform: %s", "paid-member-subscriptions"); ?>
+<?php __("User updated in the email marketing list. Platform: %s", "paid-member-subscriptions"); ?>
+<?php __("Email Marketing Tier ID", "paid-member-subscriptions"); ?>
+<?php __("Subscribe to our newsletter", "paid-member-subscriptions"); ?>
+<?php __("User Email", "paid-member-subscriptions"); ?>
+<?php __("Display Name", "paid-member-subscriptions"); ?>
+<?php __("User Registered (date)", "paid-member-subscriptions"); ?>
+<?php __("User URL", "paid-member-subscriptions"); ?>
+<?php __("User Role(s)", "paid-member-subscriptions"); ?>
+<?php __("First Name", "paid-member-subscriptions"); ?>
+<?php __("Last Name", "paid-member-subscriptions"); ?>
+<?php __("Nickname", "paid-member-subscriptions"); ?>
+<?php __("Bio / Description", "paid-member-subscriptions"); ?>
+<?php __("GDPR Consent", "paid-member-subscriptions"); ?>
+<?php __("Subscription ID", "paid-member-subscriptions"); ?>
+<?php __("Subscription User ID", "paid-member-subscriptions"); ?>
+<?php __("Payment Gateway", "paid-member-subscriptions"); ?>
+<?php __("Billing Amount", "paid-member-subscriptions"); ?>
+<?php __("Last Payment Date", "paid-member-subscriptions"); ?>
+<?php __("Plan ID", "paid-member-subscriptions"); ?>
+<?php __("Plan Description", "paid-member-subscriptions"); ?>
+<?php __("Plan Status", "paid-member-subscriptions"); ?>
+<?php __("Plan Price", "paid-member-subscriptions"); ?>
+<?php __("Sign-up Fee", "paid-member-subscriptions"); ?>
+<?php __("Fixed Membership", "paid-member-subscriptions"); ?>
+<?php __("Fixed Expiration Date", "paid-member-subscriptions"); ?>
 <?php __("Files Restriction", "paid-member-subscriptions"); ?>
 <?php __("Web Server", "paid-member-subscriptions"); ?>
 <?php __("Auto Detect", "paid-member-subscriptions"); ?>
@@ -1453,6 +1529,7 @@
 <?php __("Invoice-%d", "paid-member-subscriptions"); ?>
 <?php __("Download Invoice", "paid-member-subscriptions"); ?>
 <?php __("Payments & Invoices", "paid-member-subscriptions"); ?>
+<?php __("Audience ID successfully validated!", "paid-member-subscriptions"); ?>
 <?php __("Edit Prices for Other Currencies", "paid-member-subscriptions"); ?>
 <?php __("Specify a custom price for each available currency.", "paid-member-subscriptions"); ?>
 <?php __("Don't Switch Currency", "paid-member-subscriptions"); ?>
@@ -1494,7 +1571,6 @@
 <?php __("Choose your preferred Converter.", "paid-member-subscriptions"); ?>
 <?php __("To get your API key, visit <a href=\"https://app.exchangerate-api.com\" target=\"_blank\">Exchange Converter</a> and follow the steps provided.", "paid-member-subscriptions"); ?>
 <?php __("To get your API key, visit <a href=\"https://www.alphavantage.co/support/#api-key\" target=\"_blank\">Alpha Vantage</a> and follow the easy steps provided.", "paid-member-subscriptions"); ?>
-<?php __("API Key", "paid-member-subscriptions"); ?>
 <?php __("Enter the API key provided by the Exchange Converter.", "paid-member-subscriptions"); ?>
 <?php __("Enter the API key provided by the Alpha Vantage Converter.", "paid-member-subscriptions"); ?>
 <?php __("Update Interval", "paid-member-subscriptions"); ?>
@@ -1792,6 +1868,8 @@
 <?php __("Old Stripe implementation not available for new users.", "paid-member-subscriptions"); ?>
 <?php __("Tax & EU VAT", "paid-member-subscriptions"); ?>
 <?php __("Helps you collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.", "paid-member-subscriptions"); ?>
+<?php __("Integrate Mailchimp to keep your membership audience up to date. Automatically add or update subscribers, enable Double Opt-In, and sync custom fields between Mailchimp and member profiles.", "paid-member-subscriptions"); ?>
+<?php __("Sync your members with Brevo to manage contacts smoothly. Automate newsletter subscriptions, use Double Opt-In for compliance, and link custom fields between Brevo and your member data.", "paid-member-subscriptions"); ?>
 <?php __("Recommended Plugins", "paid-member-subscriptions"); ?>
 <?php __("Translate your Paid Member Subscriptions checkout with a WordPress translation plugin that anyone can use. It offers a simpler way to translate WordPress sites, with full support for WooCommerce and site builders.", "paid-member-subscriptions"); ?>
 <?php __("More Details", "paid-member-subscriptions"); ?>
@@ -1882,7 +1960,6 @@
 <?php __("Choose the Subscription to export members from", "paid-member-subscriptions"); ?>
 <?php __("All Members", "paid-member-subscriptions"); ?>
 <?php __("Choose the current subscription status", "paid-member-subscriptions"); ?>
-<?php __("Payment Gateway", "paid-member-subscriptions"); ?>
 <?php __("All Gateways", "paid-member-subscriptions"); ?>
 <?php __("Choose the Gateway to export members from", "paid-member-subscriptions"); ?>
 <?php __("Include sensitive data", "paid-member-subscriptions"); ?>
@@ -2310,8 +2387,6 @@
 <?php __("Expired on: ", "paid-member-subscriptions"); ?>
 <?php __("Username *", "paid-member-subscriptions"); ?>
 <?php __("E-mail *", "paid-member-subscriptions"); ?>
-<?php __("First Name", "paid-member-subscriptions"); ?>
-<?php __("Last Name", "paid-member-subscriptions"); ?>
 <?php __("Repeat Password", "paid-member-subscriptions"); ?>
 <?php __("Delete account and data", "paid-member-subscriptions"); ?>
 <?php __("Please enter your new password.", "paid-member-subscriptions"); ?>
@@ -2344,16 +2419,61 @@
 <?php __("You do not have any active Subscription Plans yet. Please create them <a href=\"%s\">here</a>.", "paid-member-subscriptions"); ?>
 <?php __("Select the subscription(s) to which this email reminder should be sent.", "paid-member-subscriptions"); ?>
 <?php __("Select the email reminder status.", "paid-member-subscriptions"); ?>
-<?php __("Fixed Membership", "paid-member-subscriptions"); ?>
 <?php __("Check this box to enable fixed period memberships.", "paid-member-subscriptions"); ?>
 <?php __("Set the Expiration Date. A subsequent date change will only affect new users.", "paid-member-subscriptions"); ?>
 <?php __("Allow plan to be renewed", "paid-member-subscriptions"); ?>
 <?php __("Allow fixed period plan to be renewed each year.", "paid-member-subscriptions"); ?>
 <?php __("Select the subscription plan for which this content dripping set should apply.", "paid-member-subscriptions"); ?>
 <?php __("Select content dripping set status.", "paid-member-subscriptions"); ?>
+<?php __("Authentication", "paid-member-subscriptions"); ?>
+<?php __("Configure email platform integration", "paid-member-subscriptions"); ?>
+<?php __("Platform", "paid-member-subscriptions"); ?>
+<?php __("Field Mapping", "paid-member-subscriptions"); ?>
+<?php __("Map member details to your platform’s custom fields", "paid-member-subscriptions"); ?>
+<?php __("Remote Fields", "paid-member-subscriptions"); ?>
+<?php __("Refresh Remote Fields", "paid-member-subscriptions"); ?>
+<?php __("Get the latest fields from the connected platform", "paid-member-subscriptions"); ?>
+<?php __("Pair", "paid-member-subscriptions"); ?>
+<?php __("— Select remote field —", "paid-member-subscriptions"); ?>
+<?php __("— Select local field —", "paid-member-subscriptions"); ?>
+<?php __("Mapping Actions", "paid-member-subscriptions"); ?>
+<?php __("Add Row", "paid-member-subscriptions"); ?>
+<?php __("Reset Mapping", "paid-member-subscriptions"); ?>
+<?php __("Subscription Merge Tags", "paid-member-subscriptions"); ?>
+<?php __("Automatically create fields for subscription plan tiers", "paid-member-subscriptions"); ?>
+<?php __("With this option enabled, the plugin will automatically create merge tags for each subscription plan tier. Each tier will have a merge tag for the name, plan ID, and status. <br>The merge tags will be named <strong>PMS_TIER_{tier_number}_type</strong>, where <strong>{tier_number}</strong> is the tier number and <strong>{type}</strong> is NAME, PLAN_ID, or STATUS. <br>For each subscription plan tier, you can see it's marketing platform ID on the <strong>Edit Subscription Plan</strong> page.", "paid-member-subscriptions"); ?>
+<?php __("Exclude Subscription Tiers", "paid-member-subscriptions"); ?>
+<?php __("Exclude the selected Subscription Tiers from automatic Merge Tag creation. Excluding a tier excludes all plans within that tier.", "paid-member-subscriptions"); ?>
+<?php __("Subscribe Settings", "paid-member-subscriptions"); ?>
+<?php __("Configure how users are subscribed", "paid-member-subscriptions"); ?>
+<?php __("Subscribe Mode", "paid-member-subscriptions"); ?>
+<?php __("Direct subscribe", "paid-member-subscriptions"); ?>
+<?php __("Double Opt-In Confirmation", "paid-member-subscriptions"); ?>
+<?php __("Choose whether to subscribe users instantly or require double opt-in confirmation", "paid-member-subscriptions"); ?>
+<?php __("Subscribe User", "paid-member-subscriptions"); ?>
+<?php __("Automatically", "paid-member-subscriptions"); ?>
+<?php __("Show opt-in checkbox", "paid-member-subscriptions"); ?>
+<?php __("Choose whether to subscribe users automatically or show an opt-in checkbox", "paid-member-subscriptions"); ?>
+<?php __("Enter a custom label for the opt-in checkbox", "paid-member-subscriptions"); ?>
+<?php __("Add a short note displayed below the opt-in checkbox", "paid-member-subscriptions"); ?>
+<?php __("Checkbox Default State", "paid-member-subscriptions"); ?>
+<?php __("Enable to have the checkbox selected by default on the Registration form.", "paid-member-subscriptions"); ?>
+<?php __("Bulk Actions", "paid-member-subscriptions"); ?>
+<?php __("Manage subscriptions in bulk for selected users", "paid-member-subscriptions"); ?>
+<?php __("Action", "paid-member-subscriptions"); ?>
+<?php __("Unsubscribe", "paid-member-subscriptions"); ?>
+<?php __("Run Bulk Action", "paid-member-subscriptions"); ?>
+<?php __("All Roles", "paid-member-subscriptions"); ?>
+<?php __("All Plans", "paid-member-subscriptions"); ?>
+<?php __("Unsubscribed", "paid-member-subscriptions"); ?>
+<?php __("Load Users", "paid-member-subscriptions"); ?>
+<?php __("Email", "paid-member-subscriptions"); ?>
+<?php __("Roles", "paid-member-subscriptions"); ?>
+<?php __("Plans", "paid-member-subscriptions"); ?>
+<?php __('An integer was expected but \%1$s\ (%2$s) was received.', 'paid-member-subscriptions' ); ?>
+<?php __('Caught exception while cancelling action \%1$s\: %2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Seats", "paid-member-subscriptions"); ?>
 <?php __("%d%s on %s", "paid-member-subscriptions"); ?>
-<?php __("Email", "paid-member-subscriptions"); ?>
 <?php __("Invited", "paid-member-subscriptions"); ?>
 <?php __("Owner", "paid-member-subscriptions"); ?>
 <?php __("Registered", "paid-member-subscriptions"); ?>
@@ -2538,7 +2658,6 @@
 <?php __("A description for this subscription plan. This will be displayed on the register form.", "paid-member-subscriptions"); ?>
 <?php __("Set the subscription duration. Leave 0 for unlimited.", "paid-member-subscriptions"); ?>
 <?php __("Amount you want to charge people who join this plan. Leave 0 if you want this plan to be free.", "paid-member-subscriptions"); ?>
-<?php __("Sign-up Fee", "paid-member-subscriptions"); ?>
 <?php __('This feature is available only with the Manual, %1$sStripe%2$s, %3$sPayPal Express%4$s gateways or %5$sRecurring Payments for PayPal Standard%6$s add-on.', 'paid-member-subscriptions' ); ?>
 <?php __("Amount you want to charge people upfront when subscribing to this plan.", "paid-member-subscriptions"); ?>
 <?php __("The free trial represents the amount of time before charging the first recurring payment. The sign-up fee applies regardless of the free trial.", "paid-member-subscriptions"); ?>
@@ -2788,6 +2907,77 @@
 <?php __("Could not validate reCAPTCHA. Please complete it again.", "paid-member-subscriptions"); ?>
 <?php __("Could not validate reCAPTCHA. Please try again.", "paid-member-subscriptions"); ?>
 <?php __("Click the BACK button on your browser, and try again.", "paid-member-subscriptions"); ?>
+<?php __("Invalid action - must be a recurring action.", "paid-member-subscriptions"); ?>
+<?php __('Caught exception while enqueuing action \%1$s\: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Scheduled Actions", "paid-member-subscriptions"); ?>
+<?php __('<strong>Action Scheduler:</strong> %1$d <a href=\%2$s\>past-due action</a> found; something may be wrong. <a href=\https://actionscheduler.org/faq/#my-site-has-past-due-actions-what-can-i-do\ target=\_blank\>Read documentation &raquo;</a>, "paid-member-subscriptions"); ?>
+<?php __(<strong>Action Scheduler:</strong> %1$d <a href=\%2$s\>past-due actions</a> found; something may be wrong. <a href=\https://actionscheduler.org/faq/#my-site-has-past-due-actions-what-can-i-do\ target=\_blank\>Read documentation &raquo;</a>', 'paid-member-subscriptions' ); ?>
+<?php __("About", "paid-member-subscriptions"); ?>
+<?php __("About Action Scheduler %s", "paid-member-subscriptions"); ?>
+<?php __("Action Scheduler is a scalable, traceable job queue for background processing large sets of actions. Action Scheduler works by triggering an action hook to run at some time in the future. Scheduled actions can also be scheduled to run on a recurring schedule.", "paid-member-subscriptions"); ?>
+<?php __("Source", "paid-member-subscriptions"); ?>
+<?php __("Action Scheduler is currently being loaded from the following location. This can be useful when debugging, or if requested by the support team.", "paid-member-subscriptions"); ?>
+<?php __("WP CLI", "paid-member-subscriptions"); ?>
+<?php __('WP CLI commands are available: execute %1$s for a list of available commands.', 'paid-member-subscriptions' ); ?>
+<?php __("Columns", "paid-member-subscriptions"); ?>
+<?php __("Scheduled Action Columns", "paid-member-subscriptions"); ?>
+<?php __("Hook", "paid-member-subscriptions"); ?>
+<?php __("Name of the action hook that will be triggered.", "paid-member-subscriptions"); ?>
+<?php __("Action statuses are Pending, Complete, Canceled, Failed", "paid-member-subscriptions"); ?>
+<?php __("Arguments", "paid-member-subscriptions"); ?>
+<?php __("Optional data array passed to the action hook.", "paid-member-subscriptions"); ?>
+<?php __("Optional action group.", "paid-member-subscriptions"); ?>
+<?php __("Recurrence", "paid-member-subscriptions"); ?>
+<?php __("The action's schedule frequency.", "paid-member-subscriptions"); ?>
+<?php __("Scheduled", "paid-member-subscriptions"); ?>
+<?php __("The date/time the action is/was scheduled to run.", "paid-member-subscriptions"); ?>
+<?php __("Log", "paid-member-subscriptions"); ?>
+<?php __("Activity log for the action.", "paid-member-subscriptions"); ?>
+<?php __("Stopped the insanity for %d second", "paid-member-subscriptions"); ?>
+<?php __("Stopped the insanity for %d seconds", "paid-member-subscriptions"); ?>
+<?php __("Attempting to reduce used memory...", "paid-member-subscriptions"); ?>
+<?php __('Action [%1$s] has an invalid schedule: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __('Action [%1$s] has invalid arguments. It cannot be JSON decoded to an array. $args = %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Scheduled Date", "paid-member-subscriptions"); ?>
+<?php __("Claim ID", "paid-member-subscriptions"); ?>
+<?php __("Run", "paid-member-subscriptions"); ?>
+<?php __("Process the action now as if it were run as part of a queue", "paid-member-subscriptions"); ?>
+<?php __("Cancel the action now to avoid it being run in future", "paid-member-subscriptions"); ?>
+<?php __("%s hour", "paid-member-subscriptions"); ?>
+<?php __("%s hours", "paid-member-subscriptions"); ?>
+<?php __("%s minute", "paid-member-subscriptions"); ?>
+<?php __("%s minutes", "paid-member-subscriptions"); ?>
+<?php __("%s second", "paid-member-subscriptions"); ?>
+<?php __("%s seconds", "paid-member-subscriptions"); ?>
+<?php __("Now!", "paid-member-subscriptions"); ?>
+<?php __("Every %s", "paid-member-subscriptions"); ?>
+<?php __("Non-repeating", "paid-member-subscriptions"); ?>
+<?php __("It appears one or more database tables were missing. Attempting to re-create the missing table(s).", "paid-member-subscriptions"); ?>
+<?php __("The next queue will begin processing in approximately %d seconds.", "paid-member-subscriptions"); ?>
+<?php __("A new queue has begun processing. <a href=\"%s\">View actions in-progress &raquo;</a>", "paid-member-subscriptions"); ?>
+<?php __("Maximum simultaneous queues already in progress (%s queue). No additional queues will begin processing until the current queues are complete.", "paid-member-subscriptions"); ?>
+<?php __("Maximum simultaneous queues already in progress (%s queues). No additional queues will begin processing until the current queues are complete.", "paid-member-subscriptions"); ?>
+<?php __('Could not process change for action: \%1$s\ (ID: %2$d). Error: %3$s', 'paid-member-subscriptions' ); ?>
+<?php __("Successfully executed action: %s", "paid-member-subscriptions"); ?>
+<?php __("Successfully canceled action: %s", "paid-member-subscriptions"); ?>
+<?php __("Successfully processed change for action: %s", "paid-member-subscriptions"); ?>
+<?php __("async", "paid-member-subscriptions"); ?>
+<?php __(" (%s)", "paid-member-subscriptions"); ?>
+<?php __(" (%s ago)", "paid-member-subscriptions"); ?>
+<?php __('Action Scheduler was unable to delete action %1$d. Reason: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Search hook, args and claim ID", "paid-member-subscriptions"); ?>
+<?php __("It was not possible to determine a valid cut-off time: %s.", "paid-member-subscriptions"); ?>
+<?php __("Every minute", "paid-member-subscriptions"); ?>
+<?php __("Action Scheduler", "paid-member-subscriptions"); ?>
+<?php __("This section shows details of Action Scheduler.", "paid-member-subscriptions"); ?>
+<?php __("Version:", "paid-member-subscriptions"); ?>
+<?php __("Data store:", "paid-member-subscriptions"); ?>
+<?php __("Action Status", "paid-member-subscriptions"); ?>
+<?php __("Count", "paid-member-subscriptions"); ?>
+<?php __("Oldest Scheduled Date", "paid-member-subscriptions"); ?>
+<?php __("Newest Scheduled Date", "paid-member-subscriptions"); ?>
+<?php __("This data will be deleted in %s.", "paid-member-subscriptions"); ?>
+<?php __('Action Scheduler has migrated data to custom tables; however, orphaned log entries exist in the WordPress Comments table. %1$s <a href=\%2$s\>Learn more &raquo;</a>', 'paid-member-subscriptions' ); ?>
 <?php __("You can add up to %s more members.", "paid-member-subscriptions"); ?>
 <?php __("User(s) to add as members of your Group Subscription:", "paid-member-subscriptions"); ?>
 <?php __("Enter an username or email below", "paid-member-subscriptions"); ?>
@@ -2843,3 +3033,134 @@
 <?php __("Hide Topic and Replies", "paid-member-subscriptions"); ?>
 <?php __("Show Topic, but hide Replies", "paid-member-subscriptions"); ?>
 <?php __("The option above will work only if the restriction type is Message. Redirects will take effect without regard of this option.", "paid-member-subscriptions"); ?>
+<?php __("%s() was called before the Action Scheduler data store was initialized", "paid-member-subscriptions"); ?>
+<?php __("The bulk action %s does not have a callback method.", "paid-member-subscriptions"); ?>
+<?php __("Search results for \"%s\"", "paid-member-subscriptions"); ?>
+<?php __("All", "paid-member-subscriptions"); ?>
+<?php __("Past-due", "paid-member-subscriptions"); ?>
+<?php __("Search", "paid-member-subscriptions"); ?>
+<?php __("This action appears to be consistently failing. A new instance will not be scheduled.", "paid-member-subscriptions"); ?>
+<?php __("action created", "paid-member-subscriptions"); ?>
+<?php __("action canceled", "paid-member-subscriptions"); ?>
+<?php __("action started", "paid-member-subscriptions"); ?>
+<?php __("action started via %s", "paid-member-subscriptions"); ?>
+<?php __("action complete", "paid-member-subscriptions"); ?>
+<?php __("action complete via %s", "paid-member-subscriptions"); ?>
+<?php __("action failed: %s", "paid-member-subscriptions"); ?>
+<?php __('action failed via %1$s: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("action marked as failed after %s seconds. Unknown error occurred. Check server, PHP and database error logs to diagnose cause.", "paid-member-subscriptions"); ?>
+<?php __('unexpected shutdown: PHP Fatal error %1$s in %2$s on line %3$s', 'paid-member-subscriptions' ); ?>
+<?php __("action reset", "paid-member-subscriptions"); ?>
+<?php __("action ignored", "paid-member-subscriptions"); ?>
+<?php __("action ignored via %s", "paid-member-subscriptions"); ?>
+<?php __("There was a failure fetching this action", "paid-member-subscriptions"); ?>
+<?php __("There was a failure fetching this action: %s", "paid-member-subscriptions"); ?>
+<?php __("There was a failure scheduling the next instance of this action: %s", "paid-member-subscriptions"); ?>
+<?php __("ActionScheduler_Action::$args too long. To ensure the args column can be indexed, action args should not be more than %d characters when encoded as JSON.", "paid-member-subscriptions"); ?>
+<?php __("Complete", "paid-member-subscriptions"); ?>
+<?php __("In-progress", "paid-member-subscriptions"); ?>
+<?php __("The %s class can only be run within WP CLI.", "paid-member-subscriptions"); ?>
+<?php __('Scheduled action for %1$s will not be executed as no callbacks are registered.', 'paid-member-subscriptions' ); ?>
+<?php __("Database error.", "paid-member-subscriptions"); ?>
+<?php __("Error saving action: %s", "paid-member-subscriptions"); ?>
+<?php __("Invalid value for select or count parameter. Cannot query actions.", "paid-member-subscriptions"); ?>
+<?php __("JSON partial matching not supported in your environment. Please check your MySQL/MariaDB version.", "paid-member-subscriptions"); ?>
+<?php __("The value type for the JSON partial matching is not supported. Must be either integer, boolean, double or string. %s type provided.", "paid-member-subscriptions"); ?>
+<?php __("Unknown partial args matching value.", "paid-member-subscriptions"); ?>
+<?php __("Unidentified action %s: we were unable to cancel this action. It may may have been deleted by another process.", "paid-member-subscriptions"); ?>
+<?php __("Unidentified action %s: we were unable to delete this action. It may may have been deleted by another process.", "paid-member-subscriptions"); ?>
+<?php __("Unidentified action %s: we were unable to determine the date of this action. It may may have been deleted by another process.", "paid-member-subscriptions"); ?>
+<?php __("The group \"%s\" does not exist.", "paid-member-subscriptions"); ?>
+<?php __("The groups \"%s\" do not exist.", "paid-member-subscriptions"); ?>
+<?php __("unknown", "paid-member-subscriptions"); ?>
+<?php __("Unable to claim actions. Database error: %s.", "paid-member-subscriptions"); ?>
+<?php __("Unable to release actions from claim id %d.", "paid-member-subscriptions"); ?>
+<?php __("Unidentified action %s: we were unable to mark this action as having failed. It may may have been deleted by another process.", "paid-member-subscriptions"); ?>
+<?php __('Unable to update the status of action %1$d to %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Unidentified action %s: we were unable to mark this action as having completed. It may may have been deleted by another process.", "paid-member-subscriptions"); ?>
+<?php __("Unknown status found for action.", "paid-member-subscriptions"); ?>
+<?php __("Invalid action ID. No status found.", "paid-member-subscriptions"); ?>
+<?php __("Unable to save action.", "paid-member-subscriptions"); ?>
+<?php __("Invalid schedule. Cannot save action.", "paid-member-subscriptions"); ?>
+<?php __("Unable to claim actions. Database error.", "paid-member-subscriptions"); ?>
+<?php __("Unable to unlock claim %s. Database error.", "paid-member-subscriptions"); ?>
+<?php __("Unable to unlock claim on action %s. Database error.", "paid-member-subscriptions"); ?>
+<?php __("Unable to mark failure on action %s. Database error.", "paid-member-subscriptions"); ?>
+<?php __("%s Support for strings longer than this will be removed in a future version.", "paid-member-subscriptions"); ?>
+<?php __("Failed", "paid-member-subscriptions"); ?>
+<?php __("Failed <span class=\"count\">(%s)</span>", "paid-member-subscriptions"); ?>
+<?php __("Failed <span class=\"count\">(%s)</span>", "paid-member-subscriptions"); ?>
+<?php __("In-Progress", "paid-member-subscriptions"); ?>
+<?php __("In-Progress <span class=\"count\">(%s)</span>", "paid-member-subscriptions"); ?>
+<?php __("In-Progress <span class=\"count\">(%s)</span>", "paid-member-subscriptions"); ?>
+<?php __("Scheduled actions are hooks triggered on a certain date and time.", "paid-member-subscriptions"); ?>
+<?php __("Scheduled Action", "paid-member-subscriptions"); ?>
+<?php __("Scheduled Actions", "paid-member-subscriptions"); ?>
+<?php __("Add New Scheduled Action", "paid-member-subscriptions"); ?>
+<?php __("Edit Scheduled Action", "paid-member-subscriptions"); ?>
+<?php __("New Scheduled Action", "paid-member-subscriptions"); ?>
+<?php __("View Action", "paid-member-subscriptions"); ?>
+<?php __("Search Scheduled Actions", "paid-member-subscriptions"); ?>
+<?php __("No actions found", "paid-member-subscriptions"); ?>
+<?php __("No actions found in trash", "paid-member-subscriptions"); ?>
+<?php __("Action Group", "paid-member-subscriptions"); ?>
+<?php __("Unable to remove source migrated action %s", "paid-member-subscriptions"); ?>
+<?php __("Source store must be configured before running a migration", "paid-member-subscriptions"); ?>
+<?php __("Source logger must be configured before running a migration", "paid-member-subscriptions"); ?>
+<?php __("Destination store must be configured before running a migration", "paid-member-subscriptions"); ?>
+<?php __("Destination logger must be configured before running a migration", "paid-member-subscriptions"); ?>
+<?php __("Action Scheduler migration in progress. The list of scheduled actions may be incomplete.", "paid-member-subscriptions"); ?>
+<?php __("Migrating %d action", "paid-member-subscriptions"); ?>
+<?php __("Migrating %d actions", "paid-member-subscriptions"); ?>
+<?php __('Migrated action with ID %1$d in %2$s to ID %3$d in %4$s', 'paid-member-subscriptions' ); ?>
+<?php __("%d batch processed.", "paid-member-subscriptions"); ?>
+<?php __("%d batches processed.", "paid-member-subscriptions"); ?>
+<?php __("There was an error deleting an action: %s", "paid-member-subscriptions"); ?>
+<?php __("%d action deleted.", "paid-member-subscriptions"); ?>
+<?php __("%d actions deleted.", "paid-member-subscriptions"); ?>
+<?php __("There are too many concurrent batches.", "paid-member-subscriptions"); ?>
+<?php __("There are too many concurrent batches, but the run is forced to continue.", "paid-member-subscriptions"); ?>
+<?php __("Running %d action", "paid-member-subscriptions"); ?>
+<?php __("Running %d actions", "paid-member-subscriptions"); ?>
+<?php __("The claim has been lost. Aborting current batch.", "paid-member-subscriptions"); ?>
+<?php __("Started processing action %s", "paid-member-subscriptions"); ?>
+<?php __('Completed processing action %1$s with hook: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __('Error processing action %1$s: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Registered schema for %s", "paid-member-subscriptions"); ?>
+<?php __("Found %d scheduled task", "paid-member-subscriptions"); ?>
+<?php __("Found %d scheduled tasks", "paid-member-subscriptions"); ?>
+<?php __("%d batch executed.", "paid-member-subscriptions"); ?>
+<?php __("%d batches executed.", "paid-member-subscriptions"); ?>
+<?php __("There was an error running the action scheduler: %s", "paid-member-subscriptions"); ?>
+<?php __("%d scheduled task completed.", "paid-member-subscriptions"); ?>
+<?php __("%d scheduled tasks completed.", "paid-member-subscriptions"); ?>
+<?php __("Detailed information about registered sources is not currently available.", "paid-member-subscriptions"); ?>
+<?php __("Weekday must be a value between 1 and 5. %d given.", "paid-member-subscriptions"); ?>
+<?php __("Please specify hook of action to cancel.", "paid-member-subscriptions"); ?>
+<?php __("Unable to cancel scheduled action: check the logs.", "paid-member-subscriptions"); ?>
+<?php __("Please specify hook and/or group of actions to cancel.", "paid-member-subscriptions"); ?>
+<?php __("Request to cancel scheduled actions completed.", "paid-member-subscriptions"); ?>
+<?php __("Scheduled action cancelled.", "paid-member-subscriptions"); ?>
+<?php __('There was an error cancelling the %1$s: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("scheduled actions", "paid-member-subscriptions"); ?>
+<?php __("scheduled action", "paid-member-subscriptions"); ?>
+<?php __("Unable to create a scheduled action.", "paid-member-subscriptions"); ?>
+<?php __('%1$s action (%2$d) scheduled.', 'paid-member-subscriptions' ); ?>
+<?php __("There was an error creating the scheduled action: %s", "paid-member-subscriptions"); ?>
+<?php __("Deleting %d action", "paid-member-subscriptions"); ?>
+<?php __("Deleting %d actions", "paid-member-subscriptions"); ?>
+<?php __('Deleted %1$d action, "paid-member-subscriptions"); ?>
+<?php __(Deleted %1$d actions', 'paid-member-subscriptions' ); ?>
+<?php __('%2$d failure., "paid-member-subscriptions"); ?>
+<?php __(%2$d failures.', 'paid-member-subscriptions' ); ?>
+<?php __("Creating %d action", "paid-member-subscriptions"); ?>
+<?php __("Creating %d actions", "paid-member-subscriptions"); ?>
+<?php __('%1$d %2$s action scheduled., "paid-member-subscriptions"); ?>
+<?php __(%1$d %2$s actions scheduled.', 'paid-member-subscriptions' ); ?>
+<?php __("Unable to retrieve action %d.", "paid-member-subscriptions"); ?>
+<?php __("Executing %d action", "paid-member-subscriptions"); ?>
+<?php __("Executing %d actions", "paid-member-subscriptions"); ?>
+<?php __('%1$d action %2$s., "paid-member-subscriptions"); ?>
+<?php __(%1$d actions %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Executed %d action.", "paid-member-subscriptions"); ?>
+<?php __("Executed %d actions.", "paid-member-subscriptions"); ?>

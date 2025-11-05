@@ -15,7 +15,7 @@
 
 #pms_login label:not(.login-remember label),
 #pms-subscription-plans-discount > label,
-.pms-field:not(.pms-gdpr-field) > label {
+.pms-field:not(.pms-gdpr-field, .pms-email-marketing-field) > label {
     font-size: 18px;
     line-height: 26px;
     font-weight: 500;
@@ -26,6 +26,7 @@
     display: block;
 }
 
+.pms-form .pms-field.pms-email-marketing-field > label,
 .pms-form .pms-field.pms-gdpr-field > label,
 .pms-form .pms-subscription-plan-auto-renew > label,
 .pms-form .pms-subscription-plan label {

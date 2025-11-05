@@ -302,7 +302,7 @@ jQuery(document).ready(function($) {
     });
 });
 
-// Function that copies the shortcode from a text
+// Function that copies the shortcode from a text + Add Link to PMS Docs next to metabox title
 jQuery(document).ready(function() {
     jQuery('.pms-shortcode_copy-text').click(function (e) {
         e.preventDefault();
@@ -312,6 +312,8 @@ jQuery(document).ready(function() {
         // Show copy message
         var copyMessage = jQuery(this).next('.pms-copy-message');
         copyMessage.fadeIn(400).delay(2000).fadeOut(400);
-
     })
+
+    //Add PMS Docs Link
+    jQuery('#pms_subscription_extra_options .postbox-header h2').append('<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/#Advanced_Subscription_Options/?utm_source=pms-subscription-plans&utm_medium=client-site&utm_campaign=pms-advanced-subscription-toolkit-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>');
 });

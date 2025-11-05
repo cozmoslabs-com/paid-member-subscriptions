@@ -42,7 +42,8 @@ function pms_get_payments( $args = array() ) {
         'date'                          => '',
         'member_subscription_id'        => '',
         'payment_gateway'               => '',
-        'search'                        => ''
+        'search'                        => '',
+        'return_array'                  => false
     );
 
     $args = apply_filters( 'pms_get_payments_args', wp_parse_args( $args, $defaults ), $args, $defaults );
@@ -207,10 +208,14 @@ function pms_get_payments( $args = array() ) {
             if( !empty( $data['subscription_plan_id'] ) )
                 $data['subscription_id'] = $data['subscription_plan_id'];
 
-            $payment = new PMS_Payment();
-            $payment->set_instance( $data );
+            if( !isset( $args['return_array'] ) || $args['return_array'] === false ) {
+                $payment = new PMS_Payment();
+                $payment->set_instance( $data );
 
-            $payments[] = $payment;
+                $data = $payment;
+            }
+
+            $payments[] = $data;
         }
     }
 

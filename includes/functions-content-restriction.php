@@ -450,8 +450,12 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
 
         if( !function_exists( 'pms_is_post_restricted' ) || is_admin() || is_single() )
             return;
-
+        
         if( isset( $query->query_vars['wc_query'] ) && $query->query_vars['wc_query'] == 'product_query' )
+            return;
+
+        // Skip Ultimate Member queries
+        if( isset( $query->query_vars['um_action'] ) || isset( $query->query_vars['um_user'] ) )
             return;
 
         if( $query->is_main_query() || ( $query->is_search() && isset( $query->query_vars ) && isset( $query->query_vars['s'] ) ) ) {

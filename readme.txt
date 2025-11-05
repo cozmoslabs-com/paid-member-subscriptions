@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.16.6
+Stable tag: 2.16.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -265,6 +265,11 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.16.7 =
+* Enhancement: Reduce memory consumption when querying for Payments in the Reports interface roughly doubling performance
+* Fix: Issue with the Exclude Restricted Posts From Queries functionality breaking Ultimate Member profile edits in some cases
+* Misc: Compatibility with the new Email Marketing add-ons for Mailchimp and Brevo
+
 = 2.16.6 =
 * Fix: Error being triggered when trying to checkout using the Manual / Offline payment gateway
 * Misc: Extended description for the Payment Cycles feature to display exactly the payment terms configured to the admin

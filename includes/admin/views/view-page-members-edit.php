@@ -43,6 +43,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
                 </div>
 
+                <?php do_action( 'pms_member_edit_after_username', $member->user_id ); ?>
+
                 <div class="cozmoslabs-form-field-wrapper">
                     <?php
                         $member_subscriptions_table = new PMS_Member_Subscription_List_Table( $member->user_id );
