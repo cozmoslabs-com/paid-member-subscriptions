@@ -145,34 +145,11 @@ Class PMS_AJAX_Checkout_Handler {
         if( empty( $intent_id ) )
             die();
 
-        // Make sure payment exists
-        $payment_id = !empty( $_POST['payment_id'] ) ? absint( $_POST['payment_id'] ) : 0;
-
-        if( empty( $payment_id ) )
-            die();
-
-        $payment = pms_get_payment( $payment_id );
-
-        if( !isset( $payment->id ) )
-            die();
-
-        // Only process payments that are in the next action state
-        $next_action = pms_get_payment_meta( $payment->id, 'pms_stripe_next_action', true );
-
-        if( empty( $next_action ) || $next_action != 1 )
-            die();
-
-        // Verify that the saved payment intent id is the same as the one processed in this request
-        $payment_intent_id = pms_get_payment_meta( $payment->id, 'pms_stripe_next_action_intent_id', true );
-
-        if( empty( $payment_intent_id ) || $payment_intent_id != $intent_id )
-            die();
-
-        $subscription_id      = !empty( $_POST['subscription_id'] ) ? absint( $_POST['subscription_id'] ) : 0;
         $user_id              = !empty( $_POST['user_id'] ) ? absint( $_POST['user_id'] ) : 0;
+        $subscription_id      = !empty( $_POST['subscription_id'] ) ? absint( $_POST['subscription_id'] ) : 0;
         $subscription_plan_id = !empty( $_POST['subscription_plan_id'] ) ? absint( $_POST['subscription_plan_id'] ) : 0;
 
-        if( empty( $user_id ) || empty( $subscription_plan_id ) )
+        if( empty( $user_id ) || empty( $subscription_id ) || empty( $subscription_plan_id ) )
             die();
 
         // Verify that the target subscription belongs to the correct user
@@ -185,6 +162,50 @@ Class PMS_AJAX_Checkout_Handler {
 
         if( $subscription->id != $subscription_id )
             die();
+
+        // If payment doesn't exist, this is a free trial payment and we need to use subscription meta to determine if a next action was required
+        $payment_id = !empty( $_POST['payment_id'] ) ? absint( $_POST['payment_id'] ) : 0;
+
+        if( empty( $payment_id ) ){
+
+            $next_action       = pms_get_member_subscription_meta( $subscription_id, 'pms_stripe_next_action', true );
+            $payment_intent_id = pms_get_member_subscription_meta( $subscription_id, 'pms_stripe_next_action_intent_id', true );
+
+        } else {
+
+            $payment = pms_get_payment( $payment_id );
+
+            if( !isset( $payment->id ) )
+                die();
+    
+            $next_action       = pms_get_payment_meta( $payment->id, 'pms_stripe_next_action', true );
+            $payment_intent_id = pms_get_payment_meta( $payment->id, 'pms_stripe_next_action_intent_id', true );
+
+            // If a 100% discount code is used, the payment exists but the extra processing data is not saved on the payment, but it should exist on the subscription
+            if( empty( $next_action ) ) 
+                $next_action = pms_get_member_subscription_meta( $subscription_id, 'pms_stripe_next_action', true );
+            
+            if( empty( $payment_intent_id ) )
+                $payment_intent_id = pms_get_member_subscription_meta( $subscription_id, 'pms_stripe_next_action_intent_id', true );
+
+        }
+            
+        // Only process payments that are in the next action state
+        if( empty( $next_action ) || $next_action != 1 )
+            die();
+
+        // Verify that the saved payment intent id is the same as the one processed in this request
+        if( empty( $payment_intent_id ) || $payment_intent_id != $intent_id )
+            die();
+
+        // Delete extra data
+        pms_delete_member_subscription_meta( $subscription_id, 'pms_stripe_next_action' );
+        pms_delete_member_subscription_meta( $subscription_id, 'pms_stripe_next_action_intent_id' );
+
+        if( !empty( $payment_id ) ) {
+            pms_delete_payment_meta( $payment_id, 'pms_stripe_next_action' );
+            pms_delete_payment_meta( $payment_id, 'pms_stripe_next_action_intent_id' );
+        }
 
         // Initialize gateway
         $gateway = pms_get_payment_gateway( $payment_gateway );

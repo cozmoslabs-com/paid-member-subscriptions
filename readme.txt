@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 2.16.7
+Stable tag: 2.16.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -265,6 +265,9 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.16.8 =
+* Fix: Issue with Stripe 3D secure authentication failing to continue payment processing on the website without webhooks enabled
+
 = 2.16.7 =
 * Enhancement: Reduce memory consumption when querying for Payments in the Reports interface roughly doubling performance
 * Fix: Issue with the Exclude Restricted Posts From Queries functionality breaking Ultimate Member profile edits in some cases

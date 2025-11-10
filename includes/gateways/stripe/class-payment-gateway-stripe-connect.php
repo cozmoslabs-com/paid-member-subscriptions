@@ -221,6 +221,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 if( isset( $intent->next_action ) && !is_null( $intent->next_action ) && !empty( $intent->next_action->type ) ){
     
+                    // Save the next step as subscription meta for free trial payments
+                    pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_next_action', 1 );
+                    pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_next_action_intent_id', $intent->id );
+
                     $data = array(
                         'success'              => false,
                         'client_secret'        => $intent->client_secret,
