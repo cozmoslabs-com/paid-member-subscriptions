@@ -570,17 +570,8 @@ function pms_get_output_subscription_plan_trial( $subscription_plan = null, $for
         return '';
 
     // if current user already benefited from the trial on this plan, do not add it again
-    if( is_user_logged_in() ){
-        $user = get_userdata( get_current_user_id() );
-
-        if( !empty( $user->user_email ) ){
-
-            $used_trial = get_option( 'pms_used_trial_' . $subscription_plan->id, false );
-
-            if( $used_trial !== false && in_array( $user->user_email, $used_trial ) )
-                return '';
-
-        }
+    if( is_user_logged_in() && !PMS_Form_Handler::user_can_access_trial( $subscription_plan ) ){
+        return '';
     }
 
     if( ! pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_free_trial' ) )

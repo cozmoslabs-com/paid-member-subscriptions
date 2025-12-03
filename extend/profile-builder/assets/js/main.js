@@ -51,7 +51,7 @@ function pms_pb_handle_sorting_subscription_plans_field( container_name ) {
 
 
 /**
- * Function that adds the Subscription Plans field to the global fields object
+ * Function that adds the Subscription Plans field and Billing Fields field to the global fields object
  * declared in Profile Builder: assets/js/jquery-manage-fields-live-change.js
  *
  */
@@ -67,6 +67,17 @@ function pms_pb_add_field() {
             '.row-description',
             '.row-subscription-plans',
             '.row-subscription-plan-selected'
+        ],
+        'properties':	{
+            'meta_name_value' : ''
+        }
+    };
+
+    fields["PMS Billing Fields"] = {
+        'show_rows'	:	[
+            '.row-field-title',
+            '.row-field',
+            '.row-pms-billing-fields',
         ],
         'properties':	{
             'meta_name_value' : ''

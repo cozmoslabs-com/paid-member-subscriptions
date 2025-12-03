@@ -852,7 +852,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
             foreach( $queried_payments as $payment ) {
                 $currency             = !empty( $payment['currency'] ) ? $payment['currency'] : $default_currency;
                 $currency             = apply_filters( 'pms_reports_payment_currency', $currency, $payment );
-                $base_currency_amount = get_metadata( 'payment', $payment['id'], 'base_currency_amount', true );
+                $base_currency_amount = pms_get_payment_meta( $payment['id'], 'base_currency_amount', true );
 
                 // Total Payment Amounts in Default Currency
                 if ( $currency === $default_currency ) {

@@ -1781,10 +1781,13 @@ Class PMS_Form_Handler {
             $subscription_plan = pms_get_subscription_plan( absint( $_POST['subscription_plans'] ) );
         }
 
+        if( empty( $subscription_plan ) )
+            return false;
+
         if( is_user_logged_in() ){
             $user = get_userdata( get_current_user_id() );
     
-            if( !empty( $user->user_email ) ){
+            if( !empty( $user ) && !empty( $user->user_email ) ){
     
                 $used_trial = get_option( 'pms_used_trial_' . $subscription_plan->id, false );
 
@@ -1794,7 +1797,8 @@ Class PMS_Form_Handler {
             }
         }
 
-        return true;
+        return apply_filters( 'pms_checkout_user_can_access_trial', true, $subscription_plan );
+
     }
 
 
@@ -2305,6 +2309,21 @@ Class PMS_Form_Handler {
                 case 'change_subscription':
 
                     do_action( 'pms_psp_before_'. $form_location, $subscription, isset( $payment ) ? $payment : 0, $subscription_data );
+
+                    if( isset( $has_trial ) && $has_trial == true && isset( $register_automatic_billing_info_response ) && $register_automatic_billing_info_response == true ){
+                        pms_add_member_subscription_log( $subscription->id, 'subscription_trial_started', array( 'until' => $subscription_data['trial_end'] ) );
+
+                        // Save email when trial is used
+                        $user       = get_userdata( $user_data['user_id'] );
+                        $used_trial = get_option( 'pms_used_trial_' . $subscription_plan->id, false );
+
+                        if( $used_trial == false )
+                            $used_trial = array( $user->user_email );
+                        else
+                            $used_trial[] = $user->user_email;
+
+                        update_option( 'pms_used_trial_' . $subscription_plan->id, $used_trial, false );
+                    }
 
                     $context = 'change';
 

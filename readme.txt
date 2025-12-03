@@ -3,9 +3,9 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.16.8
+Stable tag: 2.16.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -265,6 +265,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.16.9 =
+* Enhancement: Added compatibility for Stripe payment forms with Elementor Pro Popups. The purchase form should now load the credit card fields correctly and allow the form to be submitted
+* Enhancement: Added extra field to the Profile Builder integration that allows you to insert the Paid Member Subscriptions Billing Field inside a Profile Builder Edit Profile form
+* Fix: Correctly handle the Email Address free trial restriction when logged in Account page actions are performed
+* Fix: A scenario when the payment details would not load in a purchase form added through Elementor when a single subscription plan was showing
+* Misc: Fix a potential notice
+* Misc: Added a filter over the type column of the Payments List table: pms_payments_list_table_column_type
+* Misc: Added classes to some more rows from the Account output
+
 = 2.16.8 =
 * Fix: Issue with Stripe 3D secure authentication failing to continue payment processing on the website without webhooks enabled
 

@@ -574,7 +574,7 @@ Class PMS_Payments_List_Table extends WP_List_Table {
         if( ! empty( $item['payment_gateway'] ) )
             $output .= ' (' . esc_html( $item['payment_gateway'] ) . ')';
 
-        return $output;
+        return apply_filters( 'pms_payments_list_table_column_type', $output, $item );
 
     }
 

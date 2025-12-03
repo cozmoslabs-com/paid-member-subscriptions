@@ -72,7 +72,7 @@ foreach( $subscriptions as $subscription ) :
 
             <!-- Subscription next payment -->
             <?php if( ! empty( $subscription->billing_next_payment ) && $subscription->status == 'active' ): ?>
-            <tr>
+            <tr class="pms-account-subscription-details-table__next-payment">
                 <td><?php esc_html_e( 'Next Payment', 'paid-member-subscriptions' ); ?></td>
 				<td>
                     <?php
@@ -99,7 +99,7 @@ foreach( $subscriptions as $subscription ) :
                     // Append billing cycle info if enabled and supported
                     if ( $subscription->has_installments() && pms_payment_gateway_supports_cycles( $subscription->payment_gateway ) ) {
                         $next_cycle = pms_get_member_subscription_billing_processed_cycles( $subscription->id ) + 1;
-                        $next_payment_output .= ' (' . $next_cycle . ' of ' . $subscription->billing_cycles . ')';
+                        $next_payment_output .= ' <span class="pms-account-subscription-details-table__next-payment__cycles">(' . $next_cycle . ' of ' . $subscription->billing_cycles . ')</span>';
                     }
 
                     echo wp_kses_post( $next_payment_output );
@@ -115,7 +115,7 @@ foreach( $subscriptions as $subscription ) :
                 
                 $payment_method_data = pms_get_member_subscription_payment_method_details( $subscription->id );
             ?>
-                <tr>
+                <tr class="pms-account-subscription-details-table__payment-method">
                     <td><?php esc_html_e( 'Payment Method', 'paid-member-subscriptions' ); ?></td>
                     <td>
                         <div class="pms-account-subscription-details-table__payment-method">

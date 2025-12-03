@@ -1,7 +1,12 @@
-jQuery( async function( $ ) {
+/**
+ * Initialize Stripe Connect payment gateway
+ * @param {jQuery} $ - jQuery instance
+ */
+async function pms_stripe_maybe_load_gateway( $ ) {
 
-    if( !( $('#stripe-pk').length > 0 ) )
+    if( !( $('#stripe-pk').length > 0 ) ){
         return false
+    }
 
     var stripe_pk = $( '#stripe-pk' ).val()
 
@@ -1056,4 +1061,32 @@ jQuery( async function( $ ) {
 
     }
 
+}
+
+// Initialize Stripe Connect when document is ready
+jQuery( pms_stripe_maybe_load_gateway );
+
+// Maybe initialize Stripe when Elementor popup is shown
+jQuery(document).on('elementor/popup/show', function () {
+    if ( jQuery('.pms-form #pms-stripe-connect', jQuery('.elementor-popup-modal') ).length > 0 ) {
+        pms_stripe_maybe_load_gateway( jQuery )
+
+        // By default, the regular submit event of the form is not triggered when the button is clicked inside the popup.
+        // We simulate a submit event to trigger the form submission on the click event.
+        document.addEventListener('click', function (ev) {
+            const btn = ev.target.closest('input[type="submit"], button[type="submit"]');
+            if (!btn) return;
+            const form = btn.form || btn.closest('form');
+            if (!form) return;
+            if (!form.classList.contains('pms-form')) return;
+        
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+        
+            const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+            form.dispatchEvent(submitEvent);
+          }, true);
+    }
 });
+
+  

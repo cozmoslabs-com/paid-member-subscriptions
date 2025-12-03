@@ -283,7 +283,6 @@ jQuery( function($) {
                 $(paygate_selector + ':not([disabled])').first().trigger('click');
 
 
-
             if ($(paygate_selector).length > 0) {
 
                 /**
@@ -319,6 +318,9 @@ jQuery( function($) {
                     if ( $(paygate_selector + ':not([disabled]):checked[data-type="extra_fields"]').length > 0 ) {
                         $('.pms-paygate-extra-fields').hide()
                         $('.pms-paygate-extra-fields-' + $(paygate_selector + ':not([disabled]):checked[data-type="extra_fields"]').val() ).show()
+                    } else if ( $(paygate_selector + ':not([disabled])[data-type="extra_fields"]').length > 0 ) {
+                        $('.pms-paygate-extra-fields').hide()
+                        $('.pms-paygate-extra-fields-' + $(paygate_selector + ':not([disabled])[data-type="extra_fields"]').val() ).show()
                     }
 
                     // Enable submit button
@@ -328,7 +330,6 @@ jQuery( function($) {
                 }
 
             }
-
 
             // Hide credit card fields if it's a free plan
             if ( $pms_checked_subscription.data('price') == 0 && !$.pms_plan_has_signup_fee() ) {
@@ -493,6 +494,8 @@ jQuery( function($) {
         jQuery(document).on('elementor/popup/show', function () {
 
             if ($('.pms-form', $('.elementor-popup-modal')).length > 0) {
+                $pms_checked_subscription = jQuery( subscription_plan_selector + '[type=radio]' ).length > 0 ? jQuery( subscription_plan_selector + '[type=radio]:checked' ) : jQuery( subscription_plan_selector + '[type=hidden]' )
+
                 handle_auto_renew_field_display()
                 handle_payment_gateways_display()
                 handle_plan_recurring_duration_display()
@@ -1384,7 +1387,7 @@ jQuery( function($) {
 
     function pms_handle_billing_state_field_display(){
 
-        var country = $('.pms-billing-details #pms_billing_country').val()
+        var country = $('#pms_billing_country').val()
 
         if( PMS_States[country] ){
 

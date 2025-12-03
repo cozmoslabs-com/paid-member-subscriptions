@@ -1422,6 +1422,7 @@
 <?php __("User updated in the email marketing list. Platform: %s", "paid-member-subscriptions"); ?>
 <?php __("Email Marketing Tier ID", "paid-member-subscriptions"); ?>
 <?php __("Subscribe to our newsletter", "paid-member-subscriptions"); ?>
+<?php __("Email Marketing – %s Newsletter Subscription", "paid-member-subscriptions"); ?>
 <?php __("User Email", "paid-member-subscriptions"); ?>
 <?php __("Display Name", "paid-member-subscriptions"); ?>
 <?php __("User Registered (date)", "paid-member-subscriptions"); ?>
@@ -1751,6 +1752,9 @@
 <?php __("Save the subscription plan order from the subscription plans checkboxes", "paid-member-subscriptions"); ?>
 <?php __("Selected Subscription Plan", "paid-member-subscriptions"); ?>
 <?php __("Select which plan will be by default selected when the front-end form loads.", "paid-member-subscriptions"); ?>
+<?php __("Select the Billing Fields you want to display on the Edit Profile forms. %s If no fields are selected, all available Billing Fields will be displayed.", "paid-member-subscriptions"); ?>
+<?php __('%1$sBilling Fields are not available!%2$s %5$s Activate the %1$sTax%2$s and/or %1$sInvoice%2$s add-ons from the %3$sPaid Member Subscriptions Add-ons%4$s section.', 'paid-member-subscriptions' ); ?>
+<?php __("PMS Billing Fields - only appears on the Edit Profile page.", "paid-member-subscriptions"); ?>
 <?php __("You will be able to complete the payment after you have confirmed your e-mail address.", "paid-member-subscriptions"); ?>
 <?php __("Restriction Type", "paid-member-subscriptions"); ?>
 <?php __("Full Courses Restriction", "paid-member-subscriptions"); ?>
@@ -2658,7 +2662,6 @@
 <?php __("A description for this subscription plan. This will be displayed on the register form.", "paid-member-subscriptions"); ?>
 <?php __("Set the subscription duration. Leave 0 for unlimited.", "paid-member-subscriptions"); ?>
 <?php __("Amount you want to charge people who join this plan. Leave 0 if you want this plan to be free.", "paid-member-subscriptions"); ?>
-<?php __('This feature is available only with the Manual, %1$sStripe%2$s, %3$sPayPal Express%4$s gateways or %5$sRecurring Payments for PayPal Standard%6$s add-on.', 'paid-member-subscriptions' ); ?>
 <?php __("Amount you want to charge people upfront when subscribing to this plan.", "paid-member-subscriptions"); ?>
 <?php __("The free trial represents the amount of time before charging the first recurring payment. The sign-up fee applies regardless of the free trial.", "paid-member-subscriptions"); ?>
 <?php __("Limit Payment Cycles", "paid-member-subscriptions"); ?>

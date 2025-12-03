@@ -428,6 +428,11 @@ jQuery( function($) {
 
     })
 
+    // handle the select_state Billing Filed on the User Edit page (needed when the PMS Billing Fields PB Field is used)
+    if ( typeof pagenow !== 'undefined' && pagenow === 'user-edit' ) {
+        pms_handle_billing_state_field_display();
+    }
+
     $(document).on( 'change', '#pms_billing_country', function() {
 
         pms_handle_billing_state_field_display()
@@ -480,6 +485,9 @@ jQuery( function($) {
     function pms_handle_billing_state_field_display(){
 
         var country = $('#pms-member-billing-details .form #pms_billing_country').val()
+
+        if ( ! country )
+            country = $('#profile-page form #pms_billing_country').val()
 
         if( PMS_States[country] ){
 
