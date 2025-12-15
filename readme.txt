@@ -153,6 +153,8 @@ Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslab
 
 **Pro Add-ons** (available in the [Agency & PRO versions](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree#pricing) only)
 
+* [Gift Subscriptions](https://www.cozmoslabs.com/add-ons/gift-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Let members purchase subscription plans as gifts for others. Perfect for holidays, special occasions, or rewarding team members with instant or claimable subscriptions
+* [Pause Subscriptions](https://www.cozmoslabs.com/add-ons/pause-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Allow members to temporarily pause recurring subscriptions without canceling. Maintain membership relationships while billing is suspended with flexible pause durations and limits
 * [Multiple Currencies](https://www.cozmoslabs.com/add-ons/multiple-currencies/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Enable visitors to pay in their local currency, either through automatic location detection or by manually selecting their preferred currency
 * [Pro Rate](https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription
 * [Tax & EU VAT](https://www.cozmoslabs.com/add-ons/tax-eu-vat/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - collect tax or vat from your users depending on their location, with full control over tax rates and who to charge
