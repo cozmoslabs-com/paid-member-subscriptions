@@ -12,10 +12,10 @@
         <?php
         $paid_version_addons = array(
             array(
-                'name'        => esc_html__( 'Invoices', 'paid-member-subscriptions' ),
-                'slug'        => 'pms-add-on-invoices',
-                'image'       => 'pms-add-on-invoices-logo.png',
-                'description' => esc_html__( 'Generate downloadable PDF Invoices for payments. Available to admins and users.', 'paid-member-subscriptions' ),
+                'name'        => esc_html__( 'Gift Subscriptions', 'paid-member-subscriptions' ),
+                'slug'        => 'pms-add-on-gift-subscriptions',
+                'image'       => 'pms-add-on-gift-subscriptions-logo.png',
+                'description' => esc_html__( 'Enable customers to purchase memberships as gifts. Buyers can gift subscription access to their friends and family, and let recipients activate their own accounts with ease.', 'paid-member-subscriptions' ),
                 'notice'      => esc_html__( 'Available in the Pro version', 'paid-member-subscriptions' ),
             ),
             array(
@@ -76,11 +76,11 @@
     
     <?php if( defined( 'PMS_PAID_PLUGIN_DIR' ) ) : ?>
         <p class="pms-setup-addons-info">
-            <?php printf( esc_html__( 'Explore 16+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ); ?>
+            <?php printf( esc_html__( 'Explore 20+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete.', 'paid-member-subscriptions' ), '<strong>', '</strong>' ); ?>
         </p>
     <?php else: ?>
         <p class="pms-setup-form-styles__upsell" style="padding-top: 14px; padding-bottom: 14px; font-size: 110%;">
-            <?php printf( esc_html__( 'Get access to 16+ premium add-ons with a %sPro%s license. %sBuy Now%s', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-setup-wizard&utm_medium=client-site&utm_campaign=pms-pro-addons-upsell#pricing" target="_blank">', '</a>' ); ?>
+            <?php printf( esc_html__( 'Get access to 20+ premium add-ons with a %sPro%s license. %sBuy Now%s', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-setup-wizard&utm_medium=client-site&utm_campaign=pms-pro-addons-upsell#pricing" target="_blank">', '</a>' ); ?>
         </p>
     <?php endif; ?>
 

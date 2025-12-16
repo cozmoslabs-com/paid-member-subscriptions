@@ -26,7 +26,7 @@ function pms_pb_subscription_plans_handler( $output, $form_location, $field, $us
 
                 remove_filter( 'pms_output_subscription_plans', 'pms_output_subscription_plans_payment_gateways', 10 );
                 remove_filter( 'pms_output_subscription_plans', 'pms_in_dc_output_discount_box', 25 );
-                remove_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 10 );
+                remove_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5 );
                 remove_filter( 'wppb_output_after_last_form_field', 'pms_pb_output_payment_gateways', 99 );
 
             }

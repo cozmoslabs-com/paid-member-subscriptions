@@ -58,6 +58,10 @@ Class PMS_Emails {
                 return;
         }
 
+        // If the skip email notifications checkbox is checked, don't send any emails
+        if( isset( $_POST['pms_subscription_edit_skip_email_notifications'] ) && $_POST['pms_subscription_edit_skip_email_notifications'] == 1 )
+            return;
+
         $subscription = pms_get_member_subscription( (int)$subscription_id );
 
         if( is_null( $subscription ) )

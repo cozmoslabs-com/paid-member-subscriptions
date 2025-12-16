@@ -747,7 +747,12 @@ class PMS_IN_TutorLMS {
      *
      */
     public function get_member_subscription_categories( $subscription_id ) {
-        return pms_get_member_subscription_meta( $subscription_id, 'pms_member_subscription_tutor_categories', true );
+        $categories = pms_get_member_subscription_meta( $subscription_id, 'pms_member_subscription_tutor_categories', true );
+
+        if( ! is_array( $categories ) )
+            $categories = array();
+        
+        return $categories;
     }
 
     /**

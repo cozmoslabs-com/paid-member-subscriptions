@@ -314,6 +314,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="cozmoslabs-basic-info-addons">
 
             <div>
+                <a href="https://www.cozmoslabs.com/add-ons/gift-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-gift-subscriptions-addon" target="_blank">
+                    <h4 class="pms-add-on-name"><?php esc_html_e( 'Gift Subscriptions', 'paid-member-subscriptions' ); ?></h4>
+                </a>
+
+                <a href="https://www.cozmoslabs.com/add-ons/gift-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-gift-subscriptions-addon" target="_blank" class="pms-addon-image-container">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-gift-subscriptions.png" alt="Gift Subscriptions" class="pms-addon-image" />
+                </a>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Enable customers to purchase memberships as gifts with the Gift Subscriptions add-on. Buyers can gift subscription access to their friends and family, and let recipients activate their own accounts with ease.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div>
                 <a href="https://www.cozmoslabs.com/add-ons/content-dripping/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-content-dripping-addon" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Content Dripping', 'paid-member-subscriptions' ); ?></h4>
                 </a>
@@ -432,6 +444,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </a>
 
                 <p class="cozmoslabs-description"><?php esc_html_e( 'Sync your members with Brevo to manage contacts smoothly. Automate newsletter subscriptions, use Double Opt-In for compliance, and link custom fields between Brevo and your member data.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div>
+                <a href="https://www.cozmoslabs.com/add-ons/pause-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-pause-subscriptions-addon" target="_blank">
+                    <h4 class="pms-add-on-name"><?php esc_html_e( 'Pause Subscriptions', 'paid-member-subscriptions' ); ?></h4>
+                </a>
+
+                <a href="https://www.cozmoslabs.com/add-ons/pause-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-pause-subscriptions-addon" target="_blank" class="pms-addon-image-container">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-pause-subscriptions.png" alt="Pause Subscriptions" class="pms-addon-image" />
+                </a>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Allow members to pause recurring subscriptions with flexible duration, pause frequency, and resume settings.', 'paid-member-subscriptions' ); ?></p>
             </div>
         </div>
 

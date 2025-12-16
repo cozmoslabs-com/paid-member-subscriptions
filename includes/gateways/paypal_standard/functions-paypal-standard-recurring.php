@@ -682,6 +682,7 @@ function pms_in_api_cancel_paypal_subscription( $payment_profile_id, $action = '
 
     // Get API credentials and check if they are complete
     $api_credentials = pms_get_paypal_api_credentials();
+    $api_credentials = apply_filters( 'pms_paypal_standard_recurring_payments_process_cancel_subscription_api_credentials', $api_credentials, $payment_profile_id );
 
     if( !$api_credentials ){
         $error = __( 'PayPal API credentials are missing or are incomplete', 'paid-member-subscriptions' );

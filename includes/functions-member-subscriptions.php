@@ -76,9 +76,11 @@ function pms_get_member_subscriptions( $args = array() ) {
 
     }
 
-	// Exclude Abandoned subscriptions unless requested
-	if( isset( $args['include_abandoned'] ) && $args['include_abandoned'] === false )
+	// Exclude Abandoned and Pending Gift statuses unless requested
+	if( isset( $args['include_abandoned'] ) && $args['include_abandoned'] === false ){
 		$query_where .= " AND status NOT LIKE 'abandoned'";
+        $query_where .= " AND status NOT LIKE 'pending_gift'";
+    }
 
     // Filter by start date
     if( ! empty( $args['start_date'] ) ) {
@@ -168,9 +170,9 @@ function pms_get_member_subscriptions( $args = array() ) {
 
     if ( ! empty($args['orderby']) ) {
 
-		// On the edit_member page, make sure abandoned subs are last
+		// On the edit_member page, make sure abandoned and pending_gift subs are last
 		if( isset( $_GET['page'], $_GET['subpage'] ) && $_GET['page'] === 'pms-members-page' && $_GET['subpage'] === 'edit_member' )
-			$query_order_by = " ORDER BY status = 'abandoned', status ";
+			$query_order_by = " ORDER BY status IN ('abandoned', 'pending_gift'), status ";
 		else
 			$query_order_by = " ORDER BY " . trim( $args['orderby'] ) . ' ';
 

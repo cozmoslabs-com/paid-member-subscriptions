@@ -128,6 +128,9 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
         if( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'abandoned' )
             $columns['subscriptions'] = esc_html__( 'Abandoned subscriptions', 'paid-member-subscriptions' );
+        
+        if( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'pending_gift' )
+            $columns['subscriptions'] = esc_html__( 'Pending Gift subscriptions', 'paid-member-subscriptions' );
 
         return apply_filters( 'pms_members_list_table_columns', $columns );
 
@@ -248,7 +251,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
      */
     public function extra_tablenav( $which ) {
 
-        if( $which == 'bottom' || ( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'abandoned' ) )
+        if( $which == 'bottom' || ( isset( $_GET['pms-view'] ) && ( $_GET['pms-view'] == 'abandoned' || $_GET['pms-view'] == 'pending_gift' ) ) )
             return;
 
 
@@ -507,16 +510,25 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
         $output = '';
 
-        $abandon_count = 0;
-        $other_count   = 0;
-        $user_id       = 0;
+        $abandon_count      = 0;
+        $pending_gift_count = 0;
+        $other_count        = 0;
+        $user_id            = 0;
 
         foreach( $item['subscriptions'] as $member_subscription ) {
 
+            // Skip abandoned subscriptions if not viewing abandoned filter
             if( ( !isset( $_GET['pms-view'] ) || $_GET['pms-view'] != 'abandoned' ) && $member_subscription->status == 'abandoned' ){
                 $abandon_count++;
                 continue;
             } else if( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'abandoned' && $member_subscription->status != 'abandoned' )
+                continue;
+            
+            // Skip pending gift subscriptions if not viewing pending_gift filter
+            if( ( !isset( $_GET['pms-view'] ) || $_GET['pms-view'] != 'pending_gift' ) && $member_subscription->status == 'pending_gift' ){
+                $pending_gift_count++;
+                continue;
+            } else if( isset( $_GET['pms-view'] ) && $_GET['pms-view'] == 'pending_gift' && $member_subscription->status != 'pending_gift' )
                 continue;
 
             //$member_subscription = $member_subscription->to_array();
@@ -575,11 +587,16 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
         }
 
-        if( !empty( $abandon_count ) ){
+        // Get user_id if we need it for links
+        if( !empty( $abandon_count ) || !empty( $pending_gift_count ) ) {
             foreach( $item['subscriptions'] as $member_subscription ){
                 $user_id = $member_subscription->user_id;
                 break;
             }
+        }
+
+        // Display abandoned subscriptions count
+        if( !empty( $abandon_count ) ){
             $sign = '';
 
             if( $other_count > 0 )
@@ -587,6 +604,18 @@ Class PMS_Members_List_Table extends WP_List_Table {
 
             $output .= '<a href="' . esc_url( add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $user_id ) ) ) . '" title="'.esc_html__( 'View Abandoned Subscriptions', 'paid-member-subscriptions' ).'" class="pms-abandon-count">';
                 $output .= sprintf( _n( '%1$s %2$s abandoned subscription', '%1$s %2$s abandoned subscriptions', $abandon_count, 'paid-member-subscriptions' ), $sign, $abandon_count );
+            $output .= '</a>';
+        }
+        
+        // Display pending gift subscriptions count
+        if( !empty( $pending_gift_count ) ){
+            $sign = '';
+
+            if( $other_count > 0 || $abandon_count > 0 )
+                $sign = '+';
+
+            $output .= '<a href="' . esc_url( add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $user_id ) ) ) . '" title="'.esc_html__( 'View Pending Gift Subscriptions', 'paid-member-subscriptions' ).'" class="pms-pending-gift-count">';
+                $output .= sprintf( _n( '%1$s %2$s pending gift subscription', '%1$s %2$s pending gift subscriptions', $pending_gift_count, 'paid-member-subscriptions' ), $sign, $pending_gift_count );
             $output .= '</a>';
         }
 

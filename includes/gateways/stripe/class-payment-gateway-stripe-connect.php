@@ -343,6 +343,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     // Save checkout data from $_POST to the payment 
                     // This is used for Webhooks if they need to update the subscription
                     $checkout_data = PMS_AJAX_Checkout_Handler::get_checkout_data();
+                    $checkout_data['currency'] = !empty( $payment->currency ) ? $payment->currency : pms_get_active_currency();
     
                     pms_add_payment_meta( $payment->id, 'pms_checkout_data', $checkout_data );
                 }
@@ -1839,7 +1840,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      */
     public static function register_form_sections( $sections = array(), $form_location = '' ) {
 
-        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_stripe_connect', 'update_payment_method_stripe_intents' ) ) )
+        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_stripe_connect', 'update_payment_method_stripe_intents', 'gift_subscription' ) ) )
             return $sections;
 
         // Add the credit card details if it does not exist
@@ -1869,7 +1870,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      */
     public static function register_form_fields( $fields = array(), $form_location = '' ) {
 
-        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_stripe_connect', 'update_payment_method_stripe_intents' ) ) )
+        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_stripe_connect', 'update_payment_method_stripe_intents', 'gift_subscription' ) ) )
             return $fields;
 
 
@@ -1899,6 +1900,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $args ) || empty( $args['amount'] ) )
             return $args;
 
+        if( !empty( $args['currency'] ) ){
+            $minimum_amount = $this->get_minimum_fee_amount( $args['currency'] );
+
+            if( $args['amount'] < $this->process_amount( $minimum_amount, $args['currency'] ) )
+                return $args;
+        }
+
         $account_country      = pms_stripe_connect_get_account_country();
         $restricted_countries = array(
             'AG', 'AL', 'AM', 'AO', 'AR', 'AZ', 'BA', 'BB', 'BD', 'BF', 'BH', 'BJ', 'BN', 'BO', 'BR', 'BS', 'BT', 'BW', 'BZ', 'CI',
@@ -1920,6 +1928,45 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         return $args;
 
+    }
+
+    private function get_minimum_fee_amount( $currency = '' ){
+
+        $minimum_amounts = array(
+            'USD' => 5.00,
+            'EUR' => 5.00,
+            'GBP' => 5.00,
+            'AUD' => 5.00,
+            'CAD' => 5.00,
+            'CHF' => 5.00,
+            'SEK' => 50.75,
+            'NOK' => 54.50,
+            'DKK' => 32.00,
+            'PLN' => 18.10,
+            'HUF' => 1825,
+            'CZK' => 112.5,
+            'JPY' => 773.1,
+            'SGD' => 6.48,
+            'HKD' => 39.10,
+            'NZD' => 8.20,
+            'AED' => 18.36,
+            'KWD' => 1.54,
+            'BHD' => 1.88,
+            'OMR' => 1.92,
+            'QAR' => 18.20,
+            'TWD' => 157.5,
+            'SAR' => 18.75,
+            'CNY' => 35.356,
+            'UAH' => 180,
+            'MVR' => 77.0,
+            'RON' => 25,
+            'MGA' => 25000
+        );
+
+        if( !empty( $minimum_amounts[$currency] ) )
+            return $minimum_amounts[$currency];
+
+        return 0;
     }
 
     // Random Functionalities

@@ -912,7 +912,7 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
 
     // need to take into account PayWhatYouWant, Discounts and Taxes
     $amount = apply_filters( 'pms_stripe_calculate_payment_amount', $subscription_plan->price, $subscription_plan ); // both filters are kept for backwards compatibility
-    $amount = apply_filters( 'pms_calculate_payment_amount', $amount, $subscription_plan );
+    $amount = apply_filters( 'pms_calculate_payment_amount', $amount, $subscription_plan, $request_data );
 
     // Check PWYW pricing
     if( function_exists( 'pms_in_pwyw_pricing_enabled' ) && pms_in_pwyw_pricing_enabled( $subscription_plan->id ) ){
@@ -1034,3 +1034,24 @@ function pms_reset_payment_counters( $payment_id, $payment_data ){
 add_action( 'pms_after_bulk_delete_payments', 'pms_reset_payment_counters', 10, 2 );
 add_action( 'pms_after_delete_payment', 'pms_reset_payment_counters', 10, 2 );
 add_action( 'pms_payment_insert', 'pms_reset_payment_counters', 10, 2 );
+
+add_filter( 'pms_cron_process_member_subscriptions_payment_data', 'pms_migrate_bgn_payments_to_eur', 20, 2 );
+function pms_migrate_bgn_payments_to_eur( $payment_data, $subscription ){
+
+    if( $payment_data['currency'] === 'BGN' && time() >= strtotime( '2025-12-29 00:00:00' ) ){
+        $payment_data['amount']   = $payment_data['amount'] / 1.95583;
+        $payment_data['currency'] = 'EUR';
+
+        $old_billing_amount = $subscription->billing_amount;
+        $new_billing_amount = $subscription->billing_amount / 1.95583;
+
+        $subscription->update( array( 'billing_amount' => $new_billing_amount ) );
+
+        pms_update_member_subscription_meta( $subscription->id, 'currency', 'EUR' );
+
+        pms_add_member_subscription_log( $subscription->id, 'bgn_migration_to_eur', array( 'old_billing_amount' => $old_billing_amount, 'new_billing_amount' => $new_billing_amount ) );
+    }
+
+    return $payment_data;
+
+}

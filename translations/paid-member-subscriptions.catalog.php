@@ -601,6 +601,7 @@
 <?php __("In order to restore it, you need to put the plugin into <strong>Test Mode</strong>.", "paid-member-subscriptions"); ?>
 <?php __(' %1$sDismiss%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Your %s Stripe Account is disconnected%s. In order to restore payments functionality for this website, please go to the %sPaid Member Subscriptions -> Settings -> Payments -> Gateways%s page and %sConnect%s your account again.", "paid-member-subscriptions"); ?>
+<?php __("%sOn January 1, 2026, Bulgaria will join the Eurozone and the Bulgarian Leva (BGN) will be deprecated in favor of the Euro (EUR).%s<br><br>In order for payments to work correctly after that date, %syou need to switch the current active currency to EUR%s by going to %sPaid Member Subscriptions -> Settings -> Payments -> Currency%s.<br>The price of your Subscription Plans should also be updated to reflect this transition by going to the %sPaid Member Subscriptions -> Subscription Plans%s page.<br><br>Your recurring payments in BGN will be automatically converted to EUR after %s29.12.2025%s at the official fixed currency exchange rate of %s1.95583 BGN = 1 EUR%s.", "paid-member-subscriptions"); ?>
 <?php __("Your website doesn't seem to have SSL enabled. Some functionality will not work without a valid SSL certificate. Please enable SSL and ensure your server has a valid SSL certificate.", "paid-member-subscriptions"); ?>
 <?php __('Your <strong>Paid Member Subscriptions</strong> license is about to expire on <strong>%1$s</strong>.<br/>Please <a href=\%2$s\ target=\_blank\>Renew Your Licence</a> to maintain access to new features, premium addons, product downloads & automatic updates — including important security patches and WordPress compatibility. <a class=\button-primary\ href=\%3$s\>Renew now</a>', 'paid-member-subscriptions' ); ?>
 <?php __("Your <strong>Paid Member Subscriptions license has expired</strong>.", "paid-member-subscriptions"); ?>
@@ -630,8 +631,7 @@
 <?php __("Installment - Recurring Payment", "paid-member-subscriptions"); ?>
 <?php __("Installment - Final Payment", "paid-member-subscriptions"); ?>
 <?php __("Add-ons Page", "paid-member-subscriptions"); ?>
-<?php __("Mailchimp Details", "paid-member-subscriptions"); ?>
-<?php __("Brevo Details", "paid-member-subscriptions"); ?>
+<?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __(" payments of ", "paid-member-subscriptions"); ?>
 <?php __("%s Day", "paid-member-subscriptions"); ?>
 <?php __("%s Days", "paid-member-subscriptions"); ?>
@@ -682,6 +682,9 @@
 <?php __("Redirect Url", "paid-member-subscriptions"); ?>
 <?php __("URL users are redirected to after confirming their subscription (must be an absolute URL including the http or https protocol)", "paid-member-subscriptions"); ?>
 <?php __('The Nginx web server needs to be restarted for the new File Restriction rules to take effect. %1$sLearn more%2$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Your version of %1$s is not compatible with the %2$s add-on. Please update %1$s to the latest version.', 'paid-member-subscriptions' ); ?>
+<?php __("Gift Subscriptions", "paid-member-subscriptions"); ?>
+<?php __("Please select the [pms-register] page under Settings -> General -> Membership Pages in order for Gift Subscriptions invitations to work.", "paid-member-subscriptions"); ?>
 <?php __("Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this member ?", "paid-member-subscriptions"); ?>
 <?php __("Invalid user or user already a member of this group.", "paid-member-subscriptions"); ?>
@@ -702,6 +705,12 @@
 <?php __("The Multiple Currencies Add-On is not compatible with the Pro-Rate Add-On. To use Multiple Currencies, please deactivate the Pro-Rate Add-On.", "paid-member-subscriptions"); ?>
 <?php __("The version of Paid Member Subscriptions you are using is not compatible with the Multiple Currencies add-on. Please update Paid Member Subscriptions to version 2.13.5 or higher.", "paid-member-subscriptions"); ?>
 <?php __("Every 6 Hours", "paid-member-subscriptions"); ?>
+<?php __("Pause Subscriptions", "paid-member-subscriptions"); ?>
+<?php __("Maximum Pause Duration is required.", "paid-member-subscriptions"); ?>
+<?php __("Please enter a number or \"unlimited\" for Maximum Pause Duration.", "paid-member-subscriptions"); ?>
+<?php __("Maximum Pause Duration must be a number greater than 0.", "paid-member-subscriptions"); ?>
+<?php __("Please enter a valid number.", "paid-member-subscriptions"); ?>
+<?php __("Paused", "paid-member-subscriptions"); ?>
 <?php __("The Pro-Rate Add-On is not compatible with the Multiple Currencies Add-On. To use Pro-Rate, please deactivate the Multiple Currencies Add-On.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a credit card number.", "paid-member-subscriptions"); ?>
 <?php __("Your card details do not seem to be valid.", "paid-member-subscriptions"); ?>
@@ -715,7 +724,6 @@
 <?php __("Content Restriction", "paid-member-subscriptions"); ?>
 <?php __("Create member only forums with just a few clicks.", "paid-member-subscriptions"); ?>
 <?php __("Allow only members to have access to forums and topics with Paid Member Subscriptions's bbPress Add-On.", "paid-member-subscriptions"); ?>
-<?php __("Learn More", "paid-member-subscriptions"); ?>
 <?php __("Restrict to logged in users", "paid-member-subscriptions"); ?>
 <?php __("Allow only logged in users to see this content.", "paid-member-subscriptions"); ?>
 <?php __("Restrict to logged out users", "paid-member-subscriptions"); ?>
@@ -853,6 +861,7 @@
 <?php __("Name", "paid-member-subscriptions"); ?>
 <?php __("Subscribed to", "paid-member-subscriptions"); ?>
 <?php __("Abandoned subscriptions", "paid-member-subscriptions"); ?>
+<?php __("Pending Gift subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Edit Member", "paid-member-subscriptions"); ?>
 <?php __("Start date", "paid-member-subscriptions"); ?>
 <?php __("Next payment date", "paid-member-subscriptions"); ?>
@@ -860,6 +869,9 @@
 <?php __("View Abandoned Subscriptions", "paid-member-subscriptions"); ?>
 <?php __('%1$s %2$s abandoned subscription, "paid-member-subscriptions"); ?>
 <?php __(%1$s %2$s abandoned subscriptions', 'paid-member-subscriptions' ); ?>
+<?php __("View Pending Gift Subscriptions", "paid-member-subscriptions"); ?>
+<?php __('%1$s %2$s pending gift subscription, "paid-member-subscriptions"); ?>
+<?php __(%1$s %2$s pending gift subscriptions', 'paid-member-subscriptions' ); ?>
 <?php __("No members found", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to delete these Subscriptions? \nThis action is irreversible.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. Could not process your request.", "paid-member-subscriptions"); ?>
@@ -934,6 +946,7 @@
 <?php __("Subscription was canceled because the payment token was deleted.", "paid-member-subscriptions"); ?>
 <?php __("Payment token created and assigned to the subscription.", "paid-member-subscriptions"); ?>
 <?php __("Automatically downgraded plan to %s", "paid-member-subscriptions"); ?>
+<?php __("Billing amount and subscription currency have been converted to EUR due to the Bulgarian leva migration. Billing amount was converted from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Members", "paid-member-subscriptions"); ?>
 <?php __("Delete Payments", "paid-member-subscriptions"); ?>
 <?php __("ID", "paid-member-subscriptions"); ?>
@@ -1480,9 +1493,105 @@
 <?php __("Use a text editor to open the .htaccess file. Ensure you back up the file before making changes.", "paid-member-subscriptions"); ?>
 <?php __("Include the directive provided above.", "paid-member-subscriptions"); ?>
 <?php __("If you are unsure about making these changes or if the issue persists, please contact the support team of your hosting provider for assistance.", "paid-member-subscriptions"); ?>
-<?php __("Group Membership Invite Email", "paid-member-subscriptions"); ?>
+<?php __("Gift Subscription Email", "paid-member-subscriptions"); ?>
 <?php __("Subject", "paid-member-subscriptions"); ?>
 <?php __("Available Tags", "paid-member-subscriptions"); ?>
+<?php __("This email will be sent to the gift recipient with an activation link to claim their subscription.", "paid-member-subscriptions"); ?>
+<?php __("Gift Subscription Email (Registered Users)", "paid-member-subscriptions"); ?>
+<?php __("This email will be sent to gift recipients who already have an account. Their subscription will be automatically activated.", "paid-member-subscriptions"); ?>
+<?php __("Activate Your Gift Subscription", "paid-member-subscriptions"); ?>
+<?php __("View Your Account", "paid-member-subscriptions"); ?>
+<?php __("You have received a gift subscription to %s", "paid-member-subscriptions"); ?>
+<?php __("Hello,", "paid-member-subscriptions"); ?>
+<?php __("%s has gifted you a subscription to our website!", "paid-member-subscriptions"); ?>
+<?php __("<strong>Plan:</strong> %s", "paid-member-subscriptions"); ?>
+<?php __("<strong>Message:</strong> %s", "paid-member-subscriptions"); ?>
+<?php __("To activate your gift subscription, please click the link below:", "paid-member-subscriptions"); ?>
+<?php __("If you have any questions, please contact us.", "paid-member-subscriptions"); ?>
+<?php __("Great news! %s has gifted you a subscription to our website!", "paid-member-subscriptions"); ?>
+<?php __("You can view your subscription and account details on the account page:", "paid-member-subscriptions"); ?>
+<?php __("Invalid security token", "paid-member-subscriptions"); ?>
+<?php __("You must be logged in", "paid-member-subscriptions"); ?>
+<?php __("Invalid gift payment", "paid-member-subscriptions"); ?>
+<?php __("You do not have permission to resend this email", "paid-member-subscriptions"); ?>
+<?php __("This gift has already been activated or is no longer valid", "paid-member-subscriptions"); ?>
+<?php __("Email sent successfully", "paid-member-subscriptions"); ?>
+<?php __("This gift activation link is invalid or has already been used.", "paid-member-subscriptions"); ?>
+<?php __("You have received a gift subscription.", "paid-member-subscriptions"); ?>
+<?php __("You have received a gift subscription from <strong>%s</strong>.", "paid-member-subscriptions"); ?>
+<?php __("Plan: %s", "paid-member-subscriptions"); ?>
+<?php __("Please fill the form below to complete your registration and activate your gift.", "paid-member-subscriptions"); ?>
+<?php __("You are activating a gift subscription for:", "paid-member-subscriptions"); ?>
+<?php __("The email address you are registering with does not match the email address that was invited to receive this gift.", "paid-member-subscriptions"); ?>
+<?php __("Unknown Plan", "paid-member-subscriptions"); ?>
+<?php __('Gift subscription created by <strong>%1$s</strong> for <strong>%2$s</strong>. Plan: <strong>%3$s</strong>', 'paid-member-subscriptions' ); ?>
+<?php __("Gift subscription refunded. Activation link has been invalidated.", "paid-member-subscriptions"); ?>
+<?php __("Gift subscription activated by recipient.", "paid-member-subscriptions"); ?>
+<?php __("Gift subscription activated by <strong>%s</strong> (%s).", "paid-member-subscriptions"); ?>
+<?php __('Expired gift invitation auto-refunded.%1$s%2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Amount: %s.", "paid-member-subscriptions"); ?>
+<?php __("Gateway: %s.", "paid-member-subscriptions"); ?>
+<?php __("Auto refund for expired gift invitation", "paid-member-subscriptions"); ?>
+<?php __("Gift Payment", "paid-member-subscriptions"); ?>
+<?php __("Gift", "paid-member-subscriptions"); ?>
+<?php __("Gift Subscription Details", "paid-member-subscriptions"); ?>
+<?php __("Status:", "paid-member-subscriptions"); ?>
+<?php __("Activated", "paid-member-subscriptions"); ?>
+<?php __("Pending Activation", "paid-member-subscriptions"); ?>
+<?php __("Recipient Email:", "paid-member-subscriptions"); ?>
+<?php __("Subscription Plan:", "paid-member-subscriptions"); ?>
+<?php __("Date Sent:", "paid-member-subscriptions"); ?>
+<?php __("Gift Message:", "paid-member-subscriptions"); ?>
+<?php __("Activated By:", "paid-member-subscriptions"); ?>
+<?php __("Activation Date:", "paid-member-subscriptions"); ?>
+<?php __("Activation Link:", "paid-member-subscriptions"); ?>
+<?php __("Copy Link", "paid-member-subscriptions"); ?>
+<?php __("Share this link with the recipient to activate their gift subscription.", "paid-member-subscriptions"); ?>
+<?php __("Pending Gift", "paid-member-subscriptions"); ?>
+<?php __("Gift Subscription", "paid-member-subscriptions"); ?>
+<?php __("Allow this plan to be purchased as a gift", "paid-member-subscriptions"); ?>
+<?php __("When enabled, users will be able to purchase this subscription plan as a gift for someone else. The recipient will receive an activation email with a unique link to claim their subscription.", "paid-member-subscriptions"); ?>
+<?php __("Gift Expiration", "paid-member-subscriptions"); ?>
+<?php __("Days", "paid-member-subscriptions"); ?>
+<?php __("Weeks", "paid-member-subscriptions"); ?>
+<?php __("Months", "paid-member-subscriptions"); ?>
+<?php __("Years", "paid-member-subscriptions"); ?>
+<?php __("Automatically refund unclaimed gift invitations after this period. Leave empty to never auto-refund.", "paid-member-subscriptions"); ?>
+<?php __("Gift Subscription - Refunded", "paid-member-subscriptions"); ?>
+<?php __("The payment for this gift subscription was refunded and this subscription can no longer be claimed.", "paid-member-subscriptions"); ?>
+<?php __("Gift Sent:", "paid-member-subscriptions"); ?>
+<?php __("Plan:", "paid-member-subscriptions"); ?>
+<?php __("Gift Payment ID:", "paid-member-subscriptions"); ?>
+<?php __("Gift Subscription - Activated", "paid-member-subscriptions"); ?>
+<?php __("This subscription was received as a gift.", "paid-member-subscriptions"); ?>
+<?php __("Gifted By:", "paid-member-subscriptions"); ?>
+<?php __("Gift Subscription - Pending Activation", "paid-member-subscriptions"); ?>
+<?php __("This subscription was purchased as a gift and is awaiting activation by the recipient.", "paid-member-subscriptions"); ?>
+<?php __("Gift subscription payment was refunded. This gift can no longer be activated.", "paid-member-subscriptions"); ?>
+<?php __("Gift subscription payment was refunded (Payment #%s). This gift can no longer be activated.", "paid-member-subscriptions"); ?>
+<?php __("Gift subscription was activated by recipient.", "paid-member-subscriptions"); ?>
+<?php __("Gift subscription was activated by <strong>%s</strong> (%s).", "paid-member-subscriptions"); ?>
+<?php __("(Gift)", "paid-member-subscriptions"); ?>
+<?php __("You must be logged in to purchase a gift subscription.", "paid-member-subscriptions"); ?>
+<?php __("You must be logged in to view your sent gifts.", "paid-member-subscriptions"); ?>
+<?php __("Gift Details", "paid-member-subscriptions"); ?>
+<?php __("Recipient Email Address", "paid-member-subscriptions"); ?>
+<?php __("Enter the email address of the person who will receive this gift subscription.", "paid-member-subscriptions"); ?>
+<?php __("Gift Message", "paid-member-subscriptions"); ?>
+<?php __("Add a personal message for the gift recipient.", "paid-member-subscriptions"); ?>
+<?php __("The registration page is not selected in the Settings -> General -> Membership Pages setting. Please contact the site administrator.", "paid-member-subscriptions"); ?>
+<?php __("Please select a subscription plan to gift.", "paid-member-subscriptions"); ?>
+<?php __("The selected subscription plan cannot be gifted.", "paid-member-subscriptions"); ?>
+<?php __("Group membership plans cannot be gifted.", "paid-member-subscriptions"); ?>
+<?php __("Please enter the recipient email address.", "paid-member-subscriptions"); ?>
+<?php __("Please enter a valid email address.", "paid-member-subscriptions"); ?>
+<?php __("You cannot purchase a gift subscription for yourself.", "paid-member-subscriptions"); ?>
+<?php __("The recipient already has an active subscription for this plan.", "paid-member-subscriptions"); ?>
+<?php __("The recipient already has a pending gift invitation for this plan. If they were invited by you, the invitation can be resent from the Account page.", "paid-member-subscriptions"); ?>
+<?php __("Your gift subscription has been sent successfully. The recipient will receive an email with instructions on how to activate their subscription.", "paid-member-subscriptions"); ?>
+<?php __("Your gift subscription has been activated successfully for the recipient user.", "paid-member-subscriptions"); ?>
+<?php __("Gifts", "paid-member-subscriptions"); ?>
+<?php __("Group Membership Invite Email", "paid-member-subscriptions"); ?>
 <?php __("You have been invited to join {{site_name}}", "paid-member-subscriptions"); ?>
 <?php __("<p>Hello,</p> <p>{{owner_email}} has invited you to join {{site_name}}.</p> <p>Click on the following link in order to register: {{invite_link}}</p>", "paid-member-subscriptions"); ?>
 <?php __("Go Back", "paid-member-subscriptions"); ?>
@@ -1608,6 +1717,40 @@
 <?php __("Converter limit reached or unsupported Extra Currencies selected.", "paid-member-subscriptions"); ?>
 <?php __("Select subscription plan", "paid-member-subscriptions"); ?>
 <?php __("Subscription plan", "paid-member-subscriptions"); ?>
+<?php __("Maximum Pause Duration must be a number greater than 0 or \"unlimited\". Default value of 1 month was set.", "paid-member-subscriptions"); ?>
+<?php __("Number of Pauses must be a valid number. The field was cleared.", "paid-member-subscriptions"); ?>
+<?php __("Maximum Pause Duration must be a number greater than 0 or \"unlimited\".", "paid-member-subscriptions"); ?>
+<?php __("Something went wrong. We could not pause your subscription.", "paid-member-subscriptions"); ?>
+<?php __("Your subscription has been successfully paused.", "paid-member-subscriptions"); ?>
+<?php __("Enable Subscriptions Pause", "paid-member-subscriptions"); ?>
+<?php __("Enable the Pause action for all subscriptions. By going to a Subscription Plan you can configure individual settings like restricting the Pause action for certain plans or extending the allowed duration.", "paid-member-subscriptions"); ?>
+<?php __("Maximum Pause Duration", "paid-member-subscriptions"); ?>
+<?php __("Set the maximum duration of the pause. Use \"Unlimited\" to allow users to pause the subscription indefinitely.", "paid-member-subscriptions"); ?>
+<?php __("Number of Pauses", "paid-member-subscriptions"); ?>
+<?php __("Maximum number of times users can pause their subscription.", "paid-member-subscriptions"); ?>
+<?php __("Pause Subscription", "paid-member-subscriptions"); ?>
+<?php __("Settings Default", "paid-member-subscriptions"); ?>
+<?php __("Enabled", "paid-member-subscriptions"); ?>
+<?php __("Disabled", "paid-member-subscriptions"); ?>
+<?php __("Enable pause option for this subscription.", "paid-member-subscriptions"); ?>
+<?php __("Pause the subscription for a limited time.", "paid-member-subscriptions"); ?>
+<?php __("Pause", "paid-member-subscriptions"); ?>
+<?php __("Your %s subscription will be paused unlimited. You can resume it whenever you want.", "paid-member-subscriptions"); ?>
+<?php __("By pausing your subscription you will lose access to all restricted content. Are you sure you want to do this?", "paid-member-subscriptions"); ?>
+<?php __("Your %s subscription will be paused until %s. After this date your subscription will resume automatically.", "paid-member-subscriptions"); ?>
+<?php __("Resume the subscription.", "paid-member-subscriptions"); ?>
+<?php __("Resume", "paid-member-subscriptions"); ?>
+<?php __("Your %s subscription is paused unlimited.", "paid-member-subscriptions"); ?>
+<?php __("Do you want to resume your subscription now? Your Next Billing Date will be: %s", "paid-member-subscriptions"); ?>
+<?php __("Your %s subscription is paused until %s.", "paid-member-subscriptions"); ?>
+<?php __("Something went wrong. We could not resume your subscription.", "paid-member-subscriptions"); ?>
+<?php __("Your subscription has been successfully resumed.", "paid-member-subscriptions"); ?>
+<?php __("Subscription paused until %s", "paid-member-subscriptions"); ?>
+<?php __("Subscription paused by Admin until %s", "paid-member-subscriptions"); ?>
+<?php __("Subscription resumed by user at %s", "paid-member-subscriptions"); ?>
+<?php __("Subscription resumed by Admin at %s", "paid-member-subscriptions"); ?>
+<?php __("Subscription automatically resumed at %s", "paid-member-subscriptions"); ?>
+<?php __("Pause End Date", "paid-member-subscriptions"); ?>
 <?php __('You will soon be redirected automatically. If you see this page for more than 5 seconds, please click <a href=\%1$s\>here</a>', 'paid-member-subscriptions' ); ?>
 <?php __("%sClick here%s to go now.", "paid-member-subscriptions"); ?>
 <?php __("No request response received.", "paid-member-subscriptions"); ?>
@@ -1855,7 +1998,9 @@
 <?php __("Pro Add-ons", "paid-member-subscriptions"); ?>
 <?php __("These addons extend Paid Member Subscriptions and are available in the Pro and Agency plans.", "paid-member-subscriptions"); ?>
 <?php __("Get access to these Add-ons with a Pro or Agency license. %sBuy now%s", "paid-member-subscriptions"); ?>
+<?php __("Enable customers to purchase memberships as gifts with the Gift Subscriptions add-on. Buyers can gift subscription access to their friends and family, and let recipients activate their own accounts with ease.", "paid-member-subscriptions"); ?>
 <?php __("Enable visitors to pay in their local currency, either through automatic location detection or by manually selecting their preferred currency.", "paid-member-subscriptions"); ?>
+<?php __("Allow members to pause recurring subscriptions with flexible duration, pause frequency, and resume settings.", "paid-member-subscriptions"); ?>
 <?php __("Restrict direct access to media files based on subscription plans making sure only paying members can view them.", "paid-member-subscriptions"); ?>
 <?php __("Pro-Rate", "paid-member-subscriptions"); ?>
 <?php __("Pro-rate subscription plan Upgrades and Downgrades, offering users a discount based on the remaining time for the current subscription.", "paid-member-subscriptions"); ?>
@@ -2006,6 +2151,7 @@
 <?php __("Edit Member Subscription", "paid-member-subscriptions"); ?>
 <?php __("Member", "paid-member-subscriptions"); ?>
 <?php __("View all subscriptions", "paid-member-subscriptions"); ?>
+<?php __("Skip email notifications for this update.", "paid-member-subscriptions"); ?>
 <?php __("Enter the username you wish to associate a subscription plan with. You can create a new user <a href=\"%s\">here</a>.", "paid-member-subscriptions"); ?>
 <?php __("Select...", "paid-member-subscriptions"); ?>
 <?php __("Select the username you wish to associate a subscription plan with. You can create a new user <a href=\"%s\">here</a>.", "paid-member-subscriptions"); ?>
@@ -2153,7 +2299,6 @@
 <?php __("Minimum Password Length", "paid-member-subscriptions"); ?>
 <?php __("Enter the minimum characters the password should have. Leave empty for no minimum limit", "paid-member-subscriptions"); ?>
 <?php __("Minimum Password Strength", "paid-member-subscriptions"); ?>
-<?php __("Disabled", "paid-member-subscriptions"); ?>
 <?php __("Very weak", "paid-member-subscriptions"); ?>
 <?php __("A stronger password strength will probably force the user to not reuse passwords from other websites.", "paid-member-subscriptions"); ?>
 <?php __("Cleanup Postmeta", "paid-member-subscriptions"); ?>
@@ -2476,6 +2621,17 @@
 <?php __("Plans", "paid-member-subscriptions"); ?>
 <?php __('An integer was expected but \%1$s\ (%2$s) was received.', 'paid-member-subscriptions' ); ?>
 <?php __('Caught exception while cancelling action \%1$s\: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("Exclude Plans", "paid-member-subscriptions"); ?>
+<?php __("Gifts Sent", "paid-member-subscriptions"); ?>
+<?php __("Total Gifted:", "paid-member-subscriptions"); ?>
+<?php __("Sent Gifts", "paid-member-subscriptions"); ?>
+<?php __("You have not sent any gifts yet.", "paid-member-subscriptions"); ?>
+<?php __("Recipient:", "paid-member-subscriptions"); ?>
+<?php __("Activated:", "paid-member-subscriptions"); ?>
+<?php __("Resend Email", "paid-member-subscriptions"); ?>
+<?php __("There are no subscription plans available for gifting at this time.", "paid-member-subscriptions"); ?>
+<?php __("Select Gift", "paid-member-subscriptions"); ?>
+<?php __("Purchase Gift", "paid-member-subscriptions"); ?>
 <?php __("Seats", "paid-member-subscriptions"); ?>
 <?php __("%d%s on %s", "paid-member-subscriptions"); ?>
 <?php __("Invited", "paid-member-subscriptions"); ?>
@@ -2643,7 +2799,6 @@
 <?php __("Payments:", "paid-member-subscriptions"); ?>
 <?php __("No payments found.", "paid-member-subscriptions"); ?>
 <?php __("Display Options", "paid-member-subscriptions"); ?>
-<?php __("Settings Default", "paid-member-subscriptions"); ?>
 <?php __("Display For", "paid-member-subscriptions"); ?>
 <?php __("All Subscription Plans", "paid-member-subscriptions"); ?>
 <?php __("Checking only \"Logged In Users\" will show this %s to all logged in users, regardless of subscription plan.", "paid-member-subscriptions"); ?>
@@ -2683,14 +2838,14 @@
 <?php __('Advanced Subscription Plan options are available only with a %1$sBasic%2$s, %1$sPro%2$s or %1$sAgency%2$s license. %3$sBuy now%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("Grow your membership website with these proven tools", "paid-member-subscriptions"); ?>
 <?php __("Enable addons and add extra features to your website", "paid-member-subscriptions"); ?>
-<?php __("Generate downloadable PDF Invoices for payments. Available to admins and users.", "paid-member-subscriptions"); ?>
+<?php __("Enable customers to purchase memberships as gifts. Buyers can gift subscription access to their friends and family, and let recipients activate their own accounts with ease.", "paid-member-subscriptions"); ?>
 <?php __("Available in the Pro version", "paid-member-subscriptions"); ?>
 <?php __("Set up multiple subscription level blocks and allow members to sign up for more than one subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Setup global content restriction rules based on Post Type, Taxonomies and Terms.", "paid-member-subscriptions"); ?>
 <?php __("Available in the Basic and Pro versions", "paid-member-subscriptions"); ?>
 <?php __("Extend your Subscription Plans and Discount Codes with extra options like automatic downgrade after expiration, limit member count, schedule availability for subscription plans and more.", "paid-member-subscriptions"); ?>
-<?php __("Get access to 16+ premium add-ons with a %sPro%s license. %sBuy Now%s", "paid-member-subscriptions"); ?>
-<?php __('Explore 16+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete.', 'paid-member-subscriptions' ); ?>
+<?php __("Get access to 20+ premium add-ons with a %sPro%s license. %sBuy Now%s", "paid-member-subscriptions"); ?>
+<?php __('Explore 20+ free and PRO addons from %1$s the Paid Member Subscriptions admin page %2$s once onboarding is complete.', 'paid-member-subscriptions' ); ?>
 <?php __("Continue", "paid-member-subscriptions"); ?>
 <?php __("Design & User Experience Settings", "paid-member-subscriptions"); ?>
 <?php __("Customize the way your users interact with the website!", "paid-member-subscriptions"); ?>
@@ -2852,7 +3007,6 @@
 <?php __("Vaulting", "paid-member-subscriptions"); ?>
 <?php __("You are not able to offer the Vaulting functionality because its onboarding status is %s.", "paid-member-subscriptions"); ?>
 <?php __(" Please reach out to %s for more information.", "paid-member-subscriptions"); ?>
-<?php __("Enabled", "paid-member-subscriptions"); ?>
 <?php __("Webhooks Status", "paid-member-subscriptions"); ?>
 <?php __("Connected", "paid-member-subscriptions"); ?>
 <?php __("Webhooks are connected successfully. Last webhook received at: %s", "paid-member-subscriptions"); ?>

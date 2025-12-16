@@ -254,6 +254,10 @@ jQuery(document).ready(function($) {
     const $limitError = $('#pms-limit-error');
 
     function validateDates(){
+        if ( $start.length === 0 || $end.length === 0 ) {
+            return true;
+        }
+
         const startVal = $start.val();
         const endVal = $end.val();
 
@@ -276,7 +280,12 @@ jQuery(document).ready(function($) {
     }
 
     function validateLimitMembers(){
-        const limitVal = $limitMembers.val().trim();
+
+        if ($limitMembers.length === 0) {
+            return true;
+        }
+
+        const limitVal = ($limitMembers.val() || '').trim();
 
         if(!limitVal){
             $limitError.hide();

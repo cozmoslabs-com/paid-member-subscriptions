@@ -111,6 +111,8 @@ jQuery(document).ready(function($) {
 
     // Handle the Payment Installments feature subscription payment related details notice
     pms_handle_payment_cycle_notice();
+
+    pms_handle_gift_subscription_toggle();
 });
 
 
@@ -222,5 +224,50 @@ function pms_handle_payment_cycle_notice() {
 
         $fieldWrapper.append('<p class="cozmoslabs-description cozmoslabs-description-space-left" id="pms-payment-cycles-note" style="color: #1E1E1E !important; margin-top: 10px;"><span style="padding: 10px 20px; background: #FDFBE6;">'+ note +'</span></p>');
     }
+
+}
+
+function pms_handle_gift_subscription_toggle() {
+
+    let giftSubscription     = jQuery('.pms-subscription-plan-gift-subscription-field');
+    let giftExpiration       = jQuery('.pms-subscription-plan-gift-expiration-field');
+    let subscriptionPlanType = jQuery('#pms-subscription-plan-type, #pms-plan-type');
+    let allowGiftingCheckbox = jQuery('#pms-subscription-plan-allow-gifting');
+
+    subscriptionPlanType.on('change', function() {
+        if ( this.value != 'regular' ) {
+            giftSubscription.addClass( 'disabled' );
+            jQuery('#pms-subscription-plan-allow-gifting').prop( 'checked', false );
+            giftExpiration.hide();
+        } else {
+            giftSubscription.removeClass( 'disabled' );
+            if ( allowGiftingCheckbox.is(':checked') ) {
+                giftExpiration.show();
+            } else {
+                giftExpiration.hide();
+            }
+        }
+    });
+
+    if ( subscriptionPlanType.val() != 'regular' ) {
+        giftSubscription.addClass( 'disabled' );
+        jQuery('#pms-subscription-plan-allow-gifting').prop( 'checked', false );
+        giftExpiration.hide();
+    } else {
+        giftSubscription.removeClass( 'disabled' );
+        if ( allowGiftingCheckbox.is(':checked') ) {
+            giftExpiration.show();
+        } else {
+            giftExpiration.hide();
+        }
+    }
+
+    allowGiftingCheckbox.on('change', function() {
+        if ( jQuery(this).is(':checked') && subscriptionPlanType.val() == 'regular' ) {
+            giftExpiration.show();
+        } else {
+            giftExpiration.hide();
+        }
+    });
 
 }

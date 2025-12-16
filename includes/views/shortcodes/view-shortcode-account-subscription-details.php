@@ -29,14 +29,23 @@ foreach( $subscriptions as $subscription ) :
 			<!-- Subscription plan -->
 			<tr class="pms-account-subscription-details-table__plan">
 				<td><?php esc_html_e( 'Subscription Plan', 'paid-member-subscriptions' ); ?></td>
-				<td><?php echo esc_html( ! empty( $subscription_plan->name ) ? $subscription_plan->name : '' ); ?></td>
+				<td>
+                <?php
+                    $subscription_plan_name = ! empty( $subscription_plan->name ) ? $subscription_plan->name : '';
+                    $subscription_plan_name = apply_filters( 'pms_account_subscription_details_table_plan_name', $subscription_plan_name, $subscription, $subscription_plan );
+
+                    if( !empty( $subscription_plan_name ) ){
+                        echo esc_html( $subscription_plan_name );
+                    }
+                ?>
+                </td>
 			</tr>
 
 			<!-- Subscription status -->
 			<tr class="pms-account-subscription-details-table__status">
 				<td><?php esc_html_e( 'Status', 'paid-member-subscriptions' ); ?></td>
 				<td class="status-<?php echo esc_html( $subscription->status ) ?>">
-                    <?php echo ( ! empty( $subscription_statuses[$subscription->status] ) ? esc_html( $subscription_statuses[$subscription->status] ) : '' ); ?>
+                    <?php echo wp_kses_post( apply_filters( 'pms_account_subscription_status_output', ( ! empty( $subscription_statuses[$subscription->status] ) ? esc_html( $subscription_statuses[$subscription->status] ) : '' ), $subscription ) ); ?>
                     <?php echo ( $subscription->is_trial_period() ? ' (' . esc_html__( 'Trial', 'paid-member-subscriptions' ) . ')' : '' ); ?>
                     <?php echo ( !empty( $subscription->payment_profile_id ) ? ' (' . esc_html__( 'Auto-renewing', 'paid-member-subscriptions' ) . ')' : '' ); ?>
                 </td>
@@ -49,7 +58,7 @@ foreach( $subscriptions as $subscription ) :
             </tr>
 
             <!-- Subscription expiration date -->
-			<?php if( empty( $subscription->billing_next_payment ) ) : ?>
+			<?php if( empty( $subscription->billing_next_payment ) && $subscription->status != 'paused') : ?>
 	            <tr class="pms-account-subscription-details-table__expiration-date">
                     
                 <?php if( !empty( $subscription->payment_profile_id ) && $subscription->status == 'active' ) : ?>
@@ -108,6 +117,8 @@ foreach( $subscriptions as $subscription ) :
                 </td>
             </tr>
             <?php endif; ?>
+
+            <?php echo apply_filters( 'pms_subscription_add_new_informations', '', $subscription ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
             <!-- Payment Method -->
             <?php 

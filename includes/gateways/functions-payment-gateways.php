@@ -314,6 +314,7 @@ function pms_get_output_payment_gateways( $pms_settings = array(), $form_locatio
 
 
     $active_gateways = ( ! empty( $pms_settings['active_pay_gates'] ) && is_array( $pms_settings['active_pay_gates'] ) ? $pms_settings['active_pay_gates'] : array() );
+    $active_gateways = apply_filters( 'pms_active_payment_gateways', $active_gateways, $form_location );
 
     // Filter active payment gateways
     // Remove gateways that are not registered, but exist in the Settings

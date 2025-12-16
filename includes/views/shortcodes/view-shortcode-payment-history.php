@@ -53,7 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             ?>
             <tr>
                 <td class="pms-payment-id"><?php echo '#' . esc_html( apply_filters( 'pms_payment_history_id', $payment->id, $payment ) ); ?></td>
-                <td class="pms-payment-subscription-plan"><?php echo esc_html( apply_filters( 'pms_payment_history_subscription_plan', $subscription_plan->name, $subscription_plan ) ); ?></td>
+                <td class="pms-payment-subscription-plan"><?php echo wp_kses_post( apply_filters( 'pms_payment_history_subscription_plan', $subscription_plan->name, $subscription_plan, $payment ) ); ?></td>
                 <td class="pms-payment-amount" title='<?php apply_filters( 'pms_payment_history_amount_row_title', '', $payment ); ?>'><?php echo esc_html( pms_format_price( $payment->amount, apply_filters( 'pms_payment_history_amount_row_currency', $currency, $payment->id ) ) ); ?></td>
                 <td class="pms-payment-date"><?php echo esc_html( ucfirst( date_i18n( apply_filters( 'pms_payment_history_date_format', 'j F, Y H:i' ), strtotime( $payment->date ) + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) ) ); ?></td>
                 <td class="pms-payment-status status-<?php echo esc_html( $payment->status );?>"><?php echo ( ! empty( $payment_statuses[$payment->status] ) ? esc_html( $payment_statuses[$payment->status] ) : '' ); ?></td>

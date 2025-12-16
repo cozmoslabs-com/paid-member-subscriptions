@@ -246,7 +246,19 @@ Class PMS_Member_Subscription_List_Table extends WP_List_Table {
      */
     public function column_subscription_plan( $item ) {
 
-        $output = '<span>' . ( !empty( $item['subscription_plan'] ) ? esc_html( $item['subscription_plan'] ) : sprintf( __( 'Not Found - ID: %s', 'paid-member-subscriptions' ), $item['subscription_plan_id'] ) ) . '</span>';
+        $plan_name = !empty( $item['subscription_plan'] ) ? esc_html( $item['subscription_plan'] ) : sprintf( __( 'Not Found - ID: %s', 'paid-member-subscriptions' ), $item['subscription_plan_id'] );
+        
+        /**
+         * Filter the subscription plan name in the member subscription list table
+         *
+         * @param string $plan_name           - the subscription plan name
+         * @param array  $item                - the current row data
+         * @param object $member              - the member object
+         *
+         */
+        $plan_name = apply_filters( 'pms_member_subscription_list_table_column_subscription_plan', $plan_name, $item, $this->member );
+        
+        $output = '<span>' . $plan_name . '</span>';
 
         return $output;
 

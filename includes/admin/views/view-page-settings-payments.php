@@ -175,6 +175,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     </div>
                 </div>
 
+                <?php do_action( $this->menu_slug . '_subscription_global_configs_bottom', $this->options ); ?>
 
             </div>
 

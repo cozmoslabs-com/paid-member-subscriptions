@@ -834,7 +834,7 @@ class PMS_WOO_Subscription_Discounts {
             foreach ($pms_woo_member_discounts as $discount) {
 
                 // don't save inactive discounts
-                if ( $discount['status'] == 'inactive' )
+                if ( $discount['status'] == 'inactive' || !isset( $discount['discount-for'] ) )
                     continue;
 
                 if ( ($discount['discount-for'] == 'products') &&
@@ -950,7 +950,7 @@ class PMS_WOO_Subscription_Discounts {
                     foreach ( $subscription_plan_discounts as $discount ) {
 
                         // don't save inactive discounts
-                        if ( $discount['status'] == 'active' ) {
+                        if ( $discount['status'] == 'active' && isset( $discount['discount-for'] ) ) {
 
                             if (($discount['discount-for'] == 'products') &&
                                 (!isset($discount['name']) || (isset($discount['name']) && in_array($product_id, $discount['name'])))) {

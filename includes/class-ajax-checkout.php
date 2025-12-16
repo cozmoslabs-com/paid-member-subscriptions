@@ -394,6 +394,26 @@ Class PMS_AJAX_Checkout_Handler {
                 'wppb_errors' => $field_check_errors,
             );
 
+            $pms_errors = pms_errors();
+
+            if ( ! empty( $pms_errors->errors ) ) {
+                $pms_error_messages = array();
+
+                foreach( $pms_errors->errors as $error_code => $messages ) {
+
+                    if ( ! empty( $messages[0] ) ) {
+                        $pms_error_messages[] = array( 
+                            'target'  => $error_code, 
+                            'message' => $messages[0] 
+                        );
+                    }
+                }
+
+                if ( ! empty( $pms_error_messages ) ) {
+                    $data['pms_errors'] = $pms_error_messages;
+                }
+            }
+
             echo json_encode( $data );
             die();
 
@@ -640,7 +660,8 @@ Class PMS_AJAX_Checkout_Handler {
                 $checkout_data[$key] = $value;
         }
 
-        return $checkout_data;
+        return apply_filters( 'pms_ajax_get_checkout_data', $checkout_data );
+
     }
 
 }

@@ -318,9 +318,9 @@ jQuery( function($) {
                     if ( $(paygate_selector + ':not([disabled]):checked[data-type="extra_fields"]').length > 0 ) {
                         $('.pms-paygate-extra-fields').hide()
                         $('.pms-paygate-extra-fields-' + $(paygate_selector + ':not([disabled]):checked[data-type="extra_fields"]').val() ).show()
-                    } else if ( $(paygate_selector + ':not([disabled])[data-type="extra_fields"]').length > 0 ) {
+                    } else if ( $(paygate_selector + ':not([disabled])[type="hidden"][data-type="extra_fields"]').length > 0 ) {
                         $('.pms-paygate-extra-fields').hide()
-                        $('.pms-paygate-extra-fields-' + $(paygate_selector + ':not([disabled])[data-type="extra_fields"]').val() ).show()
+                        $('.pms-paygate-extra-fields-' + $(paygate_selector + ':not([disabled])[type="hidden"][data-type="extra_fields"]').val() ).show()
                     }
 
                     // Enable submit button
@@ -1011,8 +1011,10 @@ jQuery( function($) {
             } else {
                 $.pms_add_field_error(value.message, value.target)
 
-                if (scrollLocation == '' && value.target.indexOf('pms_billing') !== -1)
+                if ( scrollLocation == '' && value.target.indexOf('pms_billing') !== -1 )
                     scrollLocation = '.pms-billing-details'
+                else if( scrollLocation == '' && value.target.indexOf('pms_gift_recipient_email') !== -1 )
+                    scrollLocation = '.pms-gift-details'
                 else
                     scrollLocation = '.pms-form'
             }

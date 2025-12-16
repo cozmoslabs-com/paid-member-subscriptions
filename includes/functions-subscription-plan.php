@@ -666,12 +666,15 @@ function pms_get_output_subscription_plan_sign_up_fee( $subscription_plan = null
  */
 if( ! function_exists( 'pms_renewal_option_field' ) ) {
 
-    function pms_renewal_option_field( $output, $include, $exclude_id_group, $member, $pms_settings ) {
+    function pms_renewal_option_field( $output, $include, $exclude_id_group, $member, $pms_settings, $subscription_plans, $form_location ) {
 
         if( $member )
             return $output;
 
         if( ! pms_payment_gateways_support( pms_get_active_payment_gateways(), 'recurring_payments' ) )
+            return $output;
+
+        if( ! apply_filters( 'pms_subscription_plan_output_show_renewal_option_field', true, $subscription_plans, $form_location ) )
             return $output;
 
         // Get all subscription plans
@@ -728,7 +731,7 @@ if( ! function_exists( 'pms_renewal_option_field' ) ) {
         return $output;
 
     }
-    add_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5, 5 );
+    add_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5, 7 );
 
 }
 
@@ -923,7 +926,7 @@ function pms_output_subscription_plans_filter( $action ){
             add_filter( 'pms_output_subscription_plans', 'pms_output_subscription_plans_payment_gateways', 10, 7 );
 
         if( function_exists( 'pms_renewal_option_field' ) )
-            add_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5, 5 );
+            add_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5, 7 );
 
         if( function_exists( 'pms_in_dc_output_discount_box' ) )
             add_filter( 'pms_output_subscription_plans', 'pms_in_dc_output_discount_box', 25, 6 );

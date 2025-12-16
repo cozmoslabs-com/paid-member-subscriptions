@@ -53,6 +53,9 @@ function pms_add_form_extra_fields( $atts = array() ) {
         case 'pms_change_subscription_form_bottom' :
             $form_name = 'change_subscription';
 			break;
+        case 'pms_gift_subscription_form_bottom' :
+            $form_name = 'gift_subscription';
+			break;
         case 'pms_update_payment_method_form_bottom' :
 
 			// per gateway form location for the update payment method form
@@ -144,6 +147,7 @@ add_action( 'pms_renew_subscription_form_bottom', 'pms_add_form_extra_fields', 5
 add_action( 'pms_retry_payment_form_bottom', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_edit_profile_form_after_fields', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_change_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_gift_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_update_payment_method_form_bottom', 'pms_add_form_extra_fields', 50 );
 
 
@@ -186,8 +190,14 @@ function pms_show_gdpr_checkbox_for_logged_in_users(){
 
             <span class="pms-gdpr-field-text">
             <?php
+
+            $privacy_policy_link = get_the_privacy_policy_link();
+            if( !empty( $privacy_policy_link ) ){
+                $privacy_policy_link = str_replace( 'rel="privacy-policy"', 'rel="privacy-policy" target="_blank"', $privacy_policy_link );
+            }
+
             echo isset( $gdpr_settings['gdpr_checkbox_text'] )
-                ? wp_kses_post(str_replace('{{privacy_policy}}', get_the_privacy_policy_link(), pms_icl_t('plugin paid-member-subscriptions', 'gdpr_checkbox_text', $gdpr_settings['gdpr_checkbox_text'])))
+                ? wp_kses_post(str_replace('{{privacy_policy}}', $privacy_policy_link, pms_icl_t('plugin paid-member-subscriptions', 'gdpr_checkbox_text', $gdpr_settings['gdpr_checkbox_text'])))
                 : esc_html__('I allow the website to collect and store the data I submit through this form. *', 'paid-member-subscriptions');
             ?>
             </span>
@@ -472,6 +482,35 @@ function pms_output_form_field_inner_text( $field = array() ) {
 
 }
 add_action( 'pms_output_form_field_inner_text', 'pms_output_form_field_inner_text', 10, 2 );
+
+
+/**
+ * Outputs the inner field content of the "textarea" type form field
+ *
+ * @param array $field
+ *
+ */
+function pms_output_form_field_inner_textarea( $field = array() ) {
+
+	if( $field['type'] != 'textarea' )
+		return;
+
+	if( empty( $field['name'] ) )
+		return;
+
+	// Set value
+	$value = ( !empty( $field['value'] ) ? $field['value'] : ( !empty( $field['default'] ) ? $field['default'] : '' ) );
+
+	// Set rows attribute
+	$rows = ( !empty( $field['rows'] ) ? absint( $field['rows'] ) : 4 );
+
+	// Field output
+	$output = '<textarea id="' . esc_attr( $field['name'] ) . '" name="' . esc_attr( $field['name'] ) . '" rows="' . esc_attr( $rows ) . '">' . esc_textarea( $value ) . '</textarea>';
+
+	echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+}
+add_action( 'pms_output_form_field_inner_textarea', 'pms_output_form_field_inner_textarea', 10, 2 );
 
 
 /**

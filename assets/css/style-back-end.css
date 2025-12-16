@@ -567,7 +567,7 @@ body:not([class*="_page_pms-basic-info-page"]) .cozmoslabs-form-field-wrapper la
 .cozmoslabs-form-field-wrapper input[type="date"]:disabled,
 .cozmoslabs-form-field-wrapper input[type="number"]:disabled,
 .cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url):disabled {
-    opacity: 0.5;
+    opacity: 0.8;
     pointer-events: none;
 }
 
@@ -2432,6 +2432,10 @@ body.learndash-post-type #pms_post_content_restriction_learndash .button-primary
 
 #pms-form-add-new-member-bulk .tablenav.bottom .tablenav-pages {
     display: none;
+}
+
+#pms-skip-email-notifications-wrapper {
+    width: 100%;
 }
 
 
@@ -5062,13 +5066,17 @@ div.wppb-serial-notification {
     display: inline-block;
 }
 
-#pms-date-error, #pms-limit-error{
+#pms-date-error, #pms-limit-error, #pms-maximum-pause-duration-error, #pms-number-of-pauses-error, #pms-maximum-pause-duration-default-error, #pms-number-of-pauses-default-error{
     color: red !important;
     display: none;
 }
 
 .pms-addon-upsell-wrapper {
     position: relative;
+}
+
+.pms-addon-upsell-wrapper img{
+    max-width: 100%;
 }
 
 .pms-addon-upsell-wrapper .cozmoslabs-description-upsell {
@@ -5093,4 +5101,21 @@ div.wppb-serial-notification {
 
 .pms-esdo-start-date, .pms-esdo-end-date{
     margin-left: 9px;
+}
+
+/* Gift Subscriptions add-on */
+.pms-payment-gift-metadata .cozmoslabs-form-field-wrapper {
+    margin-top: 12px !important;
+}
+
+.pms-subscription-plan-gift-subscription-field.disabled {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/***********************************************************/
+/* Pause Subscriptions add-on
+/***********************************************************/
+.pms-ps-title{
+    margin-top: 40px !important;
 }

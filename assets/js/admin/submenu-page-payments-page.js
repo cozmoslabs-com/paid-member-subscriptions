@@ -419,3 +419,70 @@ function displayRefundNotice( message, type ) {
     } );
 
 }
+
+/**
+ * Copy gift activation link to clipboard
+ */
+jQuery(document).on('click', '.pms-copy-activation-link', function(e) {
+    e.preventDefault();
+    
+    var button = jQuery(this);
+    var targetInput = jQuery(button.data('clipboard-target'));
+    
+    if (targetInput.length === 0) {
+        return;
+    }
+    
+    // Select the input text
+    targetInput[0].select();
+    targetInput[0].setSelectionRange(0, 99999); // For mobile devices
+    
+    // Copy to clipboard
+    try {
+        // Try modern clipboard API first
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(targetInput.val()).then(function() {
+                showCopyFeedback(button);
+            }).catch(function() {
+                // Fallback to execCommand if clipboard API fails
+                fallbackCopyToClipboard(targetInput, button);
+            });
+        } else {
+            // Use fallback for older browsers
+            fallbackCopyToClipboard(targetInput, button);
+        }
+    } catch (err) {
+        console.error('Failed to copy text: ', err);
+    }
+});
+
+/**
+ * Fallback copy method using execCommand
+ */
+function fallbackCopyToClipboard(targetInput, button) {
+    try {
+        var successful = document.execCommand('copy');
+        if (successful) {
+            showCopyFeedback(button);
+        }
+    } catch (err) {
+        console.error('Fallback: Failed to copy text: ', err);
+    }
+}
+
+/**
+ * Show visual feedback when link is copied
+ */
+function showCopyFeedback(button) {
+    var originalText = button.text();
+    
+    // Change button text temporarily
+    button.text('Copied!');
+    button.addClass('pms-copied');
+    
+    // Reset after 2 seconds
+    setTimeout(function() {
+        button.text(originalText);
+        button.removeClass('pms-copied');
+    }, 2000);
+}

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         
         $output = '';
 
-        if( !defined( 'PMS_PAID_PLUGIN_DIR' ) || !class_exists( 'PMS_IN_ExtraSubsDiscOptions' ) ) {
+        if( ( !defined( 'PMS_PAID_PLUGIN_DIR' ) || !class_exists( 'PMS_IN_ExtraSubsDiscOptions' ) ) && !class_exists('PMS_IN_PS') ) {
 
             // Upsell message
             $image   = '<img src="' . esc_url( PMS_PLUGIN_DIR_URL ) . 'assets/images/pms-advanced-subscription-toolkit-upsell.png" alt="Advanced Subscription Toolkit" class="pms-addon-upsell-image" />';
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $message = sprintf( esc_html__( 'Please %3$sactivate%4$s the %1$sAdvanced Subscription Toolkit%2$s Add-On to use this functionality.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'.admin_url( 'admin.php?page=pms-addons-page' ).'">', '</a>' );
             }
 
-            $output = '<div class="pms-addon-upsell-wrapper">';
+            $output .= '<div class="pms-addon-upsell-wrapper">';
             $output .= $image;
             $output .= '<p class="cozmoslabs-description-upsell">' . $message . '</p>';
             $output .= '</div>';
@@ -38,6 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
         ?>
-    <?php do_action( 'pms_view_meta_box_subscription_extra_options_bottom', $subscription_plan ); ?>
-    <?php wp_nonce_field( 'pms_extra_subs_options_nonce', 'pms_esdo_nonce' ); ?>
+    <?php do_action( 'pms_view_meta_box_subscription_extra_options_bottom', $subscription_plan );
+     wp_nonce_field( 'pms_extra_subs_options_nonce', 'pms_esdo_nonce' );
+     wp_nonce_field( 'pms_extra_subs_options_nonce', 'pms_ps_nonce' ); ?>
 </div>

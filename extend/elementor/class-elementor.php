@@ -71,12 +71,15 @@ class PMS_Elementor {
 		require_once( __DIR__ . '/widgets/class-widget-recover-password.php' );
 		require_once( __DIR__ . '/widgets/class-widget-register.php' );
 		require_once( __DIR__ . '/widgets/class-widget-product-purchase-restricted-message.php' );
+
+        do_action( 'pms_elementor_include_widgets_files' );
 	}
 
 	/**
 	 * Register Widgets
 	 */
 	public function register_widgets() {
+
 		$this->include_widgets_files();
 
         if( version_compare( ELEMENTOR_VERSION, '3.5,', '>=' ) ){
@@ -92,6 +95,9 @@ class PMS_Elementor {
             \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Register_Widget() );
             \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new PMS_Elementor_Product_Messages_Widget() );
         }
+
+        do_action( 'pms_elementor_register_widgets' );
+
 	}
 
     private function register_sections() {

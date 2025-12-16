@@ -63,7 +63,8 @@ function pms_log_admin_subscription_changes( $subscription_id, $data, $old_data 
         'trial_end',
         'billing_duration_unit',
         'billing_next_payment',
-        'payment_gateway',
+        'billing_amount',
+        'billing_currency',
     );
 
     $date_keys = array(
@@ -72,6 +73,14 @@ function pms_log_admin_subscription_changes( $subscription_id, $data, $old_data 
         'trial_end',
         'billing_next_payment',
     );
+
+    if( !empty( $_POST['billing_currency'] ) ){
+        $data['billing_currency'] = sanitize_text_field( $_POST['billing_currency'] );
+    }
+
+    if( !empty( $_POST['old_billing_currency'] ) ){
+        $old_data['billing_currency'] = sanitize_text_field( $_POST['old_billing_currency'] );
+    }
 
     foreach( $keys as $key ){
 

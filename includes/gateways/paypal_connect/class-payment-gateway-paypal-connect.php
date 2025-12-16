@@ -286,6 +286,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                 $checkout_data['form_location'] = $this->form_location;
                 $checkout_data['is_recurring']  = $is_recurring;
                 $checkout_data['has_trial']     = false;
+                $checkout_data['currency']      = !empty( $payment->currency ) ? $payment->currency : pms_get_active_currency();
 
                 pms_add_payment_meta( $payment->id, 'pms_checkout_data', $checkout_data );
 
@@ -926,7 +927,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
      */
     public static function register_form_sections( $sections = array(), $form_location = '' ) {
 
-        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_paypal_connect' ) ) )
+        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_paypal_connect', 'gift_subscription' ) ) )
             return $sections;
 
         // Add an extra section to the form to hold the PayPal Connect placeholder
@@ -956,7 +957,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
      */
     public static function register_form_fields( $fields = array(), $form_location = '' ) {
 
-        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_paypal_connect' ) ) )
+        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_paypal_connect', 'gift_subscription' ) ) )
             return $fields;
 
         /**

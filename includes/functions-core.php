@@ -237,6 +237,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     add_action( 'pms_retry_payment_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
     add_action( 'pms_ppe_confirm_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
     add_action( 'pms_update_payment_method_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
+    add_action( 'pms_gift_subscription_form_bottom', 'pms_add_hidden_submit_button_loading_placeholder_text' );
 
 
     /**
@@ -1206,6 +1207,35 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 }
     
             }
+        }
+
+        /**
+         * Add a notice when the website currency is BGN
+        */
+        if( !pms_is_payment_test_mode() ){
+
+            $currency = pms_get_active_currency();
+
+            if( $currency === 'BGN' ){
+
+                $message = '<p>' . sprintf( __( '%sOn January 1, 2026, Bulgaria will join the Eurozone and the Bulgarian Leva (BGN) will be deprecated in favor of the Euro (EUR).%s<br><br>In order for payments to work correctly after that date, %syou need to switch the current active currency to EUR%s by going to %sPaid Member Subscriptions -> Settings -> Payments -> Currency%s.<br>The price of your Subscription Plans should also be updated to reflect this transition by going to the %sPaid Member Subscriptions -> Subscription Plans%s page.<br><br>Your recurring payments in BGN will be automatically converted to EUR after %s29.12.2025%s at the official fixed currency exchange rate of %s1.95583 BGN = 1 EUR%s.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<strong>', '</strong>', '<a href="'. admin_url( 'admin.php?page=pms-settings-page&tab=payments&nav_sub_tab=payments_general' ) .'">', '</a>', '<a href="'. admin_url( 'edit.php?post_type=pms-subscription' ) .'">', '</a>', '<strong>', '</strong>', '<strong>', '</strong>', '<strong>', '</strong>', '<strong>', '</strong>' ) . '</p>';
+
+                if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] === 'pms-settings-page' ) {
+        
+                    new PMS_Add_General_Notices( 'pms_bgn_currency_migration_own_pages',
+                        $message,
+                        'notice-error');
+        
+                } else {
+        
+                    new PMS_Add_General_Notices( 'pms_bgn_currency_migration',
+                        sprintf( $message . __( ' %1$sDismiss%2$s', 'paid-member-subscriptions'), "<a href='" . wp_nonce_url( add_query_arg( 'pms_stripe_connect_disconnected_dismiss_notification', '0' ), 'pms_general_notice_dismiss' ) . "' type='button' class='notice-dismiss'><span class='screen-reader-text'>", "</span></a>"),
+                        'notice-error');
+        
+                }
+
+            }
+            
         }
 
 

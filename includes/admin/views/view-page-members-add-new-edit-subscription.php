@@ -130,10 +130,20 @@ if( ! empty( $_POST ) ) {
                              <?php endif; ?>
                         </div>
                         <div id="pms-user-subscriptions">
-                        <a class="button-secondary" href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'edit_member', 'member_id' => (int)$user_id ), admin_url( 'admin.php' ) ) ); ?>"><?php echo esc_html__( 'View all subscriptions', 'paid-member-subscriptions' ); ?></a>
+                            <a class="button-secondary" href="<?php echo esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'subpage' => 'edit_member', 'member_id' => (int)$user_id ), admin_url( 'admin.php' ) ) ); ?>"><?php echo esc_html__( 'View all subscriptions', 'paid-member-subscriptions' ); ?></a>
                         </div>
 
                         <?php do_action( 'pms_view_edit_subscription_after_member_data', $user_id ); ?>
+
+                        <div id="pms-skip-email-notifications-wrapper" class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                            <div class="cozmoslabs-toggle-container">
+                                <input type="checkbox" id="pms-skip-email-notifications" name="pms_subscription_edit_skip_email_notifications" value="1" />
+                                <label class="cozmoslabs-toggle-track" for="pms-skip-email-notifications"></label>
+                            </div>
+                            <div class="cozmoslabs-toggle-description">
+                                <label for="pms-skip-email-notifications" class="cozmoslabs-description"><?php esc_html_e( 'Skip email notifications for this update.', 'paid-member-subscriptions' ); ?></label>
+                            </div>
+                        </div>
 
                     <?php endif; ?>
 
@@ -211,7 +221,7 @@ if( ! empty( $_POST ) ) {
                     </div>
 
                     <!-- Start Date -->
-                    <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                    <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper cozmoslabs-form-field-wrapper-start-date">
 
                         <label for="pms-subscription-start-date" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Start Date', 'paid-member-subscriptions' ); ?> <span>*</span></label>
 
@@ -233,7 +243,7 @@ if( ! empty( $_POST ) ) {
 
                             if( $member_subscription->is_auto_renewing() ){
 
-                                if( ( in_array( $member_subscription->payment_gateway, array( 'stripe_intents', 'stripe_connect' ) ) || ( $member_subscription->payment_gateway == 'paypal_express' && !empty( $settings['gateways']['paypal']['reference_transactions'] ) ) ) )
+                                if( ( in_array( $member_subscription->payment_gateway, array( 'stripe_intents', 'stripe_connect', 'paypal_connect' ) ) || ( $member_subscription->payment_gateway == 'paypal_express' && !empty( $settings['gateways']['paypal']['reference_transactions'] ) ) ) )
                                     $hide_expiration_date = true;
                                 elseif ( $plan->is_fixed_period_membership() && $plan->fixed_period_renewal_allowed() )
                                     $hide_expiration_date = true;
@@ -246,7 +256,7 @@ if( ! empty( $_POST ) ) {
                         if( !isset( $member_subscription ) || !apply_filters( 'pms_view_add_new_edit_subscription_hide_expiration_date', $hide_expiration_date, $member_subscription ) ) :
                     ?>
                             <!-- Expiration Date -->
-                            <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                            <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper cozmoslabs-form-field-wrapper-expiration-date">
 
                                 <label for="pms-subscription-expiration-date" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php echo esc_html__( 'Expiration Date', 'paid-member-subscriptions' ); ?></label>
 
@@ -303,6 +313,30 @@ if( ! empty( $_POST ) ) {
                                 ?>
                             </select>
 
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Payment Gateway Editing if enabled -->
+                    <?php $payment_gateways = pms_get_payment_gateways(); ?>
+                    <?php if( apply_filters( 'pms_'. $subpage .'_enable_payment_gateway_editing', false ) ) : ?>
+                        <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                            <label class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Payment Gateway', 'paid-member-subscriptions' ); ?></label>
+                            <input type="hidden" name="payment_gateway" value="<?php echo !empty( $form_data['payment_gateway'] ) ? esc_attr( $form_data['payment_gateway'] ) : ''; ?>" />
+
+                            <select id="pms-payment-gateway" name="payment_gateway" class="pms-payment-gateway-field" required>
+
+                                <?php
+                                $active_payment_gateways = pms_get_active_payment_gateways();
+                                
+                                if( !empty( $form_data['payment_gateway'] ) && !in_array( $form_data['payment_gateway'], $active_payment_gateways ) ) {
+                                    $active_payment_gateways[] = $form_data['payment_gateway'];
+                                }
+
+                                foreach( $active_payment_gateways as $gateway ) {
+                                    echo '<option value="' . esc_attr( $gateway ) . '"' . selected( $gateway, $form_data['payment_gateway'], false ) . '>' . esc_html( $payment_gateways[$gateway]['display_name_admin'] ) . '</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
                     <?php endif; ?>
 
@@ -393,61 +427,65 @@ if( ! empty( $_POST ) ) {
                                 <label for="pms-subscription-billing-next-payment" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Next Payment', 'paid-member-subscriptions' ); ?></label>
 
                                 <?php
-                                if( !empty( $form_data['billing_next_payment'] ) ) :
 
-                                    $billing_amount = $form_data['billing_amount'];
+                                if( !apply_filters( 'pms_edit_subscription_enable_billing_next_payment_editing', false ) ) :
+                                    if( !empty( $form_data['billing_next_payment'] ) ) :
 
-                                    // check if discount is saved as meta and apply it
-                                    // this is used to determine if the price of the first recurring payment needs to be discounted or not
-                                    $discount_id = pms_get_member_subscription_meta( $member_subscription->id, '_discount_code_id', true );
+                                        $billing_amount = $form_data['billing_amount'];
 
-                                    if( !empty( $discount_id ) && function_exists( 'pms_in_get_discount' ) ){
-                                        $discount = pms_in_get_discount( $discount_id );
+                                        // check if discount is saved as meta and apply it
+                                        // this is used to determine if the price of the first recurring payment needs to be discounted or not
+                                        $discount_id = pms_get_member_subscription_meta( $member_subscription->id, '_discount_code_id', true );
 
-                                        $discounted_amount = pms_in_calculate_discounted_amount( $billing_amount, $discount );
+                                        if( !empty( $discount_id ) && function_exists( 'pms_in_get_discount' ) ){
+                                            $discount = pms_in_get_discount( $discount_id );
 
-                                        if( $discounted_amount != 0 ){
-                                            $billing_amount = $discounted_amount;
+                                            $discounted_amount = pms_in_calculate_discounted_amount( $billing_amount, $discount );
+
+                                            if( $discounted_amount != 0 ){
+                                                $billing_amount = $discounted_amount;
+                                            }
                                         }
-                                    }
 
-                                    $currency = pms_get_member_subscription_meta( $member_subscription->id, 'currency', true );
-                                    $extra_attributes = apply_filters( 'pms_subscription_next_payment_amount_extra_attributes', '', $member_subscription );
-                                ?>
-                                    <span class="readonly medium" <?php echo wp_kses_post( $extra_attributes ) ?> ><strong><?php echo !empty( $billing_amount ) ? esc_html( pms_format_price( $billing_amount, apply_filters( 'pms_edit_subscription_billing_next_payment_currency', $currency, $form_data ) ) ) : ''; ?></strong></span>
-                                    <?php echo esc_html_x( 'on', 'This is part of a payment amount: 100$ on 12/10/2025', 'paid-member-subscriptions' ); ?>
+                                        $currency = pms_get_member_subscription_meta( $member_subscription->id, 'currency', true );
+                                        $extra_attributes = apply_filters( 'pms_subscription_next_payment_amount_extra_attributes', '', $member_subscription );
+                                    ?>
+                                        <span class="readonly medium" <?php echo wp_kses_post( $extra_attributes ) ?> ><strong><?php echo !empty( $billing_amount ) ? esc_html( pms_format_price( $billing_amount, apply_filters( 'pms_edit_subscription_billing_next_payment_currency', $currency, $form_data ) ) ) : ''; ?></strong></span>
+                                        <?php echo esc_html_x( 'on', 'This is part of a payment amount: 100$ on 12/10/2025', 'paid-member-subscriptions' ); ?>
+                                    <?php endif; ?>
                                 <?php endif; ?>
 
                                 <input id="pms-subscription-billing-next-payment" type="text" name="billing_next_payment" class="datepicker pms-subscription-field" value="<?php echo ( ! empty( $form_data['billing_next_payment'] ) ? esc_attr( pms_sanitize_date( $form_data['billing_next_payment'] ) ) : '' ); ?>" />
 
                             </div>
 
+                            <!-- Billing Amount and Currency if allowed -->
+                            <?php if( apply_filters( 'pms_edit_subscription_enable_billing_next_payment_editing', false ) ) : ?>
+                                <?php 
+                                    $currency = pms_get_member_subscription_meta( $member_subscription->id, 'currency', true );
+                                    $currency = !empty( $currency ) ? $currency : pms_get_active_currency();
+                                    $currency = apply_filters( 'pms_edit_subscription_billing_next_payment_currency', $currency, $form_data );
+
+                                    // NOTE: This could be improved by transforming it into a select box with the available currencies
+                                ?>
+
+                                <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
+                                    <label class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Billing Amount', 'paid-member-subscriptions' ); ?></label>
+                                    <input id="pms-subscription-billing-amount" type="text" name="billing_amount" value="<?php echo ( ! empty( $form_data['billing_amount'] ) ? esc_attr( $form_data['billing_amount'] ) : '' ); ?>" />
+                                    <input id="pms-subscription-billing-currency" type="text" name="billing_currency" value="<?php echo esc_attr( $currency ); ?>" />
+                                    <input type="hidden" name="old_billing_currency" class="" value="<?php echo esc_attr( $currency ); ?>" />
+                                </div>
+                            <?php endif; ?>
+
                             <!-- Payment Gateway -->
-                            <?php $payment_gateways = pms_get_payment_gateways(); ?>
-                            <?php if( !apply_filters( 'pms_edit_subscription_enable_payment_gateway_editing', false ) ) : ?>
+                            <?php if( !apply_filters( 'pms_'. $subpage .'_enable_payment_gateway_editing', false ) ) : ?>
                                 <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
                                     <label class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Payment Gateway', 'paid-member-subscriptions' ); ?></label>
 
                                     <span class="readonly medium"><strong><?php echo !empty( $payment_gateways[$form_data['payment_gateway']]['display_name_admin'] ) ? esc_html( $payment_gateways[$form_data['payment_gateway']]['display_name_admin'] ) : esc_html( $form_data['payment_gateway'] ); ?></strong></span>
                                     <input type="hidden" name="payment_gateway" value="<?php echo !empty( $form_data['payment_gateway'] ) ? esc_attr( $form_data['payment_gateway'] ) : ''; ?>" />
                                 </div>
-                            <?php else : ?>
-                                <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
-                                    <label class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Payment Gateway', 'paid-member-subscriptions' ); ?></label>
-                                    <input type="hidden" name="payment_gateway" value="<?php echo !empty( $form_data['payment_gateway'] ) ? esc_attr( $form_data['payment_gateway'] ) : ''; ?>" />
-
-                                    <select id="pms-payment-gateway" name="payment_gateway" class="pms-payment-gateway-field" required>
-
-                                        <?php
-                                        foreach( pms_get_active_payment_gateways() as $gateway ) {
-                                            echo '<option value="' . esc_attr( $gateway ) . '"' . selected( $gateway, $form_data['payment_gateway'], false ) . '>' . esc_html( $payment_gateways[$gateway]['display_name_admin'] ) . '</option>';
-                                        }
-                                        ?>
-
-                                    </select>
-                                </div>
                             <?php endif; ?>
-
                             <!-- Payment gateway extra custom fields -->
                             <?php
                                 echo '<div id="pms-meta-box-fields-wrapper-payment-gateways">';

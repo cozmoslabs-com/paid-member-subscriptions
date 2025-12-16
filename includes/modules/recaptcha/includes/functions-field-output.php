@@ -65,7 +65,7 @@ add_action( 'pms_register_form_bottom', 'pms_recaptcha_field_register_form_botto
  */
 function pms_recaptcha_field_login_form_middle( $string, $args ) {
 
-    if( $args['form_id'] != 'pms_login' )
+    if( !isset( $args['form_id'] ) || $args['form_id'] != 'pms_login' )
         return $string;
 
     $string .= pms_recaptcha_get_field_output( 'login' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

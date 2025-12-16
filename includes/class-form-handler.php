@@ -783,9 +783,13 @@ Class PMS_Form_Handler {
             return;
 
         // Get member subscription
+        $member              = pms_get_member( get_current_user_id() );
         $member_subscription = pms_get_member_subscription( absint( $_POST['subscription_id'] ) );
 
         if( is_null( $member_subscription ) )
+            return;
+
+        if( ! in_array( $member_subscription->id, $member->get_subscription_ids() ) )
             return;
 
         // Remove subscription if confirm button was pressed
@@ -881,9 +885,13 @@ Class PMS_Form_Handler {
             return;
 
         // Get member subscription
+        $member              = pms_get_member( get_current_user_id() );
         $member_subscription = pms_get_member_subscription( absint( $_POST['subscription_id'] ) );
 
         if( is_null( $member_subscription ) )
+            return;
+
+        if( ! in_array( $member_subscription->id, $member->get_subscription_ids() ) )
             return;
 
         // Remove subscription if confirm button was pressed
@@ -1066,7 +1074,7 @@ Class PMS_Form_Handler {
                 $error_code    = $user->get_error_code();
                 $error_message = $user->get_error_message( $error_code );
 
-                if( $error_code == 'incorrect_password' ){
+                if( in_array( $error_code, array( 'incorrect_password', 'invalid_username' ) ) ){
                     $error_message = '<strong>' . __( 'ERROR:', 'paid-member-subscriptions' ) . '</strong> ';
 
                     if( isset( $_POST['log'] ) && is_email( $_POST['log'] ) )
@@ -1918,7 +1926,7 @@ Class PMS_Form_Handler {
         $user_data['subscription'] = $subscription_plan;
 
         // Set recurring value
-        $is_recurring         = self::checkout_is_recurring();
+        $is_recurring         = apply_filters( 'pms_checkout_is_recurring', self::checkout_is_recurring(), $user_data, $subscription_plan, $form_location, $pay_gate );
         $has_trial            = self::checkout_has_trial();
         $gateway_supports_psp = !is_null( $payment_gateway ) && $payment_gateway->supports( 'plugin_scheduled_payments' ) ? true : false;
 
@@ -1962,7 +1970,7 @@ Class PMS_Form_Handler {
          * Insert the subscription into the db
          *
          */
-        if( in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation' ) ) ) {
+        if( in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation', 'gift_subscription' ) ) ) {
 
             /**
              * We can't assume that this won't get executed multiple times. ( on PB registration if we had the field multiple times this executed as many times as the number of fields
@@ -2136,6 +2144,9 @@ Class PMS_Form_Handler {
              */
             $payment_data = apply_filters( 'pms_process_checkout_payment_data', $payment_data, $checkout_data );
 
+            // Add subscription id to payment data so it gets saved to meta
+            $payment_data['member_subscription_id'] = $subscription->id;
+
             /**
              * Insert the payment into the db
              *
@@ -2148,9 +2159,6 @@ Class PMS_Form_Handler {
                 $payment->insert( $payment_data );
 
                 $payment_gateway_data['payment_id'] = $payment->id;
-
-                // Save subscription id as payment meta
-                pms_add_payment_meta( $payment->id, 'subscription_id', $subscription->id, true );
 
             }
 
@@ -2261,6 +2269,9 @@ Class PMS_Form_Handler {
         if( $payment_response ) {
 
             $subscription_data['status'] = 'active';
+
+            // Filter subscription data just before updating the subscription
+            $subscription_data = apply_filters( 'pms_checkout_subscription_data_before_update', $subscription_data, $subscription, $form_location );
 
             // Handle each subscription by the form location
             switch( $form_location ) {
@@ -2391,6 +2402,15 @@ Class PMS_Form_Handler {
                     pms_add_member_subscription_log( $subscription->id, 'subscription_renewed_manually', array( 'until' => $expiration_date ) );
 
                     pms_delete_member_subscription_meta( $subscription->id, 'pms_retry_payment' );
+
+                    break;
+
+                // gift subscriptions form
+                case 'gift_subscription':
+
+                    $subscription->update( $subscription_data );
+
+                    do_action( 'pms_gift_subscription_form_after_subscription_update', $subscription, $subscription_data );
 
                     break;
 
@@ -2559,7 +2579,7 @@ Class PMS_Form_Handler {
         );
 
         // Add start date for new subscriptions
-        if( in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation' ) ) )
+        if( in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation', 'gift_subscription' ) ) )
             $subscription_data['start_date'] = date('Y-m-d H:i:s');
 
         // Add trial data
