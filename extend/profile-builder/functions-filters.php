@@ -42,6 +42,8 @@ function pms_pb_add_form_extra_fields( $output = '' , $settings = '', $form_loca
         // Call the extra form fields adder
         pms_add_form_extra_fields();
 
+        do_action( 'pms_pb_add_form_extra_fields_after_output', $form_location );
+
         $extra_fields_output = ob_get_contents();
         ob_end_clean();
 
@@ -67,6 +69,8 @@ function pms_pb_form_extra_fields_form_name( $form_name = '', $hook = '' ) {
 
     if( $hook == 'wppb_register_subscription_plans_field' )
         $form_name = 'register';
+    else if( $hook == 'pms_get_output_payment_gateways' )
+        $form_name = 'wppb_register';
 
     return $form_name;
 

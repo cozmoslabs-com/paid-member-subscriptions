@@ -573,43 +573,12 @@ function pms_member_renew_subscription( $content ) {
 
     $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'renew_subscription_form' );
 
-    // Output form
-    $output = '<form id="pms-renew-subscription-form" action="" method="POST" class="pms-form '. $extra_classes .'">';
+    ob_start();
 
-        // Do Actions at the top of the form
-        ob_start();
+        include 'views/actions/view-actions-account-renew-subscription-form.php';
 
-        do_action('pms_renew_subscription_form_top');
-
-        $output .= ob_get_contents();
-        ob_end_clean();
-
-
-        // Output tagline
-        $output .= apply_filters( 'pms_renew_subscription_before_form', '<p>' . sprintf( __( 'Renew %s subscription. The subscription will be active until %s', 'paid-member-subscriptions' ), '<strong>' . $subscription_plan->name . '</strong>', '<strong>' . $renew_expiration_date .'</strong>' ) . '</p>', $subscription_plan, $member );
-
-        // Output subscription plans
-        $output .= pms_output_subscription_plans( array( $subscription_plan ), array(), false, '', 'renew_subscription' );
-
-        // Used to output the Billing Information and Credit Card form
-        ob_start();
-
-        do_action('pms_renew_subscription_form_bottom');
-
-        $output .= ob_get_contents();
-        ob_end_clean();
-
-        // Output nonce field
-        $output .= wp_nonce_field( 'pms_renew_subscription', 'pmstkn' );
-
-        // Output current subscription id
-        $output .= '<input type="hidden" name="pms_current_subscription" value="'. esc_attr( $member_subscription['id'] ) .'" />';
-
-        // Output submit button
-        $output .= '<input type="submit" name="pms_renew_subscription" value="' . esc_attr( apply_filters( 'pms_renew_subscription_button_value', esc_html__( 'Renew Subscription', 'paid-member-subscriptions' ) ) ). '" />';
-        $output .= '<input type="submit" name="pms_redirect_back" value="' . esc_attr( apply_filters( 'pms_renew_subscription_go_back_button_value', esc_html__( 'Go back', 'paid-member-subscriptions' ) ) ) . '" />';
-
-    $output .= '</form>';
+    $output = ob_get_contents();
+    ob_end_clean();
 
     return apply_filters( 'pms_the_content_member_renew_subscription', $output, $content, $user_id, $subscription_plan );
 
@@ -821,43 +790,12 @@ function pms_member_retry_payment_subscription( $content ) {
 
     $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'retry_payment_form' );
 
-    // Output form
-    $output = '<form id="pms-retry-payment-subscription-form" action="" method="POST" class="pms-form '. $extra_classes .'">';
-
-    // Do Actions at the top of the form
     ob_start();
 
-    do_action('pms_retry_payment_form_top');
+        include 'views/actions/view-actions-account-retry-payment-subscription-form.php';
 
-    $output .= ob_get_contents();
+    $output = ob_get_contents();
     ob_end_clean();
-
-
-    // Get subscription plan
-    $subscription_plan = pms_get_subscription_plan( trim( absint( $_REQUEST['subscription_plan'] ) ) );
-
-    $output .= apply_filters( 'pms_retry_payment_subscription_confirmation_message', '<p>' . sprintf( __( 'Your %s subscription is still pending. Do you wish to retry the payment?', 'paid-member-subscriptions' ) . '</p>', '<strong>' . $subscription_plan->name . '</strong>' ), $subscription_plan );
-
-    // Output subscription plans
-    $output .= pms_output_subscription_plans( array($subscription_plan), array(), false, '', 'retry_payment' );
-
-    // Used to output the Billing Information and Credit Card form
-    ob_start();
-
-    do_action('pms_retry_payment_form_bottom');
-
-    $output .= ob_get_contents();
-    ob_end_clean();
-
-
-    // Output nonce field
-    $output .= wp_nonce_field( 'pms_retry_payment_subscription', 'pmstkn' );
-
-    // Output submit button
-    $output .= '<input type="submit" name="pms_confirm_retry_payment_subscription" value="' . esc_attr( apply_filters( 'pms_retry_payment_subscription_button_value', __( 'Retry payment', 'paid-member-subscriptions' ) ) ) . '" />';
-    $output .= '<input type="submit" name="pms_redirect_back" value="' . esc_attr( apply_filters( 'pms_retry_payment_subscription_go_back_button_value', __( 'Go back', 'paid-member-subscriptions' ) ) ). '" />';
-
-    $output .= '</form>';
 
     return apply_filters( 'pms_retry_payment_shortcode_content', $output, 'retry_payment_form');
 

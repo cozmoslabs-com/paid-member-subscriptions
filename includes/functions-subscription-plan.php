@@ -900,7 +900,6 @@ function pms_output_subscription_plans_filter( $action ){
 
     if( $action === 'remove' ){
 
-        remove_filter( 'pms_output_subscription_plans', 'pms_output_subscription_plans_payment_gateways', 10 );
         remove_filter( 'pms_output_subscription_plans', 'pms_in_dc_output_discount_box', 25 );
         remove_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5 );
         remove_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 20 );
@@ -921,9 +920,6 @@ function pms_output_subscription_plans_filter( $action ){
         }
 
     } else if( $action === 'add' ){
-
-        if( function_exists( 'pms_output_subscription_plans_payment_gateways' ) )
-            add_filter( 'pms_output_subscription_plans', 'pms_output_subscription_plans_payment_gateways', 10, 7 );
 
         if( function_exists( 'pms_renewal_option_field' ) )
             add_filter( 'pms_output_subscription_plans', 'pms_renewal_option_field', 5, 7 );

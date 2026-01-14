@@ -99,3 +99,28 @@ if( is_plugin_active( 'sfwd-lms/sfwd_lms.php' ) ){
         add_action( 'wp_login_failed', 'learndash_login_failed', 1, 1 );
     }
 }
+
+/****************************************************
+ * Theme Name: Valenti
+ * Plugin URI: https://mhthemes.com/wp-themes/valenti-wordpress-theme/https://themeforest.net/item/education-wordpress-theme-education-wp/14058034
+ ****************************************************/
+
+if( function_exists( 'valenti_widget_areas' ) ) {
+    add_action('after_setup_theme','pms_compatibility_disable_valenti_sidebar_registration_on_pms_CPTs', 17);
+    function pms_compatibility_disable_valenti_sidebar_registration_on_pms_CPTs() {
+    
+        if( !empty( $_GET['post'] ) && isset( $_GET['post'] ) ){
+            $post = get_post( absint( $_GET['post'] ) );
+    
+            $post_type = $post->post_type;
+    
+        } else if( !empty( $_GET['post_type'] ) && isset( $_GET['post_type'] ) ){
+            $post_type = sanitize_text_field( $_GET['post_type'] );
+        }
+    
+        if( in_array( $post_type, array('pms-subscription','pms-discount-codes', 'pms-email-reminders') ) ){
+            remove_action( 'widgets_init', 'valenti_widget_areas' );
+        }
+    
+    }
+}

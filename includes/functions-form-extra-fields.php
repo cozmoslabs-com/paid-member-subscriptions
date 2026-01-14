@@ -77,6 +77,17 @@ function pms_add_form_extra_fields( $atts = array() ) {
 			}
 
             break;
+        case 'pms_get_output_payment_gateways_after_paygates' :
+            $form_name = 'payment_gateways_after_paygates';
+            break;
+        case 'pms_register_form_subscription_plans_field_after_output' :
+        case 'pms_new_subscription_form_subscription_plans_field_after_output' :
+        case 'pms_change_subscription_form_after_subscription_plans_output' :
+        case 'pms_renew_subscription_form_after_subscription_plans_output' :
+        case 'pms_retry_payment_form_after_subscription_plans_output' :
+        case 'pms_email_confirmation_form_after_subscription_plans_output' :
+            $form_name = 'subscription_plans_after_output';
+            break;
     }
 
     /**
@@ -138,7 +149,6 @@ function pms_add_form_extra_fields( $atts = array() ) {
     }
 
 }
-
 add_action( 'pms_register_form_bottom', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_register_form_before_fields', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_new_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );
@@ -149,6 +159,13 @@ add_action( 'pms_edit_profile_form_after_fields', 'pms_add_form_extra_fields', 5
 add_action( 'pms_change_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_gift_subscription_form_bottom', 'pms_add_form_extra_fields', 50 );
 add_action( 'pms_update_payment_method_form_bottom', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_get_output_payment_gateways_after_paygates', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_register_form_subscription_plans_field_after_output', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_new_subscription_form_subscription_plans_field_after_output', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_change_subscription_form_after_subscription_plans_output', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_renew_subscription_form_after_subscription_plans_output', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_retry_payment_form_after_subscription_plans_output', 'pms_add_form_extra_fields', 50 );
+add_action( 'pms_email_confirmation_form_after_subscription_plans_output', 'pms_add_form_extra_fields', 50 );
 
 
 /**
@@ -704,6 +721,93 @@ function pms_validate_honeypot_field(){
     if( !empty( $_POST['beehive'] ) )
         pms_errors()->add( 'beehive', __( 'Are you sure ? Try again.', 'paid-member-subscriptions' ) );
 
+}
+
+/**
+ * Add Billing Fields Toggle section
+ *
+ * @param $sections
+ * @param $form_name
+ * @return mixed
+ */
+function pms_add_billing_toggle_checkbox_section( $sections, $form_name ) {
+
+    if ( ! is_user_logged_in() || ! pms_billing_fields_active() )
+        return $sections;
+
+    if( function_exists( 'pms_get_active_form_design' ) && in_array( pms_get_active_form_design(), array( 'form-style-1', 'form-style-2', 'form-style-3' ) ) ){
+
+        if( !in_array( $form_name, array( 'subscription_plans_after_output', 'edit_profile', 'update_payment_method', 'gift_subscription' ) ) )
+            return $sections;
+
+    } else if( in_array( $form_name, array( 'payment_gateways_after_paygates', 'subscription_plans_after_output' ) ) ){
+        return $sections;
+    }
+
+    $sections['billing_toggle'] = array(
+            'name'    => 'billing_toggle',
+            'element' => 'div',
+            'class'   => 'pms-section-billing-toggle'
+    );
+
+    return $sections;
+}
+add_filter( 'pms_extra_form_sections', 'pms_add_billing_toggle_checkbox_section', 50, 2 );
+
+/**
+ * Add Billing Fields Toggle checkbox
+ *
+ * @param $fields
+ * @param $form_name
+ * @return mixed
+ */
+function pms_add_billing_toggle_checkbox( $fields, $form_name ) {
+
+    if ( ! is_user_logged_in() || ! pms_billing_fields_active() )
+        return $fields;
+
+    if( function_exists( 'pms_get_active_form_design' ) && in_array( pms_get_active_form_design(), array( 'form-style-1', 'form-style-2', 'form-style-3' ) ) ){
+
+        if( !in_array( $form_name, array( 'subscription_plans_after_output', 'edit_profile', 'update_payment_method', 'gift_subscription' ) ) )
+            return $fields;
+
+    } else if( in_array( $form_name, array( 'payment_gateways_after_paygates', 'subscription_plans_after_output' ) ) ){
+        return $fields;
+    }
+
+    $fields['pms_billing_toggle_checkbox'] = array(
+            'section'         => 'billing_toggle',
+            'type'            => 'checkbox_single',
+            'name'            => 'pms_billing_toggle_checkbox',
+            'label'           => apply_filters( 'pms_billing_toggle_checkbox_label', __( 'Update billing details', 'paid-member-subscriptions' ) ),
+            'description'     => apply_filters( 'pms_billing_toggle_checkbox_description', '' ),
+            'element_wrapper' => 'div',
+            'wrapper_class'   => 'pms-billing-toggle'
+    );
+
+    return $fields;
+}
+add_filter( 'pms_extra_form_fields', 'pms_add_billing_toggle_checkbox', 50, 2 );
+
+/**
+ * Check if an Add-on that includes Billing Fields is active
+ * - target add-ons: Invoices | Tax & EU VAT
+ *
+ * @return bool
+ */
+function pms_billing_fields_active() {
+    $billing_addons = array(
+            'pms-add-on-invoices/index.php',
+            'pms-add-on-tax/index.php',
+    );
+
+    foreach ( $billing_addons as $addon ) {
+        if ( PMS_Addons_List_Table::is_add_on_active( $addon ) ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /*

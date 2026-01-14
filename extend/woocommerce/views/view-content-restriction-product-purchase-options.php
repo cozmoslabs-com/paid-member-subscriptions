@@ -13,6 +13,7 @@
     $subscription_plans   = pms_get_subscription_plans();
     usort($subscription_plans, 'pms_compare_subscription_plan_objects');
     $selected_subscription_plans = get_post_meta( $post_id, 'pms-purchase-restrict-subscription-plan' );
+    $all_plans_selected   = get_post_meta( $post_id, 'pms-purchase-restrict-all-subscription-plans');
     ?>
 
     <div class="cozmoslabs-checkbox-list cozmoslabs-checkbox-multi-col-list">
@@ -22,10 +23,17 @@
             <label class="pms-meta-box-checkbox-label" for="pms-purchase-restrict-user-status"><?php esc_html_e( 'Logged In Users', 'paid-member-subscriptions' ); ?></label>
         </div>
 
-        <?php if( !empty( $subscription_plans ) ): foreach( $subscription_plans as $subscription_plan ): ?>
+        <?php if( !empty( $subscription_plans ) ): ?>
+
+        <div class="cozmoslabs-chckbox-container">
+            <input type="checkbox" value="all" <?php if( $all_plans_selected ) echo 'checked="checked"'; ?> name="pms-purchase-restrict-all-subscription-plans" id="pms-purchase-restrict-all-subscription-plans">
+            <label class="pms-meta-box-checkbox-label" for="pms-purchase-restrict-all-subscription-plans"><?php echo esc_html__( 'All Subscription Plans', 'paid-member-subscriptions' ); ?></label>
+        </div>
+
+        <?php foreach( $subscription_plans as $subscription_plan ): ?>
 
             <div class="cozmoslabs-chckbox-container">
-                <input type="checkbox" value="<?php echo esc_attr( $subscription_plan->id ); ?>" <?php if( in_array( $subscription_plan->id, $selected_subscription_plans ) ) echo 'checked="checked"'; ?> name="pms-purchase-restrict-subscription-plan[]" id="pms-purchase-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ) ?>">
+                <input type="checkbox" value="<?php echo esc_attr( $subscription_plan->id ); ?>" <?php if( in_array( $subscription_plan->id, $selected_subscription_plans ) || $all_plans_selected ) echo 'checked="checked"'; ?> name="pms-purchase-restrict-subscription-plan[]" id="pms-purchase-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ) ?>">
                 <label class="pms-meta-box-checkbox-label" for="pms-purchase-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ) ?>"><?php echo esc_html($subscription_plan->name); ?></label>
             </div>
 

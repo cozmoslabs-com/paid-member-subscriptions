@@ -344,7 +344,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     // This is used for Webhooks if they need to update the subscription
                     $checkout_data = PMS_AJAX_Checkout_Handler::get_checkout_data();
                     $checkout_data['currency'] = !empty( $payment->currency ) ? $payment->currency : pms_get_active_currency();
-    
+
                     pms_add_payment_meta( $payment->id, 'pms_checkout_data', $checkout_data );
                 }
 
@@ -1374,6 +1374,19 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
+    /**
+     * Process Stripe webhook events
+     *
+     * Handles incoming webhook events from Stripe with optional signature verification.
+     * If a webhook signing secret is configured, the signature will be verified using
+     * Stripe's official library to ensure the webhook is genuinely from Stripe.
+     * This protects against replay attacks and unauthorized webhook submissions.
+     *
+     * If no webhook secret is configured, falls back to legacy verification method
+     * using Stripe\Event::retrieve() for backwards compatibility.
+     *
+     * @return void
+     */
     public function process_webhooks() {
 
         if( !isset( $_GET['pay_gate_listener'] ) || $_GET['pay_gate_listener'] != 'stripe' )
@@ -1384,32 +1397,75 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         // Get the input
         $input = @file_get_contents("php://input");
-        $event = json_decode( $input );
 
-        // make sure live mode webhooks are processed in live mode
-        if( !empty( $event->livemode ) ){
+        // Get the webhook secret for signature verification
+        $webhook_secret = pms_stripe_connect_get_webhook_secret();
 
-            $api_credentials  = pms_stripe_connect_get_api_credentials();
-            $this->secret_key = ( !empty( $api_credentials['secret_key'] ) ? $api_credentials['secret_key'] : '' );
+        // Get the signature header
+        $sig_header = isset( $_SERVER['HTTP_STRIPE_SIGNATURE'] ) ? $_SERVER['HTTP_STRIPE_SIGNATURE'] : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-        }
-
-        // Set API key
-        \Stripe\Stripe::setApiKey( $this->secret_key );
-
-        $event_id = sanitize_text_field( $event->id );
-
-        // Verify that the event was sent by Stripe
-        if( isset( $event->id ) ) {
+        // If webhook secret is configured, use signature verification (recommended)
+        if( !empty( $webhook_secret ) && !empty( $sig_header ) ) {
 
             try {
-                \Stripe\Event::retrieve( $event_id );
-            } catch( Exception $e ) {
-                die();
+                // Verify webhook signature and construct event
+                $event = \Stripe\Webhook::constructEvent(
+                    $input,
+                    $sig_header,
+                    $webhook_secret
+                );
+            } catch( \UnexpectedValueException $e ) {
+                // Invalid payload
+                error_log( '[PMS STRIPE WEBHOOK] Invalid payload: ' . $e->getMessage() );
+                http_response_code( 400 );
+                die('Invalid payload');
+            } catch( \Stripe\Exception\SignatureVerificationException $e ) {
+                // Invalid signature
+                error_log( '[PMS STRIPE WEBHOOK] Invalid signature: ' . $e->getMessage() );
+                http_response_code( 400 );
+                die('Invalid signature');
             }
 
-        } else
-            die();
+            // Determine environment from the event
+            if( !empty( $event->livemode ) ){
+                $api_credentials  = pms_stripe_connect_get_api_credentials();
+                $this->secret_key = ( !empty( $api_credentials['secret_key'] ) ? $api_credentials['secret_key'] : '' );
+            }
+
+            // Set API key
+            \Stripe\Stripe::setApiKey( $this->secret_key );
+
+            $event_id = sanitize_text_field( $event->id );
+
+        } else {
+            // Fall back to legacy verification method (without signature verification)
+            $event = json_decode( $input );
+
+            // make sure live mode webhooks are processed in live mode
+            if( !empty( $event->livemode ) ){
+
+                $api_credentials  = pms_stripe_connect_get_api_credentials();
+                $this->secret_key = ( !empty( $api_credentials['secret_key'] ) ? $api_credentials['secret_key'] : '' );
+
+            }
+
+            // Set API key
+            \Stripe\Stripe::setApiKey( $this->secret_key );
+
+            $event_id = sanitize_text_field( $event->id );
+
+            // Verify that the event was sent by Stripe
+            if( isset( $event->id ) ) {
+
+                try {
+                    \Stripe\Event::retrieve( $event_id );
+                } catch( Exception $e ) {
+                    die();
+                }
+
+            } else
+                die();
+        }
 
         // add an option that we later use to tell the admin that webhooks are configured
         update_option( 'pms_stripe_connect_webhook_connection', strtotime( 'now' ) );
@@ -1840,7 +1896,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      */
     public static function register_form_sections( $sections = array(), $form_location = '' ) {
 
-        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_stripe_connect', 'update_payment_method_stripe_intents', 'gift_subscription' ) ) )
+        if( ! in_array( $form_location, array( 'payment_gateways_after_paygates', 'update_payment_method_stripe_connect', 'update_payment_method_stripe_intents' ) ) )
             return $sections;
 
         // Add the credit card details if it does not exist
@@ -1870,7 +1926,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
      */
     public static function register_form_fields( $fields = array(), $form_location = '' ) {
 
-        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_stripe_connect', 'update_payment_method_stripe_intents', 'gift_subscription' ) ) )
+        if( ! in_array( $form_location, array( 'payment_gateways_after_paygates', 'update_payment_method_stripe_connect', 'update_payment_method_stripe_intents' ) ) )
             return $fields;
 
 

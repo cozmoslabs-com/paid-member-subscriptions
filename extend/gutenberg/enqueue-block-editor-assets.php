@@ -34,7 +34,6 @@ add_action(
         //Discount Codes
         if ( defined( 'PMS_IN_DC_PLUGIN_DIR_URL' ) ) {
             wp_enqueue_script('pms_block_discount-codes', PMS_IN_DC_PLUGIN_DIR_URL . 'assets/js/frontend-discount-code.js', array('jquery'), PMS_VERSION);
-            wp_enqueue_style('pms_block_discount-codes_css', PMS_IN_DC_PLUGIN_DIR_URL . 'assets/css/style-front-end.css', array(), PMS_VERSION);
         }
 
         //Pay What You Want
@@ -43,9 +42,9 @@ add_action(
         }
 
         //Invoices
-        if ( defined( 'PMS_IN_INV_PLUGIN_DIR_URL' ) ) {
-            wp_enqueue_style('pms_block_discount-codes_css', PMS_IN_INV_PLUGIN_DIR_URL . 'assets/css/style-front-end.css', array(), PMS_VERSION);
-        }
+//        if ( defined( 'PMS_IN_INV_PLUGIN_DIR_URL' ) ) {
+//            wp_enqueue_style('pms_block_discount-codes_css', PMS_IN_INV_PLUGIN_DIR_URL . 'assets/css/style-front-end.css', array(), PMS_VERSION);
+//        }
 
         //Tax
         if ( defined( 'PMS_IN_TAX_PLUGIN_DIR_URL' ) ) {

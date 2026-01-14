@@ -435,7 +435,24 @@ function pms_stripe_add_settings_content( $options ) {
 
 								echo '<input id="stripe-connect-webhook-url" type="text" name="stripe_connect_webhook_url" value="' . esc_url( add_query_arg( 'pay_gate_listener', 'stripe', trailingslashit( home_url() ) ) ) . '" class="widefat" disabled /><a class="stripe-connect__copy button-secondary" data-id="stripe-connect-webhook-url" href="" style="margin-left: 4px;">Copy</a>';
 
-								echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . wp_kses_post( sprintf( __( 'Copy this URL and configure it in your Stripe Account. %sClick here%s to learn more about the Webhooks setup process. ', 'paid-member-subscriptions' ), '<br><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Webhooks_setup">', '</a>' ) ) . '</p>';
+								echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . wp_kses_post( sprintf( __( 'Copy this URL and configure it in your Stripe Account. After setting up the webhook endpoint, you can also copy the %sWebhook Signing Secret%s from Stripe and paste it in the field below for enhanced security. %sClick here%s to learn more about the Webhooks setup process. ', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<br><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/stripe-connect/#Webhooks_setup">', '</a>' ) ) . '</p>';
+
+							echo '</div>';
+
+							echo '<div class="cozmoslabs-form-field-wrapper">';
+
+								echo '<label class="cozmoslabs-form-field-label" for="stripe-connect-webhook-secret">' . esc_html__( 'Webhook Signing Secret', 'paid-member-subscriptions' ) . '</label>';
+
+								$webhook_secret = get_option( 'pms_stripe_connect_'. $environment .'_webhook_secret', '' );
+
+                                $type = 'text';
+
+                                if( !empty( $webhook_secret ) )
+                                    $type = 'password';
+
+								echo '<input id="stripe-connect-webhook-secret" type="' . esc_attr( $type ) . '" name="pms_stripe_connect_webhook_secret" value="' . esc_attr( $webhook_secret ) . '" class="widefat" placeholder="' . esc_attr__( 'whsec_...', 'paid-member-subscriptions' ) . '" />';
+
+								echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . wp_kses_post( sprintf( __( '%sOptional but recommended%s for enhanced security.<br>Find your webhook signing secret in the Stripe Dashboard under %sDevelopers -> Webhooks%s, then click on your webhook endpoint to reveal the signing secret. This enables signature verification to ensure webhooks are genuinely from Stripe increasing security.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<strong>', '</strong>' ) ) . '</p>';
 
 							echo '</div>';
 
@@ -595,6 +612,27 @@ function pms_stripe_add_settings_content( $options ) {
 
 }
 add_action( 'pms-settings-page_payment_gateways_content', 'pms_stripe_add_settings_content', 9 );
+
+
+/**
+ * Save the webhook secret setting when the payments settings form is submitted
+ */
+function pms_stripe_save_webhook_secret() {
+
+	if( !isset( $_POST['pms_stripe_connect_webhook_secret'] ) )
+		return;
+
+	if( !current_user_can( 'manage_options' ) )
+		return;
+
+	$environment = pms_is_payment_test_mode() ? 'test' : 'live';
+
+	$webhook_secret = sanitize_text_field( $_POST['pms_stripe_connect_webhook_secret'] );
+
+	update_option( 'pms_stripe_connect_'. $environment .'_webhook_secret', $webhook_secret );
+
+}
+add_action( 'init', 'pms_stripe_save_webhook_secret', 100 );
 
 
 function pms_stripe_add_backend_warning( $options ){

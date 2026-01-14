@@ -566,26 +566,6 @@ function pms_get_generated_errors(){
 
 }
 
-// This adds a wrapper around the account details fields from the form and also makes sure to keep
-// the billing and credit card information sections separate
-add_action( 'pms_register_form_before_fields', 'pms_forms_output_account_details_wrapper_before', 60 );
-function pms_forms_output_account_details_wrapper_before( $atts ){
-
-    echo '<div class="pms-account-section-wrapper">';
-
-    if( $atts['plans_position'] == 'top' || ( function_exists( 'pms_get_active_form_design' ) && in_array( pms_get_active_form_design(), array( 'form-style-1', 'form-style-2', 'form-style-3' ) ) ) ){
-        echo '<h3 class="pms-account-details-title">'. esc_html__('Account Details', 'paid-member-subscriptions') .'</h3>';
-    }
-
-}
-
-add_action( 'pms_register_form_after_fields', 'pms_forms_output_account_details_wrapper_after', 60 );
-function pms_forms_output_account_details_wrapper_after(){
-
-    echo '</div>';
-
-}
-
 function pms_get_home_url(){
 
     $target_url = wp_parse_url( home_url() );

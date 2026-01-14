@@ -25,6 +25,7 @@
 <?php __("The default text color used in the Element.", "paid-member-subscriptions"); ?>
 <?php __("Inputs", "paid-member-subscriptions"); ?>
 <?php __("Labels", "paid-member-subscriptions"); ?>
+<?php __('%3$s %1$s %4$s includes improvements that require %3$s Paid Member Subscriptions v%2$s %4$s or higher to work properly. <br>%5$sUpdate now%6$s to ensure maximum compatibility.', 'paid-member-subscriptions' ); ?>
 <?php __("Congratulations, you have successfully created an account.", "paid-member-subscriptions"); ?>
 <?php __("Before you can access your account %1s, an administrator has to approve it. You will be notified via email.", "paid-member-subscriptions"); ?>
 <?php __("The account %1s has been successfully created!", "paid-member-subscriptions"); ?>
@@ -188,16 +189,12 @@
 <?php __('Upgrade %1$s to %2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Upgrade Subscription", "paid-member-subscriptions"); ?>
 <?php __("Go back", "paid-member-subscriptions"); ?>
-<?php __("Renew %s subscription. The subscription will be active until %s", "paid-member-subscriptions"); ?>
-<?php __("Renew Subscription", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to cancel your %s subscription? No further payments will be made for this subscription and it will expire.", "paid-member-subscriptions"); ?>
 <?php __("Confirm", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to abandon your %s subscription? This subscription will be removed completely from your account.", "paid-member-subscriptions"); ?>
 <?php __("Abandon Subscription", "paid-member-subscriptions"); ?>
 <?php __("Update recurring payment details for the %s subscription that will renew on %s.", "paid-member-subscriptions"); ?>
 <?php __("Update payment method", "paid-member-subscriptions"); ?>
-<?php __("Your %s subscription is still pending. Do you wish to retry the payment?", "paid-member-subscriptions"); ?>
-<?php __("Retry payment", "paid-member-subscriptions"); ?>
 <?php __("You must be logged in to view the comments.", "paid-member-subscriptions"); ?>
 <?php __("Comments are restricted for your membership level.", "paid-member-subscriptions"); ?>
 <?php __("You do not have access to this content. You need the proper subscription.", "paid-member-subscriptions"); ?>
@@ -614,6 +611,7 @@
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s', 'paid-member-subscriptions' ); ?>
 <?php __("I allow the website to collect and store the data I submit through this form. *", "paid-member-subscriptions"); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
+<?php __("Update billing details", "paid-member-subscriptions"); ?>
 <?php __("Abandoned", "paid-member-subscriptions"); ?>
 <?php __("Pricing Table", "paid-member-subscriptions"); ?>
 <?php __("Completed", "paid-member-subscriptions"); ?>
@@ -664,13 +662,19 @@
 <?php __("IP Address", "paid-member-subscriptions"); ?>
 <?php __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.', 'paid-member-subscriptions' ); ?>
 <?php __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'paid-member-subscriptions' ); ?>
-<?php __("Account Details", "paid-member-subscriptions"); ?>
 <?php __("%s needs to be installed and activated for the %s to work as expected!", "paid-member-subscriptions"); ?>
 <?php __('Edit a %3$ssubscription plan%2$s or %4$sdiscount code%2$s to use the new functionality. %1$sLearn more%2$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Your core %1$sPaid Member Subscriptions%2$s version is incompatible with the current %1$sAdvanced Subscription Toolkit Add-on%2$s that you have activated. %3$sPlease update %1$sPaid Member Subscriptions%2$s to at least version %1$s2.16.3%2$s to ensure maximum compatibility.', 'paid-member-subscriptions' ); ?>
 <?php __('For a consistent design on your website, it is best to set the same Form Style for both %1$sPaid Member Subscriptions%2$s and %1$sProfile Builder%2$s plugins.', 'paid-member-subscriptions' ); ?>
 <?php __('The currently active Form Style for Profile Builder forms is:  %1$s %3$s %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Select Your Subscription Plan", "paid-member-subscriptions"); ?>
+<?php __("Account Details", "paid-member-subscriptions"); ?>
+<?php __("Purchase Gift", "paid-member-subscriptions"); ?>
+<?php __("Subscribe", "paid-member-subscriptions"); ?>
+<?php __("Downgrade Subscription", "paid-member-subscriptions"); ?>
+<?php __("Change Subscription", "paid-member-subscriptions"); ?>
+<?php __("Retry payment", "paid-member-subscriptions"); ?>
+<?php __("Renew Subscription", "paid-member-subscriptions"); ?>
 <?php __('The %1$s Brevo Add-On %2$s is not compatible with the %1$s Mailchimp Add-On %2$s. To use %1$s Brevo %2$s, please deactivate the %1$s Mailchimp Add-On %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Brevo", "paid-member-subscriptions"); ?>
 <?php __("API Key", "paid-member-subscriptions"); ?>
@@ -748,7 +752,6 @@
 <?php __("Create member only content with just a few clicks.", "paid-member-subscriptions"); ?>
 <?php __("Allow only members to have access to courses, lessons and quizzes with Paid Member Subscriptions PRO.", "paid-member-subscriptions"); ?>
 <?php __("Upgrade to PRO", "paid-member-subscriptions"); ?>
-<?php __("Subscribe", "paid-member-subscriptions"); ?>
 <?php __("Subscription Name", "paid-member-subscriptions"); ?>
 <?php __("Subscription Status", "paid-member-subscriptions"); ?>
 <?php __("Subscription Start Date", "paid-member-subscriptions"); ?>
@@ -1332,6 +1335,7 @@
 <?php __("This URL can be used as the LearnDash Course Button URL, directing users to the PMS Registration page, where only the associated Subscription Plan is available.", "paid-member-subscriptions"); ?>
 <?php __("My Courses", "paid-member-subscriptions"); ?>
 <?php __("Take this Course", "paid-member-subscriptions"); ?>
+<?php __("Start this Course", "paid-member-subscriptions"); ?>
 <?php __("LearnDash Course Lessons", "paid-member-subscriptions"); ?>
 <?php __("Enable if you wish to display the Lessons List for this Course.", "paid-member-subscriptions"); ?>
 <?php __("By enabling this option a list of the Course Lessons will be displayed under the Content Restriction message! .", "paid-member-subscriptions"); ?>
@@ -1928,6 +1932,7 @@
 <?php __('Members of this Subscription Plan will be able to access Courses within the %1$s selected categories%2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Member discount!", "paid-member-subscriptions"); ?>
 <?php __("Who can purchase?", "paid-member-subscriptions"); ?>
+<?php __("All Subscription Plans", "paid-member-subscriptions"); ?>
 <?php __("Select who can purchase this product.", "paid-member-subscriptions"); ?>
 <?php __("Allow cumulative discounts", "paid-member-subscriptions"); ?>
 <?php __("By enabling this option we will cumulate all discounts that apply to a specific product.", "paid-member-subscriptions"); ?>
@@ -2520,8 +2525,8 @@
 <?php __("Downgrade %s to:", "paid-member-subscriptions"); ?>
 <?php __('Downgrade %1$s to %2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Change %s to:", "paid-member-subscriptions"); ?>
-<?php __("Downgrade Subscription", "paid-member-subscriptions"); ?>
-<?php __("Change Subscription", "paid-member-subscriptions"); ?>
+<?php __("Renew %s subscription. The subscription will be active until %s", "paid-member-subscriptions"); ?>
+<?php __("Your %s subscription is still pending. Do you wish to retry the payment?", "paid-member-subscriptions"); ?>
 <?php __("Trial", "paid-member-subscriptions"); ?>
 <?php __("Trial End Date", "paid-member-subscriptions"); ?>
 <?php __("%s on %s", "paid-member-subscriptions"); ?>
@@ -2631,7 +2636,6 @@
 <?php __("Resend Email", "paid-member-subscriptions"); ?>
 <?php __("There are no subscription plans available for gifting at this time.", "paid-member-subscriptions"); ?>
 <?php __("Select Gift", "paid-member-subscriptions"); ?>
-<?php __("Purchase Gift", "paid-member-subscriptions"); ?>
 <?php __("Seats", "paid-member-subscriptions"); ?>
 <?php __("%d%s on %s", "paid-member-subscriptions"); ?>
 <?php __("Invited", "paid-member-subscriptions"); ?>
@@ -2800,7 +2804,6 @@
 <?php __("No payments found.", "paid-member-subscriptions"); ?>
 <?php __("Display Options", "paid-member-subscriptions"); ?>
 <?php __("Display For", "paid-member-subscriptions"); ?>
-<?php __("All Subscription Plans", "paid-member-subscriptions"); ?>
 <?php __("Checking only \"Logged In Users\" will show this %s to all logged in users, regardless of subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Checking \"All Subscription Plans\" will show this %s to users that are subscribed any of the plans.", "paid-member-subscriptions"); ?>
 <?php __("Checking any subscription plan will show this %s only to users that are subscribed to those particular plans.", "paid-member-subscriptions"); ?>
@@ -3043,7 +3046,10 @@
 <?php __("Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Stripe Account.", "paid-member-subscriptions"); ?>
 <?php __("When the status changes to Connected, the website has started processing webhook data from Stripe.", "paid-member-subscriptions"); ?>
 <?php __("Webhooks URL", "paid-member-subscriptions"); ?>
-<?php __("Copy this URL and configure it in your Stripe Account. %sClick here%s to learn more about the Webhooks setup process. ", "paid-member-subscriptions"); ?>
+<?php __("Copy this URL and configure it in your Stripe Account. After setting up the webhook endpoint, you can also copy the %sWebhook Signing Secret%s from Stripe and paste it in the field below for enhanced security. %sClick here%s to learn more about the Webhooks setup process. ", "paid-member-subscriptions"); ?>
+<?php __("Webhook Signing Secret", "paid-member-subscriptions"); ?>
+<?php __("whsec_...", "paid-member-subscriptions"); ?>
+<?php __("%sOptional but recommended%s for enhanced security.<br>Find your webhook signing secret in the Stripe Dashboard under %sDevelopers -> Webhooks%s, then click on your webhook endpoint to reveal the signing secret. This enables signature verification to ensure webhooks are genuinely from Stripe increasing security.", "paid-member-subscriptions"); ?>
 <?php __("Domain Registration", "paid-member-subscriptions"); ?>
 <?php __("Verification status couldn't be determined.", "paid-member-subscriptions"); ?>
 <?php __("The plugin cannot determine the verification status of the current domain. Your domain might already be validated.", "paid-member-subscriptions"); ?>

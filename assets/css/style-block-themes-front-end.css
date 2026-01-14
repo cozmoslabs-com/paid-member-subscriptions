@@ -15,7 +15,7 @@
 
 #pms_login label:not(.login-remember label),
 #pms-subscription-plans-discount > label,
-.pms-field:not(.pms-gdpr-field, .pms-email-marketing-field) > label {
+.pms-field:not(.pms-gdpr-field, .pms-email-marketing-field, .pms-billing-toggle) > label {
     font-size: 18px;
     line-height: 26px;
     font-weight: 500;
@@ -26,12 +26,13 @@
     display: block;
 }
 
+.pms-form .pms-field.pms-billing-toggle > label,
 .pms-form .pms-field.pms-email-marketing-field > label,
 .pms-form .pms-field.pms-gdpr-field > label,
 .pms-form .pms-subscription-plan-auto-renew > label,
 .pms-form .pms-subscription-plan label {
     font-size: 16px;
-    line-height: 28px;
+    /*line-height: 28px;*/
 }
 
 .pms-form input[type="text"]:not(.pms_pwyw_pricing, #pms_subscription_plans_discount_code),

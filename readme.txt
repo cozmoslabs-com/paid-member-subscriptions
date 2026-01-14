@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.17.0
+Stable tag: 2.17.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -268,6 +268,23 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.17.1 =
+**Enhancements:**
+
+* Added optional webhook signature verification for Stripe. The secret can be found and copied from your Stripe Account Dashboard and then added in our plugin settings under Payments -> Gateways -> Webhook Signing Secret to enhance security
+* Added an All Subscription Plans option for the WooCommerce Content Restriction integration
+
+**Fixes:**
+
+* Fix some console errors being thrown in some cases from the Gutenberg Blocks integration
+* Added compatibility code to allow our custom back-end metaboxes to display when the Valenti theme is used
+* Do not cancel legacy PayPal Subscriptions when the website subscription expires
+* Fix an error that was thrown from the TutorLMS integration when a subscription was abandoned
+
+**Compatibility:**
+
+* Compatibility changes for the Register Form rework from Form Designs
+
 = 2.17.0 =
 **Migration:**
 

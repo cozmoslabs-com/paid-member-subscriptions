@@ -109,10 +109,27 @@ function pms_woo_save_custom_purchasing_restricted_message( $post_id ) {
         return;
 
     delete_post_meta( $post_id, 'pms-purchase-restrict-subscription-plan' );
-    if( isset( $_POST['pms-purchase-restrict-subscription-plan'] ) && is_array( $_POST['pms-purchase-restrict-subscription-plan'] ) ) {
-        $subscription_ids = array_map( 'absint', $_POST['pms-purchase-restrict-subscription-plan'] );
+    delete_post_meta( $post_id, 'pms-purchase-restrict-all-subscription-plans' );
+    if( ( isset( $_POST['pms-purchase-restrict-subscription-plan'] ) && is_array( $_POST['pms-purchase-restrict-subscription-plan'] ) ) || isset( $_POST['pms-purchase-restrict-all-subscription-plans'] ) ) {
+
+        if( isset( $_POST['pms-purchase-restrict-all-subscription-plans'] ) )
+            update_post_meta( $post_id, 'pms-purchase-restrict-all-subscription-plans', 'all' );
+
+        if( isset( $_POST['pms-purchase-restrict-all-subscription-plans'] ) ){
+
+            $active_plans = pms_get_subscription_plans();
+            $subscription_ids = array();
+
+            foreach( $active_plans as $active_plan ){
+                $subscription_ids[] = (int)$active_plan->id;
+            }
+        }
+        else
+            $subscription_ids = array_map( 'absint', $_POST['pms-purchase-restrict-subscription-plan'] );
+
         foreach ( $subscription_ids as $subscription_id ) {
-            add_post_meta($post_id, 'pms-purchase-restrict-subscription-plan', $subscription_id);
+            if( ! empty( $subscription_id ) )
+                add_post_meta( $post_id, 'pms-purchase-restrict-subscription-plan', $subscription_id );
         }
     }
 

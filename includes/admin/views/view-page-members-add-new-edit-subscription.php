@@ -385,7 +385,7 @@ if( ! empty( $_POST ) ) {
                         <span><?php esc_html_e( 'Subscription Billing Schedule', 'paid-member-subscriptions' ); ?></span>
                     </h3>
 
-                        <?php if( ! empty( $form_data['payment_profile_id'] ) || apply_filters( 'pms_edit_subscription_edit_payment_profile_id', false ) ) : ?>
+                        <?php if( ( ! empty( $form_data['payment_profile_id'] ) || apply_filters( 'pms_edit_subscription_edit_payment_profile_id', false ) ) && !pms_payment_gateways_support( array( $member_subscription->payment_gateway ), 'change_subscription_payment_method_admin' ) ) : ?>
 
                             <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
                                 <label class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Payment Gateway Subscription ID', 'paid-member-subscriptions' ); ?></label>

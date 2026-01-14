@@ -5,7 +5,6 @@
 .pms-form input[type=password],
 .pms-form input[type=email],
 .pms-form input[type=textarea],
-
 #pms_login input[type=text],
 #pms_login input[type=password],
 #pms_login input[type=email],
@@ -29,7 +28,7 @@ textarea {
 }
 
 #pms_login .login-remember label {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     padding-left: 8px;
     cursor: pointer;
 }
@@ -64,8 +63,7 @@ form.pms-form ul.pms-form-fields-wrapper {
 }
 
 .pms-field {
-    margin: 0;
-    margin-bottom: 20px;
+    margin: 0 0 20px 0;
 }
 
 .pms-field input[type=checkbox],
@@ -173,11 +171,11 @@ form.pms-form ul.pms-form-fields-wrapper {
 /**************************************************/
 .pms-subscription-plans-group-wrapper {
     border-bottom: 1px solid #ccc;
-    margin-bottom: 1.6842em;
+    margin-bottom: 20px;
 }
 
 .pms-subscription-plan {
-    margin-bottom: 1.345em;
+    margin-bottom: 18px;
 }
 
 .pms-subscription-plan input {
@@ -338,10 +336,6 @@ form.pms-form ul.pms-form-fields-wrapper {
     margin-bottom: 1em;
 }
 
-#pms-paygates-wrapper h3 {
-    margin-bottom: 16px;
-}
-
 #pms-paygates-inner {
     visibility: hidden;
     display: flex;
@@ -425,6 +419,7 @@ form.pms-form ul.pms-form-fields-wrapper {
     margin-bottom: 1em;
 }
 
+.pms-form .pms-billing-toggle,
 .pms-form .pms-email-marketing-field label,
 .pms-form .pms-gdpr-field label,
 .pms-subscription-plan-auto-renew label {
@@ -434,13 +429,22 @@ form.pms-form ul.pms-form-fields-wrapper {
     cursor: pointer;
 }
 
+.pms-form .pms-billing-toggle label {
+    cursor: pointer;
+}
+
 .pms-form .pms-gdpr-field label {
     align-items: flex-start;
 }
 
+.pms-form .pms-billing-toggle,
 .pms-form .pms-email-marketing-field label,
 .pms-subscription-plan-auto-renew label {
     align-items: center;
+}
+
+.pms-form .pms-gdpr-field label .pms-gdpr-field-text {
+    padding-top: 2px;
 }
 
 .pms-form .pms-email-marketing-field label .pms-email-marketing-field-text a,
@@ -448,11 +452,6 @@ form.pms-form ul.pms-form-fields-wrapper {
     line-height: 20px;
 }
 
-.pms-subscription-plan-auto-renew label input[type="checkbox"],
-.wppb-form-field.wppb-subscription-plans .pms-subscription-plan-auto-renew label input[type="checkbox"] {
-    margin: 0 !important;
-    margin-right: 4px !important;
-}
 
 /**************************************************/
 /* Tables
@@ -470,7 +469,10 @@ form.pms-form ul.pms-form-fields-wrapper {
 /**************************************************/
 /* Placeholder for the submit buttons while processing
 /**************************************************/
-#pms-submit-button-loading-placeholder-text { display: none; }
+#pms-submit-button-loading-placeholder-text {
+    display: none;
+}
+
 
 /**************************************************/
 /* Account Shortcode tabs
@@ -548,7 +550,6 @@ ul.pms-field-section {
 }
 
 /* Profile Builder form Billing Details */
-
 .wppb-form-field.wppb-subscription-plans .pms-form-fields-wrapper label,
 .wppb-form-field.wppb-subscription-plans .pms-field-section label {
     width: 30%;
@@ -593,17 +594,9 @@ ul.pms-field-section {
     font-size: 115%;
 }
 
-/* .pms-upgrade__group--upgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee, .pms-upgrade__group--downgrade .pms-subscription-plan .pms-subscription-plan-sign-up-fee {
-    display: none;
-} */
-
 .pms-subscription-plan-price__recurring {
     display: none;
 }
-
-/* .pms-subscription-plan-price__recurring .pms-divider:first-child {
-    display: none;
-} */
 
 .pms-prorate-frontend-message {
     margin-bottom: 1.345em;
@@ -659,11 +652,6 @@ ul.pms-field-section {
 #pms-pass-strength-result.strong {
     background-color: #C3FF88;
     border-color: #8DFF1C;
-}
-
-.pms-form-fields-wrapper .pms-field-subscriptions .pms-subscriptions-list-title,
-.pms-form-fields-wrapper .pms-account-details-title {
-    margin-bottom: 30px;
 }
 
 .pms-register-form-top-plans .pms-form-fields-wrapper {
@@ -851,14 +839,6 @@ label[for="pms_subscription_plans_discount"] {
     color: green;
 }
 
-#pms-renew-subscription-form #pms-subscription-plans-discount,
-#pms-upgrade-subscription-form #pms-subscription-plans-discount,
-#pms-retry-payment-subscription-form #pms-subscription-plans-discount,
-#pms-ec-register-form #pms-subscription-plans-discount,
-.wppb-subscription-plans #pms-subscription-plans-discount {
-    margin-bottom: 20px;
-}
-
 #pms-subscription-plans-discount {
     margin-bottom: 1em;
 }
@@ -876,7 +856,6 @@ label[for="pms_subscription_plans_discount"] {
 }
 
 /* Billing details */
-
 .pms-billing-details {
     display: none;
     flex-wrap: wrap;
@@ -884,26 +863,30 @@ label[for="pms_subscription_plans_discount"] {
 }
 
 .pms-billing-details .pms-field {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     width: 100%;
 }
 
 .pms-billing-details .pms-field-type-heading h3,
 .pms-billing-details .pms-field-type-heading h4 {
-    margin-top: 0px;
+    margin-bottom: 0;
 }
 
-.pms-billing-details h3 {
-    margin-bottom: 10px; /* 18px gap + 10px for heading */
+.pms-billing-details .pms-field-type-heading {
+    margin-bottom: 12px; /* 18px gap + 12px for heading */
 }
 
-.pms-billing-details .pms-billing-first-name,
-.pms-billing-details .pms-billing-last-name,
-.pms-billing-details .pms-billing-city,
-.pms-billing-details .pms-billing-state,
-.pms-billing-details .pms-billing-zip,
-.pms-billing-details .pms-billing-country {
-    flex-basis: calc( 50% - 9px ); /* 18px gap / 2 */
+@media screen and ( min-width: 600px ) {
+
+    .pms-billing-details .pms-billing-first-name,
+    .pms-billing-details .pms-billing-last-name,
+    .pms-billing-details .pms-billing-city,
+    .pms-billing-details .pms-billing-state,
+    .pms-billing-details .pms-billing-zip,
+    .pms-billing-details .pms-billing-country {
+        flex-basis: calc( 50% - 9px ); /* 18px gap / 2 */
+    }
+
 }
 
 /* ESDO invite code description */

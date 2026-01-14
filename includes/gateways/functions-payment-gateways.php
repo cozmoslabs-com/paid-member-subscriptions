@@ -382,64 +382,72 @@ function pms_get_output_payment_gateways( $pms_settings = array(), $form_locatio
     // Show payment gateway errors
     $output .= pms_display_field_errors( pms_errors()->get_error_messages( 'payment_gateway' ), true );
 
-    if( empty( $active_gateways ) ) {
+    $output .= '<div class="pms-paygates-holder">';
 
-        // Output payment gateways not available message
-        $output .= '<div id="pms-active-gateways-not-available">';
-            $output .= '<span>' . __( 'No payment methods are available to complete the checkout process.', 'paid-member-subscriptions' ) . '</span>';
-        $output .= '</div>';
-
-    // If there's only one payment gateway saved
-    } else if( count( $active_gateways ) == 1 ) {
-
-        $paygate_key = ( $active_gateways[0] != 'stripe_connect' ? $active_gateways[0] : 'stripe_connect' );
-
-        $output .= apply_filters( 'pms_output_payment_gateway_input_hidden', '<div id="pms-paygates-wrapper"><input type="hidden" class="pms_pay_gate" name="pay_gate" value="' . esc_attr( $paygate_key ) . '" ' . $gateway_supports_arr[$paygate_key] . ' /></div>', $active_gateways[0] );
-
-    } else {
-
-        $payment_gateways = pms_get_payment_gateways();
-
-        // Set default payment gateway
-        $default_gateway  = ( !empty( $pms_settings['default_payment_gateway'] ) ? ( in_array( $pms_settings['default_payment_gateway'], $active_gateways ) ? $pms_settings['default_payment_gateway'] : $active_gateways[0] ) : 'paypal_standard' );
-        $default_gateway  = ( !empty( $_POST['pay_gate'] ) ? sanitize_text_field( $_POST['pay_gate'] ) : $default_gateway );
-
-        // Output content for the payment gateways
-        $output .= '<div id="pms-paygates-wrapper">';
-
-            $output .= apply_filters( 'pms_get_output_payment_gateways_before', '<h3>' . __( 'Select a Payment Method', 'paid-member-subscriptions' ) . '</h3>', $pms_settings );
-
-            $output .= '<div id="pms-paygates-inner">';
-
-                if( !empty( $active_gateways ) ) {
-                    foreach( $active_gateways as $paygate_key ) {
-
-                        // Check to see if the gateway exists
-                        if( empty( $payment_gateways[$paygate_key] ) )
-                            continue;
-
-                        $output .= '<label>';
-                            $output .= apply_filters( 'pms_output_payment_gateway_input_radio', '<input type="radio" class="pms_pay_gate" name="pay_gate" value="' . esc_attr( $paygate_key ) . '" ' . checked( $default_gateway, $paygate_key, false ) . $gateway_supports_arr[$paygate_key] . ' />', $paygate_key );
-                            $output .= '<span class="pms-paygate-name">' . $payment_gateways[$paygate_key]['display_name_user'] . '</span>';
-                        $output .= '</label>';
-
-                    }
-                }
-
-            $output .= '</div>';
+        if( empty( $active_gateways ) ) {
 
             // Output payment gateways not available message
-            $output .= '<div id="pms-gateways-not-available">';
-                $output .= '<span>' . __( 'No payment methods are available for the selected subscription plan.', 'paid-member-subscriptions' ) . '</span>';
+            $output .= '<div id="pms-active-gateways-not-available">';
+                $output .= '<span>' . __( 'No payment methods are available to complete the checkout process.', 'paid-member-subscriptions' ) . '</span>';
             $output .= '</div>';
 
-        $output .= '</div>';
+        // If there's only one payment gateway saved
+        } else if( count( $active_gateways ) == 1 ) {
 
-    }
+            $paygate_key = ( $active_gateways[0] != 'stripe_connect' ? $active_gateways[0] : 'stripe_connect' );
 
-    //backwards compatibility with older add-on versions
-    if ( defined( 'PMS_STRIPE_VERSION' ) && version_compare( PMS_STRIPE_VERSION, '1.2.5' ) == -1 )
-        $pms_settings = get_option( 'pms_settings' );
+            $output .= apply_filters( 'pms_output_payment_gateway_input_hidden', '<div id="pms-paygates-wrapper"><input type="hidden" class="pms_pay_gate" name="pay_gate" value="' . esc_attr( $paygate_key ) . '" ' . $gateway_supports_arr[$paygate_key] . ' /></div>', $active_gateways[0] );
+
+        } else {
+
+            $payment_gateways = pms_get_payment_gateways();
+
+            // Set default payment gateway
+            $default_gateway  = ( !empty( $pms_settings['default_payment_gateway'] ) ? ( in_array( $pms_settings['default_payment_gateway'], $active_gateways ) ? $pms_settings['default_payment_gateway'] : $active_gateways[0] ) : 'paypal_standard' );
+            $default_gateway  = ( !empty( $_POST['pay_gate'] ) ? sanitize_text_field( $_POST['pay_gate'] ) : $default_gateway );
+
+            // Output content for the payment gateways
+            $output .= '<div id="pms-paygates-wrapper">';
+
+                $output .= apply_filters( 'pms_get_output_payment_gateways_before', '<h3>' . __( 'Select a Payment Method', 'paid-member-subscriptions' ) . '</h3>', $pms_settings );
+
+                $output .= '<div id="pms-paygates-inner">';
+
+                    if( !empty( $active_gateways ) ) {
+                        foreach( $active_gateways as $paygate_key ) {
+
+                            // Check to see if the gateway exists
+                            if( empty( $payment_gateways[$paygate_key] ) )
+                                continue;
+
+                            $output .= '<label>';
+                                $output .= apply_filters( 'pms_output_payment_gateway_input_radio', '<input type="radio" class="pms_pay_gate" name="pay_gate" value="' . esc_attr( $paygate_key ) . '" ' . checked( $default_gateway, $paygate_key, false ) . $gateway_supports_arr[$paygate_key] . ' />', $paygate_key );
+                                $output .= '<span class="pms-paygate-name">' . $payment_gateways[$paygate_key]['display_name_user'] . '</span>';
+                            $output .= '</label>';
+
+                        }
+                    }
+
+                $output .= '</div>';
+
+                // Output payment gateways not available message
+                $output .= '<div id="pms-gateways-not-available">';
+                    $output .= '<span>' . __( 'No payment methods are available for the selected subscription plan.', 'paid-member-subscriptions' ) . '</span>';
+                $output .= '</div>';
+
+            $output .= '</div>';
+
+        }
+
+        // Because custom fields are outputted directly with echo, this filter is expected to always do the same thing
+        ob_start();
+
+        do_action( 'pms_get_output_payment_gateways_after_paygates', $pms_settings, $form_location );
+
+        $output .= ob_get_contents();
+        ob_end_clean();
+
+    $output .= '</div>';
 
     return apply_filters( 'pms_get_output_payment_gateways', $output, $pms_settings, $form_location );
 
@@ -452,14 +460,40 @@ function pms_get_output_payment_gateways( $pms_settings = array(), $form_locatio
  * @return string
  *
  */
-function pms_output_subscription_plans_payment_gateways( $output, $include, $exclude_id_group, $member, $pms_settings, $subscription_plans, $form_location ) {
+function pms_output_subscription_plans_payment_gateways( $atts ) {
 
-    if( is_object( $member ) || $form_location == 'wppb_register' )
-        return $output;
+    $current_filter = current_filter();
+    
+    $form_locations = array(
+        'pms_register_form_bottom'            => 'register',
+        'pms_new_subscription_form_bottom'    => 'new_subscription',
+        'pms_change_subscription_form_bottom' => 'change_subscription',
+        'pms_renew_subscription_form_bottom'  => 'renew_subscription',
+        'pms_retry_payment_form_bottom'       => 'retry_payment',
+        'pms_gift_subscription_form_bottom'   => 'gift_subscription',
+    );
+    
+    $form_location = isset( $form_locations[ $current_filter ] ) ? $form_locations[ $current_filter ] : '';
+    
+    if ( empty( $form_location ) ) {
+        return;
+    }
 
-    $output .= pms_get_output_payment_gateways( $pms_settings, $form_location );
+    $pms_settings = get_option( 'pms_payments_settings' );
 
-    return $output;
+    ob_start();
+
+    echo pms_get_output_payment_gateways( $pms_settings, $form_location ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+    $output = ob_get_contents();
+    ob_end_clean();
+
+    echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 }
-add_filter( 'pms_output_subscription_plans', 'pms_output_subscription_plans_payment_gateways', 10, 7 );
+add_action( 'pms_register_form_bottom', 'pms_output_subscription_plans_payment_gateways' );
+add_action( 'pms_new_subscription_form_bottom', 'pms_output_subscription_plans_payment_gateways' );
+add_action( 'pms_change_subscription_form_bottom', 'pms_output_subscription_plans_payment_gateways' );
+add_action( 'pms_renew_subscription_form_bottom', 'pms_output_subscription_plans_payment_gateways' );
+add_action( 'pms_retry_payment_form_bottom', 'pms_output_subscription_plans_payment_gateways' );
+add_action( 'pms_gift_subscription_form_bottom', 'pms_output_subscription_plans_payment_gateways' );

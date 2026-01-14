@@ -587,7 +587,7 @@ class PMS_IN_TutorLMS {
         foreach ( $all_tutor_course_ids as $course_id ) {
             $course_subscription_plan_ids = get_post_meta( $course_id, 'pms-content-restrict-subscription-plan' );
             $course_categories = wp_get_object_terms( $course_id, 'course-category', array( 'fields' => 'ids' ) );
-            $course_in_target_category = !empty( array_intersect( $targeted_categories, $course_categories ) );
+            $course_in_target_category = is_array( $course_categories ) ? !empty( array_intersect( $targeted_categories, $course_categories ) ) : false;
             $public_course = get_post_meta( $course_id, '_tutor_is_public_course', true );
 
             if ( $public_course === 'no' && empty( $course_subscription_plan_ids ) ) {

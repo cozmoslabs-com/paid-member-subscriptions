@@ -34,6 +34,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         <?php
 
+            do_action( 'pms_' . $form_name . '_form_subscription_plans_field_before_output', $atts );
+
             $field_errors = pms_errors()->get_error_messages( 'subscription_plans' );
 
             echo '<li class="pms-field pms-field-subscriptions ' . ( !empty( $field_errors ) ? 'pms-field-error' : '' ) . '">';
@@ -43,12 +45,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 echo pms_output_subscription_plans( $target_plans, $atts['exclude'], false, (isset($atts['selected']) ? trim($atts['selected']) : '' ), 'new_subscription' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '</li>';
 
+            do_action( 'pms_' . $form_name . '_form_subscription_plans_field_after_output', $atts );
+
         ?>
 
     </ul>
 
     <?php do_action( 'pms_' . $form_name . '_form_bottom', $atts ); ?>
 
-    <input name="pms_<?php echo esc_attr( $form_name ); ?>" type="submit" value="<?php echo esc_attr( apply_filters( 'pms_' . $form_name . '_form_submit_text', __( 'Subscribe', 'paid-member-subscriptions' ) ) ); ?>" />
+    <?php if( apply_filters( 'pms_' . $form_name . '_form_submit_button_enabled', true, $form_name ) ) : ?>
+        <input name="pms_<?php echo esc_attr( $form_name ); ?>" type="submit" value="<?php echo esc_attr( apply_filters( 'pms_' . $form_name . '_form_submit_text', __( 'Subscribe', 'paid-member-subscriptions' ) ) ); ?>" />
+    <?php endif; ?>
 
 </form>

@@ -110,11 +110,18 @@ function pms_pb_email_confirmation_payment_form( $message ) {
     // Form
     $output = '<form id="pms-register-form" action="" method="POST" class="pms-form pms-ec-register-form '. $extra_classes .'">';
 
-        $output .= pms_output_subscription_plans( array( $subscription_plan_id ), array(), false, '', 'register_email_confirmation' );
-
         // Start output buffering
-        ob_start();
+        ob_start(); ?>
 
+        <div class="pms-ec-register-form__plans pms-form-fields-wrapper">
+            <?php do_action( 'pms_email_confirmation_form_before_subscription_plans_output' ); ?>
+
+            <?php echo pms_output_subscription_plans( array( $subscription_plan_id ), array(), false, '', 'register_email_confirmation' ); //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+
+            <?php do_action( 'pms_email_confirmation_form_after_subscription_plans_output' ); ?>
+        </div>
+
+        <?php
         wp_nonce_field( 'pms_register_form_email_confirmation_nonce', 'pmstkn' );
 
         do_action( 'pms_register_form_bottom' );
@@ -131,7 +138,9 @@ function pms_pb_email_confirmation_payment_form( $message ) {
             $output .= '<input name="activation_key" type="hidden" value="' . esc_attr( sanitize_text_field( $_GET['activation_key'] ) ) .'" />';
 
         // Submit button
-        $output .= '<input name="pms_register" type="submit" value="' . esc_attr( apply_filters( 'pms_register_form_email_confirmation_submit_text', __( 'Subscribe', 'paid-member-subscriptions' ) ) ) . '" />';
+        if( apply_filters( 'pms_email_confirmation_form_submit_button_enabled', true, 'email_confirmation' ) ) {
+            $output .= '<input name="pms_register" type="submit" value="' . esc_attr( apply_filters( 'pms_register_form_email_confirmation_submit_text', __( 'Subscribe', 'paid-member-subscriptions' ) ) ) . '" />';
+        }
 
     $output .= '</form>';
 
@@ -141,7 +150,7 @@ function pms_pb_email_confirmation_payment_form( $message ) {
         $message = '';
 
     // Return
-    return apply_filters( 'pms_pb_email_confirmation_payment_form_content' ,$message . $output, 'pb_email_confirmation_payment_form' );
+    return apply_filters( 'pms_pb_email_confirmation_payment_form_content', $message . $output, 'pb_email_confirmation_payment_form' );
 
 }
 add_filter( 'wppb_success_email_confirmation', 'pms_pb_email_confirmation_payment_form', 20, 1 );

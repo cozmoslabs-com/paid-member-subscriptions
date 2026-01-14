@@ -28,6 +28,9 @@ var is_pb_email_confirmation_on
 // Billing Fields
 var $pms_section_billing_details
 
+// Billing Fields Toggle
+var $pms_billing_toggle
+
 /**
  * Core plugin
  *
@@ -102,6 +105,7 @@ jQuery( function($) {
     var settings_recurring = $('input[name="pms_default_recurring"]').val()
 
     $pms_section_billing_details = $('.pms-section-billing-details')
+    $pms_billing_toggle          = $('#pms_billing_toggle_checkbox')
     is_pb_email_confirmation_on  = $pms_section_billing_details.siblings('.pms-email-confirmation-payment-message').length > 0 ? true : false
 
     // Field wrappers
@@ -352,6 +356,7 @@ jQuery( function($) {
 
                 $('.pms-paygate-extra-fields').hide()
                 $('.pms-billing-details').hide()
+                $('.pms-section-billing-toggle').hide()
 
             }
 
@@ -388,11 +393,36 @@ jQuery( function($) {
          */
         function handle_billing_fields_display(){
 
-            if( !( $pms_section_billing_details.length > 0 ) )
+            if( !( $pms_section_billing_details.length > 0 ) ) {
+                $('.pms-section-billing-toggle').hide()
                 return
+            }
 
-            if ( $pms_checked_subscription.length > 0 && !is_pb_email_confirmation_on && ( $pms_checked_subscription.data('price') != 0 || $.pms_plan_has_signup_fee( $pms_checked_subscription ) ) )
+            if ( $pms_checked_subscription.length > 0 && !is_pb_email_confirmation_on && ( $pms_checked_subscription.data('price') != 0 || $.pms_plan_has_signup_fee( $pms_checked_subscription ) ) ) {
                 $('.pms-billing-details').attr('style', 'display: flex;');
+
+                if ( $pms_checked_subscription.data('price') > 0 )
+                    $('.pms-section-billing-toggle').show()
+                else $('.pms-section-billing-toggle').hide()
+            }
+
+            let parentForm = $pms_section_billing_details.closest('form').attr('id');
+
+            if ( parentForm === undefined || ( parentForm !== 'pms_edit-profile-form' && !$pms_checked_subscription.length ) ) {
+                $('.pms-section-billing-toggle').hide()
+                return
+            }
+
+            if ( $pms_billing_toggle.length > 0 ) {
+
+                if ( $pms_billing_toggle.is(':checked') ) {
+                    $('.pms-billing-details').attr('style', 'display: flex;');
+                }
+                else {
+                    $('.pms-billing-details').hide();
+                }
+
+            }
 
         }
 
@@ -464,10 +494,35 @@ jQuery( function($) {
 
         });
 
+        /**
+         * Handle the Billing Fields Section toggle
+         */
+        if ($pms_billing_toggle.length > 0) {
+            let allRequiredFilled = true;
+
+            $('.pms-billing-details .pms-field-required').each(function() {
+                let $input = $(this).find('input, select');
+
+                if ($input.length > 0 && !$input.val()) {
+                    allRequiredFilled = false;
+                    return false;
+                }
+            });
+
+            if ( !allRequiredFilled ) {
+                $pms_billing_toggle.prop('checked', true);
+            }
+
+            $pms_billing_toggle.on('change', function() {
+                handle_billing_fields_display();
+            });
+
+        }
+
 
         /**
          * Trigger a click on the selected subscription plan so that
-         * the rest of the checkout interfacte changes
+         * the rest of the checkout interface changes
          *
          */
         handle_auto_renew_field_display()
@@ -572,6 +627,7 @@ jQuery( function($) {
 
                     $('.pms-paygate-extra-fields').hide()
                     $('.pms-billing-details').hide()
+                    $('.pms-section-billing-toggle').hide()
 
                     $('.pms-price-breakdown__holder').hide()
 
@@ -630,6 +686,7 @@ jQuery( function($) {
 
                     $('.pms-paygate-extra-fields').hide()
                     $('.pms-billing-details').hide()
+                    $('.pms-section-billing-toggle').hide()
 
                     $('.pms-price-breakdown__holder').hide()
 
@@ -645,6 +702,7 @@ jQuery( function($) {
 
                     $('.pms-paygate-extra-fields').show()
                     $('.pms-billing-details').attr('style', 'display: flex;');
+                    $('.pms-section-billing-toggle').show()
 
                     $('.pms-price-breakdown__holder').show()
 
@@ -880,6 +938,8 @@ jQuery( function($) {
 
         form.find('.pms-billing-details').replaceWith('<span class="pms-billing-details">')
 
+        $('.pms-section-billing-toggle').hide();
+
     }
 
     /**
@@ -907,6 +967,8 @@ jQuery( function($) {
         if ( typeof form.pms_billing_details != 'undefined' ) {
 
             form.find('.pms-billing-details').replaceWith(form.pms_billing_details)
+
+            $('.pms-section-billing-toggle').show();
 
             if ( typeof PMS_ChosenStrings !== 'undefined' && $.fn.chosen != undefined ) {
 

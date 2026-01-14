@@ -17,6 +17,22 @@ function pms_stripe_connect_get_api_credentials(){
 
 }
 
+/**
+ * Get the Stripe webhook signing secret for the current environment
+ *
+ * Returns the webhook signing secret used for verifying webhook signatures.
+ * The secret is environment-specific (test or live mode).
+ *
+ * @return string The webhook signing secret, or empty string if not configured
+ */
+function pms_stripe_connect_get_webhook_secret(){
+
+    $environment = pms_is_payment_test_mode() ? 'test' : 'live';
+
+    return get_option( 'pms_stripe_connect_'. $environment .'_webhook_secret', '' );
+
+}
+
 function pms_stripe_connect_get_account_status(){
 
     $api_credentials = pms_stripe_connect_get_api_credentials();

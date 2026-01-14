@@ -927,7 +927,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
      */
     public static function register_form_sections( $sections = array(), $form_location = '' ) {
 
-        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_paypal_connect', 'gift_subscription' ) ) )
+        if( ! in_array( $form_location, array( 'payment_gateways_after_paygates', 'update_payment_method_paypal_connect' ) ) )
             return $sections;
 
         // Add an extra section to the form to hold the PayPal Connect placeholder
@@ -957,7 +957,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
      */
     public static function register_form_fields( $fields = array(), $form_location = '' ) {
 
-        if( ! in_array( $form_location, array( 'register', 'new_subscription', 'upgrade_subscription', 'renew_subscription', 'retry_payment', 'change_subscription', 'update_payment_method_paypal_connect', 'gift_subscription' ) ) )
+        if( ! in_array( $form_location, array( 'payment_gateways_after_paygates', 'update_payment_method_paypal_connect' ) ) )
             return $fields;
 
         /**
