@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @return array
  */
 function pms_pb_get_billing_fields() {
-    $extra_fields = apply_filters( 'pms_extra_form_fields', array(), 'register' );
+    $extra_fields = apply_filters( 'pms_extra_form_fields', array(), 'wppb_register' );
 
     if ( empty( $extra_fields ) || ! is_array( $extra_fields ) )
         return array();

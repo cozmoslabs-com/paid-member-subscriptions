@@ -76,10 +76,10 @@ function pms_pb_add_billing_fields_props( $manage_fields ) {
     }
 
     $manage_fields[] = array(
-        'type' => 'checkbox',
-        'slug' => 'pms-billing-fields',
-        'title' => 'Billing Fields',
-        'options' =>  $fields,
+        'type'        => 'checkbox',
+        'slug'        => 'pms-billing-fields',
+        'title'       => 'Billing Fields',
+        'options'     => $fields,
         'description' => ! empty( $fields )
             ? sprintf(
                 esc_html__( 'Select the Billing Fields you want to display on the Edit Profile forms. %s If no fields are selected, all available Billing Fields will be displayed.', 'paid-member-subscriptions' ),
@@ -103,12 +103,14 @@ function pms_pb_add_billing_fields_props( $manage_fields ) {
  * Include necessary scripts for Profile Builder compatibility
  *
  */
-function pms_pb_enqueue_scripts() {
+function pms_pb_enqueue_scripts( $hook ) {
 
     wp_enqueue_script( 'pms-pb-main-js', PMS_PLUGIN_DIR_URL . 'extend/profile-builder/assets/js/main.js', array( 'jquery' ) );
 
-    wp_enqueue_script( 'pms-wp-edit-user-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-members-page.js', array('jquery'), PMS_VERSION );
-    wp_localize_script( 'pms-wp-edit-user-script', 'PMS_States', pms_get_billing_states() );
+    if( $hook == 'user-edit.php' ){
+        wp_enqueue_script( 'pms-wp-edit-user-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-members-page.js', array('jquery'), PMS_VERSION );
+        wp_localize_script( 'pms-wp-edit-user-script', 'PMS_States', pms_get_billing_states() );
+    }
 
 }
 add_action( 'admin_enqueue_scripts', 'pms_pb_enqueue_scripts', 9 );

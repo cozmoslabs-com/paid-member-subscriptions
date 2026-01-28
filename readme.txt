@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.17.1
+Stable tag: 2.17.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -268,6 +268,23 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.17.2 =
+**Enhancements:**
+
+* Added support for the Change Subscription action inside the [pms-action] shortcode
+
+**Fixes:**
+
+* Properly hide payment gateways on register forms without subscription plans
+* Fix Profile Builder custom Billing Fields integration not appearing correctly on Profile Builder Edit Profile forms
+* Make sure back-end script is added only on necessary pages
+* Payment Gateways are now properly shown for Free plans with a Sign-up Fee displayed through the Profile Builder form
+* Fix a notice that could be triggered when updating subscriptions
+
+**Misc:**
+
+* Added a filter over the preview output of the restricted post preview functionality: pms_restricted_post_preview_content
+
 = 2.17.1 =
 **Enhancements:**
 
@@ -315,22 +332,5 @@ For more information please check out [Paid Member Subscriptions documentation](
 * Compatibility changes for the new Pause Subscriptions and Gift Subscriptions add-ons
 
 **Happy Holidays from the Cozmoslabs team!**
-
-= 2.16.9 =
-* Enhancement: Added compatibility for Stripe payment forms with Elementor Pro Popups. The purchase form should now load the credit card fields correctly and allow the form to be submitted
-* Enhancement: Added extra field to the Profile Builder integration that allows you to insert the Paid Member Subscriptions Billing Field inside a Profile Builder Edit Profile form
-* Fix: Correctly handle the Email Address free trial restriction when logged in Account page actions are performed
-* Fix: A scenario when the payment details would not load in a purchase form added through Elementor when a single subscription plan was showing
-* Misc: Fix a potential notice
-* Misc: Added a filter over the type column of the Payments List table: pms_payments_list_table_column_type
-* Misc: Added classes to some more rows from the Account output
-
-= 2.16.8 =
-* Fix: Issue with Stripe 3D secure authentication failing to continue payment processing on the website without webhooks enabled
-
-= 2.16.7 =
-* Enhancement: Reduce memory consumption when querying for Payments in the Reports interface roughly doubling performance
-* Fix: Issue with the Exclude Restricted Posts From Queries functionality breaking Ultimate Member profile edits in some cases
-* Misc: Compatibility with the new Email Marketing add-ons for Mailchimp and Brevo
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

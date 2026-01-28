@@ -239,6 +239,43 @@ function pms_get_upgrade_url( $upgrade_plan_id = '' ) {
 
 }
 
+/**
+ * Given a subscription plan ID, generate an URL to change the subscription
+ *
+ * @since  2.17.2
+ * @param  int     $plan_id  Subscription Plan ID
+ * @return string            Change Subscription URL
+ */
+function pms_get_change_url( $plan_id = '' ) {
+
+    if( !( $account_page = pms_get_page( 'account', true ) ) )
+        return false;
+
+    $member = pms_get_member( get_current_user_id() );
+
+    if( !$member->is_member() )
+        return false;
+
+    if( empty( $plan_id ) ) {
+        $subscriptions = $member->get_subscriptions_ids();
+        $plan_id       = $subscriptions[0];
+    }
+
+    if( !in_array( $plan_id, $member->get_subscriptions_ids() ) )
+        return false;
+
+    $member_subscription = $member->get_subscription( (int)$plan_id );
+
+    // only non-pending subscriptions can be changed
+    if( $member_subscription['status'] == 'pending' )
+        return false;
+
+    $url = wp_nonce_url( add_query_arg( array( 'pms-action' => 'change_subscription', 'subscription_id' => $member_subscription['id'], 'subscription_plan' => $plan_id ), $account_page ), 'pms_member_nonce', 'pmstkn' );
+
+    return apply_filters( 'pms_get_change_url', $url, $plan_id );
+
+}
+
 
 /**
  * Get the URL of an account page tab, processed based on current permalinks settings.

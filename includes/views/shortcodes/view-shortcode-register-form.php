@@ -144,7 +144,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     <?php do_action( 'pms_' . $form_name . '_form_bottom', $atts ); ?>
 
-    <?php if( apply_filters( 'pms_' . $form_name . '_form_submit_button_enabled', true, $form_name ) ) : ?>
+    <?php if( apply_filters( 'pms_' . $form_name . '_form_submit_button_enabled', true, $form_name, $atts ) ) : ?>
         <input class="pms-form-submit" name="pms_<?php echo esc_attr( $form_name ); ?>" type="submit" value="<?php echo esc_attr( apply_filters( 'pms_' . $form_name . '_form_submit_text', __( 'Register', 'paid-member-subscriptions' ) ) ); ?>" />
     <?php endif; ?>
 

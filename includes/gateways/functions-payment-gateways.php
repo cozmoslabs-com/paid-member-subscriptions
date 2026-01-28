@@ -479,6 +479,12 @@ function pms_output_subscription_plans_payment_gateways( $atts ) {
         return;
     }
 
+    if( $current_filter === 'pms_register_form_bottom' ) {
+        if( isset( $atts['subscription_plans'] ) && is_array( $atts['subscription_plans'] ) && in_array( 'none', $atts['subscription_plans'] ) ) {
+            return;
+        }
+    }
+
     $pms_settings = get_option( 'pms_payments_settings' );
 
     ob_start();

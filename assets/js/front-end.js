@@ -606,7 +606,7 @@ jQuery( function($) {
                         return false
                     }
 
-                    if ( $checked.data('price') && $checked.data('price') > 0 ) {
+                    if ( ( $checked.data('price') && $checked.data('price') > 0 ) || $.pms_plan_has_signup_fee( $checked ) ) {
                         only_free_plans = false
                     }
 

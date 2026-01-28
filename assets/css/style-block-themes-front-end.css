@@ -191,7 +191,8 @@
 
 /* Buttons */
 #pms_login input[type="submit"],
-.pms-form input[type="submit"] {
+.pms-form input[type="submit"],
+.pms-group-dashboard button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -208,7 +209,8 @@
 }
 
 #pms_login input[type="submit"],
-.pms-form input[type="submit"]:not(#pms-delete-account) {
+.pms-form input[type="submit"]:not(#pms-delete-account),
+.pms-group-dashboard button {
     background: #333333;
 }
 
@@ -224,7 +226,9 @@
 #pms_login input[type="submit"]:hover,
 #pms_login input[type="submit"]:focus,
 .pms-form input[type="submit"]:not(#pms-delete-account):hover,
-.pms-form input[type="submit"]:not(#pms-delete-account):focus {
+.pms-form input[type="submit"]:not(#pms-delete-account):focus,
+.pms-group-dashboard button:hover,
+.pms-group-dashboard button:focus {
     background-color: #444444;
 }
 

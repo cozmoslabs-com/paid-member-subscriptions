@@ -871,7 +871,7 @@ Class PMS_Shortcodes {
             'plan_id' => '',
         ), $atts );
 
-        $actions = array( 'retry', 'renew', 'upgrade', 'cancel', 'abandon' );
+        $actions = array( 'retry', 'renew', 'upgrade', 'change', 'cancel', 'abandon' );
         $current_action = '';
 
         foreach( $actions as $action ) {

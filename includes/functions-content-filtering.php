@@ -256,6 +256,16 @@ function pms_add_restricted_post_preview( $message, $content, $post, $user_ID ) 
         }
     }
 
+    /**
+     * Filter the preview content
+     *
+     * @param string $preview The preview content
+     * @param WP_Post $post The post object
+     * @param int $user_ID The user ID
+     * @return string The filtered preview content
+     */
+    $preview = apply_filters( 'pms_restricted_post_preview_content', $preview, $post, $user_ID );
+
     // Return the preview
     return wpautop( $preview ) . $message;
 

@@ -692,6 +692,12 @@
 <?php __("Your version of Paid Member Subscriptions is not compatible with the Group Memberships add-on. Please update Paid member subscriptions to the latest version.", "paid-member-subscriptions"); ?>
 <?php __("Are you sure you want to remove this member ?", "paid-member-subscriptions"); ?>
 <?php __("Invalid user or user already a member of this group.", "paid-member-subscriptions"); ?>
+<?php __("Link copied to clipboard!", "paid-member-subscriptions"); ?>
+<?php __("Are you sure? This will invalidate the current link and generate a new one.", "paid-member-subscriptions"); ?>
+<?php __("Regenerating...", "paid-member-subscriptions"); ?>
+<?php __("Link regenerated successfully!", "paid-member-subscriptions"); ?>
+<?php __("An error occurred. Please try again.", "paid-member-subscriptions"); ?>
+<?php __("Regenerate Link", "paid-member-subscriptions"); ?>
 <?php __("Please select at least one payment to download invoices.", "paid-member-subscriptions"); ?>
 <?php __("Processing...", "paid-member-subscriptions"); ?>
 <?php __("An error occurred while processing the request.", "paid-member-subscriptions"); ?>
@@ -1607,21 +1613,26 @@
 <?php __("Group name cannot be empty.", "paid-member-subscriptions"); ?>
 <?php __("You were invited to join this website by <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Please fill the form below in order to complete your registration.", "paid-member-subscriptions"); ?>
+<?php __("You were invited to join this group by <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("You have selected a Group Membership. After a successful payment you will be able to invite up to %s additional members.", "paid-member-subscriptions"); ?>
 <?php __("Add Your Group Details", "paid-member-subscriptions"); ?>
 <?php __("Group Name *", "paid-member-subscriptions"); ?>
 <?php __("Group Description", "paid-member-subscriptions"); ?>
 <?php __("The group name you chose is already registered. Please enter another one.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a group name.", "paid-member-subscriptions"); ?>
+<?php __("Sorry, this group has reached its maximum capacity. No more registrations are allowed at this time.", "paid-member-subscriptions"); ?>
 <?php __("for %s members", "paid-member-subscriptions"); ?>
 <?php __("You are not allowed to do this.", "paid-member-subscriptions"); ?>
-<?php __("Member invitation removed succesfully !", "paid-member-subscriptions"); ?>
-<?php __("Member removed successfully !", "paid-member-subscriptions"); ?>
+<?php __("Member invitation removed succesfully!", "paid-member-subscriptions"); ?>
+<?php __("Member removed successfully!", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong, please try again.", "paid-member-subscriptions"); ?>
-<?php __("Invitation sent successfully !", "paid-member-subscriptions"); ?>
+<?php __("Invitation sent successfully!", "paid-member-subscriptions"); ?>
+<?php __("Invalid subscription.", "paid-member-subscriptions"); ?>
+<?php __("Invalid subscription type.", "paid-member-subscriptions"); ?>
 <?php __("Resend Invite", "paid-member-subscriptions"); ?>
 <?php __("Subscription activated by group subscription invitation.", "paid-member-subscriptions"); ?>
 <?php __("User accepted group subscription invitation and registered. Subscription activated.", "paid-member-subscriptions"); ?>
+<?php __("User registered via group link invitation. Subscription activated.", "paid-member-subscriptions"); ?>
 <?php __("Please select the [pms-register] page under Settings -> General -> Membership Pages in order for Group Subscription invitations to work.", "paid-member-subscriptions"); ?>
 <?php __("Please select the [pms-account] page under Settings -> General -> Membership Pages in order for Group Owners to be able to invite members and manage their group.", "paid-member-subscriptions"); ?>
 <?php __("No payment IDs provided.", "paid-member-subscriptions"); ?>
@@ -1821,7 +1832,6 @@
 <?php __("Payment Authentication required on {{site_name}}", "paid-member-subscriptions"); ?>
 <?php __("<p>Hello {{display_name}},</p> <p>Payment Authentication is required in order to confirm the payment of <strong>{{subscription_price}}</strong> for the <strong>{{subscription_name}}</strong> subscription on <strong>{{site_name}}</strong>.</p> <p>Click on the following link in order to authenticate the payment: {{stripe_auth_link}}</p>", "paid-member-subscriptions"); ?>
 <?php __("Stripe API key is not valid.", "paid-member-subscriptions"); ?>
-<?php __("An error occurred. Please try again.", "paid-member-subscriptions"); ?>
 <?php __("Credit / Debit Card Information", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent created.", "paid-member-subscriptions"); ?>
 <?php __("Attempting to confirm Payment Intent.", "paid-member-subscriptions"); ?>
@@ -2651,6 +2661,7 @@
 <?php __("Group seats needs to be a number", "paid-member-subscriptions"); ?>
 <?php __("Available seats needs to be equal or bigger than used seats.", "paid-member-subscriptions"); ?>
 <?php __("Group subscription details edited successfully !", "paid-member-subscriptions"); ?>
+<?php __("Member removed successfully !", "paid-member-subscriptions"); ?>
 <?php __("Group subscriptions can only be added as upgrades to regular plans.", "paid-member-subscriptions"); ?>
 <?php __("Regular plans cannot be added as upgrades to Group subscription plans.", "paid-member-subscriptions"); ?>
 <?php __("You need to define the number of seats for this Group Subscription.", "paid-member-subscriptions"); ?>
@@ -2667,6 +2678,8 @@
 <?php __("You can invite up to %s more members.", "paid-member-subscriptions"); ?>
 <?php __("Email(s) to invite:", "paid-member-subscriptions"); ?>
 <?php __("Enter a comma separated list of emails or a different email on each line.", "paid-member-subscriptions"); ?>
+<?php __("Invite Members via Link", "paid-member-subscriptions"); ?>
+<?php __("Share this link for anyone to register:", "paid-member-subscriptions"); ?>
 <?php __("You have reached the maximum amount of users that you can invite.", "paid-member-subscriptions"); ?>
 <?php __("Your subscription has expired. In order to invite more members, please renew.", "paid-member-subscriptions"); ?>
 <?php __("Your subscription is pending. After the payment is confirmed, you will be able to invite members.", "paid-member-subscriptions"); ?>

@@ -197,6 +197,14 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                     $_POST['expiration_date'] = $member_subscription->billing_next_payment;
             }
 
+
+            // Reset Subscription expiration and next payment dates when an admin manually abandons a recurring subscription form the administration area
+            if( isset( $_POST['status'] ) && in_array( $_POST['status'], array( 'abandoned' ) ) && $_POST['status'] != $member_subscription->status ){
+                if( !empty( $member_subscription->billing_next_payment ) )
+                    $_POST['expiration_date']      = date( 'Y-m-d H:i:s' );
+                    $_POST['billing_next_payment'] = '';
+            }
+
             do_action( 'pms_before_edit_subscription_admin', $member_subscription );
 
             // When a subscription is edited by the admin, disable payment retry
