@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.17.2
+Stable tag: 2.17.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -268,6 +268,21 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
+= 2.17.3 =
+**Fixes:**
+
+* Fix an issue with the Exclude Posts from Queries functionality throwing a 404 on unaccesible restricted pages in some cases
+* Fix an edge case where the Pay with PayPal button was not properly replacing the regular form submit button
+* Handle TutorLMS course subscription when an admin manually adds a membership to a user
+* Fix issue with Payment Details not appearing after a Profile Builder Email Confirmation if automatic login was also enabled
+* Fix an edge case where free subscriptions with sign-up fees were granted automatically without a payment after the user confirmed his email address
+* Fix a notice appearing in some cases when validating the payment gateways
+* Fix an edge case with 3D Secure Stripe payments where automatic renewal was activated erroneously
+* Properly handle the subscription_plans="none" parameter for the register shortcode when user is logged in. Now a message is displayed telling the user he already has an accoount
+* Add support for displaying the GDPR checkbox on the Gift Subscriptions form as well
+* Fix an issue where free subscriptions where not labeled properly in the back-end
+* Add a dismiss action to the Setup Progress Review widget from the Dashboard page
+
 = 2.17.2 =
 **Enhancements:**
 

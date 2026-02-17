@@ -177,6 +177,19 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
     }
 
     /**
+     * Validates that the gateway credentials are configured
+     *
+     */
+    public function validate_credentials() {
+
+        $api_credentials = pms_ppcp_get_api_credentials();
+
+        if ( empty( $api_credentials['client_id'] ) || empty( $api_credentials['client_secret'] ) )
+            pms_errors()->add( 'form_general', __( 'The selected gateway is not configured correctly: <strong>PayPal API credentials are missing</strong>. Contact the system administrator.', 'paid-member-subscriptions' ) );
+
+    }
+
+    /**
      * If a vault setup token is provided, create the payment token and save it for future transactions
      *
      * @param int $member_subscription_id

@@ -53,3 +53,26 @@ jQuery(document).on( 'click', '.pms-button-close', function(e) {
     jQuery('.overlay').hide();
 });
 
+//Hiding Setup Progress Review
+jQuery(document).ready(function($) {
+    $('#pms-dismiss-widget').on('click', function() {
+        var $closeButton = $(this);
+        var $widget = $closeButton.closest('.pms-dashboard-progress');
+        var securityNonce = $closeButton.data('nonce');
+
+        $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'pms_dismiss_setup_widget',
+                nonce: securityNonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    $widget.fadeOut();
+                }
+            }
+        });
+    });
+});
+

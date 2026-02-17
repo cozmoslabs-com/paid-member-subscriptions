@@ -175,7 +175,7 @@ add_action( 'pms_email_confirmation_form_after_subscription_plans_output', 'pms_
 
 function pms_show_gdpr_checkbox_for_logged_in_users(){
 
-    $hook = current_action();
+    $hook          = current_action();
     $gdpr_settings = pms_get_gdpr_settings();
 
     if ( empty( $gdpr_settings ) ) {
@@ -192,13 +192,12 @@ function pms_show_gdpr_checkbox_for_logged_in_users(){
     // Return early if user is logged in but their checkbox is not enabled
     if ( $is_logged_in && !$gdpr_logged_in_enabled ) return;
 
-
-    $field_id = $is_logged_in ? 'pms_user_consent_logged_in' : 'pms_user_consent';
-    $field_name = $is_logged_in ? 'user_consent_logged_in' : 'user_consent';
+    $field_id     = $is_logged_in ? 'pms_user_consent_logged_in' : 'pms_user_consent';
+    $field_name   = $is_logged_in ? 'user_consent_logged_in' : 'user_consent';
     $field_errors = pms_errors()->get_error_messages($field_name);
 
     // Only show for registration hook if user is not logged in
-    if ( !$is_logged_in && $hook !== 'pms_register_form_after_fields' ) return;
+    if ( !$is_logged_in && $hook !== 'pms_register_form_after_fields' && $hook !== 'pms_register_form_subscription_plans_field_after_output' ) return;
 
     ?>
     <li style="list-style-type: none;" class="pms-field pms-gdpr-field <?php echo ( !empty($field_errors) ? 'pms-field-error' : '' ); ?>">
@@ -224,12 +223,26 @@ function pms_show_gdpr_checkbox_for_logged_in_users(){
     <?php
 }
 
-add_action( 'pms_new_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
-add_action( 'pms_renew_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
-add_action( 'pms_change_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
-add_action( 'pms_register_form_after_fields', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
-add_action( 'pms_retry_payment_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+add_action( 'init', 'pms_enable_gdpr_checkbox_for_logged_in_users');
+function pms_enable_gdpr_checkbox_for_logged_in_users(){
+    if( function_exists( 'pms_get_active_form_design' ) && in_array( pms_get_active_form_design(), array( 'form-style-1', 'form-style-2', 'form-style-3' ) ) ){
+        
+        add_action( 'pms_register_form_subscription_plans_field_after_output', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+        add_action( 'pms_new_subscription_form_subscription_plans_field_after_output', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+        add_action( 'pms_change_subscription_form_after_subscription_plans_output', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+        add_action( 'pms_renew_subscription_form_after_subscription_plans_output', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+        add_action( 'pms_retry_payment_form_after_subscription_plans_output', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+        add_action( 'pms_gift_subscription_form_subscription_plans_field_after_output', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
 
+    } else {
+        add_action( 'pms_new_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+        add_action( 'pms_renew_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+        add_action( 'pms_change_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+        add_action( 'pms_register_form_after_fields', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+        add_action( 'pms_retry_payment_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+        add_action( 'pms_gift_subscription_form_bottom', 'pms_show_gdpr_checkbox_for_logged_in_users', 60 );
+    }
+}
 
 /**
  * Returns the output of a form field, given a set of parameters for the field

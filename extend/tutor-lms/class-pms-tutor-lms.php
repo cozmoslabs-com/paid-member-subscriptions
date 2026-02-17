@@ -63,6 +63,7 @@ class PMS_IN_TutorLMS {
 
         // Handle new member subscription and existing subscription updates
         add_action( 'pms_member_subscription_insert', array( $this, 'add_member_subscription_categories_meta' ), 10, 2 );
+        add_action( 'pms_member_subscription_insert', array( $this, 'handle_subscription_insert_enrollment' ), 20, 2 );
         add_action( 'pms_member_subscription_update', array( $this, 'handle_member_subscription_update' ), 10, 3 );
         add_action( 'pms_member_subscription_before_metadata_delete', array( $this, 'handle_member_subscription_remove' ), 10, 2 );
 
@@ -387,6 +388,27 @@ class PMS_IN_TutorLMS {
 
         pms_add_member_subscription_meta( $subscription_id, 'pms_member_subscription_tutor_categories', $subscription_plan_categories, true );
 
+    }
+
+    /**
+     * Handle TutorLMS enrollment when a subscription is inserted
+     *
+     * @return void
+     */
+    public function handle_subscription_insert_enrollment( $subscription_id = 0, $subscription_data = array() ) {
+
+        if ( $subscription_id === 0 || empty( $subscription_data['user_id'] ) || empty( $subscription_data['status'] ) || $subscription_data['status'] !== 'active' )
+            return;
+
+        $pms_tutor_settings = get_option( 'pms_tutor_lms_settings' );
+
+        if ( empty( $pms_tutor_settings['restriction_type'] ) || $pms_tutor_settings['restriction_type'] !== 'individual' )
+            return;
+
+        if ( empty( $pms_tutor_settings['auto_enroll'] ) || $pms_tutor_settings['auto_enroll'] !== 'yes' )
+            return;
+
+        $this->update_individual_enrollment( $subscription_data['user_id'], $subscription_id, $subscription_data['status'] );
     }
 
     /**

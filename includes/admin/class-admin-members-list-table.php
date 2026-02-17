@@ -547,7 +547,7 @@ Class PMS_Members_List_Table extends WP_List_Table {
                 $output .= '<div class="pms-bubble">';
 
                     $statuses = pms_get_member_subscription_statuses();
-                    $amount = ( isset( $member_subscription->billing_amount ) ? ( $member_subscription->billing_amount == 0 ? esc_html__( 'Free', 'paid-member-subscriptions' ) : $member_subscription->billing_amount ) : '' );
+                    $amount = ( isset( $member_subscription->billing_amount ) ? $member_subscription->billing_amount : '' );
 
                     if( $member_subscription->payment_gateway === "paypal_standard" || $member_subscription->payment_gateway === "paypal_express" ){
 
@@ -559,13 +559,19 @@ Class PMS_Members_List_Table extends WP_List_Table {
                         $payments = pms_get_payments( $args );
 
                         if( !empty( $payments ) && !empty( $payments[0] ) )
-                            $amount = $payments[0]->amount == 0 ? esc_html__( 'Free', 'paid-member-subscriptions' ) : $payments[0]->amount;
+                            $amount = $payments[0]->amount;
                     }
 
-                    if( $amount != 'Free' ){
-                        $subscription_currency = pms_get_member_subscription_meta( $member_subscription->id, 'currency', true );
-                        $currency = !empty( $subscription_currency ) ? $subscription_currency : pms_get_active_currency();
-                        $amount = pms_format_price( $amount, $currency );
+                    if( $amount != '' ){
+
+                        if( $amount == 0 ){
+                            $amount = esc_html__( 'Free', 'paid-member-subscriptions' );
+                        }
+                        else{
+                            $subscription_currency = pms_get_member_subscription_meta( $member_subscription->id, 'currency', true );
+                            $currency = !empty( $subscription_currency ) ? $subscription_currency : pms_get_active_currency();
+                            $amount = pms_format_price( $amount, $currency );
+                        }
                     }
 
 

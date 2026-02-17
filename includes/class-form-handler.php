@@ -455,7 +455,9 @@ Class PMS_Form_Handler {
         }
 
         // Check if gateway is configured correctly
-        $payment_gateway->validate_credentials();
+        if( method_exists( $payment_gateway , 'validate_credentials' ) ) {
+            $payment_gateway->validate_credentials();
+        }
 
         // Validate if the payment gateway supports trials for the selected subscription plan
         if( pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_free_trial' ) ) {
@@ -2617,13 +2619,13 @@ Class PMS_Form_Handler {
 
             $subscription_data['payment_profile_id'] = '';
 
-            if( ( $is_recurring && !$subscription_plan->is_fixed_period_membership() ) || ( !$is_recurring && $subscription_plan->has_installments() && pms_payment_gateways_support( array( $subscription_data['payment_gateway'] ), 'billing_cycles' ) ) ) {
+            if( ( $is_recurring === true && !$subscription_plan->is_fixed_period_membership() ) || ( !$is_recurring && $subscription_plan->has_installments() && pms_payment_gateways_support( array( $subscription_data['payment_gateway'] ), 'billing_cycles' ) ) ) {
                 $subscription_data['expiration_date']       = '';
                 $subscription_data['billing_duration']      = $subscription_plan->duration;
                 $subscription_data['billing_duration_unit'] = $subscription_plan->duration_unit;
                 $subscription_data['billing_next_payment']  = ( ! empty( $subscription_plan->duration ) ? $subscription_plan->get_expiration_date() : '' );
             }
-            elseif( $is_recurring && $subscription_plan->is_fixed_period_membership() ){
+            elseif( $is_recurring === true && $subscription_plan->is_fixed_period_membership() ){
                 $subscription_data['expiration_date']       = '';
                 if( isset( $days_difference ) && $days_difference > 0 ){
                     $subscription_data['billing_duration']      = $days_difference;

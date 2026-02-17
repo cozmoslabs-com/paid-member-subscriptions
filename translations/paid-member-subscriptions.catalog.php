@@ -151,6 +151,7 @@
 <?php __("SUCCESS! ", "paid-member-subscriptions"); ?>
 <?php __("Congratulations, your account has been successfully created.", "paid-member-subscriptions"); ?>
 <?php __("Only an administrator can add new users.", "paid-member-subscriptions"); ?>
+<?php __("You already have an account.", "paid-member-subscriptions"); ?>
 <?php __("Only registered users can see this information.", "paid-member-subscriptions"); ?>
 <?php __("Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("Edit Profile", "paid-member-subscriptions"); ?>
@@ -2459,6 +2460,7 @@
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __('Your %3$s PayPal API credentials %4$s are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("The selected gateway is not configured correctly: <strong>Stripe API Secret Key is missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
 <?php __("Stripe API key not configured.", "paid-member-subscriptions"); ?>
 <?php __("Refund was not successful!", "paid-member-subscriptions"); ?>
 <?php __("<strong>Stripe:</strong> %s", "paid-member-subscriptions"); ?>

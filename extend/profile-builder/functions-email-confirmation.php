@@ -76,13 +76,13 @@ function pms_pb_email_confirmation_payment_form( $message ) {
         return $message;
 
     /**
-     * If the subscription plan is free, don't show the form and simply register the member
+     * If the subscription plan is free and has no signup fee, don't show the form and simply register the member.
      */
     $subscription_plan = pms_get_subscription_plan($subscription_plan_id);
 
     if ( is_object( $subscription_plan ) ) {
 
-        if ( empty( $subscription_plan->price ) ) {
+        if ( empty( $subscription_plan->price ) && empty( $subscription_plan->sign_up_fee ) ) {
 
             if ( !empty( $member->user_id ) ) {
 
@@ -193,6 +193,11 @@ function pms_pb_remove_email_confirmation_redirect( $redirect_url ) {
 add_filter( 'wppb_success_email_confirmation_redirect_url', 'pms_pb_remove_email_confirmation_redirect' );
 
 function pms_pb_remove_email_confirmation_redirect_message( $redirect_message ) {
+
+    // Skip if this is the autologin redirect message
+    if ( ! empty( $redirect_message ) && strpos( $redirect_message, 'autologin=true' ) !== false ) {
+        return $redirect_message;
+    }
 
     if( !empty($_GET['activation_key']) )
         $key = sanitize_text_field( $_GET['activation_key'] );

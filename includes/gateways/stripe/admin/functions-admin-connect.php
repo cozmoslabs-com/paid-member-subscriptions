@@ -584,7 +584,7 @@ function pms_stripe_add_settings_content( $options ) {
 							[
 								'pms_stripe_connect_action' => 'connect',
 								'environment'               => $environment,
-								'home_url'                  => site_url(),
+								'home_url'                  => home_url(),
 								'pms_nonce'                 => wp_create_nonce( 'stripe_connnect_account' ),
 								'version'                   => 'v3'
 							],

@@ -171,6 +171,19 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
+    /**
+     * Validates that the gateway credentials are configured
+     *
+     */
+    public function validate_credentials() {
+
+        $api_credentials = pms_stripe_connect_get_api_credentials();
+
+        if ( empty( $api_credentials['secret_key'] ) )
+            pms_errors()->add( 'form_general', __( 'The selected gateway is not configured correctly: <strong>Stripe API Secret Key is missing</strong>. Contact the system administrator.', 'paid-member-subscriptions' ) );
+
+    }
+
     public function reset_stripe_client(){
 
         $api_credentials  = pms_stripe_connect_get_api_credentials();
@@ -480,7 +493,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
 
-                $is_recurring = isset( $intent->metadata->is_recurring ) ? $intent->metadata->is_recurring : false;
+                $is_recurring = !empty( $intent->metadata->is_recurring ) && $intent->metadata->is_recurring == 'true' ? true : false;
 
                 $checkout_data = array();
 

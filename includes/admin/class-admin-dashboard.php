@@ -53,6 +53,8 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
 
         add_action( 'wp_ajax_get_dashboard_stats', array( $this, 'get_dashboard_stats' ) );
 
+        add_action( 'wp_ajax_pms_dismiss_setup_widget', array( $this, 'pms_dismiss_setup_widget_handler' ) );
+
         // Process different actions within the page
         //add_action( 'init', array( $this, 'process_data' ) );
 
@@ -155,6 +157,15 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
         else
             include_once 'views/view-page-dashboard.php';
 
+    }
+
+    public function pms_dismiss_setup_widget_handler() {
+
+        check_ajax_referer( 'pms_dismiss_nonce', 'nonce' );
+
+        update_option( 'pms_dismiss_setup_progress', 'yes' );
+
+        wp_send_json_success();
     }
 
     public function get_active_payment_gateways(){

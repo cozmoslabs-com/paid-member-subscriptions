@@ -130,13 +130,21 @@ Class PMS_Shortcodes {
             $plans   = '';
             $exclude = '';
 
-            if ( !empty( $atts['subscription_plans'] ) && $atts['subscription_plans'][0] != 'none' )
-                $plans = 'subscription_plans="'. esc_attr( implode( ',', $atts['subscription_plans'] ) ).'"';
+            if( !empty( $atts['subscription_plans'] ) && $atts['subscription_plans'][0] === 'none' ) {
 
-            if( !empty( $atts['exclude'] ) )
-                $exclude = 'exclude="'.esc_attr( implode( ',', $atts['exclude'] ) ).'"';
+                echo '<p>' . esc_html( apply_filters( 'pms_register_form_already_a_user_message', __( 'You already have an account.', 'paid-member-subscriptions' ) ) ) . '</p>';
 
-            echo apply_filters( 'pms_register_form_already_a_user_message', do_shortcode( '[pms-subscriptions '. $plans .' selected="'. esc_attr( $atts['selected'] ).'" '. $exclude .']' ), $atts );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            } else {
+
+                if ( !empty( $atts['subscription_plans'] ) )
+                    $plans = 'subscription_plans="'. esc_attr( implode( ',', $atts['subscription_plans'] ) ).'"';
+
+                if( !empty( $atts['exclude'] ) )
+                    $exclude = 'exclude="'.esc_attr( implode( ',', $atts['exclude'] ) ).'"';
+
+                echo apply_filters( 'pms_register_form_already_a_user_message', do_shortcode( '[pms-subscriptions '. $plans .' selected="'. esc_attr( $atts['selected'] ).'" '. $exclude .']' ), $atts );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                
+            }
 
         } else {
 

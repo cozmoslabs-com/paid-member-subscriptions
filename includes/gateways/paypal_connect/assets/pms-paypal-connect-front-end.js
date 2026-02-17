@@ -97,6 +97,9 @@ jQuery(function ($) {
     
         })
 
+        // Compatibility with "Automatically renew subscription" option
+        $(document).on('change', '.pms-subscription-plan-auto-renew input[name="pms_recurring"]', pms_ppcp_maybe_show_paypal_subscribe_button )
+
         // Compatibility with Multi-Step Forms
         $(document).on('wppb_msf_next_step', pms_ppcp_maybe_show_paypal_subscribe_button )
         $(document).on('wppb_msf_previous_step', pms_ppcp_maybe_show_paypal_subscribe_button )
@@ -241,7 +244,10 @@ jQuery(function ($) {
 
         $.pms_form_remove_errors()
 
-        let current_button = $('.pms-form .pms-form-submit, .pms-form input[type="submit"], .pms-form button[type="submit"], .wppb-register-user input[type="submit"], .wppb-register-user button[type="submit"]').not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
+        // Find the form that contains the active PayPal Connect payment gateway
+        let paygate_input  = $('input[type=hidden][name=pay_gate][value="paypal_connect"]').length > 0 ? $('input[type=hidden][name=pay_gate][value="paypal_connect"]') : $('input[type=radio][name=pay_gate][value="paypal_connect"]:checked')
+        let target_form    = paygate_input.closest('.pms-form, .wppb-register-user')
+        let current_button = target_form.find('.pms-form-submit, input[type="submit"], button[type="submit"]').not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
 
         if ( !( current_button.length > 0 ) )
             return false
@@ -259,7 +265,7 @@ jQuery(function ($) {
 
         return pms_ppcp_maybe_validate_recaptcha( current_button ).then( function( recaptcha_response ){
 
-            return pms_ppcp_validate_checkout( extra_data ).then( function (response) {
+            return pms_ppcp_validate_checkout( current_button, extra_data ).then( function (response) {
 
                 if( response ) {
                     if( response.success == true && response.order_id ) {
@@ -293,7 +299,10 @@ jQuery(function ($) {
 
         $.pms_form_remove_errors()
 
-        let current_button = $('.pms-form .pms-form-submit, .pms-form input[type="submit"], .pms-form button[type="submit"], .wppb-register-user input[type="submit"], .wppb-register-user button[type="submit"]').not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
+        // Find the form that contains the active PayPal Connect payment gateway
+        let paygate_input  = $('input[type=hidden][name=pay_gate][value="paypal_connect"]').length > 0 ? $('input[type=hidden][name=pay_gate][value="paypal_connect"]') : $('input[type=radio][name=pay_gate][value="paypal_connect"]:checked')
+        let target_form    = paygate_input.closest('.pms-form, .wppb-register-user')
+        let current_button = target_form.find('.pms-form-submit, input[type="submit"], button[type="submit"]').not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
 
         if ( !( current_button.length > 0 ) )
             return false
@@ -309,7 +318,7 @@ jQuery(function ($) {
             'paypal_action_nonce': pms_paypal.pms_ppcp_create_setup_token_nonce
         }
 
-        return pms_ppcp_validate_checkout( extra_data ).then(function (response) {
+        return pms_ppcp_validate_checkout( current_button, extra_data ).then(function (response) {
 
             if( response ) {
                 if( response.success == true && response.setup_token_id ) {
@@ -373,7 +382,10 @@ jQuery(function ($) {
         if ( !response )
             return
 
-        let current_button = $( '.pms-form .pms-form-submit, .pms-form input[type="submit"], .pms-form button[type="submit"], .wppb-register-user input[type="submit"], .wppb-register-user button[type="submit"]').not('#pms-apply-discount').not('input[name="pms_redirect_back"]' )
+        // Find the form that contains the active PayPal Connect payment gateway
+        let paygate_input = $('input[type=hidden][name=pay_gate][value="paypal_connect"]').length > 0 ? $('input[type=hidden][name=pay_gate][value="paypal_connect"]') : $('input[type=radio][name=pay_gate][value="paypal_connect"]:checked')
+        let target_form = paygate_input.closest('.pms-form, .wppb-register-user')
+        let current_button = target_form.find('.pms-form-submit, input[type="submit"], button[type="submit"]').not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
 
         if ( !( current_button.length > 0 ) )
             return;
@@ -449,11 +461,11 @@ jQuery(function ($) {
     /**
      * Validate the checkout
      * 
+     * @param   {Object} current_button The submit button element
+     * @param   {Object} extra_data     Additional data to send with the validation request
      * @returns {Boolean} True if the checkout is valid, false otherwise
      */
-    async function pms_ppcp_validate_checkout( extra_data = {} ) {
-
-        let current_button = $('.pms-form .pms-form-submit, .pms-form input[type="submit"], .pms-form button[type="submit"], .wppb-register-user input[type="submit"], .wppb-register-user button[type="submit"]').not('#pms-apply-discount').not('input[name="pms_redirect_back"]')
+    async function pms_ppcp_validate_checkout( current_button, extra_data = {} ) {
 
         if (current_button.length == 0)
             return false

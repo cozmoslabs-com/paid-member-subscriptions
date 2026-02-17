@@ -65,13 +65,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
         <?php endif; ?>
 
+        <?php if ( get_option( 'pms_dismiss_setup_progress' ) != 'yes' ) : ?>
         <div class="postbox cozmoslabs-form-subsection-wrapper pms-dashboard-progress">
+            <span id="pms-dismiss-widget" data-nonce="<?php echo esc_html( wp_create_nonce( 'pms_dismiss_nonce' ) ); ?>"></span>
             <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Setup Progress Review', 'paid-member-subscriptions' ); ?></h4>
 
             <?php PMS_Setup_Wizard::output_progress_steps(); ?>
 
             <a class="button button-secondary" href="<?php echo esc_url( admin_url( 'admin.php?page=pms-dashboard-page&subpage=pms-setup' ) ); ?>"><?php esc_html_e( 'Open the Setup Wizard', 'paid-member-subscriptions' ); ?></a>
         </div>
+        <?php endif; ?>
 
         <div class="postbox cozmoslabs-form-subsection-wrapper">
 
