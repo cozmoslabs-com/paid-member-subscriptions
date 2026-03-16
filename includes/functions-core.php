@@ -123,8 +123,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         // If there is a success message in the request add it directly
         if( isset( $_REQUEST['pmsscscd'] ) && isset( $_REQUEST['pmsscsmsg'] ) ) {
 
-            $message_code =  base64_decode( sanitize_text_field( $_REQUEST['pmsscscd'] ) );
-            $message      =  base64_decode( sanitize_text_field( $_REQUEST['pmsscsmsg'] ) );
+            $message_code =  sanitize_text_field( base64_decode( $_REQUEST['pmsscscd'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            $message      =  sanitize_text_field( base64_decode( $_REQUEST['pmsscsmsg'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
             pms_success()->add( $message_code, $message );
 
@@ -132,16 +132,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         // and add messages
         } elseif( isset( $_REQUEST['pmsscscd'] ) && !isset( $_REQUEST['pmsscsmsg'] ) ) {
 
-            $message_code = base64_decode( sanitize_text_field($_REQUEST['pmsscscd']) );
+            $message_code = sanitize_text_field( base64_decode( $_REQUEST['pmsscscd'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
             if( !isset( $_REQUEST['pms_gateway_payment_action'] ) )
                 return;
 
-            $payment_action = base64_decode( sanitize_text_field( $_REQUEST['pms_gateway_payment_action'] ) );
+            $payment_action = sanitize_text_field( base64_decode( $_REQUEST['pms_gateway_payment_action'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
             if( isset( $_REQUEST['pms_gateway_payment_id'] ) ) {
 
-                $payment_id = base64_decode( sanitize_text_field( $_REQUEST['pms_gateway_payment_id'] ) );
+                $payment_id = sanitize_text_field( base64_decode( $_REQUEST['pms_gateway_payment_id'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                 $payment    = pms_get_payment( absint( $payment_id ) );
 
                 // If status of the payment is completed add a success message
@@ -1168,6 +1168,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
             add_filter( 'pre_update_option_pms_payments_settings', 'pms_remove_psp_restriction', 20, 2 );
 
+            delete_transient( 'pms_dashboard_issues_cache' );
+
         }
 
         /**
@@ -1395,7 +1397,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         '',
                         '',
                         $pms_force_show );
-                    }
+                }
 
             }
 
@@ -1594,3 +1596,198 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         return false;
     
     }
+
+/**
+ * Get license-related issues for dashboard display
+ * 
+ * Reuses the same license checks from pms_admin_general_notices()
+ * to determine if there are any license issues.
+ * 
+ * @return array Array of license issues with issue keys and data
+ */
+function pms_get_license_issues(){
+    
+    $issues = array();
+    
+    // If paid version is not installed but the Stripe payment gateway is active, add an info issue telling user about the additional fees
+    if( !defined( 'PMS_PAID_PLUGIN_DIR' ) ) {
+        
+        if( in_array( 'stripe_connect', pms_get_active_payment_gateways() ) ) {
+            $issues['stripe_additional_fees'] = true;
+        }
+
+        return $issues;
+
+    }
+
+    // If paid version is installed, check for license issues
+    $pms_serial_number        = pms_get_serial_number();
+    $pms_serial_number_status = pms_get_serial_number_status();
+    $license_details          = get_option( 'pms_license_details', false );
+    
+    // Check if serial number is missing
+    if( empty( $pms_serial_number ) || $pms_serial_number_status == 'missing' ) {
+        $issues['license_missing'] = array(
+            'has_stripe' => in_array( 'stripe_connect', pms_get_active_payment_gateways() )
+        );
+    }
+    // Check if serial number is not activated
+    elseif( !empty( $pms_serial_number ) && $pms_serial_number_status == false ) {
+        $issues['license_not_activated'] = array(
+            'has_stripe' => in_array( 'stripe_connect', pms_get_active_payment_gateways() )
+        );
+    }
+    // Check if license is expired
+    elseif( $pms_serial_number_status == 'expired' ) {
+        $issues['license_expired'] = array(
+            'has_stripe' => in_array( 'stripe_connect', pms_get_active_payment_gateways() )
+        );
+    }
+    
+    // Check if license is invalid (activation limit reached)
+    if( isset( $license_details->license ) && $license_details->license == 'invalid' ) {
+        if( isset( $license_details->error ) && $license_details->error == 'no_activations_left' ) {
+            $issues['license_activations_limit'] = true;
+        }
+    }
+    
+    return $issues;
+}
+
+/**
+ * Add license issues to dashboard issues filter
+ * 
+ * @param array $issues Existing dashboard issues
+ * @return array Modified issues array with license issues added
+ */
+function pms_add_license_issues_to_dashboard( $issues ){
+    $license_issues = pms_get_license_issues();
+    
+    if( !empty( $license_issues ) ) {
+        $issues = array_merge( $issues, $license_issues );
+    }
+    
+    return $issues;
+}
+add_filter( 'pms_dashboard_issues', 'pms_add_license_issues_to_dashboard' );
+
+/**
+ * Interpret license issues for dashboard display
+ * 
+ * @param array|null $interpreted_issue Current interpretation (null by default)
+ * @param string     $issue_key         The unique key identifying the issue type
+ * @param array      $issue_data        Raw issue data
+ * @return array|null Formatted issue array or null if not a license issue
+ */
+function pms_interpret_license_issue( $interpreted_issue, $issue_key, $issue_data ){
+    
+    // Build register URL
+    $register_url = is_multisite() 
+        ? network_admin_url( 'admin.php?page=pms-register-page' )
+        : admin_url( 'admin.php?page=pms-settings-page&tab=general' );
+    
+    switch( $issue_key ) {
+        
+        case 'license_missing':
+            $description = __( 'Your Paid Member Subscriptions license is missing or invalid. Please register your copy to receive access to premium addons, automatic updates and support.', 'paid-member-subscriptions' );
+            
+            if( !empty( $issue_data['has_stripe'] ) ) {
+                $description .= ' <strong>' . __( 'Without an active license you are also paying additional Stripe fees.', 'paid-member-subscriptions' ) . '</strong>';
+            }
+            
+            return array(
+                'severity'    => 'critical',
+                'title'       => __( 'License Missing', 'paid-member-subscriptions' ),
+                'description' => $description,
+                'actions'     => array(
+                    array(
+                        'text'     => __( 'Register License', 'paid-member-subscriptions' ),
+                        'url'      => $register_url,
+                        'type'     => 'primary',
+                        'target'   => '_self',
+                        'behavior' => 'url',
+                    )
+                ),
+            );
+        
+        case 'license_not_activated':
+            $description = __( 'Your Paid Member Subscriptions license is not activated. Please activate your license to receive access to automatic updates and support.', 'paid-member-subscriptions' );
+            
+            if( !empty( $issue_data['has_stripe'] ) ) {
+                $description .= ' <strong>' . __( 'Without an active license you are also paying additional Stripe fees.', 'paid-member-subscriptions' ) . '</strong>';
+            }
+            
+            return array(
+                'severity'    => 'critical',
+                'title'       => __( 'License Not Activated', 'paid-member-subscriptions' ),
+                'description' => $description,
+                'actions'     => array(
+                    array(
+                        'text'     => __( 'Activate License', 'paid-member-subscriptions' ),
+                        'url'      => $register_url,
+                        'type'     => 'primary',
+                        'target'   => '_self',
+                        'behavior' => 'url',
+                    )
+                ),
+            );
+        
+        case 'license_expired':
+            $description = __( 'Your Paid Member Subscriptions license has expired. Please renew your license to continue receiving access to new features, premium addons, product downloads and automatic updates.', 'paid-member-subscriptions' );
+            
+            if( !empty( $issue_data['has_stripe'] ) ) {
+                $description .= ' <strong>' . __( 'Without an active license you are also paying additional Stripe fees.', 'paid-member-subscriptions' ) . '</strong>';
+            }
+            
+            return array(
+                'severity'    => 'critical',
+                'title'       => __( 'License Expired', 'paid-member-subscriptions' ),
+                'description' => $description,
+                'actions'     => array(
+                    array(
+                        'text'     => __( 'Renew License', 'paid-member-subscriptions' ),
+                        'url'      => 'https://www.cozmoslabs.com/account/?utm_source=pms-dashboard&utm_medium=client-site&utm_campaign=pms-expired-license',
+                        'type'     => 'primary',
+                        'target'   => '_blank',
+                        'behavior' => 'url',
+                    )
+                ),
+            );
+        
+        case 'license_activations_limit':
+            return array(
+                'severity'    => 'warning',
+                'title'       => __( 'License Activation Limit Reached', 'paid-member-subscriptions' ),
+                'description' => __( 'Your license has reached its activation limit. Upgrade now for unlimited activations and extra features.', 'paid-member-subscriptions' ),
+                'actions'     => array(
+                    array(
+                        'text'     => __( 'Upgrade License', 'paid-member-subscriptions' ),
+                        'url'      => 'https://www.cozmoslabs.com/account/?utm_source=pms-dashboard&utm_medium=client-site&utm_campaign=pms-activation-limit',
+                        'type'     => 'secondary',
+                        'target'   => '_blank',
+                        'behavior' => 'url',
+                    )
+                ),
+            );
+
+        case 'stripe_additional_fees':
+            return array(
+                'severity'    => 'info',
+                'title'       => __( 'Stripe Additional Fees', 'paid-member-subscriptions' ),
+                'description' => sprintf( __( 'You are using the Stripe payment gateway without an active license, paying an additional %s fee for each Stripe transaction. A paid license will remove this additional fee.', 'paid-member-subscriptions' ), '<strong>2%</strong>' ),
+                'actions'     => array(
+                    array(
+                        'text'     => __( 'Buy License', 'paid-member-subscriptions' ),
+                        'url'      => 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-dashboard&utm_medium=client-site&utm_campaign=pms-stripe-additional-fees#pricing',
+                        'type'     => 'primary',
+                        'target'   => '_self',
+                        'behavior' => 'url',
+                    )
+                ),
+            );
+        
+        default:
+            return $interpreted_issue;
+    }
+}
+add_filter( 'pms_interpret_dashboard_issue', 'pms_interpret_license_issue', 10, 3 );

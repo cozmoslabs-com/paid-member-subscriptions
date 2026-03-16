@@ -46,6 +46,21 @@ function pms_add_admin_menu_notification_counts() {
 
 				$menu_count = $notifications->get_count_in_menu();
 
+				// Add critical dashboard issues count only
+				if( PMS_Submenu_Page_Dashboard::get_dashboard_health_status() === 'needs_attention' ) {
+					$issues = PMS_Submenu_Page_Dashboard::get_dashboard_issues();
+					$interpreted_issues = PMS_Submenu_Page_Dashboard::interpret_dashboard_issues( $issues );
+					
+					// Count only critical issues
+					$critical_count = 0;
+					foreach( $interpreted_issues as $issue ) {
+						if( isset( $issue['severity'] ) && $issue['severity'] === 'critical' ) {
+							$critical_count++;
+						}
+					}
+					$menu_count += $critical_count;
+				}
+
 				if( ! empty( $menu_count ) )
 					$menu[$menu_position][0] .= '<span class="update-plugins pms-update-plugins"><span class="plugin-count">' . $menu_count . '</span></span>';
 
@@ -65,6 +80,23 @@ function pms_add_admin_menu_notification_counts() {
 		foreach( $submenu['paid-member-subscriptions'] as $menu_position => $menu_data ) {
 
 			$menu_count = $notifications->get_count_in_submenu( $menu_data[2] );
+
+			// Add critical dashboard issues count only for dashboard page
+			if( ! empty( $menu_data[2] ) && $menu_data[2] == 'pms-dashboard-page' ) {
+				if( PMS_Submenu_Page_Dashboard::get_dashboard_health_status() === 'needs_attention' ) {
+					$issues = PMS_Submenu_Page_Dashboard::get_dashboard_issues();
+					$interpreted_issues = PMS_Submenu_Page_Dashboard::interpret_dashboard_issues( $issues );
+					
+					// Count only critical issues
+					$critical_count = 0;
+					foreach( $interpreted_issues as $issue ) {
+						if( isset( $issue['severity'] ) && $issue['severity'] === 'critical' ) {
+							$critical_count++;
+						}
+					}
+					$menu_count += $critical_count;
+				}
+			}
 
 			if( ! empty( $menu_count ) )
 				$submenu['paid-member-subscriptions'][$menu_position][0] .= '<span class="update-plugins pms-update-plugins"><span class="plugin-count">' . $menu_count . '</span></span>';

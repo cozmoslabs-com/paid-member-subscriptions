@@ -610,6 +610,22 @@
 <?php __("Your <strong>%s</strong> license has reached its activation limit.<br> Upgrade now for unlimited activations and extra features like invoices, taxes, global content restriction, email reminders and more. <a class=\"button-primary\" href=\"%s\">Upgrade now</a>", "paid-member-subscriptions"); ?>
 <?php __('<h3>Paid Member Subscriptions - Important Update</h3><p><strong>All individual Paid Member Subscriptions add-on plugins <a href=\%1$s\ target=\_blank\>have been discontinued</a> and are now included in the premium Basic, Pro and Unlimited versions of Paid Member Subscriptions.</strong><br> Please log into your <a href=\%2$s\ target=\_blank\>account page</a>, download the new premium version which bundles all add-ons and install it. All of your individual add-on settings will be ported over.<br><br><strong>This change is mandatory in order to continue to receive updates to the premium functionalities.</strong></p>', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to for recurring subscriptions to work correctly you will need to add your API credentials %1$s here %2$s. %3$sLearn More%4$s', 'paid-member-subscriptions' ); ?>
+<?php __("Your Paid Member Subscriptions license is missing or invalid. Please register your copy to receive access to premium addons, automatic updates and support.", "paid-member-subscriptions"); ?>
+<?php __("Without an active license you are also paying additional Stripe fees.", "paid-member-subscriptions"); ?>
+<?php __("License Missing", "paid-member-subscriptions"); ?>
+<?php __("Register License", "paid-member-subscriptions"); ?>
+<?php __("Your Paid Member Subscriptions license is not activated. Please activate your license to receive access to automatic updates and support.", "paid-member-subscriptions"); ?>
+<?php __("License Not Activated", "paid-member-subscriptions"); ?>
+<?php __("Activate License", "paid-member-subscriptions"); ?>
+<?php __("Your Paid Member Subscriptions license has expired. Please renew your license to continue receiving access to new features, premium addons, product downloads and automatic updates.", "paid-member-subscriptions"); ?>
+<?php __("License Expired", "paid-member-subscriptions"); ?>
+<?php __("Renew License", "paid-member-subscriptions"); ?>
+<?php __("License Activation Limit Reached", "paid-member-subscriptions"); ?>
+<?php __("Your license has reached its activation limit. Upgrade now for unlimited activations and extra features.", "paid-member-subscriptions"); ?>
+<?php __("Upgrade License", "paid-member-subscriptions"); ?>
+<?php __("Stripe Additional Fees", "paid-member-subscriptions"); ?>
+<?php __("You are using the Stripe payment gateway without an active license, paying an additional %s fee for each Stripe transaction. A paid license will remove this additional fee.", "paid-member-subscriptions"); ?>
+<?php __("Buy License", "paid-member-subscriptions"); ?>
 <?php __("I allow the website to collect and store the data I submit through this form. *", "paid-member-subscriptions"); ?>
 <?php __("Are you sure ? Try again.", "paid-member-subscriptions"); ?>
 <?php __("Update billing details", "paid-member-subscriptions"); ?>
@@ -631,6 +647,47 @@
 <?php __("Installment - Final Payment", "paid-member-subscriptions"); ?>
 <?php __("Add-ons Page", "paid-member-subscriptions"); ?>
 <?php __("Learn More", "paid-member-subscriptions"); ?>
+<?php __('[%1$s] We have detected issues with your scheduled payments', 'paid-member-subscriptions' ); ?>
+<?php __("Hello,", "paid-member-subscriptions"); ?>
+<?php __('The Paid Member Subscriptions plugin has detected %1$d payment (totaling %2$s) that is older than 30 days and will not be automatically processed., "paid-member-subscriptions"); ?>
+<?php __(The Paid Member Subscriptions plugin has detected %1$d payments (totaling %2$s) that are older than 30 days and will not be automatically processed.', 'paid-member-subscriptions' ); ?>
+<?php __("These payments require your attention to ensure your members can continue their subscriptions.", "paid-member-subscriptions"); ?>
+<?php __("To analyze the issue and resolve it, please contact our support:", "paid-member-subscriptions"); ?>
+<?php __("The plugin has detected that this website was previously initialized. This typically happens when:", "paid-member-subscriptions"); ?>
+<?php __("The site was cloned or duplicated for staging/testing purposes", "paid-member-subscriptions"); ?>
+<?php __("The site was migrated from another server or domain", "paid-member-subscriptions"); ?>
+<?php __("The site was restored from a backup", "paid-member-subscriptions"); ?>
+<?php __("To protect your members from duplicate charges, scheduled payments have been automatically disabled on this installation.", "paid-member-subscriptions"); ?>
+<?php __("If this is your %sLive site%s, you can restore this functionality by going to the plugin Settings page and switching the plugin to Test mode and then back to Live mode.", "paid-member-subscriptions"); ?>
+<?php __("If you need help with this, please contact our support.", "paid-member-subscriptions"); ?>
+<?php __("Website Previously Initialized", "paid-member-subscriptions"); ?>
+<?php __("The plugin has detected that this website was previously initialized. Scheduled payments are disabled to prevent duplicate charges on staging sites or during site migration and restoration.", "paid-member-subscriptions"); ?>
+<?php __("More Info", "paid-member-subscriptions"); ?>
+<?php __("Contact Support", "paid-member-subscriptions"); ?>
+<?php __("Dismiss", "paid-member-subscriptions"); ?>
+<?php __("Development Environment Active", "paid-member-subscriptions"); ?>
+<?php __("The PMS_DEV_ENVIRONMENT constant is defined and set to true. Scheduled payments are disabled in development mode to prevent processing test transactions.", "paid-member-subscriptions"); ?>
+<?php __("Scheduled Payments Not Running", "paid-member-subscriptions"); ?>
+<?php __('The scheduled payments cron job is not active. Recurring payments will not be processed automatically. To fix this, you can try going to the %1$s page and use the %2$s option or %3$s.', 'paid-member-subscriptions' ); ?>
+<?php __("Settings -> Misc -> Others", "paid-member-subscriptions"); ?>
+<?php __("Reset cron jobs", "paid-member-subscriptions"); ?>
+<?php __("Go to Settings", "paid-member-subscriptions"); ?>
+<?php __("%d Stuck Payment Detected", "paid-member-subscriptions"); ?>
+<?php __("%d Stuck Payments Detected", "paid-member-subscriptions"); ?>
+<?php __('There are %1$s payments (totaling %2$s) that are older than 30 days and will not be automatically processed. Contact support for assistance.', 'paid-member-subscriptions' ); ?>
+<?php __("You have disabled WordPress's built-in cron system (DISABLE_WP_CRON is set to true). To ensure your recurring payments are processed automatically, you need to set up a server-level cron job.", "paid-member-subscriptions"); ?>
+<?php __("To learn more about setting up a server-level cron job, please contact our support or visit our documentation:", "paid-member-subscriptions"); ?>
+<?php __("WordPress Cron Disabled", "paid-member-subscriptions"); ?>
+<?php __("WordPress Cron is disabled (DISABLE_WP_CRON is set to true) and no recurring payments have been processed in the last 10 days. If you have set up a server-level cron job to handle WordPress cron tasks, please confirm below.", "paid-member-subscriptions"); ?>
+<?php __("Yes, I have server cron", "paid-member-subscriptions"); ?>
+<?php __("No, I need help", "paid-member-subscriptions"); ?>
+<?php __("Setting Up Server-Level Cron", "paid-member-subscriptions"); ?>
+<?php __("Documentation", "paid-member-subscriptions"); ?>
+<?php __("PayPal Gateway Not Connected", "paid-member-subscriptions"); ?>
+<?php __("PayPal is active but your account is not connected in live mode. To accept live PayPal payments, you need to connect your PayPal account.", "paid-member-subscriptions"); ?>
+<?php __("Go to Payments Settings", "paid-member-subscriptions"); ?>
+<?php __("Stripe Gateway Not Connected", "paid-member-subscriptions"); ?>
+<?php __("Stripe is active but your account is not connected in live mode. To accept live credit card payments, you need to connect your Stripe account.", "paid-member-subscriptions"); ?>
 <?php __(" payments of ", "paid-member-subscriptions"); ?>
 <?php __("%s Day", "paid-member-subscriptions"); ?>
 <?php __("%s Days", "paid-member-subscriptions"); ?>
@@ -825,13 +882,23 @@
 <?php __("After recovery redirect URL", "paid-member-subscriptions"); ?>
 <?php __('Enter the URL where users should be redirected after a sucessful password reset. %1$sRead more%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Add-ons", "paid-member-subscriptions"); ?>
+<?php __("Dashboard", "paid-member-subscriptions"); ?>
+<?php __("Issues", "paid-member-subscriptions"); ?>
+<?php __("Members", "paid-member-subscriptions"); ?>
+<?php __("Reports", "paid-member-subscriptions"); ?>
+<?php __("Memberships", "paid-member-subscriptions"); ?>
 <?php __("Basic Information", "paid-member-subscriptions"); ?>
+<?php __("Missing required parameters.", "paid-member-subscriptions"); ?>
+<?php __("Security check failed.", "paid-member-subscriptions"); ?>
+<?php __("Insufficient permissions.", "paid-member-subscriptions"); ?>
+<?php __("Action completed.", "paid-member-subscriptions"); ?>
+<?php __("Confirmation saved successfully.", "paid-member-subscriptions"); ?>
+<?php __("Notification dismissed successfully.", "paid-member-subscriptions"); ?>
 <?php __("All Time Earnings", "paid-member-subscriptions"); ?>
 <?php __("New Members", "paid-member-subscriptions"); ?>
 <?php __("Earnings", "paid-member-subscriptions"); ?>
 <?php __("Active Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("New Paid Subscriptions", "paid-member-subscriptions"); ?>
-<?php __("Dashboard", "paid-member-subscriptions"); ?>
 <?php __("Setup Wizard", "paid-member-subscriptions"); ?>
 <?php __("Export location or file not writable", "paid-member-subscriptions"); ?>
 <?php __("Batch Processing Complete", "paid-member-subscriptions"); ?>
@@ -957,7 +1024,6 @@
 <?php __("Payment token created and assigned to the subscription.", "paid-member-subscriptions"); ?>
 <?php __("Automatically downgraded plan to %s", "paid-member-subscriptions"); ?>
 <?php __("Billing amount and subscription currency have been converted to EUR due to the Bulgarian leva migration. Billing amount was converted from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
-<?php __("Members", "paid-member-subscriptions"); ?>
 <?php __("Delete Payments", "paid-member-subscriptions"); ?>
 <?php __("ID", "paid-member-subscriptions"); ?>
 <?php __("User", "paid-member-subscriptions"); ?>
@@ -998,7 +1064,6 @@
 <?php __("This user already has a subscription (%s) from the same group with the one you selected. Select it or remove it to be able to complete this payment.", "paid-member-subscriptions"); ?>
 <?php __("Invalid payment ID", "paid-member-subscriptions"); ?>
 <?php __("You do not have the required capabilities to perform this action.", "paid-member-subscriptions"); ?>
-<?php __("Security check failed.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong! Please try again.", "paid-member-subscriptions"); ?>
 <?php __("No payment found!", "paid-member-subscriptions"); ?>
 <?php __("Refund amount not set!", "paid-member-subscriptions"); ?>
@@ -1060,7 +1125,6 @@
 <?php __("Total earnings for the type of discount", "paid-member-subscriptions"); ?>
 <?php __("Summary", "paid-member-subscriptions"); ?>
 <?php __("Summary - Previous Year", "paid-member-subscriptions"); ?>
-<?php __("Reports", "paid-member-subscriptions"); ?>
 <?php __("Test Payments are enabled", "paid-member-subscriptions"); ?>
 <?php __("Live Payments are enabled", "paid-member-subscriptions"); ?>
 <?php __("Update Settings", "paid-member-subscriptions"); ?>
@@ -1128,6 +1192,42 @@
 <?php __("%d subscription plans have been successfully activated", "paid-member-subscriptions"); ?>
 <?php __("%d subscription plan has been successfully deactivated", "paid-member-subscriptions"); ?>
 <?php __("%d subscription plans have been successfully deactivated", "paid-member-subscriptions"); ?>
+<?php __("Payment Gateway", "paid-member-subscriptions"); ?>
+<?php __("Pending Gift", "paid-member-subscriptions"); ?>
+<?php __("One Time", "paid-member-subscriptions"); ?>
+<?php __("Auto Renewing", "paid-member-subscriptions"); ?>
+<?php __("Not Found (ID: %s)", "paid-member-subscriptions"); ?>
+<?php __("Gift Subscription", "paid-member-subscriptions"); ?>
+<?php __("Trial Active", "paid-member-subscriptions"); ?>
+<?php __("Limited Cycles", "paid-member-subscriptions"); ?>
+<?php __('Limited Cycles (%1$s/%2$s)', 'paid-member-subscriptions' ); ?>
+<?php __("Undefined", "paid-member-subscriptions"); ?>
+<?php __("Edit group", "paid-member-subscriptions"); ?>
+<?php __("Group:", "paid-member-subscriptions"); ?>
+<?php __("User no longer exists (ID: %s)", "paid-member-subscriptions"); ?>
+<?php __("Please select at least one subscription.", "paid-member-subscriptions"); ?>
+<?php __("Need Help?", "paid-member-subscriptions"); ?>
+<?php __("Recent community discussions", "paid-member-subscriptions"); ?>
+<?php __("Loading...", "paid-member-subscriptions"); ?>
+<?php __("Unable to load forum posts", "paid-member-subscriptions"); ?>
+<?php __("Ask a Question", "paid-member-subscriptions"); ?>
+<?php __("View All Topics", "paid-member-subscriptions"); ?>
+<?php __("by", "paid-member-subscriptions"); ?>
+<?php __("Have a question?", "paid-member-subscriptions"); ?>
+<?php __("Get help directly from the plugin developers, suggest improvements, or share your feedback!", "paid-member-subscriptions"); ?>
+<?php __("Tip for faster help:", "paid-member-subscriptions"); ?>
+<?php __("Include what you tried, what you expected, and what happened. Screenshots help!", "paid-member-subscriptions"); ?>
+<?php __("Toggle support chat", "paid-member-subscriptions"); ?>
+<?php __("Ask the community", "paid-member-subscriptions"); ?>
+<?php __("Close", "paid-member-subscriptions"); ?>
+<?php __("Unauthorized", "paid-member-subscriptions"); ?>
+<?php __("Empty feed response", "paid-member-subscriptions"); ?>
+<?php __("Unable to parse feed", "paid-member-subscriptions"); ?>
+<?php __("Just now", "paid-member-subscriptions"); ?>
+<?php __("%d hour ago", "paid-member-subscriptions"); ?>
+<?php __("%d hours ago", "paid-member-subscriptions"); ?>
+<?php __("%d day ago", "paid-member-subscriptions"); ?>
+<?php __("%d days ago", "paid-member-subscriptions"); ?>
 <?php __('There is a new version of %1$s available.', 'paid-member-subscriptions' ); ?>
 <?php __("Update now.", "paid-member-subscriptions"); ?>
 <?php __('%1$sView version %2$s details%3$s or %4$supdate now%5$s.', 'paid-member-subscriptions' ); ?>
@@ -1145,7 +1245,6 @@
 <?php __("Completed successfully.", "paid-member-subscriptions"); ?>
 <?php __("Register Version ", "paid-member-subscriptions"); ?>
 <?php __("License key", "paid-member-subscriptions"); ?>
-<?php __("Activate License", "paid-member-subscriptions"); ?>
 <?php __("Deactivate License", "paid-member-subscriptions"); ?>
 <?php __("Your license is invalid", "paid-member-subscriptions"); ?>
 <?php __("Active on this site", "paid-member-subscriptions"); ?>
@@ -1222,6 +1321,12 @@
 <?php __("Invoices", "paid-member-subscriptions"); ?>
 <?php __('To use the %1$sMultiple Currencies%2$s add-on, you need to %3$senter your license key%4$s first.', 'paid-member-subscriptions' ); ?>
 <?php __("Multiple Currencies", "paid-member-subscriptions"); ?>
+<?php __("If you need a hand with this setting, you can check the documentation or open a support ticket on WordPress.org.", "paid-member-subscriptions"); ?>
+<?php __("We will do our best to help you figure it out.", "paid-member-subscriptions"); ?>
+<?php __("View Documentation", "paid-member-subscriptions"); ?>
+<?php __("Open Support Ticket", "paid-member-subscriptions"); ?>
+<?php __("Before You Go", "paid-member-subscriptions"); ?>
+<?php __("If something isn't working as expected, we'd love the chance to fix it. Most issues can be resolved quickly, and our support team is here to help.", "paid-member-subscriptions"); ?>
 <?php __("Plan Name", "paid-member-subscriptions"); ?>
 <?php __("Auto Renewal", "paid-member-subscriptions"); ?>
 <?php __("On", "paid-member-subscriptions"); ?>
@@ -1459,7 +1564,6 @@
 <?php __("GDPR Consent", "paid-member-subscriptions"); ?>
 <?php __("Subscription ID", "paid-member-subscriptions"); ?>
 <?php __("Subscription User ID", "paid-member-subscriptions"); ?>
-<?php __("Payment Gateway", "paid-member-subscriptions"); ?>
 <?php __("Billing Amount", "paid-member-subscriptions"); ?>
 <?php __("Last Payment Date", "paid-member-subscriptions"); ?>
 <?php __("Plan ID", "paid-member-subscriptions"); ?>
@@ -1513,7 +1617,6 @@
 <?php __("Activate Your Gift Subscription", "paid-member-subscriptions"); ?>
 <?php __("View Your Account", "paid-member-subscriptions"); ?>
 <?php __("You have received a gift subscription to %s", "paid-member-subscriptions"); ?>
-<?php __("Hello,", "paid-member-subscriptions"); ?>
 <?php __("%s has gifted you a subscription to our website!", "paid-member-subscriptions"); ?>
 <?php __("<strong>Plan:</strong> %s", "paid-member-subscriptions"); ?>
 <?php __("<strong>Message:</strong> %s", "paid-member-subscriptions"); ?>
@@ -1558,8 +1661,6 @@
 <?php __("Activation Link:", "paid-member-subscriptions"); ?>
 <?php __("Copy Link", "paid-member-subscriptions"); ?>
 <?php __("Share this link with the recipient to activate their gift subscription.", "paid-member-subscriptions"); ?>
-<?php __("Pending Gift", "paid-member-subscriptions"); ?>
-<?php __("Gift Subscription", "paid-member-subscriptions"); ?>
 <?php __("Allow this plan to be purchased as a gift", "paid-member-subscriptions"); ?>
 <?php __("When enabled, users will be able to purchase this subscription plan as a gift for someone else. The recipient will receive an activation email with a unique link to claim their subscription.", "paid-member-subscriptions"); ?>
 <?php __("Gift Expiration", "paid-member-subscriptions"); ?>
@@ -1766,6 +1867,7 @@
 <?php __("Subscription resumed by user at %s", "paid-member-subscriptions"); ?>
 <?php __("Subscription resumed by Admin at %s", "paid-member-subscriptions"); ?>
 <?php __("Subscription automatically resumed at %s", "paid-member-subscriptions"); ?>
+<?php __("unlimited", "paid-member-subscriptions"); ?>
 <?php __("Pause End Date", "paid-member-subscriptions"); ?>
 <?php __('You will soon be redirected automatically. If you see this page for more than 5 seconds, please click <a href=\%1$s\>here</a>', 'paid-member-subscriptions' ); ?>
 <?php __("%sClick here%s to go now.", "paid-member-subscriptions"); ?>
@@ -2104,19 +2206,36 @@
 <?php __("Create no-code automations and workflows on your WordPress site.", "paid-member-subscriptions"); ?>
 <?php __("Integrates with Profile Builder or Paid Member Subscriptions, depending on which plugin it's for.", "paid-member-subscriptions"); ?>
 <?php __("Paid Member Subscriptions comes with an <a href=\"%s\">extensive documentation</a> to assist you.", "paid-member-subscriptions"); ?>
-<?php __("At a glance", "paid-member-subscriptions"); ?>
-<?php __("%s payments are enabled", "paid-member-subscriptions"); ?>
-<?php __("Test", "paid-member-subscriptions"); ?>
-<?php __("Live", "paid-member-subscriptions"); ?>
-<?php __("Active Payment Gateways", "paid-member-subscriptions"); ?>
+<?php __("Website Health", "paid-member-subscriptions"); ?>
+<?php __("Healthy", "paid-member-subscriptions"); ?>
+<?php __("Needs Attention", "paid-member-subscriptions"); ?>
+<?php __("Have a question? Not sure how to proceed?", "paid-member-subscriptions"); ?>
+<?php __("Open a new ticket over at", "paid-member-subscriptions"); ?>
+<?php __("Describe your problem:", "paid-member-subscriptions"); ?>
+<?php __("What you tried to do", "paid-member-subscriptions"); ?>
+<?php __("What you expected to happen", "paid-member-subscriptions"); ?>
+<?php __("What actually happened", "paid-member-subscriptions"); ?>
+<?php __("Screenshots help. Use a service like %s and share the link.", "paid-member-subscriptions"); ?>
+<?php __("Get help from our team", "paid-member-subscriptions"); ?>
 <?php __("Setup Progress Review", "paid-member-subscriptions"); ?>
 <?php __("Open the Setup Wizard", "paid-member-subscriptions"); ?>
+<?php __("Scheduled Payments", "paid-member-subscriptions"); ?>
+<?php __("Next run", "paid-member-subscriptions"); ?>
+<?php __("Next Month", "paid-member-subscriptions"); ?>
+<?php __("Not scheduled", "paid-member-subscriptions"); ?>
+<?php __("Next run in", "paid-member-subscriptions"); ?>
+<?php __("Payments scheduled", "paid-member-subscriptions"); ?>
+<?php __("Expected revenue", "paid-member-subscriptions"); ?>
 <?php __("Totals", "paid-member-subscriptions"); ?>
+<?php __("30 days", "paid-member-subscriptions"); ?>
 <?php __("Recent Payments", "paid-member-subscriptions"); ?>
 <?php __("%1s purchased a %2s subscription for %3s", "paid-member-subscriptions"); ?>
 <?php __("View All Payments", "paid-member-subscriptions"); ?>
 <?php __("Useful shortcodes for setup", "paid-member-subscriptions"); ?>
 <?php __("Use these shortcodes to quickly setup and customize your membership website.", "paid-member-subscriptions"); ?>
+<?php __("Add registration forms where members can sign-up for a subscription plan.", "paid-member-subscriptions"); ?>
+<?php __("Click to copy", "paid-member-subscriptions"); ?>
+<?php __("Restrict pieces of content on individual posts and pages based on subscription ID.", "paid-member-subscriptions"); ?>
 <?php __("Learn more about shortcodes", "paid-member-subscriptions"); ?>
 <?php __("Export", "paid-member-subscriptions"); ?>
 <?php __("Import", "paid-member-subscriptions"); ?>
@@ -2300,6 +2419,8 @@
 <?php __("Other Settings", "paid-member-subscriptions"); ?>
 <?php __("Admin Bar", "paid-member-subscriptions"); ?>
 <?php __("Remove the admin bar from all logged in users except Administrators.", "paid-member-subscriptions"); ?>
+<?php __("Admin Bar Widget", "paid-member-subscriptions"); ?>
+<?php __("Disable the admin bar widget of the plugin.", "paid-member-subscriptions"); ?>
 <?php __("Honeypot Field", "paid-member-subscriptions"); ?>
 <?php __("Add the honeypot field to the PMS Registration form to prevent spambot attacks.", "paid-member-subscriptions"); ?>
 <?php __("Labels Edit", "paid-member-subscriptions"); ?>
@@ -2331,7 +2452,6 @@
 <?php __("Don't expire subscriptions on gateway refund.", "paid-member-subscriptions"); ?>
 <?php __("When a payment is refunded in the payment gateway, by default the subscription will expire. Check this option to prevent the subscription from expiring automatically.", "paid-member-subscriptions"); ?>
 <?php __("Cron Jobs", "paid-member-subscriptions"); ?>
-<?php __("Reset cron jobs", "paid-member-subscriptions"); ?>
 <?php __("The plugin will try to register the cron jobs that it uses again.", "paid-member-subscriptions"); ?>
 <?php __("Scripts", "paid-member-subscriptions"); ?>
 <?php __("Load Scripts only on specific pages", "paid-member-subscriptions"); ?>
@@ -2390,8 +2510,14 @@
 <?php __("Allow members to downgrade their subscription plan to a lower one from the same tier.", "paid-member-subscriptions"); ?>
 <?php __("Allow Subscription Change", "paid-member-subscriptions"); ?>
 <?php __("Allow members to change their subscription to one from another tier.", "paid-member-subscriptions"); ?>
+<?php __("Active Payment Gateways", "paid-member-subscriptions"); ?>
 <?php __("Default Payment Gateway", "paid-member-subscriptions"); ?>
 <?php __("Skip Setup", "paid-member-subscriptions"); ?>
+<?php __("Search Subscriptions", "paid-member-subscriptions"); ?>
+<?php __("Currency...", "paid-member-subscriptions"); ?>
+<?php __("Group...", "paid-member-subscriptions"); ?>
+<?php __("Expiration Date...", "paid-member-subscriptions"); ?>
+<?php __("Next Billing Date...", "paid-member-subscriptions"); ?>
 <?php __("Uninstall Paid Member Subscriptions", "paid-member-subscriptions"); ?>
 <?php __("We're sad to see you leave, but we understand that sometimes things don't work out as planned.", "paid-member-subscriptions"); ?>
 <?php __("DataBase cleanup information", "paid-member-subscriptions"); ?>
@@ -2656,7 +2782,6 @@
 <?php __("View Member", "paid-member-subscriptions"); ?>
 <?php __("No Members in this Group", "paid-member-subscriptions"); ?>
 <?php __("The number of additional members, including the owner, that can be added to the subscription.", "paid-member-subscriptions"); ?>
-<?php __("Group...", "paid-member-subscriptions"); ?>
 <?php __("Edit Owner", "paid-member-subscriptions"); ?>
 <?php __("Invalid subscriptions.", "paid-member-subscriptions"); ?>
 <?php __("Group seats cannot be empty.", "paid-member-subscriptions"); ?>
@@ -2786,6 +2911,8 @@
 <?php __("The plugin already includes the VAT rates for EU countries so you don't have to add them, but you can overwrite them below if necessary.", "paid-member-subscriptions"); ?>
 <?php __("Merchant VAT Country", "paid-member-subscriptions"); ?>
 <?php __("Select the Country where the VAT MOSS of your business is registered.", "paid-member-subscriptions"); ?>
+<?php __("Allow 0% Tax Rates", "paid-member-subscriptions"); ?>
+<?php __("Display the tax breakdown on the front-end forms even when the tax rate is 0%.", "paid-member-subscriptions"); ?>
 <?php __("Tax Rates", "paid-member-subscriptions"); ?>
 <?php __("No custom tax rates have been set. You can add some by uploading a CSV file below.", "paid-member-subscriptions"); ?>
 <?php __("Country", "paid-member-subscriptions"); ?>
@@ -2831,6 +2958,7 @@
 <?php __("Add a URL where you wish to redirect logged-in non-members that do not have access to this %s and try to access it directly.", "paid-member-subscriptions"); ?>
 <?php __("Leave this field empty if you want all users to be redirected to the same URL.", "paid-member-subscriptions"); ?>
 <?php __("Enable if you wish to add custom restriction messages for this %s.", "paid-member-subscriptions"); ?>
+<?php __('Have a question? %1$sOpen a support ticket.%2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Write description", "paid-member-subscriptions"); ?>
 <?php __("A description for this subscription plan. This will be displayed on the register form.", "paid-member-subscriptions"); ?>
 <?php __("Set the subscription duration. Leave 0 for unlimited.", "paid-member-subscriptions"); ?>

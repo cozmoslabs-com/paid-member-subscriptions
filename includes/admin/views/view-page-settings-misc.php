@@ -106,6 +106,19 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                <label class="cozmoslabs-form-field-label" for="disable-admin-bar-widget"><?php esc_html_e( 'Admin Bar Widget' , 'paid-member-subscriptions' ) ?></label>
+
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="disable-admin-bar-widget" name="pms_misc_settings[disable-admin-bar-widget]" value="1" <?php echo ( isset( $this->options['disable-admin-bar-widget'] ) ? 'checked' : '' ); ?> />
+                    <label class="cozmoslabs-toggle-track" for="disable-admin-bar-widget"></label>
+                </div>
+
+                <div class="cozmoslabs-toggle-description">
+                    <label for="disable-admin-bar-widget" class="cozmoslabs-description"><?php esc_html_e( 'Disable the admin bar widget of the plugin.', 'paid-member-subscriptions' ); ?></label>
+                </div>
+            </div>
+
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
                 <label class="cozmoslabs-form-field-label" for="honeypot-field"><?php esc_html_e( 'Honeypot Field' , 'paid-member-subscriptions' ) ?></label>
 
                 <div class="cozmoslabs-toggle-container">

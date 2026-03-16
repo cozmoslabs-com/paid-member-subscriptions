@@ -168,8 +168,32 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
                     $new_subscription_plan = pms_get_subscription_plan( (int)sanitize_text_field( $_POST['subscription_plan_id'] ) );
 
-                    if ( isset( $new_subscription_plan->price ) )
-                        $_POST['billing_amount'] = $new_subscription_plan->price;
+                    if ( isset( $new_subscription_plan->price ) ) {
+
+                        $billing_amount = $new_subscription_plan->price;
+
+                        // check if tax should also be added
+                        if( function_exists( 'pms_in_tax_enabled' ) && pms_in_tax_enabled() ) {
+
+                            $request_data = array();
+
+                            $payments = pms_get_payments( array(
+                                'member_subscription_id' => $member_subscription->id,
+                                'number'                 => 1,
+                                'order'                  => 'DESC',
+                            ) );
+
+                            if( !empty( $payments[0] ) && !empty( $payments[0]->id ) ) {
+                                $request_data['pms_billing_country'] = pms_get_payment_meta( $payments[0]->id, 'pms_billing_country', true );
+                                $request_data['pms_billing_state']   = pms_get_payment_meta( $payments[0]->id, 'pms_billing_state', true );
+                                $request_data['pms_billing_city']    = pms_get_payment_meta( $payments[0]->id, 'pms_billing_city', true );
+                            }
+
+                            $billing_amount = apply_filters( 'pms_tax_apply_to_amount', $billing_amount, $new_subscription_plan->id, $request_data );
+                        }
+
+                        $_POST['billing_amount'] = $billing_amount;
+                    }
                 }
 
             }

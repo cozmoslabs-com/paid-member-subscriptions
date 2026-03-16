@@ -202,10 +202,10 @@ add_filter( 'wppb_register_form_content', 'pms_stripe_wppb_register_success_mess
 function pms_stripe_wppb_register_success_message( $content ){
 
     if( isset( $_REQUEST['pmsscscd'] ) && isset( $_REQUEST['pmsscsmsg'] ) ){
-        $message_code =  base64_decode( sanitize_text_field( $_REQUEST['pmsscscd'] ) );
-        $message      =  base64_decode( sanitize_text_field( $_REQUEST['pmsscsmsg'] ) );
+        $message_code =  sanitize_text_field( base64_decode( $_REQUEST['pmsscscd'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $message      =  sanitize_text_field( base64_decode( $_REQUEST['pmsscsmsg'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-        return '<p class="alert wppb-success" id="wppb_form_general_message">' . $message . '</p>';
+        return '<p class="alert wppb-success" id="wppb_form_general_message">' . esc_html( $message ) . '</p>';
     }
 
     return $content;

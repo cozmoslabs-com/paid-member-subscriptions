@@ -547,10 +547,10 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
                 $previous_restricted_ids = array();
             }
 
-            if ( false === ( $products = get_transient( 'pms_content_restriction_products_query' ) ) ) {
+            $transient_key = 'pms_content_restriction_products_query_' . md5( serialize( $args ) );
+            if ( false === ( $products = get_transient( $transient_key ) ) ) {
                 $products = wc_get_products( $args );
-                
-                set_transient( 'pms_content_restriction_products_query', $products, 2 * HOUR_IN_SECONDS );
+                set_transient( $transient_key, $products, 2 * HOUR_IN_SECONDS );
             }
 
             $product_ids = array();

@@ -3,16 +3,16 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 2.17.3
+ * Version: 3.0.0
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * Domain Path: /translations
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 10.5
- * Elementor tested up to: 3.35.4
- * Elementor Pro tested up to: 3.35.4
+ * WC tested up to: 10.4
+ * Elementor tested up to: 3.33.4
+ * Elementor Pro tested up to: 3.33.4
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '2.17.3' );
+        define( 'PMS_VERSION', '3.0.0' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -636,6 +636,15 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-members.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-members.php';
 
+        /*
+         * Subscriptions
+         */
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-subscriptions-list-table.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-subscriptions-list-table.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-subscriptions.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-subscriptions.php';
+
 
         /*
          * Payments
@@ -652,6 +661,10 @@ Class Paid_Member_Subscriptions {
         // Payment functions
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-payment.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-payment.php';
+
+        // Plugin scheduled payments functions
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-plugin-scheduled-payments.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-plugin-scheduled-payments.php';
 
         // Payment admin list table class
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-payments-list-table.php' ) )
@@ -681,6 +694,9 @@ Class Paid_Member_Subscriptions {
 
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-dashboard.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-dashboard.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-support-chat.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-support-chat.php';
 
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/plugin-optin/class-admin-plugin-optin.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/plugin-optin/class-admin-plugin-optin.php';
@@ -741,6 +757,12 @@ Class Paid_Member_Subscriptions {
 
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'assets/libs/pms-add-ons-listing/pms-add-ons-listing.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'assets/libs/pms-add-ons-listing/pms-add-ons-listing.php';
+
+        /*
+         * Admin Bar Widget
+         */
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-bar-widget.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-bar-widget.php';
 
         /*
          * EDD Update Class

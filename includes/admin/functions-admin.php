@@ -10,6 +10,7 @@ function pms_admin_set_screen_option( $status, $option, $value ){
     $per_page_options = array(
         'pms_members_per_page',
         'pms_payments_per_page',
+        'pms_subscriptions_per_page',
         'pms_users_per_page'
     );
 
@@ -410,7 +411,7 @@ function pms_output_page_banner( $page_name ) {
     $support_url = 'https://www.cozmoslabs.com/support/?utm_source=pms-settings&utm_medium=client-site&utm_campaign=pms-header-upsell';
 
     if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) )
-        $support_url = 'https://wordpress.org/support/plugin/paid-member-subscriptions/';
+        $support_url = 'https://wordpress.org/support/plugin/paid-member-subscriptions/#new-topic-0';
 
     $output = '<div class="cozmoslabs-banner">
                    <div class="cozmoslabs-banner-title">
@@ -1229,6 +1230,84 @@ function pms_payment_gateways_section_relocation_notice() {
 }
 add_filter( 'admin_init', 'pms_payment_gateways_section_relocation_notice' );
 
+/**
+ * Check if current screen is a Paid Member Subscriptions admin page
+ *
+ * @return bool
+ */
+function pms_is_paid_member_subscriptions_admin_page() {
+
+    if ( ! is_admin() )
+        return false;
+
+    $screen = get_current_screen();
+
+    if ( ! $screen )
+        return false;
+
+    $current_page    = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+    $current_subpage = isset( $_GET['subpage'] ) ? sanitize_text_field( wp_unslash( $_GET['subpage'] ) ) : '';
+
+    if ( $current_page === 'paid-member-subscriptions' || strpos( $current_page, 'pms-' ) === 0 || strpos( $current_subpage, 'pms-' ) === 0 )
+        return true;
+
+    if ( ! empty( $screen->post_type ) && strpos( $screen->post_type, 'pms-' ) === 0 )
+        return true;
+
+    if ( strpos( $screen->id, 'paid-member-subscriptions' ) !== false || strpos( $screen->id, 'pms-' ) !== false )
+        return true;
+
+    return false;
+
+}
+
+/**
+ * Enqueue shared PMS admin assets
+ *
+ * @return void
+ */
+function pms_enqueue_shared_admin_assets() {
+
+    if ( ! pms_is_paid_member_subscriptions_admin_page() )
+        return;
+
+    wp_enqueue_script( 'jquery-ui-dialog' );
+    wp_enqueue_style( 'wp-jquery-ui-dialog' );
+
+    wp_enqueue_script( 'pms-admin', PMS_PLUGIN_DIR_URL . 'assets/js/admin/pms-admin.js', array( 'jquery', 'jquery-ui-dialog' ), PMS_VERSION, true );
+
+}
+add_action( 'admin_enqueue_scripts', 'pms_enqueue_shared_admin_assets' );
+
+/**
+ * Output the popup markup used for documentation links from the admin
+ *
+ * @return void
+ */
+function pms_output_docs_link_popup() {
+
+    if ( ! pms_is_paid_member_subscriptions_admin_page() )
+        return;
+
+    ?>
+    <div id="pms-docs-link-popup" class="pms-docs-link-popup" title="<?php echo esc_attr__( 'Need Help?', 'paid-member-subscriptions' ); ?>" style="display:none;">
+        <div class="pms-docs-link-popup-content">
+            <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/pms-logo.svg' ); ?>" alt="<?php esc_attr_e( 'Paid Member Subscriptions', 'paid-member-subscriptions' ); ?>" width="44" height="44" class="pms-docs-link-popup-logo">
+            <div>
+                <p class="pms-docs-link-popup-description"><?php esc_html_e( 'If you need a hand with this setting, you can check the documentation or open a support ticket on WordPress.org.', 'paid-member-subscriptions' ); ?></p>
+                <p class="pms-docs-link-popup-description"><?php esc_html_e( 'We will do our best to help you figure it out.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+        </div>
+        <div class="pms-docs-link-popup-actions cozmoslabs-wrap">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="button button-primary pms-docs-link-popup-open-docs"><?php esc_html_e( 'View Documentation', 'paid-member-subscriptions' ); ?></a>
+            <a href="https://wordpress.org/support/plugin/paid-member-subscriptions/#new-topic-0" target="_blank" rel="noopener noreferrer" class="button button-primary pms-docs-link-popup-open-wporg"><?php esc_html_e( 'Open Support Ticket', 'paid-member-subscriptions' ); ?></a>
+        </div>
+    </div>
+    <?php
+
+}
+add_action( 'admin_footer', 'pms_output_docs_link_popup' );
+
 add_action( 'wp_ajax_pms_cleanup_postmeta', 'pms_cleanup_postmeta' );
 function pms_cleanup_postmeta() {
     check_ajax_referer( 'pms_cleanup_postmeta', 'nonce' );
@@ -1297,3 +1376,74 @@ function pms_cleanup_postmeta() {
         'rows_affected' => $rows_affected
     ) );
 }
+
+/**
+ * Enqueue the deactivation confirmation popup assets on the Plugins page.
+ *
+ */
+function pms_enqueue_deactivation_popup_assets( $hook ) {
+
+    if ( defined( 'PMS_PAID_PLUGIN_DIR' ) )
+        return;
+
+    if ( ! in_array( $hook, array( 'plugins.php', 'plugins-network.php' ), true ) )
+        return;
+
+    wp_enqueue_script( 'jquery-ui-dialog' );
+    wp_enqueue_style( 'wp-jquery-ui-dialog' );
+
+    wp_enqueue_script( 'pms-deactivation-popup', PMS_PLUGIN_DIR_URL . 'assets/js/admin/deactivation-popup.js', array( 'jquery', 'jquery-ui-dialog' ), PMS_VERSION, true );
+
+}
+add_action( 'admin_enqueue_scripts', 'pms_enqueue_deactivation_popup_assets' );
+
+/**
+ * Output the deactivation confirmation popup on the Plugins page.
+ *
+ */
+function pms_output_deactivation_popup() {
+
+    if ( defined( 'PMS_PAID_PLUGIN_DIR' ) )
+        return;
+
+    $screen = get_current_screen();
+
+    if ( empty( $screen ) )
+        return;
+
+    $is_plugins_screen = in_array( $screen->base, array( 'plugins', 'plugins-network' ), true ) || in_array( $screen->id, array( 'plugins', 'plugins-network' ), true );
+
+    if ( ! $is_plugins_screen )
+        return;
+
+    ?>
+    <div id="pms-deactivation-popup" title="<?php esc_attr_e( 'Before You Go', 'paid-member-subscriptions' ); ?>" data-plugin="<?php echo esc_attr( PMS_PLUGIN_BASENAME ); ?>" style="display: none;">
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+            <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/pms-logo.svg' ); ?>" alt="<?php esc_attr_e( 'Paid Member Subscriptions', 'paid-member-subscriptions' ); ?>" width="44" height="44">
+
+            <p style="margin: 0;">
+                <?php esc_html_e( 'If something isn\'t working as expected, we\'d love the chance to fix it. Most issues can be resolved quickly, and our support team is here to help.', 'paid-member-subscriptions' ); ?>
+            </p>
+        </div>
+
+        <div style="text-align: right;">
+            <a href="https://wordpress.org/support/plugin/paid-member-subscriptions/" target="_blank" rel="noopener" class="button button-primary pms-deactivation-popup-support">
+                <?php esc_html_e( 'Contact Support', 'paid-member-subscriptions' ); ?>
+            </a>
+
+            <button type="button" class="button button-primary pms-deactivation-popup-confirm">
+                <?php esc_html_e( 'Deactivate', 'paid-member-subscriptions' ); ?>
+            </button>
+        </div>
+    </div>
+
+    <style>
+        .ui-dialog[aria-describedby="pms-deactivation-popup"] .ui-dialog-titlebar {
+            background: transparent;
+            border: none;
+        }
+    </style>
+    <?php
+
+}
+add_action( 'admin_footer', 'pms_output_deactivation_popup' );

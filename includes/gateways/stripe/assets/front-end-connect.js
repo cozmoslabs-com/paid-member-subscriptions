@@ -606,11 +606,13 @@ async function pms_stripe_maybe_load_gateway( $ ) {
                 if( typeof selected_subscription != 'undefined' && target_elements_instance_slug == 'payment_intents' ){
 
                     // Use default price if custom currency price is unavailable
-                    let price = (selected_subscription.data('mc_price') !== undefined && selected_subscription.data('mc_price') !== null) ? selected_subscription.data('mc_price') : selected_subscription.data('price');
+                    let price = (selected_subscription.data('mc_price') !== undefined && selected_subscription.data('mc_price') !== null) ? parseFloat( selected_subscription.data('mc_price') ) : parseFloat( selected_subscription.data('price') );
 
                     // Take into account sign-up fees as well
-                    if( selected_subscription.data('sign_up_fee') !== undefined && selected_subscription.data('sign_up_fee') !== null && selected_subscription.data('sign_up_fee') !== '' && selected_subscription.data('sign_up_fee') !== '0' ){
-                        price = price + selected_subscription.data('sign_up_fee');
+                    let sign_up_fee = parseFloat( selected_subscription.data('sign_up_fee') );
+
+                    if( !isNaN( sign_up_fee ) && sign_up_fee > 0 ){
+                        price = price + sign_up_fee;
                     }
 
                     if( price > 0 ){
@@ -632,11 +634,13 @@ async function pms_stripe_maybe_load_gateway( $ ) {
                 if( typeof selected_subscription != 'undefined' && target_elements_instance_slug == 'payment_intents'  ){
 
                     // Use default price if custom currency price is unavailable
-                    let price = (selected_subscription.data('mc_price') !== undefined && selected_subscription.data('mc_price') !== null) ? selected_subscription.data('mc_price') : selected_subscription.data('price');
+                    let price = (selected_subscription.data('mc_price') !== undefined && selected_subscription.data('mc_price') !== null) ? parseFloat( selected_subscription.data('mc_price') ) : parseFloat( selected_subscription.data('price') );
 
                     // Take into account sign-up fees as well
-                    if( selected_subscription.data('sign_up_fee') !== undefined && selected_subscription.data('sign_up_fee') !== null && selected_subscription.data('sign_up_fee') !== '' && selected_subscription.data('sign_up_fee') !== '0' ){
-                        price = price + selected_subscription.data('sign_up_fee');
+                    let sign_up_fee = parseFloat( selected_subscription.data('sign_up_fee') );
+
+                    if( !isNaN( sign_up_fee ) && sign_up_fee > 0 ){
+                        price = price + sign_up_fee;
                     }
 
                     if( price > 0 ){
@@ -1064,7 +1068,13 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 }
 
 // Initialize Stripe Connect when document is ready
-jQuery( pms_stripe_maybe_load_gateway );
+jQuery( function() {
+    try {
+        pms_stripe_maybe_load_gateway( jQuery );
+    } catch ( err ) {
+        console.error( '[PMS Stripe] Error during init:', err );
+    }
+});
 
 // Maybe initialize Stripe when Elementor popup is shown
 jQuery(document).on('elementor/popup/show', function () {

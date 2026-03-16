@@ -201,4 +201,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <?php do_action( 'pms_view_meta_box_content_restrict_bottom', $post->ID ); ?>
 
+<?php if ( ! defined( 'PMS_PAID_PLUGIN_DIR' ) || ( defined( 'PAID_MEMBER_SUBSCRIPTIONS' ) && PAID_MEMBER_SUBSCRIPTIONS === 'Paid Member Subscriptions Dev' ) ) : ?>
+
+    <div class="cozmoslabs-form-field-wrapper">
+        <p class="cozmoslabs-description">
+            <?php echo wp_kses_post( sprintf( __( 'Have a question? %1$sOpen a support ticket.%2$s', 'paid-member-subscriptions' ), '<a href="' . esc_url( 'https://wordpress.org/support/plugin/paid-member-subscriptions/#new-topic-0' ) . '" target="_blank" rel="noopener">', '</a>' ) ); ?>
+        </p>
+    </div>
+
+<?php endif; ?>
+
 <?php wp_nonce_field( 'pms_meta_box_single_content_restriction_nonce', 'pmstkn', false ); ?>

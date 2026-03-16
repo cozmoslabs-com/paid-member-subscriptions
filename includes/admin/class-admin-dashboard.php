@@ -52,53 +52,26 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
         add_action( 'pms_output_content_submenu_page_' . $this->menu_slug, array( $this, 'output' ) );
 
         add_action( 'wp_ajax_get_dashboard_stats', array( $this, 'get_dashboard_stats' ) );
+        
+        // Generic AJAX router for dashboard issue actions
+        add_action( 'wp_ajax_pms_dashboard_issue_action', array( $this, 'handle_dashboard_issue_action' ) );
+        
+        // Clear cache when payment settings are updated
+        add_action( 'update_option_pms_payments_settings', array( __CLASS__, 'clear_dashboard_issues_cache' ) );
 
+        // Clear cache when license status changes (activation, deactivation, etc.)
+        add_action( 'pms_license_status_changed', array( __CLASS__, 'clear_dashboard_issues_cache' ) );
         add_action( 'wp_ajax_pms_dismiss_setup_widget', array( $this, 'pms_dismiss_setup_widget_handler' ) );
 
-        // Process different actions within the page
-        //add_action( 'init', array( $this, 'process_data' ) );
-
     }
 
-    /*
-     * Method that processes data on reports admin pages
-     *
+    /**
+     * Get the dashboard stats
+     * 
+     * @return array Array of dashboard stats
      */
-    public function process_data() {
-
-        // // Get current actions
-        // $action = !empty( $_REQUEST['pms-action'] ) ? sanitize_text_field( $_REQUEST['pms-action'] ) : '';
-
-        // // Get default results if no filters are applied by the user
-        // if( empty($action) && !empty( $_REQUEST['page'] ) && $_REQUEST['page'] == 'pms-reports-page' ) {
-
-        //     $this->queried_payments = $this->get_filtered_payments();
-
-        //     $results = $this->prepare_payments_for_output( $this->queried_payments );
-
-        // } else {
-
-        //     // Verify correct nonce
-        //     if( !isset( $_REQUEST['_wpnonce'] ) || !wp_verify_nonce( sanitize_text_field( $_REQUEST['_wpnonce'] ), 'pms_reports_nonce' ) )
-        //         return;
-
-        //     // Filtering results
-        //     if( $action == 'filter_results' ) {
-
-        //         $this->queried_payments = $this->get_filtered_payments();
-
-        //         $results = $this->prepare_payments_for_output( $this->queried_payments );
-
-        //     }
-
-        // }
-
-        // if( !empty( $results ) )
-        //     $this->results = $results;
-
-    }
-
     public function get_dashboard_stats(){
+
         check_admin_referer( 'pms_dashboard_get_stats' );
 
         if( !current_user_can( 'manage_options' ) )
@@ -144,6 +117,94 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
 
         echo json_encode( $return );
         die();
+
+    }
+
+    /**
+     * Generic AJAX handler for dashboard issue actions
+     * Routes to specific methods based on action parameter
+     * 
+     * @return void
+     */
+    public function handle_dashboard_issue_action() {
+        // Verify nonce and capability
+        if ( !isset( $_POST['_ajax_nonce'] ) || !isset( $_POST['action_name'] ) ) {
+            wp_send_json_error( array( 'message' => __( 'Missing required parameters.', 'paid-member-subscriptions' ) ) );
+        }
+        
+        $action_name = sanitize_text_field( wp_unslash( $_POST['action_name'] ) );
+        $nonce_action = 'pms_dashboard_issue_' . $action_name;
+        
+        if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_ajax_nonce'] ) ), $nonce_action ) ) {
+            wp_send_json_error( array( 'message' => __( 'Security check failed.', 'paid-member-subscriptions' ) ) );
+        }
+        
+        if ( !current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'paid-member-subscriptions' ) ) );
+        }
+        
+        // Route to specific handler method
+        $method_name = 'handle_issue_' . $action_name;
+        
+        if ( method_exists( $this, $method_name ) ) {
+            $this->$method_name();
+        } else {
+            // Allow other code to handle this action
+            do_action( 'pms_dashboard_issue_action_' . $action_name );
+            
+            // If action didn't output anything, send default success
+            if ( !defined( 'DOING_AJAX_RESPONSE' ) ) {
+                wp_send_json_success( array( 'message' => __( 'Action completed.', 'paid-member-subscriptions' ) ) );
+            }
+        }
+    }
+
+    /**
+     * Handle wp_cron_disabled issue confirmation
+     * 
+     * @return void
+     */
+    public function handle_issue_wp_cron_disabled() {
+        update_option( 'pms_dashboard_issue_wp_cron_on_server', true );
+        
+        self::clear_dashboard_issues_cache();
+        
+        wp_send_json_success( array(
+            'message'       => __( 'Confirmation saved successfully.', 'paid-member-subscriptions' ),
+            'reload_issues' => true,
+        ) );
+    }
+
+    /**
+     * Handle website_previously_initialized issue dismissal
+     * 
+     * @return void
+     */
+    public function handle_issue_website_previously_initialized_dismiss() {
+        update_option( 'pms_dashboard_issue_website_previously_initialized_dismissed', true );
+        
+        self::clear_dashboard_issues_cache();
+        
+        wp_send_json_success( array(
+            'message'       => __( 'Notification dismissed successfully.', 'paid-member-subscriptions' ),
+            'reload_issues' => true,
+        ) );
+    }
+
+    /**
+     * Handle dev_environment issue dismissal
+     * 
+     * @return void
+     */
+    public function handle_issue_dev_environment_dismiss() {
+        update_option( 'pms_dashboard_issue_dev_environment_dismissed', true );
+        
+        self::clear_dashboard_issues_cache();
+        
+        wp_send_json_success( array(
+            'message'       => __( 'Notification dismissed successfully.', 'paid-member-subscriptions' ),
+            'reload_issues' => true,
+        ) );
     }
 
     /*
@@ -168,6 +229,12 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
         wp_send_json_success();
     }
 
+
+    /**
+     * Get the active payment gateways
+     * 
+     * @return string The active payment gateways
+     */
     public function get_active_payment_gateways(){
 
         $payment_gateways = pms_get_payment_gateways();
@@ -192,6 +259,13 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
 
     }
 
+    /**
+     * Get the dashboard stats
+     * 
+     * @param array $args The arguments for the stats
+     * 
+     * @return array The dashboard stats
+     */
     public static function get_stats( $args = array() ){
 
         // All time
@@ -268,6 +342,11 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
         return $data;
     }
 
+    /**
+     * Get the dashboard stats labels
+     * 
+     * @return array The dashboard stats labels
+     */
     public function get_stats_labels(){
         return array(
             'all_time_earnings'      => __( 'All Time Earnings', 'paid-member-subscriptions' ),
@@ -279,6 +358,11 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
         );
     }
 
+    /**
+     * Get the active members
+     * 
+     * @return int The active members
+     */
     public static function get_active_members(){
 
         global $wpdb;
@@ -292,6 +376,11 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
 
     }
 
+    /**
+     * Get all time earnings
+     * 
+     * @return int The all time earnings
+     */
     public static function get_all_time_earnings(){
         $payments = pms_get_payments( array( 'status' => 'completed', 'number' => -1 ) );
         $total = 0;
@@ -304,6 +393,162 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
         return (int)$total;
     }
 
+    /**
+     * Get all dashboard issues
+     * 
+     * Collects issues from various sources using the pms_dashboard_issues filter.
+     * Each issue should have a unique key and contain raw data.
+     * Uses transient caching with 1-hour expiration for performance.
+     * 
+     * @return array Array of issues with unique keys
+     */
+    public static function get_dashboard_issues(){
+        
+        $bypass_cache = apply_filters( 'pms_bypass_dashboard_issues_cache', false );
+        
+        
+        if ( !$bypass_cache ) {
+            $cached_issues = get_transient( 'pms_dashboard_issues_cache' );
+            
+            if ( $cached_issues !== false ) {
+                return $cached_issues;
+            }
+        }
+        
+        $issues = array();
+
+        /**
+         * Filter to allow adding dashboard issues
+         * 
+         * @param array $issues Array of issues (empty by default)
+         * 
+         * @return array Modified issues array with format:
+         *               [
+         *                   'issue_key' => [
+         *                       'count' => 5,
+         *                       'amount' => '$100.00',
+         *                       // ... other raw data
+         *                   ]
+         *               ]
+         */
+        $issues = apply_filters( 'pms_dashboard_issues', $issues );
+
+        // Store in cache for 1 hour (3600 seconds)
+        set_transient( 'pms_dashboard_issues_cache', $issues, HOUR_IN_SECONDS );
+
+        return $issues;
+    }
+
+    /**
+     * Clear the dashboard issues cache
+     * 
+     * Deletes the cached issues transient and fires an action hook
+     * to allow other code to respond to cache invalidation.
+     * 
+     * @return void
+     */
+    public static function clear_dashboard_issues_cache(){
+        delete_transient( 'pms_dashboard_issues_cache' );
+        
+        /**
+         * Action fired after dashboard issues cache is cleared
+         * 
+         * Allows other code to respond to cache invalidation.
+         */
+        do_action( 'pms_dashboard_issues_cache_cleared' );
+    }
+
+    /**
+     * Interpret dashboard issues into display format
+     * 
+     * Takes raw issues and converts them into formatted arrays ready for display.
+     * Uses a general filter that receives the issue key and data.
+     * 
+     * @param array $issues Raw issues array from get_dashboard_issues()
+     * 
+     * @return array Array of interpreted issues with format:
+     *               [
+     *                   [
+     *                       'title' => 'Issue Title',
+     *                       'description' => 'Issue description',
+     *                       'severity' => 'critical|warning|info',
+     *                       'actions' => [
+     *                           [
+     *                               'text'     => 'Button Text',
+     *                               'url'      => 'https://example.com',
+     *                               'type'     => 'primary|secondary', // Optional, defaults to 'secondary'
+     *                               'target'   => '_self|_blank',      // Optional, defaults to '_self'
+     *                               'behavior' => 'url'                // Required, can be 'url', 'ajax', or 'dialog'
+     *                           ]
+     *                       ]
+     *                   ]
+     *               ]
+     */
+    public static function interpret_dashboard_issues( $issues ){
+        $interpreted = array();
+
+        if( empty( $issues ) ) {
+            return $interpreted;
+        }
+
+        foreach( $issues as $issue_key => $issue_data ) {
+            /**
+             * Filter to interpret individual dashboard issues
+             * 
+             * @param array|null $interpreted_issue Interpreted issue array (null by default)
+             * @param string     $issue_key         The unique key identifying the issue type
+             * @param array      $issue_data        Raw issue data
+             * 
+             * @return array|null Formatted issue array with:
+             *                    - title (string): Issue title
+             *                    - description (string): Issue description
+             *                    - severity (string): 'critical', 'warning', or 'info'
+             *                    - actions (array): Array of action button definitions, each with 'text', 'url', 'type', 'target', 'behavior'
+             */
+            $interpreted_issue = apply_filters( 'pms_interpret_dashboard_issue', null, $issue_key, $issue_data );
+
+            if( !empty( $interpreted_issue ) && is_array( $interpreted_issue ) ) {
+                $interpreted[] = $interpreted_issue;
+            }
+        }
+
+        return $interpreted;
+    }
+
+    /**
+     * Get the dashboard health status
+     * 
+     * Determines if there are any critical issues that need attention.
+     * 
+     * @return string 'healthy' if no critical issues, 'needs_attention' if there are critical issues
+     */
+    public static function get_dashboard_health_status(){
+        $issues = self::get_dashboard_issues();
+
+        if( empty( $issues ) ) {
+            return 'healthy';
+        }
+
+        // Interpret issues to check their severity
+        $interpreted_issues = self::interpret_dashboard_issues( $issues );
+
+        // Check if any critical issues exist
+        foreach( $interpreted_issues as $issue ) {
+            if( isset( $issue['severity'] ) && $issue['severity'] === 'critical' ) {
+                return 'needs_attention';
+            }
+        }
+
+        return 'healthy';
+    }
+
+    /**
+     * Get the plan name
+     * 
+     * @param int $subscription_plan_id The subscription plan ID
+     * 
+     * @return string The plan name
+     */
     public function get_plan_name( $subscription_plan_id ){
         $plan = pms_get_subscription_plan( $subscription_plan_id );
 

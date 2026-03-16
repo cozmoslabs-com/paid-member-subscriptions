@@ -17,7 +17,7 @@ class PMS_Addons_List_Table extends WP_List_Table {
     public $sections;
 
     public $images_folder;
-    public $text_domain;
+    public $text_domain = 'paid-member-subscriptions';
 
     public $all_addons;
     public $all_plugins;
@@ -29,6 +29,9 @@ class PMS_Addons_List_Table extends WP_List_Table {
     public $tooltip_content_license_inactive;
 
     function __construct(){
+        if ( empty( $this->text_domain ) ) {
+            $this->text_domain = 'paid-member-subscriptions';
+        }
 
         //Set parent defaults
         parent::__construct(array(
@@ -429,4 +432,3 @@ function pms_add_on_action_success() {
     return true;
 
 }
-

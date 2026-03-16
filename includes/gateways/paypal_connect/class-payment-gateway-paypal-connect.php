@@ -778,8 +778,9 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                     if( !empty( $payment->member_subscription_id ) ){
                         $subscription  = pms_get_member_subscription( $payment->member_subscription_id );
                         $checkout_data = pms_get_payment_meta( $payment->id, 'pms_checkout_data', true );
-    
-                        $this->update_subscription( $subscription, $checkout_data['form_location'], $checkout_data['has_trial'], $checkout_data['is_recurring'], $checkout_data );
+
+                        if( is_array( $checkout_data ) )
+                            $this->update_subscription( $subscription, $checkout_data['form_location'], $checkout_data['has_trial'], $checkout_data['is_recurring'], $checkout_data );
                     }
                 }
                 

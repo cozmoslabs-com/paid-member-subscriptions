@@ -77,6 +77,7 @@ body[class*="_page_pms-"] #wpcontent {
 }
 
 body[class*="_page_pms-members-page"] #wpbody-content > .wrap:not(.cozmoslabs-wrap),
+body[class*="_page_pms-subscriptions-page"] #wpbody-content > .wrap:not(.cozmoslabs-wrap),
 body[class*="_page_pms-payments-page"] #wpbody-content > .wrap:not(.cozmoslabs-wrap) {
     padding-left: 20px;
 }
@@ -239,12 +240,17 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     border-radius: 2px;
 }
 
-.pms-payments-status-wrap--live {
+.pms-payments-status-wrap--live,
+.pms-payments-status-wrap--healthy {
     background: #E7F3EE;
 }
 
 .pms-payments-status-wrap--test {
     background: #FDFBE6;
+}
+
+.pms-payments-status-wrap--needs-attention {
+    background: #fde0dd;
 }
 
 .pms-payments-status {
@@ -255,12 +261,17 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     border-radius: 100%;
 }
 
-.pms-payments-status--live {
+.pms-payments-status--live,
+.pms-payments-status--healthy {
     border-color: #46b450;
 }
 
 .pms-payments-status--test {
     border-color: #ffb900;
+}
+
+.pms-payments-status--needs-attention {
+    border-color: #f05040;
 }
 
 
@@ -1660,6 +1671,44 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
     content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='currentColor' class='bi bi-person' viewBox='0 0 24 24' transform='scale(1,1)'> <path d='M20 2H4C3.47 2 2.96 2.21 2.59 2.59C2.21 2.96 2 3.47 2 4V16C2 16.53 2.21 17.04 2.59 17.41C2.96 17.79 3.47 18 4 18H8L12 22L16 18H20C20.53 18 21.04 17.79 21.41 17.41S22 16.53 22 16V4C22 3.47 21.79 2.96 21.41 2.59C21.04 2.21 20.53 2 20 2M4 16V4H20V16H15.17L12 19.17L8.83 16M10.05 6.04C10.59 5.68 11.3 5.5 12.19 5.5C13.13 5.5 13.88 5.71 14.42 6.12C14.96 6.54 15.23 7.1 15.23 7.8C15.23 8.24 15.08 8.63 14.79 9C14.5 9.36 14.12 9.64 13.66 9.85C13.4 10 13.23 10.15 13.14 10.32C13.05 10.5 13 10.72 13 11H11C11 10.5 11.1 10.16 11.29 9.92C11.5 9.68 11.84 9.4 12.36 9.08C12.62 8.94 12.83 8.76 13 8.54C13.14 8.33 13.22 8.08 13.22 7.8C13.22 7.5 13.13 7.28 12.95 7.11C12.77 6.93 12.5 6.85 12.19 6.85C11.92 6.85 11.7 6.92 11.5 7.06C11.34 7.2 11.24 7.41 11.24 7.69H9.27C9.22 7 9.5 6.4 10.05 6.04M11 14V12H13V14Z' id='mainIconPathAttribute' fill='rgb(56, 88, 233)'></path> </svg>");
 }
 
+.pms-docs-link-popup {
+    padding-top: 8px;
+}
+
+.pms-docs-link-popup .pms-docs-link-popup-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    margin-bottom: 8px;
+}
+
+.pms-docs-link-popup .pms-docs-link-popup-description {
+    margin: 0;
+}
+
+.pms-docs-link-popup .pms-docs-link-popup-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin: 0;
+}
+
+.pms-docs-link-popup .pms-docs-link-popup-actions .button-primary {
+    height: 36px;
+}
+
+.pms-docs-link-popup-dialog .ui-dialog-titlebar-close:focus {
+    box-shadow: none;
+}
+
+.ui-dialog[aria-describedby="pms-docs-link-popup"] .ui-dialog-titlebar {
+    background: transparent;
+    border: none;
+}
+
 
 /***********************************************************/
 /* Export Data
@@ -2866,7 +2915,7 @@ body[class*="post-type-pms-"] .wp-list-table th.sorted a .sorting-indicator {
 
 /* Memebers List Table */
 body[class*="_page_pms-"] .wp-list-table.members .column-user_id {
-    width: 7%;
+    width: 85px;
     text-align: left;
 }
 
@@ -2896,7 +2945,8 @@ body[class*="_page_pms-"] .wp-list-table .pms-member-list-subscription .pms-bubb
 }
 
 body[class*="_page_pms-"] .filter-members-sidebox,
-body[class*="_page_pms-"] .filter-payments-sidebox {
+body[class*="_page_pms-"] .filter-payments-sidebox,
+body[class*="_page_pms-"] .filter-subscriptions-sidebox {
     margin-top: 60px;
 }
 
@@ -3044,6 +3094,10 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
 .wp-list-table .pms-status-dot.inactive,
 .wp-list-table .pms-status-dot.failed {
     border-color: #c0392b;
+}
+
+.wp-list-table .pms-status-dot.abandoned {
+    border-color: #8b1e1e;
 }
 
 .wp-list-table .pms-status-dot.canceled,
@@ -3247,6 +3301,21 @@ body[class*="_page_pms-"] #screen-meta {
 .pms-modal__bottom .pms-modal__button-group {
     padding: 20px 10px;
 }
+
+/* Subscriptions List Table */
+.wp-list-table.subscriptions .column-subscription_id {
+    width: 60px;
+}
+
+.wp-list-table.subscriptions .column-type .pms-subscriptions__type {
+    margin: 0;
+}
+
+.wp-list-table.subscriptions .column-type .pms-subscriptions__type-marker {
+    margin: 5px 0 0 5px;
+    font-style: italic;
+}
+
 
 /***********************************************************/
 /* Position Save/Publish buttons container
@@ -3917,20 +3986,23 @@ body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .s
         flex-basis: 45% !important;
     }
 
-    /*Custom Pages Members/Payments */
+    /*Custom Pages Members/Payments/Subscriptions */
     body[class*="_page_pms-"] .wp-list-table.members,
-    body[class*="_page_pms-"] .wp-list-table.payments {
+    body[class*="_page_pms-"] .wp-list-table.payments,
+    body[class*="_page_pms-"] .wp-list-table.subscriptions {
         table-layout: unset;
     }
 
     body[class*="_page_pms-"] .wp-list-table.members tbody tr .check-column,
-    body[class*="_page_pms-"] .wp-list-table.payments tbody tr .check-column {
+    body[class*="_page_pms-"] .wp-list-table.payments tbody tr .check-column,
+    body[class*="_page_pms-"] .wp-list-table.subscriptions tbody tr .check-column {
         vertical-align: top;
         padding-top: 8px;
     }
 
     body[class*="_page_pms-"] .wp-list-table.members tbody tr td:before,
-    body[class*="_page_pms-"] .wp-list-table.payments tbody tr td:before {
+    body[class*="_page_pms-"] .wp-list-table.payments tbody tr td:before,
+    body[class*="_page_pms-"] .wp-list-table.subscriptions tbody tr td:before {
         font-weight: 600;
         font-size: 13px;
         line-height: 16px;
@@ -3938,9 +4010,18 @@ body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .s
     }
 
     body[class*="_page_pms-"] .wp-list-table.members .column-user_id,
-    body[class*="_page_pms-"] .wp-list-table.payments .column-id {
+    body[class*="_page_pms-"] .wp-list-table.payments .column-id,
+    body[class*="_page_pms-"] .wp-list-table.subscriptions .column-subscription_id {
         width: unset;
         text-align: left;
+    }
+
+    body[class*="_page_pms-"] .wp-list-table.subscriptions tr:not(.inline-edit-row):not(.no-items) td:not(.column-primary, .check-column) {
+        padding-left: 50%;
+    }
+
+    body[class*="_page_pms-"] .wp-list-table.subscriptions tr:not(.inline-edit-row):not(.no-items) td:not(.column-primary, .check-column)::before {
+        width: 45%;
     }
 
     body[class*="_page_pms-"] #major-publishing-actions select,
@@ -3948,26 +4029,37 @@ body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .s
         width: 100%;
     }
 
-    body[class*="_page_pms-members-page"] #post-body {
+    body[class*="_page_pms-members-page"] #post-body,
+    body[class*="_page_pms-payments-page"] #post-body,
+    body[class*="_page_pms-subscriptions-page"] #post-body {
         display: flex;
         flex-direction: column;
     }
 
-    body[class*="_page_pms-members-page"] #post-body-content {
+    body[class*="_page_pms-members-page"] #post-body-content,
+    body[class*="_page_pms-payments-page"] #post-body-content,
+    body[class*="_page_pms-subscriptions-page"] #post-body-content  {
         order: 2;
     }
 
-    body[class*="_page_pms-members-page"] .filter-members-sidebox {
+    body[class*="_page_pms-members-page"] .filter-members-sidebox,
+    body[class*="_page_pms-payments-page"] .filter-payments-sidebox,
+    body[class*="_page_pms-subscriptions-page"] .filter-subscriptions-sidebox {
         margin-top: 0;
         order: 1;
     }
 
-    body[class*="_page_pms-members-page"] .filter-members-sidebox #pms-filter-button {
-        width: 140px;
+    body[class*="_page_pms-members-page"] p.search-box,
+    body[class*="_page_pms-payments-page"] p.search-box,
+    body[class*="_page_pms-subscriptions-page"] p.search-box {
+        flex-wrap: nowrap;
     }
 
-    body[class*="_page_pms-members-page"] .wp-list-table .toggle-row {
-        top: 25px;
+    body[class*="_page_pms-members-page"] p.search-box input[name="s"],
+    body[class*="_page_pms-payments-page"] p.search-box input[name="s"],
+    body[class*="_page_pms-subscriptions-page"] p.search-box input[name="s"] {
+        margin-bottom: 0;
+        min-width: 100px;
     }
 
     body[class*="_page_pms-members-page"] #pms-member-details .pms-group-edit-subscription  {
@@ -4018,6 +4110,10 @@ body[class*="_page_pms-dashboard-page"] #wpbody-content {
     margin-bottom: 12px;
 }
 
+.pms-dashboard-box .value {
+    line-height: 25px;
+}
+
 .pms-dashboard-box .pms-payments-status {
     width: 25px;
     height: 25px;
@@ -4025,15 +4121,15 @@ body[class*="_page_pms-dashboard-page"] #wpbody-content {
 
 .pms-dashboard-glance {
     display: grid;
-    grid-template-columns: 1.2fr 2fr;
+    grid-template-columns: 1.5fr 2fr;
+    margin-bottom: 24px;
 }
 
-.pms-dashboard-glance__payments-status.test {
-    background: #FDFBE6;
-}
-
-.pms-dashboard-glance__payments-status.live {
-    background: #E7F3EE;
+.pms-dashboard-glance__payments-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none !important;
 }
 
 .pms-dashboard-stats {
@@ -4053,6 +4149,7 @@ body[class*="_page_pms-dashboard-page"] #wpbody-content {
 .pms-dashboard-stats__title {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 16px;
 }
 
@@ -4060,7 +4157,7 @@ body[class*="_page_pms-dashboard-page"] #wpbody-content {
     margin: 0px !important;
 }
 
-.pms-dashboard-box.all_time_earnings, .pms-dashboard-box.all_active_members {
+.pms-dashboard-box.all_time_earnings, .pms-dashboard-box.all_active_members, .pms-dashboard-box.next_run {
     background: #E7F3EE;
 }
 
@@ -4144,6 +4241,56 @@ body[class*="_page_pms-dashboard-page"] #wpbody-content {
     margin-top: 0px;
 }
 
+/* DASHBOARD ISSUES */
+.pms-dashboard-issues {
+    margin-bottom: 24px;
+}
+
+.pms-dashboard-issue {
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    border-left: 4px solid #72aee6;
+    background: #f9f9f9;
+}
+
+.pms-dashboard-issue--critical {
+    border-left-color: #dc3232;
+    background: #fef7f7;
+}
+
+.pms-dashboard-issue--warning {
+    border-left-color: #f0b849;
+    background: #fffbf0;
+}
+
+.pms-dashboard-issue__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.pms-dashboard-issue__icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.pms-dashboard-issue__title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #1e1e1e;
+}
+
+.pms-dashboard-issue__description {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 160%;
+    color: #3c434a;
+    margin-bottom: 8px;
+}
 
 /* PROGRESS STEPS DASHBOARD */
 .pms-setup-progress__bar {
@@ -5151,6 +5298,27 @@ div.wppb-serial-notification {
 /***********************************************************/
 /* Pause Subscriptions add-on
 /***********************************************************/
-.pms-ps-title{
+.pms-ps-title {
     margin-top: 40px !important;
+}
+
+.paid-member-subscriptions_page_pms-dashboard-page .ui-dialog-buttons .button-secondary {
+    height: 45px !important;
+    margin-left: 12px !important;
+    /* margin: .5em .4em .5em 0 !important; */
+}
+
+.paid-member-subscriptions_page_pms-dashboard-page .pms-dashboard-issue__action .button-primary,
+.paid-member-subscriptions_page_pms-dashboard-page .pms-dashboard-issue__action .button-secondary {
+    height: 40px !important;
+}
+
+.paid-member-subscriptions_page_pms-dashboard-page .ui-widget-header {
+    border: none !important;
+    background: transparent !important;
+    padding-top: 12px;
+}
+
+.paid-member-subscriptions_page_pms-dashboard-page .ui-widget-content p {
+    margin-top: 0px;
 }

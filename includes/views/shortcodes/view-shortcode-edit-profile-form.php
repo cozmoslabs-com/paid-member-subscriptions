@@ -82,7 +82,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                  ?>
                 <li class="pms-field">
                     <label for="pms-delete-account"><?php esc_html_e( 'Delete account and data', 'paid-member-subscriptions' ) ?>
-                        <input id="pms-delete-account" type="button" value=<?php esc_attr_e( "Delete", 'paid-member-subscriptions' ) ?> />
+                        <input id="pms-delete-account" type="button" value="<?php echo esc_attr__( 'Delete', 'paid-member-subscriptions' ); ?>" />
                     </label>
                 </li>
                 <?php

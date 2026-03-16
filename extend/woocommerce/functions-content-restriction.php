@@ -147,23 +147,38 @@ add_action( 'pms_save_meta_box_product', 'pms_woo_save_custom_purchasing_restric
 
 
 /**
- * Function that restricts product viewing by hijacking WooCommerce product password protection (hide_content restriction mode)
+ * Restrict single product view by marking restricted products as password-protected
+ *
+ * - Uses 'template_redirect' so this runs early enough for both classic and block themes
+ * - Applies only to 'message' restriction type
+ * - 'redirect' and 'template' restriction modes are handled separately
  *
  */
-function pms_woo_maybe_password_protect_product(){
+function pms_woo_maybe_password_protect_product() {
     global $post;
 
-    // if the product is to be restricted, and doesn't already have a password,
-    // set a password so as to perform the actions we want
-    if ( pms_is_post_restricted() && ! post_password_required() ) {
+    if ( ! is_singular( 'product' ) || empty( $post ) || empty( $post->ID ) )
+        return;
 
+    $post_restriction_type = get_post_meta( $post->ID, 'pms-content-restrict-type', true );
+    $settings              = get_option( 'pms_content_restriction_settings', array() );
+
+    if ( $post_restriction_type == 'default' || empty( $post_restriction_type ) )
+        $post_restriction_type = ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' );
+
+    // `redirect` and `template` restriction types are handled by dedicated flows
+    if ( $post_restriction_type !== 'message' )
+        return;
+
+    // If the product is restricted and does not already require a password, set a temporary password before Woo renders product templates
+    if ( pms_is_post_restricted( $post->ID ) && ! post_password_required() ) {
         $post->post_password = uniqid( 'pms_woo_product_restricted_' );
 
-        add_filter( 'the_password_form', 'pms_woo_restrict_product_content' );
-
+        if ( ! has_filter( 'the_password_form', 'pms_woo_restrict_product_content' ) )
+            add_filter( 'the_password_form', 'pms_woo_restrict_product_content' );
     }
 }
-add_action( 'woocommerce_before_single_product', 'pms_woo_maybe_password_protect_product' );
+add_action( 'template_redirect', 'pms_woo_maybe_password_protect_product', 0 );
 
 
 /**
@@ -386,6 +401,11 @@ function pms_is_product_purchasable( $product = '' ){
  **/
 function pms_woo_single_product_purchasing_restricted_message(){
     global $pms_show_content;
+
+    // View restrictions already render their own message
+    if ( pms_is_post_restricted() ) {
+        return;
+    }
 
     if ( !pms_is_product_purchasable() ) {
 

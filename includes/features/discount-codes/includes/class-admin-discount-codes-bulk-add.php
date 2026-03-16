@@ -143,7 +143,7 @@ Class PMS_IN_Custom_Post_Type_Discount_Codes_Bulk_Add extends PMS_Submenu_Page {
         $data   = array();
 
         if ( ( $handle = fopen( $filename, 'r' ) ) !== FALSE ) {
-            while ( ( $row = fgetcsv( $handle, 1000, $delimiter ) ) !== FALSE ) {
+            while ( ( $row = fgetcsv( $handle, 1000, $delimiter, '"', '\\' ) ) !== FALSE ) {
                 if( !$header )
                     $header = $row;
                 else {

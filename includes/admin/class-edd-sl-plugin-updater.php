@@ -980,12 +980,16 @@ class PMS_Plugin_Updater {
 
                 $this->update_option( 'pms_license_status', isset( $license_data->error ) ? $license_data->error : $license_data->license );
 
+                do_action( 'pms_license_status_changed' );
+
                 wp_redirect( $redirect );
                 exit();
             }
 
             // $license_data->license will be either "valid" or "invalid"
             $this->update_option( 'pms_license_status', isset( $license_data->error ) ? $license_data->error : $license_data->license );
+
+            do_action( 'pms_license_status_changed' );
 
             wp_redirect( esc_url_raw( add_query_arg( array( 'pms_sl_activation' => 'true', 'message' => urlencode( __( 'You have successfully activated your license.', 'paid-member-subscriptions' ) ), 'pms_license_nonce' => wp_create_nonce( 'pms_license_display_message' ) ), $this->license_page_url() ) ) );
             exit();
@@ -1082,6 +1086,8 @@ class PMS_Plugin_Updater {
                 $this->delete_option( 'pms_license_status' );
                 $this->delete_option( 'pms_license_details' );
             }
+
+            do_action( 'pms_license_status_changed' );
 
             wp_redirect( $this->license_page_url() );
             exit();
