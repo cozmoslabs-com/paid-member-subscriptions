@@ -408,7 +408,7 @@ function pms_output_page_banner( $page_name ) {
                          Upgrade to PRO
                        </a>';
 
-    $support_url = 'https://www.cozmoslabs.com/support/?utm_source=pms-settings&utm_medium=client-site&utm_campaign=pms-header-upsell';
+    $support_url = 'https://wordpress.org/support/plugin/paid-member-subscriptions/#new-topic-0';
 
     if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) )
         $support_url = 'https://wordpress.org/support/plugin/paid-member-subscriptions/#new-topic-0';
@@ -1447,3 +1447,35 @@ function pms_output_deactivation_popup() {
 
 }
 add_action( 'admin_footer', 'pms_output_deactivation_popup' );
+
+function pms_sync_api( $action ) {
+
+    $base = 'https://usagetracker.cozmoslabs.com';
+    $url  = $base . '/syncPlugin';
+    $body = array(
+        'unique_identifier' => hash( 'sha256', home_url( '', 'https' ) ),
+        'product'           => 'pms',
+        'action'            => $action,
+    );
+
+    wp_remote_post( $url, array(
+        'body'     => $body,
+        'timeout'  => 3,
+        'blocking' => false,
+    ) );
+
+}
+
+function pms_handle_plugin_activation(){
+
+    $already_installed = get_option( 'pms_already_installed' );
+
+    if( empty( $already_installed ) ){
+        pms_sync_api( 'start' );
+    }
+
+}
+
+function pms_handle_plugin_deactivation(){
+    pms_sync_api( 'end' );
+}

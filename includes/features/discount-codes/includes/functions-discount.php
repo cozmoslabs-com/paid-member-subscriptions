@@ -182,15 +182,25 @@ function pms_in_dc_apply_discount_success_message( $code, $subscription, $user_c
     $initial_payment = $subscription_plan_price;
 
     // Take into account the Sign-up Fee as well
+    $signup_fee_amount = 0;
+
     if ( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) && !empty( $subscription_plan->sign_up_fee ) && pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_sign_up_fee' ) ) {
         // Check if there is a Free Trial period
         if ( !empty( $subscription_plan->trial_duration ) )
             $initial_payment = $subscription_plan->sign_up_fee;
         else
             $initial_payment += (float)$subscription_plan->sign_up_fee;
+
+        $signup_fee_amount = (float)$subscription_plan->sign_up_fee;
     }
 
-    $initial_payment = pms_in_calculate_discounted_amount( $initial_payment, $discount );
+    if( $signup_fee_amount > 0 && apply_filters( 'pms_discount_exclude_signup_fee', false, $discount ) ){
+        $initial_payment -= $signup_fee_amount;
+        $initial_payment  = pms_in_calculate_discounted_amount( $initial_payment, $discount );
+        $initial_payment += $signup_fee_amount;
+    } else {
+        $initial_payment = pms_in_calculate_discounted_amount( $initial_payment, $discount );
+    }
 
     if ( $is_recurring ) {
 

@@ -145,6 +145,13 @@ function pms_get_member_subscriptions( $args = array() ) {
 
     }
 
+    // Exclude empty billing_next_payment values
+    if( ! empty( $args['billing_next_payment_not_empty'] ) ) {
+
+        $query_where .= " AND billing_next_payment IS NOT NULL AND billing_next_payment > '1970-01-01 00:00:00'";
+
+    }
+
     // Filter by subscription plan id
     if( ! empty( $args['subscription_plan_id'] ) ) {
 
@@ -161,7 +168,13 @@ function pms_get_member_subscriptions( $args = array() ) {
     // Filter by payment gateway
     if( ! empty( $args['payment_gateway'] ) ) {
 
-        $query_where .= " AND payment_gateway LIKE '{$args['payment_gateway']}'";
+        if( is_array( $args['payment_gateway'] ) ){
+            $gateways = implode(',', array_map( fn($g) => "'" . sanitize_text_field($g) . "'", $args['payment_gateway'] ) );
+            $query_where .= " AND payment_gateway IN ($gateways)";
+        }
+        else{
+            $query_where .= " AND payment_gateway LIKE '{$args['payment_gateway']}'";
+        }
 
     }
 

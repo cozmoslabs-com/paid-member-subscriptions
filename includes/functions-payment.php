@@ -931,6 +931,8 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
     }
 
     // Add sign-up fee if necessary
+    $signup_fee_amount = 0;
+
     if( $subscription_plan->has_sign_up_fee() && $billing_amount == false && apply_filters( 'pms_calculate_payment_amount_apply_sign_up_fee', true, $subscription_plan ) ){
 
         if( !empty( $request_data['form_location'] ) ){
@@ -948,6 +950,8 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
             else
                 $amount = $amount + $subscription_plan->sign_up_fee;
 
+            $signup_fee_amount = (float)$subscription_plan->sign_up_fee;
+
         }
 
     }
@@ -962,7 +966,13 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
 
         $discount_code = pms_in_get_discount_by_code( sanitize_text_field( $discount_code ) );
 
-        $amount = pms_in_calculate_discounted_amount( $amount, $discount_code );
+        if( $signup_fee_amount > 0 && apply_filters( 'pms_discount_exclude_signup_fee', false, $discount_code ) ){
+            $amount -= $signup_fee_amount;
+            $amount  = pms_in_calculate_discounted_amount( $amount, $discount_code );
+            $amount += $signup_fee_amount;
+        } else {
+            $amount = pms_in_calculate_discounted_amount( $amount, $discount_code );
+        }
 
         $breakdown_data['discount'] = $breakdown_data['subtotal'] - $amount;
 

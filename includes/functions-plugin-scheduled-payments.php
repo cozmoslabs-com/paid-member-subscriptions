@@ -181,7 +181,9 @@ function pms_get_scheduled_payments_by_interval( $interval = 'next_run', $additi
     
     $current_time = time();
     $args = array(
-        'status' => 'active',
+        'status'                         => array( 'active' ),
+        'payment_gateway'                => array( 'stripe', 'stripe_intents', 'stripe_connect', 'paypal_connect' ),
+        'billing_next_payment_not_empty' => true,
     );
 
     // Set date ranges based on interval
@@ -238,15 +240,24 @@ function pms_get_scheduled_payments_by_interval( $interval = 'next_run', $additi
         }
     }
 
-    // Format the total amount with the active currency
-    $formatted_amount = pms_format_price( $total_amount, pms_get_active_currency() );
+    if( $total_amount > 0 ){
+        // Format the total amount with the active currency
+        $formatted_amount = pms_format_price( $total_amount, pms_get_active_currency() );
 
-    // Return count and formatted total amount
-    return array(
-        'count'        => count( $subscriptions ),
-        'total_amount' => $formatted_amount
-    );
-    
+        // Return count and formatted total amount
+        return array(
+            'count'        => count( $subscriptions ),
+            'total_amount' => $formatted_amount
+        );
+    } else {
+
+        return array(
+            'count'        => 0,
+            'total_amount' => pms_format_price( 0, pms_get_active_currency() )
+        );
+
+    }
+
 }
 
 /**

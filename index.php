@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 3.0.0
+ * Version: 3.0.1
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '3.0.0' );
+        define( 'PMS_VERSION', '3.0.1' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -131,6 +131,8 @@ Class Paid_Member_Subscriptions {
      */
     public function install( $network_activate = false ) {
 
+        do_action( 'pms_register_activation_hook' );
+
         // Handle multi-site installation
         if( function_exists( 'is_multisite' ) && is_multisite() && $network_activate ) {
 
@@ -173,6 +175,8 @@ Class Paid_Member_Subscriptions {
      *
      */
     public function uninstall() {
+
+        do_action( 'pms_register_deactivation_hook' );
 
         // Clear cron job
         $this->clear_cron_job();
@@ -1324,13 +1328,31 @@ Class Paid_Member_Subscriptions {
         if ( $file == PMS_PLUGIN_BASENAME ) {
 
             $row_meta = array(
-                'get_support'    => '<a href="' . esc_url( apply_filters( 'pms_docs_url', 'https://www.cozmoslabs.com/support/open-ticket/' ) ) . '" title="' . esc_attr( __( 'Get Support', 'paid-member-subscriptions' ) ) . '" target="_blank">' . __( 'Get Support', 'paid-member-subscriptions' ) . '</a>',
+                'get_support'    => '<a href="' . esc_url( apply_filters( 'pms_docs_url', 'https://wordpress.org/support/plugin/paid-member-subscriptions/#new-topic-0' ) ) . '" title="' . esc_attr( __( 'Get Support', 'paid-member-subscriptions' ) ) . '" target="_blank">' . __( 'Get Support', 'paid-member-subscriptions' ) . '</a>',
             );
 
             return array_merge( $links, $row_meta );
         }
 
         return (array) $links;
+    }
+
+}
+
+add_action( 'pms_register_activation_hook', 'pms_activation_deactivation_hook_callback' );
+add_action( 'pms_register_deactivation_hook', 'pms_activation_deactivation_hook_callback' );
+function pms_activation_deactivation_hook_callback() {
+
+    if( !function_exists( 'pms_admin_set_screen_option' ) ){
+        include_once( PMS_PLUGIN_DIR_PATH . 'includes/admin/functions-admin.php' );
+    }
+
+    $current_action = current_action();
+
+    if( $current_action == 'pms_register_activation_hook' && function_exists( 'pms_handle_plugin_activation' ) ){
+        pms_handle_plugin_activation();
+    } else if( $current_action == 'pms_register_deactivation_hook' && function_exists( 'pms_handle_plugin_deactivation' ) ){
+        pms_handle_plugin_deactivation();
     }
 
 }

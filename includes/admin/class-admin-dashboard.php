@@ -382,6 +382,12 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
      * @return int The all time earnings
      */
     public static function get_all_time_earnings(){
+
+        $cached = get_transient( 'pms_dashboard_all_time_earnings' );
+
+        if( $cached !== false )
+            return (int)$cached;
+
         $payments = pms_get_payments( array( 'status' => 'completed', 'number' => -1 ) );
         $total = 0;
 
@@ -390,7 +396,11 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
                 $total += apply_filters( 'pms_dashboard_total_earnings_amount', $payment->amount, $payment );
         }
 
-        return (int)$total;
+        $total = (int)$total;
+
+        set_transient( 'pms_dashboard_all_time_earnings', $total, HOUR_IN_SECONDS );
+
+        return $total;
     }
 
     /**

@@ -249,9 +249,11 @@ function pms_in_dc_output_apply_discount_message() {
         $response['is_full_discount'] = pms_in_dc_check_is_full_discount( $code, $subscription, $user_checked_auto_renew, $pwyw_price );
 
         // Add new price to response
-        $plan          = pms_get_subscription_plan( $subscription );
-        $form_location = PMS_Form_Handler::get_request_form_location( 'pmstkn_original' );
-        $amount        = (float)$plan->price;
+        $plan            = pms_get_subscription_plan( $subscription );
+        $form_location   = PMS_Form_Handler::get_request_form_location( 'pmstkn_original' );
+        $amount          = (float)$plan->price;
+        $signup_fee_amount = 0;
+        $discount_obj    = pms_in_get_discount_by_code( $code );
 
         if ( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) && !empty( $plan->sign_up_fee ) && pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_sign_up_fee' ) ) {
             // Check if there is a Free Trial period
@@ -259,14 +261,26 @@ function pms_in_dc_output_apply_discount_message() {
                 $amount = $plan->sign_up_fee;
             else
                 $amount += (float)$plan->sign_up_fee;
+
+            $signup_fee_amount = (float)$plan->sign_up_fee;
         }
 
-        // Cache the unfiltered value which could be a future payment done by the user 
-        $response['original_discounted_price'] = pms_in_calculate_discounted_amount( $amount, pms_in_get_discount_by_code( $code ) );
+        $exclude_signup_fee = ( $signup_fee_amount > 0 && apply_filters( 'pms_discount_exclude_signup_fee', false, $discount_obj ) );
+
+        // Cache the unfiltered value which could be a future payment done by the user
+        if( $exclude_signup_fee ){
+            $response['original_discounted_price'] = pms_in_calculate_discounted_amount( $amount - $signup_fee_amount, $discount_obj ) + $signup_fee_amount;
+        } else {
+            $response['original_discounted_price'] = pms_in_calculate_discounted_amount( $amount, $discount_obj );
+        }
 
         $amount = apply_filters( 'pms_dc_output_apply_discount_message_amount', $amount );
 
-        $response['discounted_price'] = pms_in_calculate_discounted_amount( $amount, pms_in_get_discount_by_code( $code ) );
+        if( $exclude_signup_fee ){
+            $response['discounted_price'] = pms_in_calculate_discounted_amount( $amount - $signup_fee_amount, $discount_obj ) + $signup_fee_amount;
+        } else {
+            $response['discounted_price'] = pms_in_calculate_discounted_amount( $amount, $discount_obj );
+        }
 
         $discount_meta = PMS_IN_Discount_Codes_Meta_Box::get_discount_meta_by_code( $code );
         
@@ -396,7 +410,26 @@ function pms_in_dc_register_payment_data_after_discount( $payment_data, $payment
     if ( !empty( $error ) )
         return $payment_data;
 
-    $payment_data['sign_up_amount'] = pms_in_calculate_discounted_amount( $payment_data['amount'], $discount );
+    $exclude_signup_fee = apply_filters( 'pms_discount_exclude_signup_fee', false, $discount );
+    $signup_fee_amount  = 0;
+
+    if( $exclude_signup_fee ){
+        $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
+
+        if( !empty( $subscription_plan->sign_up_fee ) ){
+            $form_location = PMS_Form_Handler::get_request_form_location();
+
+            if( !is_user_logged_in() || in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) ){
+                $signup_fee_amount = (float)$subscription_plan->sign_up_fee;
+            }
+        }
+    }
+
+    if( $signup_fee_amount > 0 ){
+        $payment_data['sign_up_amount'] = pms_in_calculate_discounted_amount( $payment_data['amount'] - $signup_fee_amount, $discount ) + $signup_fee_amount;
+    } else {
+        $payment_data['sign_up_amount'] = pms_in_calculate_discounted_amount( $payment_data['amount'], $discount );
+    }
 
     if( false == $payment_data['recurring'] )
         $payment_data['amount'] = $payment_data['sign_up_amount'];

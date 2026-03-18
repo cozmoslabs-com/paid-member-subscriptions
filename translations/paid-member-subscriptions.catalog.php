@@ -1402,6 +1402,8 @@
 <?php __("Restrict the discount code to a limited time window after subscription activation. Once you define the duration, the code will only be available to members within that period.", "paid-member-subscriptions"); ?>
 <?php __("Duration", "paid-member-subscriptions"); ?>
 <?php __("Year(s)", "paid-member-subscriptions"); ?>
+<?php __("Exclude Signup Fee", "paid-member-subscriptions"); ?>
+<?php __("Do not apply this discount to the signup fee. The discount will only reduce the subscription plan price while the signup fee is charged in full.", "paid-member-subscriptions"); ?>
 <?php __("This discount code is available only for subscription upgrades.", "paid-member-subscriptions"); ?>
 <?php __("This discount code is available only for expired subscriptions.", "paid-member-subscriptions"); ?>
 <?php __("This discount code is available only for a limited period from the last payment of a subscription.", "paid-member-subscriptions"); ?>
