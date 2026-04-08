@@ -268,7 +268,7 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.0.1 =
+= 3.0.2 =
 * Enhancement: Rework action links shortcode to use the change subscription page. Added support to generate downgrade URLs
 * Enhancement: Added WPML support for translating plugin emails
 * Fix: A deprecation notice being generated on PHP 8.4
