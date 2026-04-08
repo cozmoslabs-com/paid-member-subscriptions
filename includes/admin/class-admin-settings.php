@@ -188,6 +188,53 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
             }
 
+            if( $option_page == 'pms_emails_settings' && function_exists( 'pms_icl_register_string' ) ) {
+                $wpml_email_keys = array(
+                    'register_sub_subject',
+                    'register_sub',
+                    'activate_sub_subject',
+                    'activate_sub',
+                    'cancel_sub_subject',
+                    'cancel_sub',
+                    'expired_sub_subject',
+                    'expired_sub',
+                    'payment_failed_sub_subject',
+                    'payment_failed_sub',
+                    'pending_manual_payment_sub_subject',
+                    'pending_manual_payment_sub',
+                    'renew_sub_subject',
+                    'renew_sub',
+                    'reset_password_sub_subject',
+                    'reset_password_sub',
+                    'register_sub_subject_admin',
+                    'register_sub_admin',
+                    'activate_sub_subject_admin',
+                    'activate_sub_admin',
+                    'cancel_sub_subject_admin',
+                    'cancel_sub_admin',
+                    'expired_sub_subject_admin',
+                    'expired_sub_admin',
+                    'pending_manual_payment_sub_subject_admin',
+                    'pending_manual_payment_sub_admin',
+                    'renew_sub_subject_admin',
+                    'renew_sub_admin',
+                    'stripe_authentication_sub_subject',
+                    'stripe_authentication_sub',
+                    'gift_subscription_sub_subject',
+                    'gift_subscription_sub',
+                    'gift_subscription_registered_sub_subject',
+                    'gift_subscription_registered_sub',
+                    'invite_sub_subject',
+                    'invite_sub',
+                );
+
+                foreach( $wpml_email_keys as $key ) {
+                    if( ! empty( $options[ $key ] ) ) {
+                        pms_icl_register_string( 'plugin paid-member-subscriptions', $key, $options[ $key ] );
+                    }
+                }
+            }
+
             if ( $option_page == 'pms_payments_settings' ) {
                 $old_settings = get_option( 'pms_payments_settings' );
 
@@ -206,8 +253,8 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
                 if (isset($options['gdpr']['gdpr_checkbox_text'])){
                     $options['gdpr']['gdpr_checkbox_text'] = wp_kses_post( $options['gdpr']['gdpr_checkbox_text'] );
 
-                    if( function_exists('icl_register_string') )
-                        icl_register_string('plugin paid-member-subscriptions', 'gdpr_checkbox_text' , $options['gdpr']['gdpr_checkbox_text'] );
+                    if( function_exists( 'pms_icl_register_string' ) )
+                        pms_icl_register_string( 'plugin paid-member-subscriptions', 'gdpr_checkbox_text', $options['gdpr']['gdpr_checkbox_text'] );
                 }
 
                 if (isset($options['gdpr']['gdpr_delete']))

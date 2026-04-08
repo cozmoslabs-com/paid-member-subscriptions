@@ -229,16 +229,15 @@ class PMS_Submenu_Page_Subscriptions extends PMS_Submenu_Page {
     public function admin_scripts() {
 
         wp_enqueue_script( 'jquery-ui-datepicker' );
-
-        wp_register_script( 'pms-subscriptions-bulk-actions-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-subscriptions-page.js', array( 'jquery' ), PMS_VERSION );
+        wp_enqueue_style( 'jquery-style', PMS_PLUGIN_DIR_URL . 'assets/css/admin/jquery-ui.min.css', array(), PMS_VERSION );
 
         $confirmation_message = array(
             'delete_confirmation' => __( 'Are you sure you want to delete these Subscriptions? \nThis action is irreversible.', 'paid-member-subscriptions' ),
             'no_selection'        => __( 'Please select at least one subscription.', 'paid-member-subscriptions' ),
         );
 
-        wp_localize_script( 'pms-subscriptions-bulk-actions-script', 'pms_subscriptions_delete_confirmation_message', $confirmation_message );
-        wp_enqueue_script( 'pms-subscriptions-bulk-actions-script' );
+        // submenu-page-subscriptions-page.js is already enqueued by the parent class via the pms-subscriptions-page-js handle.
+        wp_localize_script( $this->menu_slug . '-js', 'pms_subscriptions_delete_confirmation_message', $confirmation_message );
 
     }
 

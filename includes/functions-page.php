@@ -197,6 +197,8 @@ function pms_get_renew_url( $plan_id = '' ) {
 /**
  * Given a subscription plan ID, generate an URL to upgrade the subscription
  *
+ * Uses the change-subscription form with current_context=upgrade so only upgrade options are shown.
+ *
  * @since  1.8.7
  * @param  int     $plan_id  Subscription Plan ID
  * @return string            Upgrade Subscription URL
@@ -233,9 +235,54 @@ function pms_get_upgrade_url( $upgrade_plan_id = '' ) {
     if( empty( $member_subscription ) )
         return false;
 
-    $url = wp_nonce_url( add_query_arg( array( 'pms-action' => 'upgrade_subscription', 'subscription_id' => $member_subscription->id, 'subscription_plan' => $member_subscription->subscription_plan_id ), $account_page ), 'pms_member_nonce', 'pmstkn' );
+    $url = wp_nonce_url( add_query_arg( array( 'pms-action' => 'change_subscription', 'subscription_id' => $member_subscription->id, 'subscription_plan' => $member_subscription->subscription_plan_id, 'current_context' => 'upgrade' ), $account_page ), 'pms_member_nonce', 'pmstkn' );
 
     return apply_filters( 'pms_get_upgrade_url', $url, $upgrade_plan_id );
+
+}
+
+/**
+ * Given a subscription plan ID, generate an URL to downgrade the subscription
+ *
+ * Uses the change-subscription form with current_context=downgrade so only downgrade options are shown.
+ *
+ * @since  3.0.1
+ * @param  int     $plan_id  Subscription Plan ID
+ * @return string|false     Downgrade Subscription URL
+ */
+function pms_get_downgrade_url( $plan_id = '' ) {
+
+    if( !( $account_page = pms_get_page( 'account', true ) ) )
+        return false;
+
+    $user_id = get_current_user_id();
+
+    if( empty( $user_id ) )
+        return false;
+
+    $member              = pms_get_member( $user_id );
+    $member_subscription = '';
+
+    if( !$member->is_member() )
+        return false;
+
+    if( empty( $plan_id ) ) {
+
+        if( !empty( $member->subscriptions ) && isset( $member->subscriptions[0] ) )
+            $member_subscription = pms_get_member_subscription( $member->subscriptions[0]['id'] );
+
+    } else {
+
+        $member_subscription = pms_get_current_subscription_from_tier( $user_id, (int)$plan_id );
+
+    }
+
+    if( empty( $member_subscription ) )
+        return false;
+
+    $url = wp_nonce_url( add_query_arg( array( 'pms-action' => 'change_subscription', 'subscription_id' => $member_subscription->id, 'subscription_plan' => $member_subscription->subscription_plan_id, 'current_context' => 'downgrade' ), $account_page ), 'pms_member_nonce', 'pmstkn' );
+
+    return apply_filters( 'pms_get_downgrade_url', $url, $plan_id );
 
 }
 
@@ -243,10 +290,11 @@ function pms_get_upgrade_url( $upgrade_plan_id = '' ) {
  * Given a subscription plan ID, generate an URL to change the subscription
  *
  * @since  2.17.2
- * @param  int     $plan_id  Subscription Plan ID
- * @return string            Change Subscription URL
+ * @param  int     $plan_id          If this ID is one of the member's current subscription plan IDs, the URL opens the change form for that subscription. Otherwise it is treated as the **target** plan to switch to (a valid upgrade, downgrade, or cross-tier option); the URL includes `subscription_target_plan` and `current_context`.
+ * @param  string  $current_context  Optional. One of: '', 'upgrade', 'downgrade', 'change'. Used when `$plan_id` is a **current** plan ID; limits the form to that section (empty shows all sections). Ignored when `$plan_id` is resolved as a target plan (context is derived).
+ * @return string|false              Change Subscription URL, or false on failure.
  */
-function pms_get_change_url( $plan_id = '' ) {
+function pms_get_change_url( $plan_id = '', $current_context = '' ) {
 
     if( !( $account_page = pms_get_page( 'account', true ) ) )
         return false;
@@ -258,19 +306,62 @@ function pms_get_change_url( $plan_id = '' ) {
 
     if( empty( $plan_id ) ) {
         $subscriptions = $member->get_subscriptions_ids();
-        $plan_id       = $subscriptions[0];
+        if( empty( $subscriptions ) )
+            return false;
+        $plan_id = $subscriptions[0];
     }
 
-    if( !in_array( $plan_id, $member->get_subscriptions_ids() ) )
+    $plan_id = absint( $plan_id );
+
+    if( ! $plan_id )
         return false;
 
-    $member_subscription = $member->get_subscription( (int)$plan_id );
+    $member_plan_ids = $member->get_subscriptions_ids();
+    $is_member_plan  = false;
 
-    // only non-pending subscriptions can be changed
-    if( $member_subscription['status'] == 'pending' )
+    foreach ( $member_plan_ids as $mid ) {
+        if ( absint( $mid ) === $plan_id ) {
+            $is_member_plan = true;
+            break;
+        }
+    }
+
+    if ( $is_member_plan ) {
+
+        $member_subscription = $member->get_subscription( $plan_id );
+
+        if( empty( $member_subscription ) )
+            return false;
+
+        // only non-pending subscriptions can be changed
+        if( $member_subscription['status'] == 'pending' )
+            return false;
+
+        $query_args = array( 'pms-action' => 'change_subscription', 'subscription_id' => $member_subscription['id'], 'subscription_plan' => $plan_id );
+
+        $allowed_contexts = array( 'upgrade', 'downgrade', 'change' );
+        if( $current_context !== '' && in_array( $current_context, $allowed_contexts, true ) )
+            $query_args['current_context'] = $current_context;
+
+        $url = wp_nonce_url( add_query_arg( $query_args, $account_page ), 'pms_member_nonce', 'pmstkn' );
+
+        return apply_filters( 'pms_get_change_url', $url, $plan_id );
+    }
+
+    $resolved = pms_resolve_change_url_from_target_plan( $plan_id, $member );
+
+    if( $resolved === false )
         return false;
 
-    $url = wp_nonce_url( add_query_arg( array( 'pms-action' => 'change_subscription', 'subscription_id' => $member_subscription['id'], 'subscription_plan' => $plan_id ), $account_page ), 'pms_member_nonce', 'pmstkn' );
+    $query_args = array(
+        'pms-action'               => 'change_subscription',
+        'subscription_id'          => $resolved['subscription_id'],
+        'subscription_plan'        => $resolved['current_plan_id'],
+        'subscription_target_plan' => $plan_id,
+        'current_context'          => $resolved['context'],
+    );
+
+    $url = wp_nonce_url( add_query_arg( $query_args, $account_page ), 'pms_member_nonce', 'pmstkn' );
 
     return apply_filters( 'pms_get_change_url', $url, $plan_id );
 
@@ -364,4 +455,66 @@ function pms_flush_rewrite_rules() {
 
 		$wp_rewrite->flush_rules();
 	}
+}
+
+
+/**
+ * When building a change URL for a target plan, find which member subscription can switch to it
+ * and whether that move is an upgrade, downgrade, or cross-tier change. Mirrors the logic in
+ * pms_member_change_subscription() (including filters).
+ *
+ * @param int         $target_plan_id  Plan ID to change to.
+ * @param PMS_Member  $member          Member object.
+ *
+ * @return array|false Array with keys subscription_id, current_plan_id, context — or false if not reachable.
+ */
+function pms_resolve_change_url_from_target_plan( $target_plan_id, $member ) {
+
+    $target_plan_id = absint( $target_plan_id );
+
+    if( ! $target_plan_id )
+        return false;
+
+    foreach ( $member->subscriptions as $subscription_row ) {
+
+        if( isset( $subscription_row['status'] ) && $subscription_row['status'] === 'pending' )
+            continue;
+
+        $current_subscription_plan_id = absint( $subscription_row['subscription_plan_id'] );
+
+        if( $current_subscription_plan_id === $target_plan_id )
+            continue;
+
+        $current_subscription = pms_get_member_subscription( absint( $subscription_row['id'] ) );
+
+        $lists = pms_get_member_change_subscription_plan_lists( $member, $current_subscription, $current_subscription_plan_id );
+
+        if( pms_get_subscription_plan_if_in_list( $target_plan_id, $lists['upgrades'] ) ) {
+            return array(
+                'subscription_id' => absint( $subscription_row['id'] ),
+                'current_plan_id' => $current_subscription_plan_id,
+                'context'         => 'upgrade',
+            );
+        }
+
+        if( pms_get_subscription_plan_if_in_list( $target_plan_id, $lists['downgrades'] ) ) {
+            return array(
+                'subscription_id' => absint( $subscription_row['id'] ),
+                'current_plan_id' => $current_subscription_plan_id,
+                'context'         => 'downgrade',
+            );
+        }
+
+        if( pms_get_subscription_plan_if_in_list( $target_plan_id, $lists['others'] ) ) {
+            return array(
+                'subscription_id' => absint( $subscription_row['id'] ),
+                'current_plan_id' => $current_subscription_plan_id,
+                'context'         => 'change',
+            );
+        }
+
+    }
+
+    return false;
+
 }

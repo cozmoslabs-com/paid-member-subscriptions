@@ -1,0 +1,42 @@
+<wpml-config>
+    <admin-texts>
+        <key name="pms_emails_settings">
+            <key name="register_sub_subject" />
+            <key name="register_sub" />
+            <key name="activate_sub_subject" />
+            <key name="activate_sub" />
+            <key name="cancel_sub_subject" />
+            <key name="cancel_sub" />
+            <key name="expired_sub_subject" />
+            <key name="expired_sub" />
+            <key name="payment_failed_sub_subject" />
+            <key name="payment_failed_sub" />
+            <key name="pending_manual_payment_sub_subject" />
+            <key name="pending_manual_payment_sub" />
+            <key name="renew_sub_subject" />
+            <key name="renew_sub" />
+            <key name="reset_password_sub_subject" />
+            <key name="reset_password_sub" />
+            <key name="register_sub_subject_admin" />
+            <key name="register_sub_admin" />
+            <key name="activate_sub_subject_admin" />
+            <key name="activate_sub_admin" />
+            <key name="cancel_sub_subject_admin" />
+            <key name="cancel_sub_admin" />
+            <key name="expired_sub_subject_admin" />
+            <key name="expired_sub_admin" />
+            <key name="pending_manual_payment_sub_subject_admin" />
+            <key name="pending_manual_payment_sub_admin" />
+            <key name="renew_sub_subject_admin" />
+            <key name="renew_sub_admin" />
+            <key name="stripe_authentication_sub_subject" />
+            <key name="stripe_authentication_sub" />
+            <key name="gift_subscription_sub_subject" />
+            <key name="gift_subscription_sub" />
+            <key name="gift_subscription_registered_sub_subject" />
+            <key name="gift_subscription_registered_sub" />
+            <key name="invite_sub_subject" />
+            <key name="invite_sub" />
+        </key>
+    </admin-texts>
+</wpml-config>

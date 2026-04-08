@@ -1454,6 +1454,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             // Fall back to legacy verification method (without signature verification)
             $event = json_decode( $input );
 
+            if ( ! is_object( $event ) ) {
+                error_log( '[PMS STRIPE WEBHOOK] Invalid or empty JSON payload in legacy webhook handler.' );
+                http_response_code( 400 );
+                die( 'Invalid payload' );
+            }
+
             // make sure live mode webhooks are processed in live mode
             if( !empty( $event->livemode ) ){
 
@@ -1468,7 +1474,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             $event_id = sanitize_text_field( $event->id );
 
             // Verify that the event was sent by Stripe
-            if( isset( $event->id ) ) {
+            if( !empty( $event_id ) ) {
 
                 try {
                     \Stripe\Event::retrieve( $event_id );

@@ -3,8 +3,32 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Whether Profile Builder will use the email-confirmation signup flow for the current register form.
+ * Uses the same filter as PB (including Profile Builder Toolbox "EC bypass" per form).
+ *
+ * @param array         $request_data Request/global data; should include form_name when available.
+ * @param object|null   $form         Profile_Builder_Form_Creator instance from the field filter, if any.
+ * @return bool
+ */
+function pms_pb_wppb_register_uses_email_confirmation( $request_data, $form = null ) {
+
+    $wppb_general_settings = get_option( 'wppb_general_settings' );
+    $email_confirmation    = ( ! empty( $wppb_general_settings['emailConfirmation'] ) && $wppb_general_settings['emailConfirmation'] == 'yes' ) ? 'yes' : 'no';
+
+    $global_request = is_array( $request_data ) ? $request_data : array();
+
+    if ( empty( $global_request['form_name'] ) && is_object( $form ) && isset( $form->args['form_name'] ) && $form->args['form_name'] !== 'unspecified' ) {
+        $global_request['form_name'] = $form->args['form_name'];
+    }
+
+    $email_confirmation = apply_filters( 'wppb_email_confirmation_on_register', $email_confirmation, $global_request );
+
+    return ( $email_confirmation === 'yes' );
+}
+
 /* handle field output */
-function pms_pb_subscription_plans_handler( $output, $form_location, $field, $user_id, $field_check_errors, $request_data ) {
+function pms_pb_subscription_plans_handler( $output, $form_location, $field, $user_id, $field_check_errors, $request_data, $role = '', $form = null ) {
 
     if ( $field['field'] == 'Subscription Plans' ){
 
@@ -19,8 +43,7 @@ function pms_pb_subscription_plans_handler( $output, $form_location, $field, $us
              * We remove all filters that add data to
              *
              */
-            $wppb_general_settings  = get_option( 'wppb_general_settings' );
-            $has_email_confirmation = ( !empty( $wppb_general_settings['emailConfirmation'] ) && $wppb_general_settings['emailConfirmation'] == 'yes' ? true : false );
+            $has_email_confirmation = pms_pb_wppb_register_uses_email_confirmation( $request_data, $form );
 
             if( $has_email_confirmation ) {
 
@@ -113,7 +136,7 @@ function pms_pb_subscription_plans_handler( $output, $form_location, $field, $us
 
     }
 }
-add_filter( 'wppb_output_form_field_subscription-plans', 'pms_pb_subscription_plans_handler', 10, 6 );
+add_filter( 'wppb_output_form_field_subscription-plans', 'pms_pb_subscription_plans_handler', 10, 8 );
 add_filter( 'wppb_admin_output_form_field_subscription-plans', 'pms_pb_subscription_plans_handler', 10, 6 );
 
 
@@ -129,9 +152,12 @@ function pms_pb_check_subscription_plans_value( $message, $field, $request_data,
     PMS_Form_Handler::validate_subscription_plans( $request_data );
 
     $pb_settings = get_option( 'wppb_general_settings', array() );
+    $email_confirmation = ( ! empty( $pb_settings['emailConfirmation'] ) && $pb_settings['emailConfirmation'] == 'yes' ) ? 'yes' : 'no';
+    $email_confirmation = apply_filters( 'wppb_email_confirmation_on_register', $email_confirmation, is_array( $request_data ) ? $request_data : array() );
 
-    if( empty( $pb_settings['emailConfirmation'] ) || ( ! empty( $pb_settings['emailConfirmation'] ) && $pb_settings['emailConfirmation'] == 'no' ) )
+    if ( $email_confirmation === 'no' ) {
         PMS_Form_Handler::validate_payment_gateway( $form_location );
+    }
 
 
     /**

@@ -36,4 +36,4 @@ if( ! defined( 'PMS_VERSION' ) ) return;
         ?>
     </div>
 <?php do_action( 'pms_view_meta_box_discount_codes_extra_options_bottom', $discount->id ); ?>
-<?php wp_nonce_field( 'pms_extra_discount_codes_options_nonce', 'pms_esdo_nonce' ); ?>
+<?php wp_nonce_field( 'pms_discount_code_extra_options_nonce', 'pms_discount_code_extra_options_nonce' ); ?>

@@ -879,7 +879,7 @@ Class PMS_Shortcodes {
             'plan_id' => '',
         ), $atts );
 
-        $actions = array( 'retry', 'renew', 'upgrade', 'change', 'cancel', 'abandon' );
+        $actions = array( 'retry', 'renew', 'upgrade', 'downgrade', 'change', 'cancel', 'abandon' );
         $current_action = '';
 
         foreach( $actions as $action ) {
@@ -902,18 +902,14 @@ Class PMS_Shortcodes {
         if( !$url )
             return;
 
-        //if there's no link title, aka the shortcode is written like this: [pms-action]{{upgrade}}{{/upgrade}}[/pms-action]
-        //return the unformatted url
+        if( !empty( $atts['plan_id'] ) && in_array( $current_action, array( 'upgrade', 'downgrade', 'change' ), true ) )
+            $url = add_query_arg( 'subscription_target_plan', $atts['plan_id'], $url );
+
+        // If no link title is provided (e.g. shortcode is [pms-action]{{upgrade}}{{/upgrade}}[/pms-action]), return the plain URL.
         $link_title = str_replace( array( '{{'.$current_action.'}}', '{{/'.$current_action.'}}' ), '', $content );
 
-        if( $link_title == '' ){
-
-            if( !empty( $atts['plan_id'] ) )
-                return add_query_arg( 'upgrade_subscription_plan', $atts['plan_id'], $url );
-            else
-                return $url;
-
-        }
+        if( $link_title == '' )
+            return $url;
 
         $content = str_replace( '{{'.$current_action.'}}', '<a href="'. $url .'">', $content );
         $content = str_replace( '{{/'.$current_action.'}}', '</a>', $content );
@@ -922,7 +918,14 @@ Class PMS_Shortcodes {
 
     }
 
-    /* Count members shortcode*/
+    /**
+     * Count members shortcode
+     * @param $atts shortcode attributes
+     *   - plan_id: the subscription plan ID
+     *   - status: the status of the subscription
+     * @param $content the content of the shortcode
+     * @return int the number of members
+     */
     public static function count_members( $atts, $content = null ){
 
         $args = shortcode_atts( array(

@@ -3224,6 +3224,7 @@ body[class*="post-type-pms-"] #major-publishing-actions #publishing-action {
     align-items: center;
     justify-content: center;
     position: relative;
+    margin: 0;
 }
 
 body[class*="post-type-pms-"] #major-publishing-actions #publishing-action .spinner {

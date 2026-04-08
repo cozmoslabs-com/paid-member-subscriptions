@@ -131,11 +131,11 @@ function pms_recaptcha_field_validate_forms() {
 
     switch( current_filter() ) {
 
-        case "pms_register_form_validation";
+        case "pms_register_form_validation":
             $form_location = 'register';
             break;
 
-        case "pms_recover_password_form_validation";
+        case "pms_recover_password_form_validation":
             $form_location = 'recover_password';
             break;
 

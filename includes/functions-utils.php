@@ -467,6 +467,20 @@ function pms_icl_t( $context, $name, $value ){
 }
 
 /**
+ * WPML string registration support
+ */
+function pms_icl_register_string( $context, $name, $value ) {
+
+    if( function_exists( 'icl_register_string' ) ) {
+        $wpml_default_lang = apply_filters( 'wpml_default_language', null );
+        $allow_empty_value = false;
+
+        icl_register_string( $context, $name, $value, $allow_empty_value, $wpml_default_lang );
+    }
+
+}
+
+/**
  * Verifies if a paid version of the plugin is active
  */
 function pms_is_paid_version_active(){

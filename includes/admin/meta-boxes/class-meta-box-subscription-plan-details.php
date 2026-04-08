@@ -69,6 +69,9 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
      */
     public function save_data( $post_id ) {
 
+        if( empty( $_POST['pms_subscription_details_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['pms_subscription_details_nonce'] ), 'pms_subscription_details_nonce' ) )
+            return;
+
         if( empty( $_POST['post_ID'] ) )
             return;
 
@@ -322,4 +325,3 @@ function pms_init_subscription_plan_details_meta_box() {
 
 }
 add_action( 'init', 'pms_init_subscription_plan_details_meta_box', 2 );
-

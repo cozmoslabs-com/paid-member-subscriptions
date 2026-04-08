@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Admin Bar Widget for Paid Member Subscriptions
  * 
  * Adds a PMS menu item to the WordPress admin bar with quick links
- * to Dashboard, Payments, and Members pages
+ * to Dashboard, Members, Subscriptions, Payments, and Reports pages
  */
 class PMS_Admin_Bar_Widget {
 
@@ -105,20 +105,28 @@ class PMS_Admin_Bar_Widget {
             'href'   => admin_url( 'admin.php?page=pms-dashboard-page' ),
         ) );
 
-        // Add Payments submenu
-        $wp_admin_bar->add_node( array(
-            'id'     => 'pms-payments',
-            'parent' => 'pms-admin-bar',
-            'title'  => __( 'Payments', 'paid-member-subscriptions' ),
-            'href'   => admin_url( 'admin.php?page=pms-payments-page' ),
-        ) );
-
         // Add Members submenu
         $wp_admin_bar->add_node( array(
             'id'     => 'pms-members',
             'parent' => 'pms-admin-bar',
             'title'  => __( 'Members', 'paid-member-subscriptions' ),
             'href'   => admin_url( 'admin.php?page=pms-members-page' ),
+        ) );
+
+        // Add Subscriptions submenu
+        $wp_admin_bar->add_node( array(
+            'id'     => 'pms-subscriptions',
+            'parent' => 'pms-admin-bar',
+            'title'  => __( 'Subscriptions', 'paid-member-subscriptions' ),
+            'href'   => admin_url( 'admin.php?page=pms-subscriptions-page' ),
+        ) );
+
+        // Add Payments submenu
+        $wp_admin_bar->add_node( array(
+            'id'     => 'pms-payments',
+            'parent' => 'pms-admin-bar',
+            'title'  => __( 'Payments', 'paid-member-subscriptions' ),
+            'href'   => admin_url( 'admin.php?page=pms-payments-page' ),
         ) );
 
         // Add Reports submenu

@@ -13,6 +13,8 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
 <?php do_action( 'pms_view_meta_box_discount_codes_top', $discount->id ); ?>
 
+<?php wp_nonce_field( 'pms_discount_codes_nonce', 'pms_discount_codes_nonce' ); ?>
+
 <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
 
     <label for="pms-discount-code" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Promotion Code / Voucher', 'paid-member-subscriptions' ); ?></label>

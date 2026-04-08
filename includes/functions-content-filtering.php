@@ -390,12 +390,17 @@ function pms_member_upgrade_subscription( $content ) {
     if( empty( $subscription_plan_upgrades ) )
         return $content;
 
-    // If URL parameter is set, only show that plan
-    if( isset( $_GET['upgrade_subscription_plan'] ) ){
-        $plan = pms_get_subscription_plan( absint( $_GET['upgrade_subscription_plan'] ) );
+    // If URL parameter is set, only show that plan when it is a valid upgrade for this subscription
+    $upgrade_target_plan_id = pms_get_subscription_target_plan_id_from_request( 'upgrade' );
 
-        if( !empty( $plan->id ) )
-            $subscription_plan_upgrades = array( $plan );
+    if( $upgrade_target_plan_id ) {
+        $matched = pms_get_subscription_plan_if_in_list( $upgrade_target_plan_id, $subscription_plan_upgrades );
+
+        if( $matched ) {
+            $subscription_plan_upgrades = array( $matched );
+        } else {
+            return $content;
+        }
     }
 
     $subscription_plan = pms_get_subscription_plan( trim( absint( $_REQUEST['subscription_plan'] ) ) );
@@ -446,6 +451,25 @@ function pms_member_upgrade_subscription( $content ) {
 add_filter( 'pms_account_shortcode_content', 'pms_member_upgrade_subscription', 11 );
 
 /**
+ * Parse the current_context query argument for the change-subscription account form.
+ *
+ * When empty, all sections (upgrade, downgrade, change tier) are shown when settings allow.
+ * Valid values: upgrade, downgrade, change — each limits the form to that section only.
+ *
+ * @return string '', 'upgrade', 'downgrade', or 'change'
+ */
+function pms_parse_change_subscription_current_context() {
+
+    if( !isset( $_GET['current_context'] ) )
+        return '';
+
+    $raw = sanitize_text_field( wp_unslash( $_GET['current_context'] ) );
+    $allowed = array( 'upgrade', 'downgrade', 'change' );
+
+    return in_array( $raw, $allowed, true ) ? $raw : '';
+}
+
+/**
  * Hijack the content when a member wants to change his subscription plan
  */
 function pms_member_change_subscription( $content ){
@@ -464,47 +488,91 @@ function pms_member_change_subscription( $content ){
     if( !isset( $_REQUEST['pms-action'] ) || ( $_REQUEST['pms-action'] !== 'change_subscription' ) || !isset( $_REQUEST['subscription_plan'] ) )
         return $content;
 
+    $pms_change_subscription_current_context = pms_parse_change_subscription_current_context();
+
     $current_subscription         = isset( $_REQUEST['subscription_id'] ) ? pms_get_member_subscription( absint( $_REQUEST['subscription_id'] ) ) : '';
     $current_subscription_plan_id = trim( absint( $_REQUEST['subscription_plan'] ) );
     $current_subscription_plan    = pms_get_subscription_plan( $current_subscription_plan_id );
 
-    $payments_settings = get_option( 'pms_payments_settings' );
+    $change_plan_lists              = pms_get_member_change_subscription_plan_lists( $member, $current_subscription, $current_subscription_plan_id );
+    $subscription_plan_upgrades     = $change_plan_lists['upgrades'];
+    $subscription_plan_downgrades   = $change_plan_lists['downgrades'];
+    $subscription_plan_others       = $change_plan_lists['others'];
 
-    // Determine if we have anything to show
-    $subscription_plan_upgrades = pms_get_subscription_plan_upgrades( $current_subscription_plan_id );
+    if( $pms_change_subscription_current_context !== '' ) {
 
-    if( isset( $payments_settings['allow-downgrades'] ) && $payments_settings['allow-downgrades'] == '1' )
-        $subscription_plan_downgrades = pms_get_subscription_plan_downgrades( $current_subscription_plan_id );
-    else
-        $subscription_plan_downgrades = array();
+        if( !in_array( trim( (string) $_REQUEST['subscription_plan'] ), $member->get_subscriptions_ids() ) )
+            return $content;
 
-    if( isset( $payments_settings['allow-change'] ) && $payments_settings['allow-change'] == '1' ){
+        if( empty( $current_subscription ) || !is_object( $current_subscription ) || (int) $current_subscription->user_id !== (int) $user_id )
+            return $content;
 
-        // Grab only the Plan IDs from the Upgrades and Downgrades lists and then merge them
-        $excluded = array_merge( array_map( function( $plan ) { return $plan->id; }, $subscription_plan_upgrades ), array_map( function( $plan ) { return $plan->id; }, $subscription_plan_downgrades ) );
+        if( (int) $current_subscription->subscription_plan_id !== (int) $current_subscription_plan_id )
+            return $content;
 
-        // Exclude subscriptions that the user already has
-        if( !empty( $member->subscriptions ) ){
-            foreach( $member->subscriptions as $member_subscription ){
+        if( $pms_change_subscription_current_context === 'upgrade' ) {
 
-                // Need to exclude the whole tier if a user is subscribed to another plan
-                $plans_from_tier = pms_get_subscription_plans_group( $member_subscription['subscription_plan_id'] );
+            $subscription_plan_downgrades = array();
+            $subscription_plan_others     = array();
 
-                foreach( $plans_from_tier as $plan ){
-                    $excluded[] = $plan->id;
+            $target_plan_id = pms_get_subscription_target_plan_id_from_request( 'upgrade' );
+
+            if( $target_plan_id ) {
+                $matched = pms_get_subscription_plan_if_in_list( $target_plan_id, $subscription_plan_upgrades );
+
+                if( $matched ) {
+                    $subscription_plan_upgrades = array( $matched );
+                } else {
+                    return $content;
                 }
-
             }
+
+            if( empty( $subscription_plan_upgrades ) )
+                return $content;
+
+        } elseif( $pms_change_subscription_current_context === 'downgrade' ) {
+
+            $subscription_plan_upgrades = array();
+            $subscription_plan_others     = array();
+
+            $target_plan_id = pms_get_subscription_target_plan_id_from_request( 'downgrade' );
+
+            if( $target_plan_id ) {
+                $matched = pms_get_subscription_plan_if_in_list( $target_plan_id, $subscription_plan_downgrades );
+
+                if( $matched ) {
+                    $subscription_plan_downgrades = array( $matched );
+                } else {
+                    return $content;
+                }
+            }
+
+            if( empty( $subscription_plan_downgrades ) )
+                return $content;
+
+        } elseif( $pms_change_subscription_current_context === 'change' ) {
+
+            $subscription_plan_upgrades   = array();
+            $subscription_plan_downgrades = array();
+
+            $target_plan_id = pms_get_subscription_target_plan_id_from_request( 'change' );
+
+            if( $target_plan_id ) {
+                $matched = pms_get_subscription_plan_if_in_list( $target_plan_id, $subscription_plan_others );
+
+                if( $matched ) {
+                    $subscription_plan_others = array( $matched );
+                } else {
+                    return $content;
+                }
+            }
+
+            if( empty( $subscription_plan_others ) )
+                return $content;
+
         }
 
-        $subscription_plan_others = pms_get_subscription_plans( true, array(), $excluded );
-
-    } else
-        $subscription_plan_others = array();
-
-    $subscription_plan_upgrades   = apply_filters( 'pms_member_change_subscription_upgrade_plans', $subscription_plan_upgrades, $current_subscription, $current_subscription_plan_id );
-    $subscription_plan_downgrades = apply_filters( 'pms_member_change_subscription_downgrade_plans', $subscription_plan_downgrades, $current_subscription, $current_subscription_plan_id );
-    $subscription_plan_others     = apply_filters( 'pms_member_change_subscription_other_plans', $subscription_plan_others, $current_subscription, $current_subscription_plan_id );
+    }
 
     ob_start();
 
@@ -513,7 +581,7 @@ function pms_member_change_subscription( $content ){
     $output = ob_get_contents();
     ob_end_clean();
 
-    return apply_filters('pms_change_subscription_shortcode_content', $output, 'change_subscription_form');
+    return apply_filters( 'pms_change_subscription_shortcode_content', $output, 'change_subscription_form', $pms_change_subscription_current_context );
 
 }
 add_filter( 'pms_account_shortcode_content', 'pms_member_change_subscription', 11 );

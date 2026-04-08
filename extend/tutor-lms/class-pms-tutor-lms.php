@@ -336,6 +336,9 @@ class PMS_IN_TutorLMS {
         if ( $post->post_type !== 'pms-subscription' )
             return;
 
+        if( empty( $_POST['pms_subscription_details_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['pms_subscription_details_nonce'] ), 'pms_subscription_details_nonce' ) )
+            return;
+
         if ( isset( $_POST['pms_tutor_categories'] ) )
             update_post_meta( $subscription_plan_id, 'pms_tutor_categories', array_map( 'sanitize_text_field', $_POST['pms_tutor_categories'] ));
         else update_post_meta( $subscription_plan_id, 'pms_tutor_categories', array() );

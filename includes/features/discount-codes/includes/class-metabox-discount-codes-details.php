@@ -117,6 +117,9 @@ if ( class_exists('PMS_Meta_Box') ){
         if( isset( $_REQUEST['page'] ) && $_REQUEST['page'] == 'pms-discount-codes-bulk-add' )
             return;
 
+        if( empty( $_POST['pms_discount_codes_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['pms_discount_codes_nonce'] ), 'pms_discount_codes_nonce' ) )
+            return;
+
          $validation_errors = array(); // here we'll store all the validation errors
 
          // Update discount code if entered promotion code is unique

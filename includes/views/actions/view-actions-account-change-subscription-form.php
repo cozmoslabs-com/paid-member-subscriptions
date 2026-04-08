@@ -13,12 +13,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 //      $subscription_plan_downgrades
 //      $subscription_plan_others
 //      $payment_settings
+//      $pms_change_subscription_current_context  (string) '', 'upgrade', 'downgrade', or 'change' from current_context query arg; empty = all sections
+
+if( !isset( $pms_change_subscription_current_context ) )
+    $pms_change_subscription_current_context = '';
 
 pms_output_subscription_plans_filter( 'remove' );
 $extra_classes = apply_filters( 'pms_add_extra_form_classes', '' , 'change_subscription_form' );
+if( $pms_change_subscription_current_context !== '' )
+    $extra_classes .= ' pms-change-subscription-form--context-' . sanitize_html_class( $pms_change_subscription_current_context );
+if( $pms_change_subscription_current_context === 'upgrade' )
+    $extra_classes .= ' pms-change-subscription-form--upgrade-context';
 ?>
 
-<form id="pms-change-subscription-form" action="" method="POST" class="pms-form <?php echo esc_attr( $extra_classes ) ?>">
+<form id="pms-change-subscription-form" action="" method="POST" class="pms-form <?php echo esc_attr( trim( $extra_classes ) ) ?>">
 
     <?php do_action('pms_change_subscription_form_top'); ?>
 

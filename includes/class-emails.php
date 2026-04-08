@@ -355,13 +355,13 @@ Class PMS_Emails {
 
         // Set email subject
         if( ! empty( $settings[$action . '_sub_subject' . $settings_sufix] ) )
-            $email_subject = $settings[$action . '_sub_subject' . $settings_sufix];
+            $email_subject = pms_icl_t( 'plugin paid-member-subscriptions', $action . '_sub_subject' . $settings_sufix, $settings[$action . '_sub_subject' . $settings_sufix] );
         else
             $email_subject = $email_default_subjects[$action];
 
         // Set email message
         if( ! empty( $settings[$action . '_sub' . $settings_sufix] ) )
-            $email_content = $settings[$action . '_sub' . $settings_sufix];
+            $email_content = pms_icl_t( 'plugin paid-member-subscriptions', $action . '_sub' . $settings_sufix, $settings[$action . '_sub' . $settings_sufix] );
         else
             $email_content = $email_default_content[$action];
 

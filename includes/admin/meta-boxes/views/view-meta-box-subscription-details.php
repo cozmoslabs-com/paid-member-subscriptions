@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 <?php do_action( 'pms_view_meta_box_subscription_details_top', $subscription_plan->id ); ?>
 
+<?php wp_nonce_field( 'pms_subscription_details_nonce', 'pms_subscription_details_nonce' ); ?>
+
 <!-- Description -->
 <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
 

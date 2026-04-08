@@ -93,11 +93,11 @@ class PMS_WOO_Subscription_Discounts {
 
             if ($this->is_active_member) {
 
-                // Save the subscription plan product discounts for active member in a global variable
-                add_action( 'woocommerce_before_single_product', array( $this, 'setup_global_subscription_plan_discounts' ) );
-                add_action( 'woocommerce_before_shop_loop_item', array( $this, 'setup_global_subscription_plan_discounts' ) );
-                add_action( 'woocommerce_before_calculate_totals', array($this, 'setup_global_subscription_plan_discounts') );
-                add_action( 'woocommerce_before_mini_cart_contents', array($this, 'setup_global_subscription_plan_discounts') );
+                // Load the current member discount context before common Woo rendering and calculation hooks
+                add_action( 'woocommerce_before_single_product', array( $this, 'load_member_discount_context' ) );
+                add_action( 'woocommerce_before_shop_loop_item', array( $this, 'load_member_discount_context' ) );
+                add_action( 'woocommerce_before_calculate_totals', array($this, 'load_member_discount_context') );
+                add_action( 'woocommerce_before_mini_cart_contents', array($this, 'load_member_discount_context') );
 
                 // Activate discounts for logged in, active members.
                 do_action( 'pms_woo_discounts_enable_price_adjustments' );
@@ -107,6 +107,8 @@ class PMS_WOO_Subscription_Discounts {
 
                // Replace "Sale" badge with "Member Discount!" for products which have valid membership discounts
                 add_action( 'woocommerce_sale_flash' , array($this, 'get_member_discount_badge' ), 10, 3 );
+                add_filter( 'woocommerce_sale_badge_text', array( $this, 'get_member_discount_badge_text' ), 10, 2 );
+                add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'get_member_block_grid_item_html' ), 10, 3 );
                 // Display "Member Discount" suffix for variation prices.
                 add_filter( 'woocommerce_get_price_html', array( $this, 'get_member_price_html' ), 999, 2 );
 
@@ -116,47 +118,98 @@ class PMS_WOO_Subscription_Discounts {
 
 
     /**
-     * Save the subscription plan product membership discounts for current active member in a global variable: $pms_woo_member_discounts.
-     * Also, save the current member active subscriptions in a global variable: $pms_woo_member_subscriptions.
+     * Build member discount context data for a user
      *
+     * - used to collect the active subscription ids and applicable plan-level discount rules for a member
+     *
+     * @param int $member_id User id
+     * @return array
      */
-    public function setup_global_subscription_plan_discounts() {
+    private function get_member_discount_context_data( $member_id ) {
 
-        // here we store the global subscription plan product discounts for the current (logged in) member
-        global $pms_woo_member_discounts, $pms_woo_member_subscriptions;
+        $context = array(
+            'discounts'     => array(),
+            'subscriptions' => array(),
+        );
 
-        // make sure the global variables were not set already on a different hook
-        if ( !isset($pms_woo_member_discounts) || !isset($pms_woo_member_subscriptions) ) {
-
-            $member = pms_get_member( get_current_user_id() );
-
-            if ( !empty($member) ) {
-
-                $pms_woo_member_discounts = array();
-                $pms_woo_member_subscriptions = array();
-
-                foreach ( $member->subscriptions as $subscription ) {
-
-                    if ( $subscription['status'] == 'active' || $subscription['status'] == 'canceled' ){
-
-                        $pms_woo_member_subscriptions[] = $subscription['subscription_plan_id'];
-                        $discounts = get_post_meta( (int)$subscription['subscription_plan_id'], 'pms-woo-subscription-plan-product-discounts', true );
-
-                        if ( !empty($discounts) ) {
-
-                            foreach ($discounts as $key => $discount) {
-                                if ( $discount['status'] == 'inactive' ) unset($discounts[$key]);
-                            }
-
-                            $pms_woo_member_discounts = array_merge($pms_woo_member_discounts, $discounts);
-                        }
-                    }
-                }
-
-            }
-
+        if ( empty( $member_id ) ) {
+            return $context;
         }
 
+        $member = pms_get_member( $member_id );
+
+        if ( empty( $member ) || empty( $member->subscriptions ) ) {
+            return $context;
+        }
+
+        foreach ( $member->subscriptions as $subscription ) {
+
+            if ( $subscription['status'] == 'active' || $subscription['status'] == 'canceled' ) {
+
+                $context['subscriptions'][] = $subscription['subscription_plan_id'];
+                $discounts                  = get_post_meta( (int)$subscription['subscription_plan_id'], 'pms-woo-subscription-plan-product-discounts', true );
+
+                if ( !empty($discounts) ) {
+
+                    foreach ( $discounts as $key => $discount ) {
+                        if ( isset( $discount['status'] ) && $discount['status'] == 'inactive' ) {
+                            unset( $discounts[$key] );
+                        }
+                    }
+
+                    $context['discounts'] = array_merge( $context['discounts'], $discounts );
+                }
+            }
+        }
+
+        return $context;
+    }
+
+
+    /**
+     * Load member discount context into globals and return it
+     *
+     * - used both as an eager bootstrap on Woo hooks and as a lazy fallback during discount resolution
+     *
+     * @param int|null $member_id Optional user id defaults to current user
+     * @return array
+     */
+    public function load_member_discount_context( $member_id = null ) {
+
+        global $pms_woo_member_discounts, $pms_woo_member_subscriptions;
+
+        // Normalize the hook argument to a user id when possible
+        // - this method is also used as a Woo action callback
+        // - hooks like `woocommerce_before_calculate_totals` pass objects such as `WC_Cart` as the first argument
+        // - any non-user hook payload should fall back to the current logged-in user
+        if ( is_numeric( $member_id ) ) {
+            $member_id = (int) $member_id;
+        } else {
+            $member_id = get_current_user_id();
+        }
+
+        if ( empty( $member_id ) ) {
+            return array(
+                'discounts'     => array(),
+                'subscriptions' => array(),
+            );
+        }
+
+        // Globals are meant to cache the current logged-in user's discount context.
+        if ( $member_id === get_current_user_id() ) {
+            if ( !isset( $pms_woo_member_discounts ) || !isset( $pms_woo_member_subscriptions ) ) {
+                $context                      = $this->get_member_discount_context_data( $member_id );
+                $pms_woo_member_discounts     = $context['discounts'];
+                $pms_woo_member_subscriptions = $context['subscriptions'];
+            }
+
+            return array(
+                'discounts'     => $pms_woo_member_discounts,
+                'subscriptions' => $pms_woo_member_subscriptions,
+            );
+        }
+
+        return $this->get_member_discount_context_data( $member_id );
     }
 
     //@TODO: check this shit
@@ -640,6 +693,82 @@ class PMS_WOO_Subscription_Discounts {
 
 
     /**
+     * Get member discount badge text for block-based WooCommerce sale badges
+     *
+     * - used by the modern Woo block sale badge path that does not call `woocommerce_sale_flash`
+     *
+     * @param string      $sale_text The default sale badge text
+     * @param \WC_Product $product The product object
+     * @return string
+     */
+    public function get_member_discount_badge_text( $sale_text, $product ) {
+
+        if ( $this->is_active_member
+            && !$this->is_product_excluded_from_member_discounts( $product )
+            && $this->get_user_membership_discounts( $product ) ) {
+
+            $options = get_option( 'pms_woocommerce_settings' );
+
+            return !empty( $options['discount_badge'] ) ? $options['discount_badge'] : __( 'Member discount!', 'paid-member-subscriptions' );
+        }
+
+        return $sale_text;
+    }
+
+
+    /**
+     * Replace hardcoded sale badges used by older WooCommerce product grid blocks
+     *
+     * - used for legacy Woo blocks that bypass both `woocommerce_sale_flash` and `woocommerce_sale_badge_text`
+     *
+     * @param string       $html Product grid item HTML
+     * @param object|array $data Product grid item data
+     * @param \WC_Product  $product Product object
+     * @return string
+     */
+    public function get_member_block_grid_item_html( $html, $data, $product ) {
+
+        $current_badge = is_object( $data ) && isset( $data->badge ) ? $data->badge : '';
+
+        if ( empty( $current_badge ) ) {
+            return $html;
+        }
+
+        if ( $this->is_active_member
+            && !$this->is_product_excluded_from_member_discounts( $product )
+            && $this->get_user_membership_discounts( $product ) ) {
+
+            $member_badge = $this->get_member_block_grid_badge_markup();
+
+            if ( $member_badge !== $current_badge ) {
+                $html = str_replace( $current_badge, $member_badge, $html );
+            }
+        }
+
+        return $html;
+    }
+
+
+    /**
+     * Get member badge markup for older WooCommerce product grid blocks
+     *
+     * - keeps the original Woo grid badge structure and swaps only the visible label
+     *
+     * @return string
+     */
+    private function get_member_block_grid_badge_markup() {
+
+        $options = get_option( 'pms_woocommerce_settings' );
+        $label   = !empty( $options['discount_badge'] ) ? $options['discount_badge'] : __( 'Member discount!', 'paid-member-subscriptions' );
+
+        return '<div class="wc-block-grid__product-onsale">
+            <span aria-hidden="true">' . esc_html( $label ) . '</span>
+            <span class="screen-reader-text">' . esc_html__( 'Product on sale', 'paid-member-subscriptions' ) . '</span>
+        </div>';
+    }
+
+
+    /**
      * Get product discounted price for member.
      *
      * @param float $base_price Original price.
@@ -777,8 +906,6 @@ class PMS_WOO_Subscription_Discounts {
      */
     public function get_user_membership_discounts( $the_product, $the_user = null ) {
 
-        global $pms_woo_member_discounts, $pms_woo_member_subscriptions;
-
         // initialize the $member_discount array
         $member_discounts = array();
 
@@ -815,6 +942,10 @@ class PMS_WOO_Subscription_Discounts {
             return $member_discounts;
         }
 
+        $member_discount_context = $this->load_member_discount_context( $member_id );
+        $member_plan_discounts   = isset( $member_discount_context['discounts'] ) ? $member_discount_context['discounts'] : array();
+        $member_subscriptions    = isset( $member_discount_context['subscriptions'] ) ? $member_discount_context['subscriptions'] : array();
+
         // if is variation, use the id of the parent product
         if ($the_product->is_type( 'variation' )) {
             $product_id = $the_product->get_parent_id();
@@ -829,9 +960,9 @@ class PMS_WOO_Subscription_Discounts {
             $discounts_behaviour = 'default';
 
         // check if there are any global subscription discounts that apply to this product
-        if ( !empty($pms_woo_member_discounts) && ($discounts_behaviour == 'default') ) {
+        if ( !empty($member_plan_discounts) && ($discounts_behaviour == 'default') ) {
 
-            foreach ($pms_woo_member_discounts as $discount) {
+            foreach ($member_plan_discounts as $discount) {
 
                 // don't save inactive discounts
                 if ( $discount['status'] == 'inactive' || !isset( $discount['discount-for'] ) )
@@ -865,7 +996,7 @@ class PMS_WOO_Subscription_Discounts {
                 if ( $product_discount['status'] == 'inactive' )
                     continue;
 
-                if ( !empty($pms_woo_member_subscriptions) && in_array( $product_discount['subscription-plan'], $pms_woo_member_subscriptions ) )
+                if ( !empty($member_subscriptions) && in_array( $product_discount['subscription-plan'], $member_subscriptions ) )
                     $member_discounts['product'][$product_discount['type']][] = $product_discount['amount'];
             }
 

@@ -208,40 +208,45 @@ foreach( $subscriptions as $subscription ) :
                     if( $subscription->status != 'pending' ) {
 
                         // Show the Change action if any other subscription plan besides the current one exists
-                        $plans           = pms_get_subscription_plan_others( $user_id );
-                        $plan_upgrades   = pms_get_subscription_plan_upgrades( $subscription_plan->id );
-                        $plan_downgrades = pms_get_subscription_plan_downgrades( $subscription_plan->id );
+                        // (skip when plan was deleted or deactivated — change has no valid target)
+                        if ( ! empty( $subscription_plan->id ) && $subscription_plan->is_active() ) {
 
-                        // remove current plan
-                        if( isset( $plans[$subscription->subscription_plan_id ] ) )
-                            unset( $plans[$subscription->subscription_plan_id ] );
+                            $plans           = pms_get_subscription_plan_others( $user_id );
+                            $plan_upgrades   = pms_get_subscription_plan_upgrades( $subscription_plan->id );
+                            $plan_downgrades = pms_get_subscription_plan_downgrades( $subscription_plan->id );
 
-                        $payments_settings = get_option( 'pms_payments_settings' );
+                            // remove current plan
+                            if( isset( $plans[$subscription->subscription_plan_id ] ) )
+                                unset( $plans[$subscription->subscription_plan_id ] );
 
-                        $change_action_name = __( 'Change', 'paid-member-subscriptions' );
+                            $payments_settings = get_option( 'pms_payments_settings' );
 
-                        if( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-change'] ) )
-                            $change_action_name = __( 'Upgrade', 'paid-member-subscriptions' );
-                                                
-                        // Display logic
-                        $display_action = false;
+                            $change_action_name = __( 'Change', 'paid-member-subscriptions' );
 
-                        if( ( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-change'] ) ) && !empty( $plan_upgrades ) )
-                            $display_action = true;
-                        else if( ( !isset( $payments_settings['allow-downgrades'] ) && isset( $payments_settings['allow-change'] ) ) && ( !empty( $plans ) || !empty( $plan_upgrades ) ) )
-                            $display_action = true;
-                        else if( ( !isset( $payments_settings['allow-change'] ) && isset( $payments_settings['allow-downgrades'] ) ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
-                            $display_action = true;
-                        else if( isset( $payments_settings['allow-change'] ) && ( !empty( $plans ) || !empty( $plan_upgrades ) ) )
-                            $display_action = true;
-                        else if( isset( $payments_settings['allow-downgrades'] ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
-                            $display_action = true;
+                            if( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-change'] ) )
+                                $change_action_name = __( 'Upgrade', 'paid-member-subscriptions' );
+                                                    
+                            // Display logic
+                            $display_action = false;
 
-                        if( $display_action === true ){
-                            $change_plan_button = apply_filters( 'pms_output_subscription_plan_action_change', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__change" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'change_subscription', 'subscription_id' => $subscription->id, 'subscription_plan' => $subscription_plan->id ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '">' . $change_action_name . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id );
+                            if( ( !isset( $payments_settings['allow-downgrades'] ) && !isset( $payments_settings['allow-change'] ) ) && !empty( $plan_upgrades ) )
+                                $display_action = true;
+                            else if( ( !isset( $payments_settings['allow-downgrades'] ) && isset( $payments_settings['allow-change'] ) ) && ( !empty( $plans ) || !empty( $plan_upgrades ) ) )
+                                $display_action = true;
+                            else if( ( !isset( $payments_settings['allow-change'] ) && isset( $payments_settings['allow-downgrades'] ) ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
+                                $display_action = true;
+                            else if( isset( $payments_settings['allow-change'] ) && ( !empty( $plans ) || !empty( $plan_upgrades ) ) )
+                                $display_action = true;
+                            else if( isset( $payments_settings['allow-downgrades'] ) && ( !empty( $plan_downgrades ) || !empty( $plan_upgrades ) ) )
+                                $display_action = true;
 
-                            if( !empty( $change_plan_button ) )
-                                echo wp_kses_post( $change_plan_button );
+                            if( $display_action === true ){
+                                $change_plan_button = apply_filters( 'pms_output_subscription_plan_action_change', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__change" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'change_subscription', 'subscription_id' => $subscription->id, 'subscription_plan' => $subscription_plan->id ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '">' . $change_action_name . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id );
+
+                                if( !empty( $change_plan_button ) )
+                                    echo wp_kses_post( $change_plan_button );
+                            }
+
                         }
 
                         if( !pms_is_https() )

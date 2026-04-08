@@ -3,7 +3,6 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-
 /**
  * Main function to return a products
  *
@@ -389,7 +388,10 @@ function pms_output_subscription_plans( $include = array(), $exclude_id_group = 
             $default_checked = ( ! empty( $_REQUEST['subscription_plans'] ) ? absint($_REQUEST['subscription_plans']) : absint($default_checked) );
             $default_checked = ( ! empty( $default_checked ) ? $default_checked : $subscription_plans[0]->id );
             $default_checked = ( ! empty( $_GET['subscription_plan'] ) ? absint( $_GET['subscription_plan'] ) : absint( $default_checked ) );
-            $default_checked = ( ! empty( $_GET['upgrade_subscription_plan'] ) ? absint( $_GET['upgrade_subscription_plan'] ) : absint( $default_checked ) );
+            $target_plan_from_url = pms_get_subscription_target_plan_id_from_request( '' );
+            if ( $target_plan_from_url ) {
+                $default_checked = $target_plan_from_url;
+            }
 
             if( $form_location === 'upgrade_subscription' && isset( $subscription_plan_groups[key( $subscription_plan_groups )][0]->id ))
                 $default_checked = $subscription_plan_groups[key( $subscription_plan_groups )][0]->id;
@@ -973,8 +975,7 @@ function pms_get_change_subscription_plan_context( $current_subscription_plan_id
  *
  */
 
-function pms_get_member_count_by_subscription_plan( $subscription_plan_id )
-{
+function pms_get_member_count_by_subscription_plan( $subscription_plan_id ){
     global $wpdb;
 
     $table_name = $wpdb->prefix . 'pms_member_subscriptions';
@@ -984,4 +985,103 @@ function pms_get_member_count_by_subscription_plan( $subscription_plan_id )
     $count = $wpdb->get_var( $query );
 
     return (int) $count;
+}
+
+/**
+ * Builds upgrade, downgrade, and cross-tier plan lists for the change-subscription flow
+ *
+ * @param PMS_Member    $member                        Member object.
+ * @param object|false  $current_subscription_member   Member subscription row object from pms_get_member_subscription().
+ * @param int           $current_subscription_plan_id  Current subscription plan post ID.
+ *
+ * @return array{ upgrades: array, downgrades: array, others: array } Each value is a list of PMS_Subscription_Plan objects.
+ */
+function pms_get_member_change_subscription_plan_lists( $member, $current_subscription_member, $current_subscription_plan_id ) {
+
+    $current_subscription_plan_id = absint( $current_subscription_plan_id );
+
+    $payments_settings = get_option( 'pms_payments_settings' );
+
+    $subscription_plan_upgrades = pms_get_subscription_plan_upgrades( $current_subscription_plan_id );
+
+    if( isset( $payments_settings['allow-downgrades'] ) && $payments_settings['allow-downgrades'] == '1' )
+        $subscription_plan_downgrades = pms_get_subscription_plan_downgrades( $current_subscription_plan_id );
+    else
+        $subscription_plan_downgrades = array();
+
+    if( isset( $payments_settings['allow-change'] ) && $payments_settings['allow-change'] == '1' ) {
+
+        $excluded = array_merge( array_map( function( $plan ) { return $plan->id; }, $subscription_plan_upgrades ), array_map( function( $plan ) { return $plan->id; }, $subscription_plan_downgrades ) );
+
+        if( !empty( $member->subscriptions ) ) {
+            foreach( $member->subscriptions as $member_subscription ) {
+
+                $plans_from_tier = pms_get_subscription_plans_group( $member_subscription['subscription_plan_id'] );
+
+                foreach( $plans_from_tier as $plan ) {
+                    $excluded[] = $plan->id;
+                }
+
+            }
+        }
+
+        $subscription_plan_others = pms_get_subscription_plans( true, array(), $excluded );
+
+    } else
+        $subscription_plan_others = array();
+
+    $subscription_plan_upgrades   = apply_filters( 'pms_member_change_subscription_upgrade_plans', $subscription_plan_upgrades, $current_subscription_member, $current_subscription_plan_id );
+    $subscription_plan_downgrades = apply_filters( 'pms_member_change_subscription_downgrade_plans', $subscription_plan_downgrades, $current_subscription_member, $current_subscription_plan_id );
+    $subscription_plan_others     = apply_filters( 'pms_member_change_subscription_other_plans', $subscription_plan_others, $current_subscription_member, $current_subscription_plan_id );
+
+    return array(
+        'upgrades'   => $subscription_plan_upgrades,
+        'downgrades' => $subscription_plan_downgrades,
+        'others'     => $subscription_plan_others,
+    );
+
+}
+
+/**
+ * Returns the plan object from a list when the ID matches. Used to validate deep-linked target plans
+ * against upgrade / downgrade / change lists built by the plugin (not raw $_GET).
+ *
+ * @param int   $plan_id Plan post ID.
+ * @param array $plans   List of PMS_Subscription_Plan objects.
+ *
+ * @return PMS_Subscription_Plan|null
+ */
+function pms_get_subscription_plan_if_in_list( $plan_id, $plans ) {
+
+    $plan_id = absint( $plan_id );
+
+    if ( ! $plan_id || empty( $plans ) ) {
+        return null;
+    }
+
+    foreach ( $plans as $plan ) {
+        if ( ! empty( $plan->id ) && (int) $plan->id === $plan_id ) {
+            return $plan;
+        }
+    }
+
+    return null;
+}
+
+/**
+ * Get the target plan ID from the request
+ *
+ * @return int Plan post ID or 0.
+ */
+function pms_get_subscription_target_plan_id_from_request( $context = '' ) {
+
+    if ( isset( $_GET['subscription_target_plan'] ) && $_GET['subscription_target_plan'] !== '' ) {
+        return absint( $_GET['subscription_target_plan'] );
+    }
+
+    if ( isset( $_GET['upgrade_subscription_plan'] ) && $_GET['upgrade_subscription_plan'] !== '' && ( $context === '' || $context === 'upgrade' ) ) {
+        return absint( $_GET['upgrade_subscription_plan'] );
+    }
+
+    return 0;
 }

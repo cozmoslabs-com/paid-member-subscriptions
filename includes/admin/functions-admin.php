@@ -1393,6 +1393,13 @@ function pms_enqueue_deactivation_popup_assets( $hook ) {
     wp_enqueue_style( 'wp-jquery-ui-dialog' );
 
     wp_enqueue_script( 'pms-deactivation-popup', PMS_PLUGIN_DIR_URL . 'assets/js/admin/deactivation-popup.js', array( 'jquery', 'jquery-ui-dialog' ), PMS_VERSION, true );
+    wp_localize_script( 'pms-deactivation-popup', 'pmsDeactivationData', array(
+        'deactivationReasonNonce'     => wp_create_nonce( 'pms_deactivation_reason' ),
+        'deactivationReasonRequired'  => __( 'Please select a reason before deactivating.', 'paid-member-subscriptions' ),
+        'deactivationReasonInput'     => __( 'Please complete the required field before deactivating.', 'paid-member-subscriptions' ),
+        'deactivationReasonSaveError' => __( 'We could not save your feedback. Please try again.', 'paid-member-subscriptions' ),
+        'deactivating'                => __( 'Deactivating...', 'paid-member-subscriptions' ),
+    ) );
 
 }
 add_action( 'admin_enqueue_scripts', 'pms_enqueue_deactivation_popup_assets' );
@@ -1417,36 +1424,211 @@ function pms_output_deactivation_popup() {
         return;
 
     ?>
-    <div id="pms-deactivation-popup" title="<?php esc_attr_e( 'Before You Go', 'paid-member-subscriptions' ); ?>" data-plugin="<?php echo esc_attr( PMS_PLUGIN_BASENAME ); ?>" style="display: none;">
-        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+    <div id="pms-deactivation-popup" title="<?php esc_attr_e( 'Before You Go', 'paid-member-subscriptions' ); ?>" data-plugin="<?php echo esc_attr( PMS_PLUGIN_BASENAME ); ?>">
+        <div class="pms-deactivation-popup-header">
             <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/pms-logo.svg' ); ?>" alt="<?php esc_attr_e( 'Paid Member Subscriptions', 'paid-member-subscriptions' ); ?>" width="44" height="44">
 
-            <p style="margin: 0;">
-                <?php esc_html_e( 'If something isn\'t working as expected, we\'d love the chance to fix it. Most issues can be resolved quickly, and our support team is here to help.', 'paid-member-subscriptions' ); ?>
+            <p class="pms-deactivation-popup-description">
+                <?php esc_html_e( 'If you have a moment, please share the reason you are deactivating Paid Member Subscriptions:', 'paid-member-subscriptions' ); ?>
             </p>
         </div>
 
-        <div style="text-align: right;">
-            <a href="https://wordpress.org/support/plugin/paid-member-subscriptions/" target="_blank" rel="noopener" class="button button-primary pms-deactivation-popup-support">
-                <?php esc_html_e( 'Contact Support', 'paid-member-subscriptions' ); ?>
-            </a>
+        <form class="pms-deactivation-popup-form">
+            <fieldset class="pms-deactivation-popup-fieldset">
+                <label class="pms-deactivation-popup-option">
+                    <input type="radio" name="pms_deactivation_reason" value="dont_need_it">
+                    <span><?php esc_html_e( 'I no longer need the plugin', 'paid-member-subscriptions' ); ?></span>
+                </label>
 
+                <label class="pms-deactivation-popup-option">
+                    <input type="radio" name="pms_deactivation_reason" value="switched_to_another_plugin">
+                    <span><?php esc_html_e( 'I found a better plugin', 'paid-member-subscriptions' ); ?></span>
+                    <input type="text" name="switched_to_another_plugin_reason" class="pms-deactivation-popup-extra" data-reason="switched_to_another_plugin" placeholder="<?php esc_attr_e( 'Which plugin', 'paid-member-subscriptions' ); ?>">
+                </label>
+
+                <label class="pms-deactivation-popup-option">
+                    <input type="radio" name="pms_deactivation_reason" value="missing_features">
+                    <span><?php esc_html_e( 'I didn\'t find the feature I need', 'paid-member-subscriptions' ); ?></span>
+                    <input type="text" name="missing_features_reason" class="pms-deactivation-popup-extra" data-reason="missing_features" placeholder="<?php esc_attr_e( 'Which feature', 'paid-member-subscriptions' ); ?>">
+                </label>
+
+                <label class="pms-deactivation-popup-option">
+                    <input type="radio" name="pms_deactivation_reason" value="did_not_work">
+                    <span><?php esc_html_e( 'I couldn\'t get the plugin to work', 'paid-member-subscriptions' ); ?></span>
+                </label>
+
+                <label class="pms-deactivation-popup-option">
+                    <input type="radio" name="pms_deactivation_reason" value="temporary_deactivation">
+                    <span><?php esc_html_e( 'Temporary deactivation', 'paid-member-subscriptions' ); ?></span>
+                </label>
+
+                <label class="pms-deactivation-popup-option">
+                    <input type="radio" name="pms_deactivation_reason" value="other">
+                    <span><?php esc_html_e( 'Other', 'paid-member-subscriptions' ); ?></span>
+                    <input type="text" name="other_reason" class="pms-deactivation-popup-extra" data-reason="other" placeholder="<?php esc_attr_e( 'Please tell us more', 'paid-member-subscriptions' ); ?>">
+                </label>
+            </fieldset>
+
+            <p class="pms-deactivation-popup-error"></p>
+        </form>
+
+        <div class="pms-deactivation-popup-actions">
             <button type="button" class="button button-primary pms-deactivation-popup-confirm">
-                <?php esc_html_e( 'Deactivate', 'paid-member-subscriptions' ); ?>
+                <?php esc_html_e( 'Submit & deactivate', 'paid-member-subscriptions' ); ?>
+            </button>
+
+            <button type="button" class="button pms-deactivation-popup-skip">
+                <?php esc_html_e( 'Skip & deactivate', 'paid-member-subscriptions' ); ?>
             </button>
         </div>
     </div>
 
     <style>
+        #pms-deactivation-popup {
+            display: none;
+        }
+
+        .pms-deactivation-popup-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .pms-deactivation-popup-description {
+            margin: 0;
+        }
+
+        .pms-deactivation-popup-fieldset {
+            margin: 0;
+            padding: 0px;
+            border: 0;
+        }
+
+        .pms-deactivation-popup-option {
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .pms-deactivation-popup-extra {
+            display: none;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .pms-deactivation-popup-extra.error {
+            border: 1px solid #b32d2e;
+        }
+
+        .pms-deactivation-popup-error {
+            display: none;
+            color: #b32d2e;
+            margin: 0px 0px 12px 0px;
+        }
+        
+        .pms-deactivation-popup-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
         .ui-dialog[aria-describedby="pms-deactivation-popup"] .ui-dialog-titlebar {
             background: transparent;
             border: none;
+        }
+
+        .pms-deactivation-popup-form input[type="radio"]:focus {
+            box-shadow: none !important;
         }
     </style>
     <?php
 
 }
 add_action( 'admin_footer', 'pms_output_deactivation_popup' );
+
+/**
+ * Add the stored deactivation reason to the sync payload
+ *
+ * @param array  $body   Sync request body
+ * @param string $action Sync action slug
+ *
+ * @return array
+ */
+function pms_add_deactivation_reason_to_sync_body( $body, $action ) {
+
+    if ( $action !== 'end' )
+        return $body;
+
+    $reason_data = get_option( 'pms_deactivation_reason', array() );
+
+    if ( ! is_array( $reason_data ) )
+        $reason_data = array();
+
+    if ( empty( $reason_data['reason'] ) )
+        $reason_data['reason'] = 'skip';
+
+    $body['reason'] = sanitize_key( $reason_data['reason'] );
+
+    $reason_key = $reason_data['reason'] . '_reason';
+
+    if ( ! empty( $reason_data[ $reason_key ] ) )
+        $body['extra_metadata'] = sanitize_text_field( $reason_data[ $reason_key ] );
+
+    delete_option( 'pms_deactivation_reason' );
+
+    return $body;
+}
+add_filter( 'pms_sync_api_body', 'pms_add_deactivation_reason_to_sync_body', 10, 2 );
+
+/**
+ * Store the deactivation reason selected in the popup
+ *
+ */
+function pms_store_deactivation_reason() {
+
+    if ( ! check_ajax_referer( 'pms_deactivation_reason', 'nonce', false ) )
+        wp_send_json_error( array( 'message' => __( 'We could not verify your request. Please refresh the page and try again.', 'paid-member-subscriptions' ) ), 403 );
+
+    if ( ! current_user_can( 'activate_plugins' ) )
+        wp_send_json_error( array( 'message' => __( 'You do not have permission to deactivate plugins on this site.', 'paid-member-subscriptions' ) ), 403 );
+
+    $valid_reasons = array(
+        'dont_need_it',
+        'switched_to_another_plugin',
+        'missing_features',
+        'did_not_work',
+        'temporary_deactivation',
+        'other',
+        'skip',
+    );
+
+    $reason = '';
+
+    if ( isset( $_POST['reason'] ) )
+        $reason = sanitize_key( wp_unslash( $_POST['reason'] ) );
+
+    if ( ! in_array( $reason, $valid_reasons, true ) )
+        wp_send_json_error( array( 'message' => __( 'We could not save your deactivation feedback. Please try again.', 'paid-member-subscriptions' ) ), 400 );
+
+    $reason_data = array(
+        'reason' => $reason,
+    );
+
+    if ( $reason === 'switched_to_another_plugin' && ! empty( $_POST['switched_to_another_plugin_reason'] ) )
+        $reason_data['switched_to_another_plugin_reason'] = sanitize_text_field( wp_unslash( $_POST['switched_to_another_plugin_reason'] ) );
+
+    if ( $reason === 'missing_features' && ! empty( $_POST['missing_features_reason'] ) )
+        $reason_data['missing_features_reason'] = sanitize_text_field( wp_unslash( $_POST['missing_features_reason'] ) );
+
+    if ( $reason === 'other' && ! empty( $_POST['other_reason'] ) )
+        $reason_data['other_reason'] = sanitize_text_field( wp_unslash( $_POST['other_reason'] ) );
+
+    update_option( 'pms_deactivation_reason', $reason_data, false );
+
+    wp_send_json_success();
+}
+add_action( 'wp_ajax_pms_store_deactivation_reason', 'pms_store_deactivation_reason' );
 
 function pms_sync_api( $action ) {
 
@@ -1457,6 +1639,8 @@ function pms_sync_api( $action ) {
         'product'           => 'pms',
         'action'            => $action,
     );
+
+    $body = apply_filters( 'pms_sync_api_body', $body, $action );
 
     wp_remote_post( $url, array(
         'body'     => $body,

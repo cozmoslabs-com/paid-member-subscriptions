@@ -39,6 +39,5 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         ?>
     <?php do_action( 'pms_view_meta_box_subscription_extra_options_bottom', $subscription_plan );
-     wp_nonce_field( 'pms_extra_subs_options_nonce', 'pms_esdo_nonce' );
-     wp_nonce_field( 'pms_extra_subs_options_nonce', 'pms_ps_nonce' ); ?>
+     wp_nonce_field( 'pms_subscription_plan_extra_options_nonce', 'pms_subscription_plan_extra_options_nonce' ); ?>
 </div>

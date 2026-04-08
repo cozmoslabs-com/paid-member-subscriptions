@@ -163,11 +163,11 @@
     outline: none;
 }
 
-.pms-form input[type="radio"] {
+/* .pms-form input[type="radio"] {
     display: block;
     float: left;
     margin: 5px 10px 0 0;
-}
+} */
 
 
 /* Payment Section */
@@ -358,4 +358,16 @@
 #pms_ppe_confirm_payment #pms-confirm-payment td {
     border: 1px solid #ccc;
     padding: 5px;
+}
+
+/* Subscription Plans */
+.pms-upgrade__group p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.pms-subscription-plan label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }

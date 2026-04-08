@@ -126,6 +126,12 @@ async function pms_stripe_maybe_load_gateway( $ ) {
             return
         }
 
+        if( $('input[type=hidden][name=pay_gate]').val() != 'stripe_connect' && $('input[type=radio][name=pay_gate]:checked').val() != 'stripe_connect' )
+            return
+
+        if( $('input[type=hidden][name=pay_gate]').is(':disabled') || $('input[type=radio][name=pay_gate]:checked').is(':disabled') )
+            return
+
         let element = $(this)
         let email = $(this).val()
 

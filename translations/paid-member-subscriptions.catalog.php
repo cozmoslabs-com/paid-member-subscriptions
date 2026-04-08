@@ -1325,8 +1325,26 @@
 <?php __("We will do our best to help you figure it out.", "paid-member-subscriptions"); ?>
 <?php __("View Documentation", "paid-member-subscriptions"); ?>
 <?php __("Open Support Ticket", "paid-member-subscriptions"); ?>
+<?php __("Please select a reason before deactivating.", "paid-member-subscriptions"); ?>
+<?php __("Please complete the required field before deactivating.", "paid-member-subscriptions"); ?>
+<?php __("We could not save your feedback. Please try again.", "paid-member-subscriptions"); ?>
+<?php __("Deactivating...", "paid-member-subscriptions"); ?>
 <?php __("Before You Go", "paid-member-subscriptions"); ?>
-<?php __("If something isn't working as expected, we'd love the chance to fix it. Most issues can be resolved quickly, and our support team is here to help.", "paid-member-subscriptions"); ?>
+<?php __("If you have a moment, please share the reason you are deactivating Paid Member Subscriptions:", "paid-member-subscriptions"); ?>
+<?php __("I no longer need the plugin", "paid-member-subscriptions"); ?>
+<?php __("I found a better plugin", "paid-member-subscriptions"); ?>
+<?php __("Which plugin", "paid-member-subscriptions"); ?>
+<?php __("I didn't find the feature I need", "paid-member-subscriptions"); ?>
+<?php __("Which feature", "paid-member-subscriptions"); ?>
+<?php __("I couldn't get the plugin to work", "paid-member-subscriptions"); ?>
+<?php __("Temporary deactivation", "paid-member-subscriptions"); ?>
+<?php __("Other", "paid-member-subscriptions"); ?>
+<?php __("Please tell us more", "paid-member-subscriptions"); ?>
+<?php __("Submit & deactivate", "paid-member-subscriptions"); ?>
+<?php __("Skip & deactivate", "paid-member-subscriptions"); ?>
+<?php __("We could not verify your request. Please refresh the page and try again.", "paid-member-subscriptions"); ?>
+<?php __("You do not have permission to deactivate plugins on this site.", "paid-member-subscriptions"); ?>
+<?php __("We could not save your deactivation feedback. Please try again.", "paid-member-subscriptions"); ?>
 <?php __("Plan Name", "paid-member-subscriptions"); ?>
 <?php __("Auto Renewal", "paid-member-subscriptions"); ?>
 <?php __("On", "paid-member-subscriptions"); ?>
@@ -2046,6 +2064,7 @@
 <?php __('Select the %1$s Tutor LMS Categories %2$s you want to associate with this Subscription Plan.', 'paid-member-subscriptions' ); ?>
 <?php __('Members of this Subscription Plan will be able to access Courses within the %1$s selected categories%2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Member discount!", "paid-member-subscriptions"); ?>
+<?php __("Product on sale", "paid-member-subscriptions"); ?>
 <?php __("Who can purchase?", "paid-member-subscriptions"); ?>
 <?php __("All Subscription Plans", "paid-member-subscriptions"); ?>
 <?php __("Select who can purchase this product.", "paid-member-subscriptions"); ?>
