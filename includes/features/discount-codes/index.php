@@ -267,14 +267,15 @@ function pms_in_dc_output_apply_discount_message() {
 
         $exclude_signup_fee = ( $signup_fee_amount > 0 && apply_filters( 'pms_discount_exclude_signup_fee', false, $discount_obj ) );
 
-        // Cache the unfiltered value which could be a future payment done by the user
+        $amount = apply_filters( 'pms_dc_output_apply_discount_message_amount', $amount );
+
+        // Cache the filtered value so recurring calculations use the same amount as the discount response
+        // - this keeps recurring discounts and tax in sync when Pro-Rate or Multiple Currencies change the amount first
         if( $exclude_signup_fee ){
             $response['original_discounted_price'] = pms_in_calculate_discounted_amount( $amount - $signup_fee_amount, $discount_obj ) + $signup_fee_amount;
         } else {
             $response['original_discounted_price'] = pms_in_calculate_discounted_amount( $amount, $discount_obj );
         }
-
-        $amount = apply_filters( 'pms_dc_output_apply_discount_message_amount', $amount );
 
         if( $exclude_signup_fee ){
             $response['discounted_price'] = pms_in_calculate_discounted_amount( $amount - $signup_fee_amount, $discount_obj ) + $signup_fee_amount;

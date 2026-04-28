@@ -107,7 +107,7 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
             return;
 
         // Verify user capability
-        if( ! ( current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' ) ) )
+        if( ! pms_current_user_can_access_area( 'pms-payments-page' ) )
             return;
 
         // Get current actions
@@ -468,9 +468,16 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
      */
     public function output() {
 
-        // Check if payments cron is defined and if not, add it
-        if ( ! wp_next_scheduled( 'pms_cron_process_member_subscriptions_payments' ) )
-            wp_schedule_event( time(), 'daily', 'pms_cron_process_member_subscriptions_payments' );
+        // Ensure renewal scheduling exists for the active mode (legacy WP-Cron or Action Scheduler).
+        if ( function_exists( 'pms_is_payments_cron_defined' ) && ! pms_is_payments_cron_defined() ) {
+            if ( function_exists( 'pms_is_scheduled_payments_action_scheduler_enabled' ) && pms_is_scheduled_payments_action_scheduler_enabled() && class_exists( 'PMS_Plugin_Scheduled_Payments_Scheduler' ) ) {
+                PMS_Plugin_Scheduled_Payments_Scheduler::instance()->ensure_recurring_action_scheduled();
+            } elseif ( function_exists( 'pms_maybe_schedule_legacy_renewal_cron' ) ) {
+                pms_maybe_schedule_legacy_renewal_cron();
+            } elseif ( ! wp_next_scheduled( 'pms_cron_process_member_subscriptions_payments' ) ) {
+                wp_schedule_event( time(), 'daily', 'pms_cron_process_member_subscriptions_payments' );
+            }
+        }
 
 
         // Display the edit payment view
@@ -561,7 +568,7 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
      */
     function ajax_process_refund() {
 
-        if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'pms_edit_capability' ) )
+        if ( ! pms_current_user_can_access_area( 'pms-payments-page' ) )
             wp_send_json_error( array( 'message' => __( 'You do not have the required capabilities to perform this action.', 'paid-member-subscriptions' ) ) );
 
         if ( ! isset( $_POST['pmstkn'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['pmstkn'] ), 'pms-payment-refund-token' ) )

@@ -21,6 +21,48 @@ function pms_admin_set_screen_option( $status, $option, $value ){
 
 }
 
+
+/**
+ * Returns true if the current user can access a PMS admin area
+ *
+ * - uses the role-permissions engine when available
+ * - falls back to the legacy admin or pms_edit_capability checks
+ *
+ */
+function pms_current_user_can_access_area( $area_slug = '' ) {
+
+    if( current_user_can( 'manage_options' ) )
+        return true;
+
+    if( ! empty( $area_slug ) )
+        return pms_role_permissions_current_user_can_access_area( $area_slug );
+
+    return current_user_can( 'pms_edit_capability' );
+
+}
+
+
+/**
+ * Returns true if the current user can access at least one PMS admin area
+ *
+ * - used for parent navigation visibility
+ *
+ */
+function pms_current_user_can_access_any_area( $area_slugs = array() ) {
+
+    if( empty( $area_slugs ) )
+        return pms_current_user_can_access_area();
+
+    foreach( $area_slugs as $area_slug ) {
+        if( pms_current_user_can_access_area( $area_slug ) )
+            return true;
+    }
+
+    return false;
+
+}
+
+
 // Specific option filter since WordPress 5.4.2
 // Other filters are added through the PMS_Submenu_Page class, but since the bulk add members is not a submenu page, we add this here
 add_filter( 'set_screen_option_pms_users_per_page', 'pms_admin_bulk_add_members_screen_option', 20, 3 );
@@ -42,7 +84,7 @@ function pms_reset_cron_jobs(){
     if( !wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'pms_reset_cron_jobs' ) )
         return;
 
-    if( ! ( current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' ) ) )
+    if( ! pms_current_user_can_access_area() )
         return;
 
     // Remove all cron jobs
@@ -51,9 +93,12 @@ function pms_reset_cron_jobs(){
     wp_clear_scheduled_hook( 'pms_cron_process_pending_payments' );
     wp_clear_scheduled_hook( 'pms_remove_activation_key' );
 
-    // Process payments for custom member subscriptions
-    if( !wp_next_scheduled( 'pms_cron_process_member_subscriptions_payments' ) )
+    // Process payments for custom member subscriptions (legacy daily cron or Action Scheduler, depending on settings).
+    if ( function_exists( 'pms_reset_renewal_scheduling_after_manual_reset' ) ) {
+        pms_reset_renewal_scheduling_after_manual_reset();
+    } elseif ( ! wp_next_scheduled( 'pms_cron_process_member_subscriptions_payments' ) ) {
         wp_schedule_event( time(), 'daily', 'pms_cron_process_member_subscriptions_payments' );
+    }
 
     // Schedule event for checking subscription status
     if( !wp_next_scheduled( 'pms_check_subscription_status' ) )

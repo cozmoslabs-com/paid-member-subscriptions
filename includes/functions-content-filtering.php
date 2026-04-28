@@ -78,6 +78,22 @@ function pms_filter_content( $content, $post = null ) {
 
     }
 
+    $restricted_term = pms_get_post_restricted_term( $post->ID );
+
+    if ( ! empty( $restricted_term ) ) {
+
+        if ( ! is_user_logged_in() ) {
+            $pms_show_content = false;
+
+            return pms_get_restricted_term_message( $restricted_term );
+        }
+
+        $pms_show_content = false;
+
+        return pms_get_restricted_term_message( $restricted_term );
+
+    }
+
     return $content;
 
 }
@@ -961,4 +977,3 @@ if ( isset( $pms_cr_settings['comments_restriction']['option'] ) && $pms_cr_sett
     }
 
 }
-

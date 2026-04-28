@@ -1001,6 +1001,7 @@ async function pms_stripe_maybe_load_gateway( $ ) {
                 pms_nonce           : pms.pms_validate_currency_nonce,
                 subscription_plan_id: subscriptionPlan.val(),
                 pms_mc_currency     : subscriptionPlan.data('mc_currency'),
+                subscription_id     : subscriptionPlan.closest('form').find('input[name="pms_current_subscription"]').val(),
                 pay_gate            : 'stripe_connect'
             },
             dataType: 'json',

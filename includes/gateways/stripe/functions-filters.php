@@ -381,7 +381,7 @@ function pms_stripe_payment_logs_modal_header_content( $content, $log, $payment_
     return $output;
 }
 
-add_action( 'plugins_loaded', 'pms_stripe_add_deprecation_notice' );
+add_action( 'init', 'pms_stripe_add_deprecation_notice', 5 );
 function pms_stripe_add_deprecation_notice() {
 
     if( pms_get_active_stripe_gateway() != 'stripe_intents' )

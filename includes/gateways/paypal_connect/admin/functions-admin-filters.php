@@ -303,7 +303,7 @@ function pms_ppcp_disconnect_paypal(){
 
     check_ajax_referer( 'pms_paypal_connect_disconnect_nonce', 'ajaxNonce' );
 
-    if( current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' ) ){
+    if( pms_current_user_can_access_area() ){
 
         $paypal_credentials = pms_ppcp_get_api_credentials();
     

@@ -1506,6 +1506,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
+                $this->webhook_sync_payment_intent_transaction_id( $payment, $data );
+
                 $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.succeeded', 'data' => $data->metadata ) );
 
                 if( $payment->status != 'completed' ){
@@ -1533,6 +1535,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
+                $this->webhook_sync_payment_intent_transaction_id( $payment, $data );
+
                 $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.processing', 'data' => $data->metadata ) );
 
                 if( $payment->status != 'completed' )
@@ -1558,6 +1562,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     die();
 
                 $payment = pms_get_payment( $payment_id );
+
+                $this->webhook_sync_payment_intent_transaction_id( $payment, $data );
 
                 $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.payment_failed', 'data' => $data->metadata ) );
 
@@ -1693,6 +1699,28 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         die();
+
+    }
+
+    /**
+     * Sets the payment's transaction_id from the webhook PaymentIntent id when missing or different.
+     *
+     * @param object $payment Payment object from {@see pms_get_payment()}.
+     * @param object $data    PaymentIntent object from the webhook payload.
+     */
+    private function webhook_sync_payment_intent_transaction_id( $payment, $data ) {
+
+        if ( empty( $payment ) || empty( $payment->id ) || empty( $data->id ) ) {
+            return;
+        }
+
+        $intent_id = sanitize_text_field( $data->id );
+
+        if ( ! empty( $payment->transaction_id ) && $payment->transaction_id === $intent_id ) {
+            return;
+        }
+
+        $payment->update( array( 'transaction_id' => $intent_id ) );
 
     }
 

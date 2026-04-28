@@ -29,6 +29,7 @@ Class PMS_Merge_Tags{
         add_filter( 'pms_merge_tag_first_name',                   array( $this, 'pms_tag_firstname' ), 10, 2 );
         add_filter( 'pms_merge_tag_last_name',                    array( $this, 'pms_tag_lastname' ), 10, 2 );
         add_filter( 'pms_merge_tag_user_email',                   array( $this, 'pms_tag_user_email' ), 10, 2 );
+        add_filter( 'pms_merge_tag_user_language',                array( $this, 'pms_tag_user_language' ), 10, 2 );
         add_filter( 'pms_merge_tag_site_name',                    array( $this, 'pms_tag_site_name' ), 10 );
         add_filter( 'pms_merge_tag_site_url',                     array( $this, 'pms_tag_site_url' ), 10 );
         add_filter( 'pms_merge_tag_automatic_retry_message',      array( $this, 'pms_tag_automatic_retry_message' ), 10, 5 );
@@ -92,6 +93,7 @@ Class PMS_Merge_Tags{
             'last_name',
             'username',
             'user_email',
+            'user_language',
             'site_name',
             'site_url',
             'automatic_retry_message',
@@ -146,6 +148,18 @@ Class PMS_Merge_Tags{
 
         if( !empty( $user_info->ID ) )
             return $user_info->ID;
+        else
+            return '';
+
+    }
+
+    /**
+     * Replace the {{user_language}} tag
+     */
+    function pms_tag_user_language( $value, $user_info ){
+
+        if( !empty( $user_info->ID ) )
+            return get_user_meta($user_info->ID, 'user_language', true);
         else
             return '';
 

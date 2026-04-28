@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <li class="subsubsub-sub-tab"><a data-sub-tab-slug="misc_others" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_others' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_others' ? 'current' : '' ) ?>"><?php esc_html_e( 'Others', 'paid-member-subscriptions' ); ?></a></li>
         <li class="subsubsub-sub-tab"><a data-sub-tab-slug="misc_recaptcha" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_recaptcha' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_recaptcha' ? 'current' : '' ) ?>"><?php esc_html_e( 'reCaptcha', 'paid-member-subscriptions' ); ?></a></li>
         <li class="subsubsub-sub-tab"><a data-sub-tab-slug="misc_payments" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_payments' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_payments' ? 'current' : '' ) ?>"><?php esc_html_e( 'Payments', 'paid-member-subscriptions' ); ?></a></li>
+        <li class="subsubsub-sub-tab"><a data-sub-tab-slug="misc_role_permissions" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'pms-settings-page', 'tab' => 'misc', 'nav_sub_tab' => 'misc_role_permissions' ), 'admin.php' ) ) ); ?>" class="nav-sub-tab <?php echo ( $active_sub_tab == 'misc_role_permissions' ? 'current' : '' ) ?>"><?php esc_html_e( 'User Role Permissions', 'paid-member-subscriptions' ); ?></a></li>
 
         <?php do_action( $this->menu_slug . '_misc_sub_tab_navigation_items', $this->options ); ?>
 
@@ -358,6 +359,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/settings/misc/?utm_source=pms-misc-settings&utm_medium=client-site&utm_campaign=pms-payments-docs#Payments" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
             </h4>
 
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                <label class="cozmoslabs-form-field-label" for="use-action-scheduler-for-renewals"><?php esc_html_e( 'New Scheduler for renewals', 'paid-member-subscriptions' ); ?></label>
+
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="use-action-scheduler-for-renewals" name="pms_misc_settings[payments][use_action_scheduler_for_renewals]" value="1" <?php echo ( ! empty( $this->options['payments']['use_action_scheduler_for_renewals'] ) ? 'checked' : '' ); ?> />
+                    <label class="cozmoslabs-toggle-track" for="use-action-scheduler-for-renewals"></label>
+                </div>
+
+                <div class="cozmoslabs-toggle-description">
+                    <label for="use-action-scheduler-for-renewals" class="cozmoslabs-description"><?php esc_html_e( 'Process recurring subscription renewals through the new payment scheduler system which uses Action Scheduler.', 'paid-member-subscriptions' ); ?></label>
+                    <label for="use-action-scheduler-for-renewals" class="cozmoslabs-description"><?php esc_html_e( 'On the new system, payments are processed hourly instead of daily. This interval can be adjusted through a filter.', 'paid-member-subscriptions' ); ?></label>
+                </div>
+            </div>
+
             <div class="cozmoslabs-form-field-wrapper">
                 <label class="cozmoslabs-form-field-label" for="payment-renew-button-delay"><?php esc_html_e( 'Modify renew button output time', 'paid-member-subscriptions' ) ?></label>
                 <input type="text" id="payment-renew-button-delay" class="widefat" name="pms_misc_settings[payments][payment_renew_button_delay]" value="<?php echo ( isset($this->options['payments']['payment_renew_button_delay']) ? esc_attr( $this->options['payments']['payment_renew_button_delay'] ) : '15' ); ?>">
@@ -476,6 +491,88 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <?php endif; ?>
 
         <?php do_action( $this->menu_slug . '_misc_after_payments_tab_content', $this->options ); ?>
+    </div>
+
+    <!-- User Role Permissions Sub Tab -->
+    <div data-sub-tab-slug="misc_role_permissions" class="cozmoslabs-sub-tab-role-permissions cozmoslabs-sub-tab <?php echo ( $active_sub_tab == 'misc_role_permissions' ? 'tab-active' : '' ); ?>">
+        <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-role-permissions-settings">
+
+            <h4 class="cozmoslabs-subsection-title">
+                <?php esc_html_e( 'User Role Permissions', 'paid-member-subscriptions' ); ?>
+            </h4>
+
+            <p class="cozmoslabs-description"><?php esc_html_e( 'Grant non-administrator roles access to specific Paid Member Subscriptions admin areas. PMS Settings is not available here.', 'paid-member-subscriptions' ); ?></p>
+
+            <?php
+                $pms_role_permissions_pages    = pms_role_permissions_get_pages();
+                $pms_role_permissions_roles    = pms_get_user_role_names();
+                $pms_role_permissions_settings = isset( $this->options['role_permissions'] ) ? $this->options['role_permissions'] : array();
+            ?>
+
+            <?php if ( ! empty( $pms_role_permissions_roles ) && ! empty( $pms_role_permissions_pages ) ) : ?>
+
+                <div class="cozmoslabs-form-field-wrapper" style="margin-bottom: 25px;">
+                    <label class="cozmoslabs-form-field-label" for="pms-role-permissions-select"><?php esc_html_e( 'Select a user role', 'paid-member-subscriptions' ); ?></label>
+                    <select id="pms-role-permissions-select" class="widefat pms-chosen" data-placeholder="<?php esc_attr_e( 'Select a user role', 'paid-member-subscriptions' ); ?>">
+                        <?php foreach ( $pms_role_permissions_roles as $role_slug => $role_name ) : ?>
+                            <option value="<?php echo esc_attr( $role_slug ); ?>"><?php echo esc_html( $role_name ); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <?php foreach ( $pms_role_permissions_roles as $role_slug => $role_name ) : ?>
+                    <div class="pms-role-permission-group" data-pms-role="<?php echo esc_attr( $role_slug ); ?>" style="display: none;">
+
+                        <div class="pms-role-permissions-columns" style="display:flex; gap:30px; align-items:flex-start; flex-wrap:wrap;">
+                            <?php
+                                $half    = ceil( count( $pms_role_permissions_pages ) / 2 );
+                                $columns = array(
+                                    array_slice( $pms_role_permissions_pages, 0, $half, true ),
+                                    array_slice( $pms_role_permissions_pages, $half, null, true ),
+                                );
+                            ?>
+                            <?php foreach ( $columns as $column_pages ) : ?>
+                                <div class="pms-role-permissions-column" style="flex:1 1 320px;">
+                                    <?php foreach ( $column_pages as $page_slug => $page_label ) :
+                                        $field_id = 'pms-rp-' . $role_slug . '-' . $page_slug;
+                                        $input_classes = array();
+
+                                        if ( $page_slug === 'pms-reports-page' )
+                                            $input_classes[] = 'pms-role-permissions-reports-toggle';
+
+                                        if ( in_array( $page_slug, array( 'pms-import-page', 'pms-export-page' ), true ) )
+                                            $input_classes[] = 'pms-role-permissions-reports-child';
+                                    ?>
+                                        <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                                            <label class="cozmoslabs-form-field-label" for="<?php echo esc_attr( $field_id ); ?>"><?php echo esc_html( $page_label ); ?></label>
+
+                                            <div class="cozmoslabs-toggle-container">
+                                                <input type="checkbox"
+                                                       id="<?php echo esc_attr( $field_id ); ?>"
+                                                       name="pms_misc_settings[role_permissions][<?php echo esc_attr( $role_slug ); ?>][<?php echo esc_attr( $page_slug ); ?>]"
+                                                       value="1"
+                                                       class="<?php echo esc_attr( implode( ' ', $input_classes ) ); ?>"
+                                                       <?php checked( ! empty( $pms_role_permissions_settings[ $role_slug ][ $page_slug ] ) ); ?>
+                                                />
+                                                <label class="cozmoslabs-toggle-track" for="<?php echo esc_attr( $field_id ); ?>"></label>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+
+                    </div>
+                <?php endforeach; ?>
+
+            <?php else : ?>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'No non-administrator user roles found.', 'paid-member-subscriptions' ); ?></p>
+
+            <?php endif; ?>
+
+            <?php do_action( $this->menu_slug . '_misc_after_role_permissions_tab_content', $this->options ); ?>
+        </div>
     </div>
 
     <?php do_action( $this->menu_slug . '_misc_after_subtabs', $this->options ); ?>

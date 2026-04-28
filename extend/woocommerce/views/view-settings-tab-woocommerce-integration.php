@@ -93,6 +93,10 @@
             <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/woocommerce/?utm_source=pms-woocommerce-settings&utm_medium=client-site&utm_campaign=pms-product-memberships-docs#Sell_a_subscription_plan_thorough_WooCommerce" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>
         </h3>
 
+        <p class="cozmoslabs-description">
+            <?php esc_html_e( 'Associate Subscription Plans with Products in order to sell them through WooCommerce.', 'paid-member-subscriptions' ); ?>
+        </p>
+
         <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
             <label class="cozmoslabs-form-field-label" for="woocommerce-product-subscriptions"><?php esc_html_e( 'Activate product subscriptions', 'paid-member-subscriptions' ) ?></label>
 

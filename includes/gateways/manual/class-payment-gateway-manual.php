@@ -48,6 +48,9 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         // Send email notification for pending manual payment
         add_action( 'pms_register_payment_data', array( $this, 'send_pending_manual_payment_email' ), 25, 2 );
 
+        // Save checkout context on pending Manual payments so plan changes can be rebuilt correctly on completion
+        add_filter( 'pms_register_payment_data', array( $this, 'save_checkout_context_to_payment' ), 30, 2 );
+
         // Remove the Retry payment action for this gateway
         add_action( 'pms_output_subscription_plan_pending_retry_payment', array( $this, 'remove_retry_payment' ), 10, 3 );
 
@@ -320,25 +323,49 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
             $old_plan_id = $old_subscription->subscription_plan_id;
 
-            $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
+            $subscription_plan       = pms_get_subscription_plan( $payment->subscription_id );
+            $checkout_data           = pms_get_payment_meta( $payment_id, 'pms_checkout_data', true );
+            $saved_subscription_data = !empty( $checkout_data['subscription_data'] ) && is_array( $checkout_data['subscription_data'] ) ? $checkout_data['subscription_data'] : array();
+            $subscription_data       = array();
 
-            $subscription_data = array(
-                'user_id'              => $payment->user_id,
-                'subscription_plan_id' => $subscription_plan->id,
-                'start_date'           => date('Y-m-d H:i:s'),
-                'expiration_date'      => $subscription_plan->get_expiration_date(),
-                'status'               => 'active',
-                'payment_gateway'      => $this->payment_gateway,
-                'billing_cycles'       => $subscription_plan->number_of_payments,
-            );
-            
-            // reset custom schedule
-            if( $old_subscription->payment_gateway != 'manual' ){
-                $subscription_data['billing_amount']        = '';
-                $subscription_data['billing_duration']      = '';
-                $subscription_data['billing_duration_unit'] = '';
-                $subscription_data['billing_next_payment']  = '';
+            // Rebuild the updated subscription from the new plan when this pending payment completes a plan change
+            // - this keeps recurring data in sync with the target plan instead of dropping it when switching to Manual
+            if( !empty( $checkout_data['form_location'] ) && in_array( $checkout_data['form_location'], array( 'change_subscription', 'upgrade_subscription', 'downgrade_subscription' ) ) ) {
+                $subscription_data = PMS_Form_Handler::get_subscription_data( $payment->user_id, $subscription_plan, $checkout_data['form_location'], true, $this->payment_gateway, !empty( $checkout_data['is_recurring'] ), !empty( $checkout_data['has_trial'] ) );
+                $subscription_data = apply_filters( 'pms_process_checkout_subscription_data', $subscription_data, $checkout_data );
+
+                // Restore the recurring schedule exactly as it was built during checkout
+                // - this avoids recalculating it later without the original checkout request data
+                $restored_schedule_fields = array( 'billing_amount', 'billing_duration', 'billing_duration_unit', 'billing_next_payment', 'trial_end', 'expiration_date' );
+
+                foreach( $restored_schedule_fields as $key ) {
+                    if( array_key_exists( $key, $saved_subscription_data ) )
+                        $subscription_data[ $key ] = $saved_subscription_data[ $key ];
+                }
             }
+
+            // Fall back to the old change-plan update for older Manual pending payments that do not have saved checkout context
+            if( empty( $subscription_data ) ) {
+                $subscription_data = array(
+                    'expiration_date'      => $subscription_plan->get_expiration_date(),
+                );
+
+                // Keep the old behavior for legacy pending payments that cannot be rebuilt from checkout data
+                if( $old_subscription->payment_gateway != 'manual' ){
+                    $subscription_data['billing_amount']        = '';
+                    $subscription_data['billing_duration']      = '';
+                    $subscription_data['billing_duration_unit'] = '';
+                    $subscription_data['billing_next_payment']  = '';
+                }
+            }
+
+            // Always finish with the identity and status fields from the completed Manual payment
+            $subscription_data['user_id']              = $payment->user_id;
+            $subscription_data['subscription_plan_id'] = $subscription_plan->id;
+            $subscription_data['start_date']           = date('Y-m-d H:i:s');
+            $subscription_data['status']               = 'active';
+            $subscription_data['payment_gateway']      = $this->payment_gateway;
+            $subscription_data['billing_cycles']       = $subscription_plan->number_of_payments;
 
             $old_subscription->update( $subscription_data );
 
@@ -441,6 +468,36 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
             update_user_meta( $payment_gateway_data['user_id'], 'pending_manual_payment_'. $payment->id .'_email_sent', true );
         }
+
+        return $payment_gateway_data;
+
+    }
+
+    /**
+     * Save checkout context on pending Manual payments
+     *
+     * - used when a pending Manual payment is completed later from the admin
+     * - lets the subscription change be rebuilt from the new plan instead of dropping recurring data
+     *
+     * @param array $payment_gateway_data
+     * @param array $payments_settings
+     *
+     * @return array
+     */
+    public function save_checkout_context_to_payment( $payment_gateway_data, $payments_settings ) {
+
+        if( empty( $payment_gateway_data['payment_id'] ) || empty( $payment_gateway_data['payment_gateway'] ) || $payment_gateway_data['payment_gateway'] !== $this->payment_gateway )
+            return $payment_gateway_data;
+
+        // Save the checkout-time subscription snapshot so pending Manual completions can reuse it later
+        $checkout_data = array(
+            'form_location'     => !empty( $payment_gateway_data['form_location'] ) ? $payment_gateway_data['form_location'] : '',
+            'is_recurring'      => !empty( $payment_gateway_data['recurring'] ),
+            'has_trial'         => !empty( $payment_gateway_data['subscription_data']['trial_end'] ),
+            'subscription_data' => !empty( $payment_gateway_data['subscription_data'] ) && is_array( $payment_gateway_data['subscription_data'] ) ? $payment_gateway_data['subscription_data'] : array(),
+        );
+
+        pms_add_payment_meta( $payment_gateway_data['payment_id'], 'pms_checkout_data', $checkout_data, true );
 
         return $payment_gateway_data;
 

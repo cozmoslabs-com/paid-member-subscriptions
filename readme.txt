@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -268,18 +268,11 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.0.2 =
-* Enhancement: Rework action links shortcode to use the change subscription page. Added support to generate downgrade URLs
-* Enhancement: Added WPML support for translating plugin emails
-* Fix: A deprecation notice being generated on PHP 8.4
-* Fix: Publish button alignment on WordPress 7.0 for our settings pages
-* Fix: Datepicker styling on the Subscriptions page
-* Fix: A situation where the Change button was appearing even if the action wasn't actually available
-* Fix: Issue with WooCommerce Member Discounts on FSE themes
-* Fix: Do not attempt to reset the Stripe form when email is entered but the gateway is not selected
-* Fix: Integrate Email Confirmation bypass function from Profile Builder when Subscription Plans are displayed on the Profile Builder form
-* Misc: Block themes styling changes
-* Misc: Add link to the Subscriptions page inside the Admin Bar widget
-* Misc: Fix a notice that could be generated from Stripe Webhooks
+= 3.0.3 =
+* Feature: Added options to restrict access to taxonomy pages
+* Enhancement: Reworked the payment scheduling system (currently opt-in). To enable: go to Settings → Misc → Payments and toggle "New Scheduler for renewals." This will become the default in a future update.
+* Enhancement: Added granular permission controls for user roles on back-end pages. Configure via Settings → Misc → User Role Permissions
+* Misc: Save the user's selected language during registration and expose it as a merge field for emails.
+* Fix: Set Transaction ID for payments completed via Stripe webhooks.
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

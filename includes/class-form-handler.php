@@ -2550,7 +2550,7 @@ Class PMS_Form_Handler {
         if( is_null( $is_recurring ) )
             $is_recurring = self::checkout_is_recurring();
 
-        if( empty( $has_trial ) ){
+        if( is_null( $has_trial ) ){
             $has_trial = self::checkout_has_trial();
 
             $user = get_userdata( $user_id );

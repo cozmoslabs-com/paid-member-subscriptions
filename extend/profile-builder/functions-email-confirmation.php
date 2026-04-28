@@ -26,10 +26,32 @@ function pms_pb_save_subscription_plan_meta( $meta, $global_request ) {
     if( ! empty( $global_request['pms_recurring'] ) )
         $meta['pms_recurring'] = $global_request['pms_recurring'];
 
+    $meta['user_language'] = get_locale();
+
     return $meta;
 
 }
 add_filter( 'wppb_add_to_user_signup_form_meta', 'pms_pb_save_subscription_plan_meta', 10, 2 );
+
+function pms_pb_save_user_language_on_registration( $http_request, $form_name, $user_id ) {
+
+    if( empty( $user_id ) )
+        return;
+
+    update_user_meta( $user_id, 'user_language', get_locale() );
+
+}
+add_action( 'wppb_register_success', 'pms_pb_save_user_language_on_registration', 10, 3 );
+
+function pms_pb_save_user_language_on_activation( $user_id, $password, $meta ) {
+
+    if( empty( $user_id ) || empty( $meta['user_language'] ) )
+        return;
+
+    update_user_meta( $user_id, 'user_language', $meta['user_language'] );
+
+}
+add_action( 'wppb_activate_user', 'pms_pb_save_user_language_on_activation', 10, 3 );
 
 
 /**

@@ -247,6 +247,16 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
             if ( $option_page == 'pms_misc_settings' ) {
 
+                if ( ! isset( $options['payments'] ) || ! is_array( $options['payments'] ) ) {
+                    $options['payments'] = array();
+                }
+
+                if ( ! isset( $options['payments']['use_action_scheduler_for_renewals'] ) ) {
+                    $options['payments']['use_action_scheduler_for_renewals'] = '';
+                } else {
+                    $options['payments']['use_action_scheduler_for_renewals'] = '1';
+                }
+
                 if (isset($options['gdpr']['gdpr_checkbox']))
                     $options['gdpr']['gdpr_checkbox'] = sanitize_text_field($options['gdpr']['gdpr_checkbox']);
 
@@ -271,6 +281,14 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
                 if ( !isset( $options['recaptcha']['v3_score_threshold'] ) || $options['recaptcha']['v3_score_threshold'] < 0 || $options['recaptcha']['v3_score_threshold'] > 1 ) {
                     $options['recaptcha']['v3_score_threshold'] = 0.5;
                 }
+
+                $submitted_role_permissions = isset( $options['role_permissions'] ) ? $options['role_permissions'] : array();
+                $clean_role_permissions     = pms_role_permissions_sanitize_settings( $submitted_role_permissions );
+
+                if ( ! empty( $clean_role_permissions ) )
+                    $options['role_permissions'] = $clean_role_permissions;
+                else
+                    unset( $options['role_permissions'] );
 
             }
         }

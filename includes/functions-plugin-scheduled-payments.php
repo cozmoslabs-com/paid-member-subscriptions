@@ -4,21 +4,88 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Whether the opt-in Action Scheduler pipeline is enabled for recurring renewals (Misc → Payments).
+ *
+ * Default is off for phased rollout; a future release may enable this by default after broader testing.
+ *
+ * @return bool
+ */
+function pms_is_scheduled_payments_action_scheduler_enabled() {
+
+    $misc = get_option( 'pms_misc_settings', array() );
+
+    return ! empty( $misc['payments']['use_action_scheduler_for_renewals'] );
+
+}
+
+/**
+ * Schedules the legacy daily WP-Cron hook for renewals when Action Scheduler mode is off.
+ *
+ * @return void
+ */
+function pms_maybe_schedule_legacy_renewal_cron() {
+
+    if ( pms_is_scheduled_payments_action_scheduler_enabled() ) {
+        return;
+    }
+
+    if ( ! wp_next_scheduled( 'pms_cron_process_member_subscriptions_payments' ) ) {
+        wp_schedule_event( time(), 'daily', 'pms_cron_process_member_subscriptions_payments' );
+    }
+
+}
+
+/**
+ * After tools reset or similar: restore renewal scheduling for the active mode.
+ *
+ * @return void
+ */
+function pms_reset_renewal_scheduling_after_manual_reset() {
+
+    if ( pms_is_scheduled_payments_action_scheduler_enabled() && class_exists( 'PMS_Plugin_Scheduled_Payments_Scheduler' ) ) {
+        PMS_Plugin_Scheduled_Payments_Scheduler::instance()->force_reschedule_recurring();
+    } else {
+        pms_maybe_schedule_legacy_renewal_cron();
+    }
+
+}
+
+/**
  * Check if the payments cron is defined
- * 
+ *
  * @return bool True if the cron is defined, false otherwise
  */
-function pms_is_payments_cron_defined(){
-    return wp_next_scheduled( 'pms_cron_process_member_subscriptions_payments' );
+function pms_is_payments_cron_defined() {
+
+    if ( pms_is_scheduled_payments_action_scheduler_enabled() && function_exists( 'as_has_scheduled_action' ) ) {
+        return as_has_scheduled_action( 'pms_recurring_payments_tick', null, 'pms_recurring_payments' );
+    }
+
+    return (bool) wp_next_scheduled( 'pms_cron_process_member_subscriptions_payments' );
+
 }
 
 /**
  * Get the next scheduled payments cron date
- * 
- * @return int The timestamp of the next scheduled payments cron
+ *
+ * @return int|false The timestamp of the next scheduled payments cron
  */
-function pms_get_next_scheduled_payments_cron_date(){
+function pms_get_next_scheduled_payments_cron_date() {
+
+    if ( pms_is_scheduled_payments_action_scheduler_enabled() && function_exists( 'as_next_scheduled_action' ) ) {
+        $next = as_next_scheduled_action( 'pms_recurring_payments_tick', null, 'pms_recurring_payments' );
+        if ( is_int( $next ) ) {
+            return $next;
+        }
+        if ( true === $next ) {
+            return time();
+        }
+
+        return false;
+    }
+
     return wp_next_scheduled( 'pms_cron_process_member_subscriptions_payments' );
+
 }
 
 /**

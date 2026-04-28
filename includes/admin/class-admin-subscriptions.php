@@ -44,7 +44,7 @@ class PMS_Submenu_Page_Subscriptions extends PMS_Submenu_Page {
     public function process_data() {
 
         // These processes should be handled only by an admin
-        if( ! ( current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' ) ) )
+        if( ! pms_current_user_can_access_area( 'pms-subscriptions-page' ) )
             return;
 
         /**

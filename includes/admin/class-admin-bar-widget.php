@@ -26,7 +26,13 @@ class PMS_Admin_Bar_Widget {
      * @return bool
      */
     private function has_permission() {
-        return current_user_can( 'manage_options' ) || current_user_can( 'pms_edit_capability' );
+        return pms_current_user_can_access_any_area( array(
+            'pms-dashboard-page',
+            'pms-members-page',
+            'pms-subscriptions-page',
+            'pms-payments-page',
+            'pms-reports-page',
+        ) );
     }
 
     /**
@@ -73,69 +79,71 @@ class PMS_Admin_Bar_Widget {
      * @param WP_Admin_Bar $wp_admin_bar
      */
     public function add_admin_bar_menu( $wp_admin_bar ) {
-        
-        // Check user permissions
-        if ( ! $this->has_permission() ) {
-            return;
+        $areas = array(
+            'pms-dashboard-page' => array(
+                'id'    => 'pms-dashboard',
+                'title' => __( 'Dashboard', 'paid-member-subscriptions' ),
+            ),
+            'pms-members-page' => array(
+                'id'    => 'pms-members',
+                'title' => __( 'Members', 'paid-member-subscriptions' ),
+            ),
+            'pms-subscriptions-page' => array(
+                'id'    => 'pms-subscriptions',
+                'title' => __( 'Subscriptions', 'paid-member-subscriptions' ),
+            ),
+            'pms-payments-page' => array(
+                'id'    => 'pms-payments',
+                'title' => __( 'Payments', 'paid-member-subscriptions' ),
+            ),
+            'pms-reports-page' => array(
+                'id'    => 'pms-reports',
+                'title' => __( 'Reports', 'paid-member-subscriptions' ),
+            ),
+        );
+
+        $available_areas = array();
+
+        foreach ( $areas as $area_slug => $area_data ) {
+
+            if ( pms_current_user_can_access_area( $area_slug ) )
+                $available_areas[ $area_slug ] = $area_data;
+
         }
+
+        if ( empty( $available_areas ) )
+            return;
+
+        // Prefer Dashboard as the parent link, otherwise fall back to the first visible area.
+        $parent_area = isset( $available_areas['pms-dashboard-page'] ) ? 'pms-dashboard-page' : array_key_first( $available_areas );
 
         // Add parent menu item with logo
         $wp_admin_bar->add_node( array(
             'id'    => 'pms-admin-bar',
             'title' => $this->get_menu_title(),
-            'href'  => admin_url( 'admin.php?page=pms-dashboard-page' ),
+            'href'  => admin_url( 'admin.php?page=' . $parent_area ),
             'meta'  => array(
                 'class' => 'pms-admin-bar-menu',
             ),
         ) );
 
-        // Add Dashboard/Issues submenu with notification badge and count if needed
-        if ( $this->has_issues() ) {
-            $issue_count = $this->get_issue_count();
-            $dashboard_title = __( 'Issues', 'paid-member-subscriptions' );
-            $dashboard_title .= ' <span class="pms-notification-badge">' . esc_html( $issue_count ) . '</span>';
-        } else {
-            $dashboard_title = __( 'Dashboard', 'paid-member-subscriptions' );
+        foreach ( $available_areas as $area_slug => $area_data ) {
+
+            $title = $area_data['title'];
+
+            if ( $area_slug === 'pms-dashboard-page' && $this->has_issues() ) {
+                $title  = __( 'Issues', 'paid-member-subscriptions' );
+                $title .= ' <span class="pms-notification-badge">' . esc_html( $this->get_issue_count() ) . '</span>';
+            }
+
+            $wp_admin_bar->add_node( array(
+                'id'     => $area_data['id'],
+                'parent' => 'pms-admin-bar',
+                'title'  => $title,
+                'href'   => admin_url( 'admin.php?page=' . $area_slug ),
+            ) );
+
         }
-
-        $wp_admin_bar->add_node( array(
-            'id'     => 'pms-dashboard',
-            'parent' => 'pms-admin-bar',
-            'title'  => $dashboard_title,
-            'href'   => admin_url( 'admin.php?page=pms-dashboard-page' ),
-        ) );
-
-        // Add Members submenu
-        $wp_admin_bar->add_node( array(
-            'id'     => 'pms-members',
-            'parent' => 'pms-admin-bar',
-            'title'  => __( 'Members', 'paid-member-subscriptions' ),
-            'href'   => admin_url( 'admin.php?page=pms-members-page' ),
-        ) );
-
-        // Add Subscriptions submenu
-        $wp_admin_bar->add_node( array(
-            'id'     => 'pms-subscriptions',
-            'parent' => 'pms-admin-bar',
-            'title'  => __( 'Subscriptions', 'paid-member-subscriptions' ),
-            'href'   => admin_url( 'admin.php?page=pms-subscriptions-page' ),
-        ) );
-
-        // Add Payments submenu
-        $wp_admin_bar->add_node( array(
-            'id'     => 'pms-payments',
-            'parent' => 'pms-admin-bar',
-            'title'  => __( 'Payments', 'paid-member-subscriptions' ),
-            'href'   => admin_url( 'admin.php?page=pms-payments-page' ),
-        ) );
-
-        // Add Reports submenu
-        $wp_admin_bar->add_node( array(
-            'id'     => 'pms-reports',
-            'parent' => 'pms-admin-bar',
-            'title'  => __( 'Reports', 'paid-member-subscriptions' ),
-            'href'   => admin_url( 'admin.php?page=pms-reports-page' ),
-        ) );
     }
 
     /**
@@ -150,7 +158,7 @@ class PMS_Admin_Bar_Widget {
                  '<span class="pms-admin-bar-text">' . esc_html__( 'Memberships', 'paid-member-subscriptions' ) . '</span>';
         
         // Add notification badge to main item if there are issues
-        if ( $this->has_issues() ) {
+        if ( pms_current_user_can_access_area( 'pms-dashboard-page' ) && $this->has_issues() ) {
             $title .= ' <span class="pms-notification-badge pms-main-badge"></span>';
         }
         

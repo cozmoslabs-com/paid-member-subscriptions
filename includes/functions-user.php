@@ -180,6 +180,10 @@ function pms_restrict_dashboard_access() {
                 }
             }
 
+            // Allow wp-admin access when the user can reach at least one delegated PMS area.
+            if( ! $has_capability && pms_current_user_can_access_any_area( array_keys( pms_role_permissions_get_pages() ) ) )
+                $has_capability = true;
+
             if( !$has_capability )
                 $redirect_user = true;
 
@@ -246,6 +250,15 @@ function pms_save_gdpr_field( $userdata ){
         update_user_meta( $userdata['user_id'], 'pms_gdpr_user_consent_time', time() );
     }
 
+}
+
+add_action( 'pms_register_form_after_create_user', 'pms_save_user_language_on_registration', 10 );
+function pms_save_user_language_on_registration( $userdata ) {
+
+    if( empty( $userdata['user_id'] ) )
+        return;
+
+    update_user_meta( $userdata['user_id'], 'user_language', get_locale() );
 }
 
 // Save GDPR field for logged in users

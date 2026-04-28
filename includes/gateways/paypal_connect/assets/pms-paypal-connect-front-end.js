@@ -441,11 +441,14 @@ jQuery(function ($) {
             url: pms_paypal.ajax_url,
             type: 'POST',
             data: {
-                action              : 'pms_validate_sdk_currency',
-                pms_nonce           : pms_paypal.pms_validate_currency_nonce,
-                subscription_plan_id: subscriptionPlan.val(),
-                pms_mc_currency     : subscriptionPlan.data('mc_currency'),
-                pay_gate            : 'paypal_connect'
+                // Send the current subscription context so prorated upgrade and downgrade flows can resolve the correct SDK currency
+                action                   : 'pms_validate_sdk_currency',
+                pms_nonce                : pms_paypal.pms_validate_currency_nonce,
+                subscription_plan_id     : subscriptionPlan.val(),
+                pms_mc_currency          : subscriptionPlan.data('mc_currency'),
+                pms_current_subscription: $('input[name="pms_current_subscription"]').val(),
+                subscription_id          : $('input[name="subscription_id"]').val(),
+                pay_gate                 : 'paypal_connect'
             },
             dataType: 'json',
         }).done( function ( response ) {

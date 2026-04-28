@@ -50,6 +50,39 @@ jQuery( function($) {
     if( $.fn.chosen != undefined )
         $('.pms-chosen').chosen( { search_contains: true } )
 
+    function pms_toggle_role_permissions_group() {
+        let selectedRole = $('#pms-role-permissions-select').val(),
+            $groups = $('.pms-role-permission-group');
+
+        if ( typeof selectedRole === 'undefined' || selectedRole === '' ) {
+            $groups.hide();
+            return;
+        }
+
+        let $selectedGroup = $groups.filter('[data-pms-role="' + selectedRole + '"]');
+
+        $groups.hide();
+        $selectedGroup.show();
+        pms_toggle_reports_children( $selectedGroup );
+    }
+
+    function pms_toggle_reports_children( $group ) {
+        let $reportsToggle = $group.find('.pms-role-permissions-reports-toggle'),
+            $reportsChildren = $group.find('.pms-role-permissions-reports-child');
+
+        if ( $reportsToggle.length === 0 || $reportsChildren.length === 0 ) {
+            return;
+        }
+
+        if ( $reportsToggle.is(':checked') ) {
+            $reportsChildren.prop('disabled', false);
+            return;
+        }
+
+        // Import and Export stay unavailable until Reports is enabled.
+        $reportsChildren.prop('checked', false);
+        $reportsChildren.prop('disabled', true);
+    }
 
 
     /*
@@ -100,6 +133,16 @@ jQuery( function($) {
             else
                 $('.functions-password-strength-checkbox').hide()
         })
+
+        $('#pms-role-permissions-select').on('change', function(){
+            pms_toggle_role_permissions_group()
+        })
+
+        $(document).on('change', '.pms-role-permissions-reports-toggle', function(){
+            pms_toggle_reports_children( $(this).closest('.pms-role-permission-group') )
+        })
+
+        pms_toggle_role_permissions_group()
 
     });
 

@@ -53,11 +53,58 @@ function pms_is_post_restricted( $post_id = null ) {
      */
     if( $pms_show_content === false )
         $pms_is_post_restricted_arr[$post_id] = true;
-    else
+    elseif ( $pms_show_content === true )
         $pms_is_post_restricted_arr[$post_id] = false;
+    else {
+        $restricted_term = pms_get_post_restricted_term( $post_id );
+        $pms_is_post_restricted_arr[$post_id] = ( ! empty( $restricted_term ) );
+    }
 
     // Return
     return $pms_is_post_restricted_arr[$post_id];
+
+}
+
+
+/**
+ * Verifies whether a post has direct content restriction rules set on itself
+ *
+ * @param int $post_id
+ *
+ * @return bool
+ *
+ */
+function pms_post_has_direct_restrictions( $post_id = 0 ) {
+
+    if ( empty( $post_id ) )
+        return false;
+
+    $user_status            = get_post_meta( $post_id, 'pms-content-restrict-user-status', true );
+    $subscription_plans     = get_post_meta( $post_id, 'pms-content-restrict-subscription-plan' );
+    $all_subscription_plans = get_post_meta( $post_id, 'pms-content-restrict-all-subscription-plans', true );
+
+    return ( ! empty( $user_status ) || ! empty( $subscription_plans ) || ! empty( $all_subscription_plans ) );
+
+}
+
+
+/**
+ * Verifies whether a post has direct subscription-plan-based restrictions set on itself
+ *
+ * @param int $post_id
+ *
+ * @return bool
+ *
+ */
+function pms_post_has_direct_subscription_restrictions( $post_id = 0 ) {
+
+    if ( empty( $post_id ) )
+        return false;
+
+    $subscription_plans     = get_post_meta( $post_id, 'pms-content-restrict-subscription-plan' );
+    $all_subscription_plans = get_post_meta( $post_id, 'pms-content-restrict-all-subscription-plans', true );
+
+    return ( ! empty( $subscription_plans ) || ! empty( $all_subscription_plans ) );
 
 }
 
@@ -163,6 +210,13 @@ function pms_get_restricted_post_message( $post_id = 0 ) {
     if( isset( $post_obj->ID ) )
         $target_post_id = $post_obj->ID;
 
+    if ( ! pms_post_has_direct_restrictions( $target_post_id ) ) {
+        $restricted_term = pms_get_post_restricted_term( $target_post_id );
+
+        if ( ! empty( $restricted_term ) )
+            return pms_get_restricted_term_message( $restricted_term );
+    }
+
     if( ! is_user_logged_in() )
         $message_type = 'logged_out';
     else
@@ -200,6 +254,399 @@ function pms_get_restricted_post_message( $post_id = 0 ) {
 
 
 /**
+ * Verifies whether the current term or provided term has any restrictions in place
+ *
+ * @param WP_Term|int|null $term
+ *
+ * @return bool
+ *
+ */
+function pms_is_term_restricted( $term = null ) {
+
+    static $pms_is_term_restricted_arr = array();
+
+    if ( empty( $term ) ) {
+        $term = get_queried_object();
+    }
+
+    if ( is_numeric( $term ) ) {
+        $term = get_term( (int) $term );
+    }
+
+    if ( empty( $term ) || empty( $term->term_id ) ) {
+        return false;
+    }
+
+    if ( isset( $pms_is_term_restricted_arr[ $term->term_id ] ) ) {
+        return $pms_is_term_restricted_arr[ $term->term_id ];
+    }
+
+    if ( current_user_can( 'manage_options' ) || current_user_can( apply_filters( 'pms_content_restriction_capability', 'pms_bypass_content_restriction' ) ) ) {
+        $pms_is_term_restricted_arr[ $term->term_id ] = false;
+        return false;
+    }
+
+    $user_status             = get_term_meta( $term->term_id, 'pms-content-restrict-user-status', true );
+    $term_subscription_plans = get_term_meta( $term->term_id, 'pms-content-restrict-subscription-plan' );
+    $all_subscription_plans  = get_term_meta( $term->term_id, 'pms-content-restrict-all-subscription-plans', true );
+
+    if ( ( ! empty( $term_subscription_plans ) || ! empty( $all_subscription_plans ) ) && is_user_logged_in() ) {
+
+        if ( $all_subscription_plans == 'all' && pms_is_member() ) {
+            $pms_is_term_restricted_arr[ $term->term_id ] = false;
+            return false;
+        } elseif ( pms_is_member( get_current_user_id(), $term_subscription_plans ) ) {
+            $pms_is_term_restricted_arr[ $term->term_id ] = false;
+            return false;
+        } else {
+            $pms_is_term_restricted_arr[ $term->term_id ] = true;
+            return true;
+        }
+
+    } elseif ( ( ! empty( $user_status ) && $user_status == 'loggedin' ) || ! empty( $term_subscription_plans ) ) {
+
+        if ( ! is_user_logged_in() ) {
+            $pms_is_term_restricted_arr[ $term->term_id ] = true;
+            return true;
+        }
+
+    }
+
+    $pms_is_term_restricted_arr[ $term->term_id ] = false;
+
+    return false;
+
+}
+
+
+/**
+ * Returns the restriction message for a taxonomy term archive
+ *
+ * @param WP_Term|int|null $term
+ *
+ * @return string
+ *
+ */
+function pms_get_restricted_term_message( $term = null ) {
+
+    global $user_ID, $wp_embed;
+
+    if ( empty( $term ) ) {
+        $term = get_queried_object();
+    }
+
+    if ( is_numeric( $term ) ) {
+        $term = get_term( (int) $term );
+    }
+
+    if ( empty( $term ) || empty( $term->term_id ) ) {
+        return '';
+    }
+
+    $message_type = ! is_user_logged_in() ? 'logged_out' : 'non_members';
+    $settings     = get_option( 'pms_content_restriction_settings' );
+
+    if ( $message_type == 'logged_out' ) {
+        $message = isset( $settings['logged_out'] ) ? $settings['logged_out'] : __( 'You do not have access to this content. You need to create an account.', 'paid-member-subscriptions' );
+    } else {
+        $message = isset( $settings['non_members'] ) ? $settings['non_members'] : __( 'You do not have access to this content. You need the proper subscription.', 'paid-member-subscriptions' );
+    }
+
+    $custom_message_enabled = get_term_meta( $term->term_id, 'pms-content-restrict-messages-enabled', true );
+
+    if ( ! empty( $custom_message_enabled ) ) {
+        $custom_message = get_term_meta( $term->term_id, 'pms-content-restrict-message-' . $message_type, true );
+
+        if ( ! empty( $custom_message ) ) {
+            $message = $custom_message;
+        }
+    }
+
+    $user_info = get_userdata( $user_ID );
+
+    if ( class_exists( 'PMS_Merge_Tags' ) ) {
+        $message = PMS_Merge_Tags::process_merge_tags( $message, $user_info, '' );
+    }
+
+    $message = $wp_embed->autoembed( $message );
+
+    add_filter( 'wp_kses_allowed_html', 'pms_wp_kses_allowed_html_iframe', 10, 2 );
+
+    $message = wp_kses_post( $message );
+
+    remove_filter( 'wp_kses_allowed_html', 'pms_wp_kses_allowed_html_iframe', 10, 2 );
+
+    if ( function_exists( 'pms_restriction_message_wpautop' ) ) {
+        $message = pms_restriction_message_wpautop( $message );
+    }
+
+    return do_shortcode( apply_filters( 'pms_restricted_term_message', $message, $term, $message_type ) );
+
+}
+
+
+/**
+ * Returns the first restricted taxonomy term attached to a post
+ *
+ * @param int    $post_id
+ * @param string $restriction_type Optional. Filter term by effective restriction type.
+ *
+ * @return WP_Term|false
+ *
+ */
+function pms_get_post_restricted_term( $post_id = 0, $restriction_type = '' ) {
+
+    if ( empty( $post_id ) )
+        return false;
+
+    $taxonomies = get_object_taxonomies( get_post_type( $post_id ), 'names' );
+
+    if ( empty( $taxonomies ) )
+        return false;
+
+    foreach ( $taxonomies as $taxonomy ) {
+
+        $terms = get_the_terms( $post_id, $taxonomy );
+
+        if ( empty( $terms ) || is_wp_error( $terms ) )
+            continue;
+
+        foreach ( $terms as $term ) {
+
+            if ( ! pms_is_term_restricted( $term ) )
+                continue;
+
+            if ( ! empty( $restriction_type ) ) {
+                $settings            = get_option( 'pms_content_restriction_settings', array() );
+                $term_restrict_type  = get_term_meta( $term->term_id, 'pms-content-restrict-type', true );
+                $effective_type      = ( $term_restrict_type == 'default' || empty( $term_restrict_type ) ? ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' ) : $term_restrict_type );
+
+                if ( $effective_type !== $restriction_type )
+                    continue;
+            }
+
+            return $term;
+
+        }
+    }
+
+    return false;
+
+}
+
+
+/**
+ * Returns the effective restriction type for a taxonomy term
+ *
+ * @param WP_Term|int $term
+ *
+ * @return string
+ *
+ */
+function pms_get_term_restriction_type( $term ) {
+
+    if ( is_numeric( $term ) ) {
+        $term = get_term( (int) $term );
+    }
+
+    if ( empty( $term ) || empty( $term->term_id ) )
+        return '';
+
+    $settings              = get_option( 'pms_content_restriction_settings', array() );
+    $term_restriction_type = get_term_meta( $term->term_id, 'pms-content-restrict-type', true );
+
+    if ( $term_restriction_type == 'default' || empty( $term_restriction_type ) ) {
+        return ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' );
+    }
+
+    return $term_restriction_type;
+
+}
+
+
+/**
+ * Returns the effective restriction type source for a single post when taxonomy restrictions are also present
+ *
+ * @param int            $post_id
+ * @param WP_Term|false  $restricted_term
+ *
+ * @return string post|taxonomy
+ *
+ */
+function pms_get_post_taxonomy_restriction_type_source( $post_id, $restricted_term = false ) {
+
+    $user_status           = get_post_meta( $post_id, 'pms-content-restrict-user-status', true );
+    $post_restriction_type = get_post_meta( $post_id, 'pms-content-restrict-type', true );
+
+    if ( ! empty( $user_status ) && $user_status == 'loggedin' )
+        return 'post';
+
+    if ( pms_post_has_direct_subscription_restrictions( $post_id ) && ! empty( $post_restriction_type ) && $post_restriction_type !== 'default' )
+        return 'post';
+
+    if ( ! empty( $restricted_term ) )
+        return 'taxonomy';
+
+    return 'post';
+
+}
+
+
+/**
+ * Returns the effective restriction type for a single post when taxonomy restrictions are also present
+ *
+ * @param int            $post_id
+ * @param WP_Term|false  $restricted_term
+ *
+ * @return string
+ *
+ */
+function pms_get_post_taxonomy_restriction_type( $post_id, $restricted_term = false ) {
+
+    $settings              = get_option( 'pms_content_restriction_settings', array() );
+    $post_restriction_type = get_post_meta( $post_id, 'pms-content-restrict-type', true );
+    $type_source           = pms_get_post_taxonomy_restriction_type_source( $post_id, $restricted_term );
+
+    if ( $type_source === 'taxonomy' && ! empty( $restricted_term ) )
+        return pms_get_term_restriction_type( $restricted_term );
+
+    if ( $post_restriction_type == 'default' || empty( $post_restriction_type ) )
+        return ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' );
+
+    return $post_restriction_type;
+
+}
+
+
+/**
+ * Handle single posts restricted through attached taxonomy terms, even when themes/builders bypass the_content
+ *
+ */
+function pms_handle_single_post_taxonomy_restriction() {
+
+    if ( ! is_singular() )
+        return;
+
+    if ( isset( $_GET['pay_gate_listener'] ) )
+        return;
+
+    global $post;
+
+    if ( empty( $post ) || empty( $post->ID ) )
+        return;
+
+    $restricted_term = pms_get_post_restricted_term( $post->ID );
+
+    if ( empty( $restricted_term ) )
+        return;
+
+    $effective_restriction_type = pms_get_post_taxonomy_restriction_type( $post->ID, $restricted_term );
+    $restriction_type_source    = pms_get_post_taxonomy_restriction_type_source( $post->ID, $restricted_term );
+
+    if ( $restriction_type_source !== 'taxonomy' || $effective_restriction_type !== 'message' )
+        return;
+
+    if ( ! pms_is_post_restricted( $post->ID ) )
+        return;
+
+    $restricted_message = pms_get_restricted_term_message( $restricted_term );
+    $GLOBALS['pms_taxonomy_restriction_message_injected'] = true;
+
+    $post->post_content = $restricted_message;
+    $post->post_excerpt = '';
+
+    global $wp_query;
+
+    if ( ! empty( $wp_query->posts ) && isset( $wp_query->posts[0] ) ) {
+        $wp_query->posts[0]->post_content = $restricted_message;
+        $wp_query->posts[0]->post_excerpt = '';
+    }
+
+}
+add_action( 'template_redirect', 'pms_handle_single_post_taxonomy_restriction', 9 );
+
+/**
+ * Checks to see if the current single post is restricted through an attached taxonomy term and redirects the user
+ *
+ */
+function pms_restricted_single_post_taxonomy_redirect() {
+
+    if( ! is_singular() )
+        return;
+
+    if( isset( $_GET['pay_gate_listener'] ) )
+        return;
+
+    global $post;
+
+    if( empty( $post ) || empty( $post->ID ) )
+        return;
+
+    $restricted_term = pms_get_post_restricted_term( $post->ID );
+
+    if ( empty( $restricted_term ) )
+        return;
+
+    if ( pms_get_post_taxonomy_restriction_type_source( $post->ID, $restricted_term ) !== 'taxonomy' )
+        return;
+
+    if ( pms_get_post_taxonomy_restriction_type( $post->ID, $restricted_term ) !== 'redirect' )
+        return;
+
+    if( ! pms_is_post_restricted( $post->ID ) )
+        return;
+
+    $redirect_url               = '';
+    $settings                   = get_option( 'pms_content_restriction_settings', array() );
+    $term_subscription_plans    = get_term_meta( $restricted_term->term_id, 'pms-content-restrict-subscription-plan' );
+    $term_redirect_url_enabled  = get_term_meta( $restricted_term->term_id, 'pms-content-restrict-custom-redirect-url-enabled', true );
+    $term_redirect_url          = get_term_meta( $restricted_term->term_id, 'pms-content-restrict-custom-redirect-url', true );
+    $term_non_member_redirect   = get_term_meta( $restricted_term->term_id, 'pms-content-restrict-custom-non-member-redirect-url', true );
+    $non_member_redirect_url    = '';
+
+    $redirect_url = ( ! empty( $term_redirect_url_enabled ) && ! empty( $term_redirect_url ) ? $term_redirect_url : '' );
+    $non_member_redirect_url = ( ! empty( $term_redirect_url_enabled ) && ! empty( $term_non_member_redirect ) ? $term_non_member_redirect : '' );
+
+    if ( ! empty( $non_member_redirect_url ) && is_user_logged_in() && ! pms_is_member( get_current_user_id(), $term_subscription_plans ) ) {
+        $redirect_url = $non_member_redirect_url;
+    }
+
+    if( empty( $redirect_url ) ) {
+        $redirect_url = ( ! empty( $settings['content_restrict_redirect_url'] ) ? $settings['content_restrict_redirect_url'] : '' );
+        $non_member_redirect_url = ( ! empty( $settings['content_restrict_non_member_redirect_url'] ) ? $settings['content_restrict_non_member_redirect_url'] : '' );
+
+        if ( ! empty( $non_member_redirect_url ) && is_user_logged_in() && ! pms_is_member( get_current_user_id(), $term_subscription_plans ) ) {
+            $redirect_url = $non_member_redirect_url;
+        }
+    }
+
+    if( empty( $redirect_url ) )
+        return;
+
+    $current_url = pms_get_current_page_url();
+
+    if( $current_url == $redirect_url )
+        return;
+
+    $add_redirect_to = apply_filters( 'pms_content_restriction_redirect_add_redirect_to_parameter', true, $current_url );
+
+    $query_args = array();
+
+    if ( $add_redirect_to ) {
+        $query_args['redirect_to'] = $current_url;
+    }
+
+    $redirect_url = add_query_arg( $query_args, pms_add_missing_http( $redirect_url ) );
+
+    nocache_headers();
+    wp_redirect( apply_filters( 'pms_restricted_single_post_taxonomy_redirect_url', $redirect_url, $restricted_term, $post ) );
+    exit;
+
+}
+add_action( 'template_redirect', 'pms_restricted_single_post_taxonomy_redirect', 8 );
+
+
+/**
  * Checks to see if the current post is restricted and if any redirect URLs are in place
  * the user is redirected to the URL with the highest priority
  *
@@ -232,11 +679,12 @@ function pms_restricted_post_redirect() {
     $settings                 = get_option( 'pms_content_restriction_settings', array() );
     $general_restriction_type = ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' );
     $post_subscription_plans  = get_post_meta( $post_id, 'pms-content-restrict-subscription-plan' );
-
-    if( $post_restriction_type !== 'redirect' && $general_restriction_type !== 'redirect' )
-        return;
+    $non_member_redirect_url  = '';
 
     if( ! in_array( $post_restriction_type, array( '', 'default', 'redirect' ) ) )
+        return;
+
+    if( $post_restriction_type !== 'redirect' && $general_restriction_type !== 'redirect' )
         return;
 
     if( ! pms_is_post_restricted( $post_id ) )
@@ -256,7 +704,6 @@ function pms_restricted_post_redirect() {
         $non_member_redirect_url = ( ! empty( $post_redirect_url_enabled ) && ! empty( $post_non_member_redirect_url ) ? $post_non_member_redirect_url : '' );
 
     }
-
     if ( !empty( $non_member_redirect_url) ){
         if ( is_user_logged_in() && isset( $post_subscription_plans ) && !pms_is_member( get_current_user_id(), $post_subscription_plans ) ){
             $redirect_url = $non_member_redirect_url;
@@ -313,6 +760,95 @@ function pms_restricted_post_redirect() {
 }
 add_action( 'template_redirect', 'pms_restricted_post_redirect' );
 
+/**
+ * Checks to see if the current taxonomy archive is restricted and if any redirect URLs are in place
+ * the user is redirected to the URL with the highest priority
+ *
+ */
+function pms_restricted_term_redirect() {
+
+    if ( ! is_category() && ! is_tag() && ! is_tax() )
+        return;
+
+    if ( isset( $_GET['pay_gate_listener'] ) )
+        return;
+
+    $term = get_queried_object();
+
+    if ( empty( $term ) || empty( $term->term_id ) )
+        return;
+
+    $redirect_url             = '';
+    $term_restriction_type    = get_term_meta( $term->term_id, 'pms-content-restrict-type', true );
+    $settings                 = get_option( 'pms_content_restriction_settings', array() );
+    $general_restriction_type = ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' );
+    $term_subscription_plans  = get_term_meta( $term->term_id, 'pms-content-restrict-subscription-plan' );
+    $non_member_redirect_url  = '';
+
+    if ( $term_restriction_type !== 'redirect' && $general_restriction_type !== 'redirect' )
+        return;
+
+    if ( ! in_array( $term_restriction_type, array( '', 'default', 'redirect' ) ) )
+        return;
+
+    if ( ! pms_is_term_restricted( $term ) )
+        return;
+
+    if ( $term_restriction_type === 'redirect' ) {
+
+        $term_redirect_url_enabled    = get_term_meta( $term->term_id, 'pms-content-restrict-custom-redirect-url-enabled', true );
+        $term_redirect_url            = get_term_meta( $term->term_id, 'pms-content-restrict-custom-redirect-url', true );
+        $term_non_member_redirect_url = get_term_meta( $term->term_id, 'pms-content-restrict-custom-non-member-redirect-url', true );
+
+        $redirect_url = ( ! empty( $term_redirect_url_enabled ) && ! empty( $term_redirect_url ) ? $term_redirect_url : '' );
+        $non_member_redirect_url = ( ! empty( $term_redirect_url_enabled ) && ! empty( $term_non_member_redirect_url ) ? $term_non_member_redirect_url : '' );
+
+    }
+
+    if ( ! empty( $non_member_redirect_url ) ) {
+        if ( is_user_logged_in() && isset( $term_subscription_plans ) && ! pms_is_member( get_current_user_id(), $term_subscription_plans ) ) {
+            $redirect_url = $non_member_redirect_url;
+        }
+    }
+
+    if ( empty( $redirect_url ) ) {
+
+        $redirect_url = ( ! empty( $settings['content_restrict_redirect_url'] ) ? $settings['content_restrict_redirect_url'] : '' );
+        $non_member_redirect_url = ( ! empty( $settings['content_restrict_non_member_redirect_url'] ) ? $settings['content_restrict_non_member_redirect_url'] : '' );
+
+        if ( ! empty( $non_member_redirect_url ) ) {
+            if ( is_user_logged_in() && isset( $term_subscription_plans ) && ! pms_is_member( get_current_user_id(), $term_subscription_plans ) ) {
+                $redirect_url = $non_member_redirect_url;
+            }
+        }
+
+    }
+
+    if ( empty( $redirect_url ) )
+        return;
+
+    $current_url = pms_get_current_page_url();
+
+    if ( $current_url == $redirect_url )
+        return;
+
+    $add_redirect_to = apply_filters( 'pms_content_restriction_redirect_add_redirect_to_parameter', true, $current_url );
+
+    $query_args = array();
+
+    if ( $add_redirect_to ) {
+        $query_args['redirect_to'] = $current_url;
+    }
+
+    $redirect_url = add_query_arg( $query_args, pms_add_missing_http( $redirect_url ) );
+
+    nocache_headers();
+    wp_redirect( apply_filters( 'pms_restricted_term_redirect_url', $redirect_url, $term ) );
+    exit;
+
+}
+add_action( 'template_redirect', 'pms_restricted_term_redirect', 1 );
+
 /* handle the Template restrict type case */
 add_filter( 'template_include', 'pms_restrict_page_template', 999 );
 function pms_restrict_page_template( $template ) {
@@ -337,7 +873,12 @@ function pms_restrict_page_template( $template ) {
 
                 if ( did_action( 'elementor/loaded' ) ) {
                     if( strpos( $restrict_template, 'elementor_template_' ) !== false ) {
-                        return pms_elementor_render_template( str_replace( 'elementor_template_', '', $restrict_template ) );
+                        $elementor_template = pms_elementor_render_template( str_replace( 'elementor_template_', '', $restrict_template ) );
+
+                        if ( ! empty( $elementor_template ) )
+                            return $elementor_template;
+
+                        return $template;
                     }
                 }
 
@@ -352,6 +893,146 @@ function pms_restrict_page_template( $template ) {
 
     return $template;
 }
+
+function pms_restrict_single_post_taxonomy_template( $template ) {
+
+    if( !is_singular() )
+        return $template;
+
+    global $post;
+
+    if ( empty( $post ) || empty( $post->ID ) )
+        return $template;
+
+    $restricted_term = pms_get_post_restricted_term( $post->ID );
+
+    if ( empty( $restricted_term ) )
+        return $template;
+
+    if ( pms_get_post_taxonomy_restriction_type_source( $post->ID, $restricted_term ) !== 'taxonomy' )
+        return $template;
+
+    if ( pms_get_post_taxonomy_restriction_type( $post->ID, $restricted_term ) !== 'template' )
+        return $template;
+
+    $settings = get_option( 'pms_content_restriction_settings', array() );
+    $restrict_template = ( ! empty( $settings['content_restrict_template'] ) ? $settings['content_restrict_template'] : '' );
+
+    if ( empty( $restrict_template ) || ! pms_is_post_restricted( $post->ID ) )
+        return $template;
+
+    if ( did_action( 'elementor/loaded' ) ) {
+        if( strpos( $restrict_template, 'elementor_template_' ) !== false ) {
+            $elementor_template = pms_elementor_render_template( str_replace( 'elementor_template_', '', $restrict_template ) );
+
+            if ( ! empty( $elementor_template ) )
+                return $elementor_template;
+
+            return $template;
+        }
+    }
+
+    $new_template = locate_template( array( $restrict_template ) );
+
+    if ( ! empty( $new_template ) )
+        return $new_template;
+
+    return $template;
+}
+add_filter( 'template_include', 'pms_restrict_single_post_taxonomy_template', 998 );
+
+function pms_restrict_taxonomy_template( $template ) {
+
+    if ( ! is_category() && ! is_tag() && ! is_tax() )
+        return $template;
+
+    $term = get_queried_object();
+
+    if ( empty( $term ) || empty( $term->term_id ) )
+        return $template;
+
+    $term_restriction_type = get_term_meta( $term->term_id, 'pms-content-restrict-type', true );
+    $settings              = get_option( 'pms_content_restriction_settings', array() );
+
+    if ( $term_restriction_type == 'default' || empty( $term_restriction_type ) )
+        $term_restriction_type = ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' );
+
+    if ( $term_restriction_type == 'template' ) {
+        $restrict_template = ( ! empty( $settings['content_restrict_template'] ) ? $settings['content_restrict_template'] : '' );
+
+        if ( ! empty( $restrict_template ) && pms_is_term_restricted( $term ) ) {
+
+            if ( did_action( 'elementor/loaded' ) ) {
+                if ( strpos( $restrict_template, 'elementor_template_' ) !== false ) {
+                    $elementor_template = pms_elementor_render_template( str_replace( 'elementor_template_', '', $restrict_template ) );
+
+                    if ( ! empty( $elementor_template ) )
+                        return $elementor_template;
+
+                    return $template;
+                }
+            }
+
+            $new_template = locate_template( array( $restrict_template ) );
+
+            if ( ! empty( $new_template ) )
+                return $new_template;
+
+        }
+    }
+
+    return $template;
+}
+add_filter( 'template_include', 'pms_restrict_taxonomy_template', 999 );
+
+function pms_restrict_taxonomy_message() {
+
+    if ( ! is_category() && ! is_tag() && ! is_tax() )
+        return;
+
+    $term = get_queried_object();
+
+    if ( empty( $term ) || empty( $term->term_id ) )
+        return;
+
+    $term_restriction_type = get_term_meta( $term->term_id, 'pms-content-restrict-type', true );
+    $settings              = get_option( 'pms_content_restriction_settings', array() );
+
+    if ( $term_restriction_type == 'default' || empty( $term_restriction_type ) )
+        $term_restriction_type = ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' );
+
+    if ( $term_restriction_type !== 'message' || ! pms_is_term_restricted( $term ) )
+        return;
+
+    global $wp_query;
+
+    if ( isset( $wp_query->posts ) )
+        $wp_query->posts = array();
+
+    if ( isset( $wp_query->post_count ) )
+        $wp_query->post_count = 0;
+
+    if ( isset( $wp_query->found_posts ) )
+        $wp_query->found_posts = 0;
+
+    if ( isset( $wp_query->max_num_pages ) )
+        $wp_query->max_num_pages = 0;
+}
+add_action( 'template_redirect', 'pms_restrict_taxonomy_message', 5 );
+
+function pms_get_restricted_taxonomy_archive_description( $description ) {
+
+    if ( ! is_category() && ! is_tag() && ! is_tax() )
+        return $description;
+
+    $term = get_queried_object();
+
+    if ( empty( $term ) || ! pms_is_term_restricted( $term ) )
+        return $description;
+
+    return pms_get_restricted_term_message( $term );
+}
+add_filter( 'get_the_archive_description', 'pms_get_restricted_taxonomy_archive_description', 999 );
 
 function pms_elementor_render_template( $template_id ) {
     if ( did_action( 'elementor/loaded' ) ) {
@@ -653,4 +1334,3 @@ if( !isset( $settings['pms_includeRestrictedPosts'] ) || $settings['pms_includeR
     }
 
 }
-

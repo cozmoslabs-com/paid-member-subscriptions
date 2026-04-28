@@ -91,7 +91,7 @@ jQuery(document).ready(function($) {
             $('#pms-subscription-plans-discount-messages-wrapper').fadeOut( 350 );
             $('#pms-subscription-plans-discount-messages').fadeOut( 350 )
 
-            $subscription_plan.data( 'discounted-price', false )
+            reset_discounted_plan_data( $subscription_plan )
             jQuery(document).trigger( 'pms_discount_error' )
 
             return false;
@@ -150,7 +150,18 @@ jQuery(document).ready(function($) {
                     else
                         $.pms_show_payment_fields( $pms_form )
 
-                    $subscription_plan.data( 'price-original', $subscription_plan.data('price') )
+                    // Cache the initial values only once so they can be restored after the discount is removed
+                    if ( !$subscription_plan.data('discounted-price') )
+                        $subscription_plan.data( 'price-original', $subscription_plan.data('price') )
+
+                    // Cache the initial MC amount only once so it can be restored after the discount is removed
+                    if ( !$subscription_plan.data('discounted-price') && typeof $subscription_plan.data('mc_price') != 'undefined' )
+                        $subscription_plan.data( 'mc-price-original', $subscription_plan.data('mc_price') )
+
+                    // Keep the MC amount in sync so Tax and gateway JS use the discounted value too
+                    if ( typeof $subscription_plan.data('mc_price') != 'undefined' )
+                        $subscription_plan.data( 'mc_price', response.discounted_price )
+
                     $subscription_plan.data( 'price', response.discounted_price )
                     $subscription_plan.data( 'discounted-price', true )
                     $subscription_plan.data( 'discounted-price-value', response.original_discounted_price )
@@ -186,9 +197,7 @@ jQuery(document).ready(function($) {
                     // Show payment fields
                     $.pms_show_payment_fields( $pms_form )
 
-                    $subscription_plan.data( 'price', $subscription_plan.data('price-original') )
-                    $subscription_plan.data( 'discounted-price', false )
-                    $subscription_plan.data( 'discounted-price-value', 0 )
+                    reset_discounted_plan_data( $subscription_plan )
 
                     jQuery(document).trigger( 'pms_discount_error' )
 
@@ -197,8 +206,7 @@ jQuery(document).ready(function($) {
             });
         } else {
 
-            $subscription_plan.data( 'price', $subscription_plan.data('price-original') )
-            $subscription_plan.data( 'discounted-price', false )
+            reset_discounted_plan_data( $subscription_plan )
 
             jQuery(document).trigger( 'pms_discount_error' )
 
@@ -279,6 +287,25 @@ jQuery(document).ready(function($) {
         }
 
         return return_value
+
+    }
+
+    /**
+     * Restore the initial plan values after a discount is removed or becomes invalid
+     * - used by the error and reset paths after the discount code is applied
+     */
+    function reset_discounted_plan_data( $subscription_plan ) {
+
+        if ( typeof $subscription_plan.data('price-original') != 'undefined' )
+            $subscription_plan.data( 'price', $subscription_plan.data('price-original') )
+
+        if ( typeof $subscription_plan.data('mc-price-original') != 'undefined' )
+            $subscription_plan.data( 'mc_price', $subscription_plan.data('mc-price-original') )
+
+        $subscription_plan.data( 'discounted-price', false )
+        $subscription_plan.data( 'discounted-price-value', 0 )
+        $subscription_plan.data( 'discount-recurring-payments', 0 )
+        $subscription_plan.data( 'is-full-discount', false )
 
     }
 

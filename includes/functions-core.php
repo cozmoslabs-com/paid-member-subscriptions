@@ -931,6 +931,52 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     }
 
+    /**
+     * Get currencies that use whole units
+     *
+     * @return array
+     */
+    function pms_get_zero_decimal_currencies() {
+
+        return array(
+            'BIF', 'CLP', 'DJF', 'GNF', 'JPY', 'KMF', 'KRW', 'MGA', 'PYG', 'RWF', 'UGX', 'VND', 'VUV', 'XAF', 'XOF', 'XPF'
+        );
+
+    }
+
+    /**
+     * Check if the currency uses whole units
+     *
+     * @param string $currency
+     *
+     * @return bool
+     */
+    function pms_is_zero_decimal_currency( $currency = '' ) {
+
+        if( empty( $currency ) )
+            $currency = pms_get_active_currency();
+
+        return in_array( strtoupper( $currency ), pms_get_zero_decimal_currencies() );
+
+    }
+
+    /**
+     * Round an amount for the given currency
+     *
+     * @param float|int $amount
+     * @param string    $currency
+     *
+     * @return float|int
+     */
+    function pms_round_currency_amount( $amount = 0, $currency = '' ) {
+
+        if( pms_is_zero_decimal_currency( $currency ) )
+            return round( $amount );
+
+        return round( $amount, 2 );
+
+    }
+
 
     /*
      * Wrapper function for WordPress's default paginate links
@@ -1012,13 +1058,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         $settings = get_option( 'pms_payments_settings' );
 
-        $currency = pms_get_currency_symbol( empty( $currency ) ? pms_get_active_currency() : $currency );
+        $currency_code = empty( $currency ) ? pms_get_active_currency() : $currency;
+        $currency      = pms_get_currency_symbol( $currency_code );
 
-        // format number based on current locale with 2 decimals
-        $price = number_format_i18n( (float)$price, 2 );
+        // Whole-unit currencies should not display decimal places
+        $decimals = pms_is_zero_decimal_currency( $currency_code ) ? 0 : 2;
+
+        // format number based on current locale
+        $price = number_format_i18n( (float)$price, $decimals );
 
         // remove any decimal 0s that are irrelevant; will match: x,00, x.00 and also x,10 or x.10
-        if( ( !isset( $settings['price-display-format'] ) && apply_filters( 'pms_format_price_trim_zeroes', true ) ) || ( isset( $settings['price-display-format'] ) && $settings['price-display-format'] == 'without_insignificant_zeroes' ) )
+        if( $decimals > 0 && ( ( !isset( $settings['price-display-format'] ) && apply_filters( 'pms_format_price_trim_zeroes', true ) ) || ( isset( $settings['price-display-format'] ) && $settings['price-display-format'] == 'without_insignificant_zeroes' ) ) )
             $price = preg_replace('/(\.|\,)?0*$/', '', $price);
 
         // filter clean price that can be altered, no HTML
@@ -1519,9 +1569,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     }
 
     /**
-     * Add a notice if a recurring PayPal gateway is active but API credentials are missing
-    */
-    add_action( 'plugins_loaded', 'pms_general_notice_plugins_loaded' );
+     * Add a notice if a recurring PayPal gateway is active but API credentials are missing.
+     * Runs on init (after textdomain load) so WordPress 6.7+ does not trigger _load_textdomain_just_in_time notices.
+     */
+    add_action( 'init', 'pms_general_notice_plugins_loaded', 5 );
     function pms_general_notice_plugins_loaded() {
 
         //check if related gateways are active
