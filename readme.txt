@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.3
+Stable tag: 3.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -268,11 +268,11 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.0.3 =
-* Feature: Added options to restrict access to taxonomy pages
-* Enhancement: Reworked the payment scheduling system (currently opt-in). To enable: go to Settings → Misc → Payments and toggle "New Scheduler for renewals." This will become the default in a future update.
-* Enhancement: Added granular permission controls for user roles on back-end pages. Configure via Settings → Misc → User Role Permissions
-* Misc: Save the user's selected language during registration and expose it as a merge field for emails.
-* Fix: Set Transaction ID for payments completed via Stripe webhooks.
+= 3.0.4 =
+* Fix: A notice being thrown from the Password Strength functionality in some cases
+* Fix: Prevent an issue with subscriptions sold through the WooCommerce Checkout where the subscription could be processed twice for the same transaction
+* Fix: An issue with Webhooks not being able to advance subscription data when completing a pending Plugin Scheduled Payment
+* Misc: Improve general Webhooks restrictions that the plugin applies
+* Misc: Small changes to the Gutenberg Block Content Restriction functionality
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

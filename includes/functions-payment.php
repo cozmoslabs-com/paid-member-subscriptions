@@ -16,6 +16,29 @@ function pms_get_payment( $payment_id = 0 ) {
 }
 
 /**
+ * Returns whether a payment row is for a given registered gateway.
+ *
+ * @param PMS_Payment $payment                Payment object.
+ * @param string      $expected_gateway_slug Gateway slug.
+ *
+ * @return bool
+ */
+function pms_payment_belongs_to_gateway( $payment, $expected_gateway_slug ) {
+
+    if ( empty( $payment ) || ! is_a( $payment, 'PMS_Payment' ) || empty( $payment->id ) ) {
+        return false;
+    }
+
+    $expected_gateway_slug = is_string( $expected_gateway_slug ) ? sanitize_key( $expected_gateway_slug ) : '';
+    if ( $expected_gateway_slug === '' || empty( $payment->payment_gateway ) ) {
+        return false;
+    }
+
+    return (string) $payment->payment_gateway === $expected_gateway_slug;
+
+}
+
+/**
  * Return payments filterable by an array of arguments
  *
  * @param array $args
@@ -605,6 +628,72 @@ function pms_maybe_process_member_subscription_renewal( $subscription ) {
 }
 
 /**
+ * Apply subscription schedule updates after a scheduled renewal payment succeeds at the gateway.
+ *
+ * @param PMS_Member_Subscription $subscription          Member subscription.
+ * @param PMS_Payment             $payment               Payment record for this renewal.
+ * @param mixed                   $subscription_plan     Subscription plan object.
+ * @param int|false               $current_billing_cycle Installment cycle index or false.
+ * @param mixed                   $gateway_response      Passed to subscription_data filter (cron passes gateway truthiness).
+ * @return bool True when subscription row(s) were updated.
+ */
+function pms_member_subscription_apply_scheduled_renewal_payment_success( $subscription, $payment, $subscription_plan, $current_billing_cycle, $gateway_response = true ) {
+
+    if ( empty( $subscription_plan->id ) ) {
+        return false;
+    }
+
+    $subscription_data = array(
+        'status'               => 'active',
+        'billing_last_payment' => date( 'Y-m-d H:i:s' ),
+    );
+
+    if ( ! empty( $subscription->billing_duration ) ) {
+
+        if ( $subscription_plan->is_fixed_period_membership() && ! ( $subscription->billing_duration == '1' && $subscription->billing_duration_unit == 'year' ) ) {
+
+            $next_payment                             = $subscription_plan->get_expiration_date();
+            $subscription_data['billing_duration']    = '1';
+            $subscription_data['billing_duration_unit'] = 'year';
+
+        } else {
+
+            $next_payment = date( 'Y-m-d H:i:s', strtotime( '+' . $subscription->billing_duration . ' ' . $subscription->billing_duration_unit, strtotime( $subscription->billing_next_payment ) ) );
+
+        }
+
+        $subscription_data['billing_next_payment'] = $next_payment;
+
+    } else {
+
+        $subscription_data['billing_next_payment'] = null;
+
+        if ( isset( $subscription_plan->id, $subscription_plan->duration ) && $subscription_plan->duration == 0 && ! $subscription_plan->is_fixed_period_membership() ) {
+            $subscription_data['expiration_date'] = '';
+        }
+    }
+
+    if ( $current_billing_cycle ) {
+        $subscription_data = pms_process_subscription_billing_cycles( $current_billing_cycle, $subscription_data, $subscription, $subscription_plan );
+    }
+
+    $subscription_data = apply_filters( 'pms_cron_process_member_subscriptions_subscription_data', $subscription_data, $gateway_response, $payment );
+
+    if ( empty( $subscription_data ) ) {
+        return false;
+    }
+
+    $subscription->update( $subscription_data );
+
+    pms_update_member_subscription_meta( $subscription->id, 'pms_retry_payment', 'inactive' );
+    pms_update_member_subscription_meta( $subscription->id, 'pms_retry_payment_count', 0 );
+
+    pms_add_member_subscription_log( $subscription->id, 'subscription_renewed_automatically' );
+
+    return true;
+}
+
+/**
  * Runs renewal payment and subscription updates.
  *
  * Caller must hold the advisory lock acquired by pms_maybe_process_member_subscription_renewal().
@@ -656,53 +745,11 @@ function pms_process_member_subscription_renewal( $subscription, $payment_gatewa
     // Process payment
     $response = $payment_gateway->process_payment( $payment->id, $subscription->id );
 
+    $subscription_data = array();
+
     if ( $response ) {
 
-        $subscription_data = array(
-            'status'               => 'active',
-            'billing_last_payment' => date( 'Y-m-d H:i:s' ),
-        );
-
-        // Set the next billing date
-        if ( ! empty( $subscription->billing_duration ) ) {
-
-            $plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
-
-            // If trial ends for fixed period membership next payment is the expiration date
-            if ( $plan->is_fixed_period_membership() && ! ( $subscription->billing_duration == '1' && $subscription->billing_duration_unit == 'year' ) ) {
-
-                $next_payment                            = $plan->get_expiration_date();
-                $subscription_data['billing_duration']   = '1';
-                $subscription_data['billing_duration_unit'] = 'year';
-
-            } else {
-                $next_payment = date( 'Y-m-d H:i:s', strtotime( '+' . $subscription->billing_duration . ' ' . $subscription->billing_duration_unit, strtotime( $subscription->billing_next_payment ) ) );
-            }
-
-            $subscription_data['billing_next_payment'] = $next_payment;
-
-        } else {
-
-            // here I think we should treat the non auto recurring with free trial cases
-            $subscription_data['billing_next_payment'] = null;
-
-            // For Unlimited plans we need to set the expiration date; we get here after a free trial has ended
-            $plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
-
-            if ( isset( $plan->id, $plan->duration ) && $plan->duration == 0 && ! $plan->is_fixed_period_membership() ) {
-                $subscription_data['expiration_date'] = '';
-            }
-        }
-
-        // Process the current billing cycle if the Subscription has Payment Installments enabled
-        if ( $current_billing_cycle ) {
-            $subscription_data = pms_process_subscription_billing_cycles( $current_billing_cycle, $subscription_data, $subscription, $subscription_plan );
-        }
-
-        pms_update_member_subscription_meta( $subscription->id, 'pms_retry_payment', 'inactive' );
-        pms_update_member_subscription_meta( $subscription->id, 'pms_retry_payment_count', 0 );
-
-        pms_add_member_subscription_log( $subscription->id, 'subscription_renewed_automatically' );
+        pms_member_subscription_apply_scheduled_renewal_payment_success( $subscription, $payment, $subscription_plan, $current_billing_cycle, $response );
 
     } else {
 

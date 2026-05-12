@@ -60,8 +60,8 @@ add_action(
 		global $pagenow;
 
 		$arrDeps = ($pagenow === 'widgets.php') ?
-			array( 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-widgets', 'lodash' )
-			: array( 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post', 'lodash', );
+			array( 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-widgets' )
+			: array( 'wp-blocks', 'wp-dom', 'wp-dom-ready', 'wp-edit-post' );
 
 		$subscription_plans = pms_get_subscription_plans();
 		$settings_pages     = get_option( 'pms_general_settings' );

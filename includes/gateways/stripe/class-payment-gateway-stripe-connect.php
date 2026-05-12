@@ -596,6 +596,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     'subscription_id'      => $subscription_id,
                     'subscription_plan_id' => $this->subscription_plan->id,
                     'home_url'             => pms_get_home_url(),
+                    'is_recurring'         => $subscription->is_auto_renewing() ? 'true' : 'false',
                 ), $payment, $form_location );
 
                 $args = apply_filters( 'pms_stripe_process_payment_args', array(
@@ -1159,6 +1160,66 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
+    /**
+     * Plugin-scheduled (psp/off-session) payments: advance billing when the Stripe webhook completes the charge.
+     *
+     * @param PMS_Member_Subscription $subscription  Subscription being updated.
+     * @param array                   $checkout_data Checkout context (unused; signature parity with update_subscription).
+     * @return bool
+     */
+    private function maybe_advance_subscription_after_psp_webhook( $subscription, $checkout_data = array() ) {
+
+        if ( empty( $this->payment_id ) ) {
+
+            do_action( 'pms_after_checkout_is_processed', $subscription, 'psp' );
+
+            return true;
+
+        }
+
+        $payment = pms_get_payment( $this->payment_id );
+
+        if ( empty( $payment->id ) || $payment->status !== 'completed' ) {
+
+            do_action( 'pms_after_checkout_is_processed', $subscription, 'psp' );
+
+            return true;
+
+        }
+
+        if ( ! empty( $subscription->id )
+            && ( empty( $subscription->billing_next_payment )
+                || strtotime( $subscription->billing_next_payment ) <= time()
+                || apply_filters( 'pms_psp_webhook_force_subscription_advance', false, $subscription, $payment ) ) ) {
+
+            $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+
+            if ( ! empty( $subscription_plan->id ) ) {
+
+                $current_billing_cycle = ( $subscription->has_installments() && pms_payment_gateway_supports_cycles( $subscription->payment_gateway ) )
+                    ? pms_get_member_subscription_billing_processed_cycles( $subscription->id ) + 1
+                    : false;
+
+                $applied = pms_member_subscription_apply_scheduled_renewal_payment_success(
+                    $subscription,
+                    $payment,
+                    $subscription_plan,
+                    $current_billing_cycle,
+                    true
+                );
+
+                if ( $applied ) {
+                    do_action( 'pms_cron_after_processing_member_subscription', $subscription, $payment );
+                }
+            }
+        }
+
+        do_action( 'pms_after_checkout_is_processed', $subscription, 'psp' );
+
+        return true;
+
+    }
+
     public function update_subscription( $subscription, $form_location, $has_trial = false, $is_recurring = false, $checkout_data = array() ){
 
         if( empty( $subscription ) || empty( $form_location ) )
@@ -1173,6 +1234,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             if( $renewal_status == 'finished' )
                 return true;
+        }
+
+        if ( $form_location === 'psp' ) {
+            return $this->maybe_advance_subscription_after_psp_webhook( $subscription, $checkout_data );
         }
 
         if( !in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) ){
@@ -1388,6 +1453,35 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     }
 
     /**
+     * Abort webhook handling when the payment row is missing or was created under a different gateway.
+     *
+     * @param PMS_Payment $payment Payment loaded from webhook metadata.
+     *
+     * @return void
+     */
+    private function webhook_die_unless_payment_gateway_matches( $payment ) {
+
+        if ( empty( $payment ) || empty( $payment->id ) ) {
+            die();
+        }
+
+        if ( pms_payment_belongs_to_gateway( $payment, $this->gateway_slug ) ) {
+            return;
+        }
+
+        error_log(
+            sprintf(
+                '[PMS STRIPE WEBHOOK] Ignoring event: payment %d uses gateway "%s", expected "%s".',
+                absint( $payment->id ),
+                is_string( $payment->payment_gateway ) ? $payment->payment_gateway : '',
+                $this->gateway_slug
+            )
+        );
+        die();
+
+    }
+
+    /**
      * Process Stripe webhook events
      *
      * Handles incoming webhook events from Stripe with optional signature verification.
@@ -1506,6 +1600,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
+                $this->webhook_die_unless_payment_gateway_matches( $payment );
+
                 $this->webhook_sync_payment_intent_transaction_id( $payment, $data );
 
                 $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.succeeded', 'data' => $data->metadata ) );
@@ -1535,6 +1631,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
+                $this->webhook_die_unless_payment_gateway_matches( $payment );
+
                 $this->webhook_sync_payment_intent_transaction_id( $payment, $data );
 
                 $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'payment_intent.processing', 'data' => $data->metadata ) );
@@ -1562,6 +1660,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     die();
 
                 $payment = pms_get_payment( $payment_id );
+
+                $this->webhook_die_unless_payment_gateway_matches( $payment );
 
                 $this->webhook_sync_payment_intent_transaction_id( $payment, $data );
 
@@ -1664,6 +1764,20 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
+                $this->webhook_die_unless_payment_gateway_matches( $payment );
+
+                if ( ! empty( $payment->transaction_id ) && ! empty( $data->payment_intent ) ) {
+                    $charge_pi = $data->payment_intent;
+                    if ( is_object( $charge_pi ) && isset( $charge_pi->id ) ) {
+                        $charge_pi = $charge_pi->id;
+                    }
+                    $charge_pi = is_string( $charge_pi ) ? sanitize_text_field( $charge_pi ) : '';
+                    if ( ! empty( $charge_pi ) && $payment->transaction_id !== $charge_pi ) {
+                        error_log( '[PMS STRIPE WEBHOOK] Ignoring charge.refunded: PaymentIntent on charge does not match payment transaction_id.' );
+                        die();
+                    }
+                }
+
                 if( $payment->status != 'completed' )
                     die();
 
@@ -1681,13 +1795,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     $member_subscription = pms_get_member_subscription( $payment->member_subscription_id );
 
                     if( !empty( $member_subscription ) ){
-    
+
                         if( in_array( $member_subscription->status, array( 'active', 'canceled' ) ) ){
                             $member_subscription->update( array( 'status' => 'expired' ) );
-    
+
                             pms_add_member_subscription_log( $member_subscription->id, 'stripe_webhook_subscription_expired' );
                         }
-    
+
                     }
 
                 }

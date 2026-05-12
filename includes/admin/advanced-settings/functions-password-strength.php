@@ -69,11 +69,17 @@ function pms_check_password_strength(){
     $pms_misc_settings = get_option('pms_misc_settings');
 
     if( isset( $_POST['pms_password_strength'] ) && !empty( $pms_misc_settings['minimum_password_strength'] ) ){
-        $pms_password_strength = sanitize_text_field( $_POST['pms_password_strength'] );
+        $pms_password_strength = sanitize_text_field( wp_unslash( $_POST['pms_password_strength'] ) );
         $password_strength_array = array( 'short' => 0, 'bad' => 1, 'good' => 2, 'strong' => 3 );
         $password_strength_text = array( 'short' => __( 'Very Weak', 'paid-member-subscriptions' ), 'bad' => __( 'Weak', 'paid-member-subscriptions' ), 'good' => __( 'Medium', 'paid-member-subscriptions' ), 'strong' => __( 'Strong', 'paid-member-subscriptions' ) );
-        if( $password_strength_array[$pms_password_strength] < $password_strength_array[$pms_misc_settings['minimum_password_strength']] ){
-            return $password_strength_text[$pms_misc_settings['minimum_password_strength']];
+        $minimum_key = $pms_misc_settings['minimum_password_strength'];
+
+        if ( ! isset( $password_strength_array[ $pms_password_strength ], $password_strength_array[ $minimum_key ], $password_strength_text[ $minimum_key ] ) ) {
+            return false;
+        }
+
+        if( $password_strength_array[$pms_password_strength] < $password_strength_array[$minimum_key] ){
+            return $password_strength_text[$minimum_key];
         }
         else
             return false;
@@ -101,7 +107,11 @@ function pms_password_strength_description() {
 
         if( ! empty( $pms_misc_settings['minimum_password_strength'] ) ) {
             $password_strength_text = array( 'short' => __( 'Very Weak', 'paid-member-subscriptions' ), 'bad' => __( 'Weak', 'paid-member-subscriptions' ), 'good' => __( 'Medium', 'paid-member-subscriptions' ), 'strong' => __( 'Strong', 'paid-member-subscriptions' ) );
-            $password_strength_description = '<p>' . sprintf( __( 'The password must have a minimum strength of %s', 'paid-member-subscriptions' ), $password_strength_text[$pms_misc_settings['minimum_password_strength']] ) . '</p>';
+            $min_strength_key = $pms_misc_settings['minimum_password_strength'];
+            if ( ! isset( $password_strength_text[ $min_strength_key ] ) ) {
+                return '';
+            }
+            $password_strength_description = '<p>' . sprintf( __( 'The password must have a minimum strength of %s', 'paid-member-subscriptions' ), $password_strength_text[ $min_strength_key ] ) . '</p>';
 
             return $password_strength_description;
         } else {

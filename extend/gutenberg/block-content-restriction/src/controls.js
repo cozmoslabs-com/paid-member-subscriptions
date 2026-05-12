@@ -1,10 +1,9 @@
-import { assign, has } from "lodash";
-
 import { Fragment } from "react";
 import { __ } from "@wordpress/i18n";
 import { decodeEntities } from "@wordpress/html-entities";
 import {
     BaseControl,
+    CheckboxControl,
     SelectControl,
     TextareaControl,
     ToggleControl,
@@ -13,28 +12,8 @@ import {
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from "@wordpress/components";
 
-export default function PMSBlockContentRestrictionControlsCommon(props) {
-    const { name, attributes, setAttributes } = props;
-
-    // Abort if the block type does not have the pmsContentRestriction attribute registered
-    if ( !has(attributes, "pmsContentRestriction") ) {
-        return null;
-    }
-
-    const { pmsContentRestriction } = attributes;
-
-    const subscriptionPlans = pmsBlockEditorDataBlockContentRestriction.subscriptionPlans;
-
-    // Check if this is one of the Content Restriction blocks so that the 'All Users' option can be hidden
-    let contentRestrictionBlock = false;
-    if (
-        [
-            "pms/content-restriction-start",
-            "pms/content-restriction-end",
-        ].includes(name)
-    ) {
-        contentRestrictionBlock = true;
-    }
+export const getRestrictionHelpMessage = (pmsContentRestriction, subscriptionPlans) => {
+    if (!pmsContentRestriction) return "";
 
     let helpMessage = "";
 
@@ -69,8 +48,8 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
                     " the following subscriptions: ",
                     "paid-member-subscriptions",
                 );
-                pmsContentRestriction.subscription_plans.map((id) => {
-                    subscriptionPlans?.map( subscriptionPlan => {
+                pmsContentRestriction.subscription_plans.forEach((id) => {
+                    subscriptionPlans?.forEach( subscriptionPlan => {
                         if (subscriptionPlan.id == id) {
                             helpMessage += decodeEntities( subscriptionPlan.name ) + ", ";
                         }
@@ -89,6 +68,33 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
         default:
             helpMessage = __("Please select an option.", "paid-member-subscriptions");
     }
+    return helpMessage;
+};
+
+export default function PMSBlockContentRestrictionControlsCommon(props) {
+    const { name, attributes, setAttributes } = props;
+
+    // Abort if the block type does not have the pmsContentRestriction attribute registered
+    if ( !attributes || !("pmsContentRestriction" in attributes) ) {
+        return null;
+    }
+
+    const { pmsContentRestriction } = attributes;
+
+    const subscriptionPlans = pmsBlockEditorDataBlockContentRestriction.subscriptionPlans;
+
+    // Check if this is one of the Content Restriction blocks so that the 'All Users' option can be hidden
+    let contentRestrictionBlock = false;
+    if (
+        [
+            "pms/content-restriction-start",
+            "pms/content-restriction-end",
+        ].includes(name)
+    ) {
+        contentRestrictionBlock = true;
+    }
+
+    let helpMessage = getRestrictionHelpMessage(pmsContentRestriction, subscriptionPlans);
     return (
         <>
             <p>{helpMessage}</p>
@@ -99,10 +105,10 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
                 value={pmsContentRestriction.display_to}
                 onChange={(value) =>
                     setAttributes({
-                        pmsContentRestriction: assign(
-                            { ...pmsContentRestriction },
-                            { display_to: value },
-                        ),
+                        pmsContentRestriction: {
+                            ...pmsContentRestriction,
+                            display_to: value,
+                        },
                     })
                 }
             >
@@ -124,30 +130,61 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
             {pmsContentRestriction.display_to == "all" && <p></p>}
             {pmsContentRestriction.display_to == "" && (
                 <div>
-                    <BaseControl label={__("Subscriptions", "paid-member-subscriptions")}>
-                        <SelectControl
-                            help={__(
-                                "The desired valid subscriptions. Select none to display the content to all logged in users.",
-                                "paid-member-subscriptions",
-                            )}
-                            multiple
-                            value={pmsContentRestriction.subscription_plans}
-                            onChange={(values) =>
-                                setAttributes({
-                                    pmsContentRestriction: assign(
-                                        { ...pmsContentRestriction },
-                                        { subscription_plans: values },
-                                    ),
-                                })
-                            }
-                            className="components-select-control__input"
-                        >
+                    <BaseControl 
+                        label={__("Subscriptions", "paid-member-subscriptions")}
+                        help={__(
+                            "The desired valid subscriptions. Select none to display the content to all logged in users.",
+                            "paid-member-subscriptions",
+                        )}
+                    >
+                        <div style={{ maxHeight: '380px', overflowY: 'auto', border: '1px solid #8c8f94', padding: '8px 12px', borderRadius: '2px', marginBottom: '16px', backgroundColor: '#fff' }}>
+                            <style>
+                                {`
+                                    .pms-subscription-plan-checkbox {
+                                        margin-bottom: 4px !important;
+                                    }
+                                    .pms-subscription-plan-checkbox:last-child {
+                                        margin-bottom: 0 !important;
+                                    }
+                                    .pms-subscription-plan-checkbox .components-checkbox-control__label {
+                                        font-size: 13px !important;
+                                        line-height: 1.4 !important;
+                                    }
+                                    .pms-subscription-plan-checkbox .components-checkbox-control__input-container {
+                                        margin-right: 8px !important;
+                                    }
+                                `}
+                            </style>
                             { subscriptionPlans?.map( subscriptionPlan => {
+                                const planIdStr = subscriptionPlan.id.toString();
+                                const isChecked = (pmsContentRestriction.subscription_plans || []).map(String).includes(planIdStr);
+                                
                                 return (
-                                    <option key={ subscriptionPlan.id } value={ subscriptionPlan.id }>{ decodeEntities( subscriptionPlan.name ) }</option>
+                                    <CheckboxControl
+                                        key={ subscriptionPlan.id }
+                                        label={ decodeEntities( subscriptionPlan.name ) }
+                                        checked={ isChecked }
+                                        onChange={ ( checked ) => {
+                                            let newPlans = (pmsContentRestriction.subscription_plans || []).map(String);
+                                            if ( checked ) {
+                                                if ( !newPlans.includes(planIdStr) ) {
+                                                    newPlans.push( planIdStr );
+                                                }
+                                            } else {
+                                                newPlans = newPlans.filter( id => id !== planIdStr );
+                                            }
+                                            setAttributes({
+                                                pmsContentRestriction: {
+                                                    ...pmsContentRestriction,
+                                                    subscription_plans: newPlans,
+                                                },
+                                            });
+                                        } }
+                                        className="pms-subscription-plan-checkbox"
+                                    />
                                 );
                             }) }
-                        </SelectControl>
+                        </div>
                         <ToggleControl
                             label={__(
                                 "Show to Not Subscribed",
@@ -160,13 +197,10 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
                             }
                             onChange={() =>
                                 setAttributes({
-                                    pmsContentRestriction: assign(
-                                        { ...pmsContentRestriction },
-                                        {
-                                            not_subscribed:
-                                                !pmsContentRestriction.not_subscribed,
-                                        },
-                                    ),
+                                    pmsContentRestriction: {
+                                        ...pmsContentRestriction,
+                                        not_subscribed: !pmsContentRestriction.not_subscribed,
+                                    },
                                 })
                             }
                         />
@@ -184,13 +218,10 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
                             }
                             onChange={() =>
                                 setAttributes({
-                                    pmsContentRestriction: assign(
-                                        { ...pmsContentRestriction },
-                                        {
-                                            enable_message_logged_in:
-                                                !pmsContentRestriction.enable_message_logged_in,
-                                        },
-                                    ),
+                                    pmsContentRestriction: {
+                                        ...pmsContentRestriction,
+                                        enable_message_logged_in: !pmsContentRestriction.enable_message_logged_in,
+                                    },
                                 })
                             }
                         />
@@ -203,10 +234,10 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
                                 value={pmsContentRestriction.message_logged_in}
                                 onChange={(value) =>
                                     setAttributes({
-                                        pmsContentRestriction: assign(
-                                            { ...pmsContentRestriction },
-                                            { message_logged_in: value },
-                                        ),
+                                        pmsContentRestriction: {
+                                            ...pmsContentRestriction,
+                                            message_logged_in: value,
+                                        },
                                     })
                                 }
                             />
@@ -225,13 +256,10 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
                         }
                         onChange={() =>
                             setAttributes({
-                                pmsContentRestriction: assign(
-                                    { ...pmsContentRestriction },
-                                    {
-                                        enable_message_logged_out:
-                                            !pmsContentRestriction.enable_message_logged_out,
-                                    },
-                                ),
+                                pmsContentRestriction: {
+                                    ...pmsContentRestriction,
+                                    enable_message_logged_out: !pmsContentRestriction.enable_message_logged_out,
+                                },
                             })
                         }
                     />
@@ -244,10 +272,10 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
                             value={pmsContentRestriction.message_logged_out}
                             onChange={(value) =>
                                 setAttributes({
-                                    pmsContentRestriction: assign(
-                                        { ...pmsContentRestriction },
-                                        { message_logged_out: value },
-                                    ),
+                                    pmsContentRestriction: {
+                                        ...pmsContentRestriction,
+                                        message_logged_out: value,
+                                    },
                                 })
                             }
                         />

@@ -5,11 +5,24 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 function pms_render_blocks( $block_content, $block ) {
     $block_attrs = isset( $block['attrs']['pmsContentRestriction'] ) ? $block['attrs']['pmsContentRestriction'] : null;
 
+    if ( !isset( $block_attrs ) ) {
+        return $block_content;
+    }
+
+    $block_attrs = wp_parse_args( $block_attrs, array(
+        'subscription_plans'        => array(),
+        'display_to'                => 'all',
+        'not_subscribed'            => false,
+        'enable_message_logged_in'  => false,
+        'enable_message_logged_out' => false,
+        'message_logged_in'         => '',
+        'message_logged_out'        => '',
+    ) );
+
     // Abort if:
-    // the block does not have the content restriction settings attribute or
     // the block is to be displayed to all users or
     // the current block is the Content Restriction Start block
-    if ( !isset( $block_attrs ) || $block_attrs['display_to'] === 'all' || $block['blockName'] === 'pms/content-restriction-start' ) {
+    if ( $block_attrs['display_to'] === 'all' || $block['blockName'] === 'pms/content-restriction-start' ) {
         return $block_content;
     }
 
@@ -20,10 +33,10 @@ function pms_render_blocks( $block_content, $block ) {
     // Map the block content restriction settings to the pms-restrict shortcode parameters
     $atts = array(
             'subscription_plans'    => !empty( $block_attrs['subscription_plans'] ) ? $block_attrs['subscription_plans'] : '',
-            'display_to'            => $block_attrs['not_subscribed'] ? 'not_subscribed' : $block_attrs['display_to'],
+            'display_to'            => !empty( $block_attrs['not_subscribed'] ) ? 'not_subscribed' : $block_attrs['display_to'],
             'message'               => $block_attrs['display_to'] === 'not_logged_in'
-                ? ( $block_attrs['enable_message_logged_out'] ? $block_attrs['message_logged_out'] : '' )
-                : ( $block_attrs['enable_message_logged_in']  ? $block_attrs['message_logged_in']  : '' ),
+                ? ( !empty( $block_attrs['enable_message_logged_out'] ) ? $block_attrs['message_logged_out'] : '' )
+                : ( !empty( $block_attrs['enable_message_logged_in'] )  ? $block_attrs['message_logged_in']  : '' ),
         );
 
     return '<div>' . PMS_Shortcodes::restrict_content( $atts, $block_content ) . '</div>';

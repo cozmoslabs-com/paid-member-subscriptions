@@ -413,7 +413,18 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
      * @return array Array of issues with unique keys
      */
     public static function get_dashboard_issues(){
-        
+
+        /**
+         * Filters whether PMS loads dashboard issues (Website Health, Issues list, admin bar counts).
+         *
+         * Returning false skips issue collection and the issues transient for this request.
+         *
+         * @param bool $show Whether to show dashboard issues. Default true.
+         */
+        if ( ! apply_filters( 'pms_show_dashboard_issues', true ) ) {
+            return array();
+        }
+
         $bypass_cache = apply_filters( 'pms_bypass_dashboard_issues_cache', false );
         
         

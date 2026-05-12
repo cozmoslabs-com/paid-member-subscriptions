@@ -1,5 +1,3 @@
-import { assign, has } from "lodash";
-
 import { addFilter } from "@wordpress/hooks";
 import { createHigherOrderComponent } from "@wordpress/compose";
 import { __ } from "@wordpress/i18n";
@@ -17,12 +15,12 @@ function PMSBlockContentRestrictionControls(props) {
 
     // Abort if content restriction is not enabled, if the block type does not have the
     // pmsContentRestriction attribute registered or if the block is one of the Content Restriction blocks
-    if ( !has(attributes, "pmsContentRestriction") ||
+    if ( !attributes || !("pmsContentRestriction" in attributes) ||
         [
             "pms/content-restriction-start",
             "pms/content-restriction-end",
-            "pms/content-restriction-start",
-            "pms/content-restriction-start",
+            "wppb/content-restriction-start",
+            "wppb/content-restriction-end",
         ].includes(name)
     ) {
         return null;
@@ -39,10 +37,10 @@ function PMSBlockContentRestrictionControls(props) {
                 initialOpen={pmsContentRestriction.panel_open}
                 onToggle={(value) =>
                     setAttributes({
-                        pmsContentRestriction: assign(
-                            { ...pmsContentRestriction },
-                            { panel_open: !pmsContentRestriction.panel_open },
-                        ),
+                        pmsContentRestriction: {
+                            ...pmsContentRestriction,
+                            panel_open: !pmsContentRestriction.panel_open,
+                        },
                     })
                 }
             >
@@ -67,13 +65,13 @@ function PMSContentRestrictionAttributes(settings) {
                     type: "string",
                 },
                 not_subscribed: {
-                    type: "bool",
+                    type: "boolean",
                 },
                 enable_message_logged_in: {
-                    type: "bool",
+                    type: "boolean",
                 },
                 enable_message_logged_out: {
-                    type: "bool",
+                    type: "boolean",
                 },
                 message_logged_in: {
                     type: "string",
@@ -82,7 +80,7 @@ function PMSContentRestrictionAttributes(settings) {
                     type: "string",
                 },
                 panel_open: {
-                    type: "bool",
+                    type: "boolean",
                 },
             },
             default: {
@@ -113,7 +111,7 @@ function PMSContentRestrictionAttributes(settings) {
         return settings;
     }
 
-    settings.attributes = assign(
+    settings.attributes = Object.assign(
         settings.attributes,
         contentRestrictionAttributes,
     );

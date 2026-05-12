@@ -8,7 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-// Add Subscription Plan Tab to Product-Data section (Add New | Edit)
+/**
+ * Add the PMS Subscription Plan tab to the WooCommerce product data panel
+ *
+ */
 function pms_woo_subscriptions_tab( $tabs ) {
     global $post;
 
@@ -26,7 +29,10 @@ function pms_woo_subscriptions_tab( $tabs ) {
 add_filter( 'woocommerce_product_data_tabs', 'pms_woo_subscriptions_tab' );
 
 
-// Add Subscription Plan Tab content
+/**
+ * Render the PMS Subscription Plan tab content on the WooCommerce product edit screen
+ *
+ */
 function pms_woo_subscription_tab_content() {
     global $post;
 
@@ -73,7 +79,10 @@ function pms_woo_subscription_tab_content() {
 add_action( 'woocommerce_product_data_panels', 'pms_woo_subscription_tab_content' );
 
 
-// Add Subscription options when saving Product information (Add New | Edit)
+/**
+ * Save the PMS Subscription Plan linked to a WooCommerce product
+ *
+ */
 function pms_woo_add_subscription_meta_to_product( $product_id ) {
     if( isset( $_POST['pms_woo_subscription_id'] )  && (int)$_POST['pms_woo_subscription_id'] >= 0 ) {
         update_post_meta( $product_id, '_pms_woo_subscription_id', (int)$_POST['pms_woo_subscription_id'] );
@@ -82,7 +91,10 @@ function pms_woo_add_subscription_meta_to_product( $product_id ) {
 add_action( 'woocommerce_process_product_meta', 'pms_woo_add_subscription_meta_to_product' );
 
 
-// Check if there is any Subscription in the Cart
+/**
+ * Check if the cart contains a WooCommerce product linked to a PMS Subscription Plan
+ *
+ */
 function pms_woo_subscription_in_cart() {
     global $woocommerce;
 
@@ -103,7 +115,10 @@ function pms_woo_subscription_in_cart() {
 }
 
 
-// Get the Subscription ID (linked to product)
+/**
+ * Get the PMS Subscription Plan ID linked to a WooCommerce product
+ *
+ */
 function pms_woo_get_product_subscription_id( $product_id ) {
     if( !$product_id )
         return 0;
@@ -112,7 +127,10 @@ function pms_woo_get_product_subscription_id( $product_id ) {
 }
 
 
-// Disable Guest-Checkout if a Subscription is present in the Cart
+/**
+ * Disable guest checkout when the cart contains a product linked to a PMS Subscription Plan
+ *
+ */
 function pms_woo_guest_checkout_status( $status ) {
     if( pms_woo_subscription_in_cart() ) {
         return 'no';
@@ -122,7 +140,10 @@ function pms_woo_guest_checkout_status( $status ) {
 add_filter( 'pre_option_woocommerce_enable_guest_checkout', 'pms_woo_guest_checkout_status', 100, 2 );
 
 
-// Enable Registration on Checkout if a Subscription is present in the Cart
+/**
+ * Enable checkout registration when the cart contains a product linked to a PMS Subscription Plan
+ *
+ */
 function pms_woo_enable_registration_on_checkout( $status ) {
     if( pms_woo_subscription_in_cart() )
         $status = true;
@@ -132,7 +153,10 @@ function pms_woo_enable_registration_on_checkout( $status ) {
 add_filter( 'woocommerce_checkout_registration_enabled', 'pms_woo_enable_registration_on_checkout', 100 );
 
 
-// Set the Subscription Status based on WooCommerce Order Status and Product Type (subscription or other)
+/**
+ * Map WooCommerce order/subscription statuses to PMS member subscription statuses
+ *
+ */
 function pms_woo_set_subscription_status( $order_status, $product_type, $existing_status, $woo_subscription_status ) {
 
     if ( $product_type != 'subscription' ) {
@@ -176,7 +200,10 @@ function pms_woo_set_subscription_status( $order_status, $product_type, $existin
 }
 
 
-// Check if there is a WooCommerce Subscription Renewal linked to the product
+/**
+ * Check if a WooCommerce order item is linked to a WooCommerce Subscription renewal
+ *
+ */
 function pms_woo_is_product_subscription_renewal( $product ) {
     $meta_data = $product->get_meta_data();
     $renewal = false;
@@ -188,7 +215,10 @@ function pms_woo_is_product_subscription_renewal( $product ) {
 }
 
 
-// Check if WooCommerce Order Status was changed manually from the administration panel
+/**
+ * Check if the current order key already exists on the PMS subscription during an admin status update
+ *
+ */
 function pms_woo_is_manual_order_update( $existing_subscription_id, $order_key ) {
 
     if ( !is_admin() )
@@ -205,7 +235,32 @@ function pms_woo_is_manual_order_update( $existing_subscription_id, $order_key )
 }
 
 
-// Check if the new Subscription Plan is an Upgrade or a Downgrade and set the new data
+/**
+ * Check if a WooCommerce order was already processed for a PMS member subscription
+ *
+ * - WooCommerce can move the same order through multiple statuses, each of which triggers this integration
+ * - The stored order key lets us distinguish same-order status transitions from a real new order/renewal
+ *
+ */
+function pms_woo_order_already_processed( $existing_subscription_id, $order_key ) {
+
+    if ( empty( $existing_subscription_id ) || empty( $order_key ) )
+        return false;
+
+    $existing_order_keys = pms_get_member_subscription_meta( $existing_subscription_id, 'woo_order_key' );
+
+    if ( empty( $existing_order_keys ) )
+        return false;
+
+    return in_array( $order_key, (array)$existing_order_keys, true );
+
+}
+
+
+/**
+ * Build replacement data when the purchased plan is an upgrade or downgrade of an existing subscription
+ *
+ */
 function pms_get_subscription_replacement_data( $user_id, $new_subscription_plan_id, $new_subscription_status ) {
 
     $existing_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $user_id ) );
@@ -260,7 +315,10 @@ function pms_get_subscription_replacement_data( $user_id, $new_subscription_plan
 }
 
 
-// Get the Subscription Data for the Product linked Subscription
+/**
+ * Build the PMS member subscription data for the PMS plan linked to a WooCommerce product
+ *
+ */
 function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_status, $order_payment_method, $order_key, $product_type, $user_email ) {
 
     $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
@@ -283,6 +341,9 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_sta
 
         if( isset( $existing_subscription['0'] )) {
 
+            // Same-order status transitions can reach this code more than once; only new order keys should extend dates
+            $order_already_processed = pms_woo_order_already_processed( $existing_subscription['0']->id, $order_key );
+
             // reset the expiration date if the subscription expired
             if ( $existing_subscription_status === 'expired' ) {
                 $subscription_expiration_date = '';
@@ -300,17 +361,21 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_sta
                 }
                 elseif ( $existing_subscription['0']->status != 'abandoned' && ( !pms_woo_is_manual_order_update( $existing_subscription['0']->id, $order_key ) || ( pms_woo_is_manual_order_update( $existing_subscription['0']->id, $order_key ) && $subscription_status == 'active' && $product_type != 'subscription' ) ) ) { // extend expiration date if Subscription is not Abandoned (new/renewal order placed for already subscribed-to Subscription Plan)
 
-                    if ( !empty( $subscription_next_payment_date )) {
-                        $old_next_payment_date = strtotime( $existing_subscription['0']->billing_next_payment );
-                        $new_next_payment_date = strtotime( "+" . $existing_subscription['0']->billing_duration . " " . $existing_subscription['0']->billing_duration_unit, $old_next_payment_date );
-                        $subscription_next_payment_date = date( 'Y-m-d H:i:s', $new_next_payment_date );
+                    if ( !$order_already_processed ) {
+
+                        if ( !empty( $subscription_next_payment_date )) {
+                            $old_next_payment_date = strtotime( $existing_subscription['0']->billing_next_payment );
+                            $new_next_payment_date = strtotime( "+" . $existing_subscription['0']->billing_duration . " " . $existing_subscription['0']->billing_duration_unit, $old_next_payment_date );
+                            $subscription_next_payment_date = date( 'Y-m-d H:i:s', $new_next_payment_date );
+                        }
+                        elseif ( !empty( $subscription_expiration_date ) ) {
+                            $old_expiration_timestamp = strtotime( $existing_subscription['0']->expiration_date );
+                            $new_expiration_timestamp = strtotime( "+" . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit, $old_expiration_timestamp );
+                            $subscription_expiration_date = date( 'Y-m-d H:i:s', $new_expiration_timestamp );
+                        }
+                        else $subscription_expiration_date = $subscription_plan->get_expiration_date();
+
                     }
-                    elseif ( !empty( $subscription_expiration_date ) ) {
-                        $old_expiration_timestamp = strtotime( $existing_subscription['0']->expiration_date );
-                        $new_expiration_timestamp = strtotime( "+" . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit, $old_expiration_timestamp );
-                        $subscription_expiration_date = date( 'Y-m-d H:i:s', $new_expiration_timestamp );
-                    }
-                    else $subscription_expiration_date = $subscription_plan->get_expiration_date();
 
                     if ( $existing_subscription['0']->status == 'active' ) {  // if subscription already Active don't update status
                         $subscription_status = $existing_subscription['0']->status;
@@ -361,7 +426,10 @@ function pms_woo_subscription_data( $subscription_plan_id, $order_id, $order_sta
 add_filter( 'pms_woo_get_subscription_data', 'pms_woo_subscription_data', 100, 7 );
 
 
-// Add new Membership Subscription
+/**
+ * Insert a new PMS member subscription created from a WooCommerce product purchase
+ *
+ */
 function pms_woo_add_new_member_subscription( $subscription_data, $order_id, $order_key ) {
 
     if ( empty( $subscription_data ) )
@@ -384,7 +452,10 @@ function pms_woo_add_new_member_subscription( $subscription_data, $order_id, $or
 }
 
 
-// Update existing Membership Subscription
+/**
+ * Update an existing PMS member subscription from WooCommerce order/subscription changes
+ *
+ */
 function pms_woo_update_member_subscription( $subscription_data, $subscription_renewal, $user_existing_subscriptions, $order_id, $order_key ) {
 
     if ( empty( $subscription_data ) || empty( $subscription_data['id'] ) )
@@ -393,7 +464,8 @@ function pms_woo_update_member_subscription( $subscription_data, $subscription_r
     $subscription = pms_get_member_subscription( $subscription_data['id'] );
     $subscription->update( $subscription_data );
 
-    if ( !pms_woo_is_manual_order_update( $subscription->id, $order_key )) {
+    // Store each WooCommerce order key once so repeated status hooks remain idempotent
+    if ( !pms_woo_order_already_processed( $subscription->id, $order_key )) {
         pms_add_member_subscription_meta( $subscription->id, 'woo_order_key', $order_key );
     }
 
@@ -426,7 +498,10 @@ function pms_woo_update_member_subscription( $subscription_data, $subscription_r
 }
 
 
-// Update PMS Subscription Status when WooCommerce Subscription Status is updated
+/**
+ * Sync PMS member subscription status when the linked WooCommerce Subscription status changes
+ *
+ */
 function pms_woo_update_pms_subsciption_status( $woo_subscription, $woo_subscription_new_status, $woo_subscription_old_status ) {
     $woo_subscription_id = $woo_subscription->get_id();
     $items = $woo_subscription->get_items();
@@ -457,7 +532,10 @@ function pms_woo_update_pms_subsciption_status( $woo_subscription, $woo_subscrip
 add_action('woocommerce_subscription_status_updated', 'pms_woo_update_pms_subsciption_status', 10, 3 );
 
 
-// Handle Member Subscription
+/**
+ * Handle PMS member subscription creation and updates for WooCommerce order status changes
+ *
+ */
 function pms_woo_handle_member_subscription( $order_id ) {
 
     if ( empty( $order_id ) )
@@ -514,8 +592,9 @@ add_action('woocommerce_order_status_refunded',   'pms_woo_handle_member_subscri
 add_action('woocommerce_order_status_cancelled',  'pms_woo_handle_member_subscription');
 
 
-// When PMS Subscription is Canceled from PMS Account also Cancel linked WooCommerce Subscription
 /**
+ * Cancel the linked WooCommerce Subscription when a PMS member subscription is canceled from PMS
+ *
  * @throws Exception
  */
 function pms_woo_cancel_woocommerce_subscription($member_data, $member_subscription ) {

@@ -12,11 +12,11 @@
     "textdomain": "paid-member-subscriptions",
     "attributes": {
         "pms_content_restriction_block_start": {
-            "type": "bool",
+            "type": "boolean",
             "default": true
         },
         "cover": {
-            "type": "bool",
+            "type": "boolean",
             "default": false
         }
     },

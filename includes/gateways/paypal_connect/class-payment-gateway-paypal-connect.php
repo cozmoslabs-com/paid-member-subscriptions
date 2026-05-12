@@ -387,6 +387,18 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
         if ( empty( $this->form_location ) )
             $this->form_location = 'psp';
 
+        $psp_checkout_data = array(
+            'form_location'      => 'psp',
+            'is_recurring'       => $subscription->is_auto_renewing(),
+            'has_trial'          => false,
+            'currency'           => ! empty( $payment->currency ) ? $payment->currency : pms_get_active_currency(),
+            'subscription_plans' => ! empty( $payment->subscription_id ) ? absint( $payment->subscription_id ) : absint( $subscription->subscription_plan_id ),
+        );
+
+        $psp_checkout_data = apply_filters( 'pms_paypal_connect_psp_checkout_data', $psp_checkout_data, $subscription, $payment );
+
+        pms_add_payment_meta( $payment->id, 'pms_checkout_data', $psp_checkout_data );
+
         if( !empty( $payment->amount ) ) {
 
             $payment->log_data( 'paypal_psp_order_created' );
@@ -550,6 +562,66 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
     }
 
     /**
+     * Plugin-scheduled (psp/off-session) payments: advance billing when PayPal notifies capture completion (webhook).
+     *
+     * @param PMS_Member_Subscription $subscription  Subscription being updated.
+     * @param array                   $checkout_data Checkout context (parity with update_subscription).
+     * @return bool
+     */
+    private function maybe_advance_subscription_after_psp_webhook( $subscription, $checkout_data = array() ) {
+
+        if ( empty( $this->payment_id ) ) {
+
+            do_action( 'pms_after_checkout_is_processed', $subscription, 'psp' );
+
+            return true;
+
+        }
+
+        $payment = pms_get_payment( $this->payment_id );
+
+        if ( empty( $payment->id ) || $payment->status !== 'completed' ) {
+
+            do_action( 'pms_after_checkout_is_processed', $subscription, 'psp' );
+
+            return true;
+
+        }
+
+        if ( ! empty( $subscription->id )
+            && ( empty( $subscription->billing_next_payment )
+                || strtotime( $subscription->billing_next_payment ) <= time()
+                || apply_filters( 'pms_psp_webhook_force_subscription_advance', false, $subscription, $payment ) ) ) {
+
+            $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+
+            if ( ! empty( $subscription_plan->id ) ) {
+
+                $current_billing_cycle = ( $subscription->has_installments() && pms_payment_gateway_supports_cycles( $subscription->payment_gateway ) )
+                    ? pms_get_member_subscription_billing_processed_cycles( $subscription->id ) + 1
+                    : false;
+
+                $applied = pms_member_subscription_apply_scheduled_renewal_payment_success(
+                    $subscription,
+                    $payment,
+                    $subscription_plan,
+                    $current_billing_cycle,
+                    true
+                );
+
+                if ( $applied ) {
+                    do_action( 'pms_cron_after_processing_member_subscription', $subscription, $payment );
+                }
+            }
+        }
+
+        do_action( 'pms_after_checkout_is_processed', $subscription, 'psp' );
+
+        return true;
+
+    }
+
+    /**
      * Update a subscription
      *
      * @param object $subscription The subscription object
@@ -564,6 +636,10 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
         if( empty( $subscription ) || empty( $form_location ) )
             return false;
+
+        if ( $form_location === 'psp' ) {
+            return $this->maybe_advance_subscription_after_psp_webhook( $subscription, $checkout_data );
+        }
 
         if( !in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) ){
 
@@ -707,6 +783,35 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
     }
 
+    /**
+     * Abort webhook handling when the payment row is missing or was created under a different gateway.
+     *
+     * @param PMS_Payment $payment Payment loaded from webhook payload.
+     *
+     * @return void
+     */
+    private function webhook_die_unless_payment_gateway_matches( $payment ) {
+
+        if ( empty( $payment ) || empty( $payment->id ) ) {
+            die();
+        }
+
+        if ( pms_payment_belongs_to_gateway( $payment, $this->gateway_slug ) ) {
+            return;
+        }
+
+        error_log(
+            sprintf(
+                '[PMS PAYPAL WEBHOOK] Ignoring event: payment %d uses gateway "%s", expected "%s".',
+                absint( $payment->id ),
+                is_string( $payment->payment_gateway ) ? $payment->payment_gateway : '',
+                $this->gateway_slug
+            )
+        );
+        die();
+
+    }
+
     function remove_old_payment_method_details_from_subscription( $subscription, $form_location ){
 
         if( empty( $subscription ) || $subscription->payment_gateway != $this->gateway_slug )
@@ -765,8 +870,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
-                if( empty( $payment ) )
-                    die();
+                $this->webhook_die_unless_payment_gateway_matches( $payment );
 
                 $payment->log_data( 'paypal_webhook_received', array( 'event_id' => $event->id, 'event_type' => $event_type, 'data' => $this->parse_webhook_response( $event ) ) );
 
@@ -777,10 +881,26 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                     // If initial payment was not completed, we update the subscription as well
                     if( !empty( $payment->member_subscription_id ) ){
                         $subscription  = pms_get_member_subscription( $payment->member_subscription_id );
-                        $checkout_data = pms_get_payment_meta( $payment->id, 'pms_checkout_data', true );
 
-                        if( is_array( $checkout_data ) )
-                            $this->update_subscription( $subscription, $checkout_data['form_location'], $checkout_data['has_trial'], $checkout_data['is_recurring'], $checkout_data );
+                        if ( ! empty( $subscription->id ) ) {
+
+                            $checkout_data = pms_get_payment_meta( $payment->id, 'pms_checkout_data', true );
+
+                            if ( ! is_array( $checkout_data ) ) {
+                                $checkout_data = array();
+                            }
+
+                            if ( ! empty( $checkout_data['form_location'] ) ) {
+
+                                $this->payment_id = $payment->id;
+
+                                $has_trial    = array_key_exists( 'has_trial', $checkout_data ) ? (bool) $checkout_data['has_trial'] : false;
+                                $is_recurring = array_key_exists( 'is_recurring', $checkout_data ) ? (bool) $checkout_data['is_recurring'] : false;
+
+                                $this->update_subscription( $subscription, $checkout_data['form_location'], $has_trial, $is_recurring, $checkout_data );
+                            }
+
+                        }
                     }
                 }
                 
@@ -797,8 +917,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
-                if( empty( $payment ) )
-                    die();
+                $this->webhook_die_unless_payment_gateway_matches( $payment );
 
                 $payment->log_data( 'paypal_webhook_received', array( 'event_id' => $event->id, 'event_type' => $event_type, 'data' => $this->parse_webhook_response( $event ) ) );
 
@@ -845,8 +964,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
                 $payment = pms_get_payment( $payment_id );
 
-                if( empty( $payment ) )
-                    die();
+                $this->webhook_die_unless_payment_gateway_matches( $payment );
 
                 $payment->log_data( 'paypal_webhook_received', array( 'event_id' => $event->id, 'event_type' => $event_type, 'data' => $this->parse_webhook_response( $event ) ) );
 
@@ -896,8 +1014,10 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
                 $payment = $this->get_payment_from_order_id( $order_id );
 
-                if( empty( $payment ) )
+                if( empty( $payment->id ) )
                     die();
+
+                $this->webhook_die_unless_payment_gateway_matches( $payment );
 
                 $payment->log_data( 'paypal_webhook_received', array( 'event_id' => $event->id, 'event_type' => $event_type, 'data' => $this->parse_webhook_response( $event ) ) );
 
@@ -2328,7 +2448,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
         global $wpdb;
 
-        $result = $wpdb->get_var( $wpdb->prepare( "SELECT a.payment_id FROM {$wpdb->prefix}pms_paymentmeta a INNER JOIN {$wpdb->prefix}pms_payments b ON a.payment_id = b.id WHERE a.meta_key = %s AND a.meta_value = %s", 'paypal_order_id', $order_id ) );
+        $result = $wpdb->get_var( $wpdb->prepare( "SELECT a.payment_id FROM {$wpdb->prefix}pms_paymentmeta a INNER JOIN {$wpdb->prefix}pms_payments b ON a.payment_id = b.id AND b.payment_gateway = %s WHERE a.meta_key = %s AND a.meta_value = %s", $this->gateway_slug, 'paypal_order_id', $order_id ) );
 
         if( !empty( $result ) ){
             $payment = pms_get_payment( absint( $result ) );

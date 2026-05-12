@@ -1010,6 +1010,12 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'bgn_migration_to_eur':
                 $message = sprintf( __( 'Billing amount and subscription currency have been converted to EUR due to the Bulgarian leva migration. Billing amount was converted from <strong>%s</strong> to <strong>%s</strong>.', 'paid-member-subscriptions' ), pms_format_price( $log['data']['old_billing_amount'], 'BGN' ), pms_format_price( $log['data']['new_billing_amount'], 'EUR' ) );
                 break;
+            case 'pwyw_price_selected':
+                $currency          = ! empty( $log['data']['currency'] ) ? $log['data']['currency'] : pms_get_active_currency();
+                $formatted_amount = ! empty( $log['data']['formatted_amount'] ) ? $log['data']['formatted_amount'] : pms_format_price( $log['data']['amount'], $currency );
+
+                $message = sprintf( __( 'PWYW selected by user: %s.', 'paid-member-subscriptions' ), '<strong>' . esc_html( $formatted_amount ) . '</strong>' );
+                break;
             default:
                 $message = __( 'Something went wrong.', 'paid-member-subscriptions' );
                 break;
