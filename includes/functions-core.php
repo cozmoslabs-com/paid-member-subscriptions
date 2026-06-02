@@ -1177,6 +1177,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             'stripe_intents',
             'stripe_connect',
             'paypal_connect',
+            'authorize_net',
         ];
 
         foreach( $gateways as $gateway ){
@@ -1643,8 +1644,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     
         if( $current_date > strtotime( $black_friday['start_date'] ) && $current_date < strtotime( $black_friday['end_date'] ) )
             return true;
-    
-        return false;
+
+        return apply_filters( 'pms_bf_promotion_is_active', false );
     
     }
 

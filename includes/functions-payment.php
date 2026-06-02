@@ -663,13 +663,14 @@ function pms_member_subscription_apply_scheduled_renewal_payment_success( $subsc
         }
 
         $subscription_data['billing_next_payment'] = $next_payment;
+        $subscription_data['expiration_date']      = '0000-00-00 00:00:00';
 
     } else {
 
         $subscription_data['billing_next_payment'] = null;
 
         if ( isset( $subscription_plan->id, $subscription_plan->duration ) && $subscription_plan->duration == 0 && ! $subscription_plan->is_fixed_period_membership() ) {
-            $subscription_data['expiration_date'] = '';
+            $subscription_data['expiration_date'] = '0000-00-00 00:00:00';
         }
     }
 

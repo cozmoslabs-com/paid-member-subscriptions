@@ -399,6 +399,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </div>
 
             <div>
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-authorize-net-addon" target="_blank">
+                    <h4 class="pms-add-on-name"><?php esc_html_e( 'Authorize.Net', 'paid-member-subscriptions' ); ?></h4>
+                </a>
+
+                <a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-authorize-net-addon" target="_blank" class="pms-addon-image-container">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/add-on-authorize-net.png" alt="<?php esc_attr_e( 'Authorize.Net', 'paid-member-subscriptions' ); ?>" class="pms-addon-image" />
+                </a>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Collect credit and debit card payments for your membership plans with Authorize.Net, including recurring subscriptions and renewals.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div>
                 <a href="https://www.cozmoslabs.com/add-ons/pro-rate/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-pro-rate-addon" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Pro Rate', 'paid-member-subscriptions' ); ?></h4>
                 </a>

@@ -840,6 +840,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'subscription_expired':
                 $message = __( 'Subscription expired.', 'paid-member-subscriptions' );
                 break;
+            case 'subscription_expired_automatically':
+                $message = __( 'Subscription expired (status check system).', 'paid-member-subscriptions' );
+                break;
             case 'subscription_renewed_manually':
 
                 if( !empty( $log['data']['until'] ) )

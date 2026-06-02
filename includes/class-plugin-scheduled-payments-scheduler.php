@@ -18,6 +18,8 @@ class PMS_Plugin_Scheduled_Payments_Scheduler {
 	const TICK_HOOK = 'pms_recurring_payments_tick';
 	const JOB_HOOK  = 'pms_process_member_subscription_renewal';
 
+	const ENSURE_TICK_CACHE_KEY = 'pms_recurring_payments_tick_ensure_checked';
+
 	/**
 	 * @var self|null
 	 */
@@ -40,16 +42,17 @@ class PMS_Plugin_Scheduled_Payments_Scheduler {
 
 		add_action( self::TICK_HOOK, array( $this, 'tick' ) );
 		add_action( self::JOB_HOOK, array( $this, 'run_subscription_job' ), 10, 1 );
-		add_action( 'init', array( $this, 'maybe_sync_on_init' ), 20 );
+		add_action( 'init', array( $this, 'maybe_clear_legacy_cron_on_init' ), 20 );
+		add_action( 'action_scheduler_ensure_recurring_actions', array( $this, 'maybe_ensure_recurring_tick_scheduled' ) );
 		add_action( 'update_option_pms_misc_settings', array( $this, 'on_misc_settings_updated' ), 10, 2 );
 	}
 
 	/**
-	 * If Action Scheduler mode is on, clear stray legacy renewal cron and ensure the recurring action exists.
+	 * When Action Scheduler mode is on, clear stray legacy WP-Cron renewal events.
 	 *
 	 * @return void
 	 */
-	public function maybe_sync_on_init() {
+	public function maybe_clear_legacy_cron_on_init() {
 
 		if ( ! pms_is_scheduled_payments_action_scheduler_enabled() ) {
 			return;
@@ -58,8 +61,22 @@ class PMS_Plugin_Scheduled_Payments_Scheduler {
 		if ( wp_next_scheduled( 'pms_cron_process_member_subscriptions_payments' ) ) {
 			wp_clear_scheduled_hook( 'pms_cron_process_member_subscriptions_payments' );
 		}
+	}
+
+	/**
+	 * Ensure the hourly tick exists when Action Scheduler runs its daily ensure hook.
+	 *
+	 * @return void
+	 */
+	public function maybe_ensure_recurring_tick_scheduled() {
+
+		if ( false !== wp_cache_get( self::ENSURE_TICK_CACHE_KEY, self::GROUP ) ) {
+			return;
+		}
 
 		$this->ensure_recurring_action_scheduled();
+
+		wp_cache_set( self::ENSURE_TICK_CACHE_KEY, true, self::GROUP, HOUR_IN_SECONDS );
 	}
 
 	/**
@@ -92,7 +109,7 @@ class PMS_Plugin_Scheduled_Payments_Scheduler {
 		$interval = (int) apply_filters( 'pms_recurring_payments_tick_interval', HOUR_IN_SECONDS );
 		$interval = max( 60, $interval );
 
-		as_schedule_recurring_action( time(), $interval, self::TICK_HOOK, array(), self::GROUP );
+		as_schedule_recurring_action( time(), $interval, self::TICK_HOOK, array(), self::GROUP, true );
 	}
 
 	/**
@@ -142,13 +159,13 @@ class PMS_Plugin_Scheduled_Payments_Scheduler {
 	}
 
 	/**
-	 * Query due subscriptions and enqueue unique async renewal jobs.
+	 * Query due subscriptions and enqueue async renewal jobs.
 	 *
 	 * @return void
 	 */
 	public function tick() {
 
-		if ( ! pms_is_scheduled_payments_action_scheduler_enabled() || ! function_exists( 'as_enqueue_async_action' ) ) {
+		if ( ! pms_is_scheduled_payments_action_scheduler_enabled() || ! function_exists( 'as_enqueue_async_action' ) || ! function_exists( 'as_has_scheduled_action' ) ) {
 			return;
 		}
 
@@ -190,9 +207,15 @@ class PMS_Plugin_Scheduled_Payments_Scheduler {
 					continue;
 				}
 
+				$job_args = array( (int) $subscription->id );
+
+				if ( as_has_scheduled_action( self::JOB_HOOK, $job_args, self::GROUP ) ) {
+					continue;
+				}
+
 				as_enqueue_async_action(
 					self::JOB_HOOK,
-					array( (int) $subscription->id ),
+					$job_args,
 					self::GROUP,
 					false
 				);

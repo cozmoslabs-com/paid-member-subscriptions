@@ -289,6 +289,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             $transaction_url = 'https://dashboard.stripe.com/payments/' . $payment->transaction_id;
                         }
 
+                    } else if( $payment->payment_gateway === 'authorize_net' ){
+
+                        // "profile_<id>" is stored for zero-amount trial payments that only create a
+                        // customer profile and have no gateway transaction record to link to.
+                        if( strpos( $payment->transaction_id, 'profile_' ) !== 0 ){
+                            if( $test_mode ){
+                                $transaction_url = 'https://sandbox.authorize.net/ui/themes/sandbox/transaction/TransactionReceipt.aspx?transid=' . $payment->transaction_id;
+                            } else {
+                                $transaction_url = 'https://account.authorize.net/ui/themes/anet/Transaction/TransactionReceipt.aspx?transid=' . $payment->transaction_id;
+                            }
+                        }
+
                     }
 
                 }

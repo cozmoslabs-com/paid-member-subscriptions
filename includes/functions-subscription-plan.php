@@ -790,6 +790,10 @@ function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null, 
         $subscription_plan_input_data_arr['recurring'] = $subscription_plan->recurring;
     }
 
+    // Pay in installments (limit payment cycles) — used by front-end to require gateways with data-billing_cycles
+    if( $subscription_plan->has_installments() && pms_payment_gateways_support( pms_get_active_payment_gateways(), 'billing_cycles' ) ) {
+        $subscription_plan_input_data_arr['limit_payment_cycles'] = 'yes';
+    }
 
     /**
      * Filter extra input data attributes before concatenating them as a string

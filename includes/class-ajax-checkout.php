@@ -26,6 +26,7 @@ Class PMS_AJAX_Checkout_Handler {
         $this->supported_gateways = [
             'stripe_connect',
             'paypal_connect',
+            'authorize_net',
         ];
 
         // only load if the active gateways include one of the supported gateways
@@ -640,6 +641,10 @@ Class PMS_AJAX_Checkout_Handler {
             'subscription_plans',
             'pms_default_recurring',
             'discount_code',
+            'pms_billing_first_name',
+            'pms_billing_last_name',
+            'pms_billing_email',
+            'pms_billing_company',
             'pms_billing_address',
             'pms_billing_city',
             'pms_billing_zip',

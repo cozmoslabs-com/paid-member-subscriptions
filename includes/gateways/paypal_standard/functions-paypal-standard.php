@@ -155,6 +155,93 @@ function pms_get_paypal_email() {
 }
 
 /**
+ * Whether any active recurring PayPal Standard or PayPal Express subscriptions exist.
+ *
+ * @return bool
+ */
+function pms_has_active_paypal_legacy_subscriptions() {
+
+    global $wpdb;
+
+    $subscription_id = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT id FROM {$wpdb->prefix}pms_member_subscriptions
+            WHERE status = %s
+            AND payment_gateway IN ( 'paypal_standard', 'paypal_express' )
+            AND payment_profile_id IS NOT NULL
+            AND payment_profile_id != ''
+            LIMIT 1",
+            'active'
+        )
+    );
+
+    return ! empty( $subscription_id );
+}
+
+/**
+ * PayPal legacy gateways need the merchant email for IPN verification.
+ *
+ * @return bool
+ */
+function pms_check_paypal_legacy_email_missing() {
+
+    if ( pms_get_paypal_email() !== false ) {
+        return false;
+    }
+
+    return pms_has_active_paypal_legacy_subscriptions();
+}
+
+/**
+ * @param array $issues Existing dashboard issues.
+ * @return array
+ */
+function pms_add_paypal_legacy_email_dashboard_issue( $issues ) {
+
+    if ( pms_check_paypal_legacy_email_missing() ) {
+        $issues['paypal_legacy_email_missing'] = true;
+    }
+
+    return $issues;
+}
+add_filter( 'pms_dashboard_issues', 'pms_add_paypal_legacy_email_dashboard_issue' );
+
+/**
+ * @param array|null $interpreted_issue Current interpretation.
+ * @param string     $issue_key         Issue key.
+ * @param array      $issue_data        Raw issue data.
+ * @return array|null
+ */
+function pms_interpret_paypal_legacy_email_dashboard_issue( $interpreted_issue, $issue_key, $issue_data ) {
+
+    if ( $issue_key !== 'paypal_legacy_email_missing' ) {
+        return $interpreted_issue;
+    }
+
+    $settings_url = admin_url( 'admin.php?page=pms-settings-page&tab=payments' );
+
+    return array(
+        'severity'    => 'critical',
+        'title'       => __( 'PayPal Email Address Missing', 'paid-member-subscriptions' ),
+        'description' => sprintf(
+            __( 'You have active subscriptions using %1$s or %2$s, but the PayPal Email Address is not set. Add it in payment settings so Instant Payment Notifications (IPNs) from PayPal can be received and processed.', 'paid-member-subscriptions' ),
+            '<strong>' . esc_html__( 'PayPal Standard', 'paid-member-subscriptions' ) . '</strong>',
+            '<strong>' . esc_html__( 'PayPal Express', 'paid-member-subscriptions' ) . '</strong>'
+        ),
+        'actions'     => array(
+            array(
+                'text'     => __( 'Go to Payments Settings', 'paid-member-subscriptions' ),
+                'url'      => $settings_url,
+                'type'     => 'primary',
+                'target'   => '_self',
+                'behavior' => 'url',
+            ),
+        ),
+    );
+}
+add_filter( 'pms_interpret_dashboard_issue', 'pms_interpret_paypal_legacy_email_dashboard_issue', 10, 3 );
+
+/**
  * Add custom log messages for the PayPal Standard gateway
  *
  */

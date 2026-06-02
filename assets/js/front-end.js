@@ -281,6 +281,14 @@ jQuery( function($) {
 
             }
 
+            // Pay in installments: only gateways that support billing cycles (data-billing_cycles)
+            if ( $pms_checked_subscription.length > 0 && $pms_checked_subscription.data('limit_payment_cycles') === 'yes' ) {
+
+                $(paygate_selector + ':not([data-billing_cycles])').attr('disabled', true);
+                $(paygate_selector + ':not([data-billing_cycles])').closest('label').hide();
+
+            }
+
 
             // Select the first first available payment gateway by default after hiding the gateways
             if ($(paygate_selector + ':not([disabled]):checked').length == 0)
@@ -432,7 +440,7 @@ jQuery( function($) {
         function handle_billing_cycles_display( selected_paygate ) {
             let cyclesText = jQuery('.pms-subscription-plan-billing-cycles');
 
-            let gateways = ['manual', 'stripe_connect', 'paypal_connect'];
+            let gateways = ['manual', 'stripe_connect', 'paypal_connect', 'authorize_net'];
 
             if ( gateways.includes(selected_paygate) )
                 cyclesText.show();

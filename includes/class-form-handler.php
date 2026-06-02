@@ -491,6 +491,14 @@ Class PMS_Form_Handler {
 
         }
 
+        // Validate if the payment gateway supports pay in installments for the selected subscription plan
+        if( $subscription_plan->has_installments() ) {
+
+            if( ! $payment_gateway->supports( 'billing_cycles' ) )
+                pms_errors()->add( 'form_general', __( 'Something went wrong. The selected payment gateway does not support paying in installments.', 'paid-member-subscriptions' ) );
+
+        }
+
         // Validate fields for the payment gateway
         if( method_exists( $payment_gateway , 'validate_fields' ) )
             $payment_gateway->validate_fields();
@@ -792,6 +800,9 @@ Class PMS_Form_Handler {
             return;
 
         if( ! in_array( $member_subscription->id, $member->get_subscription_ids() ) )
+            return;
+
+        if( $member_subscription->status !== 'active' || ! $member_subscription->is_auto_renewing() )
             return;
 
         // Remove subscription if confirm button was pressed

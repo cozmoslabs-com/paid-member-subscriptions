@@ -243,7 +243,7 @@ if( ! empty( $_POST ) ) {
 
                             if( $member_subscription->is_auto_renewing() ){
 
-                                if( ( in_array( $member_subscription->payment_gateway, array( 'stripe_intents', 'stripe_connect', 'paypal_connect' ) ) || ( $member_subscription->payment_gateway == 'paypal_express' && !empty( $settings['gateways']['paypal']['reference_transactions'] ) ) ) )
+                                if( ( in_array( $member_subscription->payment_gateway, array( 'stripe_intents', 'stripe_connect', 'paypal_connect', 'authorize_net' ) ) || ( $member_subscription->payment_gateway == 'paypal_express' && !empty( $settings['gateways']['paypal']['reference_transactions'] ) ) ) )
                                     $hide_expiration_date = true;
                                 elseif ( $plan->is_fixed_period_membership() && $plan->fixed_period_renewal_allowed() )
                                     $hide_expiration_date = true;

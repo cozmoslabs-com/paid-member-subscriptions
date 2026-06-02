@@ -68,12 +68,12 @@ async function pms_initialize_recaptcha_v3( event = null, current_form = null ){
                 /* don't submit form if PMS gateway is Stripe */
                 if( jQuery(".pms_pay_gate[type=radio]").length > 0 ){
                     jQuery(".pms_pay_gate").each( function(){
-                        if( jQuery(this).is(":checked") && !jQuery(this).is(":disabled") && ( jQuery(this).val() == "stripe_connect" || jQuery(this).val() == "stripe_intents" || jQuery(this).val() == "stripe" || jQuery(this).val() == "paypal_connect" ) )
+                        if( jQuery(this).is(":checked") && !jQuery(this).is(":disabled") && ( jQuery(this).val() == "stripe_connect" || jQuery(this).val() == "stripe_intents" || jQuery(this).val() == "stripe" || jQuery(this).val() == "paypal_connect" || jQuery(this).val() == "authorize_net" ) )
                             submitForm = false
                     })
                 } else if( jQuery(".pms_pay_gate[type=hidden]").length > 0 ) {
 
-                    if( !jQuery(".pms_pay_gate[type=hidden]").is(":disabled") && ( jQuery(".pms_pay_gate[type=hidden]").val() == "stripe_connect" || jQuery(".pms_pay_gate[type=hidden]").val() == "stripe_intents" || jQuery(".pms_pay_gate[type=hidden]").val() == "stripe" || jQuery(".pms_pay_gate[type=hidden]").val() == "paypal_connect" ) )
+                    if( !jQuery(".pms_pay_gate[type=hidden]").is(":disabled") && ( jQuery(".pms_pay_gate[type=hidden]").val() == "stripe_connect" || jQuery(".pms_pay_gate[type=hidden]").val() == "stripe_intents" || jQuery(".pms_pay_gate[type=hidden]").val() == "stripe" || jQuery(".pms_pay_gate[type=hidden]").val() == "paypal_connect" || jQuery(".pms_pay_gate[type=hidden]").val() == "authorize_net" ) )
                         submitForm = false
                 }
 

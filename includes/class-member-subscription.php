@@ -346,12 +346,17 @@ Class PMS_Member_Subscription {
 
             if( !empty( $this->expiration_date ) && $this->expiration_date != '0000-00-00 00:00:00' && $expiration_date < time() ) {
 
-                // Expire the subscription
-                $this->update( array( 'status' => 'expired' ) );
+                // Auto-renewing guard does not apply to PayPal Standard / Express (24h adjustment + legacy expire behavior).
+                if( in_array( $this->payment_gateway, array( 'paypal_standard', 'paypal_express' ), true ) || ! $this->is_auto_renewing() ) {
 
-                pms_add_member_subscription_log( $this->id, 'subscription_expired' );
+                    // Expire the subscription
+                    $this->update( array( 'status' => 'expired' ) );
 
-                return $this->status;
+                    pms_add_member_subscription_log( $this->id, 'subscription_expired_automatically' );
+
+                    return $this->status;
+
+                }
 
             }
         }

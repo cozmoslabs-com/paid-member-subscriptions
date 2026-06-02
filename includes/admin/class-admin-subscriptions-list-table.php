@@ -384,7 +384,9 @@ Class PMS_Subscriptions_List_Table extends WP_List_Table {
                 $search_where[] = $wpdb->prepare( 'subscriptions.id = %d', (int)$search_term );
 
             $search_where[] = $wpdb->prepare( 'users.user_login LIKE %s', $search_like );
+            $search_where[] = $wpdb->prepare( 'users.user_email LIKE %s', $search_like );
             $search_where[] = $wpdb->prepare( 'plans.post_title LIKE %s', $search_like );
+            $search_where[] = $wpdb->prepare( 'subscriptions.payment_profile_id LIKE %s', $search_like );
 
             $query_where .= ' AND ( ' . implode( ' OR ', $search_where ) . ' )';
 

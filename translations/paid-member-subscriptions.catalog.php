@@ -113,6 +113,7 @@
 <?php __("Something went wrong. The selected payment gateway does not support free trials.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. The selected payment gateway does not support sign-up fees.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. The selected payment gateway does not support recurring payments.", "paid-member-subscriptions"); ?>
+<?php __("Something went wrong. The selected payment gateway does not support paying in installments.", "paid-member-subscriptions"); ?>
 <?php __("The default currency you are using right now is not supported by PayPal. Contact the website administrator.", "paid-member-subscriptions"); ?>
 <?php __("You are already a member.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. We could not cancel your subscription.", "paid-member-subscriptions"); ?>
@@ -974,6 +975,7 @@
 <?php __("Subscription activated successfully.", "paid-member-subscriptions"); ?>
 <?php __("Subscription activated until <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription expired.", "paid-member-subscriptions"); ?>
+<?php __("Subscription expired (status check system).", "paid-member-subscriptions"); ?>
 <?php __("Subscription renewed by user.", "paid-member-subscriptions"); ?>
 <?php __("Subscription renewed until <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Subscription renewed automatically.", "paid-member-subscriptions"); ?>
@@ -1514,6 +1516,42 @@
 <?php __("Please enter a price less than or equal to %s.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a price greater than or equal to %s.", "paid-member-subscriptions"); ?>
 <?php __('Please enter a price between %1$s and %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("The selected gateway is not configured correctly: <strong>Authorize.Net API credentials are missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
+<?php __("Authorize.Net API credentials not configured.", "paid-member-subscriptions"); ?>
+<?php __("Invalid payment ID or amount.", "paid-member-subscriptions"); ?>
+<?php __("Payment not found.", "paid-member-subscriptions"); ?>
+<?php __("No transaction ID found for this payment.", "paid-member-subscriptions"); ?>
+<?php __("Cannot refund: the original card details are not available for this subscription. Issue the refund directly from the Authorize.Net dashboard.", "paid-member-subscriptions"); ?>
+<?php __("Payment refunded successfully!", "paid-member-subscriptions"); ?>
+<?php __("Refund could not be processed.", "paid-member-subscriptions"); ?>
+<?php __("<strong>Authorize.Net:</strong> %s", "paid-member-subscriptions"); ?>
+<?php __("No response from Authorize.Net.", "paid-member-subscriptions"); ?>
+<?php __("No existing payment profile found. Please contact support.", "paid-member-subscriptions"); ?>
+<?php __("Something went wrong, please try again.", "paid-member-subscriptions"); ?>
+<?php __("Payment method updated successfully.", "paid-member-subscriptions"); ?>
+<?php __("Transaction held for review; completion will be processed when Authorize.Net sends a webhook.", "paid-member-subscriptions"); ?>
+<?php __("The card was declined.", "paid-member-subscriptions"); ?>
+<?php __("The payment gateway reported an error processing this transaction.", "paid-member-subscriptions"); ?>
+<?php __("The transaction is held for review by the payment processor.", "paid-member-subscriptions"); ?>
+<?php __("The payment could not be completed.", "paid-member-subscriptions"); ?>
+<?php __("Card payments are not available because the payment gateway is not configured. Please contact the site administrator.", "paid-member-subscriptions"); ?>
+<?php __("Card Number", "paid-member-subscriptions"); ?>
+<?php __("CVV", "paid-member-subscriptions"); ?>
+<?php __("Please enter a valid card number.", "paid-member-subscriptions"); ?>
+<?php __("Please enter a valid card expiration date.", "paid-member-subscriptions"); ?>
+<?php __("Please enter a valid card verification value.", "paid-member-subscriptions"); ?>
+<?php __("Accept.js library is not loaded. Please refresh the page and try again.", "paid-member-subscriptions"); ?>
+<?php __("An unexpected error occurred. Please try again.", "paid-member-subscriptions"); ?>
+<?php __("Collect credit and debit card payments for your membership plans with Authorize.Net, including recurring subscriptions and renewals.", "paid-member-subscriptions"); ?>
+<?php __("Authorize.Net transaction created successfully.", "paid-member-subscriptions"); ?>
+<?php __("Authorize.Net webhook received: %s", "paid-member-subscriptions"); ?>
+<?php __("Payment was refunded in the Authorize.Net Dashboard.", "paid-member-subscriptions"); ?>
+<?php __("Authorize.Net transaction is held for review; completion will be processed when the gateway sends a webhook.", "paid-member-subscriptions"); ?>
+<?php __("Subscription expired because the payment was refunded in the Authorize.Net Dashboard.", "paid-member-subscriptions"); ?>
+<?php __("Subscription activated after held transaction was approved in the Authorize.Net Dashboard.", "paid-member-subscriptions"); ?>
+<?php __("Subscription expired because the held transaction was declined in the Authorize.Net Dashboard.", "paid-member-subscriptions"); ?>
+<?php __("Payment could not be processed.", "paid-member-subscriptions"); ?>
+<?php __("The payment gateway is reporting the following error:", "paid-member-subscriptions"); ?>
 <?php __("API Key successfully validated!", "paid-member-subscriptions"); ?>
 <?php __("List ID successfully validated!", "paid-member-subscriptions"); ?>
 <?php __("No users selected.", "paid-member-subscriptions"); ?>
@@ -1746,7 +1784,6 @@
 <?php __("You are not allowed to do this.", "paid-member-subscriptions"); ?>
 <?php __("Member invitation removed succesfully!", "paid-member-subscriptions"); ?>
 <?php __("Member removed successfully!", "paid-member-subscriptions"); ?>
-<?php __("Something went wrong, please try again.", "paid-member-subscriptions"); ?>
 <?php __("Invitation sent successfully!", "paid-member-subscriptions"); ?>
 <?php __("Invalid subscription.", "paid-member-subscriptions"); ?>
 <?php __("Invalid subscription type.", "paid-member-subscriptions"); ?>
@@ -1897,15 +1934,10 @@
 <?php __("The selected gateway is not configured correctly: <strong>PayPal Address is missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
 <?php __("The selected gateway is not configured correctly: <strong>PayPal API credentials are missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
 <?php __("PayPal API credentials not configured.", "paid-member-subscriptions"); ?>
-<?php __("Invalid payment ID or amount.", "paid-member-subscriptions"); ?>
-<?php __("Payment not found.", "paid-member-subscriptions"); ?>
-<?php __("No transaction ID found for this payment.", "paid-member-subscriptions"); ?>
 <?php __("PayPal API request failed: %s", "paid-member-subscriptions"); ?>
 <?php __("PayPal API returned error code: %s", "paid-member-subscriptions"); ?>
 <?php __("PayPal refund was not successful!", "paid-member-subscriptions"); ?>
-<?php __("Payment refunded successfully!", "paid-member-subscriptions"); ?>
 <?php __("Credit Card Information", "paid-member-subscriptions"); ?>
-<?php __("Card Number", "paid-member-subscriptions"); ?>
 <?php __("Card CVV", "paid-member-subscriptions"); ?>
 <?php __("Please enter a Billing First Name.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a Billing Last Name.", "paid-member-subscriptions"); ?>
@@ -1914,9 +1946,6 @@
 <?php __("Please enter a Billing State.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a Billing Country.", "paid-member-subscriptions"); ?>
 <?php __("Please enter a Billing ZIP code.", "paid-member-subscriptions"); ?>
-<?php __("Please enter a valid card number.", "paid-member-subscriptions"); ?>
-<?php __("Please enter a valid card verification value.", "paid-member-subscriptions"); ?>
-<?php __("Please enter a valid card expiration date.", "paid-member-subscriptions"); ?>
 <?php __("Payments using credit cards or customer accounts handled by PayPal (deprecated).", "paid-member-subscriptions"); ?>
 <?php __("Payments using credit cards directly on your website through PayPal API. .", "paid-member-subscriptions"); ?>
 <?php __("PayPal Recurring Initial Payment", "paid-member-subscriptions"); ?>
@@ -1934,7 +1963,6 @@
 <?php __("Received Transaction ID from PayPal.", "paid-member-subscriptions"); ?>
 <?php __("User did not accept the <strong>Billing Agreement</strong> on the <strong>PayPal Checkout</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Attempting to charge user based on the <strong>PayPal Checkout</strong>.", "paid-member-subscriptions"); ?>
-<?php __("The payment gateway is reporting the following error:", "paid-member-subscriptions"); ?>
 <?php __("Payment Gateway Message", "paid-member-subscriptions"); ?>
 <?php __("Error code:", "paid-member-subscriptions"); ?>
 <?php __("Message:", "paid-member-subscriptions"); ?>
@@ -1967,7 +1995,6 @@
 <?php __("3D Secure authentication has failed.", "paid-member-subscriptions"); ?>
 <?php __("The user did not click on the confirmation link that was sent.", "paid-member-subscriptions"); ?>
 <?php __("User returned to the website for authentication.", "paid-member-subscriptions"); ?>
-<?php __("Payment method updated successfully.", "paid-member-subscriptions"); ?>
 <?php __("The selected gateway is not configured correctly: <strong>API credentials are missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
 <?php __('Your Stripe API settings are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("Payments using credit cards directly on your website through Stripe API.", "paid-member-subscriptions"); ?>
@@ -2160,6 +2187,7 @@
 <?php __("Old Stripe implementation not available for new users.", "paid-member-subscriptions"); ?>
 <?php __("Tax & EU VAT", "paid-member-subscriptions"); ?>
 <?php __("Helps you collect tax or vat from your users depending on their location, with full control over tax rates and who to charge.", "paid-member-subscriptions"); ?>
+<?php __("Authorize.Net", "paid-member-subscriptions"); ?>
 <?php __("Integrate Mailchimp to keep your membership audience up to date. Automatically add or update subscribers, enable Double Opt-In, and sync custom fields between Mailchimp and member profiles.", "paid-member-subscriptions"); ?>
 <?php __("Sync your members with Brevo to manage contacts smoothly. Automate newsletter subscriptions, use Double Opt-In for compliance, and link custom fields between Brevo and your member data.", "paid-member-subscriptions"); ?>
 <?php __("Recommended Plugins", "paid-member-subscriptions"); ?>
@@ -2612,6 +2640,9 @@
 <?php __("Use the following URL for the IPN:", "paid-member-subscriptions"); ?>
 <?php __("In order for <strong>PayPal payments to work correctly</strong>, you need to setup the IPN Url in your PayPal account. %s", "paid-member-subscriptions"); ?>
 <?php __('Your <strong>PayPal Email Address</strong> is missing. In order to make payments you will need to add the Email Address of your PayPal account %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
+<?php __("PayPal Email Address Missing", "paid-member-subscriptions"); ?>
+<?php __('You have active subscriptions using %1$s or %2$s, but the PayPal Email Address is not set. Add it in payment settings so Instant Payment Notifications (IPNs) from PayPal can be received and processed.', 'paid-member-subscriptions' ); ?>
+<?php __("PayPal Express", "paid-member-subscriptions"); ?>
 <?php __("User sent to <strong>PayPal Checkout</strong> to continue the payment process.", "paid-member-subscriptions"); ?>
 <?php __("Waiting to receive Instant Payment Notification (IPN) from <strong>PayPal</strong>.", "paid-member-subscriptions"); ?>
 <?php __("Instant Payment Notification (IPN) received from PayPal.", "paid-member-subscriptions"); ?>
@@ -2632,7 +2663,6 @@
 <?php __("Subscription expired because the payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>
 <?php __("User attemped to setup a payment method for this subscription but failed. Reason: %s", "paid-member-subscriptions"); ?>
 <?php __("Card - One Time", "paid-member-subscriptions"); ?>
-<?php __("Payment could not be processed.", "paid-member-subscriptions"); ?>
 <?php __("Please %slog in%s and try again.", "paid-member-subscriptions"); ?>
 <?php __("The card does not support this type of purchase.", "paid-member-subscriptions"); ?>
 <?php __("The customer has exceeded the balance or credit limit available on their card.", "paid-member-subscriptions"); ?>
@@ -2749,6 +2779,29 @@
 <?php __("Set the Expiration Date. A subsequent date change will only affect new users.", "paid-member-subscriptions"); ?>
 <?php __("Allow plan to be renewed", "paid-member-subscriptions"); ?>
 <?php __("Allow fixed period plan to be renewed each year.", "paid-member-subscriptions"); ?>
+<?php __("API Login ID", "paid-member-subscriptions"); ?>
+<?php __("Enter your API Login ID. You can find it in your Authorize.Net Merchant Interface under Account > Settings > Security Settings > API Credentials & Keys.", "paid-member-subscriptions"); ?>
+<?php __("Transaction Key", "paid-member-subscriptions"); ?>
+<?php __("Enter your Transaction Key. You can find it in your Authorize.Net Merchant Interface under Account > Settings > Security Settings > API Credentials & Keys.", "paid-member-subscriptions"); ?>
+<?php __("Signature Key", "paid-member-subscriptions"); ?>
+<?php __("<strong>Required for webhooks.</strong> Enter your Signature Key. Generate it in your Authorize.Net Merchant Interface under Account > Settings > Security Settings > API Credentials & Keys. Without it, incoming webhook requests cannot be verified and are rejected.", "paid-member-subscriptions"); ?>
+<?php __("Connection Status", "paid-member-subscriptions"); ?>
+<?php __("Not verified", "paid-member-subscriptions"); ?>
+<?php __("Save your settings to verify the connection and fetch the Public Client Key automatically.", "paid-member-subscriptions"); ?>
+<?php __("Connected", "paid-member-subscriptions"); ?>
+<?php __("Your account is connected in %s mode.", "paid-member-subscriptions"); ?>
+<?php __("Webhooks Status", "paid-member-subscriptions"); ?>
+<?php __("Webhooks are connected successfully. Last webhook received at: %s", "paid-member-subscriptions"); ?>
+<?php __("Unknown", "paid-member-subscriptions"); ?>
+<?php __("Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Authorize.Net account.", "paid-member-subscriptions"); ?>
+<?php __("Waiting for data", "paid-member-subscriptions"); ?>
+<?php __("When the status changes to Connected, the website has started processing webhook data from Authorize.Net.", "paid-member-subscriptions"); ?>
+<?php __("Webhooks URL", "paid-member-subscriptions"); ?>
+<?php __("Copy this URL and configure it in your Authorize.Net Merchant Interface under Account > Settings > Webhooks. Select the following events: <strong>payment.authcapture.created</strong>, <strong>payment.refund.created</strong>, <strong>payment.fraud.approved</strong>, <strong>payment.fraud.declined</strong>, <strong>payment.fraud.held</strong>.", "paid-member-subscriptions"); ?>
+<?php __("Authorize.Net Customer Profile ID", "paid-member-subscriptions"); ?>
+<?php __("Authorize.Net Payment Profile ID", "paid-member-subscriptions"); ?>
+<?php __("The Authorize.Net Customer Profile ID must be numeric.", "paid-member-subscriptions"); ?>
+<?php __("The Authorize.Net Payment Profile ID must be numeric.", "paid-member-subscriptions"); ?>
 <?php __("Select the subscription plan for which this content dripping set should apply.", "paid-member-subscriptions"); ?>
 <?php __("Select content dripping set status.", "paid-member-subscriptions"); ?>
 <?php __("Authentication", "paid-member-subscriptions"); ?>
@@ -3165,7 +3218,6 @@
 <?php __("Download this sample discount codes files", "paid-member-subscriptions"); ?>
 <?php __(" and modify it by adding your own discounts.", "paid-member-subscriptions"); ?>
 <?php __(" PayPal", "paid-member-subscriptions"); ?>
-<?php __("Connection Status", "paid-member-subscriptions"); ?>
 <?php __("Success", "paid-member-subscriptions"); ?>
 <?php __("Your account is connected successfully in %s mode.", "paid-member-subscriptions"); ?>
 <?php __("Connected Account", "paid-member-subscriptions"); ?>
@@ -3185,12 +3237,7 @@
 <?php __("Vaulting", "paid-member-subscriptions"); ?>
 <?php __("You are not able to offer the Vaulting functionality because its onboarding status is %s.", "paid-member-subscriptions"); ?>
 <?php __(" Please reach out to %s for more information.", "paid-member-subscriptions"); ?>
-<?php __("Webhooks Status", "paid-member-subscriptions"); ?>
-<?php __("Connected", "paid-member-subscriptions"); ?>
-<?php __("Webhooks are connected successfully. Last webhook received at: %s", "paid-member-subscriptions"); ?>
-<?php __("Unknown", "paid-member-subscriptions"); ?>
 <?php __("Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your PayPal Account.", "paid-member-subscriptions"); ?>
-<?php __("Waiting for data", "paid-member-subscriptions"); ?>
 <?php __("When the status changes to Connected, the website has started processing webhook data from PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Disconnect", "paid-member-subscriptions"); ?>
 <?php __("Disconnecting your account will stop all payments from being processed.", "paid-member-subscriptions"); ?>
@@ -3220,7 +3267,6 @@
 <?php __("Please reload the page and connect your account again in order to receive payments.", "paid-member-subscriptions"); ?>
 <?php __("Webhooks were connected successfully, but the last webhook received was more than 14 days ago. You should verify that the webhook URL still exists in your Stripe Account.", "paid-member-subscriptions"); ?>
 <?php __("When the status changes to Connected, the website has started processing webhook data from Stripe.", "paid-member-subscriptions"); ?>
-<?php __("Webhooks URL", "paid-member-subscriptions"); ?>
 <?php __("Copy this URL and configure it in your Stripe Account. After setting up the webhook endpoint, you can also copy the %sWebhook Signing Secret%s from Stripe and paste it in the field below for enhanced security. %sClick here%s to learn more about the Webhooks setup process. ", "paid-member-subscriptions"); ?>
 <?php __("Webhook Signing Secret", "paid-member-subscriptions"); ?>
 <?php __("whsec_...", "paid-member-subscriptions"); ?>

@@ -707,6 +707,9 @@ function pms_member_cancel_subscription( $content ) {
     if( ! in_array( $member_subscription->id, $member->get_subscription_ids() ) )
         return $content;
 
+    if( !$member_subscription->is_auto_renewing() )
+        return $content;
+
     // Get subscription plan
     $subscription_plan = pms_get_subscription_plan( (int)$member_subscription->subscription_plan_id );
 

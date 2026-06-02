@@ -249,7 +249,7 @@ function pms_get_scheduled_payments_by_interval( $interval = 'next_run', $additi
     $current_time = time();
     $args = array(
         'status'                         => array( 'active' ),
-        'payment_gateway'                => array( 'stripe', 'stripe_intents', 'stripe_connect', 'paypal_connect' ),
+        'payment_gateway'                => array( 'stripe', 'stripe_intents', 'stripe_connect', 'paypal_connect', 'authorize_net' ),
         'billing_next_payment_not_empty' => true,
     );
 

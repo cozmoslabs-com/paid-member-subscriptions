@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.4
+Stable tag: 3.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -268,11 +268,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.0.4 =
-* Fix: A notice being thrown from the Password Strength functionality in some cases
-* Fix: Prevent an issue with subscriptions sold through the WooCommerce Checkout where the subscription could be processed twice for the same transaction
-* Fix: An issue with Webhooks not being able to advance subscription data when completing a pending Plugin Scheduled Payment
-* Misc: Improve general Webhooks restrictions that the plugin applies
-* Misc: Small changes to the Gutenberg Block Content Restriction functionality
+= 3.0.5 =
+* Fix: Harden PayPal Connect Webhooks certificate fetch to fix a SSRF issue. Thanks to yangsori and the Patchstack team for the report
+* Fix: Hide Cancel action from non-recurring subscriptions
+* Fix: Improvements to the new payments scheduler
+* Fix: Align cancel action generation rules with the rules for the cancel action from the Account page
+* Fix: For PSP subscriptions, reset expiration date on renewal payments
+* Misc: Added a new special log entry that is used when the plugin expires a subscription through the status check functionality
+* Misc: Extend Subscriptions page search with email and payment profile ID
+* Misc: Added a Dashboard notification when recurring PayPal Standard or Express payments exist but the email is not saved in settings
+* Misc: Smaller spacing for Remember Me box on block themes
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

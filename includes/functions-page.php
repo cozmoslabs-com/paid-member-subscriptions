@@ -134,15 +134,21 @@ function pms_get_cancel_url( $plan_id = '' ) {
     // get subscription array from the member object
     $member_subscription = $member->get_subscription( (int)$plan_id );
 
+    if( empty( $member_subscription['id'] ) )
+        return false;
+
     // get Member Subscription object
     $subscription = pms_get_member_subscription( $member_subscription['id'] );
 
-    // only active subscriptions can be canceled
-    if( $subscription->status != 'active' )
+    if( ! $subscription )
         return false;
 
-    // return if subscription is recurring but HTTPS is not detected
-    if( $subscription->is_auto_renewing() && !pms_is_https() )
+    $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
+
+    if( ! pms_member_subscription_should_show_cancel_action( $subscription, $subscription_plan ) )
+        return false;
+
+    if( ! pms_is_https() )
         return false;
 
     $url = wp_nonce_url( add_query_arg( array( 'pms-action' => 'cancel_subscription', 'subscription_id' => $subscription->id ), $account_page ), 'pms_member_nonce', 'pmstkn' );

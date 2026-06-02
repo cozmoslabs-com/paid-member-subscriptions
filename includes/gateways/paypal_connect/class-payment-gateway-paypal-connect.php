@@ -2060,6 +2060,38 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
     }
 
     /**
+     * Whether PAYPAL-CERT-URL points at a PayPal notifications certificate (HTTPS, paypal.com only).
+     *
+     * @param string $cert_url Certificate URL from the webhook request.
+     * @return bool
+     */
+    private function is_allowed_paypal_webhook_cert_url( $cert_url ) {
+
+        if( empty( $cert_url ) )
+            return false;
+
+        $parts = wp_parse_url( $cert_url );
+
+        if( empty( $parts['scheme'] ) || 'https' !== strtolower( $parts['scheme'] ) )
+            return false;
+
+        if( empty( $parts['host'] ) || ! preg_match( '/(^|\.)paypal\.com$/i', $parts['host'] ) )
+            return false;
+
+        if( empty( $parts['path'] ) || strpos( $parts['path'], '/v1/notifications/certs/' ) !== 0 )
+            return false;
+
+        if( ! empty( $parts['user'] ) || ! empty( $parts['pass'] ) || ! empty( $parts['query'] ) || ! empty( $parts['fragment'] ) )
+            return false;
+
+        if( false === wp_http_validate_url( $cert_url ) )
+            return false;
+
+        return true;
+
+    }
+
+    /**
      * Get cached certificate or download and cache it
      * 
      * @param string $cert_url The certificate URL
@@ -2067,34 +2099,32 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
      */
     private function get_cached_cert( $cert_url ) {
 
-        $cache_key = md5( $cert_url );
-        $cache_dir = PMS_PLUGIN_DIR_PATH . '/includes/gateways/paypal_connect/cache/';
-        $cache_file = $cache_dir . $cache_key;
+        if( ! $this->is_allowed_paypal_webhook_cert_url( $cert_url ) )
+            return false;
 
-        // Check if cached cert exists and is less than 24 hours old
-        if( file_exists( $cache_file ) && ( time() - filemtime( $cache_file ) < ( 2 * DAY_IN_SECONDS ) ) ) {
-            return file_get_contents( $cache_file );
-        }
+        $transient_key = 'pms_ppcp_webhook_cert_' . md5( $cert_url );
+        $cached_cert   = get_transient( $transient_key );
 
-        // Download certificate
-        $response = wp_remote_get( $cert_url );
+        if( false !== $cached_cert && is_string( $cached_cert ) && $cached_cert !== '' )
+            return $cached_cert;
+
+        $response = wp_remote_get( $cert_url, array(
+            'timeout'            => 10,
+            'reject_unsafe_urls' => true,
+        ) );
         
         if( is_wp_error( $response ) )
             return false;
 
-        $cert = wp_remote_retrieve_body( $response );
-        
-        if( empty( $cert ) )
+        if( 200 !== wp_remote_retrieve_response_code( $response ) )
             return false;
 
-        // Create cache directory if it doesn't exist
-        if( !file_exists( $cache_dir ) ) {
-            if( !wp_mkdir_p( $cache_dir ) )
-                return $cert; // Return cert without caching if directory creation fails
-        }
+        $cert = wp_remote_retrieve_body( $response );
+        
+        if( empty( $cert ) || false === strpos( $cert, 'BEGIN CERTIFICATE' ) )
+            return false;
 
-        // Cache the certificate
-        file_put_contents( $cache_file, $cert );
+        set_transient( $transient_key, $cert, 2 * DAY_IN_SECONDS );
 
         return $cert;
 

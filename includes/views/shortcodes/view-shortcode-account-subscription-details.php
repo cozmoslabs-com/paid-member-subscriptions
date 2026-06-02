@@ -138,10 +138,16 @@ foreach( $subscriptions as $subscription ) :
                                             <?php
                                             $assets_src = esc_url( PMS_PLUGIN_DIR_PATH ) . 'assets/images/card-icons/';
 
-                                            if( !empty( $payment_method_data['pms_payment_method_brand'] ) )
-                                                echo file_get_contents( $assets_src . $payment_method_data['pms_payment_method_brand'] . '.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                                            else if( !empty( $payment_method_data['pms_payment_method_type'] ) )
-                                                echo file_get_contents( $assets_src . $payment_method_data['pms_payment_method_type'] . '.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            if( !empty( $payment_method_data['pms_payment_method_brand'] ) ) {
+                                                $brand_svg = $assets_src . $payment_method_data['pms_payment_method_brand'] . '.svg';
+                                                if( file_exists( $brand_svg ) )
+                                                    echo file_get_contents( $brand_svg ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            } else if( !empty( $payment_method_data['pms_payment_method_type'] ) ) {
+                                                $type_svg = $assets_src . $payment_method_data['pms_payment_method_type'] . '.svg';
+                                                if( file_exists( $type_svg ) )
+                                                    echo file_get_contents( $type_svg ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            }
+                                           
                                             ?>
                                         </span>
                                     <?php endif; ?>
@@ -249,13 +255,11 @@ foreach( $subscriptions as $subscription ) :
 
                         }
 
-                        if( !pms_is_https() )
-                            $cancel_plan_button = apply_filters( 'pms_output_subscription_plan_action_cancel', '<span class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" title="'. __( 'This action is not available because your website doesn\'t have https enabled.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</span>', $subscription_plan, $subscription->to_array(), $member->user_id );
-                        elseif( $subscription->status == 'active' && ( 
-                                ( $subscription_plan->duration != '0' || ( $subscription_plan->is_fixed_period_membership() && $subscription_plan->fixed_expiration_date != '' ) )
-                                && ( $subscription_plan->price > 0 )
-                                ) ){
-                            $cancel_plan_button = apply_filters( 'pms_output_subscription_plan_action_cancel', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'cancel_subscription', 'subscription_id' => $subscription->id  ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '" title="'. __( 'Cancels recurring payments for this subscription, letting it expire at the end of the current period.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id );
+                        if( pms_member_subscription_should_show_cancel_action( $subscription, $subscription_plan ) ) {
+                            if( !pms_is_https() )
+                                $cancel_plan_button = apply_filters( 'pms_output_subscription_plan_action_cancel', '<span class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" title="'. __( 'This action is not available because your website doesn\'t have https enabled.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</span>', $subscription_plan, $subscription->to_array(), $member->user_id );
+                            else
+                                $cancel_plan_button = apply_filters( 'pms_output_subscription_plan_action_cancel', '<a class="pms-account-subscription-action-link pms-account-subscription-action-link__cancel" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms-action' => 'cancel_subscription', 'subscription_id' => $subscription->id  ), pms_get_current_page_url( true ) ), 'pms_member_nonce', 'pmstkn' ) ) . '" title="'. __( 'Cancels recurring payments for this subscription, letting it expire at the end of the current period.', 'paid-member-subscriptions' ) .'">' . __( 'Cancel', 'paid-member-subscriptions' ) . '</a>', $subscription_plan, $subscription->to_array(), $member->user_id );
                         }
                     }
 

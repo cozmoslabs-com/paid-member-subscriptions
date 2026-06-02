@@ -39,7 +39,7 @@ function pms_get_payment_gateways( $only_slugs = false ) {
             'display_name_admin' => 'Stripe',
             'class_name'         => 'PMS_Payment_Gateway_Stripe_Connect',
             'description'        =>  __( 'Connect your existing Stripe Account or create a new one to start accepting payments.', 'paid-member-subscriptions' )
-        )
+        ),
 
     ));
 
@@ -357,6 +357,9 @@ function pms_get_output_payment_gateways( $pms_settings = array(), $form_locatio
 
             if( $gateway_obj->supports( 'recurring_payments' ) )
                 $gateway_supports_arr[$gateway_slug]['recurring'] = 1;
+
+            if( $gateway_obj->supports( 'billing_cycles' ) )
+                $gateway_supports_arr[$gateway_slug]['billing_cycles'] = 1;
 
         }
     }

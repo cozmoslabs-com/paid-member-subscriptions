@@ -737,7 +737,7 @@ add_action( 'pms_payment_update', 'pms_in_dc_update_discount_data_after_use', 10
  */
 function pms_in_dc_update_stripe_free_trial_discount_data( $subscription, $form_location ){
 
-    if( !isset( $_POST['discount_code'] ) || empty( $subscription->subscription_plan_id ) || !in_array( $subscription->payment_gateway, [ 'stripe_connect', 'stripe_intents', 'paypal_connect' ] ) )
+    if( !isset( $_POST['discount_code'] ) || empty( $subscription->subscription_plan_id ) || !in_array( $subscription->payment_gateway, [ 'stripe_connect', 'stripe_intents', 'paypal_connect', 'authorize_net' ] ) )
         return;
 
     $code = sanitize_text_field( $_POST['discount_code'] );

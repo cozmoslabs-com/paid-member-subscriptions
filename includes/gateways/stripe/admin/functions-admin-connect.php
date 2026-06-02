@@ -622,7 +622,13 @@ function pms_stripe_save_webhook_secret() {
 	if( !isset( $_POST['pms_stripe_connect_webhook_secret'] ) )
 		return;
 
-	if( !current_user_can( 'manage_options' ) )
+	if( ! is_admin() )
+		return;
+
+	if( ! current_user_can( 'manage_options' ) )
+		return;
+
+	if( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'pms_payments_settings-options' ) )
 		return;
 
 	$environment = pms_is_payment_test_mode() ? 'test' : 'live';

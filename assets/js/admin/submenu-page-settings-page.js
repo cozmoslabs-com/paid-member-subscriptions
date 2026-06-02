@@ -279,6 +279,15 @@ jQuery( function($) {
 
     });
 
+    $(document).on( 'change', '.pms-form-field-active-payment-gateways #authorize_net', function () {
+
+        if ( this.checked ) 
+            $('#cozmoslabs-subsection-authorize-net-configs').show();
+        else 
+            $('#cozmoslabs-subsection-authorize-net-configs').hide();
+
+    });
+
     $('.pms-stripe-connect__disconnect-handler').click(function (e) {
 
         e.preventDefault()
@@ -465,7 +474,7 @@ jQuery( function($) {
  *
  * */
 jQuery( document ).ready(function(){
-    jQuery('.paypal-connect__copy, .stripe-connect__copy').click(function (e) {
+    jQuery('.paypal-connect__copy, .stripe-connect__copy, .authorize-net__copy').click(function (e) {
         e.preventDefault();
 
         var inputId = jQuery(this).data('id');

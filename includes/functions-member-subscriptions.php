@@ -293,6 +293,30 @@ function pms_get_member_subscription_statuses() {
 
 
 /**
+ * Whether the member account should show the Cancel action for a subscription.
+ *
+ * @return bool
+ */
+function pms_member_subscription_should_show_cancel_action( $subscription, $subscription_plan ) {
+
+    if( empty( $subscription_plan ) || empty( $subscription_plan->id ) )
+        return false;
+
+    if( $subscription->status != 'active' || !$subscription->is_auto_renewing() )
+        return false;
+
+    if( $subscription_plan->duration == '0' && ( !$subscription_plan->is_fixed_period_membership() || $subscription_plan->fixed_expiration_date == '' ) )
+        return false;
+
+    if( $subscription_plan->price <= 0 )
+        return false;
+
+    return apply_filters( 'pms_member_subscription_should_show_cancel_action', true, $subscription, $subscription_plan );
+
+}
+
+
+/**
  * Returns the metadata for a given member subscription
  *
  * @param int    $member_subscription_id
