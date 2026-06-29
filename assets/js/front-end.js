@@ -1317,6 +1317,9 @@ jQuery( function($) {
     jQuery("#pms-delete-account").on("click", function (e) {
         e.preventDefault();
 
+        if( typeof pmsGdpr === 'undefined' || typeof pmsGdpr.delete_url === 'undefined' )
+            return;
+
         var pmsDeleteUser = prompt(pmsGdpr.delete_text);
         if( pmsDeleteUser === "DELETE" ) {
             window.location.replace(pmsGdpr.delete_url);

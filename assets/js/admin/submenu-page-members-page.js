@@ -5,6 +5,19 @@
 jQuery( function($) {
 
     /**
+     * Expand or collapse the payments metabox on the edit member subscription page
+     */
+    $( document )
+        .off( 'click.pmsMemberSubscriptionPayments', '#pms-member-subscription-payments > .hndle, #pms-member-subscription-payments > .handlediv' )
+        .on( 'click.pmsMemberSubscriptionPayments', '#pms-member-subscription-payments > .hndle, #pms-member-subscription-payments > .handlediv', function() {
+            var $postbox = $( this ).closest( '.postbox' );
+            var expanded = $postbox.hasClass( 'closed' );
+
+            $postbox.toggleClass( 'closed', ! expanded );
+            $postbox.find( '> .handlediv' ).attr( 'aria-expanded', expanded ? 'true' : 'false' );
+        } );
+
+    /**
      * Adds a spinner after the element
      */
     $.fn.pms_addSpinner = function( animation_speed ) {

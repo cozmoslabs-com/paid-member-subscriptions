@@ -92,6 +92,26 @@ class PMS_Export {
 	}
 
 	/**
+	 * Neutralize spreadsheet formula injection in a CSV cell value.
+	 *
+	 * @param mixed $value Cell value.
+	 * @return mixed Sanitized value, or unchanged when not a scalar string.
+	 */
+	protected function sanitize_csv_cell( $value ) {
+		if ( ! is_scalar( $value ) || is_bool( $value ) ) {
+			return $value;
+		}
+
+		$value = (string) $value;
+
+		if ( $value !== '' && preg_match( '/^[=+\-@]/', $value ) ) {
+			$value = "'" . $value;
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Output the CSV columns
 	 *
 	 * @since 1.7.6
@@ -102,6 +122,7 @@ class PMS_Export {
 		$cols = $this->get_csv_cols();
 		$i = 1;
 		foreach( $cols as $col_id => $column ) {
+			$column = $this->sanitize_csv_cell( $column );
 			echo '"' . addslashes( $column ) . '"'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $i == count( $cols ) ? '' : ',';
 			$i++;
@@ -148,6 +169,7 @@ class PMS_Export {
 			foreach ( $row as $col_id => $column ) {
 				// Make sure the column is valid
 				if ( array_key_exists( $col_id, $cols ) ) {
+					$column = $this->sanitize_csv_cell( $column );
 					echo '"' . addslashes( $column ) . '"'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo $i == count( $cols ) ? '' : ',';
 					$i++;

@@ -43,10 +43,10 @@ Class PMS_Merge_Tags{
     /**
      * Function that searches and replaces merge tags with their values
      *
-     * @param $text                 the text to search
-     * @param $user_info            used for merge tags related to the user
-     * @param $subscription_id      used for merge tags related to the subscription
-     * @param $payment_id           used for merge tags related to the payment
+     * @param $text                 - the text to search
+     * @param $user_info            - used for merge tags related to the user
+     * @param $subscription_id      - used for merge tags related to the subscription
+     * @param $payment_id           - used for merge tags related to the payment
      *
      * @return mixed text with merge tags replaced
      */

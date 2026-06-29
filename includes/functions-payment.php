@@ -344,6 +344,7 @@ function pms_get_payments_count( $args = array() ) {
         'type'                          => '',
         'user_id'                       => '',
         'subscription_plan_id'          => '',
+        'member_subscription_id'        => '',
         'payment_gateway'               => '',
         'date'                          => '',
         'search'                        => ''
@@ -354,12 +355,18 @@ function pms_get_payments_count( $args = array() ) {
     // Start query string
     $query_string = "SELECT COUNT(*) FROM {$wpdb->prefix}pms_payments pms_payments ";
 
+    if( !empty( $args['member_subscription_id'] ) )
+        $query_string = "SELECT COUNT( DISTINCT pms_payments.id ) FROM {$wpdb->prefix}pms_payments pms_payments ";
+
     // Add inner join only when searching
     $query_inner_join = '';
     if( !empty($args['search']) ) {
         $query_inner_join = "INNER JOIN {$wpdb->users} users ON pms_payments.user_id = users.id ";
         $query_inner_join .= "INNER JOIN {$wpdb->posts} posts ON pms_payments.subscription_plan_id = posts.id ";
     }
+
+    if( !empty( $args['member_subscription_id'] ) )
+        $query_inner_join .= "INNER JOIN {$wpdb->prefix}pms_paymentmeta payment_meta ON pms_payments.id = payment_meta.payment_id ";
 
     // Where conditions
     $query_where = "WHERE 1=%d ";
@@ -392,6 +399,12 @@ function pms_get_payments_count( $args = array() ) {
     if( !empty( $args['subscription_plan_id'] ) ) {
         $subscription_plan_id = (int)trim( $args['subscription_plan_id'] );
         $query_where .= " AND " . " pms_payments.subscription_plan_id = {$subscription_plan_id}";
+    }
+
+    // Filter by member_subscription_id
+    if( !empty( $args['member_subscription_id'] ) ) {
+        $member_subscription_id = absint( $args['member_subscription_id'] );
+        $query_where .= " AND " . " payment_meta.meta_key = 'subscription_id' AND payment_meta.meta_value = '{$member_subscription_id}'";
     }
 
     // Filter by payment_gateway
@@ -625,6 +638,34 @@ function pms_maybe_process_member_subscription_renewal( $subscription ) {
     } finally {
         $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
     }
+}
+
+/**
+ * Expiration or next billing date after a manual subscription renewal.
+ *
+ * @param PMS_Member_Subscription $subscription      Member subscription.
+ * @param PMS_Subscription_Plan   $subscription_plan Subscription plan.
+ * @return string
+ */
+function pms_get_renew_subscription_expiration_date( $subscription, $subscription_plan ) {
+
+    // Pending subs can still have a future expiration_date from signup; anchor from payment date.
+    if ( $subscription->status == 'pending' ) {
+        return $subscription_plan->get_expiration_date();
+    }
+
+    if ( strtotime( $subscription->expiration_date ) < time()
+        || ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration === 0 )
+        || ( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() ) ) {
+
+        return $subscription_plan->get_expiration_date();
+    }
+
+    if ( $subscription_plan->is_fixed_period_membership() ) {
+        return date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+ 1 year' ) );
+    }
+
+    return date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
 }
 
 /**

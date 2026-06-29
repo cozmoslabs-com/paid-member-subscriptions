@@ -247,6 +247,27 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
                 $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
 
+                if( $payment->type === 'subscription_renewal_payment' ) {
+
+                    $expiration_date = pms_get_renew_subscription_expiration_date( $member_subscription, $subscription_plan );
+
+                    $update_args = array(
+                        'status'          => 'active',
+                        'expiration_date' => $expiration_date,
+                    );
+
+                    if( ! empty( $member_subscription->billing_next_payment ) ) {
+                        $update_args['billing_next_payment'] = $expiration_date;
+                    }
+
+                    $member_subscription->update( $update_args );
+
+                    pms_add_member_subscription_log( $member_subscription->id, 'admin_subscription_activated_payments' );
+
+                    return;
+
+                }
+
                 if ( $member_subscription->status == 'active' ){
                     if( $subscription_plan->is_fixed_period_membership() ){
 

@@ -182,7 +182,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             'name'        => __( 'Authorize.Net', 'paid-member-subscriptions' ),
             'description' => __( 'Collect credit and debit card payments for your membership plans with Authorize.Net, including recurring subscriptions and renewals.', 'paid-member-subscriptions' ),
             'icon'        => 'pms-add-on-authorize-net-logo.svg',
-            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-authorize-net-addon',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/payment-gateways/authorize-net/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-authorize-net-addon',
         ),
         array(  'slug' => 'pms-add-on-mailchimp/index.php',
                 'type'        => 'add-on',

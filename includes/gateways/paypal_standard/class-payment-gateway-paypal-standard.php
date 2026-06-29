@@ -163,6 +163,13 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
             // Get user id from the payment
             $user_id = $payment->user_id;
 
+            $payment_currency = pms_get_active_currency();
+
+            if( ! empty( $post_data['mc_currency'] ) )
+                $payment_currency = strtoupper( sanitize_text_field( $post_data['mc_currency'] ) );
+            elseif( ! empty( $post_data['currency_code'] ) )
+                $payment_currency = strtoupper( sanitize_text_field( $post_data['currency_code'] ) );
+
             $payment_data = apply_filters( 'pms_paypal_ipn_payment_data', array(
                 'payment_id'      => $payment_id,
                 'user_id'         => $user_id,
@@ -172,6 +179,7 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
                 'amount'          => isset( $post_data['mc_gross'] ) ? $post_data['mc_gross'] : '',
                 'date'            => isset( $post_data['payment_date'] ) ? $post_data['payment_date'] : '',
                 'subscription_id' => isset( $post_data['item_number'] ) ? absint( $post_data['item_number'] ) : '',
+                'currency'        => $payment_currency,
             ), $post_data );
 
 

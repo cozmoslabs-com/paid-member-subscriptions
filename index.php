@@ -3,16 +3,16 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 3.0.5
+ * Version: 3.0.6
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * Domain Path: /translations
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 10.8
- * Elementor tested up to: 4.1.1
- * Elementor Pro tested up to: 4.1.1
+ * WC tested up to: 10.9
+ * Elementor tested up to: 4.1.4
+ * Elementor Pro tested up to: 4.1.4
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '3.0.5' );
+        define( 'PMS_VERSION', '3.0.6' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -258,63 +258,64 @@ Class Paid_Member_Subscriptions {
          * Initialize update class
          *
          */
-        if ( defined( 'PMS_PAID_PLUGIN_DIR' ) && file_exists( PMS_PLUGIN_DIR_PATH . '/includes/admin/class-edd-sl-plugin-updater.php') ) {
+        if ( defined( 'PMS_PAID_PLUGIN_DIR' ) && ! pms_paid_plugin_owns_updates() && class_exists( 'PMS_EDD_SL_Plugin_Updater' ) ) {
 
-            if ( class_exists( 'PMS_EDD_SL_Plugin_Updater' ) ) {
+            $serial = pms_get_serial_number();
 
-                $serial = pms_get_serial_number();
-
-                if( ! function_exists('get_plugin_data') ){
-                    require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-                }
-
-                $plugin_data    = get_plugin_data( PMS_PAID_PLUGIN_DIR . '/index.php', false, false );
-                $plugin_version = ( $plugin_data && $plugin_data['Version'] ) ? $plugin_data['Version'] : '1.0.0' ;
-                $cl_plugin_id   = '';
-
-                if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Pro' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Pro' )
-                    $cl_plugin_id = '51100';
-                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Basic' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Basic' )
-                    $cl_plugin_id = '60833';
-                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Agency' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Agency' )
-                    $cl_plugin_id = '1376909';
-                else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Unlimited' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Unlimited' )
-                    $cl_plugin_id = '62920';
-
-                // setup the updater
-                $pms_edd_updater = new PMS_EDD_SL_Plugin_Updater( 'https://cozmoslabs.com', PMS_PAID_PLUGIN_DIR . '/index.php', array(
-                        'version'   => $plugin_version,   // current version number
-                        'license'   => $serial,
-                        'item_name' => str_replace( '- ', '', PAID_MEMBER_SUBSCRIPTIONS ),      // name of this plugin
-                        'item_id'   => $cl_plugin_id,
-                        'author'    => 'Cozmoslabs',         // author of this plugin
-                        'beta'      => false
-                    )
-                );
-
+            if( ! function_exists('get_plugin_data') ){
+                require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
             }
 
+            $plugin_data    = get_plugin_data( PMS_PAID_PLUGIN_DIR . '/index.php', false, false );
+            $plugin_version = ( $plugin_data && $plugin_data['Version'] ) ? $plugin_data['Version'] : '1.0.0' ;
+            $cl_plugin_id   = '';
 
-            function pms_plugin_update_message( $plugin_data, $new_data ) {
+            if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Pro' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Pro' )
+                $cl_plugin_id = '51100';
+            else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Basic' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Basic' )
+                $cl_plugin_id = '60833';
+            else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Agency' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Agency' )
+                $cl_plugin_id = '1376909';
+            else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Unlimited' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Unlimited' )
+                $cl_plugin_id = '62920';
 
-                if( !function_exists( 'pms_get_serial_number' ) )
-                    return;
+            // setup the updater
+            $pms_edd_updater = new PMS_EDD_SL_Plugin_Updater( 'https://cozmoslabs.com', PMS_PAID_PLUGIN_DIR . '/index.php', array(
+                    'version'   => $plugin_version,   // current version number
+                    'license'   => $serial,
+                    'item_name' => str_replace( '- ', '', PAID_MEMBER_SUBSCRIPTIONS ),      // name of this plugin
+                    'item_id'   => $cl_plugin_id,
+                    'author'    => 'Cozmoslabs',         // author of this plugin
+                    'beta'      => false
+                )
+            );
 
-                if( pms_get_serial_number() === false ){
+            if ( ! function_exists( 'pms_plugin_update_message' ) ) {
+                function pms_plugin_update_message( $plugin_data, $new_data ) {
 
-                    echo '<br />' . wp_kses_post( sprintf( __('To enable updates, please enter your serial number on the %sSettings%s page. If you don\'t have a serial number, you can %sbuy one now%s.', 'paid-member-subscriptions' ), '<a href="'. esc_url( admin_url('admin.php?page=pms-settings-page') ). '">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
+                    if( !function_exists( 'pms_get_serial_number' ) )
+                        return;
 
-                } else {
+                    if( pms_get_serial_number() === false ){
 
-                    $serial_number_status = pms_get_serial_number_status();
+                        echo '<br />' . wp_kses_post( sprintf( __('To enable updates, please enter your serial number on the %sSettings%s page. If you don\'t have a serial number, you can %sbuy one now%s.', 'paid-member-subscriptions' ), '<a href="'. esc_url( admin_url('admin.php?page=pms-settings-page') ). '">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
 
-                    if( $serial_number_status != 'valid' )
-                        echo '<br />' . wp_kses_post( sprintf( __('To enable updates, you need an active license. %1$sRenew%2$s or %3$spurchase a new license%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
+                    } else {
+
+                        $serial_number_status = pms_get_serial_number_status();
+
+                        if( $serial_number_status != 'valid' )
+                            echo '<br />' . wp_kses_post( sprintf( __('To enable updates, you need an active license. %1$sRenew%2$s or %3$spurchase a new license%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
+
+                    }
 
                 }
-
             }
-            add_action( 'in_plugin_update_message-' . strtolower( str_replace( ' ', '-', PAID_MEMBER_SUBSCRIPTIONS ) ) . '/index.php', 'pms_plugin_update_message', 10, 2 );
+
+            $update_message_hook = 'in_plugin_update_message-' . plugin_basename( PMS_PAID_PLUGIN_DIR . '/index.php' );
+
+            if ( ! has_action( $update_message_hook, 'pms_plugin_update_message' ) && ! function_exists( 'pms_paid_plugin_update_message' ) )
+                add_action( $update_message_hook, 'pms_plugin_update_message', 10, 2 );
 
         }
 
@@ -656,6 +657,9 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-member-payments-list-table.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-member-payments-list-table.php';
 
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-member-subscription-payments-list-table.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-member-subscription-payments-list-table.php';
+
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-members-add-new-bulk-list-table.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-members-add-new-bulk-list-table.php';
 
@@ -689,6 +693,10 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-payment.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-payment.php';
 
+        // Payment refund functions
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-payment-refund.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-payment-refund.php';
+
         // Plugin scheduled payments functions
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-plugin-scheduled-payments.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-plugin-scheduled-payments.php';
@@ -706,6 +714,10 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-payments.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-payments.php';
 
+        // Payment data backfill (refund meta, currency, etc.)
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/functions-admin-payment-backfill.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/functions-admin-payment-backfill.php';
+
         // Scheduled payments (Action Scheduler tick; depends on payment + scheduled payments helpers).
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-plugin-scheduled-payments-scheduler.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/class-plugin-scheduled-payments-scheduler.php';
@@ -713,6 +725,9 @@ Class Paid_Member_Subscriptions {
         /*
          * Reports
          */
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/functions-admin-reports.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/functions-admin-reports.php';
 
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-reports.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-admin-reports.php';
@@ -798,7 +813,7 @@ Class Paid_Member_Subscriptions {
         /*
          * EDD Update Class
          */
-        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php' ) )
+        if ( ! pms_paid_plugin_owns_updates() && file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php';
 
 
@@ -981,6 +996,10 @@ Class Paid_Member_Subscriptions {
          */
         if( ! defined( 'PMS_PAID_PLUGIN_DIR' ) && PAID_MEMBER_SUBSCRIPTIONS !== 'Paid Member Subscriptions Dev' && file_exists( PMS_PLUGIN_DIR_PATH . 'extend/learndash/functions.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'extend/learndash/functions.php';
+
+        // Content restriction for the LearnDash courses archive page
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/learndash/functions-content-restriction.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'extend/learndash/functions-content-restriction.php';
 
         /**
          * Form Designs
@@ -1285,6 +1304,49 @@ Class Paid_Member_Subscriptions {
     }
 
 
+    /**
+     * Determine if the current request can render the GDPR delete account button
+     *
+     * @return bool
+     */
+    private function should_localize_gdpr_delete_data() {
+
+        // Anonymous visitors cannot use account deletion, so do not expose user/nonce URLs to crawlers
+        if( !is_user_logged_in() )
+            return false;
+
+        $gdpr_settings = pms_get_gdpr_settings();
+
+        // Only localize delete data when the GDPR Delete Button setting can actually render the button
+        if( empty( $gdpr_settings['gdpr_delete'] ) || $gdpr_settings['gdpr_delete'] !== 'enabled' )
+            return false;
+
+        $page_id = get_queried_object_id();
+
+        // Fallback for contexts where the queried object is not populated but the loop has a page ID
+        if( empty( $page_id ) )
+            $page_id = get_the_ID();
+
+        $should_localize = false;
+
+        $account_page = pms_get_page( 'account' );
+
+        // The configured account page can render the profile tab and its GDPR delete button
+        if( !empty( $account_page ) && absint( $account_page ) === absint( $page_id ) )
+            $should_localize = true;
+
+        if( !$should_localize && !empty( $page_id ) ) {
+            $post = get_post( $page_id );
+
+            // Support standalone shortcode pages that can render the PMS edit profile form directly
+            if( !empty( $post->post_content ) && ( has_shortcode( $post->post_content, 'pms-account' ) || has_shortcode( $post->post_content, 'pms-edit-profile' ) ) )
+                $should_localize = true;
+        }
+
+        return apply_filters( 'pms_should_localize_gdpr_delete_data', $should_localize, $page_id, $gdpr_settings );
+
+    }
+
     /*
      * Enqueue scripts for the front-end part of the website
      *
@@ -1315,20 +1377,27 @@ Class Paid_Member_Subscriptions {
         wp_register_script( 'pms-front-end', PMS_PLUGIN_DIR_URL . 'assets/js/front-end.js', array( 'jquery' ), PMS_VERSION );
         wp_enqueue_script( 'pms-front-end' );
 
-        /* Add GDPR Delete Button functionality*/
-        $delete_url = add_query_arg( array(
-            'pms_user'   => get_current_user_id(),
-            'pms_action' => 'pms_delete_user',
-            'pms_nonce'  => wp_create_nonce( 'pms-user-own-account-deletion'),
-        ), home_url());
+        if( $this->should_localize_gdpr_delete_data() ) {
+            $page_id         = get_queried_object_id();
+            $delete_url_base = !empty( $page_id ) ? get_permalink( $page_id ) : '';
 
-        wp_localize_script( 'pms-front-end', 'pmsGdpr', array(
-            'delete_url'        => $delete_url,
-            /* translators: %s the word DELETE */
-            'delete_text'       => sprintf(__('Type %s to confirm deleting your account and all data associated with it:', 'paid-member-subscriptions'), 'DELETE' ),
-            /* translators: %s the word DELETE */
-            'delete_error_text' => sprintf(__('You did not type %s. Try again!', 'paid-member-subscriptions'), 'DELETE' ),
-        ));
+            if( empty( $delete_url_base ) )
+                $delete_url_base = home_url();
+
+            $delete_url = add_query_arg( array(
+                'pms_user'   => get_current_user_id(),
+                'pms_action' => 'pms_delete_user',
+                'pms_nonce'  => wp_create_nonce( 'pms-user-own-account-deletion'),
+            ), $delete_url_base );
+
+            wp_localize_script( 'pms-front-end', 'pmsGdpr', array(
+                'delete_url'        => $delete_url,
+                /* translators: %s the word DELETE */
+                'delete_text'       => sprintf(__('Type %s to confirm deleting your account and all data associated with it:', 'paid-member-subscriptions'), 'DELETE' ),
+                /* translators: %s the word DELETE */
+                'delete_error_text' => sprintf(__('You did not type %s. Try again!', 'paid-member-subscriptions'), 'DELETE' ),
+            ));
+        }
 
         wp_localize_script( 'pms-front-end', 'PMS_States', pms_get_billing_states() );
 
@@ -1372,24 +1441,6 @@ Class Paid_Member_Subscriptions {
         }
 
         return (array) $links;
-    }
-
-}
-
-add_action( 'pms_register_activation_hook', 'pms_activation_deactivation_hook_callback' );
-add_action( 'pms_register_deactivation_hook', 'pms_activation_deactivation_hook_callback' );
-function pms_activation_deactivation_hook_callback() {
-
-    if( !function_exists( 'pms_admin_set_screen_option' ) ){
-        include_once( PMS_PLUGIN_DIR_PATH . 'includes/admin/functions-admin.php' );
-    }
-
-    $current_action = current_action();
-
-    if( $current_action == 'pms_register_activation_hook' && function_exists( 'pms_handle_plugin_activation' ) ){
-        pms_handle_plugin_activation();
-    } else if( $current_action == 'pms_register_deactivation_hook' && function_exists( 'pms_handle_plugin_deactivation' ) ){
-        pms_handle_plugin_deactivation();
     }
 
 }

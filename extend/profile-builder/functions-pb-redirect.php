@@ -4,11 +4,14 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
     /**
-     * Because validation and redirects in PB happen much later than in PMS we need to make some of the data available for later
-     * and we're going to create a global variable that will store information
+     * Stash gateway checkout context for later PB PayPal redirect handling.
+     *
+     * Populates global $pms_gateway_data with payment_id, user_id, subscription_plan_id,
+     * payment_gateway_slug, and redirect_token (one-time autologin secret appended to the
+     * redirect URL when login_after_register is enabled).
      *
      * @param object $gateway_object
-     *
+     * @param array  $gateway_data
      */
     function pms_pb_set_gateway_details( $gateway_object, $gateway_data = array() ) {
 
@@ -35,10 +38,48 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 $pms_gateway_data['payment_gateway_slug'] = $gateway_slug;
         }
 
+        $pms_gateway_data['redirect_token'] = wp_hash( wp_generate_password( 32, false ) );
+
         set_transient( 'pms_wppb_paypal_checkout_' . $gateway_object->payment_id, $pms_gateway_data, 30 );
 
     }
     add_action( 'pms_payment_gateway_initialised', 'pms_pb_set_gateway_details', 10, 2 );
+
+
+    /**
+     * Set auth cookie before PayPal redirect when the form enables login after register.
+     *
+     * @param int $payment_id
+     */
+    function pms_pb_maybe_autologin_before_paypal_redirect( $payment_id ) {
+
+        if ( empty( $_GET['pms_autologin_before_redirect'] ) || $_GET['pms_autologin_before_redirect'] !== 'true' )
+            return;
+
+        $paypal_checkout_data = get_transient( 'pms_wppb_paypal_checkout_' . $payment_id );
+
+        if ( false === $paypal_checkout_data )
+            return;
+
+        if ( empty( $paypal_checkout_data['payment_id'] ) || (int) $paypal_checkout_data['payment_id'] !== (int) $payment_id )
+            return;
+
+        $redirect_token = isset( $_GET['pms_redirect_token'] ) ? sanitize_text_field( $_GET['pms_redirect_token'] ) : '';
+
+        if ( empty( $paypal_checkout_data['redirect_token'] ) || empty( $redirect_token ) || ! hash_equals( $paypal_checkout_data['redirect_token'], $redirect_token ) )
+            return;
+
+        $payment = pms_get_payment( $payment_id );
+
+        if ( empty( $payment->user_id ) || empty( $paypal_checkout_data['user_id'] ) || (int) $payment->user_id !== (int) $paypal_checkout_data['user_id'] )
+            return;
+
+        if ( user_can( $payment->user_id, 'manage_options' ) )
+            return;
+
+        wp_set_auth_cookie( $payment->user_id );
+
+    }
 
 
     /*
@@ -48,44 +89,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
      */
     function pms_pb_payment_redirect_link() {
 
-        if( !isset( $_GET['pmstkn'] ) || !wp_verify_nonce( sanitize_text_field($_GET['pmstkn']), 'pms_payment_redirect_link') )
+        if( empty( $_GET['pms_payment_id'] ) )
             return;
 
-        if( !empty( $_GET['pms_payment_id'] ) )
-            $payment_id = absint( $_GET['pms_payment_id'] );
+        $payment_id = absint( $_GET['pms_payment_id'] );
 
-        if ( empty( $payment_id ) )
+        if( empty( $payment_id ) )
             return;
 
-        /**
-         * Automatically logs the user in before redirecting him to the PayPal checkout page
-         * Works based on the Automatically Login form setting
-         *
-         * @since 2.0.5
-         */
-        if( isset( $_GET['pms_autologin_before_redirect'] ) && $_GET['pms_autologin_before_redirect'] == 'true' ){
+        if( ! isset( $_GET['pmstkn'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['pmstkn'] ), 'pms_payment_redirect_link_' . $payment_id ) )
+            return;
 
-            if ( false !== ( $paypal_checkout_data = get_transient( 'pms_wppb_paypal_checkout_' . $payment_id ) ) ) {
-
-                if( !empty( $paypal_checkout_data['payment_id'] ) && $paypal_checkout_data['payment_id'] == $payment_id ){
-
-                    $payment = pms_get_payment( $payment_id );
-
-                    if( !empty( $payment->user_id ) && !empty( $paypal_checkout_data['user_id'] ) && $payment->user_id == $paypal_checkout_data['user_id'] ){
-
-                        if( !user_can( $payment->user_id, 'manage_options' ) ){
-                            wp_set_auth_cookie( $payment->user_id );
-
-                            delete_transient( 'pms_wppb_paypal_checkout_' . $payment_id );
-                        }
-
-                    }
-
-                }
-
-            }
-
-        }
+        pms_pb_maybe_autologin_before_paypal_redirect( $payment_id );
 
         $redirect_to    = get_transient( 'pms_pb_pp_redirect_' . $payment_id );
         $redirect_back  = get_transient( 'pms_pb_pp_redirect_back_' . $payment_id );
@@ -109,6 +124,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         }
 
         $redirect_to_base .= '?' . $redirect_to_args;
+
+        delete_transient( 'pms_wppb_paypal_checkout_' . $payment_id );
+        delete_transient( 'pms_pb_pp_redirect_' . $payment_id );
+        delete_transient( 'pms_pb_pp_redirect_back_' . $payment_id );
 
         header( 'Location:' . $redirect_to_base );
         exit;
@@ -164,7 +183,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     $redirect_link = sprintf(
                         '<p class="redirect_message">%1$s <meta http-equiv="Refresh" content="5;url=%2$s" /></p>',
                         __( 'You will soon be redirected to complete the payment.', 'paid-member-subscriptions' ),
-                        wp_nonce_url( add_query_arg( array( 'pms_payment_id' => $pms_gateway_data['payment_id'] ), pms_get_current_page_url() ), 'pms_payment_redirect_link', 'pmstkn' )
+                        wp_nonce_url( add_query_arg( array( 'pms_payment_id' => $pms_gateway_data['payment_id'] ), pms_get_current_page_url() ), 'pms_payment_redirect_link_' . $pms_gateway_data['payment_id'], 'pmstkn' )
                     );
 
                     return $redirect_link;
@@ -198,7 +217,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 // Save the redirect link in a transient
                 set_transient('pms_pb_pp_redirect_back_' . $pms_gateway_data['payment_id'], $redirect_link, DAY_IN_SECONDS );
 
-                return wp_nonce_url( add_query_arg( array( 'pms_payment_id' => $pms_gateway_data['payment_id'] ), pms_get_current_page_url() ), 'pms_payment_redirect_link', 'pmstkn' );
+                return wp_nonce_url( add_query_arg( array( 'pms_payment_id' => $pms_gateway_data['payment_id'] ), pms_get_current_page_url() ), 'pms_payment_redirect_link_' . $pms_gateway_data['payment_id'], 'pmstkn' );
 
             }
             add_filter( 'wppb_register_redirect', 'pms_pb_register_redirect_link', 100 );
@@ -224,8 +243,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                  *
                  * @since 2.0.5
                  */
-                if( isset( $form_args['login_after_register'] ) && $form_args['login_after_register'] == 'Yes' )
+                if( isset( $form_args['login_after_register'] ) && $form_args['login_after_register'] == 'Yes' ) {
                     $redirect_url = add_query_arg( 'pms_autologin_before_redirect', 'true', $redirect_url );
+
+                    if( ! empty( $pms_gateway_data['redirect_token'] ) )
+                        $redirect_url = add_query_arg( 'pms_redirect_token', $pms_gateway_data['redirect_token'], $redirect_url );
+                }
 
                 $message = '<meta http-equiv="Refresh" content="'. $redirect_delay .';url='. $redirect_url .'" />';
 

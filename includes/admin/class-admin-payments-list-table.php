@@ -99,8 +99,10 @@ Class PMS_Payments_List_Table extends WP_List_Table {
      */
     function register_bulk_actions( $actions ) {
 
-        if( !empty( $_GET['page'] == 'pms-payments-page' ) && empty( $_GET['subpage'] ) )
+        if( !empty( $_GET['page'] == 'pms-payments-page' ) && empty( $_GET['subpage'] ) ) {
+            $actions['pms_bulk_complete_payments'] = esc_html__( 'Complete Payments', 'paid-member-subscriptions' );
             $actions['pms_bulk_delete_payments'] = esc_html__( 'Delete Payments', 'paid-member-subscriptions' );
+        }
 
         return apply_filters( 'pms_payments_list_table_register_bulk_actions', $actions );
 
@@ -616,9 +618,9 @@ Class PMS_Payments_List_Table extends WP_List_Table {
         } 
 
         if( !empty( $url ) ){
-            return '<a href="'. $url .'" target="_blank">'. $item['transaction_id'] . '</a>';
+            return '<a href="'. esc_url( $url ) .'" target="_blank">'. esc_html( $item['transaction_id'] ) . '</a>';
         } else {
-            return $item['transaction_id']; 
+            return esc_html( $item['transaction_id'] );
         }
 
     }

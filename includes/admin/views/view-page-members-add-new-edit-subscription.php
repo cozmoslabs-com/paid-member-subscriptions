@@ -571,6 +571,32 @@ if( ! empty( $_POST ) ) {
 
             <?php endif; ?>
 
+            <!-- Member Subscription Payments Meta-box -->
+            <?php if( $subpage == 'edit_subscription' && isset( $member_subscription ) ) : ?>
+
+                <div id="pms-member-subscription-payments" class="postbox cozmoslabs-form-subsection-wrapper closed">
+
+                    <button type="button" class="handlediv" aria-expanded="false" aria-controls="pms-member-subscription-payments-inside">
+                        <span class="screen-reader-text"><?php esc_html_e( 'Toggle panel: Payments', 'paid-member-subscriptions' ); ?></span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+
+                    <h3 class="hndle cozmoslabs-subsection-title">
+                        <span><?php esc_html_e( 'Payments', 'paid-member-subscriptions' ); ?></span>
+                    </h3>
+
+                    <div id="pms-member-subscription-payments-inside" class="inside cozmoslabs-form-field-wrapper">
+                        <?php
+                            $member_subscription_payments_table = new PMS_Member_Subscription_Payments_List_Table( $member_subscription->id );
+                            $member_subscription_payments_table->prepare_items();
+                            $member_subscription_payments_table->display();
+                        ?>
+                    </div>
+
+                </div>
+
+            <?php endif; ?>
+
             <?php wp_nonce_field( 'pms_' . $subpage . '_nonce' ); ?>
 
         </div>

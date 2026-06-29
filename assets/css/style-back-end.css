@@ -2,16 +2,15 @@
     max-width: 900px;
     margin: 30px auto;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+    display: block;
 }
 
 .cozmoslabs-wrap--big {
     max-width: 1150px;
     margin: 0 auto;
+    padding: 0 20px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+    display: block;
     position: relative;
 }
 
@@ -946,7 +945,10 @@ body[class*="post-type-pms-"] .submitdelete:focus,
     margin-bottom: 10px;
 }
 
-
+body.edit-tags-php .cozmoslabs-checkbox-list,
+body.term-php .cozmoslabs-checkbox-list {
+    flex-basis: unset;
+}
 
 .cozmoslabs-checkbox-list label {
     font-style: normal;
@@ -1595,6 +1597,12 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
     min-height: unset;
 }
 
+.cozmoslabs-available-tags .pms-available-tags-note {
+    grid-column: 1 / -1;
+    margin: 5px 0 0;
+    color: #646970;
+}
+
 /***********************************************************/
 /* Invoices
 /***********************************************************/
@@ -2229,7 +2237,8 @@ body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .chosen-
 }
 
 /* LearnDash meta-box */
-#pms_post_content_restriction_learndash .pms-icon-wrapper {
+#pms_post_content_restriction_learndash .pms-icon-wrapper,
+#pms-learndash-courses-archive-content-restriction .pms-icon-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -2237,15 +2246,18 @@ body[class*="post-type-pms-"] a:not(.button-secondary, .button-primary, .chosen-
     gap: 15px;
 }
 
-#pms_post_content_restriction_learndash .pms-icon-wrapper img#pms-icon {
+#pms_post_content_restriction_learndash .pms-icon-wrapper img#pms-icon,
+#pms-learndash-courses-archive-content-restriction .pms-icon-wrapper img#pms-icon {
     height: 40px;
 }
 
-#pms_post_content_restriction_learndash .pms-icon-wrapper img#learndash-logo {
+#pms_post_content_restriction_learndash .pms-icon-wrapper img#learndash-logo,
+#pms-learndash-courses-archive-content-restriction .pms-icon-wrapper img#learndash-logo {
     height: 35px;
 }
 
-body.learndash-post-type #pms_post_content_restriction_learndash .button-primary {
+body.learndash-post-type #pms_post_content_restriction_learndash .button-primary,
+#pms-learndash-courses-archive-content-restriction .button-primary {
     background: #3858E9;
     border: 1px solid #3858E9;
     border-radius: 2px;
@@ -2262,7 +2274,9 @@ body.learndash-post-type #pms_post_content_restriction_learndash .button-primary
 }
 
 body.learndash-post-type #pms_post_content_restriction_learndash .button-primary:hover,
-body.learndash-post-type #pms_post_content_restriction_learndash .button-primary:focus {
+body.learndash-post-type #pms_post_content_restriction_learndash .button-primary:focus,
+#pms-learndash-courses-archive-content-restriction .button-primary:hover,
+#pms-learndash-courses-archive-content-restriction .button-primary:focus {
     background: #1D35B4;
     border-color: #1D35B4;
     box-shadow: none;
@@ -2445,6 +2459,55 @@ body.learndash-post-type #pms_post_content_restriction_learndash .button-primary
 #pms-member-subscriptions-billing-schedule #pms-subscription-billing-duration,
 #pms-member-subscriptions-billing-schedule #pms-subscription-plan-duration-unit {
     flex-basis: 125px !important;
+}
+
+/* Subscription Payments */
+#pms-member-subscription-payments {
+    position: relative;
+}
+
+#pms-member-subscription-payments > .hndle {
+    cursor: pointer;
+    margin-bottom: 0 !important;
+    padding-right: 50px;
+}
+
+#pms-member-subscription-payments > .handlediv {
+    position: absolute !important;
+    top: 25px !important;
+    right: 15px !important;
+    width: 20px;
+    height: 20px;
+    color: #787c82;
+    z-index: 1;
+}
+
+#pms-member-subscription-payments > .handlediv:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+#pms-member-subscription-payments > .handlediv .toggle-indicator:before {
+    content: "\f142";
+    display: inline-block;
+    font: normal 20px/1 dashicons;
+    text-decoration: inherit;
+    vertical-align: top;
+}
+
+#pms-member-subscription-payments.closed > .handlediv .toggle-indicator:before {
+    content: "\f140";
+}
+
+#pms-member-subscription-payments .tablenav.bottom {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#pms-member-subscription-payments .tablenav.bottom .tablenav-pages {
+    float: none;
 }
 
 /* Member */
@@ -2894,6 +2957,13 @@ body[class*="post-type-pms-"] .wp-list-table .column-id {
     padding-right:0;
     padding-left:0;
     text-align: center;
+}
+
+#pms-member-subscription-payments .wp-list-table.member-payments .column-id {
+    width: 90px;
+    padding-right: 15px;
+    padding-left: 15px;
+    text-align: left;
 }
 
 body[class*="_page_pms-"] .wp-list-table th.sortable a,

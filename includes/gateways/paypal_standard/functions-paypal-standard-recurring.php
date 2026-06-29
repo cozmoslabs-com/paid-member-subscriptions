@@ -457,6 +457,7 @@ function pms_in_ppsrp_ipn_listener( $payment_data, $post_data ) {
                     'amount'               => $payment_data['amount'],
                     'subscription_plan_id' => $payment_data['subscription_id'],
                     'status'               => $payment_data['status'],
+                    'currency'             => $payment_data['currency'],
                     'payment_gateway'      => 'paypal_standard'
                 ) );
 
@@ -1029,7 +1030,10 @@ function pms_in_ppsrp_get_subscription_by_payment_profile( $payment_profile_id )
 
     global $wpdb;
 
-    $result = $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}pms_member_subscriptions WHERE payment_profile_id = '{$payment_profile_id}'" );
+    $result = $wpdb->get_var( $wpdb->prepare(
+        "SELECT id FROM {$wpdb->prefix}pms_member_subscriptions WHERE payment_profile_id = %s",
+        $payment_profile_id
+    ) );
 
     if( !empty( $result ) )
         return pms_get_member_subscription( $result );

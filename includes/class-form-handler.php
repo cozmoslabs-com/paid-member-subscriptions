@@ -2379,16 +2379,7 @@ Class PMS_Form_Handler {
 
                 case 'renew_subscription':
 
-                    if( strtotime( $subscription->expiration_date ) < time() || ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration === 0 ) || ( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() ) )
-                        $expiration_date = $subscription_plan->get_expiration_date();
-                    else {
-                        if( $subscription_plan->is_fixed_period_membership() ){
-                            $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+ 1 year' ) );
-                        }
-                        else{
-                            $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
-                        }
-                    }
+                    $expiration_date = pms_get_renew_subscription_expiration_date( $subscription, $subscription_plan );
 
                     /**
                      * Filter the new expiration date of a subscription that is processed through PSP

@@ -170,6 +170,7 @@ class PMS_Batch_Export extends PMS_Export {
 		$cols = $this->get_csv_cols();
 		$i = 1;
 		foreach( $cols as $col_id => $column ) {
+			$column   = $this->sanitize_csv_cell( $column );
 			$col_data .= '"' . addslashes( $column ) . '"';
 			$col_data .= $i == count( $cols ) ? '' : ',';
 			$i++;
@@ -205,8 +206,10 @@ class PMS_Batch_Export extends PMS_Export {
 					if ( array_key_exists( $col_id, $cols ) ) {
 					    if( !is_array( $column ) ){
 
-							if( !is_null( $column ) )
+							if( !is_null( $column ) ) {
+								$column = $this->sanitize_csv_cell( $column );
 								$column = addslashes( preg_replace( "/\"/","'", $column ) );
+							}
 
                             $row_data .= '"' . $column . '"';
                             $row_data .= $i == count( $cols ) ? '' : ',';

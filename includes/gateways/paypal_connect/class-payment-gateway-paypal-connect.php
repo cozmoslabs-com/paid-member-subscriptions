@@ -433,6 +433,52 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
     }
 
     /**
+     * Fetch a PayPal capture by ID.
+     *
+     * @param string $capture_id
+     *
+     * @return array|false Decoded capture object on success, false on failure.
+     */
+    public function get_capture( $capture_id ) {
+
+        $capture_id = trim( (string) $capture_id );
+
+        if( empty( $capture_id ) )
+            return false;
+
+        $access_token = $this->get_access_token();
+
+        if( empty( $access_token ) )
+            return false;
+
+        $request_url = $this->endpoint . '/v2/payments/captures/' . rawurlencode( $capture_id );
+
+        $response = wp_remote_get( $request_url, array(
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $access_token,
+                'Content-Type'  => 'application/json',
+            ),
+            'timeout' => 45,
+        ) );
+
+        if( is_wp_error( $response ) )
+            return false;
+
+        $code = wp_remote_retrieve_response_code( $response );
+
+        if( $code < 200 || $code >= 300 )
+            return false;
+
+        $data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+        if( empty( $data ) || ! is_array( $data ) )
+            return false;
+
+        return $data;
+
+    }
+
+    /**
      * Process the payment refund
      *
      * @param $payment_id - the ID of the payment
@@ -641,9 +687,9 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
             return $this->maybe_advance_subscription_after_psp_webhook( $subscription, $checkout_data );
         }
 
-        if( !in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) ){
+        $subscription_plan_id = !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : false;
 
-            $subscription_plan_id = !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : false;
+        if( !in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) ){
 
             if( empty( $subscription_plan_id ) && !empty( $checkout_data['subscription_plans'] ) )
                 $subscription_plan_id = $checkout_data['subscription_plans'];
@@ -651,6 +697,9 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                 $subscription_plan_id = $subscription->subscription_plan_id;
 
             $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
+
+            if( empty( $subscription_plan->id ) )
+                return false;
 
             $subscription_data = PMS_Form_Handler::get_subscription_data( $subscription->user_id, $subscription_plan, $form_location, true, $this->gateway_slug, $is_recurring, $has_trial );
 
@@ -736,22 +785,14 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
             case 'renew_subscription':
 
-                if( strtotime( $subscription->expiration_date ) < time() || ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration === 0 ) || ( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() ) )
-                    $expiration_date = $subscription_plan->get_expiration_date();
-                else {
-                    if( $subscription_plan->is_fixed_period_membership() ){
-                        $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+ 1 year' ) );
-                    } else {
-                        $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
-                    }
-                }
+                $expiration_date = pms_get_renew_subscription_expiration_date( $subscription, $subscription_plan );
 
                 /**
                  * Filter the new expiration date of a subscription that is processed through PSP
                  */
                 $expiration_date = apply_filters( 'pms_checkout_renew_subscription_expiration_date', $expiration_date, $subscription );
 
-                if( $is_recurring ) {
+                if( $is_recurring || $subscription->has_installments() ) {
                     $subscription_data['billing_next_payment'] = $expiration_date;
                     $subscription_data['expiration_date']      = '';
                 } else {
@@ -835,12 +876,12 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
         if( !isset( $_GET['pay_gate_listener'] ) || $_GET['pay_gate_listener'] != 'paypal_connect' )
             return;
 
-        if( function_exists( 'sleep' ) )
-            sleep(3);
-
         if( !$this->verify_webhook() ){
             die();
         }
+
+        if( function_exists( 'sleep' ) )
+            sleep(3);
 
         // Get the input
         $input = @file_get_contents( "php://input" );
@@ -925,7 +966,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
                     $payment->log_data( 'paypal_transaction_refunded' );
 
-                    $payment->update( array( 'status' => 'refunded' ) );
+                    pms_refund_payment( $payment->id, $payment->amount, 'webhook' );
                     
                     $pms_settings = get_option( 'pms_misc_settings', array() );
 
@@ -988,6 +1029,11 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                 $subscription = $this->get_subscription_by_vault_id( $vault_id );
 
                 if( empty( $subscription->id ) )
+                    die();
+
+                pms_delete_member_subscription_meta( $subscription->id, '_paypal_vault_id' );
+
+                if( in_array( $subscription->status, array( 'expired', 'canceled', 'abandoned' ), true ) )
                     die();
 
                 pms_add_member_subscription_log( $subscription->id, 'paypal_webhook_payment_token_deleted' );

@@ -31,6 +31,7 @@ class PMS_Taxonomy_Content_Restriction {
         }
 
         wp_enqueue_script('pms-taxonomy-content-restriction-js', PMS_PLUGIN_DIR_URL . 'assets/js/admin/meta-box-post-content-restriction.js', array( 'jquery' ), PMS_VERSION);
+        wp_enqueue_script('pms-taxonomy-content-restriction-add-form-js', PMS_PLUGIN_DIR_URL . 'assets/js/admin/taxonomy-content-restriction.js', array( 'jquery', 'wp-ajax-response' ), PMS_VERSION);
     }
 
     public function output_add( $taxonomy ) {

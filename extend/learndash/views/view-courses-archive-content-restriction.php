@@ -3,63 +3,60 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$term_id            = ( ! empty( $term ) && ! empty( $term->term_id ) ? $term->term_id : 0 );
-$taxonomy_slug      = ! empty( $taxonomy ) ? $taxonomy : ( ! empty( $term->taxonomy ) ? $term->taxonomy : '' );
-$taxonomy_object    = ! empty( $taxonomy_slug ) ? get_taxonomy( $taxonomy_slug ) : false;
-$content_label      = apply_filters( 'pms_content_restrict_settings_description_taxonomy', ( ! empty( $taxonomy_object->labels->singular_name ) ? strtolower( $taxonomy_object->labels->singular_name ) . ' archive' : 'taxonomy archive' ), $taxonomy_slug, $term );
+/**
+ * Content Restriction box for the LearnDash courses archive page
+ *
+ * - rendered on the Courses Options screen
+ * - reads its values from the $restriction option array
+ *
+ * @var array $restriction
+ */
+
+$restriction = isset( $restriction ) && is_array( $restriction ) ? $restriction : array();
+
+$content_label          = apply_filters( 'pms_content_restrict_settings_description_courses_archive', esc_html__( 'courses archive', 'paid-member-subscriptions' ) );
 $content_restrict_types = apply_filters( 'pms_single_post_content_restrict_types', array( 'message' => esc_html__( 'Message', 'paid-member-subscriptions' ), 'redirect' => esc_html__( 'Redirect', 'paid-member-subscriptions' ), 'template' => esc_html__( 'Template', 'paid-member-subscriptions' ) ) );
-$content_restrict_type  = ( $term_id ? get_term_meta( $term_id, 'pms-content-restrict-type', true ) : '' );
-$user_status            = ( $term_id ? get_term_meta( $term_id, 'pms-content-restrict-user-status', true ) : '' );
+
+$content_restrict_type          = ! empty( $restriction['pms-content-restrict-type'] ) ? $restriction['pms-content-restrict-type'] : '';
+$user_status                    = ! empty( $restriction['pms-content-restrict-user-status'] ) ? $restriction['pms-content-restrict-user-status'] : '';
+$selected_subscription_plans    = ! empty( $restriction['pms-content-restrict-subscription-plan'] ) ? (array) $restriction['pms-content-restrict-subscription-plan'] : array();
+$all_plans_selected             = ! empty( $restriction['pms-content-restrict-all-subscription-plans'] ) ? $restriction['pms-content-restrict-all-subscription-plans'] : '';
+$custom_redirect_url_enabled    = ! empty( $restriction['pms-content-restrict-custom-redirect-url-enabled'] ) ? $restriction['pms-content-restrict-custom-redirect-url-enabled'] : '';
+$custom_redirect_url            = ! empty( $restriction['pms-content-restrict-custom-redirect-url'] ) ? $restriction['pms-content-restrict-custom-redirect-url'] : '';
+$custom_non_member_redirect_url = ! empty( $restriction['pms-content-restrict-custom-non-member-redirect-url'] ) ? $restriction['pms-content-restrict-custom-non-member-redirect-url'] : '';
+$custom_messages_enabled        = ! empty( $restriction['pms-content-restrict-messages-enabled'] ) ? $restriction['pms-content-restrict-messages-enabled'] : '';
+$message_logged_out             = ! empty( $restriction['pms-content-restrict-message-logged_out'] ) ? $restriction['pms-content-restrict-message-logged_out'] : '';
+$message_non_members            = ! empty( $restriction['pms-content-restrict-message-non_members'] ) ? $restriction['pms-content-restrict-message-non_members'] : '';
+
 $settings               = get_option( 'pms_misc_settings' );
 $include_inactive_plans = isset( $settings['cr-metabox-include-inactive-plans'] ) && $settings['cr-metabox-include-inactive-plans'] == 1 ? false : true;
 $subscription_plans     = pms_get_subscription_plans( $include_inactive_plans );
-$selected_subscription_plans = ( $term_id ? get_term_meta( $term_id, 'pms-content-restrict-subscription-plan' ) : array() );
-$all_plans_selected          = ( $term_id ? get_term_meta( $term_id, 'pms-content-restrict-all-subscription-plans', true ) : '' );
-$custom_redirect_url_enabled = ( $term_id ? get_term_meta( $term_id, 'pms-content-restrict-custom-redirect-url-enabled', true ) : '' );
-$custom_redirect_url         = ( $term_id ? get_term_meta( $term_id, 'pms-content-restrict-custom-redirect-url', true ) : '' );
-$custom_non_member_redirect_url = ( $term_id ? get_term_meta( $term_id, 'pms-content-restrict-custom-non-member-redirect-url', true ) : '' );
-$custom_messages_enabled        = ( $term_id ? get_term_meta( $term_id, 'pms-content-restrict-messages-enabled', true ) : '' );
 
 if ( ! empty( $subscription_plans ) ) {
     usort( $subscription_plans, 'pms_compare_subscription_plan_objects' );
 }
 
-if ( ! function_exists( 'pms_output_taxonomy_restriction_field' ) ) {
-    function pms_output_taxonomy_restriction_field( $label, $content, $is_edit_screen = false ) {
-        if ( $is_edit_screen ) {
-            echo '<tr class="form-field term-pms-content-restriction-wrap"><th scope="row"><label>' . esc_html( $label ) . '</label></th><td>';
-            echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo '</td></tr>';
-        } else {
-            echo '<div class="form-field term-pms-content-restriction-wrap">';
-            echo '<label>' . esc_html( $label ) . '</label>';
-            echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo '</div>';
-        }
-    }
-}
-
-$is_edit_screen = ! empty( $term_id );
+// ensures the Settings API processes the option even when no fields are submitted
 ?>
+<input type="hidden" name="<?php echo esc_attr( PMS_LD_COURSES_ARCHIVE_OPTION ); ?>" value="1">
 
-<?php
-ob_start();
-?>
 <div class="pms-meta-box-fields-wrapper cozmoslabs-form-subsection-wrapper">
     <h4 class="cozmoslabs-subsection-title"><?php echo esc_html__( 'Display Options', 'paid-member-subscriptions' ); ?></h4>
 
     <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
-        <label class="pms-meta-box-checkbox-label" for="pms-content-restrict-type-default">
-            <input type="radio" id="pms-content-restrict-type-default" value="default" <?php checked( empty( $content_restrict_type ) || $content_restrict_type == 'default' ); ?> name="pms-content-restrict-type">
-            <?php esc_html_e( 'Settings Default', 'paid-member-subscriptions' ); ?>
-        </label>
-
-        <?php foreach ( $content_restrict_types as $type_slug => $type_label ) : ?>
-            <label class="pms-meta-box-checkbox-label" for="pms-content-restrict-type-<?php echo esc_attr( $type_slug ); ?>">
-                <input type="radio" id="pms-content-restrict-type-<?php echo esc_attr( $type_slug ); ?>" value="<?php echo esc_attr( $type_slug ); ?>" <?php checked( $content_restrict_type, $type_slug ); ?> name="pms-content-restrict-type">
-                <?php echo esc_html( $type_label ); ?>
+        <div class="cozmoslabs-radio-inputs-row">
+            <label class="pms-meta-box-checkbox-label" for="pms-content-restrict-type-default">
+                <input type="radio" id="pms-content-restrict-type-default" value="default" <?php checked( empty( $content_restrict_type ) || $content_restrict_type == 'default' ); ?> name="pms-content-restrict-type">
+                <?php esc_html_e( 'Settings Default', 'paid-member-subscriptions' ); ?>
             </label>
-        <?php endforeach; ?>
+
+            <?php foreach ( $content_restrict_types as $type_slug => $type_label ) : ?>
+                <label class="pms-meta-box-checkbox-label" for="pms-content-restrict-type-<?php echo esc_attr( $type_slug ); ?>">
+                    <input type="radio" id="pms-content-restrict-type-<?php echo esc_attr( $type_slug ); ?>" value="<?php echo esc_attr( $type_slug ); ?>" <?php checked( $content_restrict_type, $type_slug ); ?> name="pms-content-restrict-type">
+                    <?php echo esc_html( $type_label ); ?>
+                </label>
+            <?php endforeach; ?>
+        </div>
     </div>
 
     <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper cozmoslabs-checkbox-list-wrapper">
@@ -77,7 +74,7 @@ ob_start();
 
                 <?php foreach ( $subscription_plans as $subscription_plan ) : ?>
                     <div class="cozmoslabs-chckbox-container">
-                        <input type="checkbox" value="<?php echo esc_attr( $subscription_plan->id ); ?>" <?php checked( ( is_array( $selected_subscription_plans ) && in_array( $subscription_plan->id, $selected_subscription_plans ) ) || $all_plans_selected === 'all' ); ?> name="pms-content-restrict-subscription-plan[]" id="pms-content-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ); ?>">
+                        <input type="checkbox" value="<?php echo esc_attr( $subscription_plan->id ); ?>" <?php checked( ( in_array( $subscription_plan->id, $selected_subscription_plans ) ) || $all_plans_selected === 'all' ); ?> name="pms-content-restrict-subscription-plan[]" id="pms-content-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ); ?>">
                         <label class="pms-meta-box-checkbox-label" for="pms-content-restrict-subscription-plan-<?php echo esc_attr( $subscription_plan->id ); ?>"><?php echo esc_html( $subscription_plan->name ); ?></label>
                     </div>
                 <?php endforeach; ?>
@@ -139,20 +136,16 @@ ob_start();
     </div>
 
     <div class="pms-meta-box-field-wrapper-custom-messages <?php echo ( ! empty( $custom_messages_enabled ) ? 'pms-enabled' : '' ); ?>">
-        <div class="cozmoslabs-form-field-wrapper cozmoslabs-wysiwyg-wrapper">
+        <div class="cozmoslabs-form-field-wrapper cozmoslabs-wysiwyg-wrapper cozmoslabs-wysiwyg-indented">
             <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Messages for logged-out users', 'paid-member-subscriptions' ); ?></label>
-            <?php wp_editor( wp_kses_post( $term_id ? get_term_meta( $term_id, 'pms-content-restrict-message-logged_out', true ) : '' ), 'pms-taxonomy-messages-logged-out-' . $taxonomy_slug . '-' . $term_id, array( 'textarea_name' => 'pms-content-restrict-message-logged_out', 'editor_height' => 180 ) ); ?>
+            <?php wp_editor( wp_kses_post( $message_logged_out ), 'pms-courses-archive-messages-logged-out', array( 'textarea_name' => 'pms-content-restrict-message-logged_out', 'editor_height' => 180 ) ); ?>
         </div>
 
-        <div class="cozmoslabs-form-field-wrapper cozmoslabs-wysiwyg-wrapper">
+        <div class="cozmoslabs-form-field-wrapper cozmoslabs-wysiwyg-wrapper cozmoslabs-wysiwyg-indented">
             <label class="cozmoslabs-form-field-label"><?php esc_html_e( 'Messages for logged-in non-member users', 'paid-member-subscriptions' ); ?></label>
-            <?php wp_editor( wp_kses_post( $term_id ? get_term_meta( $term_id, 'pms-content-restrict-message-non_members', true ) : '' ), 'pms-taxonomy-messages-non-members-' . $taxonomy_slug . '-' . $term_id, array( 'textarea_name' => 'pms-content-restrict-message-non_members', 'editor_height' => 180 ) ); ?>
+            <?php wp_editor( wp_kses_post( $message_non_members ), 'pms-courses-archive-messages-non-members', array( 'textarea_name' => 'pms-content-restrict-message-non_members', 'editor_height' => 180 ) ); ?>
         </div>
     </div>
 </div>
 
 <?php wp_nonce_field( 'pms_meta_box_single_content_restriction_nonce', 'pmstkn', false ); ?>
-<?php
-$content = ob_get_clean();
-
-pms_output_taxonomy_restriction_field( esc_html__( 'Content Restriction', 'paid-member-subscriptions' ), $content, $is_edit_screen );

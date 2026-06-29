@@ -747,6 +747,8 @@ if( !class_exists('PMS_EDD_SL_Plugin_Updater') ) {
     }
 }
 
+if ( ! class_exists( 'PMS_Plugin_Updater' ) ) {
+
 class PMS_Plugin_Updater {
 
     private $store_url = "https://www.cozmoslabs.com";
@@ -1116,3 +1118,60 @@ class PMS_Plugin_Updater {
 }
 
 new PMS_Plugin_Updater();
+
+}
+
+if ( defined( 'PMS_PAID_EDD_ITEM_ID' ) && defined( 'PMS_PAID_PLUGIN_FILE' ) && function_exists( 'pms_paid_plugin_owns_updates' ) && pms_paid_plugin_owns_updates() ) {
+    add_action( 'plugins_loaded', 'pms_paid_plugin_init_updater', 20 );
+}
+
+if ( ! function_exists( 'pms_paid_plugin_init_updater' ) ) {
+    function pms_paid_plugin_init_updater() {
+
+        if ( ! function_exists( 'pms_paid_plugin_owns_updates' ) || ! pms_paid_plugin_owns_updates() )
+            return;
+
+        if( ! function_exists( 'get_plugin_data' ) )
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+        $plugin_data    = get_plugin_data( PMS_PAID_PLUGIN_FILE, false, false );
+        $plugin_version = ( $plugin_data && $plugin_data['Version'] ) ? $plugin_data['Version'] : '1.0.0';
+
+        new PMS_EDD_SL_Plugin_Updater( 'https://cozmoslabs.com', PMS_PAID_PLUGIN_FILE, array(
+            'version'   => $plugin_version,
+            'license'   => pms_get_serial_number(),
+            'item_name' => str_replace( '- ', '', PAID_MEMBER_SUBSCRIPTIONS ),
+            'item_id'   => PMS_PAID_EDD_ITEM_ID,
+            'author'    => 'Cozmoslabs',
+            'beta'      => false,
+        ) );
+
+        $update_message_hook = 'in_plugin_update_message-' . plugin_basename( PMS_PAID_PLUGIN_FILE );
+
+        remove_action( $update_message_hook, 'pms_plugin_update_message', 10 );
+
+        if( ! has_action( $update_message_hook, 'pms_paid_plugin_update_message' ) )
+            add_action( $update_message_hook, 'pms_paid_plugin_update_message', 10, 2 );
+    }
+}
+
+if ( ! function_exists( 'pms_paid_plugin_update_message' ) ) {
+    function pms_paid_plugin_update_message( $plugin_data, $new_data ) {
+
+        if( !function_exists( 'pms_get_serial_number' ) )
+            return;
+
+        if( pms_get_serial_number() === false ){
+
+            echo '<br />' . wp_kses_post( sprintf( __('To enable updates, please enter your serial number on the %sSettings%s page. If you don\'t have a serial number, you can %sbuy one now%s.', 'paid-member-subscriptions' ), '<a href="'. esc_url( admin_url('admin.php?page=pms-settings-page') ). '">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
+
+        } else {
+
+            $serial_number_status = pms_get_serial_number_status();
+
+            if( $serial_number_status != 'valid' )
+                echo '<br />' . wp_kses_post( sprintf( __('To enable updates, you need an active license. %1$sRenew%2$s or %3$spurchase a new license%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
+
+        }
+    }
+}

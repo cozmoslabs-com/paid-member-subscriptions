@@ -632,26 +632,15 @@ function pms_member_renew_subscription( $content ) {
     // If member subscription is not in renewal period,
     // return the default content
     $renewal_display_time = apply_filters( 'pms_output_subscription_plan_action_renewal_time', 15 );
-    if( ( $member_subscription['status'] != 'canceled' && strtotime( $member_subscription['expiration_date'] ) - time() > $renewal_display_time * 86400 ) || ( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() ) )
+    if( ( ! in_array( $member_subscription['status'], array( 'canceled', 'expired' ), true ) && strtotime( $member_subscription['expiration_date'] ) - time() > $renewal_display_time * 86400 ) || ( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() ) )
         return $content;
 
 
     if( ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration !== 0 ) || ( $subscription_plan->is_fixed_period_membership() && $subscription_plan->fixed_period_renewal_allowed() ) ) {
 
-        if( time() > strtotime( $member_subscription['expiration_date'] ) ){
-            if( $subscription_plan->is_fixed_period_membership() ){
-                $renew_expiration_date = date_i18n( get_option('date_format'), strtotime( '+ 1 year', strtotime( $member_subscription['expiration_date'] ) ) );
-            } else{
-                $renew_expiration_date = date_i18n( get_option('date_format'), strtotime( '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit, time() ) );
-            }
-        }
-        else{
-            if( $subscription_plan->is_fixed_period_membership() ){
-                $renew_expiration_date = date_i18n( get_option('date_format'), strtotime( pms_sanitize_date($member_subscription['expiration_date']) . '+ 1 year' ) );
-            } else{
-                $renew_expiration_date = date_i18n( get_option('date_format'), strtotime( pms_sanitize_date($member_subscription['expiration_date']) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
-            }
-        }
+        $member_subscription_obj = pms_get_member_subscription( $member_subscription['id'] );
+        $renew_expiration_date   = date_i18n( get_option( 'date_format' ), strtotime( pms_get_renew_subscription_expiration_date( $member_subscription_obj, $subscription_plan ) ) );
+
     } else {
         $renew_expiration_date = $subscription_plan->get_expiration_date(true);
         if( !empty( $renew_expiration_date ) )

@@ -849,8 +849,10 @@ function pms_restricted_term_redirect() {
 }
 add_action( 'template_redirect', 'pms_restricted_term_redirect', 1 );
 
-/* handle the Template restrict type case */
-add_filter( 'template_include', 'pms_restrict_page_template', 999 );
+/**
+ * Handle the Template restrict type case
+ *
+ */
 function pms_restrict_page_template( $template ) {
 
     //don't do anything for archives
@@ -893,6 +895,7 @@ function pms_restrict_page_template( $template ) {
 
     return $template;
 }
+add_filter( 'template_include', 'pms_restrict_page_template', 999 );
 
 function pms_restrict_single_post_taxonomy_template( $template ) {
 
@@ -951,16 +954,23 @@ function pms_restrict_taxonomy_template( $template ) {
     if ( empty( $term ) || empty( $term->term_id ) )
         return $template;
 
+    if ( ! pms_is_term_restricted( $term ) )
+        return $template;
+
     $term_restriction_type = get_term_meta( $term->term_id, 'pms-content-restrict-type', true );
     $settings              = get_option( 'pms_content_restriction_settings', array() );
 
     if ( $term_restriction_type == 'default' || empty( $term_restriction_type ) )
         $term_restriction_type = ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' );
 
+    // message type: take over the archive and print the message (works on classic and block themes)
+    if ( $term_restriction_type == 'message' )
+        return pms_render_restricted_message_template( pms_get_restricted_term_message( $term ), 'pms//restricted-term-' . $term->term_id );
+
     if ( $term_restriction_type == 'template' ) {
         $restrict_template = ( ! empty( $settings['content_restrict_template'] ) ? $settings['content_restrict_template'] : '' );
 
-        if ( ! empty( $restrict_template ) && pms_is_term_restricted( $term ) ) {
+        if ( ! empty( $restrict_template ) ) {
 
             if ( did_action( 'elementor/loaded' ) ) {
                 if ( strpos( $restrict_template, 'elementor_template_' ) !== false ) {
@@ -985,55 +995,6 @@ function pms_restrict_taxonomy_template( $template ) {
 }
 add_filter( 'template_include', 'pms_restrict_taxonomy_template', 999 );
 
-function pms_restrict_taxonomy_message() {
-
-    if ( ! is_category() && ! is_tag() && ! is_tax() )
-        return;
-
-    $term = get_queried_object();
-
-    if ( empty( $term ) || empty( $term->term_id ) )
-        return;
-
-    $term_restriction_type = get_term_meta( $term->term_id, 'pms-content-restrict-type', true );
-    $settings              = get_option( 'pms_content_restriction_settings', array() );
-
-    if ( $term_restriction_type == 'default' || empty( $term_restriction_type ) )
-        $term_restriction_type = ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' );
-
-    if ( $term_restriction_type !== 'message' || ! pms_is_term_restricted( $term ) )
-        return;
-
-    global $wp_query;
-
-    if ( isset( $wp_query->posts ) )
-        $wp_query->posts = array();
-
-    if ( isset( $wp_query->post_count ) )
-        $wp_query->post_count = 0;
-
-    if ( isset( $wp_query->found_posts ) )
-        $wp_query->found_posts = 0;
-
-    if ( isset( $wp_query->max_num_pages ) )
-        $wp_query->max_num_pages = 0;
-}
-add_action( 'template_redirect', 'pms_restrict_taxonomy_message', 5 );
-
-function pms_get_restricted_taxonomy_archive_description( $description ) {
-
-    if ( ! is_category() && ! is_tag() && ! is_tax() )
-        return $description;
-
-    $term = get_queried_object();
-
-    if ( empty( $term ) || ! pms_is_term_restricted( $term ) )
-        return $description;
-
-    return pms_get_restricted_term_message( $term );
-}
-add_filter( 'get_the_archive_description', 'pms_get_restricted_taxonomy_archive_description', 999 );
-
 function pms_elementor_render_template( $template_id ) {
     if ( did_action( 'elementor/loaded' ) ) {
 
@@ -1049,6 +1010,45 @@ function pms_elementor_render_template( $template_id ) {
     }
 
     return '';
+}
+
+/**
+ * Render a restriction message as a standalone archive page, for both classic and block themes
+ *
+ * - on block themes it returns the block template canvas with the message wrapped in the theme header and footer, so it inherits the theme chrome and styles
+ * - on classic themes it prints the message between get_header() and get_footer(), then exits
+ * - meant to be returned from a template_include filter, e.g. return pms_render_restricted_message_template( $message, $id )
+ *
+ * @param string $message
+ * @param string $template_id
+ * @return string
+ */
+function pms_render_restricted_message_template( $message, $template_id = 'pms//restricted-archive' ) {
+
+    if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ) {
+
+        // build the page as blocks: theme header, the message in a centered main area, theme footer
+        global $_wp_current_template_content, $_wp_current_template_id;
+
+        $_wp_current_template_id      = $template_id;
+        $_wp_current_template_content =
+            '<!-- wp:template-part {"slug":"header","tagName":"header"} /-->' .
+            '<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} --><main class="wp-block-group">' .
+            '<!-- wp:html -->' . $message . '<!-- /wp:html -->' .
+            '</main><!-- /wp:group -->' .
+            '<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->';
+
+        return ABSPATH . WPINC . '/template-canvas.php';
+    }
+
+    get_header();
+    ?>
+    <div class="pms-restricted-archive" style="max-width:1200px; margin:0 auto; padding:40px 20px;">
+        <?php echo $message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+    </div>
+    <?php
+    get_footer();
+    exit;
 }
 
 

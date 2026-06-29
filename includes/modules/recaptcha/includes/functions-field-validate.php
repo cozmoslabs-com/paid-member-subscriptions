@@ -160,26 +160,26 @@ add_action( 'pms_recover_password_form_validation', 'pms_recaptcha_field_validat
  */
 function pms_recaptcha_field_validate_form_login( $user ) {
 
-    if( is_wp_error( $user ) )
-        return $user;
-
     if( isset( $_POST['wp-submit'] ) && !isset( $_POST['wppb_login'] ) )
         $login_form_location = 'default_wp_login';
 
     if( isset( $_POST['pms_login'] ) && $_POST['pms_login'] == 1 )
         $login_form_location = 'login';
 
-    if( isset( $login_form_location ) ) {
+    // Not a login form submission we handle; leave authentication untouched.
+    if( ! isset( $login_form_location ) )
+        return $user;
 
-        $validated = pms_recaptcha_field_validate( $login_form_location );
+    // Verify the reCAPTCHA token on every login submission, even when the
+    // credentials already failed. Bailing early on a WP_Error (e.g. wrong
+    // password) left the minted token unverified - Google flags this as
+    // "site is not verifying reCAPTCHA tokens" - and let bots probe passwords
+    // without ever passing reCAPTCHA. Verifying here keeps every token redeemed
+    // and makes reCAPTCHA gate the login regardless of credential validity.
+    $validated = pms_recaptcha_field_validate( $login_form_location );
 
-        if( ! $validated ) {
-
-            $user = new WP_Error( 'pms-recaptcha-' . $login_form_location, '<strong>' . esc_html__('ERROR:', 'paid-member-subscriptions') . '</strong>' . pms_errors()->get_error_message( 'recaptcha-' . $login_form_location ) );
-
-        }
-
-    }
+    if( ! $validated )
+        return new WP_Error( 'pms-recaptcha-' . $login_form_location, '<strong>' . esc_html__('ERROR:', 'paid-member-subscriptions') . '</strong>' . pms_errors()->get_error_message( 'recaptcha-' . $login_form_location ) );
 
     return $user;
 

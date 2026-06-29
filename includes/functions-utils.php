@@ -380,6 +380,21 @@ function pms_get_product_version() {
 
 }
 
+/**
+ * @return bool
+ */
+function pms_paid_plugin_owns_updates() {
+
+    if( ! defined( 'PMS_PAID_PLUGIN_DIR' ) || ! defined( 'PMS_PLUGIN_DIR_PATH' ) )
+        return false;
+
+    if( trailingslashit( PMS_PAID_PLUGIN_DIR ) === trailingslashit( PMS_PLUGIN_DIR_PATH ) )
+        return false;
+
+    return file_exists( PMS_PAID_PLUGIN_DIR . '/update/class-edd-sl-plugin-updater.php' );
+
+}
+
 /*
  * To be used in admin screens
  */

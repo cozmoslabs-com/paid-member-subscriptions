@@ -329,7 +329,12 @@ if( !function_exists('pms_member_get_payment_profile_id') ) {
 
         global $wpdb;
 
-        $result = $wpdb->get_var( "SELECT payment_profile_id FROM {$wpdb->prefix}pms_member_subscriptions WHERE user_id = {$user_id} AND subscription_plan_id = {$subscription_plan_id} AND status != 'abandoned'" );
+        $result = $wpdb->get_var( $wpdb->prepare(
+            "SELECT payment_profile_id FROM {$wpdb->prefix}pms_member_subscriptions WHERE user_id = %d AND subscription_plan_id = %d AND status != %s",
+            $user_id,
+            $subscription_plan_id,
+            'abandoned'
+        ) );
 
         // In case we do not find it, it could be located in the api failed canceling
         // errors

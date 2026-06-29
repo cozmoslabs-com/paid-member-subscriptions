@@ -236,6 +236,7 @@ Class PMS_Payment {
             'date'       => date('Y-m-d H:i:s'),
             'amount'     => 0,
             'status'     => 'pending',
+            'currency'   => pms_get_active_currency(),
             'ip_address' => pms_get_user_ip_address()
         );
 
@@ -414,7 +415,7 @@ Class PMS_Payment {
 
         global $wpdb;
 
-        $payment_logs = $wpdb->get_var( "SELECT logs FROM {$wpdb->prefix}pms_payments WHERE id LIKE {$this->id}" );
+        $payment_logs = $wpdb->get_var( $wpdb->prepare( "SELECT logs FROM {$wpdb->prefix}pms_payments WHERE id = %d", $this->id ) );
 
         if( $payment_logs == null )
             $payment_logs = array();

@@ -413,8 +413,8 @@ Class PMS_Members_List_Table extends WP_List_Table {
             $data[] = apply_filters( 'pms_members_list_table_entry_data', array(
                 'user_id'           => $member->user_id,
                 'username'          => '<strong><a href="' . esc_url( add_query_arg( array( 'subpage' => 'edit_member', 'member_id' => $member->user_id ), admin_url( 'admin.php?page=pms-members-page' ) ) ) . '">' . esc_attr( $member->username ) . '</a></strong>',
-                'name'              => $member_name,
-                'email'             => $member->email,
+                'name'              => esc_html( $member_name ),
+                'email'             => esc_html( $member->email ),
                 'subscriptions'     => $member_subscriptions
             ), $member );
 

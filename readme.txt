@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -268,15 +268,21 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.0.5 =
-* Fix: Harden PayPal Connect Webhooks certificate fetch to fix a SSRF issue. Thanks to yangsori and the Patchstack team for the report
-* Fix: Hide Cancel action from non-recurring subscriptions
-* Fix: Improvements to the new payments scheduler
-* Fix: Align cancel action generation rules with the rules for the cancel action from the Account page
-* Fix: For PSP subscriptions, reset expiration date on renewal payments
-* Misc: Added a new special log entry that is used when the plugin expires a subscription through the status check functionality
-* Misc: Extend Subscriptions page search with email and payment profile ID
-* Misc: Added a Dashboard notification when recurring PayPal Standard or Express payments exist but the email is not saved in settings
-* Misc: Smaller spacing for Remember Me box on block themes
+= 3.0.6 =
+* Feature: Add a Recent Payments list when viewing a member subscription in the admin interface
+* Feature: Add a Bulk Action to mark payments as Complete from the Payments page
+* Enhancement: Reports page speed and memory consumption improvements. Added statistics about Refunded Payments
+* Fix: Security hardening
+* Fix: Allow expired subscriptions to renew outside the renewal window similar to canceled subscriptions
+* Fix: Align Manual gateway fixed-period renewal expiration dates with PSP gateways
+* Fix: Anchor manual renewal expiration dates from the payment date for pending subscriptions
+* Fix: Add a default payment currency when inserting payments and on PayPal IPN renewals
+* Fix: Align PayPal Connect renewal billing fields with installment subscriptions
+* Fix: Ignore PayPal token-deleted webhooks for subscriptions that are already expired
+* Fix: Handle WooCommerce membership subscriptions correctly on single-subscription sites
+* Fix: Prevent GDPR account-deletion URL from being exposed on non-account pages
+* Fix: Require reCAPTCHA token verification on all login submissions, including failed logins
+* Fix: Update billing_amount when the subscription plan changes for an imported subscription
+* Misc: Fix alignment of the Edit Member Subscription page in the back-end
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

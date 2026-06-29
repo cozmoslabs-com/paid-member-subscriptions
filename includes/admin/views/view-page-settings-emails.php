@@ -81,6 +81,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <?php foreach( $available_merge_tags as $available_merge_tag ):?>
                             <input readonly spellcheck="false" type="text" class="pms-tag input" value="{{<?php echo esc_attr( $available_merge_tag ); ?>}}">
                         <?php endforeach; ?>
+                        <p class="pms-available-tags-note"><?php esc_html_e( 'Note: Not all merge tags are available for every email type.', 'paid-member-subscriptions' ); ?></p>
                     </div>
                 </div>
             </div>
@@ -121,6 +122,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <?php foreach( $available_merge_tags as $available_merge_tag ):?>
                             <input readonly spellcheck="false" type="text" class="pms-tag input" value="{{<?php echo esc_attr( $available_merge_tag ); ?>}}">
                         <?php endforeach; ?>
+                        <p class="pms-available-tags-note"><?php esc_html_e( 'Note: Not all merge tags are available for every email type.', 'paid-member-subscriptions' ); ?></p>
                     </div>
                 </div>
             </div>
@@ -158,6 +160,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <?php foreach( $available_merge_tags as $available_merge_tag ):?>
                             <input readonly spellcheck="false" type="text" class="pms-tag input" value="{{<?php echo esc_attr( $available_merge_tag ); ?>}}">
                         <?php endforeach; ?>
+                        <p class="pms-available-tags-note"><?php esc_html_e( 'Note: Not all merge tags are available for every email type.', 'paid-member-subscriptions' ); ?></p>
                     </div>
                 </div>
             </div>
@@ -192,6 +195,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <?php foreach( $available_merge_tags as $available_merge_tag ):?>
                             <input readonly spellcheck="false" type="text" class="pms-tag input" value="{{<?php echo esc_attr( $available_merge_tag ); ?>}}">
                         <?php endforeach; ?>
+                        <p class="pms-available-tags-note"><?php esc_html_e( 'Note: Not all merge tags are available for every email type.', 'paid-member-subscriptions' ); ?></p>
                     </div>
                 </div>
             </div>
@@ -226,6 +230,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <?php foreach( $available_merge_tags as $available_merge_tag ):?>
                             <input readonly spellcheck="false" type="text" class="pms-tag input" value="{{<?php echo esc_attr( $available_merge_tag ); ?>}}">
                         <?php endforeach; ?>
+                        <p class="pms-available-tags-note"><?php esc_html_e( 'Note: Not all merge tags are available for every email type.', 'paid-member-subscriptions' ); ?></p>
                     </div>
                 </div>
             </div>
@@ -304,6 +309,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <?php foreach( $available_merge_tags as $available_merge_tag ):?>
                             <input readonly spellcheck="false" type="text" class="pms-tag input" value="{{<?php echo esc_attr( $available_merge_tag ); ?>}}">
                         <?php endforeach; ?>
+                        <p class="pms-available-tags-note"><?php esc_html_e( 'Note: Not all merge tags are available for every email type.', 'paid-member-subscriptions' ); ?></p>
                     </div>
                 </div>
             </div>
@@ -342,6 +348,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             <?php foreach( $available_merge_tags as $available_merge_tag ):?>
                                 <input readonly spellcheck="false" type="text" class="pms-tag input" value="{{<?php echo esc_attr( $available_merge_tag ); ?>}}">
                             <?php endforeach; ?>
+                            <p class="pms-available-tags-note"><?php esc_html_e( 'Note: Not all merge tags are available for every email type.', 'paid-member-subscriptions' ); ?></p>
                         </div>
                     </div>
                 </div>
@@ -378,6 +385,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <?php foreach( $available_merge_tags as $available_merge_tag ):?>
                             <input readonly spellcheck="false" type="text" class="pms-tag input" value="{{<?php echo esc_attr( $available_merge_tag ); ?>}}">
                         <?php endforeach; ?>
+                        <p class="pms-available-tags-note"><?php esc_html_e( 'Note: Not all merge tags are available for every email type.', 'paid-member-subscriptions' ); ?></p>
                     </div>
                 </div>
             </div>

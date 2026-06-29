@@ -1593,42 +1593,36 @@ function pms_output_deactivation_popup() {
 add_action( 'admin_footer', 'pms_output_deactivation_popup' );
 
 /**
- * Add the stored deactivation reason to the sync payload
+ * Send deactivation feedback from the plugins screen modal.
  *
- * @param array  $body   Sync request body
- * @param string $action Sync action slug
- *
- * @return array
+ * @param array $reason_data Sanitized reason payload from the popup form.
  */
-function pms_add_deactivation_reason_to_sync_body( $body, $action ) {
+function pms_send_deactivation_feedback( $reason_data ) {
 
-    if ( $action !== 'end' )
-        return $body;
+    if ( ! is_array( $reason_data ) || empty( $reason_data['reason'] ) )
+        return;
 
-    $reason_data = get_option( 'pms_deactivation_reason', array() );
-
-    if ( ! is_array( $reason_data ) )
-        $reason_data = array();
-
-    if ( empty( $reason_data['reason'] ) )
-        $reason_data['reason'] = 'skip';
-
-    $body['reason'] = sanitize_key( $reason_data['reason'] );
+    $body = array(
+        'unique_identifier' => hash( 'sha256', home_url( '', 'https' ) ),
+        'product'           => 'pms',
+        'action'            => 'end',
+        'reason'            => $reason_data['reason'],
+    );
 
     $reason_key = $reason_data['reason'] . '_reason';
 
     if ( ! empty( $reason_data[ $reason_key ] ) )
         $body['extra_metadata'] = sanitize_text_field( $reason_data[ $reason_key ] );
 
-    delete_option( 'pms_deactivation_reason' );
-
-    return $body;
+    wp_remote_post( 'https://usagetracker.cozmoslabs.com/syncPlugin', array(
+        'body'     => $body,
+        'timeout'  => 3,
+        'blocking' => false,
+    ) );
 }
-add_filter( 'pms_sync_api_body', 'pms_add_deactivation_reason_to_sync_body', 10, 2 );
 
 /**
- * Store the deactivation reason selected in the popup
- *
+ * Handle deactivation feedback submitted from the plugins screen popup.
  */
 function pms_store_deactivation_reason() {
 
@@ -1669,42 +1663,8 @@ function pms_store_deactivation_reason() {
     if ( $reason === 'other' && ! empty( $_POST['other_reason'] ) )
         $reason_data['other_reason'] = sanitize_text_field( wp_unslash( $_POST['other_reason'] ) );
 
-    update_option( 'pms_deactivation_reason', $reason_data, false );
+    pms_send_deactivation_feedback( $reason_data );
 
     wp_send_json_success();
 }
 add_action( 'wp_ajax_pms_store_deactivation_reason', 'pms_store_deactivation_reason' );
-
-function pms_sync_api( $action ) {
-
-    $base = 'https://usagetracker.cozmoslabs.com';
-    $url  = $base . '/syncPlugin';
-    $body = array(
-        'unique_identifier' => hash( 'sha256', home_url( '', 'https' ) ),
-        'product'           => 'pms',
-        'action'            => $action,
-    );
-
-    $body = apply_filters( 'pms_sync_api_body', $body, $action );
-
-    wp_remote_post( $url, array(
-        'body'     => $body,
-        'timeout'  => 3,
-        'blocking' => false,
-    ) );
-
-}
-
-function pms_handle_plugin_activation(){
-
-    $already_installed = get_option( 'pms_already_installed' );
-
-    if( empty( $already_installed ) ){
-        pms_sync_api( 'start' );
-    }
-
-}
-
-function pms_handle_plugin_deactivation(){
-    pms_sync_api( 'end' );
-}

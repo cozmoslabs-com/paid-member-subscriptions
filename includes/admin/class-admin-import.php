@@ -181,10 +181,6 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
                 $subscription_data[ $key ] = $membership[ $import_key ];
         }
 
-        // Don't allow updates on the billing_amount column
-        if( isset( $subscription_data['billing_amount'] ) )
-            unset( $subscription_data['billing_amount'] );
-
         $membership_user_id = isset( $membership['subscription_user_id'] ) ? $membership['subscription_user_id'] : 0;
 
         // Update subscription 
@@ -194,6 +190,8 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
 
             if( empty( $subscription->id ) )
                 return;
+
+            $subscription_data = $this->prepare_import_billing_amount( $subscription_data, $subscription, $subscription_plan );
 
             $subscription->update( $subscription_data );
 
@@ -222,6 +220,8 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
                 if ( $membership[ 'subscription_plan_id' ] === $single_subscription[ 'subscription_plan_id' ] ) {
 
                     $subscription = pms_get_member_subscription( $single_subscription[ 'id' ] );
+
+                    $subscription_data = $this->prepare_import_billing_amount( $subscription_data, $subscription, $subscription_plan );
 
                     $subscription->update( $subscription_data );
 
@@ -257,6 +257,9 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
             if( empty( $subscription_data['user_id'] ) )
                 $subscription_data['user_id'] = $member->user_id;
 
+            if( isset( $subscription_data['billing_amount'] ) )
+                unset( $subscription_data['billing_amount'] );
+
             // Insert subscription
             $new_subscription->insert( $subscription_data );
 
@@ -270,6 +273,48 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
                 }
             }
         }
+    }
+
+    /**
+     * Keep imported billing_amount unchanged unless the subscription plan is changing.
+     */
+    private function prepare_import_billing_amount( $subscription_data, $existing_subscription, $subscription_plan ) {
+
+        $is_plan_change = isset( $subscription_data['subscription_plan_id'] )
+            && (int) $existing_subscription->subscription_plan_id !== (int) $subscription_data['subscription_plan_id'];
+
+        if( $is_plan_change && apply_filters( 'pms_update_billing_amount_from_backend_on_sub_change', true ) && isset( $subscription_plan->price ) ) {
+
+            $billing_amount = $subscription_plan->price;
+
+            if( function_exists( 'pms_in_tax_enabled' ) && pms_in_tax_enabled() ) {
+
+                $request_data = array();
+
+                $payments = pms_get_payments( array(
+                    'member_subscription_id' => $existing_subscription->id,
+                    'number'                 => 1,
+                    'order'                  => 'DESC',
+                ) );
+
+                if( !empty( $payments[0] ) && !empty( $payments[0]->id ) ) {
+                    $request_data['pms_billing_country'] = pms_get_payment_meta( $payments[0]->id, 'pms_billing_country', true );
+                    $request_data['pms_billing_state']   = pms_get_payment_meta( $payments[0]->id, 'pms_billing_state', true );
+                    $request_data['pms_billing_city']    = pms_get_payment_meta( $payments[0]->id, 'pms_billing_city', true );
+                }
+
+                $billing_amount = apply_filters( 'pms_tax_apply_to_amount', $billing_amount, $subscription_plan->id, $request_data );
+            }
+
+            $subscription_data['billing_amount'] = $billing_amount;
+
+            return $subscription_data;
+        }
+
+        if( isset( $subscription_data['billing_amount'] ) )
+            unset( $subscription_data['billing_amount'] );
+
+        return $subscription_data;
     }
 
     /*

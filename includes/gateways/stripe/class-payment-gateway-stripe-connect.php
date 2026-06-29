@@ -1240,9 +1240,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             return $this->maybe_advance_subscription_after_psp_webhook( $subscription, $checkout_data );
         }
 
-        if( !in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) ){
+        $subscription_plan_id = !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : false;
 
-            $subscription_plan_id = !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : false;
+        if( !in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) ){
 
             if( empty( $subscription_plan_id ) && !empty( $checkout_data['subscription_plans'] ) )
                 $subscription_plan_id = $checkout_data['subscription_plans'];
@@ -1250,6 +1250,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $subscription_plan_id = $subscription->subscription_plan_id;
 
             $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
+
+            if( empty( $subscription_plan->id ) )
+                return false;
 
             $subscription_data = PMS_Form_Handler::get_subscription_data( $subscription->user_id, $subscription_plan, $form_location, true, $this->gateway_slug, $is_recurring, $has_trial );
 
@@ -1346,15 +1349,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             case 'renew_subscription':
 
-                if( strtotime( $subscription->expiration_date ) < time() || ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration === 0 ) || ( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() ) )
-                    $expiration_date = $subscription_plan->get_expiration_date();
-                else {
-                    if( $subscription_plan->is_fixed_period_membership() ){
-                        $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+ 1 year' ) );
-                    } else {
-                        $expiration_date = date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
-                    }
-                }
+                $expiration_date = pms_get_renew_subscription_expiration_date( $subscription, $subscription_plan );
 
                 /**
                  * Filter the new expiration date of a subscription that is processed through PSP
@@ -1499,9 +1494,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( !isset( $_GET['pay_gate_listener'] ) || $_GET['pay_gate_listener'] != 'stripe' )
             return;
 
-        if( function_exists( 'sleep' ) )
-            sleep(3);
-
         // Get the input
         $input = @file_get_contents("php://input");
 
@@ -1579,6 +1571,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             } else
                 die();
         }
+
+        if( function_exists( 'sleep' ) )
+            sleep(3);
 
         // add an option that we later use to tell the admin that webhooks are configured
         update_option( 'pms_stripe_connect_webhook_connection', strtotime( 'now' ) );
@@ -1785,7 +1780,16 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment->log_data( 'stripe_charge_refunded', array( 'data' => $data->metadata ) );
 
-                $payment->update( array( 'status' => 'refunded' ) );
+                $refund_amount = $payment->amount;
+                if ( ! empty( $data->amount_refunded ) ) {
+                    $amount_refunded = (int) $data->amount_refunded;
+                    if ( ! in_array( $payment->currency, $this->get_zero_decimal_currencies(), true ) )
+                        $refund_amount = $amount_refunded / 100;
+                    else
+                        $refund_amount = $amount_refunded;
+                }
+
+                pms_refund_payment( $payment_id, $refund_amount, 'webhook' );
 
                 $pms_settings = get_option( 'pms_misc_settings', array() );
 

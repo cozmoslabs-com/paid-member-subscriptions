@@ -48,6 +48,8 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
     public $queried_payments_attempts = array();
     public $queried_previous_payments = array();
     public $queried_previous_attempts = array();
+    public $queried_refunded_payments = array();
+    public $queried_previous_refunded_payments = array();
 
 
     /**
@@ -310,13 +312,13 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
             'return_array' => true
         );
 
-        if( isset( $_REQUEST['pms-filter-subscription-plans'] ) && !empty( $_GET['pms-filter-subscription-plans'] ) ){
+        $filter_args = pms_reports_get_subscription_plan_filter_args();
 
-            $specific_subs = array_map('absint', $_GET['pms-filter-subscription-plans'] );
+        if( ! empty( $filter_args['subscription_plan_id'] ) ) {
+            $specific_subs = $filter_args['subscription_plan_id'];
 
-            $args_attempts         ['subscription_plan_id'] = $specific_subs;
+            $args_attempts          ['subscription_plan_id'] = $specific_subs;
             $args_previous_attempts['subscription_plan_id'] = $specific_subs;
-
         }
 
         $args_attempts          = apply_filters( 'pms_reports_get_filtered_payments_args', $args_attempts );
@@ -334,6 +336,9 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         if( !empty( $this->queried_previous_attempts ) ){
             $this->queried_previous_payments = array_filter( $this->queried_previous_attempts, array( $this, 'filter_get_completed_payments' ) );
         }
+
+        $this->queried_refunded_payments          = pms_reports_get_refunded_payments_for_range( $this->start_date, $this->end_date );
+        $this->queried_previous_refunded_payments = pms_reports_get_refunded_payments_for_range( $this->start_previous_date, $this->end_previous_date );
 
         return $payments;
 
@@ -667,17 +672,6 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
     }
 
     /**
-     * Count any type of payment
-     *
-     */
-    public function pms_counting_type_of_payment( $payment_type, $types_wanted, $count ) {
-        if ( in_array( $payment_type, $types_wanted ) )
-            $count++;
-
-        return $count;
-    }
-
-    /**
      * Gather any type of payment
      *
      */
@@ -712,54 +706,35 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
     /**
      *
-     * Counting payments with any status but type of 'subscription_retry_payment'
+     * Count retry, renewal, and upgrade attempts in a single pass.
      */
-    public function pms_return_counting_attempts( $queried ){
-        $attempts_payments = ['subscription_retry_payment'];
-        $count_attempts_payments = 0;
+    private function pms_count_attempt_payment_types( $queried ) {
 
-        if( !empty( $queried ) ) {
-            foreach( $queried as $payment ){
-                $count_attempts_payments = $this->pms_counting_type_of_payment( $payment['type'], $attempts_payments, $count_attempts_payments );
+        $counts = array(
+            'retry'   => 0,
+            'renewal' => 0,
+            'upgrade' => 0,
+        );
+
+        if ( empty( $queried ) )
+            return $counts;
+
+        foreach ( $queried as $payment ) {
+            switch ( $payment['type'] ) {
+                case 'subscription_retry_payment':
+                    $counts['retry']++;
+                    break;
+                case 'subscription_renewal_payment':
+                    $counts['renewal']++;
+                    break;
+                case 'subscription_upgrade_payment':
+                    $counts['upgrade']++;
+                    break;
             }
         }
 
-        return $count_attempts_payments;
-    }
+        return $counts;
 
-
-    /**
-     *
-     * Counting payments with any status but type of 'subscription_renewal_payment'
-     */
-    public function pms_return_counting_renewal_payments( $queried ){
-        $renewal_payments = ['subscription_renewal_payment'];
-        $count_renewal_payments = 0;
-
-        if( !empty( $queried ) ) {
-            foreach( $queried as $payment ){
-                $count_renewal_payments = $this->pms_counting_type_of_payment( $payment['type'], $renewal_payments, $count_renewal_payments );
-            }
-        }
-
-        return $count_renewal_payments;
-    }
-
-    /**
-     *
-     * Counting payments with any status but type of 'subscription_upgrade_payment'
-     */
-    public function pms_return_counting_upgrade_payments( $queried ){
-        $upgrade_payments = ['subscription_upgrade_payment'];
-        $count_upgrade_payments = 0;
-
-        if( !empty( $queried ) ) {
-            foreach( $queried as $payment ){
-                $count_upgrade_payments = $this->pms_counting_type_of_payment( $payment['type'], $upgrade_payments, $count_upgrade_payments );
-            }
-        }
-
-        return $count_upgrade_payments;
     }
 
     /**
@@ -828,12 +803,15 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
             'total_recovered_payments' => 0,
         );
 
-        if( isset( $_GET['pms-filter-subscription-plans'] ) && !empty( $_GET['pms-filter-subscription-plans'] ) ){
-            $specific_subs = array_map('absint', $_GET['pms-filter-subscription-plans'] );
+        $filter_args = pms_reports_get_subscription_plan_filter_args();
+
+        if( ! empty( $filter_args['subscription_plan_id'] ) ){
+            $specific_subs = $filter_args['subscription_plan_id'];
 
             foreach ( $specific_subs as $sub_id ){
                 if( !isset( $subscriptions_plans_result[$sub_id] ) ) {
-                    $subscriptions_plans_result[$sub_id] = array( 'name' => '', 'earnings' => array(), 'count' => array(), 'default_currency_total' => 0 );
+                    $plan = pms_get_subscription_plan( $sub_id );
+                    $subscriptions_plans_result[$sub_id] = array( 'name' => $plan->name, 'earnings' => array(), 'count' => array(), 'default_currency_total' => 0 );
                 }
             }
         } else {
@@ -841,7 +819,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
             foreach ( $specific_subs as $plan ){
                 if( !isset( $subscriptions_plans_result[$plan->id] ) ) {
-                    $subscriptions_plans_result[$plan->id] = array( 'name' => '', 'earnings' => array(), 'count' => array(), 'default_currency_total' => 0 );
+                    $subscriptions_plans_result[$plan->id] = array( 'name' => $plan->name, 'earnings' => array(), 'count' => array(), 'default_currency_total' => 0 );
                 }
 
             }
@@ -849,19 +827,14 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
         if( !empty( $queried_payments ) ) {
 
+            $queried_payments = pms_reports_prefetch_base_currency_amounts_for_payments( $queried_payments );
+
             foreach( $queried_payments as $payment ) {
                 $currency             = !empty( $payment['currency'] ) ? $payment['currency'] : $default_currency;
                 $currency             = apply_filters( 'pms_reports_payment_currency', $currency, $payment );
-                $base_currency_amount = pms_get_payment_meta( $payment['id'], 'base_currency_amount', true );
 
                 // Total Payment Amounts in Default Currency
-                if ( $currency === $default_currency ) {
-                    $default_currency_payment_amount = $payment['amount'];
-                } elseif ( !empty( $base_currency_amount ) ) {
-                    $default_currency_payment_amount = $base_currency_amount;
-                } else {
-                    $default_currency_payment_amount = function_exists( 'pms_convert_currency' ) ? pms_convert_currency( $payment['amount'], $currency, $default_currency,  date('Y-m-d', strtotime( $payment['date'] ) ) ) : $payment['amount'];
-                }
+                $default_currency_payment_amount = pms_reports_convert_amount_to_default_currency( $payment['amount'], $payment );
 
                 $default_currency_totals['payments_amount'] += $default_currency_payment_amount;
 
@@ -929,9 +902,11 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                 else 
                     $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['count'][$currency] = 1;
 
-                if( empty( $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['name'] ) ){
-                    $plan = pms_get_subscription_plan( $payment['subscription_id'] );
-                    $subscriptions_plans_result[ intval( $payment['subscription_id'] ) ]['name'] = $plan->name;
+                $plan_id = intval( $payment['subscription_id'] );
+
+                if( empty( $subscriptions_plans_result[ $plan_id ]['name'] ) ){
+                    $plan = pms_get_subscription_plan( $plan_id );
+                    $subscriptions_plans_result[ $plan_id ]['name'] = $plan->name;
                 }
 
                 // Discount Codes
@@ -1009,16 +984,17 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
             }
 
             $class_section = 'previous';
-
-            $summary_data['total_retry_attempts'] = esc_html( $this->pms_return_counting_attempts( $this->queried_previous_attempts ) );
-            $summary_data['total_renewal_payments'] = esc_html( $this->pms_return_counting_renewal_payments( $this->queried_previous_attempts ) );
-            $summary_data['total_upgrade_payments'] = esc_html( $this->pms_return_counting_upgrade_payments( $this->queried_previous_attempts ) );
+            $queried_attempts = $this->queried_previous_attempts;
         }
         else {
-            $summary_data['total_retry_attempts'] = esc_html( $this->pms_return_counting_attempts( $this->queried_payments_attempts ) );
-            $summary_data['total_renewal_payments'] = esc_html( $this->pms_return_counting_renewal_payments( $this->queried_payments_attempts ) );
-            $summary_data['total_upgrade_payments'] = esc_html( $this->pms_return_counting_upgrade_payments( $this->queried_payments_attempts ) );
+            $queried_attempts = $this->queried_payments_attempts;
         }
+
+        $attempt_counts = $this->pms_count_attempt_payment_types( $queried_attempts );
+
+        $summary_data['total_retry_attempts'] = esc_html( $attempt_counts['retry'] );
+        $summary_data['total_renewal_payments'] = esc_html( $attempt_counts['renewal'] );
+        $summary_data['total_upgrade_payments'] = esc_html( $attempt_counts['upgrade'] );
 
         $default_currency = $summary_data['default_currency'];
         $default_currency_totals = $summary_data['default_currency_totals'];
@@ -1117,6 +1093,55 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
 
                             }
                             else echo '<p class="pms-currency-count" style="margin: 0 0 5px 0;">0</p>';
+
+                            ?>
+
+                        </div>
+
+                    </div>
+
+                    <div class="cozmoslabs-form-field-wrapper">
+                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total refunded amount and number of refunded payments processed in the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Total Refunded', 'paid-member-subscriptions' ); ?></label>
+
+                        <div class="pms-total-container" id="total-refunded-amount">
+
+                            <?php
+
+                            $refunded_count_display = ! empty( $default_currency_totals['refunded_count'] ) ? (int) $default_currency_totals['refunded_count'] : 0;
+
+                            if ( !empty( $default_currency_totals['refunded_amount'] ) || $refunded_count_display > 0 ) {
+
+                                echo '<div class="pms-currency pms-currency-refunded">';
+
+                                    echo '<p style="margin: 0;">' . esc_html( pms_format_price( $default_currency_totals['refunded_amount'], $default_currency ) ) . esc_html( ' · ' ) . esc_html( sprintf(
+                                        _n( '%d payment', '%d payments', $refunded_count_display, 'paid-member-subscriptions' ),
+                                        $refunded_count_display
+                                    ) ) . '</p>';
+
+                                    echo '<div class="pms-currency-difference">';
+
+                                        if( !empty( $results_arrow['default_currency_totals']['refunded_amount']['present'] ) && !$previous ){ ?>
+
+                                            <img class="pms-arrow" alt="pms-arrow" src="<?php echo esc_html( $results_arrow['default_currency_totals']['refunded_amount']['present'] ); ?>">
+
+                                            <span style="
+                                            <?php
+                                            if( $results_arrow['default_currency_totals']['refunded_amount']['difference'] > 0 )
+                                                echo 'color: red';
+                                            elseif( $results_arrow['default_currency_totals']['refunded_amount']['difference'] < 0 )
+                                                echo 'color: green';
+                                            ?>">
+                                                <?php echo '(' . esc_html( number_format( $results_arrow['default_currency_totals']['refunded_amount']['percent'], 2 ) ) . '%)'; ?>
+                                            </span>
+
+                                        <?php }
+
+                                    echo '</div>';
+
+                                echo '</div>';
+
+                            }
+                            else echo '<p class="pms-currency-refunded" style="margin: 0 0 5px 0;">' . esc_html( pms_format_price( 0, $default_currency ) ) . esc_html( ' · ' ) . esc_html__( '0 payments', 'paid-member-subscriptions' ) . '</p>';
 
                             ?>
 
@@ -1254,7 +1279,7 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
                     </div>
 
                     <div class="cozmoslabs-form-field-wrapper">
-                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of renewal payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Renewal Payments', 'paid-member-subscriptions' ); ?></label>
+                        <label class="pms-form-field-label cozmoslabs-form-field-label" title="<?php echo esc_html__( 'Total number of manual renewal payments for the selected period', 'paid-member-subscriptions' ); ?>"><?php echo esc_html__( 'Manual Renewal Payments', 'paid-member-subscriptions' ); ?></label>
                         <span><?php echo esc_html( $summary_data['total_renewal_payments'] ); ?></span>
                     </div>
 
@@ -1476,13 +1501,26 @@ Class PMS_Submenu_Page_Reports extends PMS_Submenu_Page {
         $summary_data = $this->get_summary_data( $this->queried_payments );
         $summary_previous_data = $this->get_summary_data( $this->queried_previous_payments );
 
+        $refund_summary_data          = pms_reports_aggregate_refunds( $this->queried_refunded_payments );
+        $refund_summary_previous_data = pms_reports_aggregate_refunds( $this->queried_previous_refunded_payments );
+
+        $summary_data['refunded_amount'] = $refund_summary_data['refunded_amount'];
+        $summary_data['refunded_count']  = $refund_summary_data['refunded_count'];
+        $summary_data['default_currency_totals']['refunded_amount'] = $refund_summary_data['default_currency_totals']['refunded_amount'];
+        $summary_data['default_currency_totals']['refunded_count']  = $refund_summary_data['default_currency_totals']['refunded_count'];
+
+        $summary_previous_data['refunded_amount'] = $refund_summary_previous_data['refunded_amount'];
+        $summary_previous_data['refunded_count']  = $refund_summary_previous_data['refunded_count'];
+        $summary_previous_data['default_currency_totals']['refunded_amount'] = $refund_summary_previous_data['default_currency_totals']['refunded_amount'];
+        $summary_previous_data['default_currency_totals']['refunded_count']  = $refund_summary_previous_data['default_currency_totals']['refunded_count'];
+
         $arrows = array(
                 'up' => PMS_PLUGIN_DIR_URL.'assets/images/pms-caret-up.svg',
                 'down' => PMS_PLUGIN_DIR_URL.'assets/images/pms-caret-down.svg'
         );
 
         $results_arrow = array();
-        $data_types = array( 'payments_amount', 'payments_count', 'total_completed_payments', 'total_recurring_payments' );
+        $data_types = array( 'payments_amount', 'payments_count', 'total_completed_payments', 'total_recurring_payments', 'refunded_amount', 'refunded_count' );
 
 
         // payment info per currency

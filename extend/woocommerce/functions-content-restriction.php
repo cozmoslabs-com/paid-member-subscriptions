@@ -556,6 +556,17 @@ if( function_exists( 'wc_get_page_id' ) ) :
 
                 setup_postdata( $shop_page );
 
+                // archive-product.php uses get_header() / get_footer(), which break on block (FSE) themes since they have no header/footer files
+                // so on those themes render the message with the shared helper, which builds the page from the theme's own block header and footer
+                if ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() && function_exists( 'pms_render_restricted_message_template' ) ) {
+
+                    $message = pms_get_restricted_post_message( $post_id );
+
+                    wp_reset_postdata();
+
+                    return pms_render_restricted_message_template( $message, 'pms//restricted-shop' );
+                }
+
                 $template = PMS_PLUGIN_DIR_PATH . 'extend/woocommerce/templates/archive-product.php';
 
                 wp_reset_postdata();

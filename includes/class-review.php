@@ -83,7 +83,7 @@ class PMS_Review_Request {
                         </p>
                         <p></p>
                         <p>
-                            <a href="https://wordpress.org/support/plugin/paid-member-subscriptions/reviews/?filter=5#new-post"
+                            <a href="https://wordpress.org/support/plugin/paid-member-subscriptions/reviews/#new-post"
                                target="_blank" rel="noopener" class="button-primary" style="margin-right: 20px">
                                 <?php esc_html_e('Ok, I will gladly help!', 'paid-member-subscriptions'); ?>
                             </a>
@@ -126,7 +126,7 @@ class PMS_Review_Request {
         if ( $current_screen->parent_base == 'paid-member-subscriptions' ){
             $rate_text = sprintf( __( 'If you enjoy using <strong> %1$s </strong> please <a href="%2$s" target="_blank">rate us on WordPress.org</a>. More happy users means more features, less bugs and better support for everyone. ', 'paid-member-subscriptions' ),
                 PAID_MEMBER_SUBSCRIPTIONS,
-                'https://wordpress.org/support/plugin/paid-member-subscriptions/reviews/?filter=5#new-post'
+                'https://wordpress.org/support/plugin/paid-member-subscriptions/reviews/#new-post'
             );
             return '<span id="footer-thankyou">' .$rate_text . '</span>';
         } else {

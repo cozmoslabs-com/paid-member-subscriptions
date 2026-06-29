@@ -258,7 +258,10 @@ function pms_woo_order_already_processed( $existing_subscription_id, $order_key 
 
 
 /**
- * Build replacement data when the purchased plan is an upgrade or downgrade of an existing subscription
+ * Build replacement data when the purchased plan should replace an existing subscription
+ *
+ * - tier upgrades/downgrades replace the related subscription on any site
+ * - on single-subscription sites any other plan also replaces the member's existing subscription
  *
  */
 function pms_get_subscription_replacement_data( $user_id, $new_subscription_plan_id, $new_subscription_status ) {
@@ -271,10 +274,6 @@ function pms_get_subscription_replacement_data( $user_id, $new_subscription_plan
     $new_subscription = pms_get_subscription_plan( $new_subscription_plan_id );
     $upgrades = array_map( function( $plan ) { return $plan->id; }, pms_get_subscription_plan_upgrades( $new_subscription_plan_id ) );
     $downgrades = array_map( function( $plan ) { return $plan->id; }, pms_get_subscription_plan_downgrades( $new_subscription_plan_id ) );
-
-    if ( empty( $upgrades ) && empty( $downgrades ) ) {
-        return array();
-    }
 
     $new_subscription_plan_name = $new_subscription->name;
     $billing_next_payment = ( !empty( $new_subscription->billing_next_payment ) ) ? $new_subscription->billing_next_payment : '';
@@ -289,6 +288,33 @@ function pms_get_subscription_replacement_data( $user_id, $new_subscription_plan
         elseif ( in_array( $old_subscription->subscription_plan_id, $downgrades ) ) {
             $replacement_type = 'upgraded';
             $existing_subscription_id = $old_subscription->id;
+        }
+
+    }
+
+    // replace the member's existing subscription on single-subscription sites
+    // - applies to plans that are not tier upgrades/downgrades, which would otherwise be dropped
+    // - runs only when no tier match was found and the multiple-subscriptions add-on is inactive
+    if ( ! isset( $existing_subscription_id ) && ! class_exists( 'PMS_IN_Multiple_Subscriptions_Per_User' ) ) {
+
+        // pick the subscription to replace
+        // - normally there is a single record, but stale records can remain after the Multiple Subscriptions per User add-on is disabled
+        // - prefer an active record so a live plan is never left behind alongside the new one
+        $replacement_target = null;
+
+        foreach ( $existing_subscriptions as $old_subscription ) {
+            if ( $replacement_target === null )
+                $replacement_target = $old_subscription;
+
+            if ( $old_subscription->status === 'active' ) {
+                $replacement_target = $old_subscription;
+                break;
+            }
+        }
+
+        if ( $replacement_target !== null ) {
+            $replacement_type = 'changed';
+            $existing_subscription_id = $replacement_target->id;
         }
 
     }
@@ -472,6 +498,16 @@ function pms_woo_update_member_subscription( $subscription_data, $subscription_r
     if( function_exists( 'pms_add_member_subscription_log' ) ) {
         foreach ( $user_existing_subscriptions as $existing_sub) {
             if ( $existing_sub->id == $subscription_data['id'] ) {
+
+                // log the plan change even when the status changes in the same update
+                // - the status branch below runs on a status change and skips the replacement branch
+                // - the status-unchanged case is still handled by the replacement branch further down
+                if ( !empty( $subscription_data['replacement_type'] ) && isset( $subscription_data['subscription_plan_id'] )
+                     && $existing_sub->subscription_plan_id != $subscription_data['subscription_plan_id']
+                     && $existing_sub->status != $subscription_data['status'] ) {
+                    pms_add_member_subscription_log( $subscription_data['id'], 'woocommerce_product_subscription_replacement', array( 'type' => $subscription_data['replacement_type'], 'new_name' => $subscription_data['new_name'], 'order_id' => $order_id ) );
+                }
+
                 if ( $existing_sub->status != $subscription_data['status'] ) {
                     if ( $subscription_data['status'] == 'active' ) {
                         if ( $subscription_renewal )

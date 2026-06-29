@@ -116,6 +116,58 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
         if( empty( $action ) )
             return;
 
+        // Complete pending Manual / Offline payments in bulk
+        if( $action == 'pms_bulk_complete_payments' ) {
+
+            if( isset( $_REQUEST['payments'] ) && !empty( $_REQUEST['payments'] ) ) {
+
+                $payment_ids             = array_unique( array_filter( array_map( 'absint', $_REQUEST['payments'] ) ) );
+                $completed_payments_count = 0;
+                $skipped_payments_count   = 0;
+
+                foreach( $payment_ids as $payment_id ) {
+
+                    if( $this->complete_manual_payment( $payment_id ) )
+                        $completed_payments_count++;
+                    else
+                        $skipped_payments_count++;
+
+                }
+
+                if( $completed_payments_count > 0 ) {
+                    $this->add_admin_notice(
+                        sprintf(
+                            _n(
+                                '%d Payment successfully completed.',
+                                '%d Payments successfully completed.',
+                                $completed_payments_count,
+                                'paid-member-subscriptions'
+                            ),
+                            $completed_payments_count
+                        ),
+                        'updated'
+                    );
+                }
+
+                if( $skipped_payments_count > 0 ) {
+                    $this->add_admin_notice(
+                        sprintf(
+                            _n(
+                                '%d Payment was skipped because it is not a pending Manual payment.',
+                                '%d Payments were skipped because they are not pending Manual payments.',
+                                $skipped_payments_count,
+                                'paid-member-subscriptions'
+                            ),
+                            $skipped_payments_count
+                        ),
+                        'update-nag'
+                    );
+                }
+
+            }
+
+        }
+
         // Handle bulk delete payments
         if( $action == 'pms_bulk_delete_payments' ) {
 
@@ -385,15 +437,28 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
             if( $payment_id == 0 )
                 return;
 
-            $payment = pms_get_payment( $payment_id );
-
-            if( empty( $payment->id ) || $payment->status != 'pending' )
-                return;
-
-            if( $payment->update( array( 'status' => 'completed' ) ) )
+            if( $this->complete_manual_payment( $payment_id ) )
                 $this->add_admin_notice( esc_html__( 'Payment successfully completed.', 'paid-member-subscriptions' ), 'updated' );
 
         }
+    }
+
+    /**
+     * Complete a pending Manual / Offline payment.
+     *
+     * @param int $payment_id
+     *
+     * @return bool
+     */
+    protected function complete_manual_payment( $payment_id ) {
+
+        $payment = pms_get_payment( absint( $payment_id ) );
+
+        if( empty( $payment->id ) || $payment->payment_gateway !== 'manual' || $payment->status !== 'pending' )
+            return false;
+
+        return (bool) $payment->update( array( 'status' => 'completed' ) );
+
     }
 
     /**
@@ -606,8 +671,7 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
                 pms_add_payment_meta( $payment_id, $gateway_slug . '_refund_id', $response['transaction_id'] );
             }
 
-            // Update payment status
-            $payment_status_updated = $payment->update( array( 'status' => 'refunded' ) );
+            $payment_status_updated = pms_refund_payment( $payment_id, $refund_amount, 'admin_refund' );
 
             // Add refund information to payment logs
             $payment->log_data( 'payment_refunded', array(

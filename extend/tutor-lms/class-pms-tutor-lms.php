@@ -210,6 +210,11 @@ class PMS_IN_TutorLMS {
         if ( !isset( $_POST['option_page'] ) || $_POST['option_page'] !== 'pms_tutor_lms_settings' || !isset( $_POST['pms_tutor_lms_settings']['restriction_type'] ) )
             return;
 
+        if ( ! current_user_can( 'manage_options' ) )
+            return;
+
+        check_admin_referer( 'pms_tutor_lms_settings-options' );
+
         if ( $_POST['pms_tutor_lms_settings']['restriction_type'] !== 'full_courses' ) {
 
             if ( isset( $_POST['pms_tutor_lms_settings']['access_type'] ) )
