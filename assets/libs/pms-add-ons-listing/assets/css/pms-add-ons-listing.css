@@ -139,6 +139,7 @@
 #pms-add-ons-listing .button-secondary {
     height: 40px;
     min-width: 100px;
+    border-radius: 4px;
 }
 
 /* recommended plugins */

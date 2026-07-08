@@ -260,6 +260,16 @@ add_filter( 'user_has_cap', 'pms_role_permissions_filter_user_has_cap', 10, 4 );
 
 
 /**
+ * Whether the current user may run exports.
+ *
+ * @return bool
+ */
+function pms_current_user_can_export() {
+    return (bool) apply_filters( 'pms_export_capability', current_user_can( 'manage_options' ) );
+}
+
+
+/**
  * Filters the export capability through the PMS role-permissions helper
  *
  * - export remains delegated only through the Export area or legacy fallback

@@ -130,8 +130,39 @@ jQuery( function($) {
      * Initialize datepicker
      *
      */
+    var pmsFilterDateRangeEnds = {
+        'pms-datepicker-start-date-beginning'     : 'pms-datepicker-start-date-end',
+        'pms-datepicker-expiration-date-beginning': 'pms-datepicker-expiration-date-end'
+    };
+
+    var pmsFilterDateNextFocus = {
+        'pms-datepicker-start-date-end': '#pms-filter-expiration-date'
+    };
+
     $(document).on( 'focus', '.datepicker', function() {
-        $(this).datepicker({ dateFormat: 'yy-mm-dd'});
+        var $input = $(this);
+
+        if ( $input.hasClass( 'hasDatepicker' ) ) {
+            return;
+        }
+
+        var options = { dateFormat: 'yy-mm-dd' };
+        var endInputId = pmsFilterDateRangeEnds[ $input.attr( 'id' ) ];
+        var nextFocus = pmsFilterDateNextFocus[ $input.attr( 'id' ) ];
+
+        if ( endInputId || nextFocus ) {
+            options.onSelect = function() {
+                setTimeout( function() {
+                    if ( endInputId ) {
+                        $( '#' + endInputId ).focus();
+                    } else if ( nextFocus ) {
+                        $( nextFocus ).focus();
+                    }
+                }, 0 );
+            };
+        }
+
+        $input.datepicker( options );
     });
 
 
@@ -161,7 +192,7 @@ jQuery( function($) {
         $expirationDateInput.attr( 'disabled', true );
 
         // Show/Hide Group Name and Description Fields
-        $.post( ajaxurl, { action: 'determine_subscription_type', subscription_plan_id: $subscriptionPlanSelect.val() }, function( response ) {
+        $.post( ajaxurl, { action: 'determine_subscription_type', subscription_plan_id: $subscriptionPlanSelect.val(), nonce: pms_gm_members_ajax.determine_subscription_type_nonce }, function( response ) {
             if( response == 'group' ) {
                 jQuery('.pms-group-memberships-field').css('display', 'flex');
                 jQuery('#pms_group_name').attr('required', true);
@@ -172,7 +203,7 @@ jQuery( function($) {
         });
 
         // Get the expiration date and set it the expiration date field
-        $.post( ajaxurl, { action: 'populate_expiration_date', subscription_plan_id: $subscriptionPlanSelect.val() }, function( response ) {
+        $.post( ajaxurl, { action: 'populate_expiration_date', subscription_plan_id: $subscriptionPlanSelect.val(), nonce: pms_members_ajax.nonce }, function( response ) {
 
             // Populate expiration date field
             $expirationDateInput.val( response );
@@ -236,7 +267,7 @@ jQuery( function($) {
 
         $( '#pms-member-username-input' ).pms_addSpinner()
 
-        $.post( ajaxurl, { action: 'check_username', username: $(this).val() }, function( response ) {
+        $.post( ajaxurl, { action: 'check_username', username: $(this).val(), nonce: pms_members_ajax.nonce }, function( response ) {
 
             if( response != 0 ) {
 
@@ -344,7 +375,7 @@ jQuery( function($) {
         $spinner.css( 'visibility', 'visible' );
 
 
-        $.post( ajaxurl, { action: 'populate_member_subscription_fields', subscription_plan_id: $this.val() }, function( response ) {
+        $.post( ajaxurl, { action: 'populate_member_subscription_fields', subscription_plan_id: $this.val(), nonce: pms_members_ajax.nonce }, function( response ) {
 
             if( response != 0 ) {
 
@@ -392,8 +423,7 @@ jQuery( function($) {
 
     function pms_add_log_entry(){
         var subscription_id = jQuery('#pms-member-subscription-logs input[name="pms_subscription_id"]').val(),
-            log             = jQuery('#pms-member-subscription-logs input[name="pms_admin_log"]').val(),
-            nonce           = jQuery('#pms-member-subscription-logs input[name="pms_nonce"]').val()
+            log             = jQuery('#pms-member-subscription-logs input[name="pms_admin_log"]').val()
 
         if( subscription_id && log ){
             jQuery('#pms_add_log_entry').pms_addSpinner( 200 )
@@ -401,7 +431,7 @@ jQuery( function($) {
 
             $.post( ajaxurl, {
                 action: 'add_log_entry',
-                nonce: nonce,
+                nonce: pms_members_ajax.nonce,
                 subscription_id: subscription_id,
                 log: log }, function( response ) {
 
@@ -564,10 +594,16 @@ jQuery( function($) {
         $('#pms-expiration-date-interval').show();
 
     $('#pms-filter-start-date').change(function(e){
-        if( $('#pms-filter-start-date').val() == 'custom' )
+        var startDateFilterValue = $('#pms-filter-start-date').val();
+
+        if( startDateFilterValue == 'custom' )
             $('#pms-start-date-interval').show();
         else
             $('#pms-start-date-interval').hide();
+
+        if ( startDateFilterValue !== '' && startDateFilterValue !== 'custom' ) {
+            $('#pms-filter-expiration-date').focus();
+        }
     });
 
     $('#pms-filter-expiration-date').change(function(e){

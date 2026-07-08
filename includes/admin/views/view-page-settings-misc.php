@@ -379,12 +379,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Insert how many days before the subscription expires, should the renewal button be displayed inside the [pms-account] shortcode.', 'paid-member-subscriptions' ); ?></p>
             </div>
 
-            <div class="cozmoslabs-form-field-wrapper">
-                <label class="cozmoslabs-form-field-label" for="redirect-after-manual-payment"><?php esc_html_e( 'Redirect after a manual payment', 'paid-member-subscriptions' ) ?></label>
-                <input type="text" id="redirect-after-manual-payment" class="widefat" name="pms_misc_settings[payments][redirect_after_manual_payment]" value="<?php echo ( isset($this->options['payments']['redirect_after_manual_payment']) ? esc_url( $this->options['payments']['redirect_after_manual_payment'] ) : '' ); ?>">
-                <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php echo sprintf( esc_html__( 'Insert an URL to redirect the user after a manual payment is made. ( e.g. %s )', 'paid-member-subscriptions' ), esc_url( home_url( '/manual-payment-details' )) );  ?></p>
-            </div>
-
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
                 <label class="cozmoslabs-form-field-label" for="upgrade-downgrade-sign-up-fee"><?php esc_html_e( 'Apply sign-up fees to Upgrades and Downgrades' , 'paid-member-subscriptions' ) ?></label>
 

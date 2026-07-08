@@ -33,17 +33,13 @@ jQuery( function($) {
      * Remove the "Published on.." section
      * Rename metabox "Save Discount Code"
      * Change "Publish" button to "Save discount"
-     */
+    */
     $(document).ready( function() {
         $("input.pms_datepicker").datepicker({dateFormat: 'yy-mm-dd'});
-        $('#delete-action').remove();
-        $('.edit-post-status').remove();
-        $('#visibility').remove();
-        $('#minor-publishing-actions').remove();
-        $('div.misc-pub-post-status').remove();
-        $('#misc-publishing-actions').hide();
-        $('#submitdiv h3 span').html('Save Discount Code');
-        $('input#publish').val('Save discount');
+        window.pmsPrepareSubmitBox({
+            headerText: 'Publish your discount code',
+            publishLabel: 'Save discount'
+        });
 
         // Select discount code on click
         jQuery('.pms-discount-code').click( function() {

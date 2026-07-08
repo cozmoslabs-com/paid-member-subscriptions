@@ -5,8 +5,40 @@
 jQuery( function($) {
 
     // Initialize datepicker
+    var pmsFilterDateRangeEnds = {
+        'pms-datepicker-start-date-beginning'          : 'pms-datepicker-start-date-end',
+        'pms-datepicker-expiration-date-beginning'     : 'pms-datepicker-expiration-date-end',
+        'pms-datepicker-next-billing-date-beginning'   : 'pms-datepicker-next-billing-date-end'
+    };
+
+    var pmsFilterDateNextFocus = {
+        'pms-datepicker-start-date-end': '#pms-filter-expiration-date'
+    };
+
     $(document).on( 'focus', '.datepicker', function() {
-        $(this).datepicker({ dateFormat: 'yy-mm-dd'});
+        var $input = $(this);
+
+        if ( $input.hasClass( 'hasDatepicker' ) ) {
+            return;
+        }
+
+        var options = { dateFormat: 'yy-mm-dd' };
+        var endInputId = pmsFilterDateRangeEnds[ $input.attr( 'id' ) ];
+        var nextFocus = pmsFilterDateNextFocus[ $input.attr( 'id' ) ];
+
+        if ( endInputId || nextFocus ) {
+            options.onSelect = function() {
+                setTimeout( function() {
+                    if ( endInputId ) {
+                        $( '#' + endInputId ).focus();
+                    } else if ( nextFocus ) {
+                        $( nextFocus ).focus();
+                    }
+                }, 0 );
+            };
+        }
+
+        $input.datepicker( options );
     });
 
     function pmsGetBulkAction( button_id ) {
@@ -101,10 +133,16 @@ jQuery( function($) {
         $('#pms-start-date-interval').show();
 
     $('#pms-filter-start-date').change(function(e){
-        if( $('#pms-filter-start-date').val() == 'custom' )
+        var startDateFilterValue = $('#pms-filter-start-date').val();
+
+        if( startDateFilterValue == 'custom' )
             $('#pms-start-date-interval').show();
         else
             $('#pms-start-date-interval').hide();
+
+        if ( startDateFilterValue !== '' && startDateFilterValue !== 'custom' ) {
+            $('#pms-filter-expiration-date').focus();
+        }
     });
 
     // Show/hide custom Expiration Date range fields

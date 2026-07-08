@@ -29,6 +29,12 @@ const Save = ({ attributes }) => {
                 shortcode += ' display_to="not_subscribed"';
             }
             if (
+                pmsContentRestriction.not_subscribed &&
+                pmsContentRestriction.show_logged_out
+            ) {
+                shortcode += ' show_logged_out="true"';
+            }
+            if (
                 pmsContentRestriction.subscription_plans &&
                 pmsContentRestriction.subscription_plans.length !== 0
             ) {

@@ -236,13 +236,22 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
             }
 
             if ( $option_page == 'pms_payments_settings' ) {
-                $old_settings = get_option( 'pms_payments_settings' );
+                $old_settings = get_option( 'pms_payments_settings', array() );
 
                 if ( empty( $options['gateways']['paypal'] ) && !empty( $old_settings['gateways']['paypal'] ) )
                     $options['gateways']['paypal'] = $old_settings['gateways']['paypal'];
 
                 if ( empty( $options['gateways']['stripe'] ) && !empty( $old_settings['gateways']['stripe'] ) )
                     $options['gateways']['stripe'] = $old_settings['gateways']['stripe'];
+
+                if ( array_key_exists( 'redirect_after_manual_payment', $options ) ) {
+                    if ( filter_var( $options['redirect_after_manual_payment'], FILTER_VALIDATE_URL ) === false )
+                        $options['redirect_after_manual_payment'] = '';
+                    else
+                        $options['redirect_after_manual_payment'] = esc_url_raw( $options['redirect_after_manual_payment'] );
+                } elseif ( array_key_exists( 'redirect_after_manual_payment', $old_settings ) ) {
+                    $options['redirect_after_manual_payment'] = $old_settings['redirect_after_manual_payment'];
+                }
             }
 
             if ( $option_page == 'pms_misc_settings' ) {
@@ -272,6 +281,10 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
                 if ( isset( $options['payments']['payment_renew_button_delay'] ) && filter_var($options['payments']['payment_renew_button_delay'], FILTER_VALIDATE_INT) === false ) {
                     unset( $options['payments']['payment_renew_button_delay'] );
+                }
+
+                if ( ! isset( $options['payments']['redirect_after_manual_payment'] ) && isset( $previous_options['payments']['redirect_after_manual_payment'] ) ) {
+                    $options['payments']['redirect_after_manual_payment'] = $previous_options['payments']['redirect_after_manual_payment'];
                 }
 
                 if ( isset( $options['payments']['redirect_after_manual_payment'] ) && filter_var($options['payments']['redirect_after_manual_payment'], FILTER_VALIDATE_URL) === false ) {
@@ -356,6 +369,7 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
 
         $advanced_settings_dir  = plugin_dir_path( __FILE__ );
         $misc_settings          = get_option( 'pms_misc_settings', array() );
+        $payments_settings      = get_option( 'pms_payments_settings', array() );
         $advanced_settings_keys = array( 'payment_renew_button_delay' , 'redirect_after_manual_payment', 'upgrade_downgrade_sign_up_fee', 'disable-dashboard-redirect', 'payment_retry_max_retry_amount', 'payment_retry_retry_interval', 'disable-cancel-button','disable-abandon-button', 'disable-renew-button', 'disable-change-button', 'functions-password-strength' );
 
         if( !empty( $misc_settings ) ){
@@ -379,6 +393,15 @@ Class PMS_Submenu_Page_Settings extends PMS_Submenu_Page {
                 }
     
             }
+        }
+
+        $misc_redirect_after_manual_payment = isset( $misc_settings['payments']['redirect_after_manual_payment'] ) ? $misc_settings['payments']['redirect_after_manual_payment'] : '';
+
+        if ( ! empty( $payments_settings['redirect_after_manual_payment'] ) || ! empty( $misc_redirect_after_manual_payment ) ) {
+            $path = 'advanced-settings/redirect_after_manual_payment.php';
+
+            if ( file_exists( $advanced_settings_dir . $path ) )
+                include_once $path;
         }
 
     }

@@ -406,7 +406,18 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #1E1E1E;
+    color: #262626;
+}
+
+.cozmoslabs-form-field-wrapper .pms-form-label-with-docs {
+    flex-basis: 220px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cozmoslabs-form-field-wrapper .pms-form-label-with-docs label.cozmoslabs-form-field-label {
+    flex-basis: auto;
 }
 
 body:not([class*="_page_pms-basic-info-page"]) .cozmoslabs-form-field-wrapper label.cozmoslabs-form-field-label {
@@ -459,13 +470,45 @@ body:not([class*="_page_pms-basic-info-page"]) .cozmoslabs-form-field-wrapper la
 .cozmoslabs-form-field-wrapper input[type="number"],
 .cozmoslabs-form-field-wrapper input[type="email"],
 .cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input) {
-    border: 1px solid #949494;
+    border: 1px solid #c3c4c7;
     border-radius: 2px;
+    background: #ffffff;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
     font-size: 13px;
     line-height: 20px;
     color: #1E1E1E;
     padding: 0 10px;
     margin: 0;
+}
+
+.cozmoslabs-form-field-wrapper select,
+.pms-submitbox-status select,
+body[class*="post-type-pms-"] .meta-box-sortables select,
+body.post-type-pms-subscription .pms-subscription-tab-panel select,
+body[class*="_page_pms-"] #major-publishing-actions select,
+body[class*="_page_pms-"] .tablenav select,
+body[class*="post-type-pms-"] .tablenav select {
+    padding-right: 40px;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 8L10 12L14 8' stroke='%238D8F95' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input) {
+    border-color: #c3c4c7;
+    border-radius: 5px;
+    background: #ffffff;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+    padding: 0 12px;
+}
+
+.cozmoslabs-form-field-wrapper input[type="number"] {
+    border-color: #c3c4c7;
 }
 
 .cozmoslabs-form-field-wrapper textarea {
@@ -521,14 +564,14 @@ body:not([class*="_page_pms-basic-info-page"]) .cozmoslabs-form-field-wrapper la
 }
 
 .cozmoslabs-form-field-wrapper .chosen-container .chosen-single div b {
-    background: url('data:image/svg+xml;charset=US-ASCII,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 6l5 5 5-5 2 1-7 7-7-7 2-1z" fill="%23555"/></svg>') no-repeat right 5px top 55% !important;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 8L10 12L14 8' stroke='%238D8F95' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 5px top 55% !important;
     background-size: 16px 16px !important;
 }
 
 .cozmoslabs-form-field-wrapper .chosen-container-multi .chosen-choices {
     max-height: 200px;
     overflow-y: scroll;
-    background: url('data:image/svg+xml;charset=US-ASCII,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 6l5 5 5-5 2 1-7 7-7-7 2-1z" fill="%23555"/></svg>') no-repeat right 20px top 55% !important;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 8L10 12L14 8' stroke='%238D8F95' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 20px top 55% !important;
     background-size: 16px 16px !important;
     padding-right: 25px;
 }
@@ -562,12 +605,12 @@ body:not([class*="_page_pms-basic-info-page"]) .cozmoslabs-form-field-wrapper la
 
 .cozmoslabs-form-field-wrapper .chosen-container-active .chosen-single div b,
 .cozmoslabs-form-field-wrapper select:active {
-    background: url('data:image/svg+xml;charset=US-ASCII,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 14l5-5 5 5 2-1-7-7-7 7 2 1z" fill="%23555"/></svg>') no-repeat right 5px top 55% !important;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 12L10 8L14 12' stroke='%238D8F95' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center !important;
     background-size: 16px 16px !important;
 }
 
 .cozmoslabs-form-field-wrapper .chosen-container-multi.chosen-container-active .chosen-choices {
-    background: url('data:image/svg+xml;charset=US-ASCII,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 14l5-5 5 5 2-1-7-7-7 7 2 1z" fill="%23555"/></svg>') no-repeat right 20px top 55% !important;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 12L10 8L14 12' stroke='%238D8F95' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 20px top 55% !important;
     background-size: 16px 16px !important;
 }
 
@@ -619,6 +662,59 @@ body:not([class*="_page_pms-basic-info-page"]) .cozmoslabs-form-field-wrapper la
     flex-basis: 310px;
     flex-grow: 1;
     padding-left: 10px;
+}
+
+.pms-payment-billing-details {
+    margin-top: 24px;
+}
+
+.pms-payment-billing-details__toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #1d2327;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pms-payment-billing-details__toggle::marker {
+    content: "";
+}
+
+.pms-payment-billing-details__toggle .dashicons {
+    transition: transform 0.15s ease-in-out;
+}
+
+.pms-payment-billing-details[open] .pms-payment-billing-details__toggle .dashicons {
+    transform: rotate(90deg);
+}
+
+.pms-payment-billing-details__fields {
+    margin-top: 16px;
+}
+
+.pms-payment-billing-details__fallback-note {
+    margin-left: 30%;
+}
+
+.pms-admin-payment-vat-status {
+    margin: 6px 0 0 230px;
+}
+
+.pms-admin-payment-vat-status--valid {
+    color: green;
+}
+
+.pms-admin-payment-vat-status--invalid {
+    color: red;
+}
+
+.pms-admin-payment-vat-status--validating {
+    color: #646970;
 }
 
 .cozmoslabs-group-fields-row {
@@ -711,7 +807,7 @@ body.post-type-pms-subscription .pms_learndash-url__copy,
     height: 40px;
     background: #FFFFFF;
     border: 1px solid #3858E9;
-    border-radius: 2px;
+    border-radius: 8px;
     padding: 8px 16px;
     font-weight: 400;
     font-size: 13px;
@@ -807,7 +903,7 @@ body[class*="post-type-pms-"] .submitdelete:focus,
     width: 100%;
     height: 100%;
     background: #FFFFFF;
-    border: 1px solid #1E1E1E;
+    border: 1px solid #3858E9;
     border-radius: 100px;
     box-sizing: border-box;
     transition: background-color 0.3s, border-color 0.3s;
@@ -819,7 +915,7 @@ body[class*="post-type-pms-"] .submitdelete:focus,
     left: 3px;
     width: 12px;
     height: 12px;
-    background-color: #1E1E1E;
+    background-color: #3858E9;
     border-radius: 50%;
     transition: transform 0.3s;
     pointer-events: none;
@@ -1538,6 +1634,723 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
     display: block;
 }
 
+body.post-type-pms-subscription .pms-subscription-tabs-shell {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+body.post-type-pms-subscription #submitdiv,
+body.post-type-pms-discount-codes #submitdiv,
+body.post-type-pms-email-reminders #submitdiv,
+body.post-type-pms-content-dripping #submitdiv {
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+}
+
+body.post-type-pms-discount-codes #submitdiv .postbox-header,
+body.post-type-pms-email-reminders #submitdiv .postbox-header,
+body.post-type-pms-content-dripping #submitdiv .postbox-header {
+    padding-bottom: 0 !important;
+}
+
+body.post-type-pms-subscription #submitdiv .postbox-header,
+body.post-type-pms-discount-codes #submitdiv .postbox-header,
+body.post-type-pms-email-reminders #submitdiv .postbox-header,
+body.post-type-pms-content-dripping #submitdiv .postbox-header {
+    border-bottom: 0;
+    padding: 10px 10px 15px;
+    pointer-events: none;
+}
+
+body.post-type-pms-subscription #submitdiv .postbox-header .handle-actions,
+body.post-type-pms-subscription #submitdiv .postbox-header .toggle-indicator,
+body.post-type-pms-discount-codes #submitdiv .postbox-header .handle-actions,
+body.post-type-pms-discount-codes #submitdiv .postbox-header .toggle-indicator,
+body.post-type-pms-email-reminders #submitdiv .postbox-header .handle-actions,
+body.post-type-pms-email-reminders #submitdiv .postbox-header .toggle-indicator,
+body.post-type-pms-content-dripping #submitdiv .postbox-header .handle-actions,
+body.post-type-pms-content-dripping #submitdiv .postbox-header .toggle-indicator {
+    display: none;
+}
+
+body.post-type-pms-subscription #submitdiv .postbox-header .hndle,
+body.post-type-pms-subscription #submitdiv .postbox-header h2,
+body.post-type-pms-discount-codes #submitdiv .postbox-header .hndle,
+body.post-type-pms-discount-codes #submitdiv .postbox-header h2,
+body.post-type-pms-email-reminders #submitdiv .postbox-header .hndle,
+body.post-type-pms-email-reminders #submitdiv .postbox-header h2,
+body.post-type-pms-content-dripping #submitdiv .postbox-header .hndle,
+body.post-type-pms-content-dripping #submitdiv .postbox-header h2 {
+    padding: 0;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #858586;
+    cursor: default;
+}
+
+body.post-type-pms-subscription #submitdiv .inside,
+body.post-type-pms-discount-codes #submitdiv .inside,
+body.post-type-pms-email-reminders #submitdiv .inside,
+body.post-type-pms-content-dripping #submitdiv .inside {
+    margin: 0;
+    padding: 0;
+}
+
+body.post-type-pms-discount-codes #pms_discount_codes.postbox {
+    margin-bottom: 20px;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: none;
+    overflow: hidden;
+    padding: 20px;
+}
+
+body.post-type-pms-discount-codes #pms_discount_codes > .postbox-header {
+    border-bottom: 0;
+}
+
+body.post-type-pms-discount-codes #pms_discount_codes > .postbox-header .handle-actions,
+body.post-type-pms-discount-codes #pms_discount_codes > .postbox-header .toggle-indicator {
+    display: none;
+}
+
+body.post-type-pms-discount-codes #pms_discount_codes > .postbox-header .hndle,
+body.post-type-pms-discount-codes #pms_discount_codes > .postbox-header h2 {
+    cursor: pointer;
+    color: #858586;
+}
+
+body.post-type-pms-discount-codes #pms_discount_codes .inside > .cozmoslabs-form-field-wrapper:first-of-type {
+    margin-top: 25px !important;
+}
+
+body:is(.post-type-pms-discount-codes, .post-type-pms-subscription) :is(#pms_discount_codes, #pms_subscription_integrations) .inside > .pms-meta-box-field-wrapper:not(.cozmoslabs-form-field-wrapper) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 35px;
+}
+
+body:is(.post-type-pms-discount-codes, .post-type-pms-subscription) :is(#pms_discount_codes, #pms_subscription_integrations) .inside > .pms-meta-box-field-wrapper:not(.cozmoslabs-form-field-wrapper) > .pms-meta-box-field-label,
+body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms .affiliatepress-option-field-wrapper > .pms-meta-box-field-label {
+    flex-basis: 220px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 16px;
+    color: #262626;
+    cursor: pointer;
+}
+
+body:is(.post-type-pms-discount-codes, .post-type-pms-subscription) :is(#pms_discount_codes, #pms_subscription_integrations) .inside > .pms-meta-box-field-wrapper:not(.cozmoslabs-form-field-wrapper) > input[type="text"] {
+    flex-basis: 260px;
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    border: 1px solid #c3c4c7;
+    border-radius: 5px;
+    padding: 0 12px;
+    background: #fff;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+    font-size: 13px;
+    line-height: 20px;
+    color: #1e1e1e;
+}
+
+body:is(.post-type-pms-discount-codes, .post-type-pms-subscription) :is(#pms_discount_codes, #pms_subscription_integrations) .inside > .pms-meta-box-field-wrapper:not(.cozmoslabs-form-field-wrapper) > input[type="text"]:hover {
+    border-color: #3858E9;
+}
+
+body:is(.post-type-pms-discount-codes, .post-type-pms-subscription) :is(#pms_discount_codes, #pms_subscription_integrations) .inside > .pms-meta-box-field-wrapper:not(.cozmoslabs-form-field-wrapper) > input[type="text"]:focus {
+    border-color: #3858E9;
+    box-shadow: 0 0 0 1px #3858E9;
+}
+
+body:is(.post-type-pms-discount-codes, .post-type-pms-subscription) :is(#pms_discount_codes, #pms_subscription_integrations) .inside > .pms-meta-box-field-wrapper:not(.cozmoslabs-form-field-wrapper) > .description {
+    flex-basis: 100%;
+    margin: 0;
+    padding-left: 230px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #8a8a8a;
+}
+
+body.post-type-pms-discount-codes #pms_discount_codes_extra_options.postbox {
+    margin-bottom: 20px;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: none;
+    overflow: hidden;
+    padding: 20px;
+}
+
+body.post-type-pms-discount-codes #pms_discount_codes_extra_options > .postbox-header {
+    border-bottom: 0;
+}
+
+body.post-type-pms-discount-codes #pms_discount_codes_extra_options > .postbox-header .handle-actions,
+body.post-type-pms-discount-codes #pms_discount_codes_extra_options > .postbox-header .toggle-indicator {
+    display: none;
+}
+
+body.post-type-pms-discount-codes #pms_discount_codes_extra_options > .postbox-header .hndle,
+body.post-type-pms-discount-codes #pms_discount_codes_extra_options > .postbox-header h2 {
+    cursor: pointer;
+    color: #858586;
+}
+
+body.post-type-pms-discount-codes #pms_discount_codes_extra_options .inside > .cozmoslabs-form-field-wrapper:first-of-type {
+    margin-top: 25px !important;
+}
+
+/***********************************************************/
+/* Email Reminders
+/***********************************************************/
+
+body.post-type-pms-email-reminders #major-publishing-actions {
+    margin-top: 20px;
+}
+
+body.post-type-pms-email-reminders #major-publishing-actions #pms-delete-action {
+    width: 100%;
+    margin: 0;
+}
+
+body.post-type-pms-email-reminders #major-publishing-actions #pms-delete-action .submitdelete {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    border-radius: 4px;
+    background: #f5f5f5;
+    color: #7a7a7a;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 44px;
+    text-align: center;
+    text-decoration: none;
+}
+
+body.post-type-pms-email-reminders #major-publishing-actions #pms-delete-action .submitdelete:hover,
+body.post-type-pms-email-reminders #major-publishing-actions #pms-delete-action .submitdelete:focus {
+    background: #ededed;
+    color: #d63638;
+    box-shadow: none;
+}
+
+body.post-type-pms-email-reminders #pms_email_reminders.postbox {
+    margin-bottom: 20px;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: none;
+    overflow: hidden;
+    padding: 20px;
+}
+
+body.post-type-pms-email-reminders #pms_email_reminders > .postbox-header {
+    border-bottom: 0;
+}
+
+body.post-type-pms-email-reminders #pms_email_reminders > .postbox-header .handle-actions,
+body.post-type-pms-email-reminders #pms_email_reminders > .postbox-header .toggle-indicator {
+    display: none;
+}
+
+body.post-type-pms-email-reminders #pms_email_reminders > .postbox-header .hndle,
+body.post-type-pms-email-reminders #pms_email_reminders > .postbox-header h2 {
+    cursor: pointer;
+    color: #858586;
+}
+
+body.post-type-pms-email-reminders #pms_email_reminders .inside > .cozmoslabs-form-field-wrapper:first-of-type {
+    margin-top: 25px !important;
+}
+
+/***********************************************************/
+/* Content Drip Sets
+/***********************************************************/
+
+body.post-type-pms-content-dripping #major-publishing-actions {
+    margin-top: 20px;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_details.postbox {
+    margin-bottom: 20px;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: none;
+    overflow: hidden;
+    padding: 20px;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_details > .postbox-header {
+    border-bottom: 0;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_details > .postbox-header .handle-actions,
+body.post-type-pms-content-dripping #pms_content_dripping_details > .postbox-header .toggle-indicator {
+    display: none;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_details > .postbox-header .hndle,
+body.post-type-pms-content-dripping #pms_content_dripping_details > .postbox-header h2 {
+    cursor: pointer;
+    color: #858586;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_details .inside > .cozmoslabs-form-field-wrapper:first-of-type {
+    margin-top: 25px !important;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_rules.postbox {
+    margin-bottom: 20px;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: none;
+    overflow: hidden;
+    padding: 20px;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_rules > .postbox-header {
+    border-bottom: 0;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_rules > .postbox-header .handle-actions,
+body.post-type-pms-content-dripping #pms_content_dripping_rules > .postbox-header .toggle-indicator {
+    display: none;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_rules > .postbox-header .hndle,
+body.post-type-pms-content-dripping #pms_content_dripping_rules > .postbox-header h2 {
+    cursor: pointer;
+    color: #858586;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_rules .inside {
+    margin-top: 25px;
+}
+
+.pms-submitbox-status label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #2c3338;
+}
+
+.pms-submitbox-status label strong {
+    font-weight: 600;
+}
+
+.pms-submitbox-status {
+    padding: 0 0 20px !important;
+    border-top: 0;
+    border-bottom: 0;
+}
+
+.pms-submitbox-status select {
+    width: 100%;
+    min-height: 44px;
+    margin-bottom: 10px;
+    border: 1px solid #d0d5dd;
+    border-radius: 6px;
+    padding: 0 40px 0 12px;
+    font-size: 14px;
+    color: #2c3338;
+}
+
+.pms-submitbox-status .description {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #8a8a8a;
+}
+
+body.post-type-pms-subscription .pms-subscription-tabs-nav {
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+body.post-type-pms-subscription .pms-subscription-tabs-nav .nav-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #262626;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+body.post-type-pms-subscription .pms-subscription-tabs-nav .nav-tab:hover,
+body.post-type-pms-subscription .pms-subscription-tabs-nav .nav-tab.nav-tab-active {
+    border-bottom: 2px solid #3858E9;
+    color: #3858E9;
+}
+
+body.post-type-pms-subscription .pms-subscription-tab-panel .meta-box-sortables {
+    min-height: 0;
+}
+
+body.post-type-pms-subscription .pms-subscription-tab-panel .postbox {
+    margin-bottom: 20px;
+}
+
+body.post-type-pms-subscription .pms-subscription-tab-panel > .postbox {
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: none;
+    overflow: hidden;
+    padding: 20px;
+}
+
+body.post-type-pms-subscription .pms-subscription-tab-panel > .postbox > .postbox-header {
+    border-bottom: 0;
+}
+
+body.post-type-pms-subscription .pms-subscription-tab-panel > .postbox > .postbox-header .handle-actions,
+body.post-type-pms-subscription .pms-subscription-tab-panel > .postbox > .postbox-header .toggle-indicator {
+    display: none;
+}
+
+body.post-type-pms-subscription .pms-subscription-tab-panel > .postbox > .postbox-header .hndle,
+body.post-type-pms-subscription .pms-subscription-tab-panel > .postbox > .postbox-header h2 {
+    cursor: pointer;
+    color: #858586;
+}
+
+body.post-type-pms-subscription .pms-subscription-tab-panel > .postbox .inside > .cozmoslabs-form-field-wrapper:first-of-type {
+    margin-top: 25px !important;
+}
+
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper textarea,
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper input[type="text"]:not(.cozmoslabs-tags-list input),
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper input[type="number"],
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper input[type="date"],
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper input[type="email"],
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper input[type="password"],
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper input[type="search"],
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper select,
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper textarea,
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper input[type="text"]:not(.cozmoslabs-tags-list input),
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper input[type="number"],
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper input[type="date"],
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper input[type="email"],
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper input[type="password"],
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper input[type="search"],
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper select,
+body.post-type-pms-subscription .pms-subscription-tab-panel #pms-woo-subscription-product-discounts select,
+body.post-type-pms-subscription .pms-subscription-tab-panel #pms-woo-subscription-product-discounts input[type="text"] {
+    border: 1px solid #c3c4c7;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+}
+
+body.post-type-pms-subscription .meta-box-sortables .pms-input-with-suffix,
+body.post-type-pms-subscription .pms-subscription-tab-panel .pms-input-with-suffix {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex-basis: 260px;
+    width: 100%;
+    max-width: 260px;
+}
+
+body.post-type-pms-subscription .meta-box-sortables .pms-input-with-suffix input[type="text"],
+body.post-type-pms-subscription .pms-subscription-tab-panel .pms-input-with-suffix input[type="text"] {
+    width: 100%;
+    padding-right: 56px;
+}
+
+body.post-type-pms-subscription .meta-box-sortables .pms-input-with-suffix .pms-input-suffix,
+body.post-type-pms-subscription .pms-subscription-tab-panel .pms-input-with-suffix .pms-input-suffix {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #858586;
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 400;
+    pointer-events: none;
+}
+
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper textarea,
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper textarea {
+    min-height: 130px;
+    padding: 12px !important;
+}
+
+body.post-type-pms-subscription #pms_subscription_details #pms-subscription-plan-description {
+    flex-basis: 600px;
+    max-width: 600px;
+}
+
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-description,
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-toggle-description .cozmoslabs-description,
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-description-space-left,
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-description-align-right,
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-description,
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-toggle-description .cozmoslabs-description,
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-description-space-left,
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-description-align-right {
+    font-size: 13px;
+    line-height: 1.45;
+    color: #8a8a8a;
+}
+
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-toggle-switch > .cozmoslabs-toggle-description .cozmoslabs-description,
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-toggle-switch > .cozmoslabs-toggle-description .cozmoslabs-description {
+    color: #262626 !important;
+}
+
+body.post-type-pms-discount-codes .meta-box-sortables .cozmoslabs-description,
+body.post-type-pms-discount-codes .meta-box-sortables .cozmoslabs-toggle-description .cozmoslabs-description,
+body.post-type-pms-discount-codes .meta-box-sortables .cozmoslabs-description-space-left,
+body.post-type-pms-discount-codes .meta-box-sortables .cozmoslabs-description-align-right {
+    font-size: 13px;
+    line-height: 1.45;
+    color: #8a8a8a;
+}
+
+body.post-type-pms-discount-codes .meta-box-sortables .cozmoslabs-toggle-switch > .cozmoslabs-toggle-description .cozmoslabs-description {
+    color: #262626 !important;
+}
+
+
+body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper > .pms-gcr-post-type-description,
+body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper > .pms-gcr-post-type-description {
+    flex-basis: calc(100% - 230px);
+    margin: 0 !important;
+    padding-left: 0;
+}
+
+body.post-type-pms-subscription #pms-subscription-plan-advanced-fields {
+    margin-bottom: 20px;
+}
+
+body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms .affiliatepress-options-groups-wrapper,
+body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms .affiliatepress-options-group {
+    margin: 0;
+    padding: 0;
+}
+
+body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms .affiliatepress-option-field-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 25px 0 0;
+}
+
+body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms .affiliatepress-option-field-wrapper > label:last-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #262626;
+    cursor: pointer;
+}
+
+body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms #affiliatepress-disable-commissions {
+    position: relative;
+    display: inline-block;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 18px;
+    min-width: 36px;
+    margin: 0 !important;
+    border: 1px solid #3858E9;
+    border-radius: 100px;
+    background: #fff;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms #affiliatepress-disable-commissions:before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    border-radius: 50%;
+    background: #3858E9;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms #affiliatepress-disable-commissions:checked {
+    background: #3858E9;
+}
+
+body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms #affiliatepress-disable-commissions:checked:before {
+    background: #fff;
+    transform: translateX(17px);
+}
+
+body.post-type-pms-subscription #pms_subscription_extra_options .extra-options-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+body.post-type-pms-subscription #pms_subscription_extra_options .extra-options-wrapper .cozmoslabs-form-subsection-wrapper {
+    margin-top: 0;
+}
+
+body.post-type-pms-subscription #pms_subscription_extra_options .pms-ps-title {
+    display: none;
+}
+
+body.post-type-pms-subscription #pms_subscription_extra_options .pms-subscription-plan-extra-options-section + .pms-subscription-plan-extra-options-section {
+    padding-top: 20px;
+}
+
+body.post-type-pms-subscription #pms_subscription_extra_options .pms-subscription-plan-extra-options-section:first-child .cozmoslabs-subsection-title {
+    margin-top: 10px !important;
+}
+
+body.post-type-pms-subscription #pms-subscription-plan-renewal-option-field #pms-subscription-plan-recurring[style*="display: none"] ~ #pms-renewal-cycles-description {
+    order: 2;
+    flex-basis: calc(100% - 230px);
+    margin: 0 !important;
+    align-self: center;
+    padding-left: 0 !important;
+}
+
+body.post-type-pms-subscription .pms-subscription-tabs-nav .nav-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+body.post-type-pms-subscription .pms-subscription-tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 6px;
+    background: #169360;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+body.post-type-pms-subscription #pms_subscription_content_restriction .inside {
+    padding: 0;
+}
+
+body.post-type-pms-subscription .pms-gcr-upsell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(220px, 272px);
+    gap: 44px;
+    align-items: center;
+    padding: 30px 32px;
+}
+
+body.post-type-pms-subscription .pms-gcr-upsell__eyebrow {
+    margin: 0 0 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6f6f6f;
+}
+
+body.post-type-pms-subscription .pms-gcr-upsell__title {
+    margin: 0 0 16px;
+    max-width: 460px;
+    font-size: 20px;
+    line-height: 1.45;
+    color: #2c3338;
+}
+
+body.post-type-pms-subscription .pms-gcr-upsell__description {
+    margin: 0 0 24px;
+    max-width: 430px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #7a7a7a;
+}
+
+body.post-type-pms-subscription .pms-gcr-upsell__button {
+    min-height: 44px;
+    padding: 0 18px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 42px !important;
+}
+
+body.post-type-pms-subscription .pms-gcr-upsell__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+body.post-type-pms-subscription .pms-gcr-upsell__button-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.post-type-pms-subscription .pms-gcr-upsell__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 272px;
+    border-radius: 18px;
+    background: #f5f5f5;
+}
+
+body.post-type-pms-subscription .pms-gcr-upsell__artwork {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 140px;
+    border-radius: 14px;
+    background: transparent;
+    overflow: hidden;
+}
+
+body.post-type-pms-subscription .pms-gcr-upsell__image {
+    width: 100%;
+    max-width: 140px;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 14px;
+}
+
+@media screen and (max-width: 900px) {
+    body.post-type-pms-subscription .pms-gcr-upsell {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    body.post-type-pms-subscription .pms-gcr-upsell__media {
+        min-height: 200px;
+    }
+}
+
 .cozmoslabs-sub-tab-upsell {
     width: calc( 100% - 300px );
 }
@@ -1652,8 +2465,8 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
 /***********************************************************/
 
 .pms-docs-link {
-    width: 30px;
-    height: 30px;
+    width: 22px;
+    height: 22px;
 }
 
 .pms-docs-link:focus {
@@ -1670,13 +2483,11 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
 }
 
 .pms-docs-link:after {
-    content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='currentColor' class='bi bi-person' viewBox='0 0 24 24' transform='scale(1,1)'> <path d='M20 2H4C3.47 2 2.96 2.21 2.59 2.59C2.21 2.96 2 3.47 2 4V16C2 16.53 2.21 17.04 2.59 17.41C2.96 17.79 3.47 18 4 18H8L12 22L16 18H20C20.53 18 21.04 17.79 21.41 17.41S22 16.53 22 16V4C22 3.47 21.79 2.96 21.41 2.59C21.04 2.21 20.53 2 20 2M4 16V4H20V16H15.17L12 19.17L8.83 16M10.05 6.04C10.59 5.68 11.3 5.5 12.19 5.5C13.13 5.5 13.88 5.71 14.42 6.12C14.96 6.54 15.23 7.1 15.23 7.8C15.23 8.24 15.08 8.63 14.79 9C14.5 9.36 14.12 9.64 13.66 9.85C13.4 10 13.23 10.15 13.14 10.32C13.05 10.5 13 10.72 13 11H11C11 10.5 11.1 10.16 11.29 9.92C11.5 9.68 11.84 9.4 12.36 9.08C12.62 8.94 12.83 8.76 13 8.54C13.14 8.33 13.22 8.08 13.22 7.8C13.22 7.5 13.13 7.28 12.95 7.11C12.77 6.93 12.5 6.85 12.19 6.85C11.92 6.85 11.7 6.92 11.5 7.06C11.34 7.2 11.24 7.41 11.24 7.69H9.27C9.22 7 9.5 6.4 10.05 6.04M11 14V12H13V14Z' id='mainIconPathAttribute' fill='rgb(30, 30, 30)'></path> </svg>");
-    opacity: 0.3;
+    content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='22px' height='22px' fill='currentColor' class='bi bi-person' transform='scale(1,1)'> <path d='M11.300 15.928 L10.870 16.197 L10.547 16.682 L10.547 17.704 L10.709 18.027 L11.354 18.511 L12.323 18.511 L12.646 18.350 L13.130 17.704 L13.130 16.682 L12.969 16.413 L12.377 15.928 Z M12.377 5.650 L10.870 5.758 L9.686 6.242 L9.094 6.673 L8.610 7.211 L8.018 8.448 L8.018 8.987 L8.126 9.256 L8.502 9.632 L8.879 9.794 L9.363 9.794 L9.901 9.525 L10.117 9.256 L10.439 8.502 L10.762 8.179 L11.300 7.910 L12.538 7.910 L13.022 8.126 L13.399 8.502 L13.614 9.094 L13.614 9.471 L13.453 9.955 L12.646 10.816 L11.785 11.462 L11.139 12.108 L10.709 12.915 L10.601 13.345 L10.655 14.152 L11.085 14.691 L11.462 14.852 L12.161 14.798 L12.646 14.475 L12.861 14.099 L12.915 13.507 L13.238 12.969 L15.175 11.300 L15.713 10.439 L15.928 9.686 L15.928 8.610 L15.821 8.126 L15.552 7.480 L15.175 6.942 L14.422 6.296 L13.668 5.919 Z M11.139 1.614 L9.471 1.883 L7.318 2.691 L5.435 3.928 L3.982 5.381 L2.960 6.888 L2.045 9.040 L1.668 10.924 L1.668 13.022 L2.045 14.906 L2.475 16.090 L2.960 17.058 L4.036 18.619 L5.381 19.964 L6.942 21.040 L7.910 21.525 L9.094 21.955 L10.655 22.278 L12.700 22.332 L14.852 21.955 L16.036 21.525 L17.112 20.987 L18.511 20.018 L19.964 18.565 L21.202 16.682 L21.901 14.960 L22.278 13.076 L22.278 10.924 L22.117 9.794 L21.794 8.664 L20.933 6.780 L19.964 5.381 L18.511 3.928 L16.628 2.691 L14.852 1.991 L13.345 1.668 Z M10.709 3.229 L12.807 3.175 L13.883 3.336 L15.283 3.767 L17.112 4.789 L18.404 5.919 L19.480 7.318 L20.287 8.987 L20.717 10.709 L20.771 12.807 L20.610 13.883 L20.072 15.498 L19.265 16.951 L18.726 17.650 L17.650 18.726 L16.520 19.534 L15.229 20.179 L13.561 20.664 L11.300 20.771 L10.117 20.610 L8.341 20.018 L6.780 19.103 L5.220 17.650 L4.574 16.789 L3.767 15.229 L3.229 13.238 L3.175 11.247 L3.390 9.901 L3.874 8.448 L4.682 6.996 L5.919 5.543 L7.480 4.359 L8.825 3.713 Z' id='mainIconPathAttribute' fill='rgb(30, 30, 30)' /> </svg>");
 }
 
 .pms-docs-link:hover:after {
-    opacity: 1;
-    content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='currentColor' class='bi bi-person' viewBox='0 0 24 24' transform='scale(1,1)'> <path d='M20 2H4C3.47 2 2.96 2.21 2.59 2.59C2.21 2.96 2 3.47 2 4V16C2 16.53 2.21 17.04 2.59 17.41C2.96 17.79 3.47 18 4 18H8L12 22L16 18H20C20.53 18 21.04 17.79 21.41 17.41S22 16.53 22 16V4C22 3.47 21.79 2.96 21.41 2.59C21.04 2.21 20.53 2 20 2M4 16V4H20V16H15.17L12 19.17L8.83 16M10.05 6.04C10.59 5.68 11.3 5.5 12.19 5.5C13.13 5.5 13.88 5.71 14.42 6.12C14.96 6.54 15.23 7.1 15.23 7.8C15.23 8.24 15.08 8.63 14.79 9C14.5 9.36 14.12 9.64 13.66 9.85C13.4 10 13.23 10.15 13.14 10.32C13.05 10.5 13 10.72 13 11H11C11 10.5 11.1 10.16 11.29 9.92C11.5 9.68 11.84 9.4 12.36 9.08C12.62 8.94 12.83 8.76 13 8.54C13.14 8.33 13.22 8.08 13.22 7.8C13.22 7.5 13.13 7.28 12.95 7.11C12.77 6.93 12.5 6.85 12.19 6.85C11.92 6.85 11.7 6.92 11.5 7.06C11.34 7.2 11.24 7.41 11.24 7.69H9.27C9.22 7 9.5 6.4 10.05 6.04M11 14V12H13V14Z' id='mainIconPathAttribute' fill='rgb(56, 88, 233)'></path> </svg>");
+    content: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='22px' height='22px' fill='currentColor' class='bi bi-person' transform='scale(1,1)'> <path d='M11.300 15.928 L10.870 16.197 L10.547 16.682 L10.547 17.704 L10.709 18.027 L11.354 18.511 L12.323 18.511 L12.646 18.350 L13.130 17.704 L13.130 16.682 L12.969 16.413 L12.377 15.928 Z M12.377 5.650 L10.870 5.758 L9.686 6.242 L9.094 6.673 L8.610 7.211 L8.018 8.448 L8.018 8.987 L8.126 9.256 L8.502 9.632 L8.879 9.794 L9.363 9.794 L9.901 9.525 L10.117 9.256 L10.439 8.502 L10.762 8.179 L11.300 7.910 L12.538 7.910 L13.022 8.126 L13.399 8.502 L13.614 9.094 L13.614 9.471 L13.453 9.955 L12.646 10.816 L11.785 11.462 L11.139 12.108 L10.709 12.915 L10.601 13.345 L10.655 14.152 L11.085 14.691 L11.462 14.852 L12.161 14.798 L12.646 14.475 L12.861 14.099 L12.915 13.507 L13.238 12.969 L15.175 11.300 L15.713 10.439 L15.928 9.686 L15.928 8.610 L15.821 8.126 L15.552 7.480 L15.175 6.942 L14.422 6.296 L13.668 5.919 Z M11.139 1.614 L9.471 1.883 L7.318 2.691 L5.435 3.928 L3.982 5.381 L2.960 6.888 L2.045 9.040 L1.668 10.924 L1.668 13.022 L2.045 14.906 L2.475 16.090 L2.960 17.058 L4.036 18.619 L5.381 19.964 L6.942 21.040 L7.910 21.525 L9.094 21.955 L10.655 22.278 L12.700 22.332 L14.852 21.955 L16.036 21.525 L17.112 20.987 L18.511 20.018 L19.964 18.565 L21.202 16.682 L21.901 14.960 L22.278 13.076 L22.278 10.924 L22.117 9.794 L21.794 8.664 L20.933 6.780 L19.964 5.381 L18.511 3.928 L16.628 2.691 L14.852 1.991 L13.345 1.668 Z M10.709 3.229 L12.807 3.175 L13.883 3.336 L15.283 3.767 L17.112 4.789 L18.404 5.919 L19.480 7.318 L20.287 8.987 L20.717 10.709 L20.771 12.807 L20.610 13.883 L20.072 15.498 L19.265 16.951 L18.726 17.650 L17.650 18.726 L16.520 19.534 L15.229 20.179 L13.561 20.664 L11.300 20.771 L10.117 20.610 L8.341 20.018 L6.780 19.103 L5.220 17.650 L4.574 16.789 L3.767 15.229 L3.229 13.238 L3.175 11.247 L3.390 9.901 L3.874 8.448 L4.682 6.996 L5.919 5.543 L7.480 4.359 L8.825 3.713 Z' id='mainIconPathAttribute' fill='rgb(34, 113, 177)' /> </svg>");
 }
 
 .pms-docs-link-popup {
@@ -1937,7 +2748,7 @@ body[class*="_page_pms-"] .mce-inline-toolbar-grp .mce-btn.mce-primary:focus {
 body[class*="_page_pms-"] .meta-box-sortables h2.hndle,
 body[class*="post-type-pms-"] .meta-box-sortables h2.hndle {
     font-weight: 600;
-    font-size: 11px !important;
+    font-size: 12px !important;
     line-height: 40px !important;
     text-transform: uppercase;
     color: #1E1E1E;
@@ -1995,7 +2806,7 @@ body[class*="post-type-pms-"] .meta-box-sortables .page-title-action,
 body[class*="post-type-pms-"] .meta-box-sortables .button:not(.button-primary, .insert-media, .quicktags-toolbar input[type="button"]) {
     background: #FFFFFF;
     border: 1px solid #3858E9;
-    border-radius: 2px;
+    border-radius: 4px;
     padding: 8px 16px;
     font-weight: 400;
     font-size: 13px;
@@ -2039,12 +2850,21 @@ body[class*="post-type-pms-"] .meta-box-sortables .button:not(.button-primary):d
 body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices,
 body[class*="post-type-pms-"] .meta-box-sortables select,
 body[class*="post-type-pms-"] .meta-box-sortables input[type="search"],
-body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input) {
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input),
+body.post-type-pms-subscription .pms-subscription-tab-panel .chosen-container-multi .chosen-choices,
+body.post-type-pms-subscription .pms-subscription-tab-panel select,
+body.post-type-pms-subscription .pms-subscription-tab-panel input[type="search"],
+body.post-type-pms-subscription .pms-subscription-tab-panel input[type="text"]:not(.cozmoslabs-tags-list input) {
     height: 40px;
-    border: 1px solid #949494;
-    border-radius: 2px;
+    border: 1px solid #C3C4C7;
+    border-radius: 5px;
     line-height: 20px;
     color: #1E1E1E;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+}
+
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input) {
+    padding: 0 12px;
 }
 
 #titlediv #title {
@@ -2054,7 +2874,11 @@ body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmos
 body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices,
 body[class*="post-type-pms-"] .meta-box-sortables select,
 body[class*="post-type-pms-"] .meta-box-sortables input[type="search"],
-body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input) {
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input),
+body.post-type-pms-subscription .pms-subscription-tab-panel .chosen-container-multi .chosen-choices,
+body.post-type-pms-subscription .pms-subscription-tab-panel select,
+body.post-type-pms-subscription .pms-subscription-tab-panel input[type="search"],
+body.post-type-pms-subscription .pms-subscription-tab-panel input[type="text"]:not(.cozmoslabs-tags-list input) {
     font-size: 13px;
 }
 
@@ -2078,10 +2902,25 @@ body[class*="post-type-pms-"] .meta-box-sortables .cozmoslabs-form-field-label {
     font-weight: 600;
     font-size: 13px;
     line-height: 16px;
-    color: #1E1E1E;
+    color: #262626;
+}
+
+body[class*="post-type-pms-"] .meta-box-sortables .pms-form-label-with-docs {
+    flex-basis: 220px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+body[class*="post-type-pms-"] .meta-box-sortables .pms-form-label-with-docs .cozmoslabs-form-field-label {
+    flex-basis: auto;
 }
 
 body[class*="post-type-pms-"] .meta-box-sortables #pms-woo-subscription-product-discounts .chosen-container-multi {
+    width: 100% !important;
+}
+
+body.post-type-pms-subscription .pms-subscription-tab-panel #pms-woo-subscription-product-discounts .chosen-container-multi {
     width: 100% !important;
 }
 
@@ -2090,7 +2929,16 @@ body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chose
     line-height: 38px;
 }
 
+body.post-type-pms-subscription .pms-subscription-tab-panel .chosen-container-multi .chosen-choices:not(#pms_subscription_plan_learndash_courses_chosen .chosen-choices) {
+    min-height: 38px;
+    line-height: 38px;
+}
+
 body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices .search-field:not(#pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field) {
+    width: 100%;
+}
+
+body.post-type-pms-subscription .pms-subscription-tab-panel .chosen-container-multi .chosen-choices .search-field:not(#pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field) {
     width: 100%;
 }
 
@@ -2100,11 +2948,21 @@ body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chose
     border: none !important;
 }
 
+body.post-type-pms-subscription .pms-subscription-tab-panel .chosen-container-multi .chosen-choices .search-field input:not(#pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input) {
+    width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
 #titlediv #title:hover,
 body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi:not(.chosen-disabled) .chosen-choices:hover,
 body[class*="post-type-pms-"] .meta-box-sortables select:hover,
 body[class*="post-type-pms-"] .meta-box-sortables input[type="search"]:hover,
-body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input):hover {
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input):hover,
+body.post-type-pms-subscription .pms-subscription-tab-panel .chosen-container-multi:not(.chosen-disabled) .chosen-choices:hover,
+body.post-type-pms-subscription .pms-subscription-tab-panel select:hover,
+body.post-type-pms-subscription .pms-subscription-tab-panel input[type="search"]:hover,
+body.post-type-pms-subscription .pms-subscription-tab-panel input[type="text"]:not(.cozmoslabs-tags-list input):hover {
     border-color: #3858E9 !important;
     color: #1E1E1E;
 }
@@ -2113,7 +2971,11 @@ body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmos
 body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices:focus,
 body[class*="post-type-pms-"] .meta-box-sortables select:focus,
 body[class*="post-type-pms-"] .meta-box-sortables input[type="search"]:focus,
-body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input, #pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input, #scripts_on_specific_pages_chosen .chosen-choices .search-field input):focus {
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input, #pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input, #scripts_on_specific_pages_chosen .chosen-choices .search-field input):focus,
+body.post-type-pms-subscription .pms-subscription-tab-panel .chosen-container-multi .chosen-choices:focus,
+body.post-type-pms-subscription .pms-subscription-tab-panel select:focus,
+body.post-type-pms-subscription .pms-subscription-tab-panel input[type="search"]:focus,
+body.post-type-pms-subscription .pms-subscription-tab-panel input[type="text"]:not(.cozmoslabs-tags-list input, #pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input, #scripts_on_specific_pages_chosen .chosen-choices .search-field input):focus {
     border-color: #3858E9 !important;
     box-shadow: 0 0 0 1px #3858E9 !important;
     color: #1E1E1E;
@@ -2122,7 +2984,10 @@ body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmos
 #titlediv #title:disabled,
 body[class*="post-type-pms-"] .meta-box-sortables select:disabled,
 body[class*="post-type-pms-"] .meta-box-sortables input[type="search"]:disabled,
-body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(#pms-subscription-plan-learndash-url):disabled {
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(#pms-subscription-plan-learndash-url):disabled,
+body.post-type-pms-subscription .pms-subscription-tab-panel select:disabled,
+body.post-type-pms-subscription .pms-subscription-tab-panel input[type="search"]:disabled,
+body.post-type-pms-subscription .pms-subscription-tab-panel input[type="text"]:not(#pms-subscription-plan-learndash-url):disabled {
     opacity: 0.5;
     pointer-events: none;
     color: #1E1E1E;
@@ -2631,6 +3496,11 @@ body.learndash-post-type #pms_post_content_restriction_learndash .button-primary
     margin-bottom: 8px;
 }
 
+.pms-modal__currency .pms-modal__label {
+    min-width: 50px;
+    display: inline-block;
+}
+
 
 /**************************************************/
 /* CPTs and Custom Pages
@@ -2658,7 +3528,7 @@ body[class*="post-type-pms-"] .page-title-action {
     background: #FFFFFF;
     border: 1px solid #3858E9;
     box-sizing: border-box;
-    border-radius: 2px;
+    border-radius: 4px;
     font-weight: 400;
     font-size: 13px;
     line-height: 20px;
@@ -2704,10 +3574,10 @@ body[class*="_page_pms-"] .button-primary,
 body[class*="post-type-pms-"] .button-primary {
     background: #3858E9;
     border: 1px solid #3858E9;
-    border-radius: 2px;
+    border-radius: 8px;
     box-sizing: border-box;
     padding: 8px 12px;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 13px;
     line-height: 16px;
     color: #FFFFFF;
@@ -3280,35 +4150,105 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
 /* Publish Box */
 body[class*="post-type-pms-"] #major-publishing-actions {
     display: flex;
-    flex-direction: column-reverse;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
     justify-content: center;
-    padding: 20px 10px;
-    gap: 10px;
+    padding: 0 20px 24px;
+    gap: 5px;
+    border-top: 0;
+    background: transparent;
 }
 
 body[class*="post-type-pms-"] #major-publishing-actions #publishing-action {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: stretch;
     position: relative;
     margin: 0;
+    width: 100%;
 }
 
 body[class*="post-type-pms-"] #major-publishing-actions #publishing-action .spinner {
     position: absolute;
-    right: -40px;
-    top: 8px;
+    right: 12px;
+    top: 50%;
+    margin: 0;
+    transform: translateY(-50%);
 }
 
 body[class*="post-type-pms-"] #major-publishing-actions .button-primary {
     min-width: unset;
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    border-radius: 4px;
+    background: #3858E9;
+    box-shadow: none;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
 }
 
 body[class*="post-type-pms-"] #major-publishing-actions > div:first-of-type {
     margin: 0;
+}
+
+body.post-type-pms-subscription #major-publishing-actions #pms-delete-action {
+    width: 100%;
+    margin: 0;
+}
+
+body.post-type-pms-discount-codes #major-publishing-actions {
+    margin-top: 20px;
+}
+
+body.post-type-pms-discount-codes #major-publishing-actions #pms-delete-action {
+    width: 100%;
+    margin: 0;
+}
+
+body.post-type-pms-subscription #major-publishing-actions #pms-delete-action .submitdelete {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    border-radius: 4px;
+    background: #f5f5f5;
+    color: #7a7a7a;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 44px;
+    text-align: center;
+    text-decoration: none;
+}
+
+body.post-type-pms-discount-codes #major-publishing-actions #pms-delete-action .submitdelete {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    border-radius: 4px;
+    background: #f5f5f5;
+    color: #7a7a7a;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 44px;
+    text-align: center;
+    text-decoration: none;
+}
+
+body.post-type-pms-subscription #major-publishing-actions #pms-delete-action .submitdelete:hover,
+body.post-type-pms-subscription #major-publishing-actions #pms-delete-action .submitdelete:focus {
+    background: #ededed;
+    color: #d63638;
+    box-shadow: none;
+}
+
+body.post-type-pms-discount-codes #major-publishing-actions #pms-delete-action .submitdelete:hover,
+body.post-type-pms-discount-codes #major-publishing-actions #pms-delete-action .submitdelete:focus {
+    background: #ededed;
+    color: #d63638;
+    box-shadow: none;
 }
 
 /* Header PMS Banner */
@@ -3464,7 +4404,7 @@ body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .s
 
     body[class*="post-type-pms-"] #major-publishing-actions {
         justify-content: flex-end;
-        gap: 10px;
+        gap: 5px;
     }
 
     body[class*="post-type-pms"] #wpbody-content {
@@ -3777,6 +4717,10 @@ body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .s
 }
 
 @media screen and (max-width: 782px) {
+    .pms-admin-payment-vat-status {
+        margin-left: 0;
+    }
+
     body[class*="_page_pms-"] .cozmoslabs-banner,
     body[class*="post-type-pms-"] .cozmoslabs-banner {
         margin-left: 0 !important;
@@ -3826,6 +4770,7 @@ body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .s
     }
 
     .cozmoslabs-form-field-wrapper label:not(.cozmoslabs-toggle-switch label),
+    .cozmoslabs-form-field-wrapper .pms-form-label-with-docs,
     .cozmoslabs-form-field-wrapper select {
         flex-basis: 100% !important;
         max-width: unset;
@@ -3847,6 +4792,28 @@ body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .s
 
     .cozmoslabs-form-field-wrapper p.cozmoslabs-description {
         padding-left: 0;
+    }
+
+    body:is(.post-type-pms-discount-codes, .post-type-pms-subscription) :is(#pms_discount_codes, #pms_subscription_integrations) .inside > .pms-meta-box-field-wrapper:not(.cozmoslabs-form-field-wrapper) > .pms-meta-box-field-label,
+    body:is(.post-type-pms-discount-codes, .post-type-pms-subscription) :is(#pms_discount_codes, #pms_subscription_integrations) .inside > .pms-meta-box-field-wrapper:not(.cozmoslabs-form-field-wrapper) > input[type="text"] {
+        flex-basis: 100%;
+        min-width: 0 !important;
+        max-width: unset;
+    }
+
+    body:is(.post-type-pms-discount-codes, .post-type-pms-subscription) :is(#pms_discount_codes, #pms_subscription_integrations) .inside > .pms-meta-box-field-wrapper:not(.cozmoslabs-form-field-wrapper) > .description {
+        padding-left: 0;
+    }
+
+    body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms .affiliatepress-option-field-wrapper > .pms-meta-box-field-label,
+    body.post-type-pms-subscription #affiliatepress_metabox_commission_settings_pms .affiliatepress-option-field-wrapper > label:last-child {
+        flex-basis: 100%;
+    }
+
+    body.post-type-pms-subscription .meta-box-sortables .cozmoslabs-form-field-wrapper > .pms-gcr-post-type-description,
+    body.post-type-pms-subscription .pms-subscription-tab-panel .cozmoslabs-form-field-wrapper > .pms-gcr-post-type-description {
+        flex-basis: 100%;
+        margin: 0 !important;
     }
 
     #cozmoslabs-subsection-paypal-configs p.cozmoslabs-description {
@@ -3906,6 +4873,48 @@ body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .s
 
     .cozmoslabs-toggle-switch {
         justify-content: space-between;
+    }
+
+    body.post-type-pms-subscription .cozmoslabs-toggle-switch,
+    body.post-type-pms-email-reminders .cozmoslabs-toggle-switch,
+    body.post-type-pms-content-dripping .cozmoslabs-toggle-switch,
+    body.post-type-pms-discount-codes .cozmoslabs-toggle-switch {
+        justify-content: flex-start;
+    }
+
+    body.post-type-pms-subscription .cozmoslabs-toggle-description,
+    body.post-type-pms-email-reminders .cozmoslabs-toggle-description,
+    body.post-type-pms-content-dripping .cozmoslabs-toggle-description,
+    body.post-type-pms-discount-codes .cozmoslabs-toggle-description {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        flex-basis: auto;
+        flex-grow: 0;
+        gap: 0;
+    }
+
+    body.post-type-pms-subscription .cozmoslabs-toggle-description > label.cozmoslabs-description,
+    body.post-type-pms-email-reminders .cozmoslabs-toggle-description > label.cozmoslabs-description,
+    body.post-type-pms-content-dripping .cozmoslabs-toggle-description > label.cozmoslabs-description,
+    body.post-type-pms-discount-codes .cozmoslabs-toggle-description > label.cozmoslabs-description {
+        flex-basis: auto !important;
+        width: auto !important;
+        max-width: none !important;
+        display: inline-flex !important;
+        align-items: center;
+        margin: 0 !important;
+        padding: 0 !important;
+        white-space: nowrap;
+    }
+
+    body.post-type-pms-subscription .cozmoslabs-toggle-switch > p.cozmoslabs-description,
+    body.post-type-pms-email-reminders .cozmoslabs-toggle-switch > p.cozmoslabs-description,
+    body.post-type-pms-content-dripping .cozmoslabs-toggle-switch > p.cozmoslabs-description,
+    body.post-type-pms-discount-codes .cozmoslabs-toggle-switch > p.cozmoslabs-description {
+        flex-basis: 100% !important;
+        width: 100%;
+        margin-top: 10px;
     }
 
     #cozmoslabs-restriction-type .cozmoslabs-radio-inputs-row {
@@ -4651,6 +5660,10 @@ body.admin_page_pms-uninstall-page #TB_closeWindowButton:focus .tb-close-icon {
     margin: 0 0 1em;
 }
 
+.pms-modal__holder .pms-modal-intro {
+    margin-top: 12px;
+}
+
 .pms-modal__holder p:last-child {
     margin: 0;
 }
@@ -4688,6 +5701,130 @@ body.admin_page_pms-uninstall-page #TB_closeWindowButton:focus .tb-close-icon {
 
 .post-php .pms-modal{
     width: auto;
+}
+
+.pms-create-pricing-page-modal {
+    width: min(920px, calc(100% - 48px));
+    border-radius: 8px;
+}
+
+.pms-create-pricing-page-modal .pms-modal__holder {
+    max-width: 920px;
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    box-shadow: none;
+    box-sizing: border-box;
+    padding: 28px;
+}
+
+.pms-create-pricing-page-modal .pms-content {
+    margin-top: 20px;
+}
+
+.pms-create-pricing-page-modal .pms-modal-intro,
+.pms-create-pricing-page-modal .cozmoslabs-description {
+    font-size: 13px;
+    line-height: 1.45;
+    color: #8a8a8a;
+}
+
+.pms-create-pricing-page-modal .pms-select-container {
+    width: 100%;
+    margin: 20px 0 !important;
+    border-collapse: separate;
+    border-spacing: 0 14px;
+}
+
+.pms-create-pricing-page-modal .pms-select-container th,
+.pms-create-pricing-page-modal .pms-select-container td {
+    padding: 0;
+    vertical-align: middle;
+}
+
+.pms-create-pricing-page-modal .pms-select-container th {
+    width: 230px;
+    text-align: left;
+}
+
+.pms-create-pricing-page-modal .pms-select-container label {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #262626;
+}
+
+.pms-create-pricing-page-modal .pms-chosen-modal {
+    width: 300px;
+    max-width: 100%;
+    min-height: 40px;
+    border: 1px solid #c3c4c7;
+    border-radius: 5px;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M6 8L10 12L14 8' stroke='%238D8F95' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.pms-create-pricing-page-modal .pms-chosen-modal:hover,
+.pms-create-pricing-page-modal .pms-chosen-modal:focus {
+    border-color: #3858E9;
+    box-shadow: 0 0 0 1px #3858E9;
+}
+
+.pms-create-pricing-page-modal .pms-pricing-page-style-description {
+    margin: 10px 0 14px;
+}
+
+.pms-create-pricing-page-modal .cozmoslabs-form-field-wrapper {
+    display: block;
+}
+
+.pms-create-pricing-page-modal .pms-create-pricing-page-actions {
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 782px) {
+    .pms-create-pricing-page-modal {
+        width: calc(100% - 24px);
+        top: 50%;
+    }
+
+    .pms-create-pricing-page-modal .pms-modal__holder {
+        padding: 22px;
+    }
+
+    .pms-create-pricing-page-modal .pms-select-container,
+    .pms-create-pricing-page-modal .pms-select-container tbody,
+    .pms-create-pricing-page-modal .pms-select-container tr,
+    .pms-create-pricing-page-modal .pms-select-container th,
+    .pms-create-pricing-page-modal .pms-select-container td {
+        display: block;
+        width: 100%;
+    }
+
+    .pms-create-pricing-page-modal .pms-select-container {
+        border-spacing: 0;
+    }
+
+    .pms-create-pricing-page-modal .pms-select-container tr + tr {
+        margin-top: 14px;
+    }
+
+    .pms-create-pricing-page-modal .pms-select-container label {
+        margin: 0 0 8px;
+    }
+
+    .pms-create-pricing-page-modal .pms-chosen-modal {
+        width: 100%;
+    }
 }
 
 .overlay {
@@ -5350,10 +6487,6 @@ div.wppb-serial-notification {
     margin-top: 12px;
     font-size: 16px !important;
     line-height: 100% !important
-}
-
-.pms-esdo-start-date, .pms-esdo-end-date{
-    margin-left: 9px;
 }
 
 /* Gift Subscriptions add-on */

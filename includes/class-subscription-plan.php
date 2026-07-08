@@ -476,6 +476,38 @@ Class PMS_Subscription_Plan {
 
 
     /**
+     * Next fixed-period end strictly after the anchor timestamp.
+     *
+     * @param int|null $anchor_timestamp Unix timestamp; defaults to now.
+     * @param bool     $timestamp        When true, return a unix timestamp.
+     * @return int|string Empty string when not a fixed-period plan or fixed date is missing.
+     */
+    public function get_next_fixed_period_end( $anchor_timestamp = null, $timestamp = false ) {
+
+        if ( ! $this->is_fixed_period_membership() || empty( $this->fixed_expiration_date ) ) {
+            return $timestamp ? '' : '';
+        }
+
+        if ( null === $anchor_timestamp ) {
+            $anchor_timestamp = time();
+        }
+
+        $fixed_md = date( 'm-d', strtotime( pms_sanitize_date( $this->fixed_expiration_date ) ) );
+        $anchor   = (int) $anchor_timestamp;
+        $year     = (int) date( 'Y', $anchor );
+        $next     = strtotime( $year . '-' . $fixed_md . ' 23:59:59' );
+
+        if ( $next <= $anchor ) {
+            $next = strtotime( ( $year + 1 ) . '-' . $fixed_md . ' 23:59:59' );
+        }
+
+        $return_date = $timestamp ? $next : date( 'Y-m-d H:i:s', $next );
+
+        return apply_filters( 'pms_subscription_plan_get_next_fixed_period_end', $return_date, $this->id, $anchor_timestamp );
+    }
+
+
+    /**
      * Returns the expiration date of the subscription plan
      *
      * @param bool $timestamp
@@ -489,16 +521,7 @@ Class PMS_Subscription_Plan {
 
             if( $this->fixed_period_renewal_allowed() && strtotime( $this->fixed_expiration_date ) < time() ){
 
-                $fixed_expiration_date = date_create( date( 'Y-m-d', strtotime( $this->fixed_expiration_date ) ) );
-                $current_date          = date_create( date( 'Y-m-d', time() ) );
-                $difference            = date_diff( $fixed_expiration_date, $current_date );
-
-                if( isset( $difference ) && isset( $difference->y ) ){
-
-                    $years = (int)$difference->y + 1;
-                    $date = strtotime( $this->fixed_expiration_date . '+ ' . $years . ' years' );
-
-                }
+                $date = $this->get_next_fixed_period_end( time(), true );
 
             } else {
                 $date = strtotime( $this->fixed_expiration_date . ' 23:59:59' );

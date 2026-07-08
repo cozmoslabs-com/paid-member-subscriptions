@@ -44,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <label class="cozmoslabs-toggle-track" for="automatically-log-in"></label>
             </div>
             <div class="cozmoslabs-toggle-description">
-                <label for="automatically-log-in" class="cozmoslabs-description"><?php esc_html_e( 'Select "Yes" to automatically log in new members after successful registration.', 'paid-member-subscriptions' ); ?></label>
+                <label for="automatically-log-in" class="cozmoslabs-description"><?php esc_html_e( 'Enable to automatically log in new members after successful registration.', 'paid-member-subscriptions' ); ?></label>
             </div>
         </div>
 

@@ -13,6 +13,7 @@ function pms_render_blocks( $block_content, $block ) {
         'subscription_plans'        => array(),
         'display_to'                => 'all',
         'not_subscribed'            => false,
+        'show_logged_out'           => false,
         'enable_message_logged_in'  => false,
         'enable_message_logged_out' => false,
         'message_logged_in'         => '',
@@ -34,6 +35,7 @@ function pms_render_blocks( $block_content, $block ) {
     $atts = array(
             'subscription_plans'    => !empty( $block_attrs['subscription_plans'] ) ? $block_attrs['subscription_plans'] : '',
             'display_to'            => !empty( $block_attrs['not_subscribed'] ) ? 'not_subscribed' : $block_attrs['display_to'],
+            'show_logged_out'       => !empty( $block_attrs['not_subscribed'] ) && !empty( $block_attrs['show_logged_out'] ) ? 'true' : '',
             'message'               => $block_attrs['display_to'] === 'not_logged_in'
                 ? ( !empty( $block_attrs['enable_message_logged_out'] ) ? $block_attrs['message_logged_out'] : '' )
                 : ( !empty( $block_attrs['enable_message_logged_in'] )  ? $block_attrs['message_logged_in']  : '' ),
@@ -65,6 +67,9 @@ function pms_add_custom_attributes_to_blocks() {
                 'not_subscribed' => array(
                     'type' => 'boolean',
                 ),
+                'show_logged_out' => array(
+                    'type' => 'boolean',
+                ),
                 'enable_message_logged_in' => array(
                     'type' => 'boolean',
                 ),
@@ -85,6 +90,7 @@ function pms_add_custom_attributes_to_blocks() {
                 'subscription_plans'       => array(),
                 'display_to'               => 'all',
                 'not_subscribed'           => false,
+                'show_logged_out'          => false,
                 'enable_message_logged_in' => false,
                 'enable_message_logged_out'=> false,
                 'message_logged_in'        => '',

@@ -338,6 +338,76 @@ class PMS_Multiple_Roles_Selection {
 
     }
 
+    /**
+     * Default role slugs for new-user checkbox pre-selection.
+     *
+     * @return string[]
+     */
+    public function get_default_user_roles() {
+
+        $roles = apply_filters( 'pms_default_user_roles', array( get_option( 'default_role' ) ) );
+
+        return array_values( array_filter( array_map( array( $this, 'sanitize_role' ), (array) $roles ) ) );
+
+    }
+
+    /**
+     * Sanitized roles from pms_re_user_roles[] when present in POST.
+     *
+     * @return string[]|null Null when the checkbox field was not submitted.
+     */
+    public function get_roles_from_checkboxes_post() {
+
+        if ( ! isset( $_POST['pms_re_user_roles'] ) ) {
+            return null;
+        }
+
+        if ( ! is_array( $_POST['pms_re_user_roles'] ) ) {
+            return array();
+        }
+
+        return array_values( array_filter( array_map( array( $this, 'sanitize_role' ), $_POST['pms_re_user_roles'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+    }
+
+    /**
+     * Roles for display or core WP: POST checkboxes when submitted, otherwise defaults.
+     *
+     * @return string[]
+     */
+    public function get_submitted_user_roles_from_request() {
+
+        $from_checkboxes = $this->get_roles_from_checkboxes_post();
+
+        if ( null !== $from_checkboxes ) {
+            return $from_checkboxes;
+        }
+
+        return $this->get_default_user_roles();
+
+    }
+
+    /**
+     * Primary role slug for core WP (multisite signup expects a single role).
+     */
+    public function get_primary_role_from_request() {
+
+        $roles = $this->get_submitted_user_roles_from_request();
+
+        if ( ! empty( $roles ) ) {
+            return reset( $roles );
+        }
+
+        $defaults = $this->get_default_user_roles();
+
+        if ( ! empty( $defaults ) ) {
+            return reset( $defaults );
+        }
+
+        return get_option( 'default_role' );
+
+    }
+
     // Add actions on Add User back-end page
     public function actions_on_user_new() {
 
@@ -367,11 +437,7 @@ class PMS_Multiple_Roles_Selection {
             return;
         }
 
-        $user_roles = apply_filters( 'pms_default_user_roles', array( get_option( 'default_role' ) ) );
-
-        if( isset( $_POST['createuser'] ) && ! empty( $_POST['pms_re_user_roles'] ) ) {
-            $user_roles = array_map( array( $this, 'sanitize_role' ), $_POST['pms_re_user_roles'] );// phpcs:ignore  WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-        }
+        $user_roles = $this->get_submitted_user_roles_from_request();
 
         wp_nonce_field( 'new_user_roles', 'pms_re_new_user_roles_nonce' );
 
@@ -459,28 +525,30 @@ class PMS_Multiple_Roles_Selection {
 
     public function roles_update_user_new_and_edit( $user ) {
 
-        if( ! empty( $_POST['pms_re_user_roles'] ) || !empty( $_POST['role'] ) ) {
+        $checkbox_roles = $this->get_roles_from_checkboxes_post();
 
-            $old_roles = (array) $user->roles;
-
-            if( isset( $_POST['pms_re_user_roles'] ) )
-                $new_roles = array_map( array( $this, 'sanitize_role' ), $_POST['pms_re_user_roles'] );//phpcs:ignore  WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-            else
-                $new_roles = array( $this->sanitize_role( $_POST['role'] ) ); //phpcs:ignore  WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-
-            foreach( $new_roles as $new_role ) {
-                if( ! in_array( $new_role, (array) $user->roles ) ) {
-                    $user->add_role( $new_role );
-                }
-            }
-
-            foreach( $old_roles as $old_role ) {
-                if( ! in_array( $old_role, $new_roles ) ) {
-                    $user->remove_role( $old_role );
-                }
-            }
+        if ( null !== $checkbox_roles ) {
+            $new_roles = $checkbox_roles;
+        } elseif ( ! empty( $_POST['role'] ) ) {
+            $new_roles = array( $this->sanitize_role( $_POST['role'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         } else {
-            foreach( (array) $user->roles as $old_role ) {
+            foreach ( (array) $user->roles as $old_role ) {
+                $user->remove_role( $old_role );
+            }
+
+            return;
+        }
+
+        $old_roles = (array) $user->roles;
+
+        foreach ( $new_roles as $new_role ) {
+            if ( ! in_array( $new_role, (array) $user->roles, true ) ) {
+                $user->add_role( $new_role );
+            }
+        }
+
+        foreach ( $old_roles as $old_role ) {
+            if ( ! in_array( $old_role, $new_roles, true ) ) {
                 $user->remove_role( $old_role );
             }
         }
@@ -494,6 +562,7 @@ class PMS_Multiple_Roles_Selection {
 
         // Actions for Add User back-end page
         if( $location == 'user_new' && apply_filters( 'pms_backend_allow_multiple_user_roles_selection', true ) ) {
+            add_action( 'admin_head', array( $this, 'print_styles_user_new' ) );
             add_action( 'admin_footer', array( $this, 'print_scripts_user_new' ), 25 );
         }
 
@@ -515,12 +584,29 @@ class PMS_Multiple_Roles_Selection {
     // Print scripts on Add User back-end page
     public function print_scripts_user_new() {
 
+        $primary_role = esc_js( $this->get_primary_role_from_request() );
+
         ?>
         <script>
             jQuery( document ).ready( function() {
-                // Remove WordPress default Role Select
-                var roles_dropdown = jQuery( 'select#role' );
-                roles_dropdown.closest( 'tr' ).remove();
+                var $roleSelect  = jQuery( 'select#role' );
+                var $checkboxes  = jQuery( 'input[name="pms_re_user_roles[]"]' );
+                var $form        = $roleSelect.closest( 'form' );
+
+                $roleSelect.closest( 'tr' ).addClass( 'pms-hide-core-role' );
+
+                function syncRoleFromCheckboxes() {
+                    var $checked = $checkboxes.filter( ':checked' );
+                    var role     = $checked.length ? $checked.first().val() : '<?php echo $primary_role; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>';
+
+                    if ( role ) {
+                        $roleSelect.val( role );
+                    }
+                }
+
+                $checkboxes.on( 'change', syncRoleFromCheckboxes );
+                $form.on( 'submit', syncRoleFromCheckboxes );
+                syncRoleFromCheckboxes();
             } );
         </script>
 
@@ -532,18 +618,48 @@ class PMS_Multiple_Roles_Selection {
 
         ?>
         <script>
-            jQuery( document ).ready(
-                // Remove WordPress default Role Select
-                function() {
-                    jQuery( '.user-role-wrap' ).remove();
+            jQuery( document ).ready( function() {
+                var $roleSelect = jQuery( '.user-role-wrap select#role' );
+                var $checkboxes = jQuery( 'input[name="pms_re_user_roles[]"]' );
+                var $form       = $roleSelect.closest( 'form' );
+
+                if ( ! $roleSelect.length ) {
+                    return;
                 }
-            );
+
+                function syncRoleFromCheckboxes() {
+                    var $checked = $checkboxes.filter( ':checked' );
+                    var role     = $checked.length ? $checked.first().val() : $roleSelect.val();
+
+                    if ( role ) {
+                        $roleSelect.val( role );
+                    }
+                }
+
+                $checkboxes.on( 'change', syncRoleFromCheckboxes );
+                $form.on( 'submit', syncRoleFromCheckboxes );
+                syncRoleFromCheckboxes();
+            } );
         </script>
 
         <?php
     }
 
-    // Print scripts on Edit User back-end page
+    // Print styles on Add User back-end page
+    public function print_styles_user_new() {
+
+        ?>
+        <style type="text/css">
+            /* Hide WordPress default Role Select */
+            tr.pms-hide-core-role {
+                display: none !important;
+            }
+        </style>
+
+        <?php
+    }
+
+    // Print styles on Edit User back-end page
     public function print_styles_user_edit() {
 
         ?>

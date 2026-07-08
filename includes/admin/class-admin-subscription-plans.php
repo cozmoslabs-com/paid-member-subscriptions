@@ -49,6 +49,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
         add_action( 'admin_init', array( $this, 'process_custom_bulk_actions' ) );
 
         // Add a delete button where the move to trash was
+        add_action( 'post_submitbox_start', array( $this, 'submitbox_add_status_field' ) );
         add_action( 'post_submitbox_start', array( $this, 'submitbox_add_delete_button' ));
 
         // Add "Add Upgrade" and "Add Downgrade" buttons in the submit box, we will move them
@@ -63,6 +64,16 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
 
         // Add edit-subscription-plan action in the HTML
         add_action( 'edit_form_top', array( $this, 'add_edit_subscription_plan_action' ) );
+
+        // Render Subscription Plan top-level tabs server-side
+        add_action( 'edit_form_after_title', array( $this, 'render_subscription_tab_shell' ) );
+        add_action( 'edit_form_top', array( $this, 'render_active_subscription_tab_field' ) );
+
+        // Prevent default Subscription Plan metabox rendering, as tabs render them directly.
+        add_action( 'add_meta_boxes', array( $this, 'remove_subscription_plan_default_metaboxes' ), 100, 2 );
+
+        // Register default extra metaboxes for Subscription Plan tabs.
+        add_filter( 'pms_subscription_plan_advanced_metaboxes', array( $this, 'register_advanced_integrations_metabox' ), 10, 3 );
 
         // Change the default "Enter title here" text
         add_filter( 'enter_title_here', array( $this, 'change_title_prompt_text' ) );
@@ -88,6 +99,374 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
 		// Set custom bulk updated messages
 		add_filter( 'bulk_post_updated_messages', array( $this, 'set_bulk_custom_messages' ), 10, 2 );
 
+        // Preserve the active tab after saving the Subscription Plan
+        add_filter( 'redirect_post_location', array( $this, 'preserve_active_subscription_tab_on_redirect' ), 10, 2 );
+
+    }
+
+    /**
+     * Returns the available Subscription Plan tabs.
+     *
+     * @return array
+     */
+    public function get_subscription_tabs( $post = null, $subscription_plan = null ) {
+
+        $tabs = array(
+            'subscription_plan_details' => array(
+                'label'    => esc_html__( 'Subscription Plan Details', 'paid-member-subscriptions' ),
+                'priority' => 10,
+            ),
+            'content_restriction'       => array(
+                'label'    => esc_html__( 'Global Content Restriction', 'paid-member-subscriptions' ),
+                'priority' => 20,
+            ),
+            'advanced'                  => array(
+                'label'    => esc_html__( 'Advanced', 'paid-member-subscriptions' ),
+                'priority' => 30,
+            ),
+        );
+
+        $tabs = apply_filters( 'pms_subscription_plan_tabs', $tabs, $post, $subscription_plan );
+
+        return $this->sort_subscription_plan_items_by_priority( $tabs );
+
+    }
+
+    /**
+     * Returns the default metaboxes assigned to a Subscription Plan tab.
+     *
+     * @param string $tab_slug
+     *
+     * @return array
+     */
+    public function get_default_subscription_tab_metaboxes( $tab_slug ) {
+
+        $metaboxes = array(
+            'subscription_plan_details' => array(
+                array(
+                    'id'       => 'pms_subscription_details',
+                    'title'    => esc_html__( 'General', 'paid-member-subscriptions' ),
+                    'priority' => 10,
+                ),
+                array(
+                    'id'       => 'pms_subscription_price',
+                    'title'    => esc_html__( 'Price', 'paid-member-subscriptions' ),
+                    'priority' => 20,
+                ),
+            ),
+            'content_restriction'       => array(
+                array(
+                    'id'       => 'pms_subscription_content_restriction',
+                    'title'    => esc_html__( 'Global Content Restriction', 'paid-member-subscriptions' ),
+                    'priority' => 10,
+                ),
+            ),
+            'advanced'                  => array(
+                array(
+                    'id'       => 'pms_subscription_access_behavior',
+                    'title'    => esc_html__( 'Access & Membership Behavior', 'paid-member-subscriptions' ),
+                    'priority' => 10,
+                ),
+                array(
+                    'id'       => 'pms_subscription_pause',
+                    'title'    => esc_html__( 'Pause Subscription', 'paid-member-subscriptions' ),
+                    'priority' => 20,
+                ),
+                array(
+                    'id'       => 'pms_subscription_extra_options',
+                    'title'    => esc_html__( 'Advanced Subscription Options', 'paid-member-subscriptions' ),
+                    'priority' => 30,
+                ),
+            ),
+        );
+
+        return isset( $metaboxes[ $tab_slug ] ) ? $metaboxes[ $tab_slug ] : array();
+
+    }
+
+    /**
+     * Returns all metaboxes that should be rendered for a Subscription Plan tab.
+     *
+     * @param string $tab_slug
+     * @param WP_Post $post
+     * @param PMS_Subscription_Plan $subscription_plan
+     *
+     * @return array
+     */
+    public function get_subscription_tab_metaboxes( $tab_slug, $post, $subscription_plan ) {
+
+        $metaboxes = $this->get_default_subscription_tab_metaboxes( $tab_slug );
+
+        $metaboxes = apply_filters( 'pms_subscription_plan_' . $tab_slug . '_default_metaboxes', $metaboxes, $post, $subscription_plan );
+
+        $metaboxes = apply_filters( 'pms_subscription_plan_tab_metaboxes', $metaboxes, $tab_slug, $post, $subscription_plan );
+        $metaboxes = apply_filters( 'pms_subscription_plan_' . $tab_slug . '_metaboxes', $metaboxes, $post, $subscription_plan );
+
+        $metaboxes = $this->sort_subscription_plan_items_by_priority( $metaboxes );
+
+        return array_values( array_filter( $metaboxes, array( $this, 'normalize_subscription_tab_metabox' ) ) );
+
+    }
+
+    /**
+     * Normalizes a tab metabox configuration.
+     *
+     * @param array $metabox
+     *
+     * @return bool
+     */
+    public function normalize_subscription_tab_metabox( $metabox ) {
+
+        return is_array( $metabox ) && ! empty( $metabox['id'] ) && ! empty( $metabox['title'] );
+
+    }
+
+    /**
+     * Returns the active Subscription Plan tab from the request.
+     *
+     * @return string
+     */
+    public function get_active_subscription_tab( $tabs = null ) {
+
+        $active_tab = 'subscription_plan_details';
+        $tabs       = is_array( $tabs ) ? array_keys( $tabs ) : array_keys( $this->get_subscription_tabs() );
+
+        if ( ! empty( $_GET['subscription_tab'] ) ) {
+            $tab = sanitize_text_field( $_GET['subscription_tab'] );
+
+            if ( in_array( $tab, $tabs, true ) ) {
+                $active_tab = $tab;
+            }
+        }
+
+        return $active_tab;
+
+    }
+
+    /**
+     * Renders the Subscription Plan tab shell using PHP.
+     *
+     * @param WP_Post $post
+     *
+     * @return void
+     */
+    public function render_subscription_tab_shell( $post ) {
+
+        if ( ! $post instanceof WP_Post || $post->post_type !== $this->post_type ) {
+            return;
+        }
+
+        $subscription_plan = pms_get_subscription_plan( $post );
+        $tabs              = $this->get_subscription_tabs( $post, $subscription_plan );
+        $active_tab        = $this->get_active_subscription_tab( $tabs );
+
+        ?>
+        <div class="pms-subscription-tabs-shell">
+            <div class="cozmoslabs-nav-tab-wrapper pms-subscription-tabs-nav">
+                <?php foreach ( $tabs as $tab_slug => $tab_data ) : ?>
+                    <a href="<?php echo esc_url( add_query_arg( 'subscription_tab', $tab_slug ) ); ?>" class="nav-tab <?php echo ( $active_tab === $tab_slug ? 'nav-tab-active' : '' ); ?>" data-tab-slug="<?php echo esc_attr( $tab_slug ); ?>">
+                        <?php echo esc_html( $tab_data['label'] ); ?>
+                        <?php if ( $tab_slug === 'content_restriction' && $this->should_render_content_restriction_pro_badge() ) : ?>
+                            <span class="pms-subscription-tab-badge"><?php esc_html_e( 'PRO', 'paid-member-subscriptions' ); ?></span>
+                        <?php endif; ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+
+            <?php foreach ( $tabs as $tab_slug => $tab_data ) : ?>
+                <div class="cozmoslabs-sub-tab pms-subscription-tab-panel <?php echo ( $active_tab === $tab_slug ? 'tab-active' : '' ); ?>" data-sub-tab-slug="<?php echo esc_attr( $tab_slug ); ?>">
+                    <?php do_action( 'pms_subscription_plan_tab_before_metaboxes', $tab_slug, $post, $subscription_plan ); ?>
+                    <?php do_action( 'pms_subscription_plan_' . $tab_slug . '_before_metaboxes', $post, $subscription_plan ); ?>
+
+                    <?php foreach ( $this->get_subscription_tab_metaboxes( $tab_slug, $post, $subscription_plan ) as $metabox ) : ?>
+                        <?php if ( $this->should_render_subscription_tab_metabox( $metabox, $post, $subscription_plan ) ) : ?>
+                            <?php $this->render_subscription_tab_metabox( $metabox, $post, $subscription_plan ); ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                    <?php do_action( 'pms_subscription_plan_' . $tab_slug . '_after_metaboxes', $post, $subscription_plan ); ?>
+                    <?php do_action( 'pms_subscription_plan_tab_after_metaboxes', $tab_slug, $post, $subscription_plan ); ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php
+
+    }
+
+    /**
+     * Renders a hidden field that keeps the active subscription tab in the form context.
+     *
+     * @param WP_Post $post
+     *
+     * @return void
+     */
+    public function render_active_subscription_tab_field( $post ) {
+
+        if ( ! $post instanceof WP_Post || $post->post_type !== $this->post_type ) {
+            return;
+        }
+
+        printf(
+            '<input type="hidden" name="pms_active_subscription_tab" value="%s" />',
+            esc_attr( $this->get_active_subscription_tab() )
+        );
+
+    }
+
+    /**
+     * Determines whether the Global Content Restriction tab should display
+     * the PRO badge.
+     *
+     * @return bool
+     */
+    public function should_render_content_restriction_pro_badge() {
+
+        $is_gcr_addon_active = apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-global-content-restriction/index.php' );
+
+        if ( $is_gcr_addon_active ) {
+            return false;
+        }
+
+        return ! ( pms_get_serial_number_status() === 'valid' && defined( 'PMS_PAID_PLUGIN_DIR' ) );
+
+    }
+
+    /**
+     * Preserves the active Subscription Plan tab in the post-save redirect.
+     *
+     * @param string $location
+     * @param int    $post_id
+     *
+     * @return string
+     */
+    public function preserve_active_subscription_tab_on_redirect( $location, $post_id ) {
+
+        if ( get_post_type( $post_id ) !== $this->post_type ) {
+            return $location;
+        }
+
+        $post              = get_post( $post_id );
+        $subscription_plan = $post ? pms_get_subscription_plan( $post ) : null;
+        $tabs              = array_keys( $this->get_subscription_tabs( $post, $subscription_plan ) );
+
+        $active_tab = '';
+
+        if ( ! empty( $_POST['pms_active_subscription_tab'] ) ) {
+            $active_tab = sanitize_text_field( $_POST['pms_active_subscription_tab'] );
+        } elseif ( ! empty( $_GET['subscription_tab'] ) ) {
+            $active_tab = sanitize_text_field( $_GET['subscription_tab'] );
+        }
+
+        if ( empty( $active_tab ) || ! in_array( $active_tab, $tabs, true ) ) {
+            return remove_query_arg( 'subscription_tab', $location );
+        }
+
+        return add_query_arg( 'subscription_tab', $active_tab, $location );
+
+    }
+
+    public function remove_subscription_plan_default_metaboxes( $post_type, $post ) {
+
+        if ( $post_type !== $this->post_type || ! $post instanceof WP_Post || $post->post_type !== $this->post_type ) {
+            return;
+        }
+
+        $subscription_plan = pms_get_subscription_plan( $post );
+        $metabox_ids       = array();
+
+        foreach ( array_keys( $this->get_subscription_tabs( $post, $subscription_plan ) ) as $tab_slug ) {
+            foreach ( $this->get_subscription_tab_metaboxes( $tab_slug, $post, $subscription_plan ) as $metabox ) {
+                if ( ! empty( $metabox['id'] ) ) {
+                    $metabox_ids[] = $metabox['id'];
+                }
+            }
+        }
+
+        foreach ( array_unique( $metabox_ids ) as $metabox_id ) {
+            remove_meta_box( $metabox_id, $this->post_type, 'normal' );
+            remove_meta_box( $metabox_id, $this->post_type, 'advanced' );
+            remove_meta_box( $metabox_id, $this->post_type, 'side' );
+        }
+
+    }
+
+    public function should_render_subscription_tab_metabox( $metabox, $post, $subscription_plan ) {
+
+        if ( ! empty( $metabox['render_callback'] ) && is_callable( $metabox['render_callback'] ) ) {
+            return true;
+        }
+
+        if ( empty( $metabox['id'] ) ) {
+            return false;
+        }
+
+        if ( $metabox['id'] === 'pms_subscription_pause' && ! class_exists( 'PMS_IN_PS' ) ) {
+            return false;
+        }
+
+        if ( $metabox['id'] !== 'pms_subscription_integrations' ) {
+            return true;
+        }
+
+        return trim( pms_get_subscription_plan_integrations_markup( $subscription_plan->id ) ) !== '';
+
+    }
+
+    public function render_subscription_tab_metabox( $metabox, $post, $subscription_plan ) {
+
+        if ( empty( $metabox['id'] ) || empty( $metabox['title'] ) ) {
+            return;
+        }
+
+        echo '<div id="' . esc_attr( $metabox['id'] ) . '" class="postbox">';
+        echo '<div class="postbox-header">';
+        echo '<h2 class="hndle">' . esc_html( $metabox['title'] ) . '</h2>';
+        echo '</div>';
+        echo '<div class="inside">';
+
+        if ( ! empty( $metabox['render_callback'] ) && is_callable( $metabox['render_callback'] ) ) {
+            call_user_func( $metabox['render_callback'], $post, $subscription_plan, $metabox );
+        } else {
+            do_action( 'pms_output_content_meta_box_' . $this->post_type . '_' . $metabox['id'] . '_before', $post );
+            do_action( 'pms_output_content_meta_box_' . $this->post_type . '_' . $metabox['id'], $post );
+            do_action( 'pms_output_content_meta_box_' . $this->post_type . '_' . $metabox['id'] . '_after', $post );
+        }
+
+        echo '</div>';
+        echo '</div>';
+
+    }
+
+    public function register_advanced_integrations_metabox( $metaboxes, $post, $subscription_plan ) {
+
+        $metaboxes[] = array(
+            'id'       => 'pms_subscription_integrations',
+            'title'    => esc_html__( 'Integrations', 'paid-member-subscriptions' ),
+            'priority' => 15,
+        );
+
+        return $metaboxes;
+
+    }
+
+    public function sort_subscription_plan_items_by_priority( $items ) {
+
+        uasort(
+            $items,
+            function( $left, $right ) {
+                $left_priority  = isset( $left['priority'] ) ? absint( $left['priority'] ) : 10;
+                $right_priority = isset( $right['priority'] ) ? absint( $right['priority'] ) : 10;
+
+                if ( $left_priority === $right_priority ) {
+                    return 0;
+                }
+
+                return ( $left_priority < $right_priority ) ? -1 : 1;
+            }
+        );
+
+        return $items;
+
     }
 
     /*
@@ -95,6 +474,9 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
      *
      */
     public function process_data() {
+
+        if( ! pms_current_user_can_access_area( 'pms-subscription' ) )
+            return;
 
         // Verify nonce before anything
         if( !isset( $_REQUEST['_wpnonce'] ) || !wp_verify_nonce( sanitize_text_field( $_REQUEST['_wpnonce'] ), 'pms_subscription_plan_nonce' ) )
@@ -755,6 +1137,9 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
         if( !isset( $_REQUEST['post_type'] ) || sanitize_text_field( $_REQUEST['post_type'] ) != $this->post_type )
             return;
 
+        if( ! pms_current_user_can_access_area( 'pms-subscription' ) )
+            return;
+
         // Verify nonce before anything
         if( !isset( $_REQUEST['_wpnonce'] ) || !wp_verify_nonce( sanitize_text_field( $_REQUEST['_wpnonce'] ), 'bulk-posts' ) )
             return;
@@ -802,6 +1187,34 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
         }
 
 
+    }
+
+
+    /*
+     * Add the subscription status field in the submit box
+     *
+     */
+    public function submitbox_add_status_field() {
+        global $post_type;
+        global $post;
+
+        if ( $post_type != $this->post_type ) {
+            return false;
+        }
+
+        $subscription_plan = pms_get_subscription_plan( $post );
+
+        pms_render_submitbox_status_field( array(
+            'wrapper_class'  => 'pms-subscription-submitbox-status',
+            'label'          => __( 'Subscription Status', 'paid-member-subscriptions' ),
+            'select_id'      => 'pms-subscription-sidebar-status',
+            'select_name'    => 'pms_subscription_plan_status',
+            'current_status' => $subscription_plan->status,
+            'description'    => __( 'Only active subscription plans will be displayed to the user.', 'paid-member-subscriptions' ),
+            'after_callback' => function() use ( $subscription_plan ) {
+                do_action( 'pms_view_meta_box_subscription_details_status_bottom', $subscription_plan->id );
+            },
+        ) );
     }
 
 

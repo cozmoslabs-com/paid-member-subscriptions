@@ -320,7 +320,7 @@ Class PMS_Meta_Box_Subscription_Details extends PMS_Meta_Box {
 
 function pms_init_subscription_plan_details_meta_box() {
 
-    $pms_meta_box_subscription_details = new PMS_Meta_Box_Subscription_Details( 'pms_subscription_details', esc_html__( 'Subscription Plan Details', 'paid-member-subscriptions' ), 'pms-subscription', 'normal' );
+    $pms_meta_box_subscription_details = new PMS_Meta_Box_Subscription_Details( 'pms_subscription_details', esc_html__( 'General', 'paid-member-subscriptions' ), 'pms-subscription', 'normal' );
     $pms_meta_box_subscription_details->init();
 
 }

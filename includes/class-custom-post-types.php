@@ -184,7 +184,7 @@ Class PMS_Custom_Post_Type {
 
         // If the file exists where it should be, enqueue it
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'assets/js/admin/' . $js_file_name ) )
-            wp_enqueue_script( $this->post_type . '-js', PMS_PLUGIN_DIR_URL . 'assets/js/admin/' . $js_file_name, array( 'jquery' ) );
+            wp_enqueue_script( $this->post_type . '-js', PMS_PLUGIN_DIR_URL . 'assets/js/admin/' . $js_file_name, array( 'jquery', 'pms-admin' ) );
 
 
         do_action( 'pms_cpt_enqueue_admin_scripts_' . $this->post_type );

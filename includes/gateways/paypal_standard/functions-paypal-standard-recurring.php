@@ -579,13 +579,8 @@ function pms_in_ppsrp_update_member_subscription_data( $payment_data, $post_data
 
             if( strtotime( $member_subscription->expiration_date ) < time() || ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration === 0 ) || ( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() ) || empty( $payment_profile_id ) )
                 $member_subscription_expiration_date = pms_sanitize_date( $subscription_plan->get_expiration_date() ) . ' 23:59:59';
-            else{
-                if( $subscription_plan->is_fixed_period_membership() ){
-                    $member_subscription_expiration_date = date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+ 1 year' ) );
-                } else{
-                    $member_subscription_expiration_date = date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
-                }
-            }
+            else
+                $member_subscription_expiration_date = pms_get_renew_subscription_expiration_date( $member_subscription, $subscription_plan );
 
         }
 

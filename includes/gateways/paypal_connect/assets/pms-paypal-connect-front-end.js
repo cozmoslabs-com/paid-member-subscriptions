@@ -458,6 +458,10 @@ jQuery(function ($) {
             if ( response && response.success ) {
                 paypal_sdk_checkout.currency = response.currency;
             }
+        }).fail( function () {
+
+            pms_ppcp_hide_spinner()
+
         });
     }
 

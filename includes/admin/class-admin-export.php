@@ -35,11 +35,6 @@ Class PMS_Submenu_Page_Export extends PMS_Submenu_Page {
      */
     public function pms_do_ajax_export(){
 
-        require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-export.php';
-        require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-batch-export.php';
-        require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-batch-export-members.php';
-        require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-batch-export-payments.php';
-
         if( !isset( $_POST['form'] ) )
             die();
 
@@ -54,16 +49,12 @@ Class PMS_Submenu_Page_Export extends PMS_Submenu_Page {
             die( '-2' );
         }
 
-        $step     = absint( $_POST['step'] );
-        $class    = sanitize_text_field( $form['pms-export-class'] );
-        $export   = new $class( $step );
+        $step  = absint( $_POST['step'] );
+        $class = sanitize_text_field( $form['pms-export-class'] );
+        $export = $this->resolve_batch_export( $class, $step );
 
-        if( ! $export->can_export() ) {
+        if( is_wp_error( $export ) ) {
             die( '-1' );
-        }
-
-        if ( ! $export->is_writable ) {
-            echo json_encode( array( 'error' => true, 'message' => esc_html__( 'Export location or file not writable', 'paid-member-subscriptions' ) ) ); exit;
         }
 
         $export->set_properties( $_REQUEST );
@@ -71,7 +62,11 @@ Class PMS_Submenu_Page_Export extends PMS_Submenu_Page {
         // Added in 2.5 to allow a bulk processor to pre-fetch some data to speed up the remaining steps and cache data
         $export->pre_fetch();
 
-        $ret = $export->process_step( $step );
+        $ret = $export->process_step();
+
+        if ( 'error' === $ret ) {
+            echo json_encode( array( 'error' => true, 'message' => esc_html__( 'Export location or file not writable', 'paid-member-subscriptions' ) ) ); exit;
+        }
 
         $percentage = $export->get_percentage_complete();
 
@@ -118,19 +113,37 @@ Class PMS_Submenu_Page_Export extends PMS_Submenu_Page {
         if( ! wp_verify_nonce( sanitize_text_field( $_REQUEST['nonce'] ), 'pms-batch-export' ) )
             wp_die( esc_html__( 'Nonce verification failed', 'paid-member-subscriptions' ), esc_html__( 'Error', 'paid-member-subscriptions' ), array( 'response' => 403 ) );
 
-        require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-export.php';
-        require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-batch-export.php';
-        require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-batch-export-members.php';
-        require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-batch-export-payments.php';
-
         $class_name = sanitize_text_field( $_REQUEST['class'] );
+        $export     = $this->resolve_batch_export( $class_name );
 
-        $export = new $class_name;
+        if( is_wp_error( $export ) )
+            wp_die( esc_html( $export->get_error_message() ), esc_html__( 'Error', 'paid-member-subscriptions' ), array( 'response' => 403 ) );
+
         $export->export();
 
     }
 
+    /**
+     * Resolve a batch export instance after capability and allow-list checks.
+     *
+     * @param string   $class_name
+     * @param int|null $step
+     * @return PMS_Batch_Export|WP_Error
+     */
+    private function resolve_batch_export( $class_name, $step = null ) {
 
+        if( ! pms_current_user_can_export() )
+            return new WP_Error( 'forbidden', esc_html__( 'You do not have permission to export data.', 'paid-member-subscriptions' ) );
+
+        require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-batch-export.php';
+
+        $export = PMS_Batch_Export::create( $class_name, $step );
+
+        if( null === $export )
+            return new WP_Error( 'invalid_class', esc_html__( 'Invalid export class.', 'paid-member-subscriptions' ) );
+
+        return $export;
+    }
 
     /*
      * Method to output content in the custom page

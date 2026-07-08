@@ -1,3 +1,32 @@
+jQuery(function ($) {
+    window.pmsPrepareSubmitBox = function(options) {
+        $('#delete-action').remove();
+        $('.edit-post-status').remove();
+        $('#visibility').remove();
+        $('#minor-publishing-actions').remove();
+        $('div.misc-pub-post-status').remove();
+        $('#misc-publishing-actions').hide();
+        $('#submitdiv .postbox-header .hndle, #submitdiv .postbox-header h2').text(options.headerText);
+        $('#submitdiv').removeClass('closed');
+        $('#submitdiv .inside').show();
+        $('input#publish').val(options.publishLabel);
+
+        if ( $('#pms-delete-action').length > 0 && $('#major-publishing-actions').length > 0 ) {
+            $('#major-publishing-actions').append( $('#pms-delete-action') );
+        }
+    };
+});
+
+jQuery(function ($) {
+    const docsLinkTitle = 'More info';
+
+    $('a.pms-docs-link').attr('title', docsLinkTitle);
+
+    $(document).on('mouseenter focus', 'a.pms-docs-link', function () {
+        $(this).attr('title', docsLinkTitle);
+    });
+});
+
 jQuery(function () {
     if (!jQuery.fn.dialog) {
         return;

@@ -324,9 +324,11 @@ class PMS_IN_TutorLMS {
 
             echo '<div class="cozmoslabs-toggle-description">';
 
-                echo '<label class="cozmoslabs-description" for="pms-tutor-recommended-subscription-plan">' . esc_html__( 'Highlight this Subscription Plan in the required plans list on the Course Page.', 'paid-member-subscriptions' ) . '</label>';
+                echo '<label class="cozmoslabs-description" for="pms-tutor-recommended-subscription-plan">' . esc_html__( 'Enable', 'paid-member-subscriptions' ) . '</label>';
 
             echo '</div>';
+
+            echo '<p class="cozmoslabs-description cozmoslabs-description-space-left">' . esc_html__( 'Highlight this Subscription Plan in the required plans list on the Course Page.', 'paid-member-subscriptions' ) . '</p>';
 
         echo '</div>';
 

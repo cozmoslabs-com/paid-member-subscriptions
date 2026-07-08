@@ -224,12 +224,8 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
                             if( strtotime( $member_subscription->expiration_date ) < time() || ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration === 0 ) || ( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() ) )
                                 $member_subscription_expiration_date = $subscription_plan->get_expiration_date();
-                            else{
-                                if( $subscription_plan->is_fixed_period_membership() )
-                                    $member_subscription_expiration_date = date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+ 1 year' ) );
-                                else
-                                    $member_subscription_expiration_date = date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
-                            }
+                            else
+                                $member_subscription_expiration_date = pms_get_renew_subscription_expiration_date( $member_subscription, $subscription_plan );
 
                             pms_add_member_subscription_log( $member_subscription->id, 'subscription_renewed_manually', array( 'until' => $member_subscription_expiration_date ) );
 

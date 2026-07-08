@@ -395,6 +395,30 @@ function pms_paid_plugin_owns_updates() {
 
 }
 
+/**
+ * Require the EDD license updater once free-plugin helpers are available.
+ */
+function pms_paid_plugin_load_updater() {
+
+    if ( class_exists( 'PMS_Plugin_Updater', false ) )
+        return;
+
+    if ( function_exists( 'pms_paid_plugin_owns_updates' ) && pms_paid_plugin_owns_updates() ) {
+        $pms_updater_file = PMS_PAID_PLUGIN_DIR . '/update/class-edd-sl-plugin-updater.php';
+    } elseif ( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php' ) ) {
+        $pms_updater_file = PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php';
+    } else {
+        return;
+    }
+
+    if ( file_exists( $pms_updater_file ) ) {
+        require_once $pms_updater_file;
+    }
+
+}
+
+add_action( 'plugins_loaded', 'pms_paid_plugin_load_updater', 0 );
+
 /*
  * To be used in admin screens
  */
@@ -518,6 +542,22 @@ function pms_is_paid_version_active(){
 
     return $active;
 
+}
+
+/**
+ * Whether PMS should load style-block-themes-front-end.css.
+ */
+function pms_should_load_block_theme_stylesheet() {
+    $is_block_theme_context = version_compare( get_bloginfo( 'version' ), '5.9', '>=' )
+        && function_exists( 'wp_is_block_theme' )
+        && wp_is_block_theme();
+
+    /**
+     * Filter whether to load the block theme front-end stylesheet.
+     *
+     * @param bool $load_block_theme_stylesheet True when WordPress is 5.9+ and the active theme is a block theme.
+     */
+    return (bool) apply_filters( 'pms_load_block_theme_stylesheet', $is_block_theme_context );
 }
 
 /**

@@ -32,6 +32,11 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
         if( !isset( $_POST['form'] ) || !isset( $_POST['csv'] ))
             die();
 
+        if( ! pms_current_user_can_access_area( 'pms-import-page' ) ) {
+            echo json_encode( array( 'error' => true, 'message' => esc_html__( 'You do not have permission to import data.', 'paid-member-subscriptions' ) ) );
+            exit;
+        }
+
         parse_str( $_POST['form'], $form ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
         $_REQUEST = $form = (array) pms_array_sanitize_text_field( $form );
@@ -44,8 +49,8 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
         $csv = json_decode( stripslashes( sanitize_text_field( $_POST['csv'] ) ) );
 
         if( empty( $csv ) ){
-            echo json_encode( array( 'error' => true, 'message' => 'Could not read file!' ) ); exit;
-            die();
+            echo json_encode( array( 'error' => true, 'message' => 'Could not read file!' ) );
+            exit;
         }
 
         $csv_parse_error = false;
@@ -66,8 +71,8 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
         });
 
         if( $csv_parse_error ){
-            echo json_encode( array( 'error' => true, 'message' => 'File error: mismatched columns. The header and rows of the file are not matched. Please verify your file and try again.' ) ); exit;
-            die();
+            echo json_encode( array( 'error' => true, 'message' => 'File error: mismatched columns. The header and rows of the file are not matched. Please verify your file and try again.' ) );
+            exit;
         }
 
         array_shift($csv); // remove column headers
@@ -120,8 +125,10 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
                         'role' 		         	=> apply_filters( 'pms_change_default_site_user_role', get_option('default_role') ),
                     );
 
-                    if ( isset( $membership[ 'user_firstname' ] ) && $membership[ 'user_firstname' ] !== '' ) array_push( $user_data, $membership[ 'user_firstname' ] );
-                    if ( isset( $membership[ 'user_lastname' ] ) && $membership[ 'user_lastname' ]  !== '' ) array_push( $user_data, $membership[ 'user_lastname' ]  );
+                    if ( isset( $membership[ 'user_firstname' ] ) && $membership[ 'user_firstname' ] !== '' )
+                        $user_data['first_name'] = $membership[ 'user_firstname' ];
+                    if ( isset( $membership[ 'user_lastname' ] ) && $membership[ 'user_lastname' ] !== '' )
+                        $user_data['last_name'] = $membership[ 'user_lastname' ];
 
                     // Register the user and grab the user_id
                     $user_id = wp_insert_user( $user_data );
@@ -197,20 +204,7 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
 
             pms_add_member_subscription_log( $subscription->id, 'subscription_import_updated', array( 'who' => get_current_user_id(), 'fields' => implode( ', ', array_keys( $subscription_data ) ) ) );
 
-            // Update subscription meta
-            foreach( $membership as $key => $value ) {
-                if ( strpos( $key, "subscriptionmeta_" ) === 0 ) {
-                    $key = str_replace( "subscriptionmeta_", "", $key );
-                    pms_update_member_subscription_meta( $subscription->id, $key, $value );
-                }
-
-                if( !empty( $membership_user_id ) ){
-                    if ( strpos( $key, "usermeta_" ) === 0 ) {
-                        $key = str_replace( "usermeta_", "", $key );
-                        update_user_meta( $membership_user_id, $key, $value );
-                    }
-                }
-            }
+            $this->apply_import_row_meta( $membership, $subscription->id, $membership_user_id );
 
             $found = true;
 
@@ -227,22 +221,7 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
 
                     pms_add_member_subscription_log( $subscription->id, 'subscription_import_updated', array( 'who' => get_current_user_id(), 'fields' => implode( ', ', array_keys( $subscription_data ) ) ) );
 
-                    // Update subscription meta
-                    foreach( $membership as $key => $value ) {
-
-                        if ( strpos( $key, "subscriptionmeta_" ) === 0 ) {
-                            $key = str_replace( "subscriptionmeta_", "", $key );
-                            pms_update_member_subscription_meta( $subscription->id, $key, $value );
-                        }
-
-                        if( !empty( $membership_user_id ) ){
-                            if ( strpos( $key, "usermeta_" ) === 0 ) {
-                                $key = str_replace( "usermeta_", "", $key );
-                                update_user_meta( $membership_user_id, $key, $value );
-                            }
-                        }
-
-                    }
+                    $this->apply_import_row_meta( $membership, $subscription->id, $membership_user_id );
 
                     $found = true;
                 }
@@ -265,12 +244,40 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
 
             pms_add_member_subscription_log( $new_subscription->id, 'subscription_import_created', array( 'who' => get_current_user_id() ) );
 
-            // Add subscription meta
-            foreach( $membership as $key => $value ) {
-                if ( strpos( $key, "subscriptionmeta_" ) === 0 ) {
-                    $key = str_replace( "subscriptionmeta_", "", $key );
-                    pms_add_member_subscription_meta( $new_subscription->id, $key, $value );
-                }
+            $this->apply_import_row_meta( $membership, $new_subscription->id, 0, 'add' );
+        }
+    }
+
+    /**
+     * Apply subscriptionmeta_ and usermeta_ columns from an import row.
+     *
+     * @param array  $membership              Import row data.
+     * @param int    $subscription_id         Target subscription ID.
+     * @param int    $membership_user_id      User ID for usermeta_ columns (0 to skip).
+     * @param string $subscription_meta_action Either 'update' or 'add'.
+     */
+    private function apply_import_row_meta( $membership, $subscription_id, $membership_user_id = 0, $subscription_meta_action = 'update' ) {
+
+        foreach( $membership as $key => $value ) {
+
+            if ( strpos( $key, 'subscriptionmeta_' ) === 0 ) {
+                $meta_key = str_replace( 'subscriptionmeta_', '', $key );
+
+                if( $subscription_meta_action === 'add' )
+                    pms_add_member_subscription_meta( $subscription_id, $meta_key, $value );
+                else
+                    pms_update_member_subscription_meta( $subscription_id, $meta_key, $value );
+
+                continue;
+            }
+
+            if( ! empty( $membership_user_id ) && strpos( $key, 'usermeta_' ) === 0 ) {
+                $meta_key = str_replace( 'usermeta_', '', $key );
+
+                if( $this->is_blocked_import_user_meta_key( $meta_key ) )
+                    continue;
+
+                update_user_meta( $membership_user_id, $meta_key, $value );
             }
         }
     }
@@ -315,6 +322,32 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
             unset( $subscription_data['billing_amount'] );
 
         return $subscription_data;
+    }
+
+    /**
+     * User meta keys that must not be writable through CSV import.
+     *
+     * @param string $meta_key
+     * @return bool
+     */
+    private function is_blocked_import_user_meta_key( $meta_key ) {
+
+        $blocked_keys = apply_filters( 'pms_import_blocked_user_meta_keys', array(
+            'wp_capabilities',
+            'wp_user_level',
+            'session_tokens',
+            'wp_user-settings',
+            'wp_user-settings-time',
+            'wp_dashboard_quick_press_last_post_id',
+        ) );
+
+        if( in_array( $meta_key, $blocked_keys, true ) )
+            return true;
+
+        if( strpos( $meta_key, 'wp_' ) === 0 )
+            return true;
+
+        return false;
     }
 
     /*

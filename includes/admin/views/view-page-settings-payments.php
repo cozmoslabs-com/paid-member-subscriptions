@@ -241,6 +241,27 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         }
         ?>
 
+        <?php if ( in_array( 'manual', pms_get_active_payment_gateways() ) ) : ?>
+            <?php
+            $misc_settings = get_option( 'pms_misc_settings', array() );
+
+            if ( ! empty( $this->options['redirect_after_manual_payment'] ) )
+                $redirect_after_manual_payment = $this->options['redirect_after_manual_payment'];
+            else
+                $redirect_after_manual_payment = isset( $misc_settings['payments']['redirect_after_manual_payment'] ) ? $misc_settings['payments']['redirect_after_manual_payment'] : '';
+            ?>
+
+            <div class="cozmoslabs-form-subsection-wrapper" id="cozmoslabs-subsection-manual-payment">
+                <h4 class="cozmoslabs-subsection-title"><?php esc_html_e( 'Manual Payment', 'paid-member-subscriptions' ); ?></h4>
+
+                <div class="cozmoslabs-form-field-wrapper">
+                    <label class="cozmoslabs-form-field-label" for="redirect-after-manual-payment"><?php esc_html_e( 'Redirect after a manual payment', 'paid-member-subscriptions' ); ?></label>
+                    <input type="text" id="redirect-after-manual-payment" class="widefat" name="pms_payments_settings[redirect_after_manual_payment]" value="<?php echo esc_url( $redirect_after_manual_payment ); ?>">
+                    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php echo sprintf( esc_html__( 'Insert an URL to redirect the user after a manual payment is made. ( e.g. %s )', 'paid-member-subscriptions' ), esc_url( home_url( '/manual-payment-details' ) ) ); ?></p>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <?php do_action( $this->menu_slug . '_payment_gateways_content', $this->options ); ?>
 
         <?php do_action( $this->menu_slug . '_payment_gateways_after_content', $this->options ); ?>

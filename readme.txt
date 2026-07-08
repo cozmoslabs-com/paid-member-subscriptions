@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.6
+Stable tag: 3.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,7 @@ Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslab
 * [Files Restriction](https://www.cozmoslabs.com/add-ons/paid-member-subscriptions-files-restriction/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - secure your valuable content and ensure it reaches only those who have subscribed and paid for access
 * [Mailchimp](https://www.cozmoslabs.com/add-ons/mailchimp-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - integrate Mailchimp to keep your membership audience up to date. Automatically add or update subscribers, enable Double Opt-In, and sync custom fields between Mailchimp and member profiles
 * [Brevo](https://www.cozmoslabs.com/add-ons/brevo/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - sync your members with Brevo to manage contacts smoothly. Automate newsletter subscriptions, use Double Opt-In for compliance, and link custom fields between Brevo and your member data
+* [Authorize.Net](https://www.cozmoslabs.com/add-ons/authorize-net/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - accept one-time and recurring card payments on your site with the Authorize.Net payment gateway
 
 == The Ultimate Membership Bundle ==
 Combine user registration, memberships, and recurring revenue in one powerful plugin bundle called the [Ultimate Membership Bundle](https://www.cozmoslabs.com/ultimate-membership-bundle/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
@@ -188,6 +189,12 @@ For more information please visit our [documentation page](https://www.cozmoslab
 = Addons =
 
 [https://www.cozmoslabs.com/paid-member-subscriptions-add-ons/](https://www.cozmoslabs.com/paid-member-subscriptions-add-ons/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree)
+
+= External Services =
+If you opt in, the plugin sends limited diagnostic and configuration data to Cozmoslabs.com to help improve the product.
+
+Terms & Conditions: [https://www.cozmoslabs.com/terms-conditions/](https://www.cozmoslabs.com/terms-conditions/)
+Privacy Policy: [https://www.cozmoslabs.com/privacy-policy/](https://www.cozmoslabs.com/privacy-policy/)
 
 == Installation ==
 
@@ -268,21 +275,19 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.0.6 =
-* Feature: Add a Recent Payments list when viewing a member subscription in the admin interface
-* Feature: Add a Bulk Action to mark payments as Complete from the Payments page
-* Enhancement: Reports page speed and memory consumption improvements. Added statistics about Refunded Payments
-* Fix: Security hardening
-* Fix: Allow expired subscriptions to renew outside the renewal window similar to canceled subscriptions
-* Fix: Align Manual gateway fixed-period renewal expiration dates with PSP gateways
-* Fix: Anchor manual renewal expiration dates from the payment date for pending subscriptions
-* Fix: Add a default payment currency when inserting payments and on PayPal IPN renewals
-* Fix: Align PayPal Connect renewal billing fields with installment subscriptions
-* Fix: Ignore PayPal token-deleted webhooks for subscriptions that are already expired
-* Fix: Handle WooCommerce membership subscriptions correctly on single-subscription sites
-* Fix: Prevent GDPR account-deletion URL from being exposed on non-account pages
-* Fix: Require reCAPTCHA token verification on all login submissions, including failed logins
-* Fix: Update billing_amount when the subscription plan changes for an imported subscription
-* Misc: Fix alignment of the Edit Member Subscription page in the back-end
+= 3.0.7 =
+* Fix: Security issue regarding subscriber level disclosure of payment details. Thanks to Wei Hsiang Wang and the WPScan team
+* Fix: Security issue regarding the change subscription functionality. Thanks to Revanth Hari Narayana Matte and the WPScan team
+* Fix: Unauthenticated exposure of partially generated residual export files. Thanks to Alessandro Greco, Giovanbattista Ianni and the WPScan team
+* Fix: Further security hardening
+* Fix: Hide payment details spinner when the MC currency AJAX request fails
+* Fix: Send the Pending Manual Payment email when an admin adds a manual payment
+* Fix: Issue with user creation on multisite subsites on WordPress 6.8+
+* Fix: Consolidate subscription update logic for Fixed Period Subscriptions
+* Enhancement: Allow cross-tier plan changes by admins when manually editing subscriptions. Before this change, you could switch members only to plans from the same tier, now they can be set to any plan
+* Enhancement: Added a Show to Logged Out users to Gutenberg blocks content restriction. This can be used in combination with not susbcribed to show a block to logged out and not subscribed users
+* Misc: Move the Redirect after a manual payment setting to the Payment Gateways section
+* Misc: Added a filter that can be used to force load the block theme stylesheet: pms_load_block_theme_stylesheet
+* Misc: Fix PayPal Deprecation notice that couldn't be dismissed
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

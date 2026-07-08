@@ -35,9 +35,8 @@ Class PMS_Meta_Box_Subscription_Extra_Options extends PMS_Meta_Box {
 
 function pms_init_subscription_plan_extra_options_meta_box() {
 
-    $pms_meta_box_subscription_extra_options = new PMS_Meta_Box_Subscription_Extra_Options( 'pms_subscription_extra_options', esc_html__( 'Advanced Options', 'paid-member-subscriptions' ), 'pms-subscription', 'normal' );
+    $pms_meta_box_subscription_extra_options = new PMS_Meta_Box_Subscription_Extra_Options( 'pms_subscription_extra_options', esc_html__( 'Advanced Subscription Options', 'paid-member-subscriptions' ), 'pms-subscription', 'normal' );
     $pms_meta_box_subscription_extra_options->init();
 
 }
 add_action( 'init', 'pms_init_subscription_plan_extra_options_meta_box', 2 );
-

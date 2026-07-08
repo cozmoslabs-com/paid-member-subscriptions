@@ -728,6 +728,7 @@ Class PMS_Shortcodes {
              'message'             => '',
              'group_owner_user_id' => '',
              'restrict_free_trial' => '',
+             'show_logged_out'     => '',
          ), $atts );
 
         // Message to replace the content of checks do not match
@@ -827,6 +828,9 @@ Class PMS_Shortcodes {
         } else {
 
             if( $args['display_to'] == 'not_logged_in' )
+                return do_shortcode( $content );
+
+            if( $args['display_to'] == 'not_subscribed' && $args['show_logged_out'] == 'true' )
                 return do_shortcode( $content );
 
             else

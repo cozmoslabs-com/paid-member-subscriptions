@@ -195,6 +195,72 @@ function pms_woo_include_files_init(){
 }
 add_action( 'init', 'pms_woo_include_files_init' );
 
+/**
+ * Returns true if the Subscription Plan WooCommerce tab should be displayed.
+ *
+ * The Product Discounts metabox is supported only when WooCommerce is active
+ * and its version is greater than or equal to 3.0.
+ *
+ * @return bool
+ */
+function pms_woo_should_display_subscription_plan_tab() {
+
+    return pms_is_woo_version_gte( '3.0' ) && class_exists( 'PMS_Meta_Box_Subscription_Plan_Product_Discounts' );
+
+}
+
+/**
+ * Register the WooCommerce tab on the Subscription Plan screen.
+ *
+ * @param array                 $tabs
+ * @param WP_Post|null          $post
+ * @param PMS_Subscription_Plan $subscription_plan
+ *
+ * @return array
+ */
+function pms_woo_add_subscription_plan_tab( $tabs, $post, $subscription_plan ) {
+
+    if ( ! pms_woo_should_display_subscription_plan_tab() ) {
+        return $tabs;
+    }
+
+    $tabs['woocommerce'] = array(
+        'label'    => esc_html__( 'WooCommerce', 'paid-member-subscriptions' ),
+        'priority' => 40,
+    );
+
+    return $tabs;
+
+}
+add_filter( 'pms_subscription_plan_tabs', 'pms_woo_add_subscription_plan_tab', 20, 3 );
+
+/**
+ * Register the WooCommerce Product Discounts metabox in the Subscription Plan
+ * WooCommerce tab.
+ *
+ * @param array                 $metaboxes
+ * @param WP_Post               $post
+ * @param PMS_Subscription_Plan $subscription_plan
+ *
+ * @return array
+ */
+function pms_woo_add_subscription_plan_woocommerce_metabox( $metaboxes, $post, $subscription_plan ) {
+
+    if ( ! pms_woo_should_display_subscription_plan_tab() ) {
+        return $metaboxes;
+    }
+
+    $metaboxes[] = array(
+        'id'       => 'pms_woo_subscription_plan_product_discounts',
+        'title'    => esc_html__( 'Product Discounts', 'paid-member-subscriptions' ),
+        'priority' => 10,
+    );
+
+    return $metaboxes;
+
+}
+add_filter( 'pms_subscription_plan_woocommerce_metaboxes', 'pms_woo_add_subscription_plan_woocommerce_metabox', 20, 3 );
+
 
 /**
  * If the pms-account shortcode is added on the same page as the woocommerce my account shortcode,

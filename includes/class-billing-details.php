@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Eventually this should hold all the functionality relating to the Billing Details that we display in a form
- * Right now it's only used for displaying the billing details for admins on the back-end edit member page
+ * Right now it's used for displaying billing details for admins on the back-end edit member and payment pages
  */
 Class PMS_Billing_Details {
 
@@ -14,8 +14,16 @@ Class PMS_Billing_Details {
         add_action( 'pms_member_edit_form_field', array( $this, 'admin_display_billing_details' ) );
 
         add_action( 'pms_submenu_page_enqueue_admin_scripts_pms-members-page', array( $this, 'localize_billing_details' ) );
+        add_action( 'pms_submenu_page_enqueue_admin_scripts_pms-payments-page', array( $this, 'localize_payment_billing_details' ), 20 );
+
+        add_action( 'pms_payment_edit_form_field', array( $this, 'admin_display_payment_billing_details' ), 20, 2 );
+        add_action( 'pms_payment_add_new_form_field', array( $this, 'admin_display_payment_billing_details' ), 20 );
 
         add_action( 'wp_ajax_pms_edit_member_billing_details', array( $this, 'edit_member_billing_details' ) );
+        add_action( 'wp_ajax_pms_get_user_billing_details', array( $this, 'get_user_billing_details' ) );
+
+        add_action( 'pms_manually_edited_payment_success', array( $this, 'save_payment_billing_details' ), 10, 1 );
+        add_action( 'pms_manually_added_payment_success', array( $this, 'save_payment_billing_details' ), 10, 1 );
 
     }
 
@@ -239,6 +247,136 @@ Class PMS_Billing_Details {
 
     }
 
+    public function admin_display_payment_billing_details( $payment = null ){
+
+        $payment_id = ! empty( $payment->id ) ? $payment->id : 0;
+        $user_id    = ! empty( $payment->user_id ) ? $payment->user_id : ( ! empty( $_POST['user_id'] ) ? absint( $_POST['user_id'] ) : 0 );
+        $fields     = $this->get_payment_billing_fields( $payment_id, $user_id );
+
+        if( empty( $fields ) )
+            return;
+
+        $uses_user_fallback = false;
+
+        foreach( $fields as $field ) {
+            if( ! empty( $field['pms_uses_user_fallback'] ) ) {
+                $uses_user_fallback = true;
+                break;
+            }
+        }
+
+        ?>
+        <details id="pms-payment-billing-details" class="pms-payment-billing-details">
+            <summary class="pms-payment-billing-details__toggle">
+                <span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span>
+                <?php esc_html_e( 'Billing Details', 'paid-member-subscriptions' ); ?>
+            </summary>
+
+            <div id="pms-payment-billing-details-fields" class="pms-payment-billing-details__fields">
+                <input type="hidden" name="pms_admin_payment_billing_details" value="1" />
+
+                <?php foreach( $fields as $field ) : ?>
+                    <?php pms_output_form_field( $field ); ?>
+                    <?php do_action( 'pms_admin_payment_billing_field_after', $field, $payment ); ?>
+                <?php endforeach; ?>
+
+                <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                    <label class="cozmoslabs-form-field-label" for="pms-sync-payment-billing-user-meta"><?php esc_html_e( 'Sync with user meta fields', 'paid-member-subscriptions' ); ?></label>
+
+                    <div class="cozmoslabs-toggle-container">
+                        <input type="checkbox" id="pms-sync-payment-billing-user-meta" name="pms_sync_payment_billing_user_meta" value="1" />
+                        <label class="cozmoslabs-toggle-track" for="pms-sync-payment-billing-user-meta"></label>
+                    </div>
+                </div>
+
+                <p class="cozmoslabs-description pms-payment-billing-details__fallback-note" <?php echo $uses_user_fallback ? '' : 'hidden'; ?>>
+                    <?php esc_html_e( 'Empty payment billing fields were pre-filled with billing details from the user. Saving changes updates only this payment unless Sync with user meta fields is selected.', 'paid-member-subscriptions' ); ?>
+                </p>
+            </div>
+        </details>
+        <?php
+
+    }
+
+    public function get_payment_billing_fields( $payment_id = 0, $user_id = 0 ){
+
+        if( ! pms_billing_fields_active() )
+            return array();
+
+        $fields = apply_filters( 'pms_admin_payment_billing_fields', array(), $payment_id, $user_id );
+        $fields = array_filter( $fields, function( $field ){
+            return ! empty( $field['name'] );
+        } );
+
+        foreach( $fields as $key => $field ) {
+            $name          = $field['name'];
+            $payment_value = $payment_id ? pms_get_payment_meta( $payment_id, $name, true ) : '';
+            $user_value    = $user_id ? get_user_meta( $user_id, $name, true ) : '';
+
+            if( isset( $_POST['pms_admin_payment_billing_details'], $_POST[$name] ) )
+                $value = sanitize_text_field( wp_unslash( $_POST[$name] ) );
+            else
+                $value = $payment_value !== '' ? $payment_value : $user_value;
+
+            $fields[$key]['value']                  = $value;
+            $fields[$key]['default']                = '';
+            $fields[$key]['element_wrapper']        = 'div';
+            $fields[$key]['required']               = 0;
+            $fields[$key]['wrapper_class']          = ! empty( $field['wrapper_class'] ) ? $field['wrapper_class'] : '';
+            $fields[$key]['pms_uses_user_fallback'] = $payment_value === '' && $user_value !== '';
+        }
+
+        return $fields;
+
+    }
+
+    public function save_payment_billing_details( $payment ){
+
+        if( empty( $_POST['pms_admin_payment_billing_details'] ) || empty( $payment->id ) )
+            return;
+
+        $fields    = $this->get_payment_billing_fields( $payment->id, $payment->user_id );
+        $sync_user = ! empty( $_POST['pms_sync_payment_billing_user_meta'] );
+
+        $changed_old = array();
+        $changed_new = array();
+
+        foreach( $fields as $field ) {
+            $name  = $field['name'];
+            $label = ! empty( $field['label'] ) ? $field['label'] : $name;
+            $value = isset( $_POST[$name] ) ? sanitize_text_field( wp_unslash( $_POST[$name] ) ) : '';
+            $old   = pms_get_payment_meta( $payment->id, $name, true );
+
+            if( (string) $old !== (string) $value ) {
+                $changed_old[ $label ] = $old;
+                $changed_new[ $label ] = $value;
+            }
+
+            if( $value === '' )
+                pms_delete_payment_meta( $payment->id, $name );
+            else
+                pms_update_payment_meta( $payment->id, $name, $value );
+
+            if( $sync_user ) {
+                if( $value === '' )
+                    delete_user_meta( $payment->user_id, $name );
+                else
+                    update_user_meta( $payment->user_id, $name, $value );
+            }
+        }
+
+        if( ! empty( $changed_new ) )
+            $payment->log_data( 'billing_details_updated', array(
+                'user'     => get_current_user_id(),
+                'new_data' => $changed_new,
+                'old_data' => $changed_old,
+            ) );
+
+        if( $sync_user && ! empty( $changed_new ) )
+            $payment->log_data( 'billing_details_synced', array( 'user' => get_current_user_id() ) );
+
+    }
+
     public function format_billing_details( $data, $return = false ){
         $billing_details = '';
 
@@ -341,6 +479,20 @@ Class PMS_Billing_Details {
 
     }
 
+    public function localize_payment_billing_details( $menu_slug ){
+
+        $data = array(
+            'nonce' => wp_create_nonce( 'pms_get_user_billing_details' ),
+        );
+
+        $data = apply_filters( 'pms_admin_payment_billing_details_js_data', $data );
+
+        wp_localize_script( 'pms-payments-bulk-actions-script', 'pms_payment_billing_details', $data );
+
+        wp_localize_script( 'pms-payments-bulk-actions-script', 'PMS_States', pms_get_billing_states() );
+
+    }
+
     public function edit_member_billing_details(){
 
         check_ajax_referer( 'pms_edit_member_details_nonce', 'security' );
@@ -359,6 +511,23 @@ Class PMS_Billing_Details {
         }
 
         die( json_encode( array( 'status' => 'success', 'address_output' => $this->format_billing_details( array_map( 'sanitize_text_field', $_POST ), true ) ) ) );
+
+    }
+
+    public function get_user_billing_details(){
+
+        check_ajax_referer( 'pms_get_user_billing_details', 'security' );
+
+        if( ! pms_current_user_can_access_area( 'pms-payments-page' ) || empty( $_POST['user_id'] ) )
+            wp_send_json_error();
+
+        $fields = $this->get_payment_billing_fields( 0, absint( $_POST['user_id'] ) );
+        $values = array();
+
+        foreach( $fields as $field )
+            $values[$field['name']] = $field['value'];
+
+        wp_send_json_success( $values );
 
     }
 

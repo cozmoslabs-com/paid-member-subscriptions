@@ -25,6 +25,21 @@ export const getRestrictionHelpMessage = (pmsContentRestriction, subscriptionPla
             );
             break;
         case "":
+            if (
+                pmsContentRestriction.not_subscribed &&
+                pmsContentRestriction.show_logged_out &&
+                (
+                    !pmsContentRestriction.subscription_plans ||
+                    pmsContentRestriction.subscription_plans.length === 0
+                )
+            ) {
+                helpMessage = __(
+                    "This content is restricted and can only be seen by logged out users or logged in users who are not subscribed.",
+                    "paid-member-subscriptions",
+                );
+                break;
+            }
+
             helpMessage = __(
                 "This content is restricted and can only be seen by logged in users",
                 "paid-member-subscriptions",
@@ -34,10 +49,17 @@ export const getRestrictionHelpMessage = (pmsContentRestriction, subscriptionPla
                 pmsContentRestriction.subscription_plans.length !== 0
             ) {
                 if ( pmsContentRestriction.not_subscribed ) {
-                    helpMessage += __(
-                        " that do not have",
-                        "paid-member-subscriptions",
-                    );
+                    if ( pmsContentRestriction.show_logged_out ) {
+                        helpMessage = __(
+                            "This content is restricted and can only be seen by logged out users or logged in users that do not have",
+                            "paid-member-subscriptions",
+                        );
+                    } else {
+                        helpMessage += __(
+                            " that do not have",
+                            "paid-member-subscriptions",
+                        );
+                    }
                 } else {
                     helpMessage += __(
                         " that have",
@@ -200,10 +222,34 @@ export default function PMSBlockContentRestrictionControlsCommon(props) {
                                     pmsContentRestriction: {
                                         ...pmsContentRestriction,
                                         not_subscribed: !pmsContentRestriction.not_subscribed,
+                                        show_logged_out: pmsContentRestriction.not_subscribed
+                                            ? false
+                                            : pmsContentRestriction.show_logged_out,
                                     },
                                 })
                             }
                         />
+                        {pmsContentRestriction.not_subscribed && (
+                            <ToggleControl
+                                label={__(
+                                    "Show to Logged Out Users",
+                                    "paid-member-subscriptions",
+                                )}
+                                checked={
+                                    pmsContentRestriction.show_logged_out
+                                        ? pmsContentRestriction.show_logged_out
+                                        : false
+                                }
+                                onChange={() =>
+                                    setAttributes({
+                                        pmsContentRestriction: {
+                                            ...pmsContentRestriction,
+                                            show_logged_out: !pmsContentRestriction.show_logged_out,
+                                        },
+                                    })
+                                }
+                            />
+                        )}
                     </BaseControl>
                     <Fragment>
                         <ToggleControl

@@ -8,36 +8,62 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 ?>
 <div class="extra-options-wrapper">
-    <?php do_action( 'pms_view_meta_box_subscription_extra_options_top', $subscription_plan ); ?>
+    <?php
+        ob_start();
+        do_action( 'pms_view_meta_box_subscription_extra_options_top', $subscription_plan );
+        $top_output = ob_get_clean();
 
-        <?php
-        
-        $output = '';
+        ob_start();
+        do_action( 'pms_view_meta_box_subscription_extra_options_bottom', $subscription_plan );
+        $bottom_output = ob_get_clean();
 
-        if( ( !defined( 'PMS_PAID_PLUGIN_DIR' ) || !class_exists( 'PMS_IN_ExtraSubsDiscOptions' ) ) && !class_exists('PMS_IN_PS') ) {
+        $upsell_output = '';
 
-            // Upsell message
-            $image   = '<img src="' . esc_url( PMS_PLUGIN_DIR_URL ) . 'assets/images/pms-advanced-subscription-toolkit-upsell.png" alt="Advanced Subscription Toolkit" class="pms-addon-upsell-image" />';
-            $message = '';
+        if( !defined( 'PMS_PAID_PLUGIN_DIR' ) || !class_exists( 'PMS_IN_ExtraSubsDiscOptions' ) ) {
+            $license_status      = pms_get_serial_number_status();
+            $button_label        = __( 'Upgrade to Pro', 'paid-member-subscriptions' );
+            $button_url          = 'https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-subscription-plans&utm_medium=client-site&utm_campaign=pms-advanced-subscription-toolkit-addon#pricing';
+            $title               = __( 'Upgrade to pro to use Advanced Subscription Toolkit Addon', 'paid-member-subscriptions' );
+            $upsell_state        = 'license_gated';
+            $button_target_attrs = ' target="_blank" rel="noopener noreferrer"';
 
-            if ( !defined( 'PMS_PAID_PLUGIN_DIR' ) ) {
-                // Upsell message
-                $message = sprintf( esc_html__( 'Advanced Subscription Plan options are available only with a %1$sBasic%2$s, %1$sPro%2$s or %1$sAgency%2$s license. %3$sBuy now%4$s', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a class="button-primary" href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-subscription-plans&utm_medium=client-site&utm_campaign=pms-advanced-subscription-toolkit-addon#pricing" target="_blank">', '</a>' );
-            } elseif ( !class_exists( 'PMS_IN_ExtraSubsDiscOptions' ) ) {
-                // Activate Add-On message
-                $message = sprintf( esc_html__( 'Please %3$sactivate%4$s the %1$sAdvanced Subscription Toolkit%2$s Add-On to use this functionality.', 'paid-member-subscriptions' ), '<strong>', '</strong>', '<a href="'.admin_url( 'admin.php?page=pms-addons-page' ).'">', '</a>' );
+            if ( ! class_exists( 'PMS_IN_ExtraSubsDiscOptions' ) && $license_status === 'valid' && defined( 'PMS_PAID_PLUGIN_DIR' ) ) {
+                $button_label        = __( 'Activate Add-On', 'paid-member-subscriptions' );
+                $button_url          = admin_url( 'admin.php?page=pms-addons-page' );
+                $title               = __( 'Activate Advanced Subscription Toolkit Addon', 'paid-member-subscriptions' );
+                $upsell_state        = 'inactive_addon';
+                $button_target_attrs = '';
             }
 
-            $output .= '<div class="pms-addon-upsell-wrapper">';
-            $output .= $image;
-            $output .= '<p class="cozmoslabs-description-upsell">' . $message . '</p>';
-            $output .= '</div>';
-
+            ob_start();
+            ?>
+            <div class="pms-gcr-upsell pms-ast-upsell" data-upsell-state="<?php echo esc_attr( $upsell_state ); ?>">
+                <div class="pms-gcr-upsell__content">
+                    <p class="pms-gcr-upsell__eyebrow"><?php esc_html_e( 'Premium Addon', 'paid-member-subscriptions' ); ?></p>
+                    <h3 class="pms-gcr-upsell__title"><?php echo esc_html( $title ); ?></h3>
+                    <p class="pms-gcr-upsell__description"><?php esc_html_e( 'Extend each subscription plan with member limits, automatic downgrades, invite codes, and purchase availability windows for more flexible membership flows.', 'paid-member-subscriptions' ); ?></p>
+                    <div class="pms-gcr-upsell__actions">
+                        <a class="button-primary pms-gcr-upsell__button" href="<?php echo esc_url( $button_url ); ?>"<?php echo $button_target_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php echo esc_html( $button_label ); ?></a>
+                        <a class="button-secondary pms-gcr-upsell__button pms-gcr-upsell__button-secondary" href="<?php echo esc_url( 'https://www.cozmoslabs.com/add-ons/advanced-subscription-toolkit/' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn More', 'paid-member-subscriptions' ); ?></a>
+                    </div>
+                </div>
+                <div class="pms-gcr-upsell__media">
+                    <div class="pms-gcr-upsell__artwork">
+                        <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL . 'assets/images/addons/pms-add-on-extra-subscription-and-discount-options-logo.png' ); ?>" alt="<?php esc_attr_e( 'Advanced Subscription Toolkit', 'paid-member-subscriptions' ); ?>" class="pms-gcr-upsell__image" />
+                    </div>
+                </div>
+            </div>
+            <?php
+            $upsell_output = ob_get_clean();
         }
+    ?>
 
-        echo $output; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
-        ?>
-    <?php do_action( 'pms_view_meta_box_subscription_extra_options_bottom', $subscription_plan );
-     wp_nonce_field( 'pms_subscription_plan_extra_options_nonce', 'pms_subscription_plan_extra_options_nonce' ); ?>
+    <?php if ( ! empty( trim( $top_output . $bottom_output . $upsell_output ) ) ) : ?>
+        <div class="pms-subscription-plan-extra-options-section">
+            <?php echo $top_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+            <?php echo $upsell_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+            <?php echo $bottom_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+        </div>
+    <?php endif; ?>
+        <?php wp_nonce_field( 'pms_subscription_plan_extra_options_nonce', 'pms_subscription_plan_extra_options_nonce' ); ?>
 </div>

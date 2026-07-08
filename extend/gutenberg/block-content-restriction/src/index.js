@@ -67,6 +67,9 @@ function PMSContentRestrictionAttributes(settings) {
                 not_subscribed: {
                     type: "boolean",
                 },
+                show_logged_out: {
+                    type: "boolean",
+                },
                 enable_message_logged_in: {
                     type: "boolean",
                 },
@@ -87,6 +90,7 @@ function PMSContentRestrictionAttributes(settings) {
                 subscription_plans: [],
                 display_to: "all",
                 not_subscribed: false,
+                show_logged_out: false,
                 enable_message_logged_in: false,
                 enable_message_logged_out: false,
                 message_logged_in: "",

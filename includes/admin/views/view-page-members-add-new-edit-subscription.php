@@ -199,14 +199,22 @@ if( ! empty( $_POST ) ) {
                                 }
 
                             /**
-                             * If we edit a subcription grab only the subscriptions plans group of the current subscription plan
+                             * Edit subscription plan options.
                              *
+                             * Before 3.0.7, only plans from the same tier (pms_get_subscription_plans_group) were listed.
+                             * Now lists every plan via pms_get_subscription_plans(), since admin edits only update the local record.
+                             * Auto-renewing subscriptions on gateways without change_subscription_payment_method_admin
+                             * still lock the plan to the current one.
+                             *
+                             * @since 3.0.7
                              */
                             } else {
+
                                 if( $member_subscription->is_auto_renewing() && !pms_payment_gateways_support( array( $member_subscription->payment_gateway ), 'change_subscription_payment_method_admin' ) )
                                     $subscription_plans = array( pms_get_subscription_plan( $member_subscription->subscription_plan_id ) );
                                 else
-                                    $subscription_plans = pms_get_subscription_plans_group( $form_data['subscription_plan_id'], false );
+                                    $subscription_plans = pms_get_subscription_plans( false );
+
                             }
 
                             foreach( $subscription_plans as $subscription_plan ) {
@@ -369,7 +377,6 @@ if( ! empty( $_POST ) ) {
                             <div class="inside cozmoslabs-form-field-wrapper">
                                 <input type="text" name="pms_admin_log" value="" placeholder="<?php esc_html_e( 'Add entry manually...', 'paid-member-subscriptions' ); ?>" />
                                 <input type="hidden" name="pms_subscription_id" value="<?php echo esc_attr( $member_subscription->id ) ?>" />
-                                <?php wp_nonce_field( 'pms_add_log_entry', 'pms_nonce' ); ?>
                                 <input type="submit" value="Add Log" class="button button-secondary" id="pms_add_log_entry" />
                             </div>
                         </div>

@@ -8,14 +8,24 @@ function pms_misc_redirect_after_manual_payment( $url ) {
     if( !isset( $_POST['pay_gate'] ) || $_POST['pay_gate'] != 'manual' || !isset( $_POST['subscription_plans'] ) )
         return $url;
 
+    if ( ! in_array( 'manual', pms_get_active_payment_gateways() ) )
+        return $url;
+
     $subscription_plan = pms_get_subscription_plan( absint( $_POST['subscription_plans'] ) );
 
     if( !isset( $subscription_plan->id ) || $subscription_plan->price == 0 )
         return $url;
 
-    $misc_settings = get_option( 'pms_misc_settings', array() );
+    $payments_settings = get_option( 'pms_payments_settings', array() );
+    $misc_settings     = get_option( 'pms_misc_settings', array() );
 
-    if ( isset( $misc_settings['payments']['redirect_after_manual_payment'] ) && filter_var($misc_settings['payments']['redirect_after_manual_payment'], FILTER_VALIDATE_URL) !== false ){
+    if ( ! empty( $payments_settings['redirect_after_manual_payment'] ) ) {
+        $redirect_after_manual_payment = $payments_settings['redirect_after_manual_payment'];
+    } else {
+        $redirect_after_manual_payment = isset( $misc_settings['payments']['redirect_after_manual_payment'] ) ? $misc_settings['payments']['redirect_after_manual_payment'] : '';
+    }
+
+    if ( filter_var( $redirect_after_manual_payment, FILTER_VALIDATE_URL ) !== false ){
         $query_args = [
             'subscription_plan' => absint( $_POST['subscription_plans'] ),
         ];
@@ -35,7 +45,7 @@ function pms_misc_redirect_after_manual_payment( $url ) {
             }
         }
 
-        $url = add_query_arg( $query_args, $misc_settings['payments']['redirect_after_manual_payment'] );
+        $url = add_query_arg( $query_args, $redirect_after_manual_payment );
     }
 
     return $url;

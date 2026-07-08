@@ -18,6 +18,7 @@ jQuery( function($) {
         var user_id = $select.val().trim();
 
         $('#pms-member-user-id').val( user_id );
+        populateUserBillingDetails( user_id );
     });
 
     /**
@@ -32,12 +33,13 @@ jQuery( function($) {
 
         $( '#pms-member-username-input' ).pms_addSpinner()
 
-        $.post( ajaxurl, { action: 'check_payment_username', username: $(this).val() }, function( response ) {
+        $.post( ajaxurl, { action: 'check_payment_username', username: $(this).val(), nonce: pms_payments_ajax.nonce }, function( response ) {
 
             if( response != 0 ) {
 
                 $('#pms-member-user-id').val( response )
                 $('#pms-member-username-input').pms_removeSpinner()
+                populateUserBillingDetails( response )
 
             } else {
                 $('#pms-member-username-input').after('<span class="pms-member-details-error">Invalid username</span>')
@@ -50,8 +52,20 @@ jQuery( function($) {
     /**
      * Initialize datepicker
      */
+    var pmsFilterDateRangeEnds = {
+        'pms-datepicker-date-start': 'pms-datepicker-date-end'
+    };
+
     $(document).on( 'focus', '.datepicker', function() {
-        $(this).datepicker({
+        var $input = $(this);
+
+        if ( $input.hasClass( 'hasDatepicker' ) ) {
+            return;
+        }
+
+        var endInputId = pmsFilterDateRangeEnds[ $input.attr( 'id' ) ];
+
+        $input.datepicker({
             dateFormat : 'yy-mm-dd',
 
             // Maintain the Time when switching dates
@@ -61,6 +75,12 @@ jQuery( function($) {
                 dateTime = ( date[1] ? date[1] : '' );
 
                 $(this).val( dateText + " " + dateTime );
+
+                if ( endInputId ) {
+                    setTimeout( function() {
+                        $( '#' + endInputId ).focus();
+                    }, 0 );
+                }
 
             }
 
@@ -75,6 +95,72 @@ jQuery( function($) {
         $('.pms-chosen').chosen({ search_contains: true });
 
     }
+
+    function updateBillingStateField() {
+        if( typeof PMS_States === 'undefined' )
+            return;
+
+        var country = $('#pms_billing_country').val();
+        var $select = $('.pms-billing-state__select');
+        var $input = $('.pms-billing-state__input');
+        var value = $select.attr('name') && !$input.attr('name') ? $select.val() : $input.val();
+
+        if( !$select.length || !$input.length )
+            return;
+
+        if( PMS_States[country] ) {
+            $select.empty().append('<option value=""></option>');
+
+            $.each(PMS_States[country], function(key, label) {
+                $select.append($('<option></option>').attr('value', key).text(label));
+            });
+
+            $select.val(value).attr({ name: 'pms_billing_state', id: 'pms_billing_state' }).show();
+            $input.removeAttr('name').removeAttr('id').hide();
+        } else {
+            $input.val(value).attr({ name: 'pms_billing_state', id: 'pms_billing_state' }).show();
+            $select.removeAttr('name').removeAttr('id').hide();
+        }
+    }
+
+    function populateUserBillingDetails(userId) {
+        if( !userId || typeof pms_payment_billing_details === 'undefined' )
+            return;
+
+        $.post(ajaxurl, {
+            action: 'pms_get_user_billing_details',
+            security: pms_payment_billing_details.nonce,
+            user_id: userId
+        }, function(response) {
+            if( !response.success )
+                return;
+
+            var hasBillingDetails = false;
+            var billingState = response.data.pms_billing_state || '';
+
+            $.each(response.data, function(name, value) {
+                if( name === 'pms_billing_state' )
+                    return;
+
+                $('[name="' + name + '"]').val(value);
+
+                if( value !== '' )
+                    hasBillingDetails = true;
+            });
+
+            updateBillingStateField();
+            $('[name="pms_billing_state"]').val(billingState);
+
+            if( billingState !== '' )
+                hasBillingDetails = true;
+
+            $('.pms-payment-billing-details__fallback-note').prop('hidden', !hasBillingDetails);
+            $(document).trigger('pms_payment_billing_details_updated');
+        });
+    }
+
+    updateBillingStateField();
+    $(document).on( 'change', '#pms_billing_country', updateBillingStateField );
 
 
     /**
@@ -143,7 +229,7 @@ jQuery( function($) {
         $amountInput.attr( 'disabled', true );
 
         // Get the subscription plan price and populate the Amount field
-        $.post( ajaxurl, { action: 'populate_subscription_price', subscription_plan_id: $subscriptionSelect.val() }, function( response ) {
+        $.post( ajaxurl, { action: 'populate_subscription_price', subscription_plan_id: $subscriptionSelect.val(), nonce: pms_payments_ajax.nonce }, function( response ) {
 
             // Populate the amount field
             $amountInput.val( response );
@@ -244,7 +330,8 @@ function renderPaymentRefundModal( paymentID ){
 
     let data = {
         action: 'render_modal_payment_refund',
-        pms_payment_id: paymentID
+        pms_payment_id: paymentID,
+        nonce: pms_payments_ajax.nonce
     }
 
     jQuery.post(ajaxurl, data, function(response) {

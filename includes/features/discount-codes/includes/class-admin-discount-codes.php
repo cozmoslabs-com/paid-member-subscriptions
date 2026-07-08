@@ -27,6 +27,9 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
             // Remove "Move to Trash" bulk action
             add_filter('bulk_actions-edit-' . $this->post_type, array($this, 'remove_bulk_actions'));
 
+            // Add status field in submit box
+            add_action('post_submitbox_start', array($this, 'submitbox_add_status_field'));
+
             // Add a delete button where the move to trash was
             add_action('post_submitbox_start', array($this, 'submitbox_add_delete_button'));
 
@@ -295,6 +298,29 @@ if ( class_exists('PMS_Custom_Post_Type') ) {
             echo '<div id="pms-delete-action">';
                 echo '<a class="submitdelete deletion" onclick="return confirm( \'' . esc_html__("Are you sure you want to delete this Discount Code?", "paid-member-subscriptions") . ' \' )" href="' . esc_url(wp_nonce_url(add_query_arg(array('pms-action' => 'delete_discount_code', 'post_id' => $post->ID, 'deleted' => 1), admin_url('edit.php?post_type=' . $this->post_type)), 'pms_discount_code_nonce')) . '">' . esc_html__('Delete Discount', 'paid-member-subscriptions') . '</a>';
             echo '</div>';
+        }
+
+        /*
+        * Add the discount status field in the submit box
+        *
+        */
+        public function submitbox_add_status_field() {
+            global $post_type;
+            global $post;
+
+            if ( $post_type != $this->post_type )
+                return false;
+
+            $discount = new PMS_IN_Discount_Code( $post );
+
+            pms_render_submitbox_status_field( array(
+                'wrapper_class'  => 'pms-discount-submitbox-status',
+                'label'          => __( 'Discount Status', 'paid-member-subscriptions' ),
+                'select_id'      => 'pms-discount-sidebar-status',
+                'select_name'    => 'pms_discount_status',
+                'current_status' => $discount->status,
+                'description'    => __( 'Only active discount codes can be applied by users.', 'paid-member-subscriptions' ),
+            ) );
         }
 
         /*

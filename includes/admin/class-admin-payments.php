@@ -73,6 +73,9 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
             'message'   => __( 'Are you sure you want to delete these Payments? \nThis action is irreversible.', 'paid-member-subscriptions' )
         );
         wp_localize_script( 'pms-payments-bulk-actions-script', 'pms_delete_payments_confirmation_message', $confirmation_message );
+        wp_localize_script( 'pms-payments-bulk-actions-script', 'pms_payments_ajax', array(
+            'nonce' => wp_create_nonce( 'pms_payments_admin_ajax' ),
+        ) );
         wp_enqueue_script( 'pms-payments-bulk-actions-script' );
         
     }
@@ -323,7 +326,9 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
                                         if( $subscription_plan->is_fixed_period_membership() ){
                                             $data = array(
-                                                'expiration_date' => ( $subscription_plan->fixed_period_renewal_allowed() ) ? date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date . '+ 1 year' ) ) : date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date ) ),
+                                                'expiration_date' => $subscription_plan->fixed_period_renewal_allowed()
+                                                    ? pms_get_renew_subscription_expiration_date( $member_subscription, $subscription_plan )
+                                                    : date( 'Y-m-d 23:59:59', strtotime( $member_subscription->expiration_date ) ),
                                                 'status'          => $member_subscription_status
                                             );
                                         } else if( $member_subscription->status == 'expired' ) {
@@ -562,6 +567,12 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
      */
     public function ajax_populate_subscription_price() {
 
+        if( ! pms_current_user_can_access_area( 'pms-payments-page' ) )
+            wp_die();
+
+        if( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'pms_payments_admin_ajax' ) )
+            wp_die();
+
         if( !isset( $_POST['subscription_plan_id'] ) )
             echo '';
 
@@ -592,6 +603,12 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
 
     public function ajax_check_payment_username() {
 
+        if( ! pms_current_user_can_access_area( 'pms-payments-page' ) )
+            wp_die();
+
+        if( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'pms_payments_admin_ajax' ) )
+            wp_die();
+
         if( empty( $_POST['username'] ) ){
             echo 0;
             die();
@@ -615,6 +632,13 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
      * @return void
      */
     function ajax_render_modal_payment_refund() {
+
+        if ( ! pms_current_user_can_access_area( 'pms-payments-page' ) )
+            wp_send_json_error( array( 'message' => __( 'You do not have the required capabilities to perform this action.', 'paid-member-subscriptions' ) ) );
+
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'pms_payments_admin_ajax' ) )
+            wp_send_json_error( array( 'message' => __( 'Security check failed.', 'paid-member-subscriptions' ) ) );
+
         $payment_id = isset( $_POST['pms_payment_id'] ) ? absint( $_POST['pms_payment_id'] ) : 0;
 
         if ( ! $payment_id ) {

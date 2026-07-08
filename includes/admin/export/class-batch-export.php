@@ -14,12 +14,55 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+if ( ! class_exists( 'PMS_Export', false ) ) {
+	require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-export.php';
+}
+
 /**
  * PMS_Export Class
  *
  * @since 1.7.6
  */
 class PMS_Batch_Export extends PMS_Export {
+
+	/**
+	 * Load export class dependencies.
+	 */
+	public static function load_dependencies() {
+		require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-export.php';
+		require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-batch-export.php';
+		require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-batch-export-members.php';
+		require_once PMS_PLUGIN_DIR_PATH . 'includes/admin/export/class-batch-export-payments.php';
+	}
+
+	/**
+	 * Export class names permitted for batch export handlers.
+	 *
+	 * @return string[]
+	 */
+	public static function get_allowed_class_names() {
+		return apply_filters( 'pms_allowed_export_classes', array(
+			'PMS_Batch_Export_Members',
+			'PMS_Batch_Export_Payments',
+		) );
+	}
+
+	/**
+	 * Instantiate an allowed batch export class.
+	 *
+	 * @param string   $class_name
+	 * @param int|null $step
+	 * @return PMS_Batch_Export|null
+	 */
+	public static function create( $class_name, $step = null ) {
+		if ( ! in_array( $class_name, self::get_allowed_class_names(), true ) ) {
+			return null;
+		}
+
+		self::load_dependencies();
+
+		return null === $step ? new $class_name() : new $class_name( $step );
+	}
 
 	/**
 	 * The file the data is stored in
@@ -113,17 +156,141 @@ class PMS_Batch_Export extends PMS_Export {
 	 */
 	public function __construct( $_step = 1 ) {
 
-		$upload_dir       = wp_upload_dir();
-		$this->filetype   = '.csv';
-		$this->filename   = 'pms-' . $this->export_type . $this->filetype;
+		$this->filetype = '.csv';
+		$this->step     = $_step;
+	}
 
-		$this->file       = trailingslashit( $upload_dir['basedir'] ) . $this->filename;
+	/**
+	 * Transient key for the current user's in-progress export file path.
+	 *
+	 * @return string
+	 */
+	protected function get_export_transient_key() {
+		return 'pms_batch_export_' . get_current_user_id() . '_' . $this->export_type;
+	}
 
-		if ( ! is_writeable( $upload_dir['basedir'] ) ) {
-			$this->is_writable = false;
+	/**
+	 * Create or resume the staged export file for the current batch step.
+	 *
+	 * @return bool
+	 */
+	protected function ensure_batch_export_file() {
+
+		if ( $this->step < 2 ) {
+			return $this->create_staged_export_file();
 		}
 
-		$this->step       = $_step;
+		return $this->load_staged_export_file();
+	}
+
+	/**
+	 * Load the staged export file path from the current user's transient.
+	 *
+	 * @param bool $require_exists Whether the file must already exist on disk.
+	 * @return bool
+	 */
+	protected function load_staged_export_file( $require_exists = true ) {
+
+		$this->file = get_transient( $this->get_export_transient_key() );
+
+		if ( ! $this->is_valid_export_file_path( $this->file ) ) {
+			$this->is_writable = false;
+			return false;
+		}
+
+		if ( $require_exists && ! file_exists( $this->file ) ) {
+			$this->is_writable = false;
+			return false;
+		}
+
+		$this->filename = basename( $this->file );
+
+		return true;
+	}
+
+	/**
+	 * Create a new private temp export file for step 1.
+	 *
+	 * @return bool
+	 */
+	protected function create_staged_export_file() {
+
+		$this->cleanup_legacy_public_export_file();
+		$this->teardown_staged_export_file();
+
+		$this->file = wp_tempnam( 'pms-export-' . $this->export_type );
+
+		if ( false === $this->file ) {
+			$this->is_writable = false;
+			return false;
+		}
+
+		set_transient( $this->get_export_transient_key(), $this->file, HOUR_IN_SECONDS );
+
+		$this->filename = basename( $this->file );
+
+		$directory = dirname( $this->file );
+
+		if ( ! is_writeable( $directory ) || ! is_writeable( $this->file ) ) {
+			$this->is_writable = false;
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Ensure an export path points to a file inside the system temp directory.
+	 *
+	 * @param mixed $path
+	 * @return bool
+	 */
+	protected function is_valid_export_file_path( $path ) {
+
+		if ( empty( $path ) || ! is_string( $path ) ) {
+			return false;
+		}
+
+		$real_path = realpath( $path );
+
+		if ( false === $real_path ) {
+			return false;
+		}
+
+		$temp_dir = realpath( get_temp_dir() );
+
+		if ( false === $temp_dir ) {
+			return false;
+		}
+
+		return 0 === strpos( $real_path, trailingslashit( $temp_dir ) );
+	}
+
+	/**
+	 * Remove predictable legacy export files from the public uploads directory.
+	 */
+	protected function cleanup_legacy_public_export_file() {
+
+		$upload_dir  = wp_upload_dir();
+		$legacy_file = trailingslashit( $upload_dir['basedir'] ) . 'pms-' . $this->export_type . $this->filetype;
+
+		if ( file_exists( $legacy_file ) ) {
+			@unlink( $legacy_file );
+		}
+	}
+
+	/**
+	 * Delete the staged export file and clear its transient.
+	 */
+	protected function teardown_staged_export_file() {
+
+		$stored_file = get_transient( $this->get_export_transient_key() );
+
+		if ( $this->is_valid_export_file_path( $stored_file ) && file_exists( $stored_file ) ) {
+			@unlink( $stored_file );
+		}
+
+		delete_transient( $this->get_export_transient_key() );
 	}
 
 	/**
@@ -138,13 +305,11 @@ class PMS_Batch_Export extends PMS_Export {
 			wp_die( esc_html__( 'You do not have permission to export data.', 'paid-member-subscriptions' ), esc_html__( 'Error', 'paid-member-subscriptions' ), array( 'response' => 403 ) );
 		}
 
+		if ( ! $this->ensure_batch_export_file() ) {
+			return 'error';
+		}
+
 		if( $this->step < 2 ) {
-
-			// Make sure we start with a fresh file on step 1
-            if( file_exists( $this->file ) ) {
-                @unlink( $this->file );
-            }
-
 			$this->print_csv_cols();
 		}
 
@@ -296,14 +461,21 @@ class PMS_Batch_Export extends PMS_Export {
 	 */
 	public function export() {
 
+		if ( ! $this->can_export() ) {
+			wp_die( esc_html__( 'You do not have permission to export data.', 'paid-member-subscriptions' ), esc_html__( 'Error', 'paid-member-subscriptions' ), array( 'response' => 403 ) );
+		}
+
+		if ( ! $this->load_staged_export_file() ) {
+			wp_die( esc_html__( 'Export file not found or expired.', 'paid-member-subscriptions' ), esc_html__( 'Error', 'paid-member-subscriptions' ), array( 'response' => 404 ) );
+		}
+
 		// Set headers
 		$this->headers();
 
-		$file = $this->get_file();
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
+		readfile( $this->file );
 
-		@unlink( $this->file );
-
-		echo $file; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		$this->teardown_staged_export_file();
 
         die();
 	}

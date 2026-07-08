@@ -88,6 +88,21 @@
 
 #pms-woo-product-add-membership-discount, #pms-woo-subscription-add-product-discount {
     margin: 0.5em 0;
+    background: #3858E9;
+    border: 1px solid #3858E9;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+#pms-woo-product-add-membership-discount:hover,
+#pms-woo-product-add-membership-discount:focus,
+#pms-woo-subscription-add-product-discount:hover,
+#pms-woo-subscription-add-product-discount:focus {
+    background: #1D35B4;
+    border-color: #1D35B4;
+    color: #FFFFFF;
+    box-shadow: none;
 }
 
 @media screen and (max-width: 782px) {

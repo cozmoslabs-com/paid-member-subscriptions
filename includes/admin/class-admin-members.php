@@ -84,6 +84,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             'message'   => __( 'Are you sure you want to delete these Subscriptions? \nThis action is irreversible.', 'paid-member-subscriptions' )
         );
         wp_localize_script( 'pms-members-bulk-actions-script', 'pms_confirmation_message', $confirmation_message );
+        wp_localize_script( 'pms-members-bulk-actions-script', 'pms_members_ajax', array(
+            'nonce' => wp_create_nonce( 'pms_members_admin_ajax' ),
+        ) );
         wp_enqueue_script( 'pms-members-bulk-actions-script' );
     }
 
@@ -162,7 +165,7 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
             $member_subscription = pms_get_member_subscription( (int)sanitize_text_field( $_GET['subscription_id'] ) );
 
-            /* when changing a users subscription plan from the back-end change the billing amount as well */
+            /* when changing a users subscription plan from the back-end change the billing fields as well */
             if( apply_filters( 'pms_update_billing_amount_from_backend_on_sub_change', true ) ) {
                 if ( isset( $_POST['subscription_plan_id'] ) && $member_subscription->subscription_plan_id != $_POST['subscription_plan_id'] ) {
 
@@ -194,6 +197,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
                         $_POST['billing_amount'] = $billing_amount;
                     }
+
+                    $_POST['billing_duration']      = $new_subscription_plan->duration;
+                    $_POST['billing_duration_unit'] = $new_subscription_plan->duration_unit;
                 }
 
             }
@@ -569,13 +575,14 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             elseif( isset( $_POST['user_id'] ) && $member_subscription->user_id != (int)$_POST['user_id'] )
                 $this->add_admin_notice( __( 'Something went wrong. Could not complete your request.', 'paid-member-subscriptions' ), 'error' );
 
-            // Make sure that the user doesn't have another active subscription from the same tier
-            elseif ( isset( $_POST['status'] ) && $_POST['status'] != 'abandoned' ){
+            // Make sure that the user doesn't have another active subscription from the target plan's tier
+            elseif ( isset( $_POST['status'] ) && $_POST['status'] != 'abandoned' && ! empty( $_POST['subscription_plan_id'] ) ){
 
-                $existing_subscription = pms_get_current_subscription_from_tier( (int)sanitize_text_field( $_POST['user_id'] ), $member_subscription->subscription_plan_id );
+                $target_plan_id        = (int) sanitize_text_field( $_POST['subscription_plan_id'] );
+                $existing_subscription = pms_get_current_subscription_from_tier( (int) sanitize_text_field( $_POST['user_id'] ), $target_plan_id );
 
                 if( !empty( $existing_subscription ) && $existing_subscription->status != 'abandoned' && $existing_subscription->id != $member_subscription->id )
-                    $this->add_admin_notice( __( 'The user already has a non-abandoned subscription with this plan.', 'paid-member-subscriptions' ), 'error'  );
+                    $this->add_admin_notice( __( 'The user already has a non-abandoned subscription in this plan\'s tier.', 'paid-member-subscriptions' ), 'error'  );
 
             }
         }
@@ -677,6 +684,12 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
      */
     public function ajax_populate_expiration_date() {
 
+        if( ! pms_current_user_can_access_area( 'pms-members-page' ) )
+            wp_die();
+
+        if( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'pms_members_admin_ajax' ) )
+            wp_die();
+
         if( !isset( $_POST['subscription_plan_id'] ) )
             die();
 
@@ -701,6 +714,12 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
      *
      */
     public function ajax_populate_member_subscription_fields() {
+
+        if( ! pms_current_user_can_access_area( 'pms-members-page' ) )
+            wp_die();
+
+        if( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'pms_members_admin_ajax' ) )
+            wp_die();
 
         if( empty( $_POST['action'] ) || $_POST['action'] != 'populate_member_subscription_fields' ) {
             echo 0;
@@ -730,6 +749,12 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
     }
 
     public function ajax_check_username() {
+
+        if( ! pms_current_user_can_access_area( 'pms-members-page' ) )
+            wp_die();
+
+        if( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'pms_members_admin_ajax' ) )
+            wp_die();
 
         if( empty( $_POST['username'] ) ){
             echo 0;
@@ -1063,7 +1088,11 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
     // Ajax callback for adding a log entry
     public function ajax_add_log_entry(){
 
-        check_ajax_referer( 'pms_add_log_entry', 'nonce' );
+        if( ! pms_current_user_can_access_area( 'pms-members-page' ) )
+            wp_die();
+
+        if( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'pms_members_admin_ajax' ) )
+            wp_die();
 
         if( empty( $_POST['subscription_id'] ) || empty( $_POST['log'] ) )
             die();

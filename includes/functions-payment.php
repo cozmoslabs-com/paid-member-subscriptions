@@ -654,15 +654,21 @@ function pms_get_renew_subscription_expiration_date( $subscription, $subscriptio
         return $subscription_plan->get_expiration_date();
     }
 
+    if ( $subscription_plan->is_fixed_period_membership() && $subscription_plan->fixed_period_renewal_allowed() ) {
+        $anchor = strtotime( $subscription->expiration_date );
+
+        if ( $anchor < time() ) {
+            $anchor = time();
+        }
+
+        return $subscription_plan->get_next_fixed_period_end( $anchor );
+    }
+
     if ( strtotime( $subscription->expiration_date ) < time()
         || ( !$subscription_plan->is_fixed_period_membership() && $subscription_plan->duration === 0 )
         || ( $subscription_plan->is_fixed_period_membership() && !$subscription_plan->fixed_period_renewal_allowed() ) ) {
 
         return $subscription_plan->get_expiration_date();
-    }
-
-    if ( $subscription_plan->is_fixed_period_membership() ) {
-        return date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+ 1 year' ) );
     }
 
     return date( 'Y-m-d 23:59:59', strtotime( $subscription->expiration_date . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
@@ -838,7 +844,7 @@ function pms_process_member_subscription_renewal( $subscription, $payment_gatewa
         } elseif ( isset( $payment_gateway->payment_gateway ) && $payment_gateway->payment_gateway == 'manual' ) {
 
             if ( $subscription_plan->is_fixed_period_membership() ) {
-                $expiration_date = date( 'Y-m-d H:i:s', strtotime( '+ 1 year', strtotime( $subscription->expiration_date ) ) );
+                $expiration_date = pms_get_renew_subscription_expiration_date( $subscription, $subscription_plan );
             } else {
                 $expiration_date = date( 'Y-m-d H:i:s', strtotime( '+' . $subscription->billing_duration . ' ' . $subscription->billing_duration_unit, strtotime( $subscription->billing_next_payment ) ) );
             }

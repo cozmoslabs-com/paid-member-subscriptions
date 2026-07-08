@@ -21,7 +21,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
     <input type="text" id="pms-discount-code" name="pms_discount_code" value="<?php echo esc_attr( $discount->code ); ?>" />
 
-    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Enter the code for the discount. For example: 50percent', 'paid-member-subscriptions' ); ?></p>
+    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Enter the code for the discount. For example: 50percent', 'paid-member-subscriptions' ); ?></p>
 
 </div>
 
@@ -33,7 +33,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
         <option value="percent" <?php selected( 'percent', $discount->type, true ); ?>><?php esc_html_e( 'Percent', 'paid-member-subscriptions' ); ?></option>
         <option value="fixed" <?php selected( 'fixed', $discount->type, true ); ?>><?php esc_html_e( 'Fixed amount', 'paid-member-subscriptions' ); ?></option>
     </select>
-    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'The type of discount to apply for the purchase.', 'paid-member-subscriptions' ); ?></p>
+    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'The type of discount to apply for the purchase.', 'paid-member-subscriptions' ); ?></p>
 
 </div>
 
@@ -44,7 +44,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
     <input type="text" id="pms-discount-amount" name="pms_discount_amount" class="small" value="<?php echo esc_attr( $discount->amount ); ?>" /> <span class="pms-discount-currency"> <?php echo esc_html( pms_get_active_currency() ); ?></span>
 
-    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Enter the discount amount.', 'paid-member-subscriptions' ); ?></p>
+    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Enter the discount amount.', 'paid-member-subscriptions' ); ?></p>
 
 </div>
 
@@ -99,7 +99,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
     <input type="text" id="pms-discount-max-uses" name="pms_discount_max_uses" class="small" value="<?php echo esc_attr( $discount->max_uses ); ?>" />
 
-    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Maximum number of times this discount can be used (by any user). Enter 0 for unlimited.', 'paid-member-subscriptions' ); ?></p>
+    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Maximum number of times this discount can be used (by any user). Enter 0 for unlimited.', 'paid-member-subscriptions' ); ?></p>
 
 </div>
 
@@ -110,7 +110,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
     <input type="text" id="pms-discount-max-uses-per-user" name="pms_discount_max_uses_per_user" class="small" value="<?php echo esc_attr( $discount->max_uses_per_user ); ?>" />
 
-    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Maximum number of times this discount code can be used by the same user. Enter 0 for unlimited.', 'paid-member-subscriptions' ); ?></p>
+    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Maximum number of times this discount code can be used by the same user. Enter 0 for unlimited.', 'paid-member-subscriptions' ); ?></p>
 
 </div>
 
@@ -121,7 +121,7 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
     <input type="text" id="pms-discount-start-date" name="pms_discount_start_date" class="pms_datepicker" value="<?php echo esc_attr( $discount->start_date ); ?>">
 
-    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Select the start date for the discount (yyyy-mm-dd). Leave blank for no start date.', 'paid-member-subscriptions' ); ?></p>
+    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Select the start date for the discount (yyyy-mm-dd). Leave blank for no start date.', 'paid-member-subscriptions' ); ?></p>
 
 </div>
 
@@ -132,22 +132,10 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
     <input type="text" id="pms-discount-expiration-date" name="pms_discount_expiration_date" class="pms_datepicker" value="<?php echo esc_attr( $discount->expiration_date ); ?>">
 
-    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e( 'Select the expiration date for the discount (yyyy-mm-dd). Leave blank for no expiration.', 'paid-member-subscriptions' ); ?></p>
+    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Select the expiration date for the discount (yyyy-mm-dd). Leave blank for no expiration.', 'paid-member-subscriptions' ); ?></p>
 
 </div>
 
-
-<div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
-
-    <label for="pms-discount-status" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Status', 'paid-member-subscriptions' ); ?></label>
-
-    <select id="pms-discount-status" name="pms_discount_status">
-        <option value="active" <?php selected( 'active', $discount->status, true  ); ?>><?php esc_html_e( 'Active', 'paid-member-subscriptions' ); ?></option>
-        <option value="inactive" <?php selected( 'inactive', $discount->status, true  ); ?>><?php esc_html_e( 'Inactive', 'paid-member-subscriptions' ); ?></option>
-    </select>
-    <p class="cozmoslabs-description cozmoslabs-description-align-right"><?php esc_html_e('Select discount code status.', 'paid-member-subscriptions' ); ?></p>
-
-</div>
 
 <?php
     // Check if we have recurring payments enabled
@@ -162,8 +150,9 @@ if( ! defined( 'PMS_VERSION' ) ) return;
         <label class="cozmoslabs-toggle-track" for="pms-discount-recurring-payments"></label>
     </div>
     <div class="cozmoslabs-toggle-description">
-        <label for="pms-discount-recurring-payments" class="cozmoslabs-description"><?php esc_html_e( 'Apply discount to all future recurring payments (not just the first one).', 'paid-member-subscriptions' ); ?></label>
+        <label for="pms-discount-recurring-payments" class="cozmoslabs-description"><?php esc_html_e( 'Enable', 'paid-member-subscriptions' ); ?></label>
     </div>
+    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Apply discount to all future recurring payments (not just the first one).', 'paid-member-subscriptions' ); ?></p>
 
 </div>
 <?php } ?>
@@ -177,8 +166,9 @@ if( ! defined( 'PMS_VERSION' ) ) return;
         <label class="cozmoslabs-toggle-track" for="pms-discount-new-users-only"></label>
     </div>
     <div class="cozmoslabs-toggle-description">
-        <label for="pms-discount-new-users-only" class="cozmoslabs-description"><?php esc_html_e( 'Apply discount only for new users.', 'paid-member-subscriptions' ); ?></label>
+        <label for="pms-discount-new-users-only" class="cozmoslabs-description"><?php esc_html_e( 'Enable', 'paid-member-subscriptions' ); ?></label>
     </div>
+    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Apply discount only for new users.', 'paid-member-subscriptions' ); ?></p>
 
 
 </div>

@@ -65,7 +65,7 @@ function pms_in_dc_add_admin_scripts(){
 
     // If the file exists where it should be, enqueue it
     if( file_exists( PMS_IN_DC_PLUGIN_DIR_PATH . 'assets/js/cpt-discount-codes.js' ) )
-        wp_enqueue_script( 'pms-discount-codes-js', PMS_IN_DC_PLUGIN_DIR_URL . 'assets/js/cpt-discount-codes.js', array( 'jquery','jquery-ui-datepicker' ), PMS_VERSION );
+        wp_enqueue_script( 'pms-discount-codes-js', PMS_IN_DC_PLUGIN_DIR_URL . 'assets/js/cpt-discount-codes.js', array( 'jquery', 'jquery-ui-datepicker', 'pms-admin' ), PMS_VERSION );
 
     wp_enqueue_script( 'jquery-ui-datepicker' );
     wp_enqueue_style( 'jquery-style', PMS_PLUGIN_DIR_URL . 'assets/css/admin/jquery-ui.min.css', array(), PMS_VERSION );

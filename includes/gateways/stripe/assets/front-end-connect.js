@@ -1014,6 +1014,10 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 
             return;
 
+        }).fail( function () {
+
+            pms_stripe_hide_spinner()
+
         });
     }
 

@@ -47,6 +47,7 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
         // Send email notification for pending manual payment
         add_action( 'pms_register_payment_data', array( $this, 'send_pending_manual_payment_email' ), 25, 2 );
+        add_action( 'pms_manually_added_payment_success', array( $this, 'send_pending_manual_payment_email_for_admin_payment' ) );
 
         // Save checkout context on pending Manual payments so plan changes can be rebuilt correctly on completion
         add_filter( 'pms_register_payment_data', array( $this, 'save_checkout_context_to_payment' ), 30, 2 );
@@ -268,66 +269,48 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
 
                 }
 
-                if ( $member_subscription->status == 'active' ){
-                    if( $subscription_plan->is_fixed_period_membership() ){
+                $expiration_date = null;
 
-                        if( $subscription_plan->fixed_period_renewal_allowed() )
-                            $member_subscription->update( array( 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+ 1 year' ) ) ) );
-                        else
-                            $member_subscription->update( array( 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) ) ) ) );
+                if( $subscription_plan->is_fixed_period_membership() ) {
 
+                    $expiration_date = $subscription_plan->fixed_period_renewal_allowed()
+                        ? pms_get_renew_subscription_expiration_date( $member_subscription, $subscription_plan )
+                        : date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date( $member_subscription->expiration_date ) ) );
+
+                } elseif( $member_subscription->status == 'active' ) {
+
+                    $expiration_date = date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date( $member_subscription->expiration_date ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
+
+                } elseif( $member_subscription->status == 'expired' ) {
+
+                    $expiration_date = date( 'Y-m-d H:i:s', strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
+
+                } elseif( $member_subscription->status == 'canceled' ) {
+
+                    if ( strtotime( $member_subscription->expiration_date ) > strtotime( 'now' ) ) {
+                        $expiration_date = date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date( $member_subscription->expiration_date ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
                     } else {
-                        $member_subscription->update( array( 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ) ) );
+                        $expiration_date = date( 'Y-m-d H:i:s', strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
                     }
+
                 }
-                else if ( $member_subscription->status == 'expired' ){
-                    if( $subscription_plan->is_fixed_period_membership() ){
 
-                        if( $subscription_plan->fixed_period_renewal_allowed() )
-                            $member_subscription->update( array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+ 1 year' ) ) ) );
-                        else
-                            $member_subscription->update( array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( pms_sanitize_date($member_subscription->expiration_date) ) ) ) );
+                if( null !== $expiration_date ) {
 
-                    } else {
-                        $member_subscription->update( array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) ) ) );
-                    }
-                }
-                else if ( $member_subscription->status == 'canceled' ) {
-                    if ( strtotime( $member_subscription->expiration_date ) > strtotime( 'now' ) ){
-                        if( $subscription_plan->is_fixed_period_membership() ){
+                    $update_args = array(
+                        'status'          => 'active',
+                        'expiration_date' => $expiration_date,
+                    );
 
-                            if( $subscription_plan->fixed_period_renewal_allowed() )
-                                $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+ 1 year' );
-                            else
-                                $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) );
-
-                        } else {
-                            $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit );
-                        }
-                    }
-                    else {
-                        if( $subscription_plan->is_fixed_period_membership() ){
-
-                            if( $subscription_plan->fixed_period_renewal_allowed() )
-                                $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) . '+ 1 year' );
-                            else
-                                $timestamp = strtotime( pms_sanitize_date($member_subscription->expiration_date) );
-
-                        } else {
-                            $timestamp = strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit );
-                        }
-                    }
-
-                    $update_args = array( 'status' => 'active', 'expiration_date' => date( 'Y-m-d H:i:s', $timestamp ) );
-
-                    if( !empty( $member_subscription->billing_next_payment ) ){
-                        $update_args['billing_next_payment'] = date( 'Y-m-d H:i:s', $timestamp );
+                    if( ! empty( $member_subscription->billing_next_payment ) ) {
+                        $update_args['billing_next_payment'] = $expiration_date;
                     }
 
                     $member_subscription->update( $update_args );
 
-                } else
+                } else {
                     $member_subscription->update( array( 'status' => 'active' ) );
+                }
 
                 pms_add_member_subscription_log( $member_subscription->id, 'admin_subscription_activated_payments' );
 
@@ -491,6 +474,25 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
         }
 
         return $payment_gateway_data;
+
+    }
+
+    public function send_pending_manual_payment_email_for_admin_payment( $payment ) {
+
+        if( empty( $payment->id ) || empty( $payment->user_id ) || empty( $payment->subscription_id ) )
+            return;
+
+        if( $payment->payment_gateway != 'manual' || $payment->status != 'pending' )
+            return;
+
+        $payment_gateway_data = array(
+            'payment_id'           => $payment->id,
+            'user_id'              => $payment->user_id,
+            'subscription_plan_id' => $payment->subscription_id,
+            'payment_gateway'      => $payment->payment_gateway,
+        );
+
+        $this->send_pending_manual_payment_email( $payment_gateway_data, get_option( 'pms_payments_settings', array() ) );
 
     }
 

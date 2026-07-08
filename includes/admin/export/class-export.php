@@ -34,7 +34,7 @@ class PMS_Export {
 	 * @return bool Whether we can export or not
 	 */
 	public function can_export() {
-		return (bool) apply_filters( 'pms_export_capability', current_user_can( 'manage_options' ) );
+		return pms_current_user_can_export();
 	}
 	/**
 	 * Is function disabled

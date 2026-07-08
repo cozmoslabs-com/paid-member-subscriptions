@@ -3,6 +3,29 @@
  *
  */
 jQuery( function($) {
+    function moveAffiliatePressMetaboxToAdvancedTab() {
+        const $affiliatePressMetabox = $('#affiliatepress_metabox_commission_settings_pms');
+        const $advancedTab = $('.pms-subscription-tab-panel[data-sub-tab-slug="advanced"]');
+
+        if ( $affiliatePressMetabox.length === 0 || $advancedTab.length === 0 ) {
+            return;
+        }
+
+        $affiliatePressMetabox.appendTo($advancedTab);
+    }
+
+    function ensureSubscriptionPlanMetaboxesAreOpen() {
+        const $subscriptionPlanScreen = $('body.post-type-pms-subscription');
+
+        if ( $subscriptionPlanScreen.length === 0 ) {
+            return;
+        }
+
+        const $subscriptionPlanMetaboxes = $('.pms-subscription-tab-panel .postbox');
+
+        $subscriptionPlanMetaboxes.removeClass('closed hide-if-js').show();
+        $subscriptionPlanMetaboxes.find('.inside').show();
+    }
 
     /*
      * When publishing or updating the Subscription Plan must have a name
@@ -34,14 +57,53 @@ jQuery( function($) {
      *
      */
    $(document).ready( function() {
-        $('#delete-action').remove();
-        $('.edit-post-status').remove();
-        $('#visibility').remove();
-        $('#minor-publishing-actions').remove();
-        $('div.misc-pub-post-status').remove();
-        $('#misc-publishing-actions').hide();
-        $('#submitdiv h3 span').html('Save Subscription Plan');
-        $('input#publish').val('Save Subscription');
+        moveAffiliatePressMetaboxToAdvancedTab();
+        ensureSubscriptionPlanMetaboxesAreOpen();
+        window.pmsPrepareSubmitBox({
+            headerText: 'Publish your subscription',
+            publishLabel: 'Save Subscription'
+        });
+    });
+
+    $(document).on( 'click', '#submitdiv .postbox-header', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    $(document).on( 'click', '.pms-subscription-tab-panel .postbox-header', function(e) {
+        if ( $(e.target).closest('.pms-docs-link').length > 0 ) {
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    $(document).on( 'click', '.pms-subscription-tabs-nav .nav-tab', function(e) {
+        const $navTab = $(this);
+        const tabSlug = $navTab.data('tab-slug');
+        const $tabShell = $navTab.closest('.pms-subscription-tabs-shell');
+        const $tabPanel = $tabShell.find('.pms-subscription-tab-panel').filter(function() {
+            return $(this).data('sub-tab-slug') === tabSlug;
+        });
+
+        e.preventDefault();
+
+        if ( ! tabSlug || $tabPanel.length === 0 ) {
+            return;
+        }
+
+        $tabShell.find('.pms-subscription-tabs-nav .nav-tab').removeClass('nav-tab-active');
+        $navTab.addClass('nav-tab-active');
+
+        $tabShell.find('.pms-subscription-tab-panel').removeClass('tab-active');
+        $tabPanel.addClass('tab-active');
+
+        $('input[name="pms_active_subscription_tab"]').val(tabSlug);
+
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, '', $navTab.attr('href') );
+        }
     });
 
    /**
@@ -323,6 +385,8 @@ jQuery(document).ready(function() {
         copyMessage.fadeIn(400).delay(2000).fadeOut(400);
     })
 
-    //Add PMS Docs Link
-    jQuery('#pms_subscription_extra_options .postbox-header h2').append('<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/#Advanced_Subscription_Options/?utm_source=pms-subscription-plans&utm_medium=client-site&utm_campaign=pms-advanced-subscription-toolkit-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>');
+    // Add PMS Docs link only when the addon settings are available, not when the upsell is shown
+    if ( jQuery('#pms_subscription_extra_options .pms-ast-upsell').length === 0 ) {
+        jQuery('#pms_subscription_extra_options .postbox-header h2').append('<a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/subscription-plans/#Advanced_Subscription_Options/?utm_source=pms-subscription-plans&utm_medium=client-site&utm_campaign=pms-advanced-subscription-toolkit-docs" target="_blank" data-code="f223" class="pms-docs-link dashicons dashicons-editor-help"></a>');
+    }
 });

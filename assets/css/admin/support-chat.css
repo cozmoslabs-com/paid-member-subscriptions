@@ -455,7 +455,7 @@
 @media (max-width: 480px) {
     .pms-support-chat {
         right: 16px;
-        bottom: 16px;
+        bottom: 60px;
     }
 
     .pms-support-chat__window {
