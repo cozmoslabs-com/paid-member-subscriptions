@@ -237,7 +237,10 @@ function pms_in_dc_output_apply_discount_message() {
     // Assemble the response
     if ( !empty( $code ) && !empty( $subscription ) ) {
 
-        $error = pms_in_dc_get_discount_error( $code, $subscription );
+        // addons that extend checkout with additional purchasable items (Order Bumps, etc.) hook this filter to append their plan IDs so the discount is validated against the whole purchase rather than the primary alone
+        $subscription_plan_ids = apply_filters( 'pms_in_dc_validate_against_plan_ids', array( $subscription ) );
+
+        $error = pms_in_dc_get_discount_error( $code, $subscription_plan_ids );
 
         // Setup user message
         if( ! empty( $error ) )
@@ -288,6 +291,20 @@ function pms_in_dc_output_apply_discount_message() {
         if( !empty( $discount_meta ) )
             $response['recurring_payments'] = $discount_meta['pms_discount_recurring_payments'][0] == 'checked' ? 1 : 0;
 
+        /**
+         * Filters the discount code AJAX response before it is sent to the client
+         *
+         * - lets bundle-aware integrations (Order Bumps) augment the response with bundle totals and per-item breakdowns without forking the AJAX handler
+         * - existing fields (success.message, discounted_price, original_discounted_price, is_full_discount, recurring_payments) remain for backward compatibility; additional fields are namespaced (bundle_*) by convention
+         *
+         * @param array                $response
+         * @param string               $code
+         * @param int                  $subscription primary subscription plan id
+         * @param PMS_IN_Discount_Code $discount_obj
+         *
+         */
+        $response = apply_filters( 'pms_dc_ajax_response', $response, $code, $subscription, $discount_obj );
+
         wp_send_json($response);
 
     }
@@ -297,6 +314,25 @@ add_action( 'wp_ajax_pms_discount_code', 'pms_in_dc_output_apply_discount_messag
 add_action( 'wp_ajax_nopriv_pms_discount_code', 'pms_in_dc_output_apply_discount_message' );
 
 /**
+ * Returns the list of subscription plan IDs the discount code should be evaluated against, drawn from the current request
+ *
+ * - by default returns just the selected primary plan; addons that extend checkout with additional purchasable items (e.g. Order Bumps) hook pms_in_dc_validate_against_plan_ids to append their plan IDs so eligibility is checked across the whole purchase
+ * - pms_in_dc_get_discount_error() accepts the resulting array and passes eligibility when at least one of the supplied plans is in the discount's allowed list
+ *
+ */
+function pms_in_dc_collect_request_subscription_plan_ids() {
+
+    $plan_ids = array();
+
+    if( !empty( $_POST['subscription_plans'] ) )
+        $plan_ids[] = absint( $_POST['subscription_plans'] );
+
+    return apply_filters( 'pms_in_dc_validate_against_plan_ids', $plan_ids );
+
+}
+
+
+/**
  * Validates the discount code on the different form
  *
  */
@@ -304,10 +340,10 @@ function pms_in_dc_add_form_discount_error(){
 
     if ( !empty($_POST['discount_code']) && !empty($_POST['subscription_plans']) ) {
 
-        $code                 = sanitize_text_field( $_POST['discount_code'] );
-        $subscription_plan_id = absint( $_POST['subscription_plans'] );
+        $code                  = sanitize_text_field( $_POST['discount_code'] );
+        $subscription_plan_ids = pms_in_dc_collect_request_subscription_plan_ids();
 
-        $error = pms_in_dc_get_discount_error( $code, $subscription_plan_id );
+        $error = pms_in_dc_get_discount_error( $code, $subscription_plan_ids );
 
         if ( !empty($error) ) {
             pms_errors()->add('discount_error', $error);
@@ -325,10 +361,10 @@ add_action( 'pms_ec_process_checkout_validations',            'pms_in_dc_add_for
 function pms_in_dc_add_pbform_discount_error( $message ) {
 
     if ( !empty($_POST['discount_code']) && !empty($_POST['subscription_plans']) ) {
-        $code                 = sanitize_text_field( $_POST['discount_code'] );
-        $subscription_plan_id = absint( $_POST['subscription_plans'] );
+        $code                  = sanitize_text_field( $_POST['discount_code'] );
+        $subscription_plan_ids = pms_in_dc_collect_request_subscription_plan_ids();
 
-        $error = pms_in_dc_get_discount_error( $code, $subscription_plan_id );
+        $error = pms_in_dc_get_discount_error( $code, $subscription_plan_ids );
 
         if ( !empty( $error ) )
             $message = $error;
@@ -404,39 +440,56 @@ function pms_in_dc_register_payment_data_after_discount( $payment_data, $payment
     if( empty( $_POST['subscription_plans'] ) )
         return $payment_data;
 
-    $subscription_plan_id = (int)$_POST['subscription_plans'];
+    $subscription_plan_ids = pms_in_dc_collect_request_subscription_plan_ids();
 
-    $error = pms_in_dc_get_discount_error( $discount->code, $subscription_plan_id );
+    $error = pms_in_dc_get_discount_error( $discount->code, $subscription_plan_ids );
 
     if ( !empty( $error ) )
         return $payment_data;
 
-    $exclude_signup_fee = apply_filters( 'pms_discount_exclude_signup_fee', false, $discount );
-    $signup_fee_amount  = 0;
+    /**
+     * Filters whether to skip the flat-amount discount override on payment_data
+     *
+     * - addons that compute per-item discount math before this filter runs (e.g. Order Bumps' order builder writes the post-discount aggregate to $payment_data['amount']) hook this to return true so the single-plan override below does not double-discount
+     *
+     * @param bool                 $skip
+     * @param PMS_IN_Discount_Code $discount
+     *
+     */
+    $skip_payment_data_discount = (bool) apply_filters( 'pms_in_dc_skip_payment_data_discount', false, $discount );
 
-    if( $exclude_signup_fee ){
-        $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
+    if( !$skip_payment_data_discount ) {
 
-        if( !empty( $subscription_plan->sign_up_fee ) ){
-            $form_location = PMS_Form_Handler::get_request_form_location();
+        $subscription_plan_id = (int) $_POST['subscription_plans'];
 
-            if( !is_user_logged_in() || in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) ){
-                $signup_fee_amount = (float)$subscription_plan->sign_up_fee;
+        $exclude_signup_fee = apply_filters( 'pms_discount_exclude_signup_fee', false, $discount );
+        $signup_fee_amount  = 0;
+
+        if( $exclude_signup_fee ){
+            $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
+
+            if( !empty( $subscription_plan->sign_up_fee ) ){
+                $form_location = PMS_Form_Handler::get_request_form_location();
+
+                if( !is_user_logged_in() || in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) ){
+                    $signup_fee_amount = (float)$subscription_plan->sign_up_fee;
+                }
             }
         }
+
+        if( $signup_fee_amount > 0 ){
+            $payment_data['sign_up_amount'] = pms_in_calculate_discounted_amount( $payment_data['amount'] - $signup_fee_amount, $discount ) + $signup_fee_amount;
+        } else {
+            $payment_data['sign_up_amount'] = pms_in_calculate_discounted_amount( $payment_data['amount'], $discount );
+        }
+
+        if( false == $payment_data['recurring'] )
+            $payment_data['amount'] = $payment_data['sign_up_amount'];
+
+        if( true == $payment_data['recurring'] && ! empty( $discount->recurring_payments ) )
+            $payment_data['amount'] = $payment_data['sign_up_amount'];
+
     }
-
-    if( $signup_fee_amount > 0 ){
-        $payment_data['sign_up_amount'] = pms_in_calculate_discounted_amount( $payment_data['amount'] - $signup_fee_amount, $discount ) + $signup_fee_amount;
-    } else {
-        $payment_data['sign_up_amount'] = pms_in_calculate_discounted_amount( $payment_data['amount'], $discount );
-    }
-
-    if( false == $payment_data['recurring'] )
-        $payment_data['amount'] = $payment_data['sign_up_amount'];
-
-    if( true == $payment_data['recurring'] && ! empty( $discount->recurring_payments ) )
-        $payment_data['amount'] = $payment_data['sign_up_amount'];
 
 
     // Save corresponding discount code for the payment in the db
@@ -454,11 +507,14 @@ function pms_in_dc_register_payment_data_after_discount( $payment_data, $payment
             'discount_code' => $discount->code
         );
 
-        // Update payment amount if it was discounted
-        if ( !is_null($payment_data['sign_up_amount']) ) {
+        // non-skipped paths set sign_up_amount above to the post-discount amount; skipped paths (addons that already computed per-item math) leave it unset, so fall back to $payment_data['amount'] which was written by the addon's order builder
+        $effective_amount = isset( $payment_data['sign_up_amount'] ) ? $payment_data['sign_up_amount'] : ( isset( $payment_data['amount'] ) ? $payment_data['amount'] : null );
 
-            $update_args['amount'] = $payment_data['sign_up_amount'];
-            $update_args['status'] = $payment_data['sign_up_amount'] == 0 ? 'completed' : $payment->status;
+        // Update payment amount if it was discounted; auto-complete on a zero effective amount so $0 single-plan flows and $0 addon-extended flows both reach the activation handler
+        if ( !is_null( $effective_amount ) ) {
+
+            $update_args['amount'] = $effective_amount;
+            $update_args['status'] = $effective_amount == 0 ? 'completed' : $payment->status;
 
         }
 

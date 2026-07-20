@@ -1024,6 +1024,8 @@ function pms_render_modal_payment_refund( $payment ){
                 </div>
             </div>
 
+            <?php do_action( 'pms_admin_refund_modal_before_form', $payment->id ); ?>
+
             <form id="pms-payment-refund-form">
                 <div class="pms-refund-modal__refund_settings">
                     <h3><?php esc_html_e( 'Refund Settings', 'paid-member-subscriptions' ); ?></h3>

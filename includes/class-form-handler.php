@@ -31,6 +31,8 @@ Class PMS_Form_Handler {
         add_filter( 'login_redirect', array( __CLASS__, 'validate_login_form' ), 10 ,3 );
         add_action( 'pms_register_form_after_create_user', array( __CLASS__, 'automatically_log_in') );
 
+        add_action( 'pms_process_checkout_validations', array( __CLASS__, 'validate_checkout_subscription_ownership' ), 5 );
+
     }
 
 
@@ -793,13 +795,12 @@ Class PMS_Form_Handler {
             return;
 
         // Get member subscription
-        $member              = pms_get_member( get_current_user_id() );
         $member_subscription = pms_get_member_subscription( absint( $_POST['subscription_id'] ) );
 
         if( is_null( $member_subscription ) )
             return;
 
-        if( ! in_array( $member_subscription->id, $member->get_subscription_ids() ) )
+        if( ! self::member_owns_subscription( $member_subscription, pms_get_current_user_id() ) )
             return;
 
         if( $member_subscription->status !== 'active' || ! $member_subscription->is_auto_renewing() )
@@ -898,13 +899,12 @@ Class PMS_Form_Handler {
             return;
 
         // Get member subscription
-        $member              = pms_get_member( get_current_user_id() );
         $member_subscription = pms_get_member_subscription( absint( $_POST['subscription_id'] ) );
 
         if( is_null( $member_subscription ) )
             return;
 
-        if( ! in_array( $member_subscription->id, $member->get_subscription_ids() ) )
+        if( ! self::member_owns_subscription( $member_subscription, pms_get_current_user_id() ) )
             return;
 
         // Remove subscription if confirm button was pressed
@@ -988,13 +988,12 @@ Class PMS_Form_Handler {
             return;
 
         // Get member and the member's subscription
-        $member              = pms_get_member( get_current_user_id() );
         $member_subscription = pms_get_member_subscription( absint( $_POST['subscription_id'] ) );
 
         if( is_null( $member_subscription ) )
             return;
 
-        if( ! in_array( $member_subscription->id, $member->get_subscription_ids() ) )
+        if( ! self::member_owns_subscription( $member_subscription, pms_get_current_user_id() ) )
             return;
 
         if( !$member_subscription->is_auto_renewing() || !pms_payment_gateways_support( array( $member_subscription->payment_gateway ), 'update_payment_method' ) )
@@ -1850,6 +1849,47 @@ Class PMS_Form_Handler {
 
     // NOTE: Should be refactored in a new class
     /**
+     * Whether the subscription row belongs to the given member.
+     *
+     * @param int|PMS_Member_Subscription|null $subscription Subscription row or id.
+     * @param int                              $user_id
+     * @return bool
+     */
+    public static function member_owns_subscription( $subscription, $user_id ) {
+
+        if( empty( $user_id ) )
+            return false;
+
+        if( $subscription instanceof PMS_Member_Subscription )
+            $subscription_id = (int) $subscription->id;
+        else
+            $subscription_id = absint( $subscription );
+
+        if( empty( $subscription_id ) )
+            return false;
+
+        $member = pms_get_member( $user_id );
+
+        $subscription_ids = array_map( 'absint', $member->get_subscription_ids() );
+
+        return in_array( $subscription_id, $subscription_ids, true );
+
+    }
+
+    /**
+     * Reject checkout when pms_current_subscription is not owned by the current user.
+     */
+    public static function validate_checkout_subscription_ownership() {
+
+        if( ! is_user_logged_in() || empty( $_POST['pms_current_subscription'] ) )
+            return;
+
+        if( ! self::member_owns_subscription( absint( $_POST['pms_current_subscription'] ), pms_get_current_user_id() ) )
+            pms_errors()->add( 'subscription_plans', __( 'Something went wrong.', 'paid-member-subscriptions' ) );
+
+    }
+
+    /**
      * Checkout process
      *
      * - validates the data from the forms
@@ -2047,6 +2087,15 @@ Class PMS_Form_Handler {
 
                 $subscription_data['id'] = $subscription->id;
 
+            }
+
+            if( ! self::member_owns_subscription( $subscription, $user_data['user_id'] ) ) {
+                pms_errors()->add( 'subscription_plans', __( 'Something went wrong.', 'paid-member-subscriptions' ) );
+
+                if( wp_doing_ajax() )
+                    self::return_generated_errors_for_ajax();
+                else
+                    return;
             }
 
         }

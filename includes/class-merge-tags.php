@@ -37,6 +37,8 @@ Class PMS_Merge_Tags{
         add_filter( 'pms_merge_tag_reset_key',                    array( $this, 'pms_tag_reset_key' ), 10, 6 );
         add_filter( 'pms_merge_tag_reset_url',                    array( $this, 'pms_tag_reset_url' ), 10, 6 );
         add_filter( 'pms_merge_tag_reset_link',                   array( $this, 'pms_tag_reset_link' ), 10, 6 );
+        add_filter( 'pms_merge_tag_order_subscription_plans',     array( $this, 'pms_tag_order_subscription_plans' ), 10, 6 );
+        add_filter( 'pms_merge_tag_order_breakdown',              array( $this, 'pms_tag_order_breakdown' ), 10, 6 );
 
     }
 
@@ -100,7 +102,9 @@ Class PMS_Merge_Tags{
             'account_page_url',
             'reset_key',
             'reset_url',
-            'reset_link'
+            'reset_link',
+            'order_subscription_plans',
+            'order_breakdown'
         );
 
         $available_merge_tags = apply_filters( 'pms_merge_tags', $available_merge_tags );
@@ -583,6 +587,124 @@ Class PMS_Merge_Tags{
             return $link;
         }
     }
+
+    /**
+     * Replace the {{order_subscription_plans}} tag
+     *
+     * - comma-separated, esc_html'd plan names: primary + bumps for bundle payments, just the primary for single-plan, empty otherwise
+     * - the `pms_merge_tag_order_subscription_plans_actions` filter sets which email actions resolve (defaults: pending_manual_payment, payment_failed, activate)
+     *
+     */
+    public function pms_tag_order_subscription_plans( $value, $user_info, $subscription_id, $payment_id, $action, $data ) {
+
+        $allowed_actions = apply_filters( 'pms_merge_tag_order_subscription_plans_actions', array( 'pending_manual_payment', 'payment_failed', 'activate' ) );
+
+        if( !in_array( $action, $allowed_actions, true ) )
+            return '';
+
+        if( empty( $payment_id ) )
+            return '';
+
+        $names            = array();
+        $order_items_meta = pms_get_payment_meta( $payment_id, '_pms_order_items', true );
+
+        if( !empty( $order_items_meta ) && is_array( $order_items_meta ) && !empty( $order_items_meta['items'] ) && is_array( $order_items_meta['items'] ) && count( $order_items_meta['items'] ) >= 2 ) {
+
+            foreach( $order_items_meta['items'] as $item ) {
+
+                if( !empty( $item['name'] ) )
+                    $names[] = $item['name'];
+
+            }
+
+        } else {
+
+            $payment = pms_get_payment( $payment_id );
+
+            if( !empty( $payment->id ) && !empty( $payment->subscription_id ) ) {
+
+                $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
+
+                if( !empty( $subscription_plan->name ) )
+                    $names[] = $subscription_plan->name;
+
+            }
+
+        }
+
+        if( empty( $names ) )
+            return '';
+
+        return implode( ', ', array_map( 'esc_html', $names ) );
+
+    }
+
+    /**
+     * Replace the {{order_breakdown}} tag
+     *
+     * - bundle: `Primary: <name> (amount)` + `Bump: <name> (amount)` lines + bold total line; single-plan: one `Subscription Plan: <name> (amount)` line, no total
+     * - amounts are post-discount and post-tax (already baked into `_pms_order_items[].total` or the payment row's amount), no separate tax row
+     * - the `pms_merge_tag_order_breakdown_actions` filter sets which email actions resolve (defaults: pending_manual_payment, payment_failed, activate)
+     *
+     */
+    public function pms_tag_order_breakdown( $value, $user_info, $subscription_id, $payment_id, $action, $data ) {
+
+        $allowed_actions = apply_filters( 'pms_merge_tag_order_breakdown_actions', array( 'pending_manual_payment', 'payment_failed', 'activate' ) );
+
+        if( !in_array( $action, $allowed_actions, true ) )
+            return '';
+
+        if( empty( $payment_id ) )
+            return '';
+
+        $order_items_meta = pms_get_payment_meta( $payment_id, '_pms_order_items', true );
+
+        if( !empty( $order_items_meta ) && is_array( $order_items_meta ) && !empty( $order_items_meta['items'] ) && is_array( $order_items_meta['items'] ) && count( $order_items_meta['items'] ) >= 2 ) {
+
+            $currency = !empty( $order_items_meta['currency'] ) ? $order_items_meta['currency'] : pms_get_active_currency();
+            $lines    = array();
+
+            foreach( $order_items_meta['items'] as $item ) {
+
+                if( empty( $item['name'] ) )
+                    continue;
+
+                $label = ( isset( $item['type'] ) && $item['type'] === 'primary' )
+                    ? esc_html__( 'Primary:', 'paid-member-subscriptions' )
+                    : esc_html__( 'Bump:', 'paid-member-subscriptions' );
+
+                $lines[] = $label . ' <em>' . esc_html( $item['name'] ) . '</em> (' . pms_format_price( (float) $item['total'], $currency ) . ')';
+
+            }
+
+            if( empty( $lines ) )
+                return '';
+
+            $total = isset( $order_items_meta['total'] ) ? (float) $order_items_meta['total'] : 0;
+
+            $lines[] = '<strong>' . sprintf( esc_html__( 'Total: %s', 'paid-member-subscriptions' ), pms_format_price( $total, $currency ) ) . '</strong>';
+
+            return implode( '<br>', $lines );
+
+        }
+
+        // single-plan payment: read directly from the payment row + plan
+        $payment = pms_get_payment( $payment_id );
+
+        if( empty( $payment->id ) || empty( $payment->subscription_id ) )
+            return '';
+
+        $subscription_plan = pms_get_subscription_plan( $payment->subscription_id );
+
+        if( empty( $subscription_plan->id ) || empty( $subscription_plan->name ) )
+            return '';
+
+        $currency = !empty( $payment->currency ) ? $payment->currency : pms_get_active_currency();
+
+        return esc_html__( 'Subscription Plan:', 'paid-member-subscriptions' ) . ' <em>' . esc_html( $subscription_plan->name ) . '</em> (' . pms_format_price( $payment->amount, $currency ) . ')';
+
+    }
+
 }
 
 

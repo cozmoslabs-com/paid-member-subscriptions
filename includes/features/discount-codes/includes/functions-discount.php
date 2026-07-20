@@ -472,7 +472,7 @@ function pms_in_dc_subscription_is_recurring( $subscription_plan, $user_checked_
 /**
  * Function that checks for and returns the discount errors
  * @param string $code The discount code entered
- * @param string $subscription The subscription plan ID
+ * @param int|array $subscription Single subscription plan ID, or an array of plan IDs for bundle-style checkouts (Order Bumps); eligibility passes when at least one of the supplied plans is in the discount's allowed list
  * @return string
  */
 function pms_in_dc_get_discount_error( $code, $subscription ){
@@ -496,8 +496,19 @@ function pms_in_dc_get_discount_error( $code, $subscription ){
             if ( empty($subscription) )
                 return __('Please select a subscription plan and try again.', 'paid-member-subscriptions');
 
-            if ( !in_array( $subscription, $discount_subscriptions ) || ( !empty( $discount_meta['pms_discount_new_users_only'][0] ) && in_array( $form_location, array( 'renew_subscription' ) ) ) ) {
-                //discount not valid for this subscription
+            // $subscription is an int (single plan) or an array of ints (multi-plan); normalize to an array so the loop below accepts the discount when any one id is in the allowed list
+            $subscription_ids = is_array( $subscription ) ? array_filter( array_map( 'absint', $subscription ) ) : array( absint( $subscription ) );
+
+            $has_eligible_plan = false;
+            foreach( $subscription_ids as $plan_id ) {
+                if( in_array( $plan_id, $discount_subscriptions ) ) {
+                    $has_eligible_plan = true;
+                    break;
+                }
+            }
+
+            if ( !$has_eligible_plan || ( !empty( $discount_meta['pms_discount_new_users_only'][0] ) && in_array( $form_location, array( 'renew_subscription' ) ) ) ) {
+                //discount not valid for any of the supplied subscription plans
                 return __('The discount is not valid for this subscription plan.', 'paid-member-subscriptions');
             }
 

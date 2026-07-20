@@ -314,6 +314,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div class="cozmoslabs-basic-info-addons">
 
             <div>
+                <a href="https://www.cozmoslabs.com/add-ons/order-bumps/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-order-bumps-addon" target="_blank">
+                    <h4 class="pms-add-on-name"><?php esc_html_e( 'Order Bumps', 'paid-member-subscriptions' ); ?></h4>
+                </a>
+
+                <a href="https://www.cozmoslabs.com/add-ons/order-bumps/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-order-bumps-addon" target="_blank" class="pms-addon-image-container">
+                    <img src="<?php echo esc_url( PMS_PLUGIN_DIR_URL ); ?>assets/images/pms-add-on-order-bumps-banner.png" alt="Order Bumps" class="pms-addon-image" />
+                </a>
+
+                <p class="cozmoslabs-description"><?php esc_html_e( 'Allow customers to add extra subscription plans to the same checkout and purchase them in one transaction.', 'paid-member-subscriptions' ); ?></p>
+            </div>
+
+            <div>
                 <a href="https://www.cozmoslabs.com/add-ons/gift-subscriptions/?utm_source=pms-basic-info&utm_medium=client-site&utm_campaign=pms-gift-subscriptions-addon" target="_blank">
                     <h4 class="pms-add-on-name"><?php esc_html_e( 'Gift Subscriptions', 'paid-member-subscriptions' ); ?></h4>
                 </a>

@@ -50,10 +50,33 @@ function pms_recaptcha_get_field_output( $form_location = 'register' ) {
  */
 function pms_recaptcha_field_register_form_bottom( $shortcode_atts ) {
 
-    echo pms_recaptcha_get_field_output( 'register' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    // under an active form design, render reCaptcha inside the fields list instead of at the form bottom
+    // - the design relocates the submit button into the payment container and turns the form into a flex row
+    // - rendering at the bottom would make reCaptcha a stray extra column, or stack it below the submit button
+    // - matches how the GDPR checkbox is placed under a design
+    $design_active = function_exists( 'pms_get_active_form_design' ) && in_array( pms_get_active_form_design(), array( 'form-style-1', 'form-style-2', 'form-style-3' ) );
+
+    if ( $design_active ) {
+
+        if ( current_action() !== 'pms_register_form_subscription_plans_field_after_output' )
+            return;
+
+        // bare list item wrapper keeps the markup valid inside the <ul>
+        // - no pms-field class here so the 20px margin on the inner wrapper isn't doubled
+        echo '<li class="pms-recaptcha-list-item" style="list-style-type: none;">' . pms_recaptcha_get_field_output( 'register' ) . '</li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+    } else {
+
+        if ( current_action() !== 'pms_register_form_bottom' )
+            return;
+
+        echo pms_recaptcha_get_field_output( 'register' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+    }
 
 }
 add_action( 'pms_register_form_bottom', 'pms_recaptcha_field_register_form_bottom', 100 );
+add_action( 'pms_register_form_subscription_plans_field_after_output', 'pms_recaptcha_field_register_form_bottom', 70 );
 
 
 /**

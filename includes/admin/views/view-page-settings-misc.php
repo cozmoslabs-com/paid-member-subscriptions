@@ -391,6 +391,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <label for="upgrade-downgrade-sign-up-fee" class="cozmoslabs-description"><?php esc_html_e( 'Charge users sign-up fees for Subscription Upgrades and Downgrades.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
+
+            <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
+                <label class="cozmoslabs-form-field-label" for="order-summary"><?php esc_html_e( 'Order Summary', 'paid-member-subscriptions' ) ?></label>
+
+                <div class="cozmoslabs-toggle-container">
+                    <input type="checkbox" id="order-summary" name="pms_misc_settings[payments][order_summary]" value="1" <?php echo ( !empty( $this->options['payments']['order_summary'] ) ? 'checked' : '' ); ?> />
+                    <label class="cozmoslabs-toggle-track" for="order-summary"></label>
+                </div>
+                <div class="cozmoslabs-toggle-description">
+                    <label for="order-summary" class="cozmoslabs-description"><?php esc_html_e( 'Display an order summary on checkout forms, even when no add-on requires it.', 'paid-member-subscriptions' ); ?></label>
+                </div>
+            </div>
         </div>
 
         <?php if( pms_payment_gateways_support( pms_get_payment_gateways( true ), 'plugin_scheduled_payments' ) ) : ?>

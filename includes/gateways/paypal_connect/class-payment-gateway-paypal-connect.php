@@ -1796,6 +1796,20 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
             }
         }
 
+        /**
+         * Filters the PayPal Connect create-order request body before it is sent to PayPal
+         *
+         * - fires once per order creation, after the body has been assembled (covers both initial and vaulted/PSP flows)
+         * - $vault_id is empty for initial orders and populated when the order is created against a saved vault token
+         *
+         * @param array                 $order_data
+         * @param PMS_Subscription_Plan $subscription_plan
+         * @param PMS_Payment|null      $payment
+         * @param string                $vault_id
+         *
+         */
+        $order_data = apply_filters( 'pms_ppcp_create_order_data', $order_data, $subscription_plan, $payment, $vault_id );
+
         $args = array(
             'method'  => 'POST',
             'headers' => $this->get_request_headers(),

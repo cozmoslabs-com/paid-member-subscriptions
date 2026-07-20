@@ -44,8 +44,6 @@ function pms_wppb_get_autologin_url( $redirect_url, $payment_id = 0 ){
     if( !$user )
         return $redirect_url;
 
-    $nonce = wp_create_nonce( 'autologin-'. $user->ID .'-'. (int)( time() / 60 ) );
-
     if ( wppb_get_admin_approval_option_value() === 'yes' ) {
         if( !empty( $wppb_general_settings['adminApprovalOnUserRole'] ) ) {
             foreach ($user->roles as $role) {
@@ -59,7 +57,11 @@ function pms_wppb_get_autologin_url( $redirect_url, $payment_id = 0 ){
         }
     }
 
-    $redirect_url = add_query_arg( array( 'autologin' => 'true', 'uid' => $user->ID, '_wpnonce' => $nonce ), $redirect_url );
+    if ( ! function_exists( 'wppb_get_autologin_query_args' ) ) {
+        return $redirect_url;
+    }
+
+    $redirect_url = add_query_arg( wppb_get_autologin_query_args( $user->ID ), $redirect_url );
 
     return $redirect_url;
 

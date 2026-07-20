@@ -237,6 +237,53 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
     /**
+     * Checks if a user has an active or canceled subscription that grants a role
+     *
+     * @param int    $user_id
+     * @param string $user_role
+     * @param int    $excluded_subscription_id
+     *
+     * @return bool
+     *
+     */
+    function pms_user_has_active_or_canceled_subscription_for_role( $user_id = 0, $user_role = '', $excluded_subscription_id = 0 ) {
+
+        if( empty( $user_id ) || empty( $user_role ) )
+            return false;
+
+        $member_subscriptions = pms_get_member_subscriptions( array(
+            'user_id' => $user_id,
+            'status'  => array( 'active', 'canceled' ),
+        ) );
+
+        if( empty( $member_subscriptions ) )
+            return false;
+
+        $subscription_plan_ids = array();
+
+        foreach( $member_subscriptions as $member_subscription ) {
+
+            if( ! empty( $excluded_subscription_id ) && (int)$member_subscription->id === (int)$excluded_subscription_id )
+                continue;
+
+            $member_subscription_data = $member_subscription->to_array();
+
+            if( ! empty( $member_subscription_data['expiration_date'] ) && $member_subscription_data['expiration_date'] != '0000-00-00 00:00:00' && strtotime( $member_subscription_data['expiration_date'] ) < time() )
+                continue;
+
+            $subscription_plan_ids[] = $member_subscription->subscription_plan_id;
+
+        }
+
+        if( empty( $subscription_plan_ids ) )
+            return false;
+
+        return in_array( $user_role, pms_get_user_roles_by_plan_ids( $subscription_plan_ids ), true );
+
+    }
+
+
+    /**
      * Removes the user role, attached to the subscription plan, from the member when their subscription expires
      *
      * @param int   $subscription_id
@@ -257,6 +304,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
         $member_subscription         = pms_get_member_subscription( $subscription_id );
         $subscription_plan_user_role = pms_get_subscription_plan_user_role( $member_subscription->subscription_plan_id );
+
+        if( pms_user_has_active_or_canceled_subscription_for_role( $member_subscription->user_id, $subscription_plan_user_role, $subscription_id ) )
+            return;
 
         pms_remove_user_role( $member_subscription->user_id, $subscription_plan_user_role );
 

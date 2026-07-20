@@ -200,6 +200,9 @@ class PMS_Addons_List_Table extends WP_List_Table {
 
         $documentation = '<a target="_blank" class="right" href="'. $item['doc_url']  . '">' . __( 'Documentation', $this->text_domain ) . '</a>';//phpcs:ignore
 
+        // allow add-ons to adjust their own action button
+        $action = apply_filters( 'pms_add_ons_listing_action', $action, $item, $this );
+
         return $action . $documentation;
     }
 

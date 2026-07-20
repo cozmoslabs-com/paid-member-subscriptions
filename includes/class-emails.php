@@ -527,8 +527,8 @@ Class PMS_Emails {
                 'activate'               => __( 'Congratulations {{display_name}}! The "{{subscription_name}}" plan has been successfully activated.', 'paid-member-subscriptions' ),
                 'cancel'                 => __( 'Hello {{display_name}}, The "{{subscription_name}}" plan has been canceled.', 'paid-member-subscriptions' ),
                 'expired'                => __( 'Hello {{display_name}}, The "{{subscription_name}}" plan has expired.', 'paid-member-subscriptions' ),
-                'payment_failed'         => __( 'Your latest payment for the "{{subscription_name}}" plan has failed. You can go to the <a href="{{account_page_url}}">account page</a> and login in order to try again.<br><br>{{automatic_retry_message}}', 'paid-member-subscriptions' ),
-                'pending_manual_payment' => __( 'Hello {{display_name}}!<br>We received your order for "{{subscription_name}}" plan.<br>You can make the payment using the following bank details:', 'paid-member-subscriptions' ),
+                'payment_failed'         => __( 'Your latest payment for <em>{{order_subscription_plans}}</em> has failed. You can go to the <a href="{{account_page_url}}">account page</a> and login in order to try again.<br><br>{{automatic_retry_message}}', 'paid-member-subscriptions' ),
+                'pending_manual_payment' => __( 'Hello {{display_name}}!<br>We received your order for <em>{{order_subscription_plans}}</em>.<br>You can make the payment using the following bank details:', 'paid-member-subscriptions' ),
                 'renew'                  => __( 'Hello {{display_name}}, The "{{subscription_name}}" plan has been renewed.', 'paid-member-subscriptions' ),
                 'reset_password'         => __('Someone has just requested a password reset for the following account: {{site_name}} <br> If this was a mistake, just ignore this email and nothing will happen. <br> To reset your password, visit the following link: {{reset_link}}', 'paid-member-subscriptions'),
             );
@@ -544,7 +544,7 @@ Class PMS_Emails {
                 'cancel'                 => __( 'The "{{subscription_name}}" plan has been canceled for user {{display_name}}.', 'paid-member-subscriptions' ),
                 'expired'                => __( 'The "{{subscription_name}}" plan has expired for user {{display_name}}.', 'paid-member-subscriptions' ),
                 'renew'                  => __( 'The "{{subscription_name}}" plan was renewed for user {{display_name}}.', 'paid-member-subscriptions' ),
-                'pending_manual_payment' => __( '{{display_name}} has just placed an order for "{{subscription_name}}" plan.<br><strong>Manual Payment</strong> option was used and the status is <strong>Pending</strong>.', 'paid-member-subscriptions' ),
+                'pending_manual_payment' => __( '{{display_name}} has just placed an order for <em>{{order_subscription_plans}}</em>.<br><strong>Manual Payment</strong> option was used and the status is <strong>Pending</strong>.', 'paid-member-subscriptions' ),
             );
 
         }

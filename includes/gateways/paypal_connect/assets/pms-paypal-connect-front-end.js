@@ -108,6 +108,9 @@ jQuery(function ($) {
         $(document).on( 'pms_discount_success', pms_ppcp_reinitialize_sdk )
         $(document).on( 'pms_discount_error', pms_ppcp_reinitialize_sdk )
 
+        // Re-initialize when an addon signals a checkout state change (e.g. Order Bumps toggling line items)
+        $(document).on( 'pms_recompute_payment_mode', pms_ppcp_reinitialize_sdk )
+
     })
 
     /**
@@ -402,11 +405,18 @@ jQuery(function ($) {
             data.paypal_order_id = response.orderID
         }
 
-        // prepare data
+        // expand array values into separate appends so multi-value fields reach the wire as repeated entries
+        // - FormData.append stringifies array values via comma-join, collapsing them into a single scalar
         var form_data = new FormData();
 
         for (var key in data) {
-            form_data.append(key, data[key])
+            if ( Array.isArray( data[key] ) ) {
+                data[key].forEach( function ( value ) {
+                    form_data.append( key, value )
+                } )
+            } else {
+                form_data.append( key, data[key] )
+            }
         }
 
         return fetch( pms_paypal.ajax_url, {
@@ -489,11 +499,18 @@ jQuery(function ($) {
             }
         }
 
-        // prepare data
+        // expand array values into separate appends so multi-value fields reach the wire as repeated entries
+        // - FormData.append stringifies array values via comma-join, collapsing them into a single scalar
         var form_data = new FormData()
 
         for (var key in data) {
-            form_data.append(key, data[key])
+            if ( Array.isArray( data[key] ) ) {
+                data[key].forEach( function ( value ) {
+                    form_data.append( key, value )
+                } )
+            } else {
+                form_data.append( key, data[key] )
+            }
         }
 
         return fetch( pms_paypal.ajax_url, {

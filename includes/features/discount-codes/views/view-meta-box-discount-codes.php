@@ -27,24 +27,16 @@ if( ! defined( 'PMS_VERSION' ) ) return;
 
 <div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
 
-    <label for="pms-discount-type" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Type', 'paid-member-subscriptions' ); ?></label>
+    <label for="pms-discount-amount" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Discount Amount / Type', 'paid-member-subscriptions' ); ?></label>
+
+    <input type="text" id="pms-discount-amount" name="pms_discount_amount" class="small" value="<?php echo esc_attr( $discount->amount ); ?>" />
 
     <select id="pms-discount-type" name="pms_discount_type">
         <option value="percent" <?php selected( 'percent', $discount->type, true ); ?>><?php esc_html_e( 'Percent', 'paid-member-subscriptions' ); ?></option>
         <option value="fixed" <?php selected( 'fixed', $discount->type, true ); ?>><?php esc_html_e( 'Fixed amount', 'paid-member-subscriptions' ); ?></option>
     </select>
-    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'The type of discount to apply for the purchase.', 'paid-member-subscriptions' ); ?></p>
 
-</div>
-
-
-<div class="pms-meta-box-field-wrapper cozmoslabs-form-field-wrapper">
-
-    <label for="pms-discount-amount" class="pms-meta-box-field-label cozmoslabs-form-field-label"><?php esc_html_e( 'Amount', 'paid-member-subscriptions' ); ?></label>
-
-    <input type="text" id="pms-discount-amount" name="pms_discount_amount" class="small" value="<?php echo esc_attr( $discount->amount ); ?>" /> <span class="pms-discount-currency"> <?php echo esc_html( pms_get_active_currency() ); ?></span>
-
-    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Enter the discount amount.', 'paid-member-subscriptions' ); ?></p>
+    <p class="cozmoslabs-description cozmoslabs-description-space-left"><?php esc_html_e( 'Set the discount applied to eligible purchases.', 'paid-member-subscriptions' ); ?></p>
 
 </div>
 

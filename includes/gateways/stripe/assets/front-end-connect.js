@@ -107,6 +107,47 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 
     })
 
+    /**
+     * Resolves the Stripe setup_future_usage for a plan input from its recurring config and the customer's renewal choice
+     *
+     * - 'off_session' when the plan recurs (always-recurring, opt-in with the auto-renew box ticked, or the site default forcing recurring)
+     * - null when it does not recur, undefined when the input carries no recurring config so callers leave the current value untouched
+     * - shared so the primary plan and add-on items (e.g. Order Bumps) derive setup_future_usage from one rule and stay in agreement with the server-side PaymentIntent
+     *
+     */
+    function pms_stripe_connect_setup_future_usage_for_input( $input ) {
+
+        let recurring = $input.data( 'recurring' )
+
+        if( recurring == 0 || recurring == 1 ){
+
+            let default_recurring = $('input[type="hidden"][name="pms_default_recurring"]').val()
+
+            if( default_recurring == 2 )
+                return 'off_session'
+            else if( default_recurring == 3 )
+                return null
+            else
+                return $('.pms-subscription-plan-auto-renew input[name="pms_recurring"]').prop('checked') ? 'off_session' : null
+
+        } else if( recurring == 2 ){
+            return 'off_session'
+        } else if( recurring == 3 ){
+            return null
+        }
+
+        return undefined
+
+    }
+
+    // expose the rule so add-ons resolve setup_future_usage with the same logic as the primary plan
+    $.pms_stripe_connect_setup_future_usage_for_input = pms_stripe_connect_setup_future_usage_for_input
+
+    // Re-run mode selection when an addon signals a checkout state change (e.g. Order Bumps toggling line items)
+    $(document).on( 'pms_recompute_payment_mode', function() {
+        stripeConnectInit()
+    })
+
     $(document).on('click', '.pms-subscription-plan-auto-renew input[name="pms_recurring"]', function ( event ) {
 
         if( $(this).prop('checked') ){
@@ -288,6 +329,11 @@ async function pms_stripe_maybe_load_gateway( $ ) {
             if( $.pms_checkout_is_setup_intents() )
                 target_elements = elements_setup_intent
 
+            // let add-ons escalate setup_future_usage to off_session before the ConfirmationToken is built (e.g. a recurring Order Bump under a non-recurring primary), so the token matches the server-side PaymentIntent
+            // - escalate-only: it never downgrades the value the primary plan already required, it only forces off_session when an add-on needs the payment method stored for future renewals
+            if( $(document).triggerHandler( 'pms_filter_stripe_connect_setup_future_usage', [ null, current_button.closest( 'form' ) ] ) === 'off_session' )
+                target_elements.update( { setupFutureUsage: 'off_session' } )
+
             const {error: submitError} = await target_elements.submit()
 
             if (submitError) {
@@ -397,11 +443,18 @@ async function pms_stripe_maybe_load_gateway( $ ) {
         if( data == false )
             return
 
-        // prepare data
+        // expand array values into separate appends so multi-value fields reach the wire as repeated entries
+        // - FormData.append stringifies array values via comma-join, collapsing them into a single scalar
         var form_data = new FormData()
 
         for (var key in data) {
-            form_data.append(key, data[key])
+            if ( Array.isArray( data[key] ) ) {
+                data[key].forEach( function ( value ) {
+                    form_data.append( key, value )
+                } )
+            } else {
+                form_data.append( key, data[key] )
+            }
         }
 
         return fetch( pms.ajax_url, {
@@ -582,28 +635,10 @@ async function pms_stripe_maybe_load_gateway( $ ) {
         let selected_subscription = jQuery( subscription_plan_selector + '[type=radio]' ).length > 0 ? jQuery( subscription_plan_selector + '[type=radio]:checked' ) : jQuery( subscription_plan_selector + '[type=hidden]' )
 
         // Handle Setup Future Usage parameter
-        if( selected_subscription.data('recurring') == 0 || selected_subscription.data('recurring') == 1 ){
+        let primary_setup_future_usage = pms_stripe_connect_setup_future_usage_for_input( selected_subscription )
 
-            let default_recurring = $('input[type="hidden"][name="pms_default_recurring"]').val()
-
-            if( default_recurring == 2 ){
-                elements.update( { setupFutureUsage: 'off_session' } );
-            } else if ( default_recurring == 3 ){
-                elements.update( { setupFutureUsage: null } );
-            } else {
-                // Verify renew checkbox status and update the payment element accordingly
-                if( $('.pms-subscription-plan-auto-renew input[name="pms_recurring"]').prop('checked') ){
-                    elements.update( { setupFutureUsage: 'off_session' } );
-                } else {
-                    elements.update( { setupFutureUsage: null } );
-                }
-            }
-
-        } else if( selected_subscription.data('recurring') == 2 ){
-            elements.update( { setupFutureUsage: 'off_session' } );
-        } else if( selected_subscription.data('recurring') == 3 ){
-            elements.update( { setupFutureUsage: null } );
-        }
+        if( typeof primary_setup_future_usage !== 'undefined' )
+            elements.update( { setupFutureUsage: primary_setup_future_usage } );
 
         if( target_elements_instance != false ){
 

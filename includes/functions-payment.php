@@ -167,7 +167,6 @@ function pms_get_payments( $args = array() ) {
         } else {
             $subscription_plan_id = (int)trim( $args['subscription_plan_id'] );
             $query_where          = $query_where . " AND " . " pms_payments.subscription_plan_id = {$subscription_plan_id}";
-
         }
     }
 
@@ -211,6 +210,18 @@ function pms_get_payments( $args = array() ) {
     $query_offset       = '';
     if( $args['offset'] )
         $query_offset   = 'OFFSET ' . (int)trim( $args['offset'] ) . ' ';
+
+    /**
+     * Filters the assembled WHERE clause before the query runs
+     *
+     * - lets add-on / bundle layers inject or rewrite conditions (e.g. the Order Bumps virtual bundle_payment type and plan-as-bump matching) without core carrying add-on-specific SQL
+     * - runs before $wpdb->prepare, so callbacks must keep the %d / %s placeholders intact and only emit pre-sanitized values
+     *
+     * @param string $query_where the WHERE clause built so far
+     * @param array  $args        the arguments used to query the payments
+     *
+     */
+    $query_where = apply_filters( 'pms_get_payments_query_where', $query_where, $args );
 
     // Concatenate query string
     $query_string .= $query_from . $query_inner_join . $query_where . $query_order_string . $query_limit . $query_offset;
@@ -430,6 +441,10 @@ function pms_get_payments_count( $args = array() ) {
     $count = get_transient( $key );
 
     if( $count === false ) {
+
+        // mirror pms_get_payments(): let bundle / add-on layers rewrite the WHERE clause so the per-status counts line up with the filtered rows
+        $query_where = apply_filters( 'pms_get_payments_query_where', $query_where, $args );
+
         // Concatenate query string
         $query_string .= $query_inner_join . $query_where;
 
@@ -1091,12 +1106,25 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
 
         if( !is_user_logged_in() || in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) ){
 
-            if( $subscription_plan->has_trial() )
-                $amount = $subscription_plan->sign_up_fee;
-            else
-                $amount = $amount + $subscription_plan->sign_up_fee;
+            /**
+             * Filters the signup-fee value before it's added to the payable amount
+             *
+             * - addons that change the active currency at request time (Multiple Currencies in particular) hook this to return the signup fee in the customer's selected currency; without the filter, the plan's default-currency value would be mixed with selected-currency amounts the filter chain above already produced
+             * - the filter fires only when the signup fee is about to be applied (after the form_location gate above and the apply_sign_up_fee gate at the outer if), so consumers can assume the value will be used immediately and don't need to re-check eligibility
+             *
+             * @param float                 $sign_up_fee
+             * @param PMS_Subscription_Plan $subscription_plan
+             * @param array                 $request_data
+             *
+             */
+            $sign_up_fee_value = (float) apply_filters( 'pms_calculate_signup_fee_amount', (float) $subscription_plan->sign_up_fee, $subscription_plan, $request_data );
 
-            $signup_fee_amount = (float)$subscription_plan->sign_up_fee;
+            if( $subscription_plan->has_trial() )
+                $amount = $sign_up_fee_value;
+            else
+                $amount = $amount + $sign_up_fee_value;
+
+            $signup_fee_amount = $sign_up_fee_value;
 
         }
 
@@ -1124,8 +1152,8 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
 
     }
 
-    // Apply taxes if they are enabled
-    if( function_exists( 'pms_in_tax_enabled' ) && pms_in_tax_enabled() ){
+    // Apply taxes if they are enabled; callers that compute per-item tax themselves can pass $request_data['skip_tax'] = true to ask for the pre-tax amount and avoid double-application
+    if( function_exists( 'pms_in_tax_enabled' ) && pms_in_tax_enabled() && empty( $request_data['skip_tax'] ) ){
         $amount = apply_filters( 'pms_tax_apply_to_amount', $amount, $subscription_plan->id, $request_data );
 
         if( isset( $breakdown_data['discount'] ) )

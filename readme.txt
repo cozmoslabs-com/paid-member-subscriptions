@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.7
+Stable tag: 3.0.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -275,19 +275,15 @@ For more information please check out [Paid Member Subscriptions documentation](
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.0.7 =
-* Fix: Security issue regarding subscriber level disclosure of payment details. Thanks to Wei Hsiang Wang and the WPScan team
-* Fix: Security issue regarding the change subscription functionality. Thanks to Revanth Hari Narayana Matte and the WPScan team
-* Fix: Unauthenticated exposure of partially generated residual export files. Thanks to Alessandro Greco, Giovanbattista Ianni and the WPScan team
-* Fix: Further security hardening
-* Fix: Hide payment details spinner when the MC currency AJAX request fails
-* Fix: Send the Pending Manual Payment email when an admin adds a manual payment
-* Fix: Issue with user creation on multisite subsites on WordPress 6.8+
-* Fix: Consolidate subscription update logic for Fixed Period Subscriptions
-* Enhancement: Allow cross-tier plan changes by admins when manually editing subscriptions. Before this change, you could switch members only to plans from the same tier, now they can be set to any plan
-* Enhancement: Added a Show to Logged Out users to Gutenberg blocks content restriction. This can be used in combination with not susbcribed to show a block to logged out and not subscribed users
-* Misc: Move the Redirect after a manual payment setting to the Payment Gateways section
-* Misc: Added a filter that can be used to force load the block theme stylesheet: pms_load_block_theme_stylesheet
-* Misc: Fix PayPal Deprecation notice that couldn't be dismissed
+= 3.0.8 =
+* Enhancement: Added the possibility to always show a summary box at the end of the form. Enable from Settings -> Misc -> Payments -> Order Summary
+* Fix: Include the security issue fixes regarding the change subscription functionality which were missing from the latest update. Thanks to Revanth Hari Narayana Matte and the WPScan team
+* Fix: When a subscription expire, do not remove the associated user role if the user has another plan with the same user role
+* Fix: Javascript error when trying to add member subscriptions manually as an admin
+* Misc: Compatibility with new Order Bumps add-on
+* Misc: Automatically refresh stale strings in Labels Edit
+* Misc: Remove stray backslash generated for some strings in Labels Edit
+* Misc: Handle reCaptcha field position with form designs
+* Misc: Compatibility with Profile Builder auto login changes
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

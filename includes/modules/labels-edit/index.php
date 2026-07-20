@@ -134,8 +134,8 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
 
             if( !empty( $_POST['pmsle-label-select'] ) && isset( $_POST['pmsle-newlabel'] ) ){
 
-                $select_label = str_replace( '\\\\\\', '\\', $_POST['pmsle-label-select'] ); /* phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized */ /* escaped on output */
-                $newlabel = str_replace( '\\\\\\', '\\', $_POST['pmsle-newlabel'] ); /* phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized */ /* escaped on output */
+                $select_label = wp_unslash( $_POST['pmsle-label-select'] ); /* phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized */ /* escaped on output */
+                $newlabel = wp_unslash( $_POST['pmsle-newlabel'] ); /* phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized */ /* escaped on output */
 
                 $edited_labels = get_option( 'pmsle', false );
 
@@ -279,6 +279,10 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
 
                     echo '<table id="pmsle-table" class="widefat">';
                     $edited_labels = get_option( 'pmsle', false );
+
+                    // Current source strings, used to flag saved overrides whose original label no longer exists
+                    $source_strings = get_option( 'pmsle_backup', array() );
+
                     if( !empty( $edited_labels ) ){
                         echo '<thead>';
                             echo '<tr class="pmsle-header">';
@@ -297,12 +301,18 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
                                 if ( $i % 2 === 0 )
                                     $alternate_row = 'alternate';
 
+                                // Flag entries whose original label is no longer among the current source strings
+                                // - happens when the label changed in a plugin update, so the strict match in change_strings() can never succeed
+                                $is_stale = is_array( $source_strings ) && ! in_array( $label['pmsle-label'], $source_strings, true );
+
                                 echo '<tr id="pmsle-table-element-' . esc_attr( $i ) . '" class='. esc_html( $alternate_row ) .' >';
                                     echo '<td class="pmsle-table-number">' . esc_attr( $i + 1 ) . '</td>';
                                     echo '<td class="pmsle-table-label">';
                                         echo '<ul>';
                                             echo '<li><strong>' . esc_html__( 'Label to Edit:', 'paid-member-subscriptions' ) . '</strong><pre id="pmsle-label-' . esc_attr( $i ) . '">' . esc_attr( $label['pmsle-label'] ) . '</pre></li>';
                                             echo '<li><strong>' . esc_html__( 'New Label:', 'paid-member-subscriptions' ) . '</strong><pre id="pmsle-newlabel-' . esc_attr( $i ) . '">' . esc_attr( $label['pmsle-newlabel'] ) . '</pre></li>';
+                                            if( $is_stale )
+                                                echo '<li class="pmsle-stale-warning"><span class="dashicons dashicons-warning"></span> ' . esc_html__( 'This original label no longer exists. It may have changed in a plugin update - delete this entry and re-add it by selecting the current label.', 'paid-member-subscriptions' ) . '</li>';
                                         echo '</ul>';
                                     echo '</td>';
                                     echo '<td id="pmsle-edit-item-' . esc_attr( $i ) .'" class="pmsle-table-edit"><a class="button-secondary" >' . esc_html__( 'Edit', 'paid-member-subscriptions' ) . '</a></td>';
@@ -415,6 +425,9 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
 
         update_option( 'pmsle_backup', '', 'no' );
         update_option( 'pmsle_backup', $pms_strings, false );
+
+        // Stamp the version the backup was built for so it can be refreshed automatically after a plugin update
+        update_option( 'pmsle_backup_version', PMS_VERSION, false );
     }
 
     private function get_directory_name( $path ) {
@@ -581,7 +594,10 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
     public function init_strings() {
         $strings = get_option( 'pmsle_backup', false );
 
-        if ( empty( $strings ) )
+        // Rescan when the backup is missing or was built for a previous plugin version
+        // - source strings can change between releases, and a stale backup offers labels that no longer match the runtime text
+        // - a saved override picked from a stale label can never match, so the replacement silently does nothing
+        if ( empty( $strings ) || get_option( 'pmsle_backup_version' ) !== PMS_VERSION )
             $this->scan_labels();
     }
 }

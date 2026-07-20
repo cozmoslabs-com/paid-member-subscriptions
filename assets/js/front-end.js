@@ -837,6 +837,22 @@ jQuery( function($) {
         $('<div class="pms_field-errors-wrapper pms-is-js"><p>' + error + '</p></div>').insertBefore( '#pms-paygates-wrapper' )
     }
 
+    $.pms_add_order_bumps_error = function( error ){
+        if( error == '' || error == 'undefined' )
+            return false
+
+        var $section = $('.pms-order-bumps').first()
+
+        if( $section.length ) {
+            $section.find( '.pms-order-bumps__error' ).remove()
+            $section.prepend( '<div class="pms_field-errors-wrapper pms-order-bumps__error pms-is-js"><p>' + error + '</p></div>' )
+            return
+        }
+
+        // bumps section is not on the page (no configured bumps for the primary, or unsupported flow); fall back to the top-of-form general error
+        $.pms_add_general_error( error )
+    }
+
     $.pms_add_recaptcha_field_error = function( error, payment_button ){
 
         $field_wrapper = $( '#pms-recaptcha-register-wrapper', $(payment_button).closest('form') )
@@ -993,21 +1009,27 @@ jQuery( function($) {
 
     /**
      * Checks if a given/selected plan plus the current form state create a checkout without a payment, we call it setup_intents similar to Stripe
+     *
+     * - addons can override the decision by listening to the `pms_filter_checkout_is_setup_intents` jQuery event on document and returning a boolean (e.g. Order Bumps forces payment mode when bundle line items are selected)
      */
     $.pms_checkout_is_setup_intents = function () {
 
         let selected_plan = $(subscription_plan_selector + '[type=radio]').length > 0 ? $(subscription_plan_selector + '[type=radio]:checked') : $(subscription_plan_selector + '[type=hidden]')
 
+        let result = false
+
         if ( typeof selected_plan.data('trial') != 'undefined' && selected_plan.data('trial') == '1' && !$.pms_plan_has_signup_fee( selected_plan ) )
-            return true
+            result = true
         // If a 100% discount code is used, initial amount will be 0
         else if ( $('input[name="discount_code"]').length > 0 && $('input[name="discount_code"]').val().length > 0 && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0' )
-            return true
+            result = true
         // Pro-rated subscriptions
         else if ($.pms_plan_is_prorated(selected_plan) && typeof selected_plan.data('price') != 'undefined' && selected_plan.data('price') == '0')
-            return true
+            result = true
 
-        return false
+        let filtered = $(document).triggerHandler( 'pms_filter_checkout_is_setup_intents', [ result, selected_plan ] )
+
+        return typeof filtered === 'boolean' ? filtered : result
 
     }
 
@@ -1074,6 +1096,11 @@ jQuery( function($) {
 
                 if (scrollLocation == '')
                     scrollLocation = '#pms-paygates-wrapper'
+            } else if (value.target == 'order_bumps') {
+                $.pms_add_order_bumps_error(value.message)
+
+                if (scrollLocation == '')
+                    scrollLocation = $('.pms-order-bumps').length ? '.pms-order-bumps' : '.pms-form'
             } else if (value.target == 'recaptcha-register') {
 
                 $.pms_add_recaptcha_field_error(value.message, payment_button)
@@ -1165,9 +1192,18 @@ jQuery( function($) {
 
         var form = $(current_button).closest('form')
 
-        // grab all data from the form
+        // promote duplicate item.name values to an array, keep single-value fields scalar
+        // - serializeArray emits one entry per submitted value, so multi-value fields produce duplicate names
+        // - downstream consumers expect single-value fields to stay scalar
         var data = form.serializeArray().reduce(function (obj, item) {
-            obj[item.name] = item.value
+
+            if ( typeof obj[item.name] !== 'undefined' ) {
+                obj[item.name] = Array.isArray( obj[item.name] ) ? obj[item.name] : [obj[item.name]]
+                obj[item.name].push( item.value )
+            } else {
+                obj[item.name] = item.value
+            }
+
             return obj
         }, {})
 

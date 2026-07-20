@@ -136,6 +136,39 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 </div>
             <?php endif; ?>
 
+            <!-- Payment Bump Subscriptions -->
+            <?php
+            $bump_member_subscription_ids = ( $action == 'edit_payment' && !empty( $payment->id ) ) ? pms_get_payment_meta( $payment->id, '_pms_order_bumps_member_subscription_ids', true ) : array();
+            $bump_member_subscription_ids = is_array( $bump_member_subscription_ids ) ? array_filter( array_map( 'absint', $bump_member_subscription_ids ) ) : array();
+            ?>
+
+            <?php if( !empty( $bump_member_subscription_ids ) ): ?>
+                <div class="cozmoslabs-form-field-wrapper">
+
+                    <label for="pms-payment-bump-subscriptions" class="cozmoslabs-form-field-label"><?php esc_html_e( 'Bump Subscriptions', 'paid-member-subscriptions' ); ?></label>
+
+                    <span id="pms-payment-bump-subscriptions" class="readonly medium">
+                        <?php
+                        $bump_subscription_links = array();
+
+                        foreach( $bump_member_subscription_ids as $bump_member_subscription_id ) {
+
+                            $bump_subscription_links[] = sprintf(
+                                '<a href="%1$s" title="%2$s">%3$s</a>',
+                                esc_url( add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'subpage' => 'edit_subscription', 'subscription_id' => $bump_member_subscription_id ), admin_url( 'admin.php' ) ) ),
+                                esc_attr__( 'Edit Subscription', 'paid-member-subscriptions' ),
+                                esc_html( $bump_member_subscription_id )
+                            );
+
+                        }
+
+                        echo wp_kses_post( implode( ', ', $bump_subscription_links ) );
+                        ?>
+                    </span>
+
+                </div>
+            <?php endif; ?>
+
             <!-- Payment Amount -->
             <?php
 

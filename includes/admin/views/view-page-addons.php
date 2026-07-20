@@ -93,6 +93,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
     $pms_addons_listing->section_header_free = array( 'title' => __('Pro Add-ons', 'paid-member-subscriptions' ), 'description' => sprintf( __( 'Get access to these Add-ons with a Pro or Agency license. %sBuy now%s', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-pro-addons-upsell#pricing" taget="_blank">', '</a>' )  );
     $pms_addons_listing->section_versions = array( 'Paid Member Subscriptions - Pro', 'Paid Member Subscriptions - Agency', 'Paid Member Subscriptions - Dev', 'Paid Member Subscriptions - Unlimited', 'Paid Member Subscriptions Pro', 'Paid Member Subscriptions Agency', 'Paid Member Subscriptions Dev', 'Paid Member Subscriptions Unlimited' );
     $pms_addons_listing->items = array(
+        array(  'slug' => 'pms-add-on-order-bumps/index.php',
+            'type'        => 'add-on',
+            'name'        => __( 'Order Bumps', 'paid-member-subscriptions' ),
+            'description' => __( 'Allow customers to add extra subscription plans to the same checkout and purchase them in one transaction.', 'paid-member-subscriptions' ),
+            'icon'        => 'pms-add-on-order-bumps-logo.png',
+            'doc_url'     => 'https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/order-bumps/?utm_source=pms-addons-pro&utm_medium=client-site&utm_campaign=pms-order-bumps-addon',
+        ),
         array(  'slug' => 'pms-add-on-gift-subscriptions/index.php',
             'type'        => 'add-on',
             'name'        => __( 'Gift Subscriptions', 'paid-member-subscriptions' ),

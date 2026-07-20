@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 3.0.7
+ * Version: 3.0.8
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '3.0.7' );
+        define( 'PMS_VERSION', '3.0.8' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -603,6 +603,15 @@ Class Paid_Member_Subscriptions {
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-billing-details.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/class-billing-details.php';
 
+        /*
+         * Order Summary
+         */
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-order-summary.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-order-summary.php';
+
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-order-summary.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/class-order-summary.php';
+
 
         /*
          * Subscription Plans
@@ -699,6 +708,10 @@ Class Paid_Member_Subscriptions {
         // Payment refund functions
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-payment-refund.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-payment-refund.php';
+
+        // Bundle (Order Bumps) payment support that lives in core
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-bundle-payments.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-bundle-payments.php';
 
         // Plugin scheduled payments functions
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-plugin-scheduled-payments.php' ) )

@@ -244,6 +244,9 @@ Class PMS_Payments_List_Table extends WP_List_Table {
         // Set subscription plan if it exists
         if( ! empty( $_GET['pms-filter-subscription-plan'] ) ) {
             $args['subscription_plan_id'] = (int)$_GET['pms-filter-subscription-plan'];
+
+            // opt into matching Order Bumps bundle payments where the selected plan is a bump, not only the primary
+            $args['match_subscription_plan_as_bump'] = true;
         }
 
         if( ! empty( $_GET['pms-filter-payment-type'] ) ) {
@@ -499,6 +502,32 @@ Class PMS_Payments_List_Table extends WP_List_Table {
 
         $output = '<a href="' . esc_url( $url ) . '" class="pms-payment-list-subscription" title="' . ( !empty( $payment->member_subscription_id ) ? esc_html__( 'Edit Subscription', 'paid-member-subscriptions' ) : esc_html__( 'Edit Member', 'paid-member-subscriptions' ) ) . '">' . esc_html( $subscription_plan->name ) . '</a>';
 
+        // Order Bumps bundles: list each bump subscription on its own line after the primary, so the column reflects every subscription the payment granted
+        // - data persists in payment meta past add-on deactivation, so this lives in core rather than in the add-on; missing / empty meta short-circuits, leaving single-plan rows untouched
+        $bump_member_subscription_ids = pms_get_payment_meta( $item['id'], '_pms_order_bumps_member_subscription_ids', true );
+
+        if( !empty( $bump_member_subscription_ids ) && is_array( $bump_member_subscription_ids ) ) {
+
+            foreach( $bump_member_subscription_ids as $bump_subscription_id ) {
+
+                $bump_subscription = pms_get_member_subscription( absint( $bump_subscription_id ) );
+
+                if( empty( $bump_subscription->id ) )
+                    continue;
+
+                $bump_subscription_plan = pms_get_subscription_plan( $bump_subscription->subscription_plan_id );
+
+                if( empty( $bump_subscription_plan->name ) )
+                    continue;
+
+                $bump_url = add_query_arg( array( 'page' => 'pms-members-page', 'pms-action' => 'edit_member', 'subpage' => 'edit_subscription', 'subscription_id' => $bump_subscription->id ), admin_url( 'admin.php' ) );
+
+                $output .= '<br><a href="' . esc_url( $bump_url ) . '" class="pms-payment-list-subscription" title="' . esc_attr__( 'Edit Subscription', 'paid-member-subscriptions' ) . '">' . esc_html( $bump_subscription_plan->name ) . '</a>';
+
+            }
+
+        }
+
         return $output;
 
     }
@@ -661,6 +690,12 @@ Class PMS_Payments_List_Table extends WP_List_Table {
     
             // Keep only payment types that exist in the database
             $payment_types = array_intersect_key( $payment_types, array_flip( $existing_types ) );
+
+            // Order Bumps: expose a virtual "Bundle Payment" type, but only when bundle payments exist (detected by _pms_order_items meta)
+            // - "bundle_payment" is not a real pms_payments.type value; pms_get_payments() translates it into a meta-exists clause
+            // - gated on existing data so sites that never used Order Bumps don't get a filter option that always returns empty, and sites that used it then deactivated the add-on keep the option (the data persists)
+            if( pms_payments_bundle_data_exists() )
+                $payment_types['bundle_payment'] = __( 'Bundle Payment', 'paid-member-subscriptions' );
 
             set_transient( 'pms_existing_payment_types', $payment_types, HOUR_IN_SECONDS );
 

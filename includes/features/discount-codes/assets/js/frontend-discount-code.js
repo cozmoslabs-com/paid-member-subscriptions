@@ -89,10 +89,12 @@ jQuery(document).ready(function($) {
 
         if( $('#pms_subscription_plans_discount_code').val() == '' ) {
             $('#pms-subscription-plans-discount-messages-wrapper').fadeOut( 350 );
-            $('#pms-subscription-plans-discount-messages').fadeOut( 350 )
+
+            // empty the message HTML alongside the fadeOut so the previous success/error text does not linger in the DOM after a clear
+            $('#pms-subscription-plans-discount-messages').fadeOut( 350 ).empty().removeClass( 'pms-discount-success pms-discount-error' )
 
             reset_discounted_plan_data( $subscription_plan )
-            jQuery(document).trigger( 'pms_discount_error' )
+            jQuery(document).trigger( 'pms_discount_error', [ null, $subscription_plan, $pms_form ] )
 
             return false;
         }
@@ -115,6 +117,12 @@ jQuery(document).ready(function($) {
             'pms_current_subscription': $pms_form.find('input[name="pms_current_subscription"]').val(),
             'form_action'             : $pms_form.find('input[name="form_action"]').val(),
         };
+
+        // addons that extend checkout with additional purchasable items can hook this filter to inject fields into the AJAX request (e.g. Order Bumps appends pms_order_bumps[] plus form-submit field name mirrors so the server-side bundle pipeline reads the same composition)
+        var augmentedData = $(document).triggerHandler( 'pms_filter_discount_ajax_payload', [ data, $pms_form ] );
+
+        if( augmentedData && typeof augmentedData === 'object' )
+            data = augmentedData;
 
         var currency  = new URLSearchParams(window.location.search).get('pms_mc_currency');
 
@@ -180,7 +188,8 @@ jQuery(document).ready(function($) {
 
                     $subscription_plan.data( 'discount-recurring-payments', response.recurring_payments )
 
-                    jQuery(document).trigger( 'pms_discount_success' )
+                    // listeners receive the response, the primary input and the form so addons that augment the AJAX response (e.g. Order Bumps' bundle_items per-item breakdown) can apply their own data-attribute updates before downstream consumers (order summary, gateways) react
+                    jQuery(document).trigger( 'pms_discount_success', [ response, $subscription_plan, $pms_form ] )
 
                 }
 
@@ -199,7 +208,7 @@ jQuery(document).ready(function($) {
 
                     reset_discounted_plan_data( $subscription_plan )
 
-                    jQuery(document).trigger( 'pms_discount_error' )
+                    jQuery(document).trigger( 'pms_discount_error', [ response, $subscription_plan, $pms_form ] )
 
                 }
 
@@ -286,9 +295,18 @@ jQuery(document).ready(function($) {
                 return_value = true
         }
 
-        return return_value
+        // bundle-aware addons (e.g. Order Bumps) can override the decision so the discount box stays visible when a selected bump has a targeting discount even if the primary plan does not
+        let filtered = $( document ).triggerHandler( 'pms_filter_subscription_has_discount', [ return_value, subscription_id ] )
+
+        return typeof filtered === 'boolean' ? filtered : return_value
 
     }
+
+
+    // addons can request a fresh visibility check when their state changes (e.g. Order Bumps toggling a bump that has a targeting discount); re-run toggle_discount_box against the currently selected primary plan
+    $( document ).on( 'pms_recheck_discount_box_visibility', function() {
+        toggle_discount_box( $('input[name=subscription_plans][type=radio]').length > 0 ? $('input[name=subscription_plans][type=radio]:checked') : $('input[name=subscription_plans][type=hidden]') )
+    } )
 
     /**
      * Restore the initial plan values after a discount is removed or becomes invalid

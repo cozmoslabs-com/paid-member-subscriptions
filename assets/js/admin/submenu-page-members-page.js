@@ -191,17 +191,6 @@ jQuery( function($) {
         // Disable the datepicker
         $expirationDateInput.attr( 'disabled', true );
 
-        // Show/Hide Group Name and Description Fields
-        $.post( ajaxurl, { action: 'determine_subscription_type', subscription_plan_id: $subscriptionPlanSelect.val(), nonce: pms_gm_members_ajax.determine_subscription_type_nonce }, function( response ) {
-            if( response == 'group' ) {
-                jQuery('.pms-group-memberships-field').css('display', 'flex');
-                jQuery('#pms_group_name').attr('required', true);
-            } else {
-                jQuery('.pms-group-memberships-field').hide();
-                jQuery('#pms_group_name').attr('required', false);
-            }
-        });
-
         // Get the expiration date and set it the expiration date field
         $.post( ajaxurl, { action: 'populate_expiration_date', subscription_plan_id: $subscriptionPlanSelect.val(), nonce: pms_members_ajax.nonce }, function( response ) {
 

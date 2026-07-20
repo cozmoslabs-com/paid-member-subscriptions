@@ -430,7 +430,7 @@ body:not([class*="_page_pms-basic-info-page"]) .cozmoslabs-form-field-wrapper la
 .cozmoslabs-form-field-wrapper input[type="number"],
 #cozmoslabs-subsection-paypal-configs .cozmoslabs-form-field-wrapper input[type="password"],
 .cozmoslabs-form-field-wrapper input[type="file"],
-.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input) {
+.cozmoslabs-form-field-wrapper input[type="text"]:not(#paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input, #pms-discount-amount, #pms-discount-type) {
     flex-basis: 260px;
     width: 100%;
 }
@@ -538,7 +538,7 @@ body[class*="post-type-pms-"] .tablenav select {
     align-items: center;
 }
 
-.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen, #restricted_file_types_chosen, #scripts_on_specific_pages_chosen, #extra_currency_chosen, #restricted_currency_chosen, #non_group_member_users_chosen ) .chosen-choices .search-field {
+.cozmoslabs-form-field-wrapper .chosen-container-multi:not(#specific_subscriptions_chosen, #restricted_file_types_chosen, #scripts_on_specific_pages_chosen, #extra_currency_chosen, #restricted_currency_chosen, #non_group_member_users_chosen, #pms_order_bumps_subscription_plan_ids_chosen ) .chosen-choices .search-field {
     display: none;
 }
 
@@ -596,6 +596,7 @@ body[class*="post-type-pms-"] .tablenav select {
 .cozmoslabs-form-field-wrapper input[type="text"]:not(:disabled, #paypal-ipn-url, #stripe-connect-webhook-url, #pms-subscription-plan-learndash-url, .cozmoslabs-tags-list input, #pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input, #scripts_on_specific_pages_chosen .chosen-choices .search-field input, #pms-container-specific-subs .chosen-choices .search-field input):focus {
     border-color: #3858E9;
     box-shadow: 0 0 0 1px #3858E9;
+    border-radius: 5px;
 }
 
 .cozmoslabs-form-field-wrapper .chosen-container-active,
@@ -2924,7 +2925,7 @@ body.post-type-pms-subscription .pms-subscription-tab-panel #pms-woo-subscriptio
     width: 100% !important;
 }
 
-body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices:not(#pms_subscription_plan_learndash_courses_chosen .chosen-choices) {
+body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi:not(#pms_subscription_plan_learndash_courses_chosen, #pms_order_bumps_subscription_plan_ids_chosen) .chosen-choices {
     min-height: 38px;
     line-height: 38px;
 }
@@ -2934,7 +2935,7 @@ body.post-type-pms-subscription .pms-subscription-tab-panel .chosen-container-mu
     line-height: 38px;
 }
 
-body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices .search-field:not(#pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field) {
+body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi:not(#pms_subscription_plan_learndash_courses_chosen, #pms_order_bumps_subscription_plan_ids_chosen) .chosen-choices .search-field {
     width: 100%;
 }
 
@@ -2942,7 +2943,7 @@ body.post-type-pms-subscription .pms-subscription-tab-panel .chosen-container-mu
     width: 100%;
 }
 
-body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices .search-field input:not(#pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input) {
+body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi:not(#pms_subscription_plan_learndash_courses_chosen, #pms_order_bumps_subscription_plan_ids_chosen) .chosen-choices .search-field input {
     width: 100% !important;
     box-shadow: none !important;
     border: none !important;
@@ -4127,7 +4128,9 @@ body[class*="post-type-pms-"] .wp-list-table .check-column input[type="checkbox"
 .pms-notice a.button-secondary {
     min-width: auto !important;
     height: 30px !important;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0 10px;
     line-height: 28px;
 }
@@ -4325,6 +4328,17 @@ body[class*="_page_pms-"] #screen-meta {
 .wp-list-table.subscriptions .column-type .pms-subscriptions__type-marker {
     margin: 5px 0 0 5px;
     font-style: italic;
+}
+
+/* Discount Codes */
+body.post-type-pms-discount-codes .meta-box-sortables #pms-discount-amount {
+    flex-basis: 100px;
+    width: 100px;
+}
+
+body.post-type-pms-discount-codes .meta-box-sortables #pms-discount-type {
+    flex-basis: 150px;
+    width: 150px;
 }
 
 
