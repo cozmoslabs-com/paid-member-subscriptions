@@ -257,6 +257,10 @@ Revolut Pay or Alipay can also be used, alongside the Stripe specific Link payme
 
 For more information please check out [Paid Member Subscriptions documentation](https://www.cozmoslabs.com/docs/paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree).
 
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the Paid Member Subscriptions plugin through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/b5dd3cbe-a6b2-4fb5-b82b-8da4c587934c). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin. 
+
 == Screenshots ==
 1. Member Registration Form (Account Details + Select Payment Method)
 2. Membership options: Group Memberships, Fixed Period Subscription & Pay What You Want & more
