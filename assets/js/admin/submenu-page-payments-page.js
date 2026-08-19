@@ -229,7 +229,7 @@ jQuery( function($) {
         $amountInput.attr( 'disabled', true );
 
         // Get the subscription plan price and populate the Amount field
-        $.post( ajaxurl, { action: 'populate_subscription_price', subscription_plan_id: $subscriptionSelect.val(), nonce: pms_payments_ajax.nonce }, function( response ) {
+        $.post( ajaxurl, { action: 'populate_subscription_price', subscription_plan_id: $subscriptionSelect.val(), user_id: $( '#pms-member-user-id' ).val(), nonce: pms_payments_ajax.nonce }, function( response ) {
 
             // Populate the amount field
             $amountInput.val( response );

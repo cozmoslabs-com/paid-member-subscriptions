@@ -581,6 +581,20 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
         if( ! empty( $subscription_plan_id ) ) {
 
             $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
+            $user_id           = isset( $_POST['user_id'] ) ? absint( $_POST['user_id'] ) : 0;
+
+            /**
+             * Filter the amount prefilled for the selected plan when an admin adds a payment
+             *
+             * - defaults to the plan's price, so a plan priced on something other than that can supply the amount it charges
+             * - the member is passed too, since the amount can depend on the subscription they already hold for this plan
+             *
+             * @param float $price
+             * @param int   $subscription_plan_id
+             * @param int   $user_id
+             *
+             */
+            $price = apply_filters( 'pms_admin_payment_prefill_amount', $subscription_plan->price, $subscription_plan_id, $user_id );
 
             // Apply tax when the payment is handled in backend via admin
             if( class_exists( 'PMS_IN_Tax' ) ){
@@ -589,10 +603,25 @@ Class PMS_Submenu_Page_Payments extends PMS_Submenu_Page {
                 $tax_exempt = get_post_meta( $subscription_plan_id, 'pms_subscription_plan_tax_exempt', true );
 
             }
-            if( isset( $pms_tax ) && isset( $tax_exempt ) && !$tax_exempt )
-                echo esc_html( pms_sanitize_date( $pms_tax->calculate_tax_rate( $subscription_plan->price ) ) );
+
+            /**
+             * Filter whether tax is added on top of the prefilled amount
+             *
+             * - already false when the Tax add-on is inactive or the plan is tax exempt
+             * - an amount filtered above that is tax-inclusive already returns false here, so it is not taxed twice
+             * - returning true has no effect when the Tax add-on is inactive, since there is no tax handler to call
+             *
+             * @param bool $apply_tax
+             * @param int  $subscription_plan_id
+             * @param int  $user_id
+             *
+             */
+            $apply_tax = apply_filters( 'pms_admin_payment_prefill_apply_tax', ( isset( $pms_tax ) && isset( $tax_exempt ) && !$tax_exempt ), $subscription_plan_id, $user_id );
+
+            if( $apply_tax && isset( $pms_tax ) )
+                echo esc_html( pms_sanitize_date( $pms_tax->calculate_tax_rate( $price ) ) );
             else
-                echo esc_html( pms_sanitize_date( $subscription_plan->price ) );
+                echo esc_html( pms_sanitize_date( $price ) );
 
         } else
             echo '';

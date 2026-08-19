@@ -13,7 +13,8 @@ function pms_misc_redirect_after_manual_payment( $url ) {
 
     $subscription_plan = pms_get_subscription_plan( absint( $_POST['subscription_plans'] ) );
 
-    if( !isset( $subscription_plan->id ) || $subscription_plan->price == 0 )
+    // per-seat plans charge seat_price x seats, so they are never free
+    if( !isset( $subscription_plan->id ) || ( $subscription_plan->price == 0 && !( function_exists( 'pms_in_gm_is_per_seat_plan' ) && pms_in_gm_is_per_seat_plan( $subscription_plan->id ) ) ) )
         return $url;
 
     $payments_settings = get_option( 'pms_payments_settings', array() );

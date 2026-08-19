@@ -1087,7 +1087,7 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
 
     global $pms_prorate;
 
-    if( is_user_logged_in() && class_exists( 'PMS_IN_ProRate' ) && isset( $pms_prorate ) ){
+    if( is_user_logged_in() && class_exists( 'PMS_IN_ProRate' ) && isset( $pms_prorate ) && $billing_amount == false ){
         $amount = $pms_prorate->get_stripe_intents_prorated_amount( $amount, $subscription_plan->id, $request_data );
     }
 

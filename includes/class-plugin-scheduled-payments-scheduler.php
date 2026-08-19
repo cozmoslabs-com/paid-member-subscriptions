@@ -114,13 +114,26 @@ class PMS_Plugin_Scheduled_Payments_Scheduler {
 
 	/**
 	 * Enable Action Scheduler mode: stop legacy WP-Cron renewal event and schedule the recurring tick.
+	 * Defers (without clearing legacy cron) when Action Scheduler is not ready yet.
 	 *
-	 * @return void
+	 * @return bool True when scheduled, false when deferred.
 	 */
 	public function enable_action_scheduler_mode() {
 
+		if ( ! function_exists( 'as_schedule_recurring_action' ) || ! function_exists( 'as_unschedule_all_actions' ) ) {
+			update_option( 'pms_as_renewals_pending_enable', '1' );
+			return false;
+		}
+
+		if ( class_exists( 'ActionScheduler' ) && method_exists( 'ActionScheduler', 'is_initialized' ) && ! ActionScheduler::is_initialized() ) {
+			update_option( 'pms_as_renewals_pending_enable', '1' );
+			return false;
+		}
+
 		wp_clear_scheduled_hook( 'pms_cron_process_member_subscriptions_payments' );
 		$this->force_reschedule_recurring();
+
+		return true;
 	}
 
 	/**
@@ -144,8 +157,8 @@ class PMS_Plugin_Scheduled_Payments_Scheduler {
 	 */
 	public function on_misc_settings_updated( $old_value, $value ) {
 
-		$old_on = is_array( $old_value ) && ! empty( $old_value['payments']['use_action_scheduler_for_renewals'] );
-		$new_on = is_array( $value ) && ! empty( $value['payments']['use_action_scheduler_for_renewals'] );
+		$old_on = pms_get_scheduled_payments_action_scheduler_setting( is_array( $old_value ) ? $old_value : array() );
+		$new_on = pms_get_scheduled_payments_action_scheduler_setting( is_array( $value ) ? $value : array() );
 
 		if ( $old_on === $new_on ) {
 			return;

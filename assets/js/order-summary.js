@@ -329,6 +329,10 @@
         if( !$plan.data( 'mc_pwyw' ) )
             return;
 
+        // when a discount is applied, p10 already set the amount to the discounted PWYW price (the discount code JS writes it into the plan data); the raw entered value would drop the discount
+        if( $plan.data( 'discounted-price' ) )
+            return;
+
         let pwywValue = summaryData.form.find( 'input[name="subscription_price_' + $plan.val() + '"]' ).val();
 
         summaryData.primaryItem.amount = parseFloat( pwywValue ) || 0;

@@ -267,10 +267,16 @@ Class PMS_Merge_Tags{
                     if( !empty( $subscription ) && !empty( $subscription->subscription_plan_id ) ){
                         $subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
 
-                        if ( !empty( $_POST['discount_code'] ) && !empty( $subscription_plan->price ) )
-                            $amount = pms_in_calculate_discounted_amount( $subscription_plan->price, pms_in_get_discount_by_code( sanitize_text_field( $_POST['discount_code'] ) ) );
+                        // per-seat subs have no flat price; use the sub's stored seat price x its seats, so a later plan-price edit doesn't change what it reports
+                        if( function_exists( 'pms_in_gm_is_per_seat_subscription' ) && pms_in_gm_is_per_seat_subscription( $subscription_id ) )
+                            $base_amount = pms_in_gm_get_subscription_seat_price( $subscription_id ) * (int) pms_get_member_subscription_meta( $subscription_id, 'pms_group_seats', true );
                         else
-                            $amount = $subscription_plan->price;
+                            $base_amount = $subscription_plan->price;
+
+                        if ( !empty( $_POST['discount_code'] ) && !empty( $base_amount ) )
+                            $amount = pms_in_calculate_discounted_amount( $base_amount, pms_in_get_discount_by_code( sanitize_text_field( $_POST['discount_code'] ) ) );
+                        else
+                            $amount = $base_amount;
                     }
                 }
 
@@ -312,6 +318,15 @@ Class PMS_Merge_Tags{
             $subscription_plan = pms_get_subscription_plan( $user_info->data->subscription_plan_id );
         }
 
+        // per-seat plans have no flat price; the plan's price is the per-seat rate (e.g. "$50.00 / seat")
+        if ( isset( $subscription_plan ) && function_exists( 'pms_in_gm_is_per_seat_plan' ) && pms_in_gm_is_per_seat_plan( $subscription_plan->id ) ) {
+
+            $currency   = apply_filters( 'pms_merge_tag_subscription_plan_price_currency', pms_get_active_currency(), $subscription_id );
+            $seat_price = (float) get_post_meta( $subscription_plan->id, 'pms_subscription_plan_seat_price', true );
+            $seat_price = apply_filters( 'pms_gm_per_seat_price_in_currency', $seat_price, $subscription_plan->id, $currency );
+
+            return sprintf( __( '%s / seat', 'paid-member-subscriptions' ), pms_format_price( $seat_price, $currency ) );
+        }
 
         if ( isset( $subscription_plan ) && !empty( $subscription_plan->price ) ) {
 

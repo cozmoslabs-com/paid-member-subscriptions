@@ -139,6 +139,10 @@ jQuery(document).ready(function($) {
             $('#pms-subscription-plans-discount-messages-wrapper').show()
             $('#pms-subscription-plans-discount-messages-loading').fadeIn(350)
 
+            // let add-ons attach extra context to the request before it is sent
+            // - the data object is passed by reference, so handlers mutate it in place (e.g. the Group add-on adds the selected plan id and seat count so per-seat plans are priced server-side)
+            jQuery( document ).trigger( 'pms_discount_code_request_data', [ data ] )
+
             // We can also pass the url value separately from ajaxurl for front end AJAX implementations
             jQuery.post(pms_discount_object.ajax_url, data, function (response) {
 

@@ -202,11 +202,66 @@ Class PMS_Payment_Gateway_PayPal_Standard extends PMS_Payment_Gateway {
 
                     $payment->log_data( 'paypal_ipn_received', array( 'data' => $post_data, 'desc' => 'paypal IPN' ) );
 
+                    if( empty( $payment->id ) || $payment->status !== 'pending' ) {
+                        if( ! empty( $payment->id ) ) {
+                            $payment->log_data( 'paypal_ipn_payment_mismatch', array(
+                                'data' => array(
+                                    'reason'         => 'payment_not_pending',
+                                    'payment_status' => $payment->status,
+                                ),
+                                'desc' => 'PayPal IPN rejected: payment is not pending',
+                            ) );
+                        }
+                        return;
+                    }
+
+                    $expected_amount   = number_format( (float) $payment->amount, 2, '.', '' );
+                    $received_amount   = number_format( (float) $payment_data['amount'], 2, '.', '' );
+                    $expected_currency = strtoupper( ! empty( $payment->currency ) ? $payment->currency : pms_get_active_currency() );
+                    $received_currency = strtoupper( ! empty( $payment_data['currency'] ) ? $payment_data['currency'] : '' );
+                    $expected_plan_id  = absint( $payment->subscription_id );
+                    $received_plan_id  = absint( $payment_data['subscription_id'] );
+
+                    if( $expected_amount !== $received_amount || $expected_currency !== $received_currency || $expected_plan_id !== $received_plan_id ) {
+                        $payment->log_data( 'paypal_ipn_payment_mismatch', array(
+                            'data' => array(
+                                'reason'            => 'amount_currency_or_plan_mismatch',
+                                'expected_amount'   => $expected_amount,
+                                'received_amount'   => $received_amount,
+                                'expected_currency' => $expected_currency,
+                                'received_currency' => $received_currency,
+                                'expected_plan_id'  => $expected_plan_id,
+                                'received_plan_id'  => $received_plan_id,
+                            ),
+                            'desc' => 'PayPal IPN rejected: amount, currency, or plan does not match pending payment',
+                        ) );
+                        return;
+                    }
+
+                    if( ! empty( $payment_data['transaction_id'] ) ) {
+                        $existing_txn_payments = pms_get_payments( array(
+                            'transaction_id' => $payment_data['transaction_id'],
+                            'number'         => 1,
+                        ) );
+
+                        if( ! empty( $existing_txn_payments ) && ! empty( $existing_txn_payments[0]->id ) && (int) $existing_txn_payments[0]->id !== (int) $payment->id ) {
+                            $payment->log_data( 'paypal_ipn_payment_mismatch', array(
+                                'data' => array(
+                                    'reason'         => 'duplicate_transaction_id',
+                                    'transaction_id' => $payment_data['transaction_id'],
+                                    'existing_id'    => $existing_txn_payments[0]->id,
+                                ),
+                                'desc' => 'PayPal IPN rejected: transaction ID already used',
+                            ) );
+                            return;
+                        }
+                    }
+
                     // Complete payment
                     $payment->update( array( 'status' => $payment_data['status'], 'transaction_id' => $payment_data['transaction_id'] ) );
 
                     // Get member subscription
-                    $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $payment_data['user_id'], 'subscription_plan_id' => $payment_data['subscription_id'], 'number' => 1 ) );
+                    $member_subscriptions = pms_get_member_subscriptions( array( 'user_id' => $payment_data['user_id'], 'subscription_plan_id' => $expected_plan_id, 'number' => 1 ) );
 
                     foreach( $member_subscriptions as $member_subscription ) {
 

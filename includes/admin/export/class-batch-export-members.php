@@ -153,7 +153,12 @@ class PMS_Batch_Export_Members extends PMS_Batch_Export {
                     $pms_subscription_name = array();
                     $pms_subscription_name["subscription_name"]    = $subscription_plan->name;
                     $pms_subscription_name["subscription_plan_id"] = $subscription_plan->id;
-                    $pms_subscription_name["subscription_plan_base_price"] = $subscription_plan->price;
+
+                    // per-seat subs have no flat price; use the sub's stored seat price x its seats, so the export matches what it pays even after a plan-price edit
+                    if( function_exists( 'pms_in_gm_is_per_seat_subscription' ) && pms_in_gm_is_per_seat_subscription( $subscription->id ) )
+                        $pms_subscription_name["subscription_plan_base_price"] = pms_in_gm_get_subscription_seat_price( $subscription->id ) * (int) pms_get_member_subscription_meta( $subscription->id, 'pms_group_seats', true );
+                    else
+                        $pms_subscription_name["subscription_plan_base_price"] = $subscription_plan->price;
 
                     $member_subscriptions = array(
                         'subscription_id'                       => $subscription->id,

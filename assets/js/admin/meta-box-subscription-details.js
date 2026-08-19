@@ -113,6 +113,8 @@ jQuery(document).ready(function($) {
     pms_handle_payment_cycle_notice();
 
     pms_handle_gift_subscription_toggle();
+
+    pms_handle_pwyw_subscription_toggle();
 });
 
 
@@ -269,5 +271,40 @@ function pms_handle_gift_subscription_toggle() {
             giftExpiration.hide();
         }
     });
+
+}
+
+/**
+ * Pay What You Want only applies to regular plans, so disable its toggle on any non-regular plan
+ *
+ * - blocks the field through the disabled class and unchecks the toggle, so a non-regular plan saves with it off
+ * - hides the min/max/label block while disabled
+ *
+ */
+function pms_handle_pwyw_subscription_toggle() {
+
+    let pwywField            = jQuery('.pms-subscription-plan-pwyw-field'),
+        pwywExtraFields      = jQuery('.pms-meta-box-field-wrapper-pwyw'),
+        subscriptionPlanType = jQuery('#pms-subscription-plan-type, #pms-plan-type'),
+        pwywCheckbox         = jQuery('#pms-subscription-plan-pay-what-you-want');
+
+    function pms_apply_pwyw_availability() {
+        if ( subscriptionPlanType.val() !== 'regular' ) {
+            pwywField.addClass( 'disabled' );
+            pwywCheckbox.prop( 'checked', false );
+            pwywExtraFields.hide();
+        } else {
+            pwywField.removeClass( 'disabled' );
+            if ( pwywCheckbox.is(':checked') ) {
+                pwywExtraFields.show();
+            } else {
+                pwywExtraFields.hide();
+            }
+        }
+    }
+
+    subscriptionPlanType.on( 'change', pms_apply_pwyw_availability );
+
+    pms_apply_pwyw_availability();
 
 }

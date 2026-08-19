@@ -267,6 +267,9 @@ function pms_paypal_payment_logs_system_error_messages( $message, $log ) {
         case 'paypal_ipn_not_received':
             $message = __( 'Instant Payment Notification (IPN) not received from PayPal.', 'paid-member-subscriptions' );
             break;
+        case 'paypal_ipn_payment_mismatch':
+            $message = __( 'PayPal IPN rejected because it does not match the pending payment.', 'paid-member-subscriptions' );
+            break;
     }
 
     return apply_filters( 'pms_paypal_payment_logs_system_error_messages', wp_kses_post( $message, $kses_args ), $log );

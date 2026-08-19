@@ -332,7 +332,8 @@ Class PMS_Submenu_Page_Dashboard extends PMS_Submenu_Page {
 
                 $plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
 
-                if( !empty( $plan->price ) )
+                // per-seat subs charge seat_price x seats, so they are never free
+                if( !empty( $plan->price ) || ( function_exists( 'pms_in_gm_is_per_seat_subscription' ) && pms_in_gm_is_per_seat_subscription( $subscription->id ) ) )
                     $data['new_paid_subscriptions'] = $data['new_paid_subscriptions'] + 1;
 
             }

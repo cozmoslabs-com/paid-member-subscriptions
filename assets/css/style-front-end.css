@@ -2,6 +2,7 @@
 /* Forms
 /**************************************************/
 .pms-form input[type=text],
+.pms-form input[type=number],
 .pms-form input[type=password],
 .pms-form input[type=email],
 .pms-form input[type=textarea],

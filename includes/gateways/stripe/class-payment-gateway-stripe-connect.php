@@ -493,7 +493,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             if( !empty( $intent->status ) && in_array( $intent->status, array( 'succeeded', 'processing' ) ) ){
 
-                $is_recurring = !empty( $intent->metadata->is_recurring ) && $intent->metadata->is_recurring == 'true' ? true : false;
+                $is_recurring = $this->intent_metadata_flag( $intent, 'is_recurring' );
+                $has_trial    = $this->intent_metadata_flag( $intent, 'has_trial' );
 
                 $checkout_data = array();
 
@@ -521,7 +522,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 }
 
                 // Update subscription
-                $this->update_subscription( $subscription, $form_location, true, $is_recurring, $checkout_data );
+                $this->update_subscription( $subscription, $form_location, $has_trial, $is_recurring, $checkout_data );
 
                 // If subscription had a trial, save card fingerprint
                 $this->save_trial_card( $subscription_id, $intent->payment_method );
@@ -1132,17 +1133,38 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $form_location ) && !is_user_logged_in() )
             $form_location = 'register';
 
+        $is_recurring      = PMS_Form_Handler::checkout_is_recurring();
+        $subscription_plan = pms_get_subscription_plan( !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id );
+        $has_trial         = PMS_Form_Handler::resolve_checkout_has_trial( $subscription->user_id, $subscription_plan, $form_location, $this->gateway_slug, $is_recurring );
+
         $args['metadata'] = apply_filters( 'pms_stripe_transaction_metadata', array(
             'home_url'             => home_url(),
             'payment_id'           => !empty( $this->payment_id ) ? $this->payment_id : '0',
             'request_location'     => $form_location,
             'subscription_id'      => $subscription->id,
-            'subscription_plan_id' => !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : $subscription->subscription_plan_id,
+            'subscription_plan_id' => !empty( $subscription_plan->id ) ? $subscription_plan->id : $subscription->subscription_plan_id,
             'home_url'             => home_url(),
-            'is_recurring'         => PMS_Form_Handler::checkout_is_recurring(),
+            'is_recurring'         => $is_recurring ? 'true' : 'false',
+            'has_trial'            => $has_trial ? 'true' : 'false',
         ), $this->payment_id, $subscription, $form_location );
 
         return $args;
+
+    }
+
+    /**
+     * Stripe metadata flags are stored as the strings "true" / "false".
+     *
+     * @param object $intent
+     * @param string $key
+     * @return bool
+     */
+    private function intent_metadata_flag( $intent, $key ) {
+
+        if( empty( $intent->metadata->$key ) )
+            return false;
+
+        return $intent->metadata->$key == 'true';
 
     }
 
@@ -1242,7 +1264,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
         $subscription_plan_id = !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : false;
 
-        if( !in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) ){
+        if( !in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation' ) ) ){
 
             if( empty( $subscription_plan_id ) && !empty( $checkout_data['subscription_plans'] ) )
                 $subscription_plan_id = $checkout_data['subscription_plans'];
@@ -1284,6 +1306,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 }
             }
 
+        }
+
+        if ( $form_location === 'retry_payment' ) {
+            $subscription_data['billing_last_payment'] = date( 'Y-m-d H:i:s' );
         }
 
         switch( $form_location ) {
@@ -1705,7 +1731,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 // update subscription
                 if( $member_subscription->status != 'active' && !empty( $data->metadata->request_location ) ){
 
-                    $this->update_subscription( $member_subscription, sanitize_text_field( $data->metadata->request_location ), false, sanitize_text_field( $data->metadata->is_recurring ) );
+                    $this->update_subscription(
+                        $member_subscription,
+                        sanitize_text_field( $data->metadata->request_location ),
+                        $this->intent_metadata_flag( $data, 'has_trial' ),
+                        $this->intent_metadata_flag( $data, 'is_recurring' )
+                    );
 
                 }
 
@@ -1853,7 +1884,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $this->payment_id = $payment->id;
 
-            $is_recurring = !empty( $data->metadata->is_recurring ) && $data->metadata->is_recurring == 'true' ? true : false;
+            $is_recurring = $this->intent_metadata_flag( $data, 'is_recurring' );
+            $has_trial    = $this->intent_metadata_flag( $data, 'has_trial' );
 
             $checkout_data = pms_get_payment_meta( $payment->id, 'pms_checkout_data', true );
 
@@ -1864,7 +1896,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             }
             
             if( apply_filters( 'pms_stripe_connect_webhooks_always_update_subscription', true, $subscription, $data ) ) {
-                $this->update_subscription( $subscription, sanitize_text_field( $data->metadata->request_location ), false, $is_recurring, $checkout_data );
+                $this->update_subscription( $subscription, sanitize_text_field( $data->metadata->request_location ), $has_trial, $is_recurring, $checkout_data );
             }
 
             // Save Customer to Subscription and User if it's not present

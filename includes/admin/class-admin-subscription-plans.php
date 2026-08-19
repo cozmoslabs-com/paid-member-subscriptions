@@ -803,18 +803,31 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
             }
 
             if( $subscription_plan->price == 0 )
-                echo esc_html__( 'Free', 'paid-member-subscriptions' );
+                $price_output = esc_html__( 'Free', 'paid-member-subscriptions' );
 
             else
-                echo wp_kses_post( apply_filters( 'pms_list_table_subscription_plans_column_price_output', pms_format_price( $subscription_plan->price, pms_get_active_currency() ) . $duration, $subscription_plan->id ) );
+                $price_output = pms_format_price( $subscription_plan->price, pms_get_active_currency() ) . $duration;
 
             if( $subscription_plan->type == 'group' ){
 
                 $seats = get_post_meta( $subscription_plan->id, 'pms_subscription_plan_seats', true );
 
-                echo ' ' . sprintf( esc_attr( _n( 'for %d seat', 'for %d seats', $seats, 'paid-member-subscriptions' ) ), esc_html( $seats ) );
+                $price_output .= ' ' . sprintf( esc_attr( _n( 'for %d seat', 'for %d seats', $seats, 'paid-member-subscriptions' ) ), esc_html( $seats ) );
 
             }
+
+            /**
+             * Filter the price column of a plan in the subscription plans list table
+             *
+             * - holds the plan's price and, for a group plan, the number of members it covers
+             * - the duration is passed on its own so a plan priced on something other than its flat price can rebuild the whole label without composing the duration again
+             *
+             * @param string $price_output
+             * @param int    $subscription_plan_id
+             * @param string $duration
+             *
+             */
+            echo wp_kses_post( apply_filters( 'pms_list_table_subscription_plans_column_price_output', $price_output, $subscription_plan->id, $duration ) );
 
         }
 

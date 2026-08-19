@@ -3,16 +3,16 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 3.0.8
+ * Version: 3.0.9
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
  * Domain Path: /translations
  * License: GPL2
  * WC requires at least: 3.0.0
- * WC tested up to: 10.9
- * Elementor tested up to: 4.1.4
- * Elementor Pro tested up to: 4.1.4
+ * WC tested up to: 11
+ * Elementor tested up to: 4.2.2
+ * Elementor Pro tested up to: 4.2.2
  *
  * == Copyright ==
  * Copyright 2015 Cozmoslabs (www.cozmoslabs.com)
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '3.0.8' );
+        define( 'PMS_VERSION', '3.0.9' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -228,6 +228,8 @@ Class Paid_Member_Subscriptions {
 
         $db_version = get_option( 'pms_version', '' );
 
+        pms_maybe_set_first_activation_time( (bool) $db_version );
+
         if( PMS_VERSION != $db_version ) {
 
             $this->create_tables();
@@ -251,71 +253,6 @@ Class Paid_Member_Subscriptions {
             update_option( 'pms_add_ons_settings', $add_ons_settings );
 
             update_option( 'pms_version', PMS_VERSION );
-
-        }
-
-        /**
-         * Initialize update class
-         *
-         */
-        if ( defined( 'PMS_PAID_PLUGIN_DIR' ) && ! pms_paid_plugin_owns_updates() && class_exists( 'PMS_EDD_SL_Plugin_Updater' ) ) {
-
-            $serial = pms_get_serial_number();
-
-            if( ! function_exists('get_plugin_data') ){
-                require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-            }
-
-            $plugin_data    = get_plugin_data( PMS_PAID_PLUGIN_DIR . '/index.php', false, false );
-            $plugin_version = ( $plugin_data && $plugin_data['Version'] ) ? $plugin_data['Version'] : '1.0.0' ;
-            $cl_plugin_id   = '';
-
-            if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Pro' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Pro' )
-                $cl_plugin_id = '51100';
-            else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Basic' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Basic' )
-                $cl_plugin_id = '60833';
-            else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Agency' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Agency' )
-                $cl_plugin_id = '1376909';
-            else if( PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions Unlimited' || PAID_MEMBER_SUBSCRIPTIONS == 'Paid Member Subscriptions - Unlimited' )
-                $cl_plugin_id = '62920';
-
-            // setup the updater
-            $pms_edd_updater = new PMS_EDD_SL_Plugin_Updater( 'https://cozmoslabs.com', PMS_PAID_PLUGIN_DIR . '/index.php', array(
-                    'version'   => $plugin_version,   // current version number
-                    'license'   => $serial,
-                    'item_name' => str_replace( '- ', '', PAID_MEMBER_SUBSCRIPTIONS ),      // name of this plugin
-                    'item_id'   => $cl_plugin_id,
-                    'author'    => 'Cozmoslabs',         // author of this plugin
-                    'beta'      => false
-                )
-            );
-
-            if ( ! function_exists( 'pms_plugin_update_message' ) ) {
-                function pms_plugin_update_message( $plugin_data, $new_data ) {
-
-                    if( !function_exists( 'pms_get_serial_number' ) )
-                        return;
-
-                    if( pms_get_serial_number() === false ){
-
-                        echo '<br />' . wp_kses_post( sprintf( __('To enable updates, please enter your serial number on the %sSettings%s page. If you don\'t have a serial number, you can %sbuy one now%s.', 'paid-member-subscriptions' ), '<a href="'. esc_url( admin_url('admin.php?page=pms-settings-page') ). '">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
-
-                    } else {
-
-                        $serial_number_status = pms_get_serial_number_status();
-
-                        if( $serial_number_status != 'valid' )
-                            echo '<br />' . wp_kses_post( sprintf( __('To enable updates, you need an active license. %1$sRenew%2$s or %3$spurchase a new license%4$s.', 'paid-member-subscriptions' ), '<a href="https://www.cozmoslabs.com/account/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro" target="_blank">', '</a>', '<a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=client-site&utm_medium=pms-plugins-page&utm_campaign=PMSPro#pricing" target="_blank">', '</a>' ) );
-
-                    }
-
-                }
-            }
-
-            $update_message_hook = 'in_plugin_update_message-' . plugin_basename( PMS_PAID_PLUGIN_DIR . '/index.php' );
-
-            if ( ! has_action( $update_message_hook, 'pms_plugin_update_message' ) && ! function_exists( 'pms_paid_plugin_update_message' ) )
-                add_action( $update_message_hook, 'pms_plugin_update_message', 10, 2 );
 
         }
 
@@ -478,8 +415,10 @@ Class Paid_Member_Subscriptions {
 
         update_option( 'pms_emails_settings', $settings, false );
 
-        if ( !$already_installed )
+        if ( !$already_installed ) {
             update_option( 'pms_already_installed', 'yes', false );
+            pms_maybe_set_first_activation_time( false );
+        }
     }
 
 
@@ -1057,6 +996,12 @@ Class Paid_Member_Subscriptions {
                 include_once PMS_PLUGIN_DIR_PATH . 'extend/elementor/class-elementor.php';
 
         }
+
+        /*
+         * Kadence Pro Hooked Elements
+         */
+        if ( defined( 'KTP_VERSION' ) && file_exists( PMS_PLUGIN_DIR_PATH . 'extend/kadence/functions-content-restriction.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'extend/kadence/functions-content-restriction.php';
 
 	    /*
 		 * Divi Extension

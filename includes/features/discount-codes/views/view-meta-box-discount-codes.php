@@ -57,8 +57,9 @@ if( ! defined( 'PMS_VERSION' ) ) return;
             // Display active subscriptions
             foreach ( pms_get_subscription_plans() as $subscription_plan) {
 
-                //Exclude free subscriptions as discounts don't make sense for them
-                if ( $subscription_plan->price > 0 || $subscription_plan->sign_up_fee > 0 ) {
+                // Exclude free subscriptions as discounts don't make sense for them
+                // - per-seat plans charge seat_price x seats, so they are never free even when the flat price is 0
+                if ( $subscription_plan->price > 0 || $subscription_plan->sign_up_fee > 0 || ( function_exists( 'pms_in_gm_is_per_seat_plan' ) && pms_in_gm_is_per_seat_plan( $subscription_plan->id ) ) ) {
 
                     $checked = '';
                     if (in_array($subscription_plan->id, explode(',', $discount->subscriptions))) $checked = "checked";

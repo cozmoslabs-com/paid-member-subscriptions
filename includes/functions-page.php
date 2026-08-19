@@ -62,9 +62,10 @@ function pms_get_retry_url( $plan_id = '' ) {
         return false;
 
     // don't show if subscription plan is free
+    // - per-seat subs charge seat_price x seats, so they are never free
     $subscription_plan = pms_get_subscription_plan( (int)$plan_id );
 
-    if( !( $subscription_plan->price > 0 ) )
+    if( !( $subscription_plan->price > 0 || ( function_exists( 'pms_in_gm_is_per_seat_subscription' ) && pms_in_gm_is_per_seat_subscription( $member_subscription['id'] ) ) ) )
         return false;
 
     $url = wp_nonce_url( add_query_arg( array( 'pms-action' => 'retry_payment_subscription', 'subscription_plan' => $plan_id ), $account_page ), 'pms_member_nonce', 'pmstkn' );

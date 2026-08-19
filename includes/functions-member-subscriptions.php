@@ -308,7 +308,10 @@ function pms_member_subscription_should_show_cancel_action( $subscription, $subs
     if( $subscription_plan->duration == '0' && ( !$subscription_plan->is_fixed_period_membership() || $subscription_plan->fixed_expiration_date == '' ) )
         return false;
 
-    if( $subscription_plan->price <= 0 )
+    // a per-seat subscription has no flat plan price — it is charged the recurring amount stored on the subscription — so the plan price must not mark it as free and hide cancellation
+    $is_per_seat = function_exists( 'pms_in_gm_is_per_seat_subscription' ) && pms_in_gm_is_per_seat_subscription( $subscription->id );
+
+    if( $subscription_plan->price <= 0 && !$is_per_seat )
         return false;
 
     return apply_filters( 'pms_member_subscription_should_show_cancel_action', true, $subscription, $subscription_plan );

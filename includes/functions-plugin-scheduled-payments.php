@@ -4,19 +4,116 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Whether the opt-in Action Scheduler pipeline is enabled for recurring renewals (Misc → Payments).
+ * Stored Misc preference for Action Scheduler renewals (no filter).
  *
- * Default is off for phased rollout; a future release may enable this by default after broader testing.
+ * Missing key defaults on. Explicit empty string is off.
+ *
+ * @param array|null $misc Misc settings array, or null to load from the option.
+ * @return bool
+ */
+function pms_get_scheduled_payments_action_scheduler_setting( $misc = null ) {
+
+    if ( null === $misc ) {
+        $misc = get_option( 'pms_misc_settings', array() );
+    }
+
+    if ( ! is_array( $misc ) ) {
+        return true;
+    }
+
+    $payments = ( isset( $misc['payments'] ) && is_array( $misc['payments'] ) ) ? $misc['payments'] : array();
+
+    if ( ! array_key_exists( 'use_action_scheduler_for_renewals', $payments ) ) {
+        return true;
+    }
+
+    return ! empty( $payments['use_action_scheduler_for_renewals'] );
+
+}
+
+/**
+ * Whether Action Scheduler handles recurring renewals (Misc → Payments).
+ *
+ * Default on when the setting key is missing. Explicit empty string is off.
+ * Filter `pms_use_action_scheduler_for_renewals` can force either way; Misc can opt out after save.
  *
  * @return bool
  */
 function pms_is_scheduled_payments_action_scheduler_enabled() {
 
-    $misc = get_option( 'pms_misc_settings', array() );
-
-    return ! empty( $misc['payments']['use_action_scheduler_for_renewals'] );
+    return (bool) apply_filters(
+        'pms_use_action_scheduler_for_renewals',
+        pms_get_scheduled_payments_action_scheduler_setting()
+    );
 
 }
+
+/**
+ * One-time: force Action Scheduler renewals on for existing sites (including prior opt-outs).
+ *
+ * @return void
+ */
+function pms_maybe_default_action_scheduler_renewals_on() {
+
+    if ( get_option( 'pms_as_renewals_defaulted_on' ) ) {
+        return;
+    }
+
+    $misc = get_option( 'pms_misc_settings', array() );
+
+    if ( ! is_array( $misc ) ) {
+        $misc = array();
+    }
+
+    if ( ! isset( $misc['payments'] ) || ! is_array( $misc['payments'] ) ) {
+        $misc['payments'] = array();
+    }
+
+    $was_on = ! empty( $misc['payments']['use_action_scheduler_for_renewals'] );
+    $misc['payments']['use_action_scheduler_for_renewals'] = '1';
+
+    update_option( 'pms_misc_settings', $misc );
+    update_option( 'pms_as_renewals_defaulted_on', '1' );
+
+    if ( ! $was_on ) {
+        update_option( 'pms_as_renewals_pending_enable', '1' );
+    }
+
+}
+add_action( 'pms_update_check', 'pms_maybe_default_action_scheduler_renewals_on' );
+
+/**
+ * Finish deferred AS renewals enable once Action Scheduler is ready.
+ *
+ * @return void
+ */
+function pms_run_pending_action_scheduler_renewals_enable() {
+
+    if ( ! get_option( 'pms_as_renewals_pending_enable' ) ) {
+        return;
+    }
+
+    if ( ! class_exists( 'PMS_Plugin_Scheduled_Payments_Scheduler' ) ) {
+        return;
+    }
+
+    if ( ! function_exists( 'as_schedule_recurring_action' ) ) {
+        return;
+    }
+
+    if ( class_exists( 'ActionScheduler' ) && method_exists( 'ActionScheduler', 'is_initialized' ) && ! ActionScheduler::is_initialized() ) {
+        return;
+    }
+
+    $enabled = PMS_Plugin_Scheduled_Payments_Scheduler::instance()->enable_action_scheduler_mode();
+
+    if ( $enabled ) {
+        delete_option( 'pms_as_renewals_pending_enable' );
+    }
+
+}
+add_action( 'action_scheduler_init', 'pms_run_pending_action_scheduler_renewals_enable', 20 );
+add_action( 'init', 'pms_run_pending_action_scheduler_renewals_enable', 5 );
 
 /**
  * Schedules the legacy daily WP-Cron hook for renewals when Action Scheduler mode is off.

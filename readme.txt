@@ -3,9 +3,9 @@ Contributors: cozmoslabs, iova.mihai, madalin.ungureanu, adispiac, sareiodata, r
 Donate link: https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/
 Tags: membership, paid membership, subscription, content restriction, memberships
 Requires at least: 3.1
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.0.8
+Stable tag: 3.0.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,15 +279,16 @@ Please report security bugs found in the source code of the Paid Member Subscrip
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.0.8 =
-* Enhancement: Added the possibility to always show a summary box at the end of the form. Enable from Settings -> Misc -> Payments -> Order Summary
-* Fix: Include the security issue fixes regarding the change subscription functionality which were missing from the latest update. Thanks to Revanth Hari Narayana Matte and the WPScan team
-* Fix: When a subscription expire, do not remove the associated user role if the user has another plan with the same user role
-* Fix: Javascript error when trying to add member subscriptions manually as an admin
-* Misc: Compatibility with new Order Bumps add-on
-* Misc: Automatically refresh stale strings in Labels Edit
-* Misc: Remove stray backslash generated for some strings in Labels Edit
-* Misc: Handle reCaptcha field position with form designs
-* Misc: Compatibility with Profile Builder auto login changes
+= 3.0.9 =
+* Feature: Added Gutenberg blocks for the Payment History and Edit Profile shortcodes
+* Enhancement: Action Scheduler for renewals is now enabled by default for all sites. Recurring payments are processed hourly. You can switch back to the legacy daily cron from Settings -> Misc -> Payments
+* Enhancement: Allow Content Restriction to work when applied on Kadence Hooked Elements
+* Fix: Security issue regarding PayPal Standard IPN payments that do not match the pending payment. Thanks to Tai.Ha for the report
+* Fix: Recalculate billing dates when a member successfully retries a failed initial payment
+* Fix: Duplicate styling on the subscription plan select field when adding a membership to a user as an admin
+* Fix: ID column font-weight on the Subscriptions page with WordPress 7.1
+* Fix: A deprecation notice being generated on PHP 8.5 from the Stripe library
+* Fix: Prevent Labels Edit from initializing twice
+* Misc: Compatibility with Group Memberships per-seat pricing
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

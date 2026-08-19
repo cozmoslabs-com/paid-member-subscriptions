@@ -3,6 +3,33 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Store first activation time. Existing installs are backdated past the 7-day marketing delay.
+ *
+ * @param bool $existing_install True when pms_version is already in the database.
+ */
+function pms_maybe_set_first_activation_time( $existing_install ) {
+	if ( get_option( 'pms_first_activation' ) ) {
+		return;
+	}
+
+	$stamp = $existing_install ? time() - WEEK_IN_SECONDS : time();
+	add_option( 'pms_first_activation', $stamp );
+}
+
+/**
+ * True when 7 days have passed since first activation.
+ */
+function pms_should_show_marketing_notice() {
+	$first_activation = (int) get_option( 'pms_first_activation', 0 );
+
+	if ( $first_activation <= 0 ) {
+		return false;
+	}
+
+	return ( time() - $first_activation ) >= WEEK_IN_SECONDS;
+}
+
 
 Class PMS_Plugin_Notifications {
 
@@ -74,6 +101,18 @@ Class PMS_Plugin_Notifications {
 			new PMS_Add_General_Notices( $notification_id, $notification_message, $notification_class );
 		}
 
+	}
+
+
+	/**
+	 * Feature / promo notices. Hidden for 7 days after a new install.
+	 */
+	public function add_marketing_notification( $notification_id = '', $notification_message = '', $notification_class = 'update-nag', $count_in_menu = true, $count_in_submenu = array(), $show_in_all_backend = false ) {
+		if ( ! pms_should_show_marketing_notice() ) {
+			return;
+		}
+
+		$this->add_notification( $notification_id, $notification_message, $notification_class, $count_in_menu, $count_in_submenu, $show_in_all_backend );
 	}
 
 

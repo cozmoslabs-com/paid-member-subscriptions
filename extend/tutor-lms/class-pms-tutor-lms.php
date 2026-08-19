@@ -1192,7 +1192,7 @@ class PMS_IN_TutorLMS {
         $message .= '<p><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/integration-with-other-plugins/tutor-lms/?utm_source=pms-tutor-lms-settings&utm_medium=client-site&utm_campaign=pms-tutor-lms-docs" class="button-primary" target="_blank">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
         $message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '" type="button" class="notice-dismiss" style="text-decoration: none;"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
 
-        pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-success', true, array( 'pms-addons-page' ) );
+        pms_add_plugin_marketing_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-success', true, array( 'pms-addons-page' ) );
 
     }
 

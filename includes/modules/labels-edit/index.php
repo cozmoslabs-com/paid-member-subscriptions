@@ -34,8 +34,13 @@ Class PMS_IN_LabelsEdit extends PMS_Submenu_Page {
      */
     public function init() {
 
-        define( 'PMS_IN_LABELSEDIT_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
-        define( 'PMS_LABELSEDIT_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
+        if ( ! defined( 'PMS_IN_LABELSEDIT_PLUGIN_DIR_PATH' ) ) {
+            define( 'PMS_IN_LABELSEDIT_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
+        }
+
+        if ( ! defined( 'PMS_LABELSEDIT_PLUGIN_DIR_URL' ) ) {
+            define( 'PMS_LABELSEDIT_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
+        }
 
         // Enqueue admin scripts
         add_action( 'pms_submenu_page_enqueue_admin_scripts_' . $this->menu_slug, array( $this, 'admin_scripts' ) );
@@ -613,12 +618,20 @@ function pms_in_le_output_string( $string ) {
 add_action( 'init', 'pms_in_le_init', 1 );
 function pms_in_le_init() {
 
+    static $initialized = false;
+
+    if ( $initialized ) {
+        return;
+    }
+
     // Initialize Labels Edit module if selected accordingly in Settings
     $pms_misc_settings = get_option( 'pms_misc_settings', array() );
 
     if( isset( $pms_misc_settings['labels-edit'] ) && $pms_misc_settings['labels-edit'] == 'enabled' ){
         $pms_labels_edit = new PMS_IN_LabelsEdit( 'paid-member-subscriptions', esc_html__( 'Labels Edit', 'paid-member-subscriptions' ), esc_html__( 'Labels Edit', 'paid-member-subscriptions' ), 'manage_options', 'pms-labels-edit', 25 );
         $pms_labels_edit->init();
+
+        $initialized = true;
     }
 
 }

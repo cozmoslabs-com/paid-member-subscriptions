@@ -1789,6 +1789,52 @@ Class PMS_Form_Handler {
     }
 
     /**
+     * Whether this member gets a trial on this checkout: plan allows it, they have not
+     * used it, and `pms_checkout_has_trial` still says yes.
+     *
+     * @param int         $user_id
+     * @param object      $subscription_plan
+     * @param string      $form_location
+     * @param string|null $pay_gate
+     * @param mixed       $is_recurring
+     * @param array       $user_data Passed through to `pms_checkout_has_trial`.
+     * @return bool
+     */
+    public static function resolve_checkout_has_trial( $user_id, $subscription_plan, $form_location, $pay_gate = null, $is_recurring = null, $user_data = array() ) {
+
+        $has_trial = self::checkout_has_trial();
+
+        if( !is_array( $user_data ) )
+            $user_data = array();
+
+        if( empty( $user_data['user_id'] ) )
+            $user_data['user_id'] = $user_id;
+
+        $user_email = !empty( $user_data['user_email'] ) ? $user_data['user_email'] : '';
+
+        if( empty( $user_email ) && !empty( $user_id ) ){
+            $user = get_userdata( $user_id );
+
+            if( !empty( $user->user_email ) ){
+                $user_email = $user->user_email;
+                $user_data['user_email'] = $user_email;
+            }
+        }
+
+        if( $has_trial && !empty( $user_email ) && !empty( $subscription_plan->id ) ){
+
+            $used_trial = get_option( 'pms_used_trial_' . $subscription_plan->id, false );
+
+            if( !empty( $used_trial ) && in_array( $user_email, $used_trial ) )
+                $has_trial = false;
+
+        }
+
+        return apply_filters( 'pms_checkout_has_trial', $has_trial, $user_data, $subscription_plan, $form_location, $pay_gate, $is_recurring );
+
+    }
+
+    /**
      * Determines if the currently logged in user can access a free trial
      *
      * @param object $subscription_plan
@@ -1980,21 +2026,8 @@ Class PMS_Form_Handler {
 
         // Set recurring value
         $is_recurring         = apply_filters( 'pms_checkout_is_recurring', self::checkout_is_recurring(), $user_data, $subscription_plan, $form_location, $pay_gate );
-        $has_trial            = self::checkout_has_trial();
+        $has_trial            = self::resolve_checkout_has_trial( !empty( $user_data['user_id'] ) ? $user_data['user_id'] : 0, $subscription_plan, $form_location, $pay_gate, $is_recurring, $user_data );
         $gateway_supports_psp = !is_null( $payment_gateway ) && $payment_gateway->supports( 'plugin_scheduled_payments' ) ? true : false;
-
-        // Check if user already used the trial
-        if( !empty( $user_data['user_email'] ) ){
-
-            $used_trial = get_option( 'pms_used_trial_' . $subscription_plan->id, false );
-
-            if( !empty( $used_trial ) && in_array( $user_data['user_email'], $used_trial ) )
-                $has_trial = false;
-
-        }
-
-        // Filter checkout trial status
-        $has_trial = apply_filters( 'pms_checkout_has_trial', $has_trial, $user_data, $subscription_plan, $form_location, $pay_gate, $is_recurring );
 
         // Cache the checkout details
         $checkout_data = array(
@@ -2601,23 +2634,8 @@ Class PMS_Form_Handler {
         if( is_null( $is_recurring ) )
             $is_recurring = self::checkout_is_recurring();
 
-        if( is_null( $has_trial ) ){
-            $has_trial = self::checkout_has_trial();
-
-            $user = get_userdata( $user_id );
-
-            if( !empty( $user->user_email ) ){
-
-                $used_trial = get_option( 'pms_used_trial_' . $subscription_plan->id, false );
-
-                if( !empty( $used_trial ) && in_array( $user->user_email, $used_trial ) )
-                    $has_trial = false;
-
-            }
-
-            $has_trial = apply_filters( 'pms_checkout_has_trial', $has_trial, array( 'user_id' => $user_id ), $subscription_plan, $form_location, $pay_gate, $is_recurring );
-
-        }
+        if( is_null( $has_trial ) )
+            $has_trial = self::resolve_checkout_has_trial( $user_id, $subscription_plan, $form_location, $pay_gate, $is_recurring );
 
         // Base data
         $subscription_data = array(

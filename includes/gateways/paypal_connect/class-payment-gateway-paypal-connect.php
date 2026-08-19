@@ -689,7 +689,7 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
         $subscription_plan_id = !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : false;
 
-        if( !in_array( $form_location, array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation' ) ) ){
+        if( !in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation' ) ) ){
 
             if( empty( $subscription_plan_id ) && !empty( $checkout_data['subscription_plans'] ) )
                 $subscription_plan_id = $checkout_data['subscription_plans'];
@@ -720,6 +720,10 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                 'status'         => 'active',
             );
 
+        }
+
+        if ( $form_location === 'retry_payment' ) {
+            $subscription_data['billing_last_payment'] = date( 'Y-m-d H:i:s' );
         }
 
         switch( $form_location ) {

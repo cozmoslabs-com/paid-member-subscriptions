@@ -121,6 +121,14 @@ function pms_add_plugin_notification( $notification_id = '', $notification_messa
 }
 
 
+function pms_add_plugin_marketing_notification( $notification_id = '', $notification_message = '', $notification_class = 'update-nag', $count_in_menu = true, $count_in_submenu = array(), $show_in_all_backend = false ) {
+
+	$notifications = PMS_Plugin_Notifications::get_instance();
+	$notifications->add_marketing_notification( $notification_id, $notification_message, $notification_class, $count_in_menu, $count_in_submenu, $show_in_all_backend );
+
+}
+
+
 function pms_add_plugin_notification_new_add_on() {
 
 	// if( pms_get_active_stripe_gateway() == false ){
@@ -189,16 +197,15 @@ function pms_add_plugin_notification_new_add_on() {
     // pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );
 
     // Pause Subscriptions Add-on notice
-    $notification_id = 'pms_addon_pause_subscriptions';
-    $message = '<img style="float: left; margin: 20px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/addons/pms-add-on-pause-subscriptions-logo.png" />';
-    $message .= '<p style="margin-top: 16px;">' . wp_kses_post( '<strong>New add-on: Pause Subscriptions</strong><br>Members can now pause and resume their subscriptions with ease — helping reduce cancellations and improve retention. <br> The add-on is available with an <strong>Agency</strong> or <strong>Pro</strong> license. Don\'t have a license? <a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-plugin-notification&utm_medium=client-site&utm_campaign=pms-pause-subscriptions-addon#pricing" target="_blank">Buy now!</a></em>' ) . '</p>';
-    $message .= '<p><a href="'. admin_url( 'admin.php?page=pms-addons-page' ) .'" class="button-primary">' . esc_html__( 'Add-ons Page', 'paid-member-subscriptions' ) . '</a><a href="https://www.cozmoslabs.com/add-ons/pause-subscriptions/?utm_source=pms-plugin-notification&utm_medium=client-site&utm_campaign=pms-pause-subscriptions-addon" class="button-secondary" target="_blank">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
-    $message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
+    // $notification_id = 'pms_addon_pause_subscriptions';
+    // $message = '<img style="float: left; margin: 20px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/addons/pms-add-on-pause-subscriptions-logo.png" />';
+    // $message .= '<p style="margin-top: 16px;">' . wp_kses_post( '<strong>New add-on: Pause Subscriptions</strong><br>Members can now pause and resume their subscriptions with ease — helping reduce cancellations and improve retention. <br> The add-on is available with an <strong>Agency</strong> or <strong>Pro</strong> license. Don\'t have a license? <a href="https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=pms-plugin-notification&utm_medium=client-site&utm_campaign=pms-pause-subscriptions-addon#pricing" target="_blank">Buy now!</a></em>' ) . '</p>';
+    // $message .= '<p><a href="'. admin_url( 'admin.php?page=pms-addons-page' ) .'" class="button-primary">' . esc_html__( 'Add-ons Page', 'paid-member-subscriptions' ) . '</a><a href="https://www.cozmoslabs.com/add-ons/pause-subscriptions/?utm_source=pms-plugin-notification&utm_medium=client-site&utm_campaign=pms-pause-subscriptions-addon" class="button-secondary" target="_blank">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
+    // $message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
 
-    pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );
+    //pms_add_plugin_marketing_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );
 
     // Order Bumps Add-on notice
-    // - skip the promo when the add-on is already active, so users who have it are not nagged to buy it
     if( ! apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-order-bumps/index.php' ) ) {
 
         $notification_id = 'pms_addon_order_bumps';
@@ -207,7 +214,20 @@ function pms_add_plugin_notification_new_add_on() {
         $message .= '<p><a href="'. admin_url( 'admin.php?page=pms-addons-page' ) .'" class="button-primary">' . esc_html__( 'Add-ons Page', 'paid-member-subscriptions' ) . '</a><a href="https://www.cozmoslabs.com/add-ons/order-bumps/?utm_source=pms-plugin-notification&utm_medium=client-site&utm_campaign=pms-order-bumps-addon" class="button-secondary" target="_blank">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
         $message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
 
-        pms_add_plugin_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );
+        pms_add_plugin_marketing_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );
+
+    }
+
+    // Per-seat pricing for Group Memberships (existing add-on users)
+    if( apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-group-memberships/index.php' ) ) {
+
+        $notification_id = 'pms_feature_group_memberships_per_seat';
+        $message = '<img style="float: left; margin: 20px 12px 10px 0; max-width: 80px;" src="' . PMS_PLUGIN_DIR_URL . 'assets/images/addons/pms-add-on-group-memberships-logo.png" />';
+        $message .= '<p style="margin-top: 16px;">' . wp_kses_post( sprintf( '<strong>New in Group Memberships: Per-seat pricing</strong><br>You can now set a price per seat on a Group plan. Members choose how many seats they need at checkout and pay that price times the number of seats.<br>Open a Group plan under <a href="%s">Subscription Plans</a> and set the Pricing Model to <strong>Per seat</strong>.', esc_url( admin_url( 'edit.php?post_type=pms-subscription' ) ) ) ) . '</p>';
+        $message .= '<p><a href="'. admin_url( 'edit.php?post_type=pms-subscription' ) .'" class="button-primary">' . esc_html__( 'Subscription Plans', 'paid-member-subscriptions' ) . '</a><a href="https://www.cozmoslabs.com/docs/paid-member-subscriptions/add-ons/group-memberships/?utm_source=pms-plugin-notification&utm_medium=client-site&utm_campaign=pms-group-memberships-per-seat" class="button-secondary" target="_blank">' . esc_html__( 'Learn More', 'paid-member-subscriptions' ) . '</a></p>';
+        $message .= '<a href="' . esc_url( wp_nonce_url( add_query_arg( array( 'pms_dismiss_admin_notification' => $notification_id ) ), 'pms_plugin_notice_dismiss' ) ) . '#pms-addons-title" type="button" class="notice-dismiss"><span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'paid-member-subscriptions' ) . '</span></a>';
+
+        pms_add_plugin_marketing_notification( $notification_id, $message, 'pms-notice pms-narrow notice notice-info', true, array( 'pms-addons-page' ) );
 
     }
 

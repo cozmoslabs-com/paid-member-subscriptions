@@ -112,12 +112,22 @@ add_action(
 	function () {
 		global $wp_version;
 
+		$block_registry = class_exists( 'WP_Block_Type_Registry' ) ? WP_Block_Type_Registry::get_instance() : null;
+
 		// Register the Content Restriction Start and Content Restriction End blocks
 		if ( version_compare( $wp_version, "5.0.0", ">=" ) ) {
-			if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/build/content-restriction-start' ) )
+			if (
+				file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/build/content-restriction-start' ) &&
+				( ! $block_registry || ! $block_registry->is_registered( 'pms/content-restriction-start' ) )
+			) {
 				register_block_type( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/build/content-restriction-start' );
-			if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/build/content-restriction-end' ) )
+			}
+			if (
+				file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/build/content-restriction-end' ) &&
+				( ! $block_registry || ! $block_registry->is_registered( 'pms/content-restriction-end' ) )
+			) {
 				register_block_type( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/build/content-restriction-end' );
+			}
 		}
         //Register the shortcode blocks
         if ( version_compare( $wp_version, "5.0.0", ">=" ) ) {
@@ -129,6 +139,10 @@ add_action(
                 include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/recover-password.php' ;
             if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/register.php' ) )
                 include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/register.php' ;
+            if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/payment-history.php' ) )
+                include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/payment-history.php' ;
+            if( file_exists( PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/edit-profile.php' ) )
+                include_once PMS_PLUGIN_DIR_PATH . 'extend/gutenberg/blocks/edit-profile.php' ;
         }
 	}
 );

@@ -147,9 +147,10 @@ function pms_in_dc_get_discounted_subscriptions(){
  * @param string $subscription - Subscription plan id
  * @param bool $user_checked_auto_renew - Whether or not the user checked the "Automatically renew subscription" checkbox
  * @param string $pwyw_price - The price entered by the user if the selected subscription has Pay What You Want pricing enabled
+ * @param float $initial_payment - The discounted initial charge, computed once by the discount AJAX handler and formatted here as-is, so the message matches the Order Summary and the actual charge (avoids Multiple Currencies rounding drift); when omitted it is computed here, keeping the original call signature working
  * @return string
  */
-function pms_in_dc_apply_discount_success_message( $code, $subscription, $user_checked_auto_renew, $pwyw_price = '') {
+function pms_in_dc_apply_discount_success_message( $code, $subscription, $user_checked_auto_renew, $pwyw_price = '', $initial_payment = null ) {
 
     if ( empty( $code ) || empty( $subscription ) )
         return;
@@ -179,27 +180,35 @@ function pms_in_dc_apply_discount_success_message( $code, $subscription, $user_c
     // Filter subscription plan price that is used
     $subscription_plan_price = apply_filters( 'pms_dc_success_message_plan_price', (float)$subscription_plan->price, $subscription_plan, $form_location );
 
-    $initial_payment = $subscription_plan_price;
+    // the discount AJAX handler passes its already-computed amount; a caller that omits it gets the amount computed here instead
+    if( is_null( $initial_payment ) ){
 
-    // Take into account the Sign-up Fee as well
-    $signup_fee_amount = 0;
+        $initial_payment   = $subscription_plan_price;
+        $signup_fee_amount = 0;
 
-    if ( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) && !empty( $subscription_plan->sign_up_fee ) && pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_sign_up_fee' ) ) {
-        // Check if there is a Free Trial period
-        if ( !empty( $subscription_plan->trial_duration ) )
-            $initial_payment = $subscription_plan->sign_up_fee;
-        else
-            $initial_payment += (float)$subscription_plan->sign_up_fee;
+        // Take into account the Sign-up Fee as well
+        if ( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) && !empty( $subscription_plan->sign_up_fee ) && pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_sign_up_fee' ) ) {
 
-        $signup_fee_amount = (float)$subscription_plan->sign_up_fee;
-    }
+            // resolve the sign-up fee to the selected currency via the same filter checkout uses, so it isn't mixed with the already-converted plan price under Multiple Currencies
+            $signup_fee = (float) apply_filters( 'pms_calculate_signup_fee_amount', (float) $subscription_plan->sign_up_fee, $subscription_plan, array() );
 
-    if( $signup_fee_amount > 0 && apply_filters( 'pms_discount_exclude_signup_fee', false, $discount ) ){
-        $initial_payment -= $signup_fee_amount;
-        $initial_payment  = pms_in_calculate_discounted_amount( $initial_payment, $discount );
-        $initial_payment += $signup_fee_amount;
-    } else {
-        $initial_payment = pms_in_calculate_discounted_amount( $initial_payment, $discount );
+            // Check if there is a Free Trial period
+            if ( !empty( $subscription_plan->trial_duration ) )
+                $initial_payment = $signup_fee;
+            else
+                $initial_payment += $signup_fee;
+
+            $signup_fee_amount = $signup_fee;
+        }
+
+        if( $signup_fee_amount > 0 && apply_filters( 'pms_discount_exclude_signup_fee', false, $discount ) ){
+            $initial_payment -= $signup_fee_amount;
+            $initial_payment  = pms_in_calculate_discounted_amount( $initial_payment, $discount );
+            $initial_payment += $signup_fee_amount;
+        } else {
+            $initial_payment = pms_in_calculate_discounted_amount( $initial_payment, $discount );
+        }
+
     }
 
     if ( $is_recurring ) {

@@ -160,10 +160,16 @@ function pms_in_dc_output_discount_box( $output, $include, $exclude_id_group, $m
         return $output;
     
     // Calculate the total price of the subscription plans
+    // - per-seat plans have a flat price of 0, so count their seat price instead; otherwise the discount box would be hidden even though per-seat plans support discounts
+    // - kept as a float so a price under 1 (e.g. 0.50 per seat) still counts as paid
     $total_price = 0;
     foreach( $subscription_plans as $subscription_plan ) {
-        $total_price += (int)$subscription_plan->price;
-        $total_price += (int)$subscription_plan->sign_up_fee;
+        if( function_exists( 'pms_in_gm_is_per_seat_plan' ) && pms_in_gm_is_per_seat_plan( $subscription_plan->id ) )
+            $total_price += (float) get_post_meta( $subscription_plan->id, 'pms_subscription_plan_seat_price', true );
+        else
+            $total_price += (float)$subscription_plan->price;
+
+        $total_price += (float)$subscription_plan->sign_up_fee;
     }
 
 
@@ -181,7 +187,7 @@ function pms_in_dc_output_discount_box( $output, $include, $exclude_id_group, $m
     $discount_code_value = apply_filters( 'pms_discount_code_field_value', $discount_code_value );
 
     // Return the discount code field only if we have paid plans
-    if( $total_price !== 0 ) {
+    if( $total_price > 0 ) {
         $discount_output  = '<div id="pms-subscription-plans-discount">';
         $discount_output .= '<label for="pms-subscription-plans-discount">' . apply_filters('pms_form_label_discount_code', __('Discount Code: ', 'paid-member-subscriptions')) . '</label>';
         $discount_output .= '<input id="pms_subscription_plans_discount_code" name="discount_code" placeholder="' . apply_filters( 'pms_form_input_placeholder_discount_code', __( 'Enter discount', 'paid-member-subscriptions' ) ) . '" type="text" value="' . esc_attr( $discount_code_value ) . '" />';
@@ -242,49 +248,50 @@ function pms_in_dc_output_apply_discount_message() {
 
         $error = pms_in_dc_get_discount_error( $code, $subscription_plan_ids );
 
-        // Setup user message
-        if( ! empty( $error ) )
-            $response['error']['message'] = $error;
-        else
-            $response['success']['message'] = pms_in_dc_apply_discount_success_message( $code, $subscription, $user_checked_auto_renew, $pwyw_price );
-
-        // Determine wether the discount code is a partial discount or a full discount
-        $response['is_full_discount'] = pms_in_dc_check_is_full_discount( $code, $subscription, $user_checked_auto_renew, $pwyw_price );
-
-        // Add new price to response
+        // Add new price to response — computed first so the success message can reuse the exact discounted amount
+        // - convert the plan price and the sign-up fee SEPARATELY then add them, mirroring how core builds the Order Summary and pms_calculate_payment_amount, so the discounted amount stays consistent with the displayed total and the actual charge under Multiple Currencies (converting the combined total rounds differently and drifts)
         $plan            = pms_get_subscription_plan( $subscription );
         $form_location   = PMS_Form_Handler::get_request_form_location( 'pmstkn_original' );
-        $amount          = (float)$plan->price;
-        $signup_fee_amount = 0;
         $discount_obj    = pms_in_get_discount_by_code( $code );
 
-        if ( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) && !empty( $plan->sign_up_fee ) && pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_sign_up_fee' ) ) {
-            // Check if there is a Free Trial period
-            if ( !empty( $plan->trial_duration ) )
-                $amount = $plan->sign_up_fee;
-            else
-                $amount += (float)$plan->sign_up_fee;
+        // seed the base amount the discount applies to
+        // - PWYW: the buyer's entered price is already in the active currency, so use it as-is; the conversion filter would wrongly convert it as if it were a base-currency price (PWYW is regular-only, never seat-priced)
+        // - otherwise: the stored plan price is in base currency and goes through the conversion filter (Multiple Currencies / Pro-Rate), mirroring pms_calculate_payment_amount and the Order Summary
+        if( $pwyw_price !== '' )
+            $amount = (float)$pwyw_price;
+        else
+            $amount = apply_filters( 'pms_dc_output_apply_discount_message_amount', (float)$plan->price );
+        $signup_fee_amount = 0;
 
-            $signup_fee_amount = (float)$plan->sign_up_fee;
+        if ( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) && !empty( $plan->sign_up_fee ) && pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_sign_up_fee' ) ) {
+
+            // converted sign-up fee (same filter core uses), added on top of the converted price
+            $signup_fee_amount = (float) apply_filters( 'pms_calculate_signup_fee_amount', (float)$plan->sign_up_fee, $plan, array() );
+
+            // Free Trial: only the sign-up fee is charged initially
+            if ( !empty( $plan->trial_duration ) )
+                $amount = $signup_fee_amount;
+            else
+                $amount += $signup_fee_amount;
         }
 
         $exclude_signup_fee = ( $signup_fee_amount > 0 && apply_filters( 'pms_discount_exclude_signup_fee', false, $discount_obj ) );
 
-        $amount = apply_filters( 'pms_dc_output_apply_discount_message_amount', $amount );
-
-        // Cache the filtered value so recurring calculations use the same amount as the discount response
-        // - this keeps recurring discounts and tax in sync when Pro-Rate or Multiple Currencies change the amount first
-        if( $exclude_signup_fee ){
+        if( $exclude_signup_fee )
             $response['original_discounted_price'] = pms_in_calculate_discounted_amount( $amount - $signup_fee_amount, $discount_obj ) + $signup_fee_amount;
-        } else {
+        else
             $response['original_discounted_price'] = pms_in_calculate_discounted_amount( $amount, $discount_obj );
-        }
 
-        if( $exclude_signup_fee ){
-            $response['discounted_price'] = pms_in_calculate_discounted_amount( $amount - $signup_fee_amount, $discount_obj ) + $signup_fee_amount;
-        } else {
-            $response['discounted_price'] = pms_in_calculate_discounted_amount( $amount, $discount_obj );
-        }
+        $response['discounted_price'] = $response['original_discounted_price'];
+
+        // Setup user message — reuse the discounted amount computed above so the "amount to be charged" matches the summary and the actual charge exactly
+        if( ! empty( $error ) )
+            $response['error']['message'] = $error;
+        else
+            $response['success']['message'] = pms_in_dc_apply_discount_success_message( $code, $subscription, $user_checked_auto_renew, $pwyw_price, $response['original_discounted_price'] );
+
+        // Determine wether the discount code is a partial discount or a full discount
+        $response['is_full_discount'] = pms_in_dc_check_is_full_discount( $code, $subscription, $user_checked_auto_renew, $pwyw_price );
 
         $discount_meta = PMS_IN_Discount_Codes_Meta_Box::get_discount_meta_by_code( $code );
         

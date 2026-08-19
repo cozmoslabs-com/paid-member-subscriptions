@@ -396,24 +396,17 @@ function pms_paid_plugin_owns_updates() {
 }
 
 /**
- * Require the EDD license updater once free-plugin helpers are available.
+ * Load the EDD updater from the paid wrapper when it owns updates.
  */
 function pms_paid_plugin_load_updater() {
 
     if ( class_exists( 'PMS_Plugin_Updater', false ) )
         return;
 
-    if ( function_exists( 'pms_paid_plugin_owns_updates' ) && pms_paid_plugin_owns_updates() ) {
-        $pms_updater_file = PMS_PAID_PLUGIN_DIR . '/update/class-edd-sl-plugin-updater.php';
-    } elseif ( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php' ) ) {
-        $pms_updater_file = PMS_PLUGIN_DIR_PATH . 'includes/admin/class-edd-sl-plugin-updater.php';
-    } else {
+    if ( ! function_exists( 'pms_paid_plugin_owns_updates' ) || ! pms_paid_plugin_owns_updates() )
         return;
-    }
 
-    if ( file_exists( $pms_updater_file ) ) {
-        require_once $pms_updater_file;
-    }
+    require_once PMS_PAID_PLUGIN_DIR . '/update/class-edd-sl-plugin-updater.php';
 
 }
 

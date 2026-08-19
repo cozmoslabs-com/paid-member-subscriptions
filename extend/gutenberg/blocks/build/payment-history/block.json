@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pms/payment-history",
+  "title": "PMS Payment History",
+  "category": "pms-block",
+  "description": "Displays the Paid Member Subscriptions Payment History.",
+  "keywords": [
+    "Payment History",
+    "Payments",
+    "PMS",
+    "Paid Member Subscriptions"
+  ],
+  "textdomain": "paid-member-subscriptions",
+  "attributes": {
+    "number_per_page": {
+      "type": "string",
+      "default": "10"
+    },
+    "is_preview": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_editor": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "example": {
+    "attributes": {
+      "number_per_page": "10",
+      "is_preview": true,
+      "is_editor": true
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

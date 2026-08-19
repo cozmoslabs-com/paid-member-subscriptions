@@ -360,16 +360,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </h4>
 
             <div class="cozmoslabs-form-field-wrapper cozmoslabs-toggle-switch">
-                <label class="cozmoslabs-form-field-label" for="use-action-scheduler-for-renewals"><?php esc_html_e( 'New Scheduler for renewals', 'paid-member-subscriptions' ); ?></label>
+                <label class="cozmoslabs-form-field-label" for="use-action-scheduler-for-renewals"><?php esc_html_e( 'Action Scheduler for renewals', 'paid-member-subscriptions' ); ?></label>
 
                 <div class="cozmoslabs-toggle-container">
-                    <input type="checkbox" id="use-action-scheduler-for-renewals" name="pms_misc_settings[payments][use_action_scheduler_for_renewals]" value="1" <?php echo ( ! empty( $this->options['payments']['use_action_scheduler_for_renewals'] ) ? 'checked' : '' ); ?> />
+                    <input type="checkbox" id="use-action-scheduler-for-renewals" name="pms_misc_settings[payments][use_action_scheduler_for_renewals]" value="1" <?php echo ( ( ! isset( $this->options['payments']['use_action_scheduler_for_renewals'] ) || ! empty( $this->options['payments']['use_action_scheduler_for_renewals'] ) ) ? 'checked' : '' ); ?> />
                     <label class="cozmoslabs-toggle-track" for="use-action-scheduler-for-renewals"></label>
                 </div>
 
                 <div class="cozmoslabs-toggle-description">
-                    <label for="use-action-scheduler-for-renewals" class="cozmoslabs-description"><?php esc_html_e( 'Process recurring subscription renewals through the new payment scheduler system which uses Action Scheduler.', 'paid-member-subscriptions' ); ?></label>
-                    <label for="use-action-scheduler-for-renewals" class="cozmoslabs-description"><?php esc_html_e( 'On the new system, payments are processed hourly instead of daily. This interval can be adjusted through a filter.', 'paid-member-subscriptions' ); ?></label>
+                    <label for="use-action-scheduler-for-renewals" class="cozmoslabs-description"><?php esc_html_e( 'Process recurring subscription renewals through Action Scheduler. Turn this off to use the legacy daily WordPress cron.', 'paid-member-subscriptions' ); ?></label>
+                    <label for="use-action-scheduler-for-renewals" class="cozmoslabs-description"><?php esc_html_e( 'Payments are processed hourly instead of daily. This interval can be adjusted through a filter.', 'paid-member-subscriptions' ); ?></label>
                 </div>
             </div>
 

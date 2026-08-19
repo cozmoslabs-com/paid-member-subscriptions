@@ -133,7 +133,19 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                 return;
 
             $member_subscription = new PMS_Member_Subscription();
-            $subscription_id     = $member_subscription->insert( $_POST );
+
+            /**
+             * Filter the data a subscription added by an admin is created with
+             *
+             * - runs after the posted data was validated, and before it is sanitized down to the subscription's own columns
+             * - lets plans whose amount is not the flat plan price supply their own billing_amount, tax included, since no tax is applied to this branch
+             *
+             * @param array $data - the posted subscription data
+             *
+             */
+            $subscription_data = apply_filters( 'pms_admin_new_subscription_data', $_POST );
+
+            $subscription_id = $member_subscription->insert( $subscription_data );
 
             pms_add_member_subscription_log( $subscription_id, 'admin_subscription_added_members' );
 
@@ -174,6 +186,19 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                     if ( isset( $new_subscription_plan->price ) ) {
 
                         $billing_amount = $new_subscription_plan->price;
+
+                        /**
+                         * Filter the recurring amount set when an admin moves a subscription to another plan
+                         *
+                         * - the amount is the new plan's price without tax, so callbacks return a pre-tax amount and the tax block below makes it tax-inclusive
+                         * - the subscription still holds the plan it is being moved away from, which callbacks need to carry over data from
+                         *
+                         * @param float                   $billing_amount
+                         * @param PMS_Subscription_Plan   $new_subscription_plan
+                         * @param PMS_Member_Subscription $member_subscription
+                         *
+                         */
+                        $billing_amount = apply_filters( 'pms_admin_subscription_change_billing_amount', $billing_amount, $new_subscription_plan, $member_subscription );
 
                         // check if tax should also be added
                         if( function_exists( 'pms_in_tax_enabled' ) && pms_in_tax_enabled() ) {
@@ -581,8 +606,26 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                 $target_plan_id        = (int) sanitize_text_field( $_POST['subscription_plan_id'] );
                 $existing_subscription = pms_get_current_subscription_from_tier( (int) sanitize_text_field( $_POST['user_id'] ), $target_plan_id );
 
-                if( !empty( $existing_subscription ) && $existing_subscription->status != 'abandoned' && $existing_subscription->id != $member_subscription->id )
+                if( !empty( $existing_subscription ) && $existing_subscription->status != 'abandoned' && $existing_subscription->id != $member_subscription->id ){
+
                     $this->add_admin_notice( __( 'The user already has a non-abandoned subscription in this plan\'s tier.', 'paid-member-subscriptions' ), 'error'  );
+
+                } else {
+
+                    /**
+                     * Validate moving a subscription to another plan against rules the target plan's own features define
+                     *
+                     * - runs only when the tier check above passed, so the first blocking reason is the one reported
+                     * - the subscription still holds the plan it is being moved away from
+                     * - callbacks report a problem with $submenu_page->add_admin_notice( $message, 'error' ), which fails the validation
+                     *
+                     * @param int                     $target_plan_id
+                     * @param PMS_Member_Subscription $member_subscription
+                     * @param PMS_Submenu_Page        $submenu_page
+                     *
+                     */
+                    do_action( 'pms_admin_validate_subscription_change', $target_plan_id, $member_subscription, $this );
+                }
 
             }
         }
