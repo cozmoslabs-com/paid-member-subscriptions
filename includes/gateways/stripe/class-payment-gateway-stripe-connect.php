@@ -238,6 +238,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_next_action', 1 );
                     pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_next_action_intent_id', $intent->id );
 
+                    // Mint a token that binds the eventual resume request to this browser
+                    $resume_token = wp_hash( wp_generate_password( 32, false ) );
+                    pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_next_action_token', $resume_token );
+
                     $data = array(
                         'success'              => false,
                         'client_secret'        => $intent->client_secret,
@@ -247,6 +251,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                         'subscription_id'      => $subscription->id,
                         'user_id'              => $subscription->user_id,
                         'subscription_plan_id' => $subscription->subscription_plan_id,
+                        'resume_token'         => $resume_token,
                     );
     
                     echo json_encode( $data );
@@ -324,6 +329,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             // If the payment is completed because the webhook was received already we don't want to touch it
             // But the payment can also be completed when a 100% discount code is used and in that scenario we need to continue
             if( empty( $_REQUEST['discount_code'] ) || ( !empty( $_REQUEST['discount_code'] ) && $payment->amount != 0 ) ){
+
+                // The payment is already completed (e.g. the webhook arrived first), so the resume
+                // state is spent. Clear it here too, not only in the resume branch below.
+                $this->delete_next_action_meta( $payment_id, $subscription_id );
+
                 $data = array(
                     'success'      => true,
                     'redirect_url' => PMS_AJAX_Checkout_Handler::get_success_redirect_url( $form_location, $payment->id ),
@@ -380,6 +390,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     pms_update_payment_meta( $payment->id, 'pms_stripe_next_action', 1 );
                     pms_update_payment_meta( $payment->id, 'pms_stripe_next_action_intent_id', $payment_intent->id );
 
+                    // Mint a token that binds the eventual resume request to this browser
+                    $resume_token = wp_hash( wp_generate_password( 32, false ) );
+                    pms_update_payment_meta( $payment->id, 'pms_stripe_next_action_token', $resume_token );
+
                     $data = array(
                         'success'              => false,
                         'client_secret'        => $payment_intent->client_secret,
@@ -389,6 +403,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                         'subscription_id'      => $subscription->id,
                         'user_id'              => $subscription->user_id,
                         'subscription_plan_id' => $subscription->subscription_plan_id,
+                        'resume_token'         => $resume_token,
                     );
 
                     echo json_encode( $data );
@@ -533,6 +548,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 do_action( 'pms_stripe_checkout_processed', isset( $_REQUEST['setup_intent'] ) ? 'setup_intent' : 'payment_intent', $subscription_id, $payment->id, $form_location );
 
                 do_action( 'pms_checkout_after_payment_is_processed', true, $subscription, $form_location );
+
+                // The intent is resolved, so the resume state has served its purpose. Clearing it
+                // here rather than in the AJAX handler means a request that never reaches a resolved
+                // intent leaves the state intact for a genuine retry.
+                $this->delete_next_action_meta( $payment_id, $subscription_id );
 
                 $data = array(
                     'success'      => true,
@@ -2390,13 +2410,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         $current_domain = false;
-        $home_url       = pms_get_home_url();
+        $home_host      = $this->get_payment_method_domain_host( pms_get_home_url() );
 
         // verify if domain exists
-        if( !empty( $domains ) ) {
-            foreach( $domains as $domain ) {
+        if( !empty( $domains ) && !empty( $home_host ) ) {
+            foreach( $domains->autoPagingIterator() as $domain ) {
 
-                if ( !empty( $home_url ) && $domain->domain_name === $home_url ){
+                if ( $this->get_payment_method_domain_host( $domain->domain_name ) === $home_host ){
                     $current_domain = $domain;
                     break;
                 }
@@ -2408,12 +2428,23 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             $current_domain = $this->register_domain();
         }
 
+        if( empty( $current_domain ) || empty( $current_domain->id ) )
+            return [ 'status' => false, 'message' => 'could_not_verify_domain' ];
+
         // check if domain is validated with Apple Pay
-        if( $current_domain->apple_pay->status != 'active' ){
-            $current_domain = $this->stripe_client->paymentMethodDomains->validate( $current_domain->id );
+        try {
+
+            if( empty( $current_domain->apple_pay ) || $current_domain->apple_pay->status != 'active' ){
+                $current_domain = $this->stripe_client->paymentMethodDomains->validate( $current_domain->id );
+            }
+
+        } catch ( Exception $e ) {
+
+            return [ 'status' => false, 'message' => 'could_not_verify_domain' ];
+
         }
 
-        if( $current_domain->enabled == true )
+        if( !empty( $current_domain ) && $current_domain->enabled == true )
             return true;
 
         return [ 'status' => false, 'message' => 'domain_not_verified' ];
@@ -2428,22 +2459,39 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( is_null( $this->stripe_client->paymentMethodDomains ) )
             return false;
 
+        $domain = false;
+
         try {
 
             $domain = $this->stripe_client->paymentMethodDomains->create( array(
                 'domain_name' => $target_url,
             ) );
 
+            if( !empty( $domain->id ) )
+                $this->stripe_client->paymentMethodDomains->validate( $domain->id );
+
         } catch ( Exception $e ) {
+
+            if( !empty( $domain ) && !empty( $domain->id ) )
+                return $domain;
 
             return false;
 
         }
 
-        if( !empty( $domain->id ) )
-            $this->stripe_client->paymentMethodDomains->validate( $domain->id );
-
         return $domain;
+
+    }
+
+    protected function get_payment_method_domain_host( $value ){
+
+        if( !is_string( $value ) || $value === '' )
+            return '';
+
+        $normalized = ( strpos( $value, '://' ) === false ) ? 'https://' . $value : $value;
+        $host       = wp_parse_url( $normalized, PHP_URL_HOST );
+
+        return is_string( $host ) ? strtolower( $host ) : '';
 
     }
 
@@ -2741,6 +2789,30 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         return $billing_details;
+
+    }
+
+    /**
+     * Removes the stored Stripe SCA "next action" resume state from a payment and/or its
+     * subscription. Called once the intent is confirmed resolved so a request that never
+     * reaches a resolved intent leaves the state in place for a genuine retry.
+     *
+     * @param int $payment_id
+     * @param int $subscription_id
+     */
+    private function delete_next_action_meta( $payment_id = 0, $subscription_id = 0 ) {
+
+        if( !empty( $subscription_id ) ) {
+            pms_delete_member_subscription_meta( $subscription_id, 'pms_stripe_next_action' );
+            pms_delete_member_subscription_meta( $subscription_id, 'pms_stripe_next_action_intent_id' );
+            pms_delete_member_subscription_meta( $subscription_id, 'pms_stripe_next_action_token' );
+        }
+
+        if( !empty( $payment_id ) ) {
+            pms_delete_payment_meta( $payment_id, 'pms_stripe_next_action' );
+            pms_delete_payment_meta( $payment_id, 'pms_stripe_next_action_intent_id' );
+            pms_delete_payment_meta( $payment_id, 'pms_stripe_next_action_token' );
+        }
 
     }
     // END

@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.0.9
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,16 +279,15 @@ Please report security bugs found in the source code of the Paid Member Subscrip
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.0.9 =
-* Feature: Added Gutenberg blocks for the Payment History and Edit Profile shortcodes
-* Enhancement: Action Scheduler for renewals is now enabled by default for all sites. Recurring payments are processed hourly. You can switch back to the legacy daily cron from Settings -> Misc -> Payments
-* Enhancement: Allow Content Restriction to work when applied on Kadence Hooked Elements
-* Fix: Security issue regarding PayPal Standard IPN payments that do not match the pending payment. Thanks to Tai.Ha for the report
-* Fix: Recalculate billing dates when a member successfully retries a failed initial payment
-* Fix: Duplicate styling on the subscription plan select field when adding a membership to a user as an admin
-* Fix: ID column font-weight on the Subscriptions page with WordPress 7.1
-* Fix: A deprecation notice being generated on PHP 8.5 from the Stripe library
-* Fix: Prevent Labels Edit from initializing twice
-* Misc: Compatibility with Group Memberships per-seat pricing
+= 3.1.0 =
+* Enhancement: Gutenberg block editor scripts are no longer loaded on WordPress versions below 6.6 when react-jsx-runtime is unavailable
+* Fix: Security issue regarding PayPal Standard recurring IPN recurring payments that do not match the pending payment. Thanks to MYUNGYONG LEE and the Patchstack team
+* Fix: Security issue with Captcha not being verified in some cases for the default login page. Thanks to Naoki Kawahigashi and the WPScan team
+* Fix: Security issue regarding missing ownership check on an AJAX handler. Thanks to vuxvinh and the WPScan team
+* Fix: Cancel link on the Account form could cancel the wrong subscription when a member has multiple subscriptions
+* Fix: Returning customers who already used a plan trial were charged only the sign-up fee instead of the full subscription price
+* Fix: Manual payment pending subscriptions now use the admin acceptance date as the start date instead of the checkout initiation date
+* Fix: Fatal error when opening Payments settings if Stripe could not validate the site domain
+* Fix: PHP notice when an admin subscription save is rejected on the edit subscription screen
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

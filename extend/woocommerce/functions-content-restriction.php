@@ -552,6 +552,40 @@ if( function_exists( 'wc_get_page_id' ) ) :
 
             if ( ($post_id != -1) && pms_is_post_restricted($post_id) ) {
 
+                $post_restriction_type = get_post_meta( $post_id, 'pms-content-restrict-type', true );
+                $settings              = get_option( 'pms_content_restriction_settings', array() );
+
+                if ( $post_restriction_type == 'default' || empty( $post_restriction_type ) )
+                    $post_restriction_type = ( ! empty( $settings['content_restrict_type'] ) ? $settings['content_restrict_type'] : 'message' );
+
+                if ( $post_restriction_type === 'redirect' )
+                    return $template;
+
+                if ( $post_restriction_type === 'template' ) {
+
+                    $restrict_template = ( ! empty( $settings['content_restrict_template'] ) ? $settings['content_restrict_template'] : '' );
+
+                    if ( empty( $restrict_template ) )
+                        return $template;
+
+                    if ( did_action( 'elementor/loaded' ) && strpos( $restrict_template, 'elementor_template_' ) !== false ) {
+
+                        $elementor_template = pms_elementor_render_template( str_replace( 'elementor_template_', '', $restrict_template ) );
+
+                        if ( ! empty( $elementor_template ) )
+                            return $elementor_template;
+
+                        return $template;
+                    }
+
+                    $new_template = locate_template( array( $restrict_template ) );
+
+                    if ( ! empty( $new_template ) )
+                        return $new_template;
+
+                    return $template;
+                }
+
                 $shop_page = get_post( $post_id );
 
                 setup_postdata( $shop_page );

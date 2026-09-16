@@ -419,6 +419,9 @@ function pms_in_ppsrp_ipn_listener( $payment_data, $post_data ) {
                 if ( method_exists( $payment, 'log_data') )
                     $payment->log_data( 'paypal_ipn_received', array( 'data' => $post_data, 'desc' => 'paypal IPN' ) );
 
+                if ( ! pms_paypal_ipn_can_complete_pending_payment( $payment, $payment_data ) )
+                    return;
+
                 $payment->update(
                     array(
                         'status'         => $payment_data['status'],
@@ -449,6 +452,17 @@ function pms_in_ppsrp_ipn_listener( $payment_data, $post_data ) {
                     if( !empty( $old_payments ) && !empty( $old_payments[0]->transaction_id ) )
                         return;
                 }
+
+                $plan            = pms_get_subscription_plan( $payment->subscription_id );
+                $expected_amount = pms_paypal_expected_recurring_amount( $payment, $plan, $current_subscription );
+                $expected        = array(
+                    'amount'   => $expected_amount,
+                    'currency' => ! empty( $payment->currency ) ? $payment->currency : pms_get_active_currency(),
+                    'plan_id'  => $payment->subscription_id,
+                );
+
+                if ( ! pms_paypal_ipn_matches_expected( $payment, $payment_data, $expected ) )
+                    return;
 
                 $new_payment = new PMS_Payment();
 
@@ -500,6 +514,9 @@ function pms_in_ppsrp_ipn_listener( $payment_data, $post_data ) {
         $amount = (float)$amount;
 
         if( empty( $amount ) ) {
+
+            if ( pms_paypal_normalize_amount( $payment->amount ) !== pms_paypal_normalize_amount( 0 ) )
+                return;
 
             /*
              * Handle payment related information

@@ -1939,8 +1939,25 @@ body.post-type-pms-content-dripping #pms_content_dripping_rules.postbox {
     border: 1px solid #dcdcde;
     border-radius: 8px;
     box-shadow: none;
-    overflow: hidden;
+    overflow: visible;
     padding: 20px;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_rules .chosen-container .chosen-results {
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_rules .chosen-container-multi .chosen-choices {
+    background: #ffffff !important;
+    background-image: none !important;
+    border-radius: 5px;
+}
+
+body.post-type-pms-content-dripping #pms_content_dripping_rules .chosen-container-multi.chosen-container-active .chosen-choices {
+    border-color: #3858E9 !important;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px #3858E9 !important;
 }
 
 body.post-type-pms-content-dripping #pms_content_dripping_rules > .postbox-header {
@@ -2995,7 +3012,7 @@ body.post-type-pms-subscription .pms-subscription-tab-panel input[type="text"]:n
 body[class*="post-type-pms-"] .meta-box-sortables .chosen-container-multi .chosen-choices:focus,
 body[class*="post-type-pms-"] .meta-box-sortables select:focus,
 body[class*="post-type-pms-"] .meta-box-sortables input[type="search"]:focus,
-body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input, #pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input, #scripts_on_specific_pages_chosen .chosen-choices .search-field input):focus,
+body[class*="post-type-pms-"] .meta-box-sortables input[type="text"]:not(.cozmoslabs-tags-list input, #pms_subscription_plan_learndash_courses_chosen .chosen-choices .search-field input, #scripts_on_specific_pages_chosen .chosen-choices .search-field input, #pms_content_dripping_rules .chosen-choices .search-field input):focus,
 body.post-type-pms-subscription .pms-subscription-tab-panel .chosen-container-multi .chosen-choices:focus,
 body.post-type-pms-subscription .pms-subscription-tab-panel select:focus,
 body.post-type-pms-subscription .pms-subscription-tab-panel input[type="search"]:focus,

@@ -508,7 +508,8 @@ async function pms_stripe_maybe_load_gateway( $ ) {
             subscription_plan_id: user_data.subscription_plan_id,
             payment_intent      : payment_intent.id,
             current_page        : window.location.href,
-            pms_nonce           : nonce
+            pms_nonce           : nonce,
+            pms_resume_token    : user_data.resume_token
         };
 
         // Add subscription price if plans exist
@@ -766,98 +767,6 @@ async function pms_stripe_maybe_load_gateway( $ ) {
             updating_payment_intent = false
 
             return false;
-
-        })
-
-    }
-
-    function stripeConnectProcessPayment( result, user_data, form_data, target_button ){
-
-        // update nonce
-        nonce_data = {}
-        nonce_data.action = 'pms_update_nonce'
-
-        $.post(pms.ajax_url, nonce_data, function (response) {
-
-            response = JSON.parse(response)
-
-            data                          = {}
-            data.action                   = 'pms_process_payment'
-            data.user_id                  = user_data.user_id
-            data.payment_id               = user_data.payment_id
-            data.subscription_id          = user_data.subscription_id
-            data.subscription_plan_id     = user_data.subscription_plan_id
-            data.pms_current_subscription = form_data.pms_current_subscription
-            data.current_page             = window.location.href
-            data.pms_nonce                = response
-            data.form_type                = form_data.form_type ? form_data.form_type : ''
-            data.pmstkn_original          = form_data.pmstkn ? form_data.pmstkn : ''
-            data.setup_intent             = form_data.setup_intent ? form_data.setup_intent : ''
-            data.user_consent_logged_in   = form_data.user_consent_logged_in ? form_data.user_consent_logged_in : ''
-
-            if( data.setup_intent == '' )
-                data.payment_intent = $client_secret_id
-            else
-                data.payment_intent = $client_secret_setup_id
-
-            // to determine actual location for change subscription
-            data.form_action          = form_data.form_action ? form_data.form_action : ''
-
-            // for member data
-            data.pay_gate             = form_data.pay_gate ? form_data.pay_gate : ''
-            data.subscription_plans   = form_data.subscription_plans ? form_data.subscription_plans : ''
-
-            if( data.subscription_plans )
-                data['subscription_price_' + data.subscription_plans] = form_data['subscription_price_' + data.subscription_plans]
-
-            // custom profile builder form name
-            data.form_name            = form_data.form_name ? form_data.form_name : ''
-
-            if( form_data.pms_default_recurring )
-                data.pms_default_recurring = form_data.pms_default_recurring
-
-            if ( form_data.pms_recurring )
-                data.pms_recurring = form_data.pms_recurring
-
-            if ( form_data.discount_code )
-                data.discount_code = form_data.discount_code
-
-            if ( form_data.group_name )
-                data.group_name = form_data.group_name
-
-            if ( form_data.group_description )
-                data.group_description = form_data.group_description
-
-            // add billing details
-            if ( form_data.pms_billing_address )
-                data.pms_billing_address = form_data.pms_billing_address
-
-            if ( form_data.pms_billing_city )
-                data.pms_billing_city = form_data.pms_billing_city
-            
-            if ( form_data.pms_billing_country )
-                data.pms_billing_country = form_data.pms_billing_country
-
-            if ( form_data.pms_billing_state )
-                data.pms_billing_state = form_data.pms_billing_state
-
-            if ( form_data.pms_billing_zip )
-                data.pms_billing_zip = form_data.pms_billing_zip
-
-            if ( form_data.pms_vat_number )
-                data.pms_vat_number = form_data.pms_vat_number
-
-            if ( form_data.wppb_referer_url	 )
-                data.wppb_referer_url = form_data.wppb_referer_url
-
-            $.post(pms.ajax_url, data, function (response) {
-
-                response = JSON.parse(response)
-
-                if( typeof response.redirect_url != 'undefined' && response.redirect_url )
-                    window.location.replace( response.redirect_url )
-
-            })
 
         })
 

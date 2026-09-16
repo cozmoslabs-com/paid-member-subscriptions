@@ -1119,7 +1119,11 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
              */
             $sign_up_fee_value = (float) apply_filters( 'pms_calculate_signup_fee_amount', (float) $subscription_plan->sign_up_fee, $subscription_plan, $request_data );
 
-            if( $subscription_plan->has_trial() )
+            // a member who already used this plan's trial does not get another one, so they pay the full price
+            // - resolve_checkout_has_trial() applies the same rule when creating the subscription, and without this the charge disagrees with it
+            // - the gateways pair this with checkout_has_trial(), which must not be added here: it returns false without $_POST['pay_gate']
+            // - the ajax calls that price the Stripe intent send no pay_gate, so pairing them would charge a real trial in full
+            if( $subscription_plan->has_trial() && PMS_Form_Handler::user_can_access_trial( $subscription_plan ) )
                 $amount = $sign_up_fee_value;
             else
                 $amount = $amount + $sign_up_fee_value;

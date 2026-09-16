@@ -294,6 +294,9 @@ Class PMS_Submenu_Page_Import extends PMS_Submenu_Page {
 
             $billing_amount = $subscription_plan->price;
 
+            // per-seat and multi-currency plans do not bill the flat plan price, so let them supply their own amount
+            $billing_amount = apply_filters( 'pms_admin_subscription_change_billing_amount', $billing_amount, $subscription_plan, $existing_subscription );
+
             if( function_exists( 'pms_in_tax_enabled' ) && pms_in_tax_enabled() ) {
 
                 $request_data = array();

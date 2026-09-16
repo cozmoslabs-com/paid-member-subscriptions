@@ -160,7 +160,7 @@ add_action( 'pms_recover_password_form_validation', 'pms_recaptcha_field_validat
  */
 function pms_recaptcha_field_validate_form_login( $user ) {
 
-    if( isset( $_POST['wp-submit'] ) && !isset( $_POST['wppb_login'] ) )
+    if( !empty( $_POST['log'] ) && !isset( $_POST['wppb_login'] ) )
         $login_form_location = 'default_wp_login';
 
     if( isset( $_POST['pms_login'] ) && $_POST['pms_login'] == 1 )
@@ -194,9 +194,6 @@ add_filter( 'authenticate', 'pms_recaptcha_field_validate_form_login', 25 );
  *
  */
 function pms_recaptcha_field_validate_default_wp_register( $errors ) {
-
-    if( empty( $_POST['wp-submit'] ) )
-        return $errors;
 
     $validated = pms_recaptcha_field_validate( 'default_wp_register' );
 

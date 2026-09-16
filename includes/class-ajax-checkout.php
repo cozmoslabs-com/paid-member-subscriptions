@@ -171,6 +171,7 @@ Class PMS_AJAX_Checkout_Handler {
 
             $next_action       = pms_get_member_subscription_meta( $subscription_id, 'pms_stripe_next_action', true );
             $payment_intent_id = pms_get_member_subscription_meta( $subscription_id, 'pms_stripe_next_action_intent_id', true );
+            $next_action_token = pms_get_member_subscription_meta( $subscription_id, 'pms_stripe_next_action_token', true );
 
         } else {
 
@@ -178,19 +179,23 @@ Class PMS_AJAX_Checkout_Handler {
 
             if( !isset( $payment->id ) )
                 die();
-    
+
             $next_action       = pms_get_payment_meta( $payment->id, 'pms_stripe_next_action', true );
             $payment_intent_id = pms_get_payment_meta( $payment->id, 'pms_stripe_next_action_intent_id', true );
+            $next_action_token = pms_get_payment_meta( $payment->id, 'pms_stripe_next_action_token', true );
 
             // If a 100% discount code is used, the payment exists but the extra processing data is not saved on the payment, but it should exist on the subscription
-            if( empty( $next_action ) ) 
+            if( empty( $next_action ) )
                 $next_action = pms_get_member_subscription_meta( $subscription_id, 'pms_stripe_next_action', true );
-            
+
             if( empty( $payment_intent_id ) )
                 $payment_intent_id = pms_get_member_subscription_meta( $subscription_id, 'pms_stripe_next_action_intent_id', true );
 
+            if( empty( $next_action_token ) )
+                $next_action_token = pms_get_member_subscription_meta( $subscription_id, 'pms_stripe_next_action_token', true );
+
         }
-            
+
         // Only process payments that are in the next action state
         if( empty( $next_action ) || $next_action != 1 )
             die();
@@ -199,14 +204,31 @@ Class PMS_AJAX_Checkout_Handler {
         if( empty( $payment_intent_id ) || $payment_intent_id != $intent_id )
             die();
 
-        // Delete extra data
-        pms_delete_member_subscription_meta( $subscription_id, 'pms_stripe_next_action' );
-        pms_delete_member_subscription_meta( $subscription_id, 'pms_stripe_next_action_intent_id' );
+        // Bind this request to the browser that started the SCA flow.
+        // The token was minted server-side when the next-action state was stored and handed back
+        // only in that response, so knowledge of the intent id alone is not enough to drive this
+        // handler against another member's records. Guest checkout has no logged-in user here, so
+        // this token, not the current user, is the authorization gate.
+        $request_token = !empty( $_POST['pms_resume_token'] ) ? sanitize_text_field( wp_unslash( $_POST['pms_resume_token'] ) ) : '';
 
-        if( !empty( $payment_id ) ) {
-            pms_delete_payment_meta( $payment_id, 'pms_stripe_next_action' );
-            pms_delete_payment_meta( $payment_id, 'pms_stripe_next_action_intent_id' );
-        }
+        if( empty( $next_action_token ) || empty( $request_token ) || !hash_equals( (string) $next_action_token, $request_token ) )
+            die();
+
+        // The stored SCA state is deleted by the gateway once the intent is confirmed resolved, not
+        // here, so a request that never reaches a resolved intent leaves the member able to retry.
+
+        // Guard against a double-submit resolving the same intent twice. The resume state is not
+        // cleared until the gateway confirms success, so without this lock two near-simultaneous
+        // requests would both pass the checks above and both run the full success path (duplicate
+        // activation, duplicate hooks). The gateway ends the request on both success and failure, so
+        // the lock is released by its own short expiry rather than a matching delete; a genuine retry
+        // of the same intent after that window still works because the resume state is left in place.
+        $resume_lock = 'pms_sca_resume_' . md5( $intent_id );
+
+        if( get_transient( $resume_lock ) )
+            die();
+
+        set_transient( $resume_lock, 1, MINUTE_IN_SECONDS );
 
         // Initialize gateway
         $gateway = pms_get_payment_gateway( $payment_gateway );

@@ -293,6 +293,10 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
                         $expiration_date = date( 'Y-m-d H:i:s', strtotime( date( 'Y-m-d H:i:s' ) . '+' . $subscription_plan->duration . ' ' . $subscription_plan->duration_unit ) );
                     }
 
+                } elseif( $member_subscription->status == 'pending' ) {
+
+                    $expiration_date = pms_get_renew_subscription_expiration_date( $member_subscription, $subscription_plan );
+
                 }
 
                 if( null !== $expiration_date ) {
@@ -301,6 +305,10 @@ Class PMS_Payment_Gateway_Manual extends PMS_Payment_Gateway {
                         'status'          => 'active',
                         'expiration_date' => $expiration_date,
                     );
+
+                    if( $member_subscription->status == 'pending' ) {
+                        $update_args['start_date'] = date( 'Y-m-d H:i:s' );
+                    }
 
                     if( ! empty( $member_subscription->billing_next_payment ) ) {
                         $update_args['billing_next_payment'] = $expiration_date;

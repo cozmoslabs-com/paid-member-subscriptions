@@ -16,6 +16,8 @@ foreach( $subscriptions as $subscription ) :
 	if ( is_null( $subscription ) )
 		continue;
 
+	$cancel_plan_button = '';
+
 	$subscription_plan = pms_get_subscription_plan( $subscription->subscription_plan_id );
 
 	ob_start();

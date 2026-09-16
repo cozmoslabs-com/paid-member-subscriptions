@@ -241,6 +241,128 @@ function pms_interpret_paypal_legacy_email_dashboard_issue( $interpreted_issue, 
 }
 add_filter( 'pms_interpret_dashboard_issue', 'pms_interpret_paypal_legacy_email_dashboard_issue', 10, 3 );
 
+function pms_paypal_normalize_amount( $amount ) {
+    return number_format( (float) $amount, 2, '.', '' );
+}
+
+function pms_paypal_log_ipn_mismatch( $payment, $data, $desc ) {
+    if ( empty( $payment->id ) ) {
+        return;
+    }
+
+    $payment->log_data( 'paypal_ipn_payment_mismatch', array(
+        'data' => $data,
+        'desc' => $desc,
+    ) );
+}
+
+function pms_paypal_ipn_matches_expected( $payment, $payment_data, $expected ) {
+    $expected_amount   = pms_paypal_normalize_amount( $expected['amount'] );
+    $received_amount   = pms_paypal_normalize_amount( isset( $payment_data['amount'] ) ? $payment_data['amount'] : 0 );
+    $expected_currency = strtoupper( ! empty( $expected['currency'] ) ? $expected['currency'] : pms_get_active_currency() );
+    $received_currency = strtoupper( ! empty( $payment_data['currency'] ) ? $payment_data['currency'] : '' );
+    $expected_plan_id  = absint( $expected['plan_id'] );
+    $received_plan_id  = absint( isset( $payment_data['subscription_id'] ) ? $payment_data['subscription_id'] : 0 );
+
+    if ( $expected_amount === $received_amount && $expected_currency === $received_currency && $expected_plan_id === $received_plan_id ) {
+        return true;
+    }
+
+    pms_paypal_log_ipn_mismatch(
+        $payment,
+        array(
+            'reason'            => 'amount_currency_or_plan_mismatch',
+            'expected_amount'   => $expected_amount,
+            'received_amount'   => $received_amount,
+            'expected_currency' => $expected_currency,
+            'received_currency' => $received_currency,
+            'expected_plan_id'  => $expected_plan_id,
+            'received_plan_id'  => $received_plan_id,
+        ),
+        'PayPal IPN rejected: amount, currency, or plan does not match pending payment'
+    );
+
+    return false;
+}
+
+function pms_paypal_ipn_transaction_id_available( $payment, $transaction_id ) {
+    if ( empty( $transaction_id ) || $transaction_id === '-' ) {
+        return true;
+    }
+
+    $existing_txn_payments = pms_get_payments( array(
+        'transaction_id' => $transaction_id,
+        'number'         => 1,
+    ) );
+
+    if ( empty( $existing_txn_payments ) || empty( $existing_txn_payments[0]->id ) ) {
+        return true;
+    }
+
+    if ( (int) $existing_txn_payments[0]->id === (int) $payment->id ) {
+        return true;
+    }
+
+    pms_paypal_log_ipn_mismatch(
+        $payment,
+        array(
+            'reason'         => 'duplicate_transaction_id',
+            'transaction_id' => $transaction_id,
+            'existing_id'    => $existing_txn_payments[0]->id,
+        ),
+        'PayPal IPN rejected: transaction ID already used'
+    );
+
+    return false;
+}
+
+function pms_paypal_ipn_can_complete_pending_payment( $payment, $payment_data ) {
+    if ( empty( $payment->id ) || $payment->status !== 'pending' ) {
+        if ( ! empty( $payment->id ) ) {
+            pms_paypal_log_ipn_mismatch(
+                $payment,
+                array(
+                    'reason'         => 'payment_not_pending',
+                    'payment_status' => $payment->status,
+                ),
+                'PayPal IPN rejected: payment is not pending'
+            );
+        }
+
+        return false;
+    }
+
+    $expected = array(
+        'amount'   => $payment->amount,
+        'currency' => ! empty( $payment->currency ) ? $payment->currency : pms_get_active_currency(),
+        'plan_id'  => $payment->subscription_id,
+    );
+
+    if ( ! pms_paypal_ipn_matches_expected( $payment, $payment_data, $expected ) ) {
+        return false;
+    }
+
+    $transaction_id = isset( $payment_data['transaction_id'] ) ? $payment_data['transaction_id'] : '';
+
+    return pms_paypal_ipn_transaction_id_available( $payment, $transaction_id );
+}
+
+function pms_paypal_expected_recurring_amount( $payment, $plan = null, $member_subscription = null ) {
+    if ( is_object( $member_subscription ) && (float) $member_subscription->billing_amount > 0 ) {
+        return $member_subscription->billing_amount;
+    }
+
+    if ( is_object( $plan ) && ! $plan->has_sign_up_fee() && $payment->amount !== '' && $payment->amount !== null ) {
+        return $payment->amount;
+    }
+
+    if ( is_object( $plan ) && $plan->price !== '' && $plan->price !== null ) {
+        return $plan->price;
+    }
+
+    return $payment->amount;
+}
+
 /**
  * Add custom log messages for the PayPal Standard gateway
  *

@@ -23,8 +23,13 @@ if( ! empty( $_POST ) ) {
 	// Set the subscription id if it exists
 	$form_data['id'] = ( ! empty( $_GET['subscription_id'] ) ? (int)$_GET['subscription_id'] : 0 );
 
-	if( isset( $_GET['subscription_id'] ) )
+	if( isset( $_GET['subscription_id'] ) ) {
 		$member_subscription = pms_get_member_subscription( (int)$_GET['subscription_id'] );
+
+		// $_POST omits billing_amount when the next-payment amount is read-only text.
+		if( ! is_null( $member_subscription ) && ! isset( $form_data['billing_amount'] ) )
+			$form_data['billing_amount'] = $member_subscription->billing_amount;
+	}
 
 } else {
 
