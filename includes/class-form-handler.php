@@ -89,6 +89,8 @@ Class PMS_Form_Handler {
 
             if (empty($user_login))
                 pms_errors()->add('user_login', __('Please enter a username.', 'paid-member-subscriptions'));
+            elseif ( !validate_username( $user_login ) )
+                pms_errors()->add('user_login', __('This username is invalid because it uses illegal characters. Please enter a valid username.', 'paid-member-subscriptions'));
             else {
 
                 $user = get_user_by('login', $user_login);
@@ -1991,8 +1993,13 @@ Class PMS_Form_Handler {
             $user_id = self::register_user( $user_data );
 
             if( $user_id === false ){
-                pms_errors()->add( 'user_registration', __( 'Something went wrong while registering the user. Contact the website administrator.', 'paid-member-subscriptions' ) );
-                return;
+                pms_errors()->add( 'form_general', __( 'Something went wrong while registering the user. Contact the website administrator.', 'paid-member-subscriptions' ) );
+
+                if( wp_doing_ajax() )
+                    self::return_generated_errors_for_ajax();
+                else
+                    return;
+
             } else
                 $user_data['user_id'] = $user_id;
 

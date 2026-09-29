@@ -15,6 +15,45 @@ function pms_get_subscription_plan( $id_or_post ) {
     return apply_filters( 'pms_get_subscription_plan', new PMS_Subscription_Plan( $id_or_post ), $id_or_post );
 }
 
+/**
+ * Returns the WPML String Translation name for subscription plan fields
+ *
+ * @param int    $subscription_plan_id
+ * @param string $field
+ *
+ * @return string
+ *
+ */
+function pms_get_subscription_plan_wpml_string_name( $subscription_plan_id, $field ) {
+
+    return 'subscription_plan_' . absint( $subscription_plan_id ) . '_' . sanitize_key( $field );
+
+}
+
+/**
+ * Registers subscription plan title and description for WPML String Translation
+ *
+ * @param int $subscription_plan_id
+ *
+ * @return void
+ *
+ */
+function pms_register_subscription_plan_wpml_strings( $subscription_plan_id ) {
+
+    if( empty( $subscription_plan_id ) || get_post_type( $subscription_plan_id ) != 'pms-subscription' )
+        return;
+
+    $subscription_plan = get_post( $subscription_plan_id );
+
+    if( empty( $subscription_plan ) )
+        return;
+
+    pms_icl_register_string( 'plugin paid-member-subscriptions', pms_get_subscription_plan_wpml_string_name( $subscription_plan_id, 'title' ), $subscription_plan->post_title );
+    pms_icl_register_string( 'plugin paid-member-subscriptions', pms_get_subscription_plan_wpml_string_name( $subscription_plan_id, 'description' ), get_post_meta( $subscription_plan_id, 'pms_subscription_plan_description', true ) );
+
+}
+add_action( 'pms_save_meta_box_pms-subscription', 'pms_register_subscription_plan_wpml_strings', 100 );
+
 
 /**
  * Returns all subscription plans into an array of objects
@@ -31,7 +70,7 @@ function pms_get_subscription_plans( $only_active = true, $include = array(), $e
 
     if( empty( $include ) ) {
 
-        $subscription_plan_posts = get_posts( array( 'post_type' => 'pms-subscription', 'numberposts' => -1, 'exclude' => $exclude, 'post_status' => 'any' ) );
+        $subscription_plan_posts = get_posts( array( 'post_type' => 'pms-subscription', 'numberposts' => -1, 'exclude' => $exclude, 'post_status' => 'any', 'suppress_filters' => false ) );
 
         $page_hierarchy_posts = get_page_hierarchy( $subscription_plan_posts );
 
@@ -41,7 +80,7 @@ function pms_get_subscription_plans( $only_active = true, $include = array(), $e
 
     } else {
 
-        $subscription_plan_post_ids = get_posts( array('post_type' => 'pms-subscription', 'numberposts' => -1, 'include' => $include, 'orderby' => 'post__in', 'post_status' => 'any' ) );
+        $subscription_plan_post_ids = get_posts( array('post_type' => 'pms-subscription', 'numberposts' => -1, 'include' => $include, 'orderby' => 'post__in', 'post_status' => 'any', 'suppress_filters' => false ) );
 
     }
 
@@ -68,10 +107,11 @@ function pms_get_subscription_plan_groups_parent_ids() {
 
     $parent_ids = array();
 
-    $subscription_plan_posts = get_posts( array( 'post_type' => 'pms-subscription', 'numberposts' => -1, 'post_parent' => 0, 'post_status' => 'any' ) );
+    $subscription_plan_posts = get_posts( array( 'post_type' => 'pms-subscription', 'numberposts' => -1, 'post_parent' => 0, 'post_status' => 'any', 'suppress_filters' => false ) );
 
     if( !empty( $subscription_plan_posts ) ) {
         foreach( $subscription_plan_posts as $subscription_plan_post ) {
+
             $parent_ids[] = $subscription_plan_post->ID;
         }
     }
@@ -103,7 +143,7 @@ function pms_get_subscription_plans_group( $subscription_plan_id, $only_active =
     $subscription_plan_posts[] = get_post( $top_parent_id );
 
     // Add all the children in the group
-    while( ( $subscription_plan_downgrade = get_posts( array('post_type' => 'pms-subscription', 'numberposts' => -1, 'post_parent' => $top_parent_id, 'order' => 'DESC', 'orderby' => 'parent', 'post_status' => 'any' ) ) ) != null ) {
+    while( ( $subscription_plan_downgrade = get_posts( array('post_type' => 'pms-subscription', 'numberposts' => -1, 'post_parent' => $top_parent_id, 'order' => 'DESC', 'orderby' => 'parent', 'post_status' => 'any', 'suppress_filters' => false ) ) ) != null ) {
 
         $top_parent_id = $subscription_plan_downgrade[0]->ID;
         $subscription_plan_posts[] = $subscription_plan_downgrade[0];
@@ -830,13 +870,16 @@ function pms_get_subscription_plans_list() {
 
     $plans = array();
 
-    $plan_ids = get_posts( array( 'post_type' => 'pms-subscription', 'meta_key' => 'pms_subscription_plan_status', 'meta_value' => 'active', 'numberposts' => -1, 'post_status' => 'any', 'fields' => 'ids' ) );
+    $plan_ids = get_posts( array( 'post_type' => 'pms-subscription', 'meta_key' => 'pms_subscription_plan_status', 'meta_value' => 'active', 'numberposts' => -1, 'post_status' => 'any', 'fields' => 'ids', 'suppress_filters' => false ) );
 
     if( empty( $plan_ids ) )
         return $plans;
 
-    foreach( $plan_ids as $plan_id )
-        $plans[$plan_id] = get_the_title( $plan_id );
+    foreach( $plan_ids as $plan_id ) {
+        $subscription_plan = pms_get_subscription_plan( $plan_id );
+
+        $plans[$plan_id] = $subscription_plan->name;
+    }
 
     return $plans;
 

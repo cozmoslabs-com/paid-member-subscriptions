@@ -821,11 +821,11 @@ jQuery( function($) {
 
     }
 
-    $.pms_add_general_error = function( error ){
+    $.pms_add_general_error = function( error, $form ){
         if( error == '' || error == 'undefined' )
             return false
 
-        var target = $('.pms-form')
+        var target = ( $form && $form.length ) ? $form : $('.pms-form')
 
         target.prepend( '<div class="pms_field-errors-wrapper pms-is-js"><p>' + error + '</p></div>' )
     }

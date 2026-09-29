@@ -23,6 +23,7 @@ function pms_stripe_enqueue_front_end_scripts(){
         'ajax_url'                    => admin_url( 'admin-ajax.php' ),
         'empty_credit_card_message'   => __( 'Please enter a credit card number.', 'paid-member-subscriptions' ),
         'invalid_card_details_error'  => __( 'Your card details do not seem to be valid.', 'paid-member-subscriptions' ),
+        'checkout_unexpected_error'   => __( 'Something went wrong while processing your request. Please try again or contact the website administrator.', 'paid-member-subscriptions' ),
         'pms_validate_currency_nonce' => wp_create_nonce( 'pms_validate_currency' ),
         'currency'                    => strtolower( apply_filters( 'pms_stripe_sdk_currency', pms_get_active_currency() ) ),
         'pms_mc_addon_active'         => apply_filters( 'pms_stripe_mc_addon_active', apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-multiple-currencies/index.php' ) ),
@@ -74,44 +75,6 @@ function pms_stripe_enqueue_front_end_scripts(){
 }
 
 /**
- * This is triggered each time a Subscription Plan is selected in the form in order to update
- * the amount of the Payment Intent
- */
-add_action( 'wp_ajax_pms_update_payment_intent_connect', 'pms_stripe_connect_update_payment_intent' );
-add_action( 'wp_ajax_nopriv_pms_update_payment_intent_connect', 'pms_stripe_connect_update_payment_intent' );
-function pms_stripe_connect_update_payment_intent(){
-
-    if( !check_ajax_referer( 'pms_stripe_connect_update_payment_intent', 'pms_nonce' ) )
-        die();
-
-    if( !isset( $_POST['subscription_plans'] ) )
-        die();
-
-    if( empty( $_POST['intent_secret'] ) )
-        die();
-
-    // Verify validity of Subscription Plan
-    $subscription_plan = pms_get_subscription_plan( absint( $_POST['subscription_plans'] ) );
-
-    if( !isset( $subscription_plan->id ) )
-        die();
-
-    // Calculate new amount
-    $amount = pms_calculate_payment_amount( $subscription_plan );
-
-    // Initialize gateway
-    $gateway = pms_get_payment_gateway( 'stripe_connect' );
-
-    $response = $gateway->update_payment_intent( sanitize_text_field( $_POST['intent_secret'] ), $amount, $subscription_plan );
-
-    if( !empty( $response ) )
-        echo json_encode( array( 'status' => $response->status, 'data' => array( 'plan_name' => $subscription_plan->name, 'amount' => $gateway->process_amount( $amount, pms_get_active_currency() ) ) ) );
-
-    die();
-
-}
-
-/**
  * Used to process the payment after a payment method redirects off-site and then returns the user
  */
 add_action( 'template_redirect', 'pms_stripe_connect_handle_payment_method_return_url' );
@@ -149,8 +112,6 @@ function pms_stripe_connect_handle_payment_method_return_url(){
         $payment_id      = $payment[0]->id;
         $subscription_id = $payment[0]->member_subscription_id;
 
-        $payment[0]->log_data( 'stripe_intent_returned_after_redirect' );
-
     }
 
     if( empty( $subscription_id ) )
@@ -172,29 +133,6 @@ function pms_stripe_connect_handle_payment_method_return_url(){
     }
 
     return;
-
-}
-
-add_filter( 'pms_request_form_location', 'pms_stripe_filter_request_form_location', 20, 2 );
-function pms_stripe_filter_request_form_location( $location, $request ){
-
-    if( !wp_doing_ajax() )
-        return $location;
-
-    if( !isset( $request['form_type'] ) )
-        return $location;
-
-    // if( in_array( $request['form_type'], array( 'pms', 'wppb', 'pms_register' ) ) && isset( $request['action'] ) && $request['action'] == 'pms_stripe_connect_process_payment' && empty( $location ) )
-    //     $location = 'register';
-
-    if( $request['form_type'] == 'wppb' && isset( $request['action'] ) && $request['action'] == 'pms_update_payment_intent_connect' && isset( $request['pmstkn_original'] ) && $request['pmstkn_original'] == 'wppb_register' )
-        $location = 'register';
-
-    // set form location for wppb register AJAX request
-    // if( $request['form_type'] == 'wppb' && isset( $request['action'] ) && $request['action'] == 'pms_process_checkout' )
-    //     $location = 'register';
-
-    return $location;
 
 }
 

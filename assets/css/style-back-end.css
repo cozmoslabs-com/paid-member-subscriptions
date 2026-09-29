@@ -395,6 +395,9 @@ body[class*="post-type-pms-"] .cozmoslabs-upgrade-link:focus {
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: 10px;
+}
+
+.cozmoslabs-form-field-wrapper:not(#pms-subscription-plan-expire-after-field) {
     margin-top: 35px !important;
 }
 

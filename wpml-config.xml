@@ -1,4 +1,7 @@
 <wpml-config>
+    <custom-fields>
+        <custom-field action="translate" style="textarea" label="Subscription Plan Description">pms_subscription_plan_description</custom-field>
+    </custom-fields>
     <admin-texts>
         <key name="pms_emails_settings">
             <key name="register_sub_subject" />

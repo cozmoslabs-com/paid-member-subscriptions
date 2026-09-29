@@ -171,12 +171,12 @@ jQuery( function($) {
         if( typeof animation_speed == 'undefined' )
             animation_speed = 100;
 
-        $this = $(this);
+        var $this = $(this);
 
         if( $this.siblings('.spinner').length == 0 )
             $this.after('<div class="spinner"></div>');
 
-        $spinner = $this.siblings('.spinner');
+        var $spinner = $this.siblings('.spinner');
         $spinner.css('visibility', 'visible').animate({opacity: 1}, animation_speed );
 
     };
@@ -190,9 +190,11 @@ jQuery( function($) {
         if( typeof animation_speed == 'undefined' )
             animation_speed = 100;
 
+        var $this = $(this);
+
         if( $this.siblings('.spinner').length > 0 ) {
 
-            $spinner = $this.siblings('.spinner');
+            var $spinner = $this.siblings('.spinner');
             $spinner.animate({opacity: 0}, animation_speed );
 
             setTimeout( function() {

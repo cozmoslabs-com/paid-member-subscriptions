@@ -217,7 +217,7 @@ Class PMS_Subscription_Plan {
             return null;
 
         $this->id   = (int)$post_subscription->ID;
-        $this->name = $post_subscription->post_title;
+        $this->name = pms_icl_t( 'plugin paid-member-subscriptions', pms_get_subscription_plan_wpml_string_name( $this->id, 'title' ), $post_subscription->post_title );
 
         /*
          * Set subscription plan data from the post meta data
@@ -226,7 +226,8 @@ Class PMS_Subscription_Plan {
         $post_meta_subscription = get_post_meta( $id );
 
         // Subscription plan description
-        $this->description =  isset( $post_meta_subscription['pms_subscription_plan_description'] ) ? esc_attr( $post_meta_subscription['pms_subscription_plan_description'][0] ) : '';
+        $description       = isset( $post_meta_subscription['pms_subscription_plan_description'] ) ? $post_meta_subscription['pms_subscription_plan_description'][0] : '';
+        $this->description = esc_attr( pms_icl_t( 'plugin paid-member-subscriptions', pms_get_subscription_plan_wpml_string_name( $this->id, 'description' ), $description ) );
 
         // Subscription plan price
         $this->price =  isset( $post_meta_subscription['pms_subscription_plan_price'] ) ? floatval( $post_meta_subscription['pms_subscription_plan_price'][0] ) : 0;

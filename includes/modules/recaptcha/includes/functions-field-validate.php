@@ -50,14 +50,26 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
         }
     }
 
+    $token = $post_data['g-recaptcha-response'];
+
+    // A reCAPTCHA token is single-use, but one login can reach this function more than once:
+    // 2FA plugins pre-flight the credentials over AJAX before the real submit, and some
+    // re-enter wp_authenticate() within the same request. Verify the token once, remember
+    // the verdict for this request, and for the pre-flight actions persist it so the form
+    // submission that follows can reuse it.
+    static $verdicts = array();
+
+    if( isset( $verdicts[ $token ] ) )
+        return $verdicts[ $token ];
+
     $already_validated = false;
     $saved             = get_option( 'pms_recaptcha_validations', array() );
 
-    if( isset( $saved[ $post_data['g-recaptcha-response'] ] ) && $saved[ $post_data['g-recaptcha-response'] ] == true ){
+    if( !empty( $saved[ $token ] ) ){
         $already_validated = true;
 
         if( !wp_doing_ajax() ){
-            unset( $saved[ $post_data['g-recaptcha-response'] ] );
+            unset( $saved[ $token ] );
 
             update_option( 'pms_recaptcha_validations', $saved, false );
         }
@@ -95,17 +107,19 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
 
     }
 
-    // Save valid results when they are being triggered from an ajax request
-    if( wp_doing_ajax() && isset( $_POST['action'] ) && in_array( $_POST['action'], array( 'pms_validate_checkout', 'pms_process_checkout' ) ) ){
+    // Save valid results from the pre-validation requests so the submission that follows can reuse them
+    if( pms_recaptcha_is_prevalidation_request() ){
 
-        $saved = get_option( 'pms_recaptcha_validations', array() );
+        $saved = pms_recaptcha_prune_prevalidations( get_option( 'pms_recaptcha_validations', array() ) );
 
         if( $has_error === false )
-            $saved[ $post_data['g-recaptcha-response'] ] = true;
+            $saved[ $token ] = time();
 
         update_option( 'pms_recaptcha_validations', $saved, false );
 
     }
+
+    $verdicts[ $token ] = ! $has_error;
 
     // Add errors if something went wrong
     if( $has_error ){
@@ -119,6 +133,53 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
     }
 
     return ! $has_error;
+
+}
+
+
+/**
+ * Whether the current request is an AJAX call that checks the credentials or the form before the real
+ * submission is sent. Those requests run our validation and spend the token, but the browser still submits
+ * the form afterwards with the same token.
+ *
+ * @return bool
+ *
+ */
+function pms_recaptcha_is_prevalidation_request() {
+
+    if( ! wp_doing_ajax() || empty( $_POST['action'] ) || ! is_string( $_POST['action'] ) )
+        return false;
+
+    $actions = apply_filters( 'pms_recaptcha_prevalidation_actions', array(
+        'pms_validate_checkout',
+        'pms_process_checkout',
+        'wordfence_ls_authenticate', // Wordfence Login Security checks the credentials here before asking for a 2FA code
+    ) );
+
+    return in_array( sanitize_text_field( $_POST['action'] ), $actions, true );
+
+}
+
+
+/**
+ * Drops pre-validated tokens that were never claimed by a form submission (wrong password, abandoned login, bots),
+ * otherwise the option keeps growing on sites where every login is pre-validated.
+ *
+ * @param array $saved token => verification time
+ *
+ * @return array
+ *
+ */
+function pms_recaptcha_prune_prevalidations( $saved ) {
+
+    $lifetime = apply_filters( 'pms_recaptcha_prevalidation_lifetime', 15 * MINUTE_IN_SECONDS );
+
+    foreach( $saved as $token => $validated_at ) {
+        if( ! is_int( $validated_at ) || ( time() - $validated_at ) > $lifetime )
+            unset( $saved[ $token ] );
+    }
+
+    return $saved;
 
 }
 

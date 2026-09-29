@@ -9,12 +9,12 @@ jQuery( function($){
      */
     $.fn.pms_addSpinner = function(){
 
-        $this = $(this)
+        var $this = $(this)
 
         if( $this.siblings('.spinner').length == 0 )
             $this.after('<div class="spinner"></div>')
 
-        $spinner = $this.siblings('.spinner')
+        var $spinner = $this.siblings('.spinner')
         $spinner.css('visibility', 'visible').animate({opacity: 1})
 
     }
@@ -24,6 +24,8 @@ jQuery( function($){
      * Removes the spinners next to the element
      */
     $.fn.pms_removeSpinner = function(){
+
+        var $this = $(this)
 
         if( $this.siblings('.spinner').length > 0 )
             $this.siblings('.spinner').remove()

@@ -232,6 +232,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $intent = $this->create_setup_intent( sanitize_text_field( $_REQUEST['stripe_confirmation_token'] ), $subscription );
 
+                if( !empty( $intent->id ) )
+                    pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_initial_payment_intent', $intent->id );
+
                 if( isset( $intent->next_action ) && !is_null( $intent->next_action ) && !empty( $intent->next_action->type ) ){
     
                     // Save the next step as subscription meta for free trial payments
@@ -260,14 +263,15 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 }
                 
                 if( !empty( $intent->id ) ){
+
+                    $payment_method = $this->get_reusable_payment_method( $intent );
+
                     // Save Customer and Card for this subscription
                     pms_update_member_subscription_meta( $subscription->id, '_stripe_customer_id', $intent->customer );
-                    pms_update_member_subscription_meta( $subscription->id, '_stripe_card_id', $intent->payment_method->id );
+                    pms_update_member_subscription_meta( $subscription->id, '_stripe_card_id', $payment_method );
     
                     // Save Customer to usermeta
                     update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $intent->customer );
-    
-                    pms_update_member_subscription_meta( $subscription->id, 'pms_stripe_initial_payment_intent', $intent->id );
 
                     // In some cases, a payment exists so we can save the setup intent id to the payment
                     if( !empty( $payment ) ){
@@ -288,7 +292,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                     $this->save_trial_card( $subscription->id, $intent->payment_method );
 
                     // Save card expiration info
-                    $this->save_payment_method_expiration_data( $subscription->id, $intent->payment_method );
+                    $this->save_payment_method_expiration_data( $subscription->id, $payment_method );
 
                     return true;
 
@@ -411,9 +415,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 }
 
+                $payment_method = $this->get_reusable_payment_method( $payment_intent );
+
                 // Save Customer and Card for this subscription
                 pms_update_member_subscription_meta( $subscription->id, '_stripe_customer_id', $payment_intent->customer );
-                pms_update_member_subscription_meta( $subscription->id, '_stripe_card_id', $payment_intent->payment_method->id );
+                pms_update_member_subscription_meta( $subscription->id, '_stripe_card_id', $payment_method );
 
                 // Save Customer to usermeta
                 update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $payment_intent->customer );
@@ -442,14 +448,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                     // Set `allow_redisplay` parameter to `always` on the payment method for logged out users. Logged in users have an option to save the payment method in their form.
                     if( !is_user_logged_in() && !empty( $payment_intent->payment_method ) && !empty( $payment_intent->payment_method->id ) && isset( $payment_intent->setup_future_usage ) && in_array( $payment_intent->setup_future_usage, array( 'off_session', 'on_session' ) ) ){
-                        $payment_method = $this->stripe_client->paymentMethods->update( $payment_intent->payment_method->id, [ 'allow_redisplay' => 'always' ] );
+                        $this->stripe_client->paymentMethods->update( $payment_intent->payment_method->id, [ 'allow_redisplay' => 'always' ] );
                     }
 
                     // If subscription had a trial, save card fingerprint
                     $this->save_trial_card( $subscription->id, $payment_intent->payment_method );
 
                     // Save card expiration info
-                    $this->save_payment_method_expiration_data( $subscription->id, $payment_intent->payment_method );
+                    $this->save_payment_method_expiration_data( $subscription->id, $payment_method );
                     
                     do_action( 'pms_checkout_after_payment_is_processed', true, $subscription, $form_location );
 
@@ -487,17 +493,25 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             if( $form_location == 'stripe_return_url' ){
 
+                if( !$this->return_url_client_secret_matches( $intent ) )
+                    return false;
+
+                if( !empty( $payment->id ) )
+                    $payment->log_data( 'stripe_intent_returned_after_redirect' );
+
                 if( !empty( $intent->metadata->request_location ) )
                     $form_location = $intent->metadata->request_location;
 
             }
+
+            $payment_method = $this->get_reusable_payment_method( $intent );
 
             // Set PaymentMethod
             if( !empty( $intent->customer ) ){
 
                 // Save Customer and Card for this subscription
                 pms_update_member_subscription_meta( $subscription_id, '_stripe_customer_id', $intent->customer );
-                pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $intent->payment_method );
+                pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $payment_method );
 
                 // Save Customer to usermeta
                 update_user_meta( $subscription->user_id, 'pms_stripe_customer_id', $intent->customer );
@@ -533,7 +547,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 // Set `allow_redisplay` parameter to `always` on the payment method for logged out users. Logged in users have an option to save the payment method in their form.
                 if( !is_user_logged_in() && !empty( $intent->payment_method ) && !empty( $intent->payment_method->id ) ){
-                    $payment_method = $this->stripe_client->paymentMethods->update( $intent->payment_method->id, [ 'allow_redisplay' => 'always' ] );
+                    $this->stripe_client->paymentMethods->update( $intent->payment_method->id, [ 'allow_redisplay' => 'always' ] );
                 }
 
                 // Update subscription
@@ -543,7 +557,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 $this->save_trial_card( $subscription_id, $intent->payment_method );
 
                 // Save card expiration info
-                $this->save_payment_method_expiration_data( $subscription_id, $intent->payment_method );
+                $this->save_payment_method_expiration_data( $subscription_id, $payment_method );
 
                 do_action( 'pms_stripe_checkout_processed', isset( $_REQUEST['setup_intent'] ) ? 'setup_intent' : 'payment_intent', $subscription_id, $payment->id, $form_location );
 
@@ -570,6 +584,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $intent_error = $this->parse_intent_last_error( $intent );
 
+                if( empty( $intent_error ) && $intent->status != 'canceled' )
+                    return false;
+
                 $error_code = !empty( $intent_error['data']['decline_code'] ) ? $intent_error['data']['decline_code'] : ( !empty( $intent_error['data']['code'] ) ? $intent_error['data']['code'] : 'card_declined' );
 
                 $payment->log_data( 'payment_failed', $intent_error, $error_code );
@@ -595,6 +612,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( ! empty( $subscription_id ) ) {
             $this->customer_id  = pms_get_member_subscription_meta( $subscription_id, '_stripe_customer_id', true );
             $this->stripe_token = pms_get_member_subscription_meta( $subscription_id, '_stripe_card_id', true );
+            $this->stripe_token = $this->replace_single_use_payment_method( $subscription_id, $this->stripe_token );
         }
 
         if( empty( $this->stripe_token ) )
@@ -884,6 +902,15 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $error['desc']    = 'stripe response';
 
         return $error;
+
+    }
+
+    private function return_url_client_secret_matches( $intent ){
+
+        $param    = $intent->object == 'setup_intent' ? 'setup_intent_client_secret' : 'payment_intent_client_secret';
+        $supplied = !empty( $_GET[ $param ] ) ? sanitize_text_field( wp_unslash( $_GET[ $param ] ) ) : '';
+
+        return !empty( $intent->client_secret ) && $supplied !== '' && hash_equals( (string) $intent->client_secret, $supplied );
 
     }
 
@@ -1760,16 +1787,12 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 }
 
-                if( !empty( $data->latest_charge ) ){
+                // Set correct payment method for SEPA Direct Debit recurring transactions.
+                // The initial charge can be made through iDEAL for example, but for subsequent charges, the generated SEPA Debit payment method needs to be used
+                $payment_method = $this->get_reusable_payment_method( $data );
 
-                    // Set correct payment method for SEPA Direct Debit recurring transactions.
-                    // The initial charge can be made through iDEAL for example, but for subsequent charges, the generated SEPA Debit payment method needs to be used
-                    $payment_method = $this->get_alternative_payment_method( $data->latest_charge );
-
-                    if( !empty( $payment_method ) )
-                        pms_update_member_subscription_meta( $member_subscription->id, '_stripe_card_id', sanitize_text_field( $payment_method ) );
-
-                }
+                if( !empty( $payment_method ) )
+                    pms_update_member_subscription_meta( $member_subscription->id, '_stripe_card_id', sanitize_text_field( $payment_method ) );
 
                 break;
 
@@ -1935,21 +1958,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             }
 
-            $payment_method = !empty( $data->payment_method ) ? $data->payment_method : '';
+            // Set correct payment method for SEPA Direct Debit recurring transactions.
+            // The initial charge can be made through iDEAL for example, but for subsequent charges, the generated SEPA Debit payment method needs to be used
+            $payment_method = $this->get_reusable_payment_method( $data );
 
             // Update subscription Payment Method
-            if( !empty( $data->latest_charge ) ){
-
-                // Set correct payment method for SEPA Direct Debit recurring transactions.
-                // The initial charge can be made through iDEAL for example, but for subsequent charges, the generated SEPA Debit payment method needs to be used
-                $alternative_payment_method = $this->get_alternative_payment_method( $data->latest_charge );
-
-                if( !empty( $alternative_payment_method ) )
-                    $payment_method = $alternative_payment_method;
-
-            }
-
-
             if( !empty( $payment_method ) ){
                 pms_update_member_subscription_meta( $subscription->id, '_stripe_card_id', sanitize_text_field( $payment_method ) );
 
@@ -1975,18 +1988,87 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( empty( $charge->payment_method_details ) )
             return false;
 
-        $payment_method_details = $charge->payment_method_details;
+        return $this->get_generated_payment_method( $charge->payment_method_details );
+
+    }
+
+    /**
+     * Returns the reusable payment method a single use one generated, based on payment method details
+     * coming from a charge or from a setup attempt
+     */
+    private function get_generated_payment_method( $payment_method_details ){
 
         if( empty( $payment_method_details->type ) || $payment_method_details->type == 'card' )
             return false;
 
-        // We always expect one charge per payment intent
         $payment_method_type = $payment_method_details->type;
 
         if( empty( $payment_method_details->$payment_method_type ) || empty( $payment_method_details->$payment_method_type->generated_sepa_debit ) )
             return false;
 
         return $payment_method_details->$payment_method_type->generated_sepa_debit;
+
+    }
+
+    /**
+     * Returns the payment method that should be saved for future payments. Single use payment methods
+     * like iDEAL cannot be charged again, so the SEPA Debit method they generate is used instead
+     */
+    private function get_reusable_payment_method( $intent ){
+
+        $generated = false;
+
+        if( $intent->object == 'payment_intent' && !empty( $intent->latest_charge ) ){
+
+            $generated = $this->get_alternative_payment_method( $intent->latest_charge );
+
+        } else if( $intent->object == 'setup_intent' ){
+
+            $attempts = $this->stripe_client->setupAttempts->all( array( 'setup_intent' => $intent->id, 'limit' => 1 ) );
+
+            if( !empty( $attempts->data[0]->payment_method_details ) )
+                $generated = $this->get_generated_payment_method( $attempts->data[0]->payment_method_details );
+
+        }
+
+        if( !empty( $generated ) )
+            return is_object( $generated ) ? $generated->id : $generated;
+
+        return is_object( $intent->payment_method ) ? $intent->payment_method->id : $intent->payment_method;
+
+    }
+
+    /**
+     * Subscriptions that stored a single use payment method before the generated SEPA Debit one was
+     * available cannot be charged again, so the customer's SEPA Debit method replaces it
+     */
+    private function replace_single_use_payment_method( $subscription_id, $payment_method ){
+
+        $payment_method_type = pms_get_member_subscription_meta( $subscription_id, 'pms_payment_method_type', true );
+
+        if( !in_array( $payment_method_type, array( 'ideal', 'bancontact', 'sofort' ) ) || empty( $this->customer_id ) )
+            return $payment_method;
+
+        try {
+
+            $sepa = $this->stripe_client->paymentMethods->all( array( 'customer' => $this->customer_id, 'type' => 'sepa_debit', 'limit' => 1 ) );
+
+        } catch( Exception $e ) {
+
+            return $payment_method;
+
+        }
+
+        if( empty( $sepa->data ) )
+            return $payment_method;
+
+        pms_update_member_subscription_meta( $subscription_id, '_stripe_card_id', $sepa->data[0]->id );
+
+        $this->save_payment_method_expiration_data( $subscription_id, $sepa->data[0] );
+
+        pms_add_member_subscription_log( $subscription_id, 'subscription_payment_method_updated' );
+
+        return $sepa->data[0]->id;
 
     }
 
@@ -2030,9 +2112,6 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         $output .= '<input type="hidden" name="pms_stripe_connect_payment_intent" value=""/>';
 
         $output .= '<input type="hidden" name="pms_stripe_connect_setup_intent" value=""/>';
-
-        // update payment intent nonce
-        $output .= '<input type="hidden" id="pms-stripe-ajax-update-payment-intent-nonce" name="stripe_ajax_update_payment_intent_nonce" value="'. esc_attr( wp_create_nonce( 'pms_stripe_connect_update_payment_intent' ) ) .'"/>';
 
         return $output;
 

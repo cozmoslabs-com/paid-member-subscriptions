@@ -85,9 +85,6 @@ Class PMS_Shortcodes {
 
             if( count( pms_errors()->get_error_codes() ) == 0 )
                 return apply_filters( 'pms_register_success_message', '<div class="pms_success-messages-wrapper"><p><span class="pms-notice-title">' . __('SUCCESS! ', 'paid-member-subscriptions') . '</span>' . __( 'Congratulations, your account has been successfully created.', 'paid-member-subscriptions' ) . '</p></div>' );
-            // If something went wrong while registering the user, show error
-            else if( pms_errors()->get_error_code() == 'user_registration' )
-                return apply_filters( 'pms_register_failed_message', '<div class="pms_field-errors-wrapper"><p>'. pms_errors()->get_error_message( 'user_registration' ). '</p></div>' );
 
         }
 

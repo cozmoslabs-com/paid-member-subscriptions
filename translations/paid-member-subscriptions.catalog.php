@@ -95,6 +95,7 @@
 <?php __("Please enter a username.", "paid-member-subscriptions"); ?>
 <?php __("This username is already taken. Please choose another one.", "paid-member-subscriptions"); ?>
 <?php __("This username is already taken. Please choose another one or login %shere%s.", "paid-member-subscriptions"); ?>
+<?php __("This username is invalid because it uses illegal characters. Please enter a valid username.", "paid-member-subscriptions"); ?>
 <?php __("Please enter an e-mail address.", "paid-member-subscriptions"); ?>
 <?php __("This e-mail is already registered. Please choose another one.", "paid-member-subscriptions"); ?>
 <?php __("This e-mail is already registered. Please choose another one or login %shere%s.", "paid-member-subscriptions"); ?>
@@ -2788,6 +2789,7 @@
 <?php __("<strong>Stripe:</strong> The payment intent was not found.", "paid-member-subscriptions"); ?>
 <?php __("<strong>Stripe:</strong> The payment transaction was not found.", "paid-member-subscriptions"); ?>
 <?php __("<strong>Stripe:</strong> This payment has already been refunded.", "paid-member-subscriptions"); ?>
+<?php __("Something went wrong while processing your request. Please try again or contact the website administrator.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent is still processing. Subscription was activated or remains active until confirmation of success or failure is received.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent has failed.", "paid-member-subscriptions"); ?>
 <?php __('Stripe webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>
@@ -3009,8 +3011,8 @@
 <?php __("Maximum Seats", "paid-member-subscriptions"); ?>
 <?php __("The highest number of seats the buyer can purchase. The minimum is always 2 (the owner plus one member).", "paid-member-subscriptions"); ?>
 <?php __("Edit Owner", "paid-member-subscriptions"); ?>
-<?php __("Invalid subscriptions.", "paid-member-subscriptions"); ?>
 <?php __("Group seats cannot be empty.", "paid-member-subscriptions"); ?>
+<?php __("Invalid subscriptions.", "paid-member-subscriptions"); ?>
 <?php __("Group seats needs to be a number", "paid-member-subscriptions"); ?>
 <?php __("Available seats needs to be equal or bigger than used seats.", "paid-member-subscriptions"); ?>
 <?php __("Group subscription details edited successfully !", "paid-member-subscriptions"); ?>

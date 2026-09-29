@@ -422,11 +422,17 @@ async function pms_stripe_maybe_load_gateway( $ ) {
                     return true
                 }
 
-                console.log( '[PMS Stripe] Something unexpected happened. Response: ' + response )
+                pms_stripe_checkout_failed( current_button, response )
 
-                return false;
+                return false
 
-            }) 
+            }).catch( function( error ){
+
+                pms_stripe_checkout_failed( current_button, error )
+
+                return false
+
+            })
 
         })
     }
@@ -463,9 +469,6 @@ async function pms_stripe_maybe_load_gateway( $ ) {
             body       : form_data
         }).then(function (res) {
             return res.json()
-        }).catch(error => {
-            console.error('Something went wrong:', error)
-            throw error
         })
 
     }
@@ -718,60 +721,6 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 
     }
 
-    async function stripeConnectUpdatePaymentIntent(){
-
-        if( !$client_secret || !( $client_secret.length > 0 ) )
-            return
-
-        // Don't make this call when a Free Trial subscription is selected since we use the prepared SetupIntent
-        if ( $.pms_checkout_is_setup_intents() || $( '#pms-update-payment-method-form' ).length > 0 )
-            return
-
-        if( updating_payment_intent )
-            return
-
-        updating_payment_intent = true
-
-        var submitButton = $('.pms-form .pms-form-submit, .pms-form input[type="submit"], .pms-form button[type="submit"], .wppb-register-user input[type="submit"], .wppb-register-user button[type="submit"]').not('#pms-apply-discount, .login-submit #wp-submit')
-
-        var data = $.pms_form_get_data( submitButton )
-
-        data.action             = 'pms_update_payment_intent_connect'
-        data.pms_nonce          = $('#pms-stripe-ajax-update-payment-intent-nonce').val()
-        data.intent_secret      = $client_secret
-
-        data.pmstkn_original = data.form_type == 'pms' ? $('.pms-form #pmstkn').val() : 'wppb_register'
-        data.pmstkn          = ''
-
-        return await $.post(pms.ajax_url, data, function (response) {
-
-            if( typeof response == 'undefined' || response == '' ){
-                updating_payment_intent = false
-                return false;
-            }
-
-            response = JSON.parse( response )
-
-            if ( response.status == 'requires_payment_method' ) {
-                updating_payment_intent = false
-
-                elements.fetchUpdates().then( function(elements_response){
-                    if( typeof paymentSidebarPosition == 'function' ){
-                        setTimeout( paymentSidebarPosition, 300 )
-                    }
-
-                    return true;
-                })
-            }
-
-            updating_payment_intent = false
-
-            return false;
-
-        })
-
-    }
-
     /*
      * Stripe response handler
      *
@@ -873,6 +822,17 @@ async function pms_stripe_maybe_load_gateway( $ ) {
         }
 
         jQuery(document).trigger( 'pms_checkout_validation_error', response, current_button )
+
+    }
+
+    function pms_stripe_checkout_failed( current_button, detail ){
+
+        console.error( '[PMS Stripe] Checkout did not complete. Response:', detail )
+
+        var $form = current_button.closest( 'form' )
+
+        $.pms_add_general_error( pms.checkout_unexpected_error, $form )
+        $.pms_form_scrollTo( $form, current_button )
 
     }
 

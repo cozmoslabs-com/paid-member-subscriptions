@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,15 +279,15 @@ Please report security bugs found in the source code of the Paid Member Subscrip
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.1.0 =
-* Enhancement: Gutenberg block editor scripts are no longer loaded on WordPress versions below 6.6 when react-jsx-runtime is unavailable
-* Fix: Security issue regarding PayPal Standard recurring IPN recurring payments that do not match the pending payment. Thanks to MYUNGYONG LEE and the Patchstack team
-* Fix: Security issue with Captcha not being verified in some cases for the default login page. Thanks to Naoki Kawahigashi and the WPScan team
-* Fix: Security issue regarding missing ownership check on an AJAX handler. Thanks to vuxvinh and the WPScan team
-* Fix: Cancel link on the Account form could cancel the wrong subscription when a member has multiple subscriptions
-* Fix: Returning customers who already used a plan trial were charged only the sign-up fee instead of the full subscription price
-* Fix: Manual payment pending subscriptions now use the admin acceptance date as the start date instead of the checkout initiation date
-* Fix: Fatal error when opening Payments settings if Stripe could not validate the site domain
-* Fix: PHP notice when an admin subscription save is rejected on the edit subscription screen
+= 3.1.1 =
+* Fix: Stripe iDEAL, Bancontact, and Sofort subscriptions now store the reusable SEPA payment method used for renewals without a webhook being received
+* Fix: Stripe free trial checkouts with redirect payment methods such as iDEAL now activate correctly after returning from the bank
+* Fix: Could not validate reCAPTCHA error on wp-login.php when reCAPTCHA is enabled on the default login form and a 2FA plugin runs the login flow twice
+* Fix: Register checkout no longer stays on Processing when user registration fails during AJAX checkout
+* Fix: Stripe Connect checkout unlocks the submit button and shows an error when the server returns an unexpected response
+* Fix: Username validation now rejects usernames WordPress cannot create, including usernames with only non-ASCII characters
+* Fix: Misaligned fields when configuring Limit Payment Cycles with Expire Subscription after on subscription plans
+* Fix: Loading spinners on admin pages now clear correctly after AJAX actions complete
+* Misc: WPML compatibility for subscription plan title and description
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.
