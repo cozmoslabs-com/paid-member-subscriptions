@@ -358,6 +358,8 @@ if( ! empty( $_POST ) ) {
                     $multiple_subscription_addon_active = apply_filters( 'pms_add_on_is_active', false, 'pms-add-on-multiple-subscriptions-per-user/index.php' );
                     if( $subpage == 'add_subscription' && ( $first_subscription || $multiple_subscription_addon_active ) )
                         echo esc_html( do_action('pms_admin_new_subscription_after_form_fields') );
+                    elseif( $subpage == 'edit_subscription' && isset( $member_subscription ) )
+                        do_action( 'pms_admin_edit_subscription_after_form_fields', $member_subscription );
                     ?>
 
                 </div>

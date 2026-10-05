@@ -53,6 +53,10 @@ function pms_get_member_subscriptions( $args = array() ) {
     $query_from   = "FROM {$wpdb->prefix}pms_member_subscriptions ";
     $query_where  = "WHERE 1=%d ";
 
+    // Collect $wpdb->prepare() arguments in the same order their placeholders appear in $query_where,
+    // so the status filter can be bound as a placeholder instead of interpolated into the query string.
+    $query_where_args = array( 1 );
+
 
     // Filter by user id
     if( !empty( $args['user_id'] ) ) {
@@ -66,12 +70,14 @@ function pms_get_member_subscriptions( $args = array() ) {
     if( !empty( $args['status'] ) ) {
 
         if( is_array( $args['status'] ) ){
-            $status = implode(',', array_map( fn($s) => "'" . sanitize_text_field($s) . "'", $args['status'] ) );
-            $query_where .= " AND status IN ($status)";
+            $statuses     = array_map( 'sanitize_text_field', $args['status'] );
+            $placeholders = implode( ',', array_fill( 0, count( $statuses ), '%s' ) );
+            $query_where .= " AND status IN ($placeholders)";
+            $query_where_args = array_merge( $query_where_args, array_values( $statuses ) );
         }
         else{
-            $status       = sanitize_text_field( $args['status'] );
-            $query_where .= " AND status LIKE '{$status}'";
+            $query_where .= " AND status LIKE %s";
+            $query_where_args[] = sanitize_text_field( $args['status'] );
         }
 
     }
@@ -216,7 +222,7 @@ function pms_get_member_subscriptions( $args = array() ) {
 
     $query_string .= $query_from . $query_where . $query_order_by . $query_order . $query_limit . $query_offset;
 
-	$data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1 ), ARRAY_A );
+	$data_array = $wpdb->get_results( $wpdb->prepare( $query_string, $query_where_args ), ARRAY_A );
 
 	$subscriptions = array();
 

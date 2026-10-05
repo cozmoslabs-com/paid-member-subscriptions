@@ -1059,6 +1059,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             'return_url'                => $this->get_offsite_redirect_return_url(),
             'expand'                    => [ 'payment_method' ],
             'automatic_payment_methods' => [ 'enabled' => true ],
+            // Stripe requires the WeChat Pay client at confirmation and the ConfirmationToken does not carry it
+            'payment_method_options'    => [ 'wechat_pay' => [ 'client' => 'web' ] ],
         );
 
         if( isset( $_POST['form_type'] ) && $_POST['form_type'] == 'wppb' ){

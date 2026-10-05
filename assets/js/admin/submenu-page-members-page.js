@@ -222,7 +222,7 @@ jQuery( function($) {
         var value = $(this).val()
 
         $('#pms-meta-box-fields-wrapper-payment-gateways > div').hide();
-        $('#pms-meta-box-fields-wrapper-payment-gateways > div[data-payment-gateway=' + value + ']').show();
+        $('#pms-meta-box-fields-wrapper-payment-gateways > div[data-payment-gateway="' + value + '"]').show();
 
     });
 

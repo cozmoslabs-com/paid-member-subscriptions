@@ -51,6 +51,13 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
     }
 
     public function load_table() {
+
+        // Bail if the current user is not allowed to view the Members area. This callback fires on
+        // current_screen, which can be reached by any logged-in user through core's dashboard-widgets
+        // ajax action (it calls set_current_screen()), so the list-table query must be gated here.
+        if( ! pms_current_user_can_access_area( 'pms-members-page' ) )
+            return;
+
         $this->list_table = new PMS_Members_List_Table();
     }
 
@@ -78,15 +85,15 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             wp_enqueue_style( 'pms-chosen', PMS_PLUGIN_DIR_URL . 'assets/libs/chosen/chosen.css', array(), PMS_VERSION );
         }
 
-        // Register script to display confirmation message in case of bulk delete
-        wp_register_script( 'pms-members-bulk-actions-script', PMS_PLUGIN_DIR_URL . 'assets/js/admin/submenu-page-members-page.js', array('jquery'), PMS_VERSION );
         $confirmation_message = array(
             'message'   => __( 'Are you sure you want to delete these Subscriptions? \nThis action is irreversible.', 'paid-member-subscriptions' )
         );
-        wp_localize_script( 'pms-members-bulk-actions-script', 'pms_confirmation_message', $confirmation_message );
-        wp_localize_script( 'pms-members-bulk-actions-script', 'pms_members_ajax', array(
+        wp_localize_script( $this->menu_slug . '-js', 'pms_confirmation_message', $confirmation_message );
+        wp_localize_script( $this->menu_slug . '-js', 'pms_members_ajax', array(
             'nonce' => wp_create_nonce( 'pms_members_admin_ajax' ),
         ) );
+
+        wp_register_script( 'pms-members-bulk-actions-script', false, array( $this->menu_slug . '-js' ), PMS_VERSION );
         wp_enqueue_script( 'pms-members-bulk-actions-script' );
     }
 

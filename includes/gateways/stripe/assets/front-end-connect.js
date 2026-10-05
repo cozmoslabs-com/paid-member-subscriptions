@@ -377,7 +377,15 @@ async function pms_stripe_maybe_load_gateway( $ ) {
                     pms_stripe_handle_validation_errors( response, current_button )
 
                     return false
-                } else if( response.success == false && typeof response.type != 'undefined' && response.type == 'use_stripe_sdk' ){
+                }
+
+                // Redirect to the URL if the response contains a redirect URL
+                if ( typeof response.redirect_url != 'undefined' && response.redirect_url ){
+                    window.location.replace( response.redirect_url )
+                    return true
+                }
+
+                if( response.success == false && typeof response.type != 'undefined' ){
 
                     let intent 
 
@@ -413,13 +421,6 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 
                     return false
 
-                }
-
-
-                // Redirect to the URL if the response contains a redirect URL
-                if ( typeof response.redirect_url != 'undefined' && response.redirect_url ){
-                    window.location.replace( response.redirect_url )
-                    return true
                 }
 
                 pms_stripe_checkout_failed( current_button, response )

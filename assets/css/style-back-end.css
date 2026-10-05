@@ -3245,7 +3245,8 @@ body.learndash-post-type #pms_post_content_restriction_learndash .button-primary
     padding: 8px 5px;
 }
 
-#pms-edit-member-page td {
+#pms-edit-member-page td,
+#pms-edit-member-page tbody th {
     padding: 15px 5px;
 }
 
@@ -3831,11 +3832,12 @@ body[class*="post-type-pms-"] .wp-list-table input[type="text"][readonly] {
 }
 
 /* Tables */
+/* a th[scope="row"] is a body cell: WordPress 7.1+ renders a list table's primary column as one */
 body[class*="_page_pms-"] .wp-list-table thead th,
 body[class*="_page_pms-"] .wp-list-table tfoot th,
 body[class*="post-type-pms-"] .wp-list-table thead th,
 body[class*="post-type-pms-"] .wp-list-table tfoot th,
-.cozmoslabs-form-subsection-wrapper th {
+.cozmoslabs-form-subsection-wrapper th:not([scope="row"]) {
     font-weight: 600;
     font-size: 14px;
     line-height: 40px !important;
@@ -3846,7 +3848,8 @@ body[class*="_page_pms-"] .wp-list-table td,
 body[class*="_page_pms-"] .wp-list-table tbody th,
 body[class*="post-type-pms-"] .wp-list-table td,
 body[class*="post-type-pms-"] .wp-list-table tbody th,
-.cozmoslabs-form-subsection-wrapper td {
+.cozmoslabs-form-subsection-wrapper td,
+.cozmoslabs-form-subsection-wrapper th[scope="row"] {
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
@@ -5002,18 +5005,19 @@ body[class*="_page_pms-payments-page"] #cozmoslabs-subsection-payment-details .s
         flex-wrap: wrap;
     }
 
-    #cozmoslabs-form-subsection-invite-members tbody tr td #invite-new-members {
+    #cozmoslabs-form-subsection-invite-members tbody tr #invite-new-members {
         border: none;
     }
 
-    #cozmoslabs-form-subsection-invite-members tbody tr td {
+    #cozmoslabs-form-subsection-invite-members tbody tr td,
+    #cozmoslabs-form-subsection-invite-members tbody tr th {
         display: block !important;
         padding: 10px;
     }
 
     #cozmoslabs-form-subsection-invite-members tbody tr td:before,
     #cozmoslabs-form-subsection-invite-members tbody tr td #add-existing-users .invite-info,
-    #cozmoslabs-form-subsection-invite-members tbody tr td .toggle-row {
+    #cozmoslabs-form-subsection-invite-members tbody tr .toggle-row {
         display: none;
     }
 

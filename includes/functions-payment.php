@@ -92,21 +92,29 @@ function pms_get_payments( $args = array() ) {
 
     $query_where = "WHERE 1=%d ";
 
+    // Collect $wpdb->prepare() arguments in the same order their placeholders appear in $query_where.
+    // Status and search are bound as placeholders so untrusted input never becomes part of the format
+    // string passed to prepare() (which would otherwise let a numbered %n$ directive be interpreted).
+    $query_where_args = array( 1 );
+
     // Add search query
     if( !empty($args['search']) ) {
         $search_term    = sanitize_text_field( $args['search'] );
         $query_where    = $query_where . " AND " . " ( pms_payments.discount_code LIKE '%s' OR pms_payments.transaction_id LIKE '%s' OR users.user_nicename LIKE '%%%s%%' OR users.user_login LIKE '%%%s%%' OR users.user_email LIKE '%%%s%%' OR users.display_name LIKE '%%%s%%' OR posts.post_title LIKE '%%%s%%' ) ". " ";
+        $query_where_args = array_merge( $query_where_args, array_fill( 0, 7, $wpdb->esc_like( $search_term ) ) );
     }
 
     // Filter by status
     if( !empty( $args['status'] ) ) {
         if( is_array( $args['status'] ) ){
-            $status = implode( '\',\'', array_map( 'sanitize_text_field', $args['status'] ) );
-            $query_where    = $query_where . " AND " . " pms_payments.status IN ('{$status}')";
+            $statuses       = array_map( 'sanitize_text_field', $args['status'] );
+            $placeholders   = implode( ', ', array_fill( 0, count( $statuses ), '%s' ) );
+            $query_where    = $query_where . " AND " . " pms_payments.status IN ({$placeholders})";
+            $query_where_args = array_merge( $query_where_args, array_values( $statuses ) );
         }
         else{
-            $status         = sanitize_text_field( $args['status'] );
-            $query_where    = $query_where . " AND " . " pms_payments.status LIKE '{$status}'";
+            $query_where    = $query_where . " AND " . " pms_payments.status LIKE %s";
+            $query_where_args[] = sanitize_text_field( $args['status'] );
         }
     }
 
@@ -227,10 +235,7 @@ function pms_get_payments( $args = array() ) {
     $query_string .= $query_from . $query_inner_join . $query_where . $query_order_string . $query_limit . $query_offset;
 
     // Return results
-    if (!empty($search_term))
-        $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ) , $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
-    else
-        $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, 1 ), ARRAY_A );
+    $data_array = $wpdb->get_results( $wpdb->prepare( $query_string, $query_where_args ), ARRAY_A );
 
     $payments = array();
 
@@ -382,16 +387,21 @@ function pms_get_payments_count( $args = array() ) {
     // Where conditions
     $query_where = "WHERE 1=%d ";
 
+    // Collect $wpdb->prepare() arguments in the same order their placeholders appear in $query_where,
+    // so the status filter can be bound as a placeholder instead of interpolated into the query string.
+    $query_where_args = array( 1 );
+
     // Add search query
     if( !empty( $args['search'] ) ) {
         $search_term = sanitize_text_field( $args['search'] );
         $query_where .= " AND " . " ( pms_payments.discount_code LIKE '%s' OR pms_payments.transaction_id LIKE '%s' OR users.user_nicename LIKE '%%%s%%' OR users.user_email LIKE '%%%s%%' OR posts.post_title LIKE '%%%s%%' ) ". " ";
+        $query_where_args = array_merge( $query_where_args, array_fill( 0, 5, $wpdb->esc_like( $search_term ) ) );
     }
 
     // Filter by status
     if( !empty( $args['status'] ) ) {
-        $status = sanitize_text_field( $args['status'] );
-        $query_where .= " AND " . " pms_payments.status LIKE '{$status}'";
+        $query_where .= " AND " . " pms_payments.status LIKE %s";
+        $query_where_args[] = sanitize_text_field( $args['status'] );
     }
 
     // Filter by type
@@ -449,10 +459,7 @@ function pms_get_payments_count( $args = array() ) {
         $query_string .= $query_inner_join . $query_where;
 
         // Return results
-        if( !empty( $args['search'] ) )
-            $count = $wpdb->get_var( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ) );
-        else
-            $count = $wpdb->get_var( $wpdb->prepare( $query_string, 1 ) );
+        $count = $wpdb->get_var( $wpdb->prepare( $query_string, $query_where_args ) );
 
         /**
          * The expiration time ( in seconds ) for the cached payments count returned for

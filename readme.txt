@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,15 +279,13 @@ Please report security bugs found in the source code of the Paid Member Subscrip
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.1.1 =
-* Fix: Stripe iDEAL, Bancontact, and Sofort subscriptions now store the reusable SEPA payment method used for renewals without a webhook being received
-* Fix: Stripe free trial checkouts with redirect payment methods such as iDEAL now activate correctly after returning from the bank
-* Fix: Could not validate reCAPTCHA error on wp-login.php when reCAPTCHA is enabled on the default login form and a 2FA plugin runs the login flow twice
-* Fix: Register checkout no longer stays on Processing when user registration fails during AJAX checkout
-* Fix: Stripe Connect checkout unlocks the submit button and shows an error when the server returns an unexpected response
-* Fix: Username validation now rejects usernames WordPress cannot create, including usernames with only non-ASCII characters
-* Fix: Misaligned fields when configuring Limit Payment Cycles with Expire Subscription after on subscription plans
-* Fix: Loading spinners on admin pages now clear correctly after AJAX actions complete
-* Misc: WPML compatibility for subscription plan title and description
+= 3.1.2 =
+* Fix: Improve security for the Members and Payments list queries. Thanks to Deva Parekh and the Patchstack team for the report
+* Fix: Stripe Connect checkouts with Alipay, WeChat Pay and voucher methods such as Multibanco work correctly now
+* Fix: Members and Payments admin scripts were loading twice
+* Fix: Edit Subscription no longer breaks when the subscription has no payment gateway, which stopped Add Log from adding an entry
+* Fix: Admin list table cells keep body styling on WordPress 7.1, which now renders the primary column as a header cellPaid Member Subscriptions Agency, Pro, Unlimited 1.9.17
+* Fix: Group Memberships - Editing a group from Group Details on WordPress 7.1 now saves the group name and description
+* Fix: Group Memberships - Group name and description now appear when changing an existing subscription to a group plan
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

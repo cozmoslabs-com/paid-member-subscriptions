@@ -161,8 +161,15 @@ function pms_get_members( $args = array(), $count = false ) {
 
     $query_where = "WHERE 1=%d ";
 
-    if( ! empty( $args['member_subscription_status'] ) )
-        $query_where = $query_where . " AND member_subscriptions.status = '" . sanitize_text_field( $args['member_subscription_status'] ) . "' ";
+    // Collect $wpdb->prepare() arguments in the same order their placeholders appear in $query_where.
+    // Status and search are bound as placeholders so untrusted input never becomes part of the format
+    // string passed to prepare() (which would otherwise let a numbered %n$ directive be interpreted).
+    $query_where_args = array( 1 );
+
+    if( ! empty( $args['member_subscription_status'] ) ) {
+        $query_where = $query_where . " AND member_subscriptions.status = %s ";
+        $query_where_args[] = sanitize_text_field( $args['member_subscription_status'] );
+    }
 
     if( ! empty( $args['subscription_plan_id'] ) )
         $query_where = $query_where . " AND member_subscriptions.subscription_plan_id = " . (int)$args['subscription_plan_id'] . " ";
@@ -188,8 +195,10 @@ function pms_get_members( $args = array(), $count = false ) {
         if( apply_filters( 'pms_members_list_search_query_fullname', true ) ){
             $query_inner_join .= "LEFT JOIN (SELECT usermeta.user_id, GROUP_CONCAT(usermeta.meta_value SEPARATOR ' ') AS fullname FROM {$wpdb->usermeta} usermeta WHERE usermeta.meta_key IN ('first_name', 'last_name') GROUP BY usermeta.user_id) fullname_table ON fullname_table.user_id = users.ID ";
             $query_where       = $query_where . " AND  " . "  (users.user_email LIKE '%%%s%%' OR users.user_nicename LIKE '%%%s%%' OR usermeta.meta_value LIKE '%%%s%%' OR fullname_table.fullname LIKE '%%%s%%')  ". " ";
+            $query_where_args  = array_merge( $query_where_args, array_fill( 0, 4, $wpdb->esc_like( $search_term ) ) );
         } else {
             $query_where       = $query_where . " AND  " . "  (users.user_email LIKE '%%%s%%' OR users.user_nicename LIKE '%%%s%%' OR usermeta.meta_value LIKE '%%%s%%')  ". " ";
+            $query_where_args  = array_merge( $query_where_args, array_fill( 0, 3, $wpdb->esc_like( $search_term ) ) );
         }
     }
 
@@ -215,31 +224,10 @@ function pms_get_members( $args = array(), $count = false ) {
         $query_string .= $query_from . $query_inner_join . $query_where . $query_oder_by . $query_order;
 
     // Return results
-    if( ! $count ) {
-
-        if ( ! empty( $search_term ) ){
-
-            if( apply_filters( 'pms_members_list_search_query_fullname', true ) )
-                $results = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
-            else
-                $results = $wpdb->get_results( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ), ARRAY_A );
-
-        } else
-            $results = $wpdb->get_results( $wpdb->prepare( $query_string, 1 ), ARRAY_A );
-
-    } else {
-
-        if ( ! empty( $search_term ) ){
-
-            if( apply_filters( 'pms_members_list_search_query_fullname', true ) )
-                $results = (int)$wpdb->get_var( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ) );
-            else
-                $results = (int)$wpdb->get_var( $wpdb->prepare( $query_string, 1, $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ), $wpdb->esc_like( $search_term ) ) );
-
-        } else
-            $results = (int)$wpdb->get_var( $wpdb->prepare( $query_string, 1 ) );
-
-    }
+    if( ! $count )
+        $results = $wpdb->get_results( $wpdb->prepare( $query_string, $query_where_args ), ARRAY_A );
+    else
+        $results = (int)$wpdb->get_var( $wpdb->prepare( $query_string, $query_where_args ) );
 
     // Get members for each ID passed
     if( ! $count ) {

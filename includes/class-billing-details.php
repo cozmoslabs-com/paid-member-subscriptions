@@ -487,9 +487,9 @@ Class PMS_Billing_Details {
 
         $data = apply_filters( 'pms_admin_payment_billing_details_js_data', $data );
 
-        wp_localize_script( 'pms-payments-bulk-actions-script', 'pms_payment_billing_details', $data );
+        wp_localize_script( $menu_slug . '-js', 'pms_payment_billing_details', $data );
 
-        wp_localize_script( 'pms-payments-bulk-actions-script', 'PMS_States', pms_get_billing_states() );
+        wp_localize_script( $menu_slug . '-js', 'PMS_States', pms_get_billing_states() );
 
     }
 
