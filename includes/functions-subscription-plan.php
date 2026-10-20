@@ -798,6 +798,7 @@ function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null, 
     $subscription_plan_input_data_arr = array(
         'price'                 => $subscription_plan->price,
         'duration'              => $subscription_plan->duration,
+        'duration_unit'         => $subscription_plan->duration_unit,
         'fixed_membership'      => $subscription_plan->fixed_membership,
         'allow_renew'           => $subscription_plan->allow_renew,
     );
@@ -833,7 +834,14 @@ function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null, 
     // Pay in installments (limit payment cycles) — used by front-end to require gateways with data-billing_cycles
     if( $subscription_plan->has_installments() && pms_payment_gateways_support( pms_get_active_payment_gateways(), 'billing_cycles' ) ) {
         $subscription_plan_input_data_arr['limit_payment_cycles'] = 'yes';
+        $subscription_plan_input_data_arr['number_of_payments']   = $subscription_plan->number_of_payments;
     }
+
+    // First renewal timestamp, so gateways can show wallets when recurring billing starts (e.g. Stripe's Apple Pay recurring payment request)
+    $billing_start = pms_get_subscription_plan_billing_start( $subscription_plan, $form_location, isset( $subscription_plan_input_data_arr['trial'] ) && $subscription_plan_input_data_arr['trial'] == '1' );
+
+    if( ! empty( $billing_start ) )
+        $subscription_plan_input_data_arr['billing_start'] = $billing_start;
 
     /**
      * Filter extra input data attributes before concatenating them as a string
@@ -853,6 +861,49 @@ function pms_get_subscription_plan_input_data_attrs( $subscription_plan = null, 
     }
 
     return $subscription_plan_input_data;
+
+}
+
+
+/**
+ * Returns the timestamp of the first renewal a checkout of this plan would schedule, or 0 when it never renews
+ *
+ * - mirrors the billing_next_payment PMS_Form_Handler::get_subscription_data() and the renewal processing set, so it is only an estimate of the date for pages left open for a long time
+ * - Pro-Rate overrides it for upgrades that start with a free period
+ *
+ * @param PMS_Subscription_Plan $subscription_plan
+ * @param string                $form_location
+ * @param bool                  $has_trial          whether the customer gets the plan's free trial on this checkout
+ *
+ * @return int
+ *
+ */
+function pms_get_subscription_plan_billing_start( $subscription_plan, $form_location = '', $has_trial = false ) {
+
+    if( $subscription_plan->is_fixed_period_membership() ? ! $subscription_plan->fixed_period_renewal_allowed() : empty( $subscription_plan->duration ) )
+        return 0;
+
+    if( $form_location == 'renew_subscription' && is_user_logged_in() ){
+
+        $member              = pms_get_member( pms_get_current_user_id() );
+        $member_subscription = $member->get_subscription( $subscription_plan->id );
+
+        if( ! empty( $member_subscription['id'] ) ){
+
+            $member_subscription = pms_get_member_subscription( $member_subscription['id'] );
+            $expiration_date     = apply_filters( 'pms_checkout_renew_subscription_expiration_date', pms_get_renew_subscription_expiration_date( $member_subscription, $subscription_plan ), $member_subscription );
+
+            return (int) strtotime( $expiration_date );
+
+        }
+
+    }
+
+    // The trial end is capped at the expiration date of fixed period plans, which is also when they renew
+    if( $has_trial )
+        return (int) $subscription_plan->get_trial_expiration_date( true );
+
+    return (int) $subscription_plan->get_expiration_date( true );
 
 }
 

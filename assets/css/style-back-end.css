@@ -2055,6 +2055,10 @@ body.post-type-pms-subscription .pms-subscription-tab-panel > .postbox {
     padding: 20px;
 }
 
+body.post-type-pms-subscription .pms-subscription-tab-panel > #pms_subscription_integrations.postbox {
+    overflow: visible;
+}
+
 body.post-type-pms-subscription .pms-subscription-tab-panel > .postbox > .postbox-header {
     border-bottom: 0;
 }

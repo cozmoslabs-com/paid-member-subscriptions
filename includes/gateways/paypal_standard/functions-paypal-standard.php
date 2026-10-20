@@ -264,7 +264,22 @@ function pms_paypal_ipn_matches_expected( $payment, $payment_data, $expected ) {
     $expected_plan_id  = absint( $expected['plan_id'] );
     $received_plan_id  = absint( isset( $payment_data['subscription_id'] ) ? $payment_data['subscription_id'] : 0 );
 
-    if ( $expected_amount === $received_amount && $expected_currency === $received_currency && $expected_plan_id === $received_plan_id ) {
+    $amount_matches = $expected_amount === $received_amount;
+
+    /**
+     * Filters whether a PayPal IPN whose amount differs from the expected amount should still be accepted.
+     * Currency, plan and transaction ID checks still apply.
+     *
+     * @param bool        $bypass       Whether to skip the amount check. Default false.
+     * @param array       $payment_data IPN data (amount, currency, subscription_id, transaction_id, and type, status, payment_id, user_id when available).
+     * @param PMS_Payment $payment      The payment the IPN is matched against.
+     * @param array       $expected     Expected amount, currency and plan ID.
+     */
+    if ( ! $amount_matches && apply_filters( 'pms_paypal_ipn_bypass_amount_verification', false, $payment_data, $payment, $expected ) ) {
+        $amount_matches = true;
+    }
+
+    if ( $amount_matches && $expected_currency === $received_currency && $expected_plan_id === $received_plan_id ) {
         return true;
     }
 

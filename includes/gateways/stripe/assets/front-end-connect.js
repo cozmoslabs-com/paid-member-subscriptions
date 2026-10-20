@@ -37,6 +37,8 @@ async function pms_stripe_maybe_load_gateway( $ ) {
     var subscription_plan_selector = 'input[name=subscription_plans]'
     var paygate_selector           = 'input.pms_pay_gate'
 
+    var apple_pay_interval_units = [ 'day', 'week', 'month', 'year' ]
+
     var stripe_appearance = {}
 
     if( pms.pms_elements_appearance_api )
@@ -143,6 +145,274 @@ async function pms_stripe_maybe_load_gateway( $ ) {
     // expose the rule so add-ons resolve setup_future_usage with the same logic as the primary plan
     $.pms_stripe_connect_setup_future_usage_for_input = pms_stripe_connect_setup_future_usage_for_input
 
+    function pms_stripe_get_selected_subscription() {
+
+        return jQuery( subscription_plan_selector + '[type=radio]' ).length > 0 ? jQuery( subscription_plan_selector + '[type=radio]:checked' ) : jQuery( subscription_plan_selector + '[type=hidden]' )
+
+    }
+
+    function pms_stripe_get_first_payment_amount( $input ) {
+
+        let has_mc_price = $input.data( 'mc_price' ) !== undefined && $input.data( 'mc_price' ) !== null
+        let price        = parseFloat( has_mc_price ? $input.data( 'mc_price' ) : $input.data( 'price' ) )
+
+        // A discount response already folds the sign-up fee into the discounted price
+        if( !$input.data( 'discounted-price' ) ){
+
+            let has_mc_sign_up_fee = $input.data( 'mc_sign_up_fee' ) !== undefined && $input.data( 'mc_sign_up_fee' ) !== null
+            let sign_up_fee        = parseFloat( has_mc_sign_up_fee ? $input.data( 'mc_sign_up_fee' ) : $input.data( 'sign_up_fee' ) )
+
+            // With a free trial only the sign-up fee is charged initially
+            if( !isNaN( sign_up_fee ) && sign_up_fee > 0 )
+                price = $.pms_plan_has_trial( $input ) ? sign_up_fee : price + sign_up_fee
+
+        }
+
+        // Tax runs its own pms_tax_applied update too, so both must produce the same taxed total whichever handler runs last
+        if( typeof $.pms_tax_apply_to_amount == 'function' )
+            price = $.pms_tax_apply_to_amount( price, $input )
+
+        return price
+
+    }
+
+    function pms_stripe_get_recurring_billing_for_input( $input ) {
+
+        if( $input.length == 0 || !pms.apple_pay.management_url )
+            return null
+
+        // Installment plans are charged off-session even when the checkout is not recurring
+        let installments = $input.data( 'limit_payment_cycles' ) == 'yes'
+
+        if( pms_stripe_connect_setup_future_usage_for_input( $input ) !== 'off_session' && !installments )
+            return null
+
+        let interval_unit  = 'year'
+        let interval_count = 1
+        let fixed_period   = $input.data( 'fixed_membership' ) == 'on'
+
+        // Fixed-period plans only renew when renewals are allowed, and then they renew yearly
+        if( fixed_period && $input.data( 'allow_renew' ) != 'on' )
+            return null
+
+        if( !fixed_period ){
+            interval_unit  = $input.data( 'duration_unit' )
+            interval_count = Number( $input.data( 'duration' ) )
+        }
+
+        if( !Number.isInteger( interval_count ) || interval_count <= 0 || !apple_pay_interval_units.includes( interval_unit ) )
+            return null
+
+        // Without a start date Apple Pay shows the recurring amount as "Starting Now"
+        let start_date = Number( $input.data( 'billing_start' ) ) > 0 ? new Date( Number( $input.data( 'billing_start' ) ) * 1000 ) : null
+        let end_date   = null
+
+        if( installments ){
+
+            // The initial payment is the first installment, unless a free trial replaces it
+            let renewals = Number( $input.data( 'number_of_payments' ) ) - ( $.pms_plan_has_trial( $input ) ? 0 : 1 )
+
+            if( !( renewals > 0 ) )
+                return null
+
+            if( start_date !== null )
+                end_date = renewals == 1 ? start_date : pms_stripe_add_interval( start_date, interval_unit, interval_count * ( renewals - 1 ) )
+
+        }
+
+        let has_mc_price = $input.data( 'mc_price' ) !== undefined && $input.data( 'mc_price' ) !== null
+        let price
+
+        // Renewals bill the plan price alone: no sign-up fee, no Pro-Rate credit, and a discount code only when it applies to recurring payments
+        if( $input.data( 'discounted-price' ) == true && $input.data( 'discounted-recurring-price' ) !== undefined )
+            price = parseFloat( $input.data( 'discounted-recurring-price' ) )
+        else if( $input.data( 'discounted-price' ) == true )
+            price = parseFloat( has_mc_price ? $input.data( 'mc-price-original' ) : $input.data( 'price-original' ) )
+        else
+            price = parseFloat( has_mc_price ? $input.data( 'mc_price' ) : $input.data( 'price' ) )
+
+        // Pro-Rate lowers data-price to the first charge, keeping the full price in original_price for free periods
+        if( $.pms_plan_is_prorated( $input ) && $input.data( 'discounted-price' ) != true ){
+
+            if( $input.data( 'original_price' ) !== undefined )
+                price = parseFloat( $input.data( 'original_price' ) )
+            else
+                price = pms_stripe_round( price + parseFloat( $input.data( 'prorated_discount' ) ), 2 )
+
+        }
+
+        // Renewals are charged with tax on top, so show the taxed amount when the Tax add-on is active
+        if( typeof $.pms_tax_apply_to_amount == 'function' )
+            price = $.pms_tax_apply_to_amount( price, $input )
+
+        let amount = pms_stripe_convert_amount_to_cents( price )
+
+        if( !( amount > 0 ) )
+            return null
+
+        let label = $input.closest( '.pms-subscription-plan' ).find( '.pms-subscription-plan-name' ).first().text().trim()
+
+        return {
+            amount        : amount,
+            label         : label || pms.apple_pay.billing_label,
+            interval_unit : interval_unit,
+            interval_count: interval_count,
+            start_date    : start_date,
+            end_date      : end_date,
+        }
+
+    }
+
+    /**
+     * Returns the recurring billing for the whole checkout: the selected plan plus any selected Order Bumps
+     *
+     * - each recurring item renews as its own subscription, but Apple Pay accepts a single recurring line, so items that share a billing interval are shown as one combined amount
+     * - when intervals differ, the primary plan is shown, or the first recurring bump when the primary does not renew; any recurring item is enough for Apple to issue a merchant token
+     *
+     */
+    function pms_stripe_get_recurring_billing_for_checkout() {
+
+        let items = []
+
+        let primary = pms_stripe_get_recurring_billing_for_input( pms_stripe_get_selected_subscription() )
+
+        if( primary !== null )
+            items.push( primary )
+
+        $( 'input[name="pms_order_bumps[]"]:checked' ).each( function() {
+
+            let bump = pms_stripe_get_recurring_billing_for_input( $( this ) )
+
+            if( bump !== null )
+                items.push( bump )
+
+        })
+
+        if( items.length <= 1 )
+            return items.length ? items[0] : null
+
+        let same_interval = items.every( item => item.interval_unit == items[0].interval_unit && item.interval_count == items[0].interval_count )
+
+        if( !same_interval )
+            return items[0]
+
+        let start_dates = items.map( item => item.start_date ).filter( date => date !== null )
+        let end_dates   = items.map( item => item.end_date )
+
+        return {
+            amount        : items.reduce( ( total, item ) => total + item.amount, 0 ),
+            label         : pms.apple_pay.billing_label,
+            interval_unit : items[0].interval_unit,
+            interval_count: items[0].interval_count,
+            start_date    : start_dates.length ? new Date( Math.min( ...start_dates ) ) : null,
+            // the combined line only ends when every item ends
+            end_date      : end_dates.includes( null ) ? null : new Date( Math.max( ...end_dates ) ),
+        }
+
+    }
+
+    function pms_stripe_get_recurring_billing_for_update_payment_method() {
+
+        let $input = $( '#pms-stripe-connect-recurring-billing' )
+
+        if( $input.length == 0 || !pms.apple_pay.management_url )
+            return null
+
+        // billing_amount is in the subscription's currency, not necessarily the one selected on the page
+        let amount         = pms_stripe_convert_amount_to_cents( parseFloat( $input.data( 'amount' ) ), $input.data( 'currency' ) || pms.currency )
+        let interval_unit  = $input.data( 'interval_unit' )
+        let interval_count = Number( $input.data( 'interval_count' ) )
+
+        if( !( amount > 0 ) || !Number.isInteger( interval_count ) || interval_count <= 0 || !apple_pay_interval_units.includes( interval_unit ) )
+            return null
+
+        // Saving a payment method charges nothing, so the recurring amount starts on the subscription's next payment date
+        // A past-due subscription is retried right away, so Apple Pay's "Starting Now" is accurate for it
+        let start_date = Number( $input.data( 'start_date' ) ) > 0 ? new Date( Number( $input.data( 'start_date' ) ) * 1000 ) : null
+
+        if( start_date !== null && start_date <= new Date() )
+            start_date = null
+
+        let end_date           = null
+        let remaining_payments = Number( $input.data( 'remaining_payments' ) )
+
+        if( remaining_payments > 0 && start_date !== null )
+            end_date = remaining_payments == 1 ? start_date : pms_stripe_add_interval( start_date, interval_unit, interval_count * ( remaining_payments - 1 ) )
+
+        return {
+            amount        : amount,
+            label         : String( $input.data( 'label' ) || '' ).trim() || pms.apple_pay.billing_label,
+            interval_unit : interval_unit,
+            interval_count: interval_count,
+            start_date    : start_date,
+            end_date      : end_date,
+        }
+
+    }
+
+    // Returns a new Date moved forward by count units, or null when the interval is invalid
+    function pms_stripe_add_interval( date, unit, count ) {
+
+        if( !Number.isInteger( count ) || count <= 0 )
+            return null
+
+        let result = new Date( date.getTime() )
+
+        if( unit == 'day' )
+            result.setDate( result.getDate() + count )
+        else if( unit == 'week' )
+            result.setDate( result.getDate() + count * 7 )
+        else if( unit == 'month' )
+            result.setMonth( result.getMonth() + count )
+        else if( unit == 'year' )
+            result.setFullYear( result.getFullYear() + count )
+        else
+            return null
+
+        return result
+
+    }
+
+    // element.update() merges applePay shallowly, so the empty object clears a previously set recurringPaymentRequest
+    function pms_stripe_get_apple_pay_options( recurring_billing ) {
+
+        if( recurring_billing === null )
+            return { applePay: {} }
+
+        let interval_unit  = recurring_billing.interval_unit
+        let interval_count = recurring_billing.interval_count
+
+        // Stripe.js rejects 'week' as an interval unit (it accepts year, month, day, hour, minute), so weekly plans bill as 7-day intervals
+        if( interval_unit == 'week' ){
+            interval_unit  = 'day'
+            interval_count = interval_count * 7
+        }
+
+        let regular_billing = {
+            amount                       : recurring_billing.amount,
+            label                        : recurring_billing.label,
+            recurringPaymentIntervalUnit : interval_unit,
+            recurringPaymentIntervalCount: interval_count,
+        }
+
+        if( recurring_billing.start_date )
+            regular_billing.recurringPaymentStartDate = recurring_billing.start_date
+
+        if( recurring_billing.end_date )
+            regular_billing.recurringPaymentEndDate = recurring_billing.end_date
+
+        return {
+            applePay: {
+                recurringPaymentRequest: {
+                    paymentDescription: pms.apple_pay.payment_description,
+                    managementURL     : pms.apple_pay.management_url,
+                    regularBilling    : regular_billing,
+                }
+            }
+        }
+
+    }
+
     // Re-run mode selection when an addon signals a checkout state change (e.g. Order Bumps toggling line items)
     $(document).on( 'pms_recompute_payment_mode', function() {
         stripeConnectInit()
@@ -156,7 +426,19 @@ async function pms_stripe_maybe_load_gateway( $ ) {
             elements.update( { setupFutureUsage: null } );
         }
 
+        pms_stripe_refresh_apple_pay_options()
+
     })
+
+    // Discounts and Order Bumps change the recurring amounts too; Order Bumps writes its per-bump discount data before triggering the summary recalc
+    $(document).on( 'pms_tax_applied pms_tax_removed pms_tax_context_changed pms_discount_success pms_discount_error pms_order_summary_recalc', pms_stripe_refresh_apple_pay_options )
+
+    function pms_stripe_refresh_apple_pay_options() {
+
+        if( $payment_element && $payment_element != '' )
+            $payment_element.update( pms_stripe_get_apple_pay_options( pms_stripe_get_recurring_billing_for_checkout() ) )
+
+    }
 
     // This was added for Link support.
     // After the user email is entered, the payment element is destroyed and then recreated using the new parameters.
@@ -222,15 +504,13 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 
     })
 
-    $(document).on('pms_tax_removed', function ( event ) {
+    $(document).on('pms_tax_removed', function ( event, data ) {
 
-        if( typeof $pms_checked_subscription != 'undefined' ){
+        // The Order Summary passes its untaxed total, which also covers Order Bumps
+        let price = data && data.total > 0 ? data.total : pms_stripe_get_first_payment_amount( pms_stripe_get_selected_subscription() )
 
-            let price = $pms_checked_subscription.data( 'price' )
-
-            if( price > 0 ){
-                elements.update( { amount: pms_stripe_convert_amount_to_cents( price ) } );
-            }
+        if( price > 0 ){
+            elements.update( { amount: pms_stripe_convert_amount_to_cents( price ) } );
         }
 
     })
@@ -555,7 +835,7 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 
             update_elements_setup_intent = stripe.elements({ clientSecret: $client_secret_setup_intent, appearance: stripe_appearance })
 
-            $update_element = update_elements_setup_intent.create( "payment" )
+            $update_element = update_elements_setup_intent.create( "payment", pms_stripe_get_apple_pay_options( pms_stripe_get_recurring_billing_for_update_payment_method() ) )
             $update_element.mount("#pms-stripe-payment-elements")
 
             // Show credit card form error messages to the user as they happpen
@@ -637,7 +917,8 @@ async function pms_stripe_maybe_load_gateway( $ ) {
             target_elements_instance_slug = 'payment_intents'
         }
 
-        let selected_subscription = jQuery( subscription_plan_selector + '[type=radio]' ).length > 0 ? jQuery( subscription_plan_selector + '[type=radio]:checked' ) : jQuery( subscription_plan_selector + '[type=hidden]' )
+        let selected_subscription = pms_stripe_get_selected_subscription()
+        let apple_pay_options     = pms_stripe_get_apple_pay_options( pms_stripe_get_recurring_billing_for_checkout() )
 
         // Handle Setup Future Usage parameter
         let primary_setup_future_usage = pms_stripe_connect_setup_future_usage_for_input( selected_subscription )
@@ -647,28 +928,18 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 
         if( target_elements_instance != false ){
 
+            if( typeof selected_subscription != 'undefined' && target_elements_instance_slug == 'payment_intents' ){
+
+                let price = pms_stripe_get_first_payment_amount( selected_subscription )
+
+                if( price > 0 ){
+                    target_elements_instance.update( { amount: pms_stripe_convert_amount_to_cents( price ) } );
+                }
+            }
+
             if( $payment_element == '' ){
 
-                if( typeof selected_subscription != 'undefined' && target_elements_instance_slug == 'payment_intents' ){
-
-                    // Use default price if custom currency price is unavailable
-                    let price = (selected_subscription.data('mc_price') !== undefined && selected_subscription.data('mc_price') !== null) ? parseFloat( selected_subscription.data('mc_price') ) : parseFloat( selected_subscription.data('price') );
-
-                    // Take into account sign-up fees as well
-                    let sign_up_fee = parseFloat( selected_subscription.data('sign_up_fee') );
-
-                    if( !isNaN( sign_up_fee ) && sign_up_fee > 0 ){
-                        price = price + sign_up_fee;
-                    }
-
-                    if( price > 0 ){
-                        target_elements_instance.update( { amount: pms_stripe_convert_amount_to_cents( price ) } );
-                    }
-                }
-            
-                let default_values = pms_stripe_get_default_values()
-                
-                $payment_element = target_elements_instance.create( "payment", default_values )
+                $payment_element = target_elements_instance.create( "payment", { ...pms_stripe_get_default_values(), ...apple_pay_options } )
                 $payment_element.mount("#pms-stripe-payment-elements")
 
                 // Show credit card form error messages to the user as they happpen
@@ -676,36 +947,18 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 
             } else {
 
-                // Update the amount of the payment element
-                if( typeof selected_subscription != 'undefined' && target_elements_instance_slug == 'payment_intents'  ){
-
-                    // Use default price if custom currency price is unavailable
-                    let price = (selected_subscription.data('mc_price') !== undefined && selected_subscription.data('mc_price') !== null) ? parseFloat( selected_subscription.data('mc_price') ) : parseFloat( selected_subscription.data('price') );
-
-                    // Take into account sign-up fees as well
-                    let sign_up_fee = parseFloat( selected_subscription.data('sign_up_fee') );
-
-                    if( !isNaN( sign_up_fee ) && sign_up_fee > 0 ){
-                        price = price + sign_up_fee;
-                    }
-
-                    if( price > 0 ){
-                        target_elements_instance.update( { amount: pms_stripe_convert_amount_to_cents( price ) } );
-                    }
-                }
-
-                let default_values = pms_stripe_get_default_values()
-
                 if( $elements_instance_slug != target_elements_instance_slug ){
 
                     $payment_element.destroy()
 
-                    $payment_element = target_elements_instance.create( "payment", default_values )
+                    $payment_element = target_elements_instance.create( "payment", { ...pms_stripe_get_default_values(), ...apple_pay_options } )
                     $payment_element.mount("#pms-stripe-payment-elements")
 
                     // Show credit card form error messages to the user as they happpen
                     $payment_element.addEventListener('change', creditCardErrorsHandler )
 
+                } else {
+                    $payment_element.update( apple_pay_options )
                 }
 
             }
@@ -869,9 +1122,34 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 
     }
 
-    function pms_stripe_convert_amount_to_cents( amount ){
+    /**
+     * Rounds half away from zero exactly like the server's PHP round(), so totals don't drift a cent on values such as 35.105 that floats store as 35.10499...
+     *
+     * - PHP 8.4+ rounds up when the value is at least the float nearest to the decimal half
+     * - older PHP pre-rounds the scaled value to 15 significant digits first
+     *
+     */
+    function pms_stripe_round( value, decimals ){
 
-        let currency = pms.currency
+        let multiplier = Math.pow( 10, decimals )
+        let magnitude  = Math.abs( value )
+
+        if( pms.php_round_edge_check != 1 )
+            return Math.sign( value ) * Math.round( Number( ( magnitude * multiplier ).toPrecision( 15 ) ) ) / multiplier
+
+        let integral = Math.floor( magnitude * multiplier )
+
+        if( integral / multiplier === magnitude )
+            return value
+
+        if( magnitude >= ( integral + 0.5 ) / multiplier )
+            integral += 1
+
+        return Math.sign( value ) * integral / multiplier
+
+    }
+
+    function pms_stripe_convert_amount_to_cents( amount, currency = pms.currency ){
 
         // List of zero-decimal currencies
         const zero_decimal_currencies = [
@@ -880,12 +1158,13 @@ async function pms_stripe_maybe_load_gateway( $ ) {
         ];
 
         // If currency is not in zero-decimal list, multiply by 100
+        // Round to the currency's decimals first, like the server rounds the amount it charges, so unrounded totals don't lose a cent
         if ( !zero_decimal_currencies.includes( currency.toUpperCase() ) ) {
-            amount = amount * 100;
+            amount = pms_stripe_round( amount, 2 ) * 100;
         }
 
         // Round to ensure we have a whole number
-        return Math.round( amount );
+        return pms_stripe_round( amount, 0 );
     }
 
     /**

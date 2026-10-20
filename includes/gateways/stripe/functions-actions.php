@@ -62,6 +62,15 @@ function pms_stripe_enqueue_front_end_scripts(){
         $pms_stripe_script_vars['pms_customer_name'] = '';
     }
 
+    $pms_stripe_script_vars['apple_pay'] = array(
+        'management_url'      => pms_get_page( 'account', true ) ?: '',
+        'payment_description' => get_bloginfo( 'name' ),
+        'billing_label'       => __( 'Subscription', 'paid-member-subscriptions' ),
+    );
+
+    // PHP 8.4 changed how round() handles halves, and the front-end mirrors the server's rounding so totals match the charge
+    $pms_stripe_script_vars['php_round_edge_check'] = PHP_VERSION_ID >= 80400 ? 1 : 0;
+
     $pms_stripe_script_vars['off_session_payments'] = 1;
 
     // Disable off-session payments if the global recurring setting is set to Never renew automatically

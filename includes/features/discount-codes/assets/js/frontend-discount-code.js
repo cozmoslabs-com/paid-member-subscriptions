@@ -177,6 +177,7 @@ jQuery(document).ready(function($) {
                     $subscription_plan.data( 'price', response.discounted_price )
                     $subscription_plan.data( 'discounted-price', true )
                     $subscription_plan.data( 'discounted-price-value', response.original_discounted_price )
+                    $subscription_plan.data( 'discounted-recurring-price', response.discounted_recurring_price )
 
                     if( response.is_full_discount == true ){
                         
@@ -326,6 +327,7 @@ jQuery(document).ready(function($) {
 
         $subscription_plan.data( 'discounted-price', false )
         $subscription_plan.data( 'discounted-price-value', 0 )
+        $subscription_plan.removeData( 'discounted-recurring-price' )
         $subscription_plan.data( 'discount-recurring-payments', 0 )
         $subscription_plan.data( 'is-full-discount', false )
 

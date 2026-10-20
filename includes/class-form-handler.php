@@ -394,6 +394,13 @@ Class PMS_Form_Handler {
             return false;
         }
 
+        if( ! empty( $pay_gate ) && ( is_null( $payment_gateway ) || ! in_array( $pay_gate, pms_get_active_payment_gateways(), true ) ) ) {
+
+            pms_errors()->add( 'payment_gateway', __( 'There is no payment gateway available to complete the checkout process.', 'paid-member-subscriptions' ) );
+            return false;
+
+        }
+
         /**
          * Handle the case where no payment gateway was selected
          * We need to check if the selected subscription plan is free in this case
@@ -1761,7 +1768,8 @@ Class PMS_Form_Handler {
     public static function checkout_has_trial() {
 
         $form_location   = self::get_request_form_location();
-        $payment_gateway = self::checkout_get_payment_gateway();
+        // Stripe Connect calls this while it builds the PaymentIntent metadata, so the lookup must not reset its payment_id
+        $payment_gateway = self::checkout_get_payment_gateway( null );
 
         if( is_null( $payment_gateway ) )
             return false;
@@ -1873,7 +1881,7 @@ Class PMS_Form_Handler {
     /**
      * Returns the payment gateway object from the user's selection on the checkout page
      *
-     * @param array $payment_gatway_data
+     * @param array|null $payment_gatway_data - null returns the gateway without calling set_data() on it
      *
      * @return PMS_Payment_Gateway_{{gateway}}
      *
@@ -2015,6 +2023,17 @@ Class PMS_Form_Handler {
         // Get payment gateway
         $pay_gate        = ( ! empty( $_POST['pay_gate'] ) ? sanitize_text_field( $_POST['pay_gate'] ) : '' );
         $payment_gateway = self::checkout_get_payment_gateway();
+
+        if( ! empty( $pay_gate ) && ( is_null( $payment_gateway ) || ! in_array( $pay_gate, pms_get_active_payment_gateways(), true ) ) ) {
+
+            pms_errors()->add( 'payment_gateway', __( 'There is no payment gateway available to complete the checkout process.', 'paid-member-subscriptions' ) );
+
+            if( wp_doing_ajax() )
+                self::return_generated_errors_for_ajax();
+            else
+                return;
+
+        }
 
         /**
          * If the payment gateway is null then no payment is necessary

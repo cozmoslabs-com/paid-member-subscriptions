@@ -86,8 +86,9 @@ add_filter( 'pms_payment_gateways', '_pms_get_payment_gateways_hooks', 100 );
 /**
  * Returns the payment gateway object
  *
- * @param string $gateway_slug
- * @param array $payment_data
+ * @param string     $gateway_slug
+ * @param array|null $payment_data - null skips set_data() on singleton gateways. Pass it when you only call
+ *                                   supports(), so the gateway keeps the payment_id of the checkout in progress.
  *
  * @return object
  *
@@ -110,13 +111,13 @@ function pms_get_payment_gateway( $gateway_slug = '', $payment_data = array() ) 
 
             $payment_gateway = $class::get_instance();
 
-            if( method_exists( $payment_gateway, 'set_data' ) )
+            if( !is_null( $payment_data ) && method_exists( $payment_gateway, 'set_data' ) )
                 $payment_gateway->set_data( $payment_data );
 
             return $payment_gateway;
 
         } else {
-            return new $class( $payment_data );
+            return new $class( (array) $payment_data );
         }
 
     }

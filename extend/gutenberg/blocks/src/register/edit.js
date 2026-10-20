@@ -145,10 +145,10 @@ export default function Edit( props ) {
 					<TextControl
 						label={ __( 'Include Subscription Plans', 'paid-member-subscriptions' ) }
 						help={ __( 'Manually type in the IDs for the Subscription Plans to be included in the form', 'paid-member-subscriptions' ) }
-						value={ props.attributes.subscription_plans }
+						value={ props.attributes.subscription_plans.join( ',' ) }
 						onChange={(value) => {
 							props.setAttributes({
-													subscription_plans: value,
+													subscription_plans: value === '' ? [] : value.split( ',' ),
 												});
 						}}
 					/>
@@ -157,10 +157,10 @@ export default function Edit( props ) {
 					<TextControl
 						label={ __( 'Exclude Subscription Plans', 'paid-member-subscriptions' ) }
 						help={ __( 'Manually type in the IDs for the Subscription Plans to be excluded from the form', 'paid-member-subscriptions' ) }
-						value={ props.attributes.exclude_subscription_plans }
+						value={ props.attributes.exclude_subscription_plans.join( ',' ) }
 						onChange={(value) => {
 							props.setAttributes({
-													exclude_subscription_plans: value,
+													exclude_subscription_plans: value === '' ? [] : value.split( ',' ),
 												});
 						}}
 					/>

@@ -1076,6 +1076,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             case 'paypal_webhook_subscription_expired':
                 $message = __( 'Subscription expired because the payment was refunded in the PayPal Dashboard.', 'paid-member-subscriptions' );
                 break;
+            case 'paypal_webhook_payment_denied':
+                $message = __( 'Subscription expired because PayPal denied the pending payment.', 'paid-member-subscriptions' );
+                break;
             case 'paypal_webhook_payment_token_deleted':
                 $message = __( 'Subscription was canceled because the payment token was deleted.', 'paid-member-subscriptions' );
                 break;

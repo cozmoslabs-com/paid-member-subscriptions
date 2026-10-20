@@ -253,9 +253,11 @@ add_action(
         } else {
             if( $attributes['show_subscription_plans'] ) {
                 if ( $attributes['include'] ) {
-                    $atts['subscription_plans'] = $attributes['subscription_plans'] !== '' ? ' subscription_plans="' . esc_attr( implode( ",", $attributes['subscription_plans'] ) ) . '"' : '';
+                    $plan_ids = array_filter( wp_parse_id_list( $attributes['subscription_plans'] ) );
+                    $atts['subscription_plans'] = ! empty( $plan_ids ) ? ' subscription_plans="' . esc_attr( implode( ",", $plan_ids ) ) . '"' : '';
                 } else {
-                    $atts['subscription_plans'] = $attributes['exclude_subscription_plans'] !== '' ? ' exclude="' . esc_attr( implode( ",", $attributes['exclude_subscription_plans'] ) ) . '"' : '';
+                    $plan_ids = array_filter( wp_parse_id_list( $attributes['exclude_subscription_plans'] ) );
+                    $atts['subscription_plans'] = ! empty( $plan_ids ) ? ' exclude="' . esc_attr( implode( ",", $plan_ids ) ) . '"' : '';
                 }
                 $atts['selected'] = $attributes['selected'] !== '' ? ' selected="' . esc_attr($attributes['selected']) . '"' : '';
                 $atts['plans_position'] = $attributes['plans_position'] ? ' plans_position="top"' : '';

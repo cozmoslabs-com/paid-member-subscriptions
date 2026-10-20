@@ -541,7 +541,14 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
     
                     }
 
-                    $checkout_data['checkout_amount'] = $payment->amount;
+                    // After an off-site redirect $_POST is empty, so the plan and checkout fields come from the data saved with the intent
+                    $saved_checkout_data = pms_get_payment_meta( $payment->id, 'pms_checkout_data', true );
+
+                    if( is_array( $saved_checkout_data ) )
+                        $checkout_data = $saved_checkout_data;
+
+                    $checkout_data['subscription_plans'] = $payment->subscription_id;
+                    $checkout_data['checkout_amount']    = $payment->amount;
 
                 }
 
@@ -2137,6 +2144,31 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             echo '<input type="hidden" name="pms_stripe_connect_setup_intent" value="'. esc_attr( $setup_intent['client_secret'] ) .'"/>';
 
         echo '<input type="hidden" id="pms-stripe-ajax-update-payment-method-nonce" name="stripe_ajax_update_payment_method_nonce" value="'. esc_attr( wp_create_nonce( 'pms_update_payment_method' ) ) .'"/>';
+
+        if( !empty( $member_subscription->billing_amount ) && !empty( $member_subscription->billing_duration ) && !empty( $member_subscription->billing_duration_unit ) ){
+
+            $subscription_plan = pms_get_subscription_plan( $member_subscription->subscription_plan_id );
+            $plan_name         = !empty( $subscription_plan->name ) ? $subscription_plan->name : '';
+
+            // billing_amount is stored in the subscription's currency, which can differ from the visitor's Multiple Currencies selection
+            $currency = pms_get_member_subscription_meta( $member_subscription->id, 'currency', true );
+
+            if( empty( $currency ) )
+                $currency = pms_get_active_currency();
+
+            // billing_next_payment is stored in UTC, so pass a timestamp the browser can't misread as local time
+            $start_date = !empty( $member_subscription->billing_next_payment ) ? strtotime( $member_subscription->billing_next_payment ) : '';
+
+            // Installment subscriptions stop renewing after billing_cycles payments
+            $remaining_payments = '';
+
+            if( $member_subscription->has_installments() )
+                $remaining_payments = max( 0, (int) $member_subscription->billing_cycles - pms_get_member_subscription_billing_processed_cycles( $member_subscription->id ) );
+
+            if( $remaining_payments !== 0 )
+                echo '<input type="hidden" id="pms-stripe-connect-recurring-billing" data-amount="'. esc_attr( $member_subscription->billing_amount ) .'" data-currency="'. esc_attr( $currency ) .'" data-interval_unit="'. esc_attr( $member_subscription->billing_duration_unit ) .'" data-interval_count="'. esc_attr( $member_subscription->billing_duration ) .'" data-label="'. esc_attr( $plan_name ) .'" data-start_date="'. esc_attr( $start_date ) .'" data-remaining_payments="'. esc_attr( $remaining_payments ) .'"/>';
+
+        }
 
     }
 

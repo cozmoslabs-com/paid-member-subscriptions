@@ -109,8 +109,8 @@
 <?php __("Something went wrong.", "paid-member-subscriptions"); ?>
 <?php __("You are not eligible to subscribe to: %s", "paid-member-subscriptions"); ?>
 <?php __("There was no subscription plan selected.", "paid-member-subscriptions"); ?>
-<?php __("The selected price does not match the minimum price for this subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("There is no payment gateway available to complete the checkout process.", "paid-member-subscriptions"); ?>
+<?php __("The selected price does not match the minimum price for this subscription plan.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. The selected payment gateway does not support free trials.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. The selected payment gateway does not support sign-up fees.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong. The selected payment gateway does not support recurring payments.", "paid-member-subscriptions"); ?>
@@ -1075,6 +1075,7 @@
 <?php __("Payment Token successfully setup with PayPal for this subscription.", "paid-member-subscriptions"); ?>
 <?php __("Payment Token creation failed with PayPal for this subscription.", "paid-member-subscriptions"); ?>
 <?php __("Subscription expired because the payment was refunded in the PayPal Dashboard.", "paid-member-subscriptions"); ?>
+<?php __("Subscription expired because PayPal denied the pending payment.", "paid-member-subscriptions"); ?>
 <?php __("Subscription was canceled because the payment token was deleted.", "paid-member-subscriptions"); ?>
 <?php __("Payment token created and assigned to the subscription.", "paid-member-subscriptions"); ?>
 <?php __("Automatically downgraded plan to %s", "paid-member-subscriptions"); ?>
@@ -1908,6 +1909,13 @@
 <?php __("Company Details are required in order to create invoices.", "paid-member-subscriptions"); ?>
 <?php __("Invoice", "paid-member-subscriptions"); ?>
 <?php __("The {{number}} tag is required under Format.", "paid-member-subscriptions"); ?>
+<?php __("Sign-up fee: %s", "paid-member-subscriptions"); ?>
+<?php __("Subtotal: %s", "paid-member-subscriptions"); ?>
+<?php __('Discount code (%1$s): -%2$s', 'paid-member-subscriptions' ); ?>
+<?php __('Discount code (%1$s): %2$s (-%3$s)', 'paid-member-subscriptions' ); ?>
+<?php __("Prorated credit: -%s", "paid-member-subscriptions"); ?>
+<?php __("Tax: %s", "paid-member-subscriptions"); ?>
+<?php __("Discount code (%s): %s", "paid-member-subscriptions"); ?>
 <?php __("Download Invoice", "paid-member-subscriptions"); ?>
 <?php __("Payments & Invoices", "paid-member-subscriptions"); ?>
 <?php __("Audience ID successfully validated!", "paid-member-subscriptions"); ?>
@@ -2011,8 +2019,8 @@
 <?php __("%s OFF", "paid-member-subscriptions"); ?>
 <?php __("Amount (%s)", "paid-member-subscriptions"); ?>
 <?php __("(Add-on)", "paid-member-subscriptions"); ?>
-<?php __("Subtotal: %s", "paid-member-subscriptions"); ?>
-<?php __("Discount code (%s): %s (-%s)", "paid-member-subscriptions"); ?>
+<?php __("Sign-up fee", "paid-member-subscriptions"); ?>
+<?php __('%1$s on %2$d plans', 'paid-member-subscriptions' ); ?>
 <?php __('%1$s%2$s: %3$s', 'paid-member-subscriptions' ); ?>
 <?php __('%1$s%2$s (included): %3$s', 'paid-member-subscriptions' ); ?>
 <?php __("Total (%s): %s", "paid-member-subscriptions"); ?>
@@ -2137,7 +2145,6 @@
 <?php __("Payment gateway: %s", "paid-member-subscriptions"); ?>
 <?php __("Provided by:", "paid-member-subscriptions"); ?>
 <?php __("Provided to:", "paid-member-subscriptions"); ?>
-<?php __("Discount code (%s): %s", "paid-member-subscriptions"); ?>
 <?php __("%s%% %s: %s", "paid-member-subscriptions"); ?>
 <?php __("* Taxes might be applied at the end of the checkout.", "paid-member-subscriptions"); ?>
 <?php __("Upload failed. Your CSV file must contain the column: %s. Please try again.", "paid-member-subscriptions"); ?>
@@ -2791,6 +2798,8 @@
 <?php __("<strong>Stripe:</strong> This payment has already been refunded.", "paid-member-subscriptions"); ?>
 <?php __("Something went wrong while processing your request. Please try again or contact the website administrator.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent is still processing. Subscription was activated or remains active until confirmation of success or failure is received.", "paid-member-subscriptions"); ?>
+<?php __("User was redirected to the payment method's website to complete the payment.", "paid-member-subscriptions"); ?>
+<?php __("User returned to the website from the payment method's website.", "paid-member-subscriptions"); ?>
 <?php __("Payment Intent has failed.", "paid-member-subscriptions"); ?>
 <?php __('Stripe webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>

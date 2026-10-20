@@ -261,6 +261,9 @@ function pms_in_dc_output_apply_discount_message() {
             $amount = (float)$pwyw_price;
         else
             $amount = apply_filters( 'pms_dc_output_apply_discount_message_amount', (float)$plan->price );
+
+        // renewals bill the plan price without the sign-up fee or Pro-Rate credit, converted the same way pms_calculate_payment_amount() converts the billing amount
+        $recurring_amount  = $pwyw_price !== '' ? (float)$pwyw_price : (float) apply_filters( 'pms_calculate_payment_amount', (float)$plan->price, $plan, array() );
         $signup_fee_amount = 0;
 
         if ( in_array( $form_location, apply_filters( 'pms_checkout_signup_fee_form_locations', array( 'register', 'new_subscription', 'retry_payment', 'register_email_confirmation', 'change_subscription', 'wppb_register' ) ) ) && !empty( $plan->sign_up_fee ) && pms_payment_gateways_support( pms_get_active_payment_gateways(), 'subscription_sign_up_fee' ) ) {
@@ -284,6 +287,9 @@ function pms_in_dc_output_apply_discount_message() {
 
         $response['discounted_price'] = $response['original_discounted_price'];
 
+        // what renewals bill, for gateways that show the recurring amount; only discounts that apply to recurring payments lower it
+        $response['discounted_recurring_price'] = !empty( $discount_obj->recurring_payments ) ? pms_in_calculate_discounted_amount( $recurring_amount, $discount_obj ) : $recurring_amount;
+
         // Setup user message — reuse the discounted amount computed above so the "amount to be charged" matches the summary and the actual charge exactly
         if( ! empty( $error ) )
             $response['error']['message'] = $error;
@@ -302,7 +308,7 @@ function pms_in_dc_output_apply_discount_message() {
          * Filters the discount code AJAX response before it is sent to the client
          *
          * - lets bundle-aware integrations (Order Bumps) augment the response with bundle totals and per-item breakdowns without forking the AJAX handler
-         * - existing fields (success.message, discounted_price, original_discounted_price, is_full_discount, recurring_payments) remain for backward compatibility; additional fields are namespaced (bundle_*) by convention
+         * - existing fields (success.message, discounted_price, original_discounted_price, discounted_recurring_price, is_full_discount, recurring_payments) remain for backward compatibility; additional fields are namespaced (bundle_*) by convention
          *
          * @param array                $response
          * @param string               $code

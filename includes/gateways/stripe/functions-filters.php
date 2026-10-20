@@ -96,6 +96,12 @@ function pms_stripe_connect_payment_logs_system_error_messages( $message, $log )
         case 'stripe_intent_confirmed':
             $message = __( 'Payment Intent confirmed successfully.', 'paid-member-subscriptions' );
             break;
+        case 'stripe_intent_redirecting_offsite':
+            $message = __( 'User was redirected to the payment method\'s website to complete the payment.', 'paid-member-subscriptions' );
+            break;
+        case 'stripe_intent_returned_after_redirect':
+            $message = __( 'User returned to the website from the payment method\'s website.', 'paid-member-subscriptions' );
+            break;
         case 'stripe_intent_failed':
             $message = __( 'Payment Intent has failed.', 'paid-member-subscriptions' );
             break;

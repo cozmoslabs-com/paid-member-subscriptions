@@ -416,6 +416,14 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
                 return true;
 
+            } else if( $order_capture !== false && $order_capture['status'] == 'PENDING' ){
+
+                // Failing a pending capture would retry the charge
+                $payment->log_data( 'paypal_order_capture_pending_payment', array( 'data' => array( 'status' => $order_capture['status'], 'status_details' => !empty( $order_capture['status_details']['reason'] ) ? $order_capture['status_details']['reason'] : 'not provided' ) ) );
+                $payment->update( array( 'transaction_id' => $this->get_transaction_id( $order ) ) );
+
+                return true;
+
             } else {
 
                 $payment->log_data( 'paypal_psp_order_failed', array( 'order' => $order ) );
@@ -1013,10 +1021,25 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
                 $payment->log_data( 'paypal_webhook_received', array( 'event_id' => $event->id, 'event_type' => $event_type, 'data' => $this->parse_webhook_response( $event ) ) );
 
-                if( $payment->status != 'failed' ){
-                    $payment->update( array( 'status' => 'failed' ) );
+                if( $payment->status == 'failed' )
+                    die();
+
+                $payment->update( array( 'status' => 'failed' ) );
+
+                // The pending renewal already advanced the subscription
+                $payments = pms_get_payments( array( 'member_subscription_id' => $payment->member_subscription_id, 'number' => 1, 'order' => 'DESC' ) );
+
+                if( !empty( $payments[0] ) && $payments[0]->id != $payment->id )
+                    die();
+
+                $member_subscription = pms_get_member_subscription( $payment->member_subscription_id );
+
+                if( !empty( $member_subscription->id ) && !in_array( $member_subscription->status, array( 'abandoned', 'pending', 'expired' ) ) ){
+                    pms_add_member_subscription_log( $member_subscription->id, 'paypal_webhook_payment_denied' );
+
+                    $member_subscription->update( array( 'status' => 'expired' ) );
                 }
-                
+
                 break;
             case 'VAULT.PAYMENT-TOKEN.DELETED':
 
