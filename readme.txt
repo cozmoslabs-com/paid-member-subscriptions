@@ -154,6 +154,7 @@ Paid Member Subscriptions has a range of premium [Add-ons](https://www.cozmoslab
 
 **Pro Add-ons** (available in the [Agency & PRO versions](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree#pricing) only)
 
+* [Order Bumps](https://www.cozmoslabs.com/add-ons/order-bumps/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Let members add extra subscription plans to their order at checkout and pay in a single transaction. Increase average order value with configurable order bumps and optional discounts
 * [Gift Subscriptions](https://www.cozmoslabs.com/add-ons/gift-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Let members purchase subscription plans as gifts for others. Perfect for holidays, special occasions, or rewarding team members with instant or claimable subscriptions
 * [Pause Subscriptions](https://www.cozmoslabs.com/add-ons/pause-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Allow members to temporarily pause recurring subscriptions without canceling. Maintain membership relationships while billing is suspended with flexible pause durations and limits
 * [Multiple Currencies](https://www.cozmoslabs.com/add-ons/multiple-currencies/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) - Enable visitors to pay in their local currency, either through automatic location detection or by manually selecting their preferred currency
@@ -246,6 +247,8 @@ Yes, this is possible through [Profile Builder](https://www.cozmoslabs.com/wordp
 Yes! Users can pay with a credit or debit card without leaving your website through the Stripe payment gateway.
 
 Through Stripe you can also access additional payment gateways like iDeal, Bancontact, Giropay and more.
+
+The free version includes a 2% fee on all Stripe transactions, on top of Stripe's own processing fees. This fee supports the development of the plugin and is removed when you use a [paid version](https://www.cozmoslabs.com/wordpress-paid-member-subscriptions/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree#pricing) of Paid Member Subscriptions with a valid license.
 
 = Can my members pay using Apple Pay or Google Pay? =
 
