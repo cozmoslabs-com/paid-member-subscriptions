@@ -407,6 +407,13 @@ function pms_paypal_payment_logs_system_error_messages( $message, $log ) {
         case 'paypal_ipn_payment_mismatch':
             $message = __( 'PayPal IPN rejected because it does not match the pending payment.', 'paid-member-subscriptions' );
             break;
+        case 'paypal_deleted_subscription_cancel_failed':
+            $message  = sprintf( __( 'Subscription #%1$s was deleted, but PayPal could not cancel its profile <strong>%2$s</strong>.', 'paid-member-subscriptions' ), (int)$log['data']['subscription_id'], esc_html( $log['data']['profile_id'] ) );
+            $message .= ' ' . ( !empty( $log['data']['retry'] ) ? __( 'PMS retries every hour.', 'paid-member-subscriptions' ) : __( 'Cancel it in PayPal.', 'paid-member-subscriptions' ) );
+
+            if( !empty( $log['data']['error'] ) )
+                $message .= ' ' . sprintf( __( 'PayPal error: %s', 'paid-member-subscriptions' ), esc_html( $log['data']['error'] ) );
+            break;
     }
 
     return apply_filters( 'pms_paypal_payment_logs_system_error_messages', wp_kses_post( $message, $kses_args ), $log );

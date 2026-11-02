@@ -3,7 +3,7 @@
  * Plugin Name: Paid Member Subscriptions
  * Plugin URI: http://www.cozmoslabs.com/
  * Description: Accept payments, create subscription plans and restrict content on your membership website.
- * Version: 3.1.3
+ * Version: 3.1.4
  * Author: Cozmoslabs
  * Author URI: http://www.cozmoslabs.com/
  * Text Domain: paid-member-subscriptions
@@ -39,7 +39,7 @@ Class Paid_Member_Subscriptions {
 
     public function __construct() {
 
-        define( 'PMS_VERSION', '3.1.3' );
+        define( 'PMS_VERSION', '3.1.4' );
         define( 'PMS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PMS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
         define( 'PMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -643,6 +643,10 @@ Class Paid_Member_Subscriptions {
         // Payment functions
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-payment.php' ) )
             include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-payment.php';
+
+        // Previous PayPal profiles cancellation
+        if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/functions-payment-profiles.php' ) )
+            include_once PMS_PLUGIN_DIR_PATH . 'includes/functions-payment-profiles.php';
 
         // Payment breakdown recorder
         if( file_exists( PMS_PLUGIN_DIR_PATH . 'includes/class-payment-breakdown.php' ) )

@@ -154,14 +154,11 @@ Class PMS_AJAX_Checkout_Handler {
             die();
 
         // Verify that the target subscription belongs to the correct user
-        $subscription = pms_get_member_subscriptions( array( 'user_id' => $user_id, 'subscription_plan_id' => $subscription_plan_id ) );
+        // Look it up by id, not by the plan sent with the request. When the webhook completes an upgrade, downgrade
+        // or change before this request, the subscription is already on the new plan.
+        $subscription = pms_get_member_subscription( $subscription_id );
 
-        if( empty( $subscription ) || !isset( $subscription[0] ) || !isset( $subscription[0]->id ) )
-            die();
-
-        $subscription = $subscription[0];
-
-        if( $subscription->id != $subscription_id )
+        if( empty( $subscription->id ) || $subscription->user_id != $user_id )
             die();
 
         // If payment doesn't exist, this is a free trial payment and we need to use subscription meta to determine if a next action was required

@@ -152,27 +152,37 @@
         }
 
         function renderPosts(posts) {
+            posts = posts.filter(function(post) {
+                return isHttpUrl(post.link);
+            });
+
             if (!posts.length) {
                 showError(strings.error);
                 return;
             }
 
-            var html = '';
+            postsContainer.textContent = '';
             posts.forEach(function(post) {
-                html += '<a href="' + escapeHtml(post.link) + '" target="_blank" rel="noopener" class="pms-support-chat__post">';
-                html += '<h5 class="pms-support-chat__post-title">' + escapeHtml(post.title) + '</h5>';
-                html += '<div class="pms-support-chat__post-meta">';
+                var link = document.createElement('a');
+                link.href = post.link;
+                link.target = '_blank';
+                link.rel = 'noopener';
+                link.className = 'pms-support-chat__post';
+
+                link.appendChild(createElement('h5', 'pms-support-chat__post-title', post.title));
+
+                var meta = createElement('div', 'pms-support-chat__post-meta', '');
                 if (post.author) {
-                    html += '<span class="pms-support-chat__post-author">' + strings.postedBy + ' ' + escapeHtml(post.author) + '</span>';
+                    meta.appendChild(createElement('span', 'pms-support-chat__post-author', strings.postedBy + ' ' + post.author));
                 }
                 if (post.date) {
-                    html += '<span class="pms-support-chat__post-date">' + escapeHtml(post.date) + '</span>';
+                    meta.appendChild(createElement('span', 'pms-support-chat__post-date', post.date));
                 }
-                html += '</div>';
-                html += '</a>';
+                link.appendChild(meta);
+
+                postsContainer.appendChild(link);
             });
 
-            postsContainer.innerHTML = html;
             postsContainer.classList.add('pms-support-chat__posts--loaded');
             loadingContainer.classList.add('pms-support-chat__loading--hidden');
         }
@@ -188,6 +198,22 @@
             var div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        function createElement(tagName, className, text) {
+            var element = document.createElement(tagName);
+            element.className = className;
+            element.textContent = text;
+            return element;
+        }
+
+        function isHttpUrl(url) {
+            try {
+                var protocol = new URL(url).protocol;
+                return protocol === 'http:' || protocol === 'https:';
+            } catch (e) {
+                return false;
+            }
         }
     }
 })();

@@ -633,6 +633,9 @@ async function pms_stripe_maybe_load_gateway( $ ) {
             // Create the ConfirmationToken using the details collected by the Payment Element
             const {error, confirmationToken} = await stripe.createConfirmationToken({
                 elements : target_elements,
+                params   : {
+                    payment_method_data: { billing_details: pms_stripe_get_billing_details() }
+                },
             });
 
             if (error) {
@@ -1009,6 +1012,9 @@ async function pms_stripe_maybe_load_gateway( $ ) {
         if( typeof email != 'undefined' && email != '' )
             data.email = email.replace(/\s+/g, '') // remove any whitespace that might be present in the email
 
+        if( !data.email && pms.pms_customer_email )
+            data.email = pms.pms_customer_email
+
         var name = ''
 
         if( $( '.pms-billing-details input[name="pms_billing_first_name"]' ).length > 0 )
@@ -1023,15 +1029,18 @@ async function pms_stripe_maybe_load_gateway( $ ) {
 
         if( name.length > 1 )
             data.name = name
+        else if( pms.pms_customer_name )
+            data.name = pms.pms_customer_name
 
         if( $( '.pms-billing-details ').length > 0 ){
 
+            // country renders as a select, and state switches between a select and a text input depending on the country
             data.address = {
                 city        : $( '.pms-billing-details input[name="pms_billing_city"]' ).val(),
-                country     : $( '.pms-billing-details input[name="pms_billing_country"]' ).val(),
+                country     : $( '.pms-billing-details [name="pms_billing_country"]' ).val(),
                 line1       : $( '.pms-billing-details input[name="pms_billing_address"]' ).val(),
                 postal_code : $( '.pms-billing-details input[name="pms_billing_zip"]' ).val(),
-                state       : $( '.pms-billing-details input[name="pms_billing_state"]' ).val()
+                state       : $( '.pms-billing-details [name="pms_billing_state"]' ).val()
             }
 
         }

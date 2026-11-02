@@ -105,7 +105,7 @@ class PMS_Elementor_Product_Messages_Widget extends \Elementor\Widget_Base {
         if ( !pms_is_product_purchasable() ) {
 
             if ( !empty( $settings['pms_restricted_product_message'] ))
-                echo '<div class="woocommerce"> <div class="woocommerce-info pms-woo-product-restricted-message">'. $settings['pms_restricted_product_message'] . '</div> </div>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo '<div class="woocommerce"> <div class="woocommerce-info pms-woo-product-restricted-message">'. wp_kses( $settings['pms_restricted_product_message'], PMS_Elementor::get_message_allowed_html( $this ) ) . '</div> </div>';
             else echo '<div class="woocommerce"> <div class="woocommerce-info pms-woo-product-restricted-message">'. pms_get_restricted_post_message() . '</div> </div>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
         }
@@ -114,7 +114,7 @@ class PMS_Elementor_Product_Messages_Widget extends \Elementor\Widget_Base {
         if ( !$pms_woo_subscription_discounts->is_product_excluded_from_member_discounts( $product_id ) && $pms_woo_subscription_discounts->product_has_member_discounts( $product_id ) && !$pms_woo_subscription_discounts->get_user_membership_discounts( $product_id ) ) {
 
             if (!empty( $settings['pms_membership_discount_message'] ))
-                echo '<div class="woocommerce"> <div class="woocommerce-info pms-woo-product-discounted-membership-required">'. $settings['pms_membership_discount_message'] . '</div> </div>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo '<div class="woocommerce"> <div class="woocommerce-info pms-woo-product-discounted-membership-required">'. wp_kses( $settings['pms_membership_discount_message'], PMS_Elementor::get_message_allowed_html( $this ) ) . '</div> </div>';
             else $pms_woo_subscription_discounts->product_discounted_membership_required_message();
 
         }

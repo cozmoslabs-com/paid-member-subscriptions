@@ -260,6 +260,11 @@ Class PMS_Shortcodes {
         // Add subscription errors
         $output .= pms_display_success_messages( pms_success()->get_messages(), true );
 
+        if( isset( $_REQUEST['pms_confirm_cancel_subscription'] ) || isset( $_REQUEST['pms_confirm_abandon_subscription'] ) ) {
+            $output .= pms_display_field_errors( pms_errors()->get_error_messages( 'subscription_plans' ), true );
+            pms_errors()->remove( 'subscription_plans' );
+        }
+
         if ( $args['show_tabs'] === true ) {
             // Output tabs
             $tabs = apply_filters( 'pms_member_account_tabs', array(
@@ -880,6 +885,12 @@ Class PMS_Shortcodes {
             'plan_id' => '',
         ), $atts );
 
+        // A non-numeric plan ID renders nothing instead of falling back to the member's first subscription
+        if( !empty( $atts['plan_id'] ) && absint( $atts['plan_id'] ) === 0 )
+            return;
+
+        $atts['plan_id'] = absint( $atts['plan_id'] );
+
         $actions = array( 'retry', 'renew', 'upgrade', 'downgrade', 'change', 'cancel', 'abandon' );
         $current_action = '';
 
@@ -910,9 +921,9 @@ Class PMS_Shortcodes {
         $link_title = str_replace( array( '{{'.$current_action.'}}', '{{/'.$current_action.'}}' ), '', $content );
 
         if( $link_title == '' )
-            return $url;
+            return esc_url( $url );
 
-        $content = str_replace( '{{'.$current_action.'}}', '<a href="'. $url .'">', $content );
+        $content = str_replace( '{{'.$current_action.'}}', '<a href="'. esc_url( $url ) .'">', $content );
         $content = str_replace( '{{/'.$current_action.'}}', '</a>', $content );
 
         return apply_filters( 'pms_action_link', $content, $url, $current_action );

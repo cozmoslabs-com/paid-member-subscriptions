@@ -398,7 +398,7 @@ class PMS_Admin_Support_Chat {
 
 				$posts[] = array(
 					'title'     => $title,
-					'link'      => (string) $item->link,
+					'link'      => esc_url_raw( (string) $item->link, array( 'http', 'https' ) ),
 					'date'      => $this->format_date( (string) $item->pubDate ),
 					'timestamp' => (int) strtotime( (string) $item->pubDate ),
 					'author'    => isset( $dc->creator ) ? (string) $dc->creator : '',

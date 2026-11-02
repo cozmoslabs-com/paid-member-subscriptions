@@ -730,12 +730,17 @@ if( ! function_exists( 'pms_renewal_option_field' ) ) {
         }
 
         // Calculate the amount for all subscription plans
-        $amount = 0;
+        $amount   = 0;
+        $has_pwyw = false;
         foreach( $subscription_plans as $subscription_plan ) {
             $amount += $subscription_plan->price;
+
+            // PWYW plans can be paid even if their base price is 0
+            if( function_exists( 'pms_in_pwyw_pricing_enabled' ) && pms_in_pwyw_pricing_enabled( $subscription_plan->id ) )
+                $has_pwyw = true;
         }
 
-        if( $amount == 0 )
+        if( $amount == 0 && ! $has_pwyw )
             return $output;
 
         // Check to see if any subscription plan has the auto-renew set to "customer opts in"

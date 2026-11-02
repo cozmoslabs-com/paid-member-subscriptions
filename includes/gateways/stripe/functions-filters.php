@@ -126,6 +126,12 @@ function pms_stripe_connect_payment_logs_system_error_messages( $message, $log )
         case 'stripe_charge_refunded':
             $message = __( 'Payment was refunded in the Stripe Dashboard.', 'paid-member-subscriptions' );
             break;
+        case 'stripe_dispute_lost':
+            $message = sprintf( __( 'Stripe dispute %s was lost and the disputed amount was returned to the customer.', 'paid-member-subscriptions' ), '<strong>' . $log['data']['dispute_id'] . '</strong>' );
+            break;
+        case 'stripe_renewal_already_charged':
+            $message = sprintf( __( 'An earlier attempt already charged this renewal with Payment Intent %s. No new charge was made and the subscription was renewed.', 'paid-member-subscriptions' ), '<strong>' . $log['data']['payment_intent_id'] . '</strong>' );
+            break;
         default:
             $message = $message;
             break;
@@ -150,6 +156,9 @@ function pms_stripe_connect_add_subscription_log_messages( $message, $log ){
     switch ( $log['type'] ) {
         case 'stripe_webhook_subscription_expired':
             $message = __( 'Subscription expired because the payment was refunded in the Stripe Dashboard.', 'paid-member-subscriptions' );
+            break;
+        case 'stripe_webhook_subscription_expired_dispute':
+            $message = __( 'Subscription expired because a Stripe dispute on its payment was lost.', 'paid-member-subscriptions' );
             break;
         case 'stripe_webhook_setup_intent_failed':
             $message = sprintf( __( 'User attemped to setup a payment method for this subscription but failed. Reason: %s', 'paid-member-subscriptions' ), '<strong>' . $log['data']['message'] . '</strong>' );

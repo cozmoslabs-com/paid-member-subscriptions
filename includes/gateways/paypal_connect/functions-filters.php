@@ -56,6 +56,12 @@ function pms_paypal_connect_payment_logs_system_error_messages( $message, $log )
         case 'paypal_order_capture_pending_payment':
             $message = __( 'PayPal order capture resulted in a pending payment. The payment will finish processing after review from the payment provider.', 'paid-member-subscriptions' );
             break;
+        case 'paypal_order_amount_mismatch':
+            $message = sprintf( __( 'PayPal order amount does not match this payment. PayPal amount: <strong>%s</strong>', 'paid-member-subscriptions' ), ( !empty( $log['data']['amount']['value'] ) ? esc_html( $log['data']['amount']['value'] . ' ' . ( !empty( $log['data']['amount']['currency_code'] ) ? $log['data']['amount']['currency_code'] : '' ) ) : '-' ) );
+            break;
+        case 'paypal_order_get_failed':
+            $message = __( 'Could not retrieve the PayPal order to verify its amount.', 'paid-member-subscriptions' );
+            break;
         case 'paypal_order_capture_completed':
             $message = __( 'PayPal capture completed.', 'paid-member-subscriptions' );
             break;

@@ -324,8 +324,7 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         if( isset( $_REQUEST['payment_intent'] ) && isset( $_REQUEST['pms_stripe_connect_return_url'] ) && $_REQUEST['pms_stripe_connect_return_url'] == 1 )
             $form_location = 'stripe_return_url';
 
-        // Mark the start of a renewal for a subscription
-        if( $form_location == 'renew_subscription' )
+        if( $form_location == 'renew_subscription' && empty( $_REQUEST['payment_intent'] ) && pms_get_member_subscription_meta( $subscription_id, 'pms_subscription_renewal_' . $this->payment_id, true ) != 'finished' )
             pms_update_member_subscription_meta( $subscription_id, 'pms_subscription_renewal_' . $this->payment_id, 'started' );
 
         if( isset( $payment->status ) && $payment->status == 'completed' ){
@@ -337,6 +336,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 // The payment is already completed (e.g. the webhook arrived first), so the resume
                 // state is spent. Clear it here too, not only in the resume branch below.
                 $this->delete_next_action_meta( $payment_id, $subscription_id );
+
+                if( !empty( $_REQUEST['payment_intent'] ) )
+                    $this->maybe_apply_payment_skipped_by_webhook( $payment, $subscription_id, sanitize_text_field( $_REQUEST['payment_intent'] ) );
 
                 $data = array(
                     'success'      => true,
@@ -499,10 +501,10 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 if( !empty( $payment->id ) )
                     $payment->log_data( 'stripe_intent_returned_after_redirect' );
 
-                if( !empty( $intent->metadata->request_location ) )
-                    $form_location = $intent->metadata->request_location;
-
             }
+
+            if( !empty( $intent->metadata->request_location ) )
+                $form_location = $intent->metadata->request_location;
 
             $payment_method = $this->get_reusable_payment_method( $intent );
 
@@ -636,12 +638,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             // create payment intent
             try {
+                // The raw home option keeps a subdirectory path and port and carries no TranslatePress language; webhook_is_for_this_site() accepts it.
                 $metadata = apply_filters( 'pms_stripe_transaction_metadata', array(
                     'payment_id'           => $this->payment_id,
                     'request_location'     => $form_location,
                     'subscription_id'      => $subscription_id,
                     'subscription_plan_id' => $this->subscription_plan->id,
-                    'home_url'             => pms_get_home_url(),
+                    'home_url'             => get_option( 'home' ),
                     'is_recurring'         => $subscription->is_auto_renewing() ? 'true' : 'false',
                 ), $payment, $form_location );
 
@@ -661,7 +664,24 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $args = self::add_application_fee( $args );
 
-                $intent = $this->stripe_client->paymentIntents->create( $args );
+                $request_options = array();
+
+                if( $form_location == 'psp' && !empty( $subscription->billing_next_payment ) ){
+
+                    $request_options['idempotency_key'] = sprintf( 'pms-renewal-%s-%s-%s-sub%d-due%s-retry%d',
+                        md5( $this->get_home_without_scheme() ),
+                        $this->customer_id,
+                        $this->stripe_token,
+                        $subscription->id,
+                        preg_replace( '/\D/', '', $subscription->billing_next_payment ),
+                        pms_get_subscription_payments_retry_count( $subscription->id )
+                    );
+
+                    $request_options['max_network_retries'] = 2;
+
+                }
+
+                $intent = $this->stripe_client->paymentIntents->create( $args, $request_options );
 
                 $payment->log_data( 'stripe_intent_created' );
 
@@ -703,6 +723,18 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             } catch( Exception $e ) {
 
+                $earlier_intent_id = $e instanceof \Stripe\Exception\IdempotencyException ? $this->adopt_earlier_renewal_charge( $subscription ) : false;
+
+                if( !empty( $earlier_intent_id ) ){
+
+                    $payment->log_data( 'stripe_renewal_already_charged', array( 'payment_intent_id' => $earlier_intent_id ) );
+
+                    $this->fail_superseded_renewal_payment_silently( $payment );
+
+                    return true;
+
+                }
+
                 $this->log_error_data( $e );
 
                 $payment->update( array( 'status' => 'failed' ) );
@@ -712,8 +744,68 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             }
         }
 
-        // the payment has failed
         return false;
+    }
+
+    /**
+     * Find the earlier renewal attempt that charged the subscription's current billing date and save that charge on the attempt's own payment
+     *
+     * @param PMS_Member_Subscription $subscription
+     *
+     * @return string|false The Payment Intent ID, or false when no earlier attempt charged
+     */
+    private function adopt_earlier_renewal_charge( $subscription ){
+
+        try {
+
+            $intents = $this->stripe_client->paymentIntents->all( array(
+                'customer' => $this->customer_id,
+                'created'  => array( 'gte' => strtotime( $subscription->billing_next_payment ) - HOUR_IN_SECONDS ), // margin for clock drift between this server and Stripe
+                'limit'    => 100,
+            ) );
+
+        } catch( Exception $e ) {
+
+            return false;
+
+        }
+
+        foreach( $intents->data as $intent ){
+
+            $metadata = $intent->metadata;
+
+            if( !in_array( $intent->status, array( 'succeeded', 'processing' ) ) || empty( $metadata['payment_id'] ) || empty( $metadata['subscription_id'] ) || $metadata['subscription_id'] != $subscription->id || empty( $metadata['home_url'] ) || !$this->webhook_is_for_this_site( $metadata['home_url'] ) )
+                continue;
+
+            $earlier_payment = pms_get_payment( (int)$metadata['payment_id'] );
+
+            if( empty( $earlier_payment->id ) || $earlier_payment->member_subscription_id != $subscription->id )
+                continue;
+
+            if( empty( $earlier_payment->transaction_id ) )
+                $earlier_payment->update( array( 'transaction_id' => $intent->id ) );
+
+            if( $intent->status == 'succeeded' && $earlier_payment->status != 'completed' ){
+
+                $earlier_payment->log_data( 'stripe_intent_confirmed' );
+                $earlier_payment->update( array( 'status' => 'completed' ) );
+
+            }
+
+            return $intent->id;
+
+        }
+
+        return false;
+
+    }
+
+    private function fail_superseded_renewal_payment_silently( $payment ){
+
+        global $wpdb;
+
+        $wpdb->update( $wpdb->prefix . 'pms_payments', array( 'status' => 'failed' ), array( 'id' => $payment->id ) );
+
     }
 
     /**
@@ -1298,6 +1390,52 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
+    private function maybe_apply_payment_skipped_by_webhook( $payment, $subscription_id, $intent_id ){
+
+        if( $intent_id !== $payment->transaction_id )
+            return;
+
+        try {
+            $intent = $this->stripe_client->paymentIntents->retrieve( $intent_id );
+        } catch( Exception $e ){
+            return;
+        }
+
+        if( $intent->status != 'succeeded' || empty( $intent->metadata->request_location ) )
+            return;
+
+        $form_location = $intent->metadata->request_location;
+
+        if( !in_array( $form_location, array( 'upgrade_subscription', 'downgrade_subscription', 'change_subscription', 'renew_subscription' ) ) )
+            return;
+
+        $subscription = pms_get_member_subscription( $subscription_id );
+
+        if( empty( $subscription->id ) )
+            return;
+
+        if( $form_location == 'renew_subscription' )
+            $already_applied = pms_get_member_subscription_meta( $subscription->id, 'pms_subscription_renewal_' . $payment->id, true ) == 'finished';
+        else
+            $already_applied = $subscription->subscription_plan_id == $payment->subscription_id;
+
+        if( $already_applied )
+            return;
+
+        $checkout_data = pms_get_payment_meta( $payment->id, 'pms_checkout_data', true );
+
+        if( !is_array( $checkout_data ) )
+            $checkout_data = array();
+
+        $checkout_data['subscription_plans'] = $payment->subscription_id;
+        $checkout_data['checkout_amount']    = $payment->amount;
+
+        $this->update_subscription( $subscription, $form_location, $this->intent_metadata_flag( $intent, 'has_trial' ), $this->intent_metadata_flag( $intent, 'is_recurring' ), $checkout_data );
+
+        do_action( 'pms_checkout_after_payment_is_processed', true, $subscription, $form_location );
+
+    }
+
     public function update_subscription( $subscription, $form_location, $has_trial = false, $is_recurring = false, $checkout_data = array() ){
 
         if( empty( $subscription ) || empty( $form_location ) )
@@ -1318,13 +1456,13 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
             return $this->maybe_advance_subscription_after_psp_webhook( $subscription, $checkout_data );
         }
 
-        $subscription_plan_id = !empty( $_POST['subscription_plans'] ) ? absint( $_POST['subscription_plans'] ) : false;
-
         if( !in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation' ) ) ){
 
-            if( empty( $subscription_plan_id ) && !empty( $checkout_data['subscription_plans'] ) )
+            if( !empty( $checkout_data['subscription_plans'] ) )
                 $subscription_plan_id = $checkout_data['subscription_plans'];
-            elseif( empty( $subscription_plan_id ) )
+            elseif( !empty( $_POST['subscription_plans'] ) )
+                $subscription_plan_id = absint( $_POST['subscription_plans'] );
+            else
                 $subscription_plan_id = $subscription->subscription_plan_id;
 
             $subscription_plan = pms_get_subscription_plan( $subscription_plan_id );
@@ -1558,16 +1696,34 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
     }
 
+    private function webhook_is_for_this_site( $home_url ) {
+
+        if ( $home_url == home_url() ) {
+            return true;
+        }
+
+        return preg_replace( '#^https?://#', '', $home_url ) == $this->get_home_without_scheme();
+
+    }
+
+    private function get_home_without_scheme() {
+
+        return preg_replace( '#^https?://#', '', get_option( 'home' ) );
+
+    }
+
     /**
      * Process Stripe webhook events
      *
      * Handles incoming webhook events from Stripe with optional signature verification.
-     * If a webhook signing secret is configured, the signature will be verified using
-     * Stripe's official library to ensure the webhook is genuinely from Stripe.
+     * If a webhook signing secret is configured, every request must carry a valid
+     * Stripe-Signature header, verified using Stripe's official library to ensure the
+     * webhook is genuinely from Stripe. Requests without it are rejected.
      * This protects against replay attacks and unauthorized webhook submissions.
      *
      * If no webhook secret is configured, falls back to legacy verification method
-     * using Stripe\Event::retrieve() for backwards compatibility.
+     * for backwards compatibility: the event is fetched from Stripe by its ID with
+     * Stripe\Event::retrieve() and the fetched copy is processed, not the posted body.
      *
      * @return void
      */
@@ -1585,8 +1741,9 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         // Get the signature header
         $sig_header = isset( $_SERVER['HTTP_STRIPE_SIGNATURE'] ) ? $_SERVER['HTTP_STRIPE_SIGNATURE'] : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-        // If webhook secret is configured, use signature verification (recommended)
-        if( !empty( $webhook_secret ) && !empty( $sig_header ) ) {
+        // If webhook secret is configured, require signature verification (recommended)
+        // A missing Stripe-Signature header fails verification below
+        if( !empty( $webhook_secret ) ) {
 
             try {
                 // Verify webhook signature and construct event
@@ -1641,11 +1798,11 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
             $event_id = sanitize_text_field( $event->id );
 
-            // Verify that the event was sent by Stripe
+            // Verify that the event was sent by Stripe and process Stripe's copy, never the posted body
             if( !empty( $event_id ) ) {
 
                 try {
-                    \Stripe\Event::retrieve( $event_id );
+                    $event = \Stripe\Event::retrieve( $event_id );
                 } catch( Exception $e ) {
                     die();
                 }
@@ -1665,10 +1822,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $data = $event->data->object;
 
-                if( !empty( $data->metadata->home_url ) ){
-                    if( $data->metadata->home_url != home_url() )
-                        die();
-                }
+                if( !empty( $data->metadata->home_url ) && !$this->webhook_is_for_this_site( $data->metadata->home_url ) )
+                    die();
 
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
@@ -1696,10 +1851,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $data = $event->data->object;
 
-                if( !empty( $data->metadata->home_url ) ){
-                    if( $data->metadata->home_url != home_url() )
-                        die();
-                }
+                if( !empty( $data->metadata->home_url ) && !$this->webhook_is_for_this_site( $data->metadata->home_url ) )
+                    die();
 
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
@@ -1726,10 +1879,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $data = $event->data->object;
 
-                if( !empty( $data->metadata->home_url ) ){
-                    if( $data->metadata->home_url != home_url() )
-                        die();
-                }
+                if( !empty( $data->metadata->home_url ) && !$this->webhook_is_for_this_site( $data->metadata->home_url ) )
+                    die();
 
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
@@ -1772,10 +1923,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $data = $event->data->object;
 
-                if( !empty( $data->metadata->home_url ) ){
-                    if( $data->metadata->home_url != home_url() )
-                        die();
-                }
+                if( !empty( $data->metadata->home_url ) && !$this->webhook_is_for_this_site( $data->metadata->home_url ) )
+                    die();
 
                 $subscription_id = isset( $data->metadata->subscription_id ) ? absint( $data->metadata->subscription_id ) : 0;
 
@@ -1809,10 +1958,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $data = $event->data->object;
 
-                if( !empty( $data->metadata->home_url ) ){
-                    if( $data->metadata->home_url != home_url() )
-                        die();
-                }
+                if( !empty( $data->metadata->home_url ) && !$this->webhook_is_for_this_site( $data->metadata->home_url ) )
+                    die();
 
                 $subscription_id = isset( $data->metadata->subscription_id ) ? absint( $data->metadata->subscription_id ) : 0;
 
@@ -1830,10 +1977,8 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
                 //get payment id from metadata
                 $data = $event->data->object;
 
-                if( !empty( $data->metadata->home_url ) ){
-                    if( $data->metadata->home_url != home_url() )
-                        die();
-                }
+                if( !empty( $data->metadata->home_url ) && !$this->webhook_is_for_this_site( $data->metadata->home_url ) )
+                    die();
 
                 $payment_id = isset( $data->metadata->payment_id ) ? absint( $data->metadata->payment_id ) : 0;
 
@@ -1863,35 +2008,36 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
 
                 $payment->log_data( 'stripe_charge_refunded', array( 'data' => $data->metadata ) );
 
-                $refund_amount = $payment->amount;
-                if ( ! empty( $data->amount_refunded ) ) {
-                    $amount_refunded = (int) $data->amount_refunded;
-                    if ( ! in_array( $payment->currency, $this->get_zero_decimal_currencies(), true ) )
-                        $refund_amount = $amount_refunded / 100;
-                    else
-                        $refund_amount = $amount_refunded;
-                }
+                $this->webhook_refund_payment( $payment, $data->amount_refunded, 'stripe_webhook_subscription_expired' );
 
-                pms_refund_payment( $payment_id, $refund_amount, 'webhook' );
+                break;
 
-                $pms_settings = get_option( 'pms_misc_settings', array() );
+            case 'charge.dispute.closed':
 
-                // Maybe update subscription
-                if( !isset( $pms_settings['gateway-refund-behavior'] ) || $pms_settings['gateway-refund-behavior'] != 1 ){
+                $data = $event->data->object;
 
-                    $member_subscription = pms_get_member_subscription( $payment->member_subscription_id );
+                if( $data->status != 'lost' )
+                    die();
 
-                    if( !empty( $member_subscription ) ){
+                $payment_intent_id = is_string( $data->payment_intent ) ? $data->payment_intent : '';
 
-                        if( in_array( $member_subscription->status, array( 'active', 'canceled' ) ) ){
-                            $member_subscription->update( array( 'status' => 'expired' ) );
+                if( empty( $payment_intent_id ) )
+                    die();
 
-                            pms_add_member_subscription_log( $member_subscription->id, 'stripe_webhook_subscription_expired' );
-                        }
+                $payments = pms_get_payments( array( 'transaction_id' => $payment_intent_id, 'number' => 1 ) );
 
-                    }
+                $payment = !empty( $payments[0] ) ? $payments[0] : null;
 
-                }
+                $this->webhook_die_unless_payment_gateway_matches( $payment );
+
+                if( $payment->status == 'refunded' )
+                    die();
+
+                $payment->log_data( 'stripe_webhook_received', array( 'event_id' => $event_id, 'event_type' => 'charge.dispute.closed' ) );
+
+                $payment->log_data( 'stripe_dispute_lost', array( 'dispute_id' => sanitize_text_field( $data->id ) ) );
+
+                $this->webhook_refund_payment( $payment, $data->amount, 'stripe_webhook_subscription_expired_dispute' );
 
                 break;
 
@@ -1900,6 +2046,38 @@ Class PMS_Payment_Gateway_Stripe_Connect extends PMS_Payment_Gateway {
         }
 
         die();
+
+    }
+
+    private function webhook_refund_payment( $payment, $minor_unit_amount, $subscription_log_type ) {
+
+        $refund_amount = $payment->amount;
+
+        if( !empty( $minor_unit_amount ) ){
+            $refund_amount = (int) $minor_unit_amount;
+
+            if( !in_array( $payment->currency, $this->get_zero_decimal_currencies(), true ) )
+                $refund_amount = $refund_amount / 100;
+
+            $refund_amount = min( $refund_amount, (float) $payment->amount );
+        }
+
+        pms_refund_payment( $payment->id, $refund_amount, 'webhook' );
+
+        pms_update_member_subscription_meta( $payment->member_subscription_id, 'pms_retry_payment', 'inactive' );
+
+        $pms_settings = get_option( 'pms_misc_settings', array() );
+
+        if( isset( $pms_settings['gateway-refund-behavior'] ) && $pms_settings['gateway-refund-behavior'] == 1 )
+            return;
+
+        $member_subscription = pms_get_member_subscription( $payment->member_subscription_id );
+
+        if( !empty( $member_subscription ) && in_array( $member_subscription->status, array( 'active', 'canceled' ) ) ){
+            $member_subscription->update( array( 'status' => 'expired' ) );
+
+            pms_add_member_subscription_log( $member_subscription->id, $subscription_log_type );
+        }
 
     }
 

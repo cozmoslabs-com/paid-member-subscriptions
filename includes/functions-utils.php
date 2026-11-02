@@ -269,6 +269,33 @@ function pms_wp_kses_allowed_html_iframe( $tags = array(), $context = '' ) {
 }
 
 
+function pms_get_kses_allowed_html_with_iframes_and_forms() {
+
+    $tags = wp_kses_allowed_html( 'post' );
+
+    $extra_tags = array(
+        'iframe'   => array( 'src', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen', 'loading', 'referrerpolicy', 'name' ),
+        'form'     => array( 'action', 'method', 'enctype', 'accept-charset', 'target', 'name', 'autocomplete', 'novalidate' ),
+        'input'    => array( 'type', 'name', 'value', 'placeholder', 'checked', 'disabled', 'readonly', 'required', 'autocomplete', 'min', 'max', 'step', 'minlength', 'maxlength', 'size', 'pattern', 'multiple', 'accept' ),
+        'button'   => array( 'type', 'name', 'value', 'disabled' ),
+        'select'   => array( 'name', 'multiple', 'required', 'disabled', 'size', 'autocomplete' ),
+        'option'   => array( 'value', 'selected', 'disabled', 'label' ),
+        'textarea' => array( 'name', 'rows', 'cols', 'placeholder', 'required', 'disabled', 'readonly', 'minlength', 'maxlength', 'autocomplete' ),
+        'label'    => array( 'for' ),
+    );
+
+    foreach( $extra_tags as $tag => $attributes ) {
+
+        $attributes   = array_merge( $attributes, array( 'class', 'id', 'style', 'title', 'data-*', 'aria-label' ) );
+        $tags[ $tag ] = array_merge( isset( $tags[ $tag ] ) ? $tags[ $tag ] : array(), array_fill_keys( $attributes, true ) );
+
+    }
+
+    return $tags;
+
+}
+
+
 /**
  * Copy of WordPress's default _deprecated_function() function, which is marked as private
  *

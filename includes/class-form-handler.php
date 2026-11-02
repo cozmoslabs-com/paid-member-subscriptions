@@ -408,22 +408,19 @@ Class PMS_Form_Handler {
          */
         if( empty( $pay_gate ) ) {
 
-            /**
-             * If the subscription plan has PWYW pricing enabled and the user has selected a price of 0 we
-             * can consider the subscription plan as free
-             *
-             */
+            $is_free_plan = empty( $subscription_plan->price );
+
             if( function_exists('pms_in_pwyw_pricing_enabled') && pms_in_pwyw_pricing_enabled( $subscription_plan->id ) ) {
 
-                $price     = !empty( $_POST['subscription_price_'.$subscription_plan->id] ) ? sanitize_text_field( $_POST['subscription_price_'.$subscription_plan->id] ) : 0;
+                $price     = isset( $_POST['subscription_price_'.$subscription_plan->id] ) ? sanitize_text_field( $_POST['subscription_price_'.$subscription_plan->id] ) : '';
                 $min_price = (float) get_post_meta( $subscription_plan->id, 'pms_subscription_plan_min_price', true );
 
-                if ( $price < $min_price ) {
+                if ( (float) $price < $min_price ) {
                     pms_errors()->add( 'subscription_plan', __( 'The selected price does not match the minimum price for this subscription plan.', 'paid-member-subscriptions' ) );
                     return false;
                 }
 
-                return true;
+                $is_free_plan = is_numeric( $price ) && (float) $price === 0.0;
             }
 
             /**
@@ -434,7 +431,7 @@ Class PMS_Form_Handler {
              */
             if( in_array( $form_location, array( 'register', 'new_subscription', 'register_email_confirmation' ) ) ) {
 
-                if( ! empty( $subscription_plan->price ) || ! empty( $subscription_plan->sign_up_fee ) ) {
+                if( ! $is_free_plan || ! empty( $subscription_plan->sign_up_fee ) ) {
 
                     pms_errors()->add( 'payment_gateway', __( 'There is no payment gateway available to complete the checkout process.', 'paid-member-subscriptions' ) );
                     return false;
@@ -450,7 +447,7 @@ Class PMS_Form_Handler {
 
                 if( apply_filters( 'pms_validate_payment_gateway_no_gateway_logged_in', false, $subscription_plan, $form_location ) === false ){
 
-                    if( ! empty( $subscription_plan->price ) ) {
+                    if( ! $is_free_plan ) {
 
                         pms_errors()->add( 'payment_gateway', __( 'There is no payment gateway available to complete the checkout process.', 'paid-member-subscriptions' ) );
                         return false;
@@ -825,14 +822,13 @@ Class PMS_Form_Handler {
             if ( count( pms_errors()->get_error_codes() ) > 0 )
                 return;
 
-            $member_data          = self::get_request_member_data();
-            $subscription_plan_id = (int)$member_subscription->subscription_plan_id;
+            $member_data = self::get_request_member_data();
 
             // Optional checks to confirm cancellation, besides the user driven one
-            $confirm_remove_subscription = apply_filters( 'pms_confirm_cancel_subscription', true, $member_data['user_id'], $subscription_plan_id );
+            $confirm_remove_subscription = pms_confirm_cancel_member_subscription( $member_subscription );
 
             // If all is good remove the subscription, if not send an error
-            if( true == $confirm_remove_subscription ) {
+            if( true === $confirm_remove_subscription ) {
 
                 $subscription_data = array();
                 $subscription_data['status'] = 'canceled';
@@ -926,19 +922,13 @@ Class PMS_Form_Handler {
             if ( count( pms_errors()->get_error_codes() ) > 0 )
                 return;
 
-            $member_data          = self::get_request_member_data();
-            $subscription_plan_id = $member_subscription->subscription_plan_id;
+            $member_data = self::get_request_member_data();
 
-            /**
-             * Optional checks to confirm cancellation, besides the user driven one
-             * It's the same as the cancel subscription one because we need to also cancel subscriptions from the payment gateways
-             * and payment gateways already hook to this filter
-             *
-             */
-            $confirm_remove_subscription = apply_filters( 'pms_confirm_cancel_subscription', true, $member_data['user_id'], $subscription_plan_id );
+            $confirm_remove_subscription = pms_confirm_cancel_member_subscription( $member_subscription );
 
             // If all is good remove the subscription, if not send an error
-            if( true == $confirm_remove_subscription ) {
+            // Removing an already canceled subscription does not depend on the gateway accepting a repeat cancel request
+            if( true === $confirm_remove_subscription || $member_subscription->status == 'canceled' ) {
 
                 $subscription_data = array();
                 $subscription_data['status'] = 'abandoned';

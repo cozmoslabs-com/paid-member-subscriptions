@@ -432,6 +432,30 @@ function pms_add_member_subscription_log( $member_subscription_id, $type, $data 
 }
 
 /**
+ * Asks the payment gateway to cancel a member subscription through the pms_confirm_cancel_subscription filter
+ * and logs the gateway's error on the subscription when the cancel fails
+ *
+ * @param PMS_Member_Subscription $member_subscription
+ *
+ * @return true|string - true when the subscription can be canceled, the gateway's error message otherwise (empty when it gave none)
+ *
+ */
+function pms_confirm_cancel_member_subscription( $member_subscription ) {
+
+    $confirmation = apply_filters( 'pms_confirm_cancel_subscription', true, $member_subscription->user_id, $member_subscription->subscription_plan_id );
+
+    if( true === $confirmation )
+        return true;
+
+    $error = is_array( $confirmation ) && ! empty( $confirmation['error'] ) ? $confirmation['error'] : '';
+
+    pms_add_member_subscription_log( $member_subscription->id, 'subscription_cancel_failed', array( 'error' => $error, 'who' => get_current_user_id() ) );
+
+    return $error;
+
+}
+
+/**
  * Retrieves the extra information like payment method type, last 4, expiration date when they are available
  * 
  * @param int    $member_subscription_id
@@ -476,8 +500,7 @@ function pms_member_delete_user_subscription_cancel( $user_id = 0 ) {
         if( $member_subscription->status == 'active' ) {
 
             $member_subscription->update( array( 'status' => 'canceled' ) );
-            do_action( 'pms_api_cancel_paypal_subscription', $member_subscription->payment_profile_id, $member_subscription->subscription_plan_id );
-            apply_filters( 'pms_confirm_cancel_subscription', true, $user_id, $member_subscription->subscription_plan_id );
+            pms_confirm_cancel_member_subscription( $member_subscription );
 
             pms_add_member_subscription_log( $member_subscription->id, 'subscription_canceled_user_deletion', array( 'who' => get_current_user_id() ) );
 

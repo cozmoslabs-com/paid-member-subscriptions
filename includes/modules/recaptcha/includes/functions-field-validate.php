@@ -13,12 +13,12 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
     $settings = pms_recaptcha_get_settings();
 
     // Exit if this form does not have reCaptcha
-    if( empty( $settings['display_form'] ) || ! in_array( $form_location, $settings['display_form'] ) )
+    if( ! pms_recaptcha_is_enabled_on_form( $form_location ) )
         return true;
 
     $post_data = $_POST;
 
-    $secret_key = $settings['secret_key'];
+    $secret_key = !empty( $settings['secret_key'] ) ? $settings['secret_key'] : '';
 
     $score_threshold = isset( $settings['v3_score_threshold'] ) ? $settings['v3_score_threshold'] : 0.5;
 
@@ -31,15 +31,14 @@ function pms_recaptcha_field_validate( $form_location = 'register' ) {
             $recaptcha_response_field = '';
         }
 
-        // Discard empty solution submissions
+        // Discard empty solution submissions. A missing token fails closed: there is no page-printed
+        // value that proves a real visitor, so any such "fallback" nonce is readable by bots too.
         if ($recaptcha_response_field == null || strlen($recaptcha_response_field) == 0) {
-            if( isset( $_POST['pms_recaptcha_init_error'] ) && wp_verify_nonce( sanitize_text_field( $_POST['pms_recaptcha_init_error'] ), 'pms_recaptcha_init_error' ) )
-                return true;
-
+            pms_errors()->add( 'recaptcha-' . $form_location, esc_html__( 'reCAPTCHA could not be verified. Please reload the page and try again.', 'paid-member-subscriptions' ) );
             return false;
         }
 
-        $secret_key = $settings['v3_secret_key'];
+        $secret_key = !empty( $settings['v3_secret_key'] ) ? $settings['v3_secret_key'] : '';
 
     } else {
 
@@ -221,11 +220,14 @@ add_action( 'pms_recover_password_form_validation', 'pms_recaptcha_field_validat
  */
 function pms_recaptcha_field_validate_form_login( $user ) {
 
-    if( !empty( $_POST['log'] ) && !isset( $_POST['wppb_login'] ) )
-        $login_form_location = 'default_wp_login';
-
-    if( isset( $_POST['pms_login'] ) && $_POST['pms_login'] == 1 )
+    // Tell the forms apart by the nonce their handlers check, not by the bare pms_login / wppb_login flags:
+    // anyone can post those flags to wp-login.php to skip the reCAPTCHA of the default WP login form.
+    if( isset( $_REQUEST['pms_login'] ) && isset( $_POST['pms_login_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_POST['pms_login_nonce'] ), 'pms_login_form_nonce' ) )
         $login_form_location = 'login';
+    elseif( isset( $_REQUEST['wppb_login'] ) && isset( $_POST['CSRFToken-wppb'] ) && wp_verify_nonce( sanitize_text_field( $_POST['CSRFToken-wppb'] ), 'wppb_login' ) )
+        return $user; // Profile Builder login form, which validates its own captcha
+    elseif( !empty( $_POST['log'] ) )
+        $login_form_location = 'default_wp_login';
 
     // Not a login form submission we handle; leave authentication untouched.
     if( ! isset( $login_form_location ) )
@@ -240,7 +242,7 @@ function pms_recaptcha_field_validate_form_login( $user ) {
     $validated = pms_recaptcha_field_validate( $login_form_location );
 
     if( ! $validated )
-        return new WP_Error( 'pms-recaptcha-' . $login_form_location, '<strong>' . esc_html__('ERROR:', 'paid-member-subscriptions') . '</strong>' . pms_errors()->get_error_message( 'recaptcha-' . $login_form_location ) );
+        return new WP_Error( 'pms-recaptcha-' . $login_form_location, '<strong>' . esc_html__('ERROR:', 'paid-member-subscriptions') . '</strong> ' . pms_errors()->get_error_message( 'recaptcha-' . $login_form_location ) );
 
     return $user;
 
@@ -260,7 +262,7 @@ function pms_recaptcha_field_validate_default_wp_register( $errors ) {
 
     if( ! $validated ) {
 
-        $errors->add( 'recaptcha-default_wp_register', '<strong>' . esc_html__('ERROR:', 'paid-member-subscriptions') . '</strong>' . pms_errors()->get_error_message( 'recaptcha-default_wp_register' ) );
+        $errors->add( 'recaptcha-default_wp_register', '<strong>' . esc_html__('ERROR:', 'paid-member-subscriptions') . '</strong> ' . pms_errors()->get_error_message( 'recaptcha-default_wp_register' ) );
 
     }
 

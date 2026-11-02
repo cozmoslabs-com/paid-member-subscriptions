@@ -425,8 +425,13 @@ function pms_in_dc_process_checkout_validation_payment_gateway() {
     // Get selected subscription plan id
     $subscription_plan_id    = ( ! empty( $_POST['subscription_plans'] ) ? (int)$_POST['subscription_plans'] : 0 );
 
+    $pwyw_price = '';
+
+    if( function_exists( 'pms_in_pwyw_pricing_enabled' ) && pms_in_pwyw_pricing_enabled( $subscription_plan_id ) && isset( $_POST['subscription_price_' . $subscription_plan_id] ) )
+        $pwyw_price = sanitize_text_field( $_POST['subscription_price_' . $subscription_plan_id] );
+
     // Check if is full discount applied
-    $is_full_discount = pms_in_dc_check_is_full_discount( $code, $subscription_plan_id, $user_checked_auto_renew );
+    $is_full_discount = pms_in_dc_check_is_full_discount( $code, $subscription_plan_id, $user_checked_auto_renew, $pwyw_price );
 
     // If the discount is full, remove the errors for the payment gateways
     if( $is_full_discount )

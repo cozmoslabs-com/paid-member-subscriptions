@@ -663,6 +663,13 @@
 <?php __("Update billing details", "paid-member-subscriptions"); ?>
 <?php __("Abandoned", "paid-member-subscriptions"); ?>
 <?php __("Pricing Table", "paid-member-subscriptions"); ?>
+<?php __('Profile <strong>%1$s</strong> of %2$s, after a plan change: %3$s', 'paid-member-subscriptions' ); ?>
+<?php __('Profile <strong>%1$s</strong> of %2$s, after payment #%3$s: %4$s', 'paid-member-subscriptions' ); ?>
+<?php __("<strong>Paid Member Subscriptions</strong> could not cancel these previous PayPal profiles, so PayPal may still charge these members. It retries every hour and stops after 10 failed attempts. Cancel any profile that stays on this list in your PayPal account.", "paid-member-subscriptions"); ?>
+<?php __("Canceled the previous PayPal profile <strong>%s</strong> after the plan change.", "paid-member-subscriptions"); ?>
+<?php __('Could not cancel the previous PayPal profile <strong>%1$s</strong> after the plan change: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __("PMS retries every hour.", "paid-member-subscriptions"); ?>
+<?php __("Cancel it in PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Completed", "paid-member-subscriptions"); ?>
 <?php __("Failed", "paid-member-subscriptions"); ?>
 <?php __("Refunded", "paid-member-subscriptions"); ?>
@@ -1081,6 +1088,11 @@
 <?php __("Automatically downgraded plan to %s", "paid-member-subscriptions"); ?>
 <?php __("Billing amount and subscription currency have been converted to EUR due to the Bulgarian leva migration. Billing amount was converted from <strong>%s</strong> to <strong>%s</strong>.", "paid-member-subscriptions"); ?>
 <?php __("PWYW selected by user: %s.", "paid-member-subscriptions"); ?>
+<?php __("Cancellation requested by <strong>%s</strong> failed at the payment gateway.", "paid-member-subscriptions"); ?>
+<?php __('Cancellation requested by <strong>%1$s</strong> failed at the payment gateway: %2$s', 'paid-member-subscriptions' ); ?>
+<?php __('Canceled the previous PayPal profile <strong>%1$s</strong> after payment #%2$s.', 'paid-member-subscriptions' ); ?>
+<?php __('Could not cancel the previous PayPal profile <strong>%1$s</strong> after payment #%2$s: %3$s', 'paid-member-subscriptions' ); ?>
+<?php __('Stopped retrying to cancel the PayPal profile <strong>%1$s</strong> after %2$s failed attempts: %3$s', 'paid-member-subscriptions' ); ?>
 <?php __("Complete Payments", "paid-member-subscriptions"); ?>
 <?php __("Delete Payments", "paid-member-subscriptions"); ?>
 <?php __("ID", "paid-member-subscriptions"); ?>
@@ -1320,6 +1332,9 @@
 <?php __('To enable updates, you need an active license. %1$sRenew%2$s or %3$spurchase a new license%4$s.', 'paid-member-subscriptions' ); ?>
 <?php __("To enable updates, please enter your serial number on the %sSettings%s page. If you don't have a serial number, you can %sbuy one now%s.", "paid-member-subscriptions"); ?>
 <?php __("Completed successfully.", "paid-member-subscriptions"); ?>
+<?php __("%d Member Subscription could not be canceled with the payment gateway.", "paid-member-subscriptions"); ?>
+<?php __("%d Member Subscriptions could not be canceled with the payment gateway.", "paid-member-subscriptions"); ?>
+<?php __("Gateway error: %s", "paid-member-subscriptions"); ?>
 <?php __("Register Version ", "paid-member-subscriptions"); ?>
 <?php __("License key", "paid-member-subscriptions"); ?>
 <?php __("Deactivate License", "paid-member-subscriptions"); ?>
@@ -2098,6 +2113,10 @@
 <?php __("Message:", "paid-member-subscriptions"); ?>
 <?php __("More info:", "paid-member-subscriptions"); ?>
 <?php __("Subscription setup successfully with PayPal.", "paid-member-subscriptions"); ?>
+<?php __('PayPal charged payment #%1$s on the old profile <strong>%2$s</strong>. The subscription was not changed.', 'paid-member-subscriptions' ); ?>
+<?php __("The profile was canceled at PayPal.", "paid-member-subscriptions"); ?>
+<?php __("Canceling the profile at PayPal failed: %s", "paid-member-subscriptions"); ?>
+<?php __("PayPal canceled the old profile <strong>%s</strong>. The subscription was not changed.", "paid-member-subscriptions"); ?>
 <?php __("PayPal Standard - Subscription Payment", "paid-member-subscriptions"); ?>
 <?php __("PayPal Standard - Trial Payment", "paid-member-subscriptions"); ?>
 <?php __("PayPal API credentials are missing or are incomplete", "paid-member-subscriptions"); ?>
@@ -2756,6 +2775,8 @@
 <?php __("PayPal order creation failed. Error code: <strong>%s</strong>", "paid-member-subscriptions"); ?>
 <?php __("PayPal order capture failed. Error code: <strong>%s</strong>", "paid-member-subscriptions"); ?>
 <?php __("PayPal order capture resulted in a pending payment. The payment will finish processing after review from the payment provider.", "paid-member-subscriptions"); ?>
+<?php __("PayPal order amount does not match this payment. PayPal amount: <strong>%s</strong>", "paid-member-subscriptions"); ?>
+<?php __("Could not retrieve the PayPal order to verify its amount.", "paid-member-subscriptions"); ?>
 <?php __("PayPal capture completed.", "paid-member-subscriptions"); ?>
 <?php __('PayPal webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Payment was refunded in the PayPal Dashboard.", "paid-member-subscriptions"); ?>
@@ -2771,6 +2792,9 @@
 <?php __("API Password for Test/Sandbox site", "paid-member-subscriptions"); ?>
 <?php __("Test API Signature", "paid-member-subscriptions"); ?>
 <?php __("API Signature for Test/Sandbox site", "paid-member-subscriptions"); ?>
+<?php __("The subscription was deleted, but PayPal could not cancel its profile %s.", "paid-member-subscriptions"); ?>
+<?php __("Cancel it in PayPal, or PayPal keeps charging the member.", "paid-member-subscriptions"); ?>
+<?php __("PayPal error: %s", "paid-member-subscriptions"); ?>
 <?php __("Paypal Standard", "paid-member-subscriptions"); ?>
 <?php __("PayPal E-mail Address", "paid-member-subscriptions"); ?>
 <?php __("Enter your PayPal e-mail address", "paid-member-subscriptions"); ?>
@@ -2787,6 +2811,7 @@
 <?php __("Instant Payment Notification (IPN) received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __("Instant Payment Notification (IPN) not received from PayPal.", "paid-member-subscriptions"); ?>
 <?php __("PayPal IPN rejected because it does not match the pending payment.", "paid-member-subscriptions"); ?>
+<?php __('Subscription #%1$s was deleted, but PayPal could not cancel its profile <strong>%2$s</strong>.', 'paid-member-subscriptions' ); ?>
 <?php __('Your %3$s PayPal API credentials %4$s are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __('Your <strong>PayPal API credentials</strong> are missing. In order to make payments you will need to add your API credentials %1$s here %2$s.', 'paid-member-subscriptions' ); ?>
 <?php __("The selected gateway is not configured correctly: <strong>Stripe API Secret Key is missing</strong>. Contact the system administrator.", "paid-member-subscriptions"); ?>
@@ -2803,7 +2828,10 @@
 <?php __("Payment Intent has failed.", "paid-member-subscriptions"); ?>
 <?php __('Stripe webhook received: %1$s. Event ID: %2$s', 'paid-member-subscriptions' ); ?>
 <?php __("Payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>
+<?php __("Stripe dispute %s was lost and the disputed amount was returned to the customer.", "paid-member-subscriptions"); ?>
+<?php __("An earlier attempt already charged this renewal with Payment Intent %s. No new charge was made and the subscription was renewed.", "paid-member-subscriptions"); ?>
 <?php __("Subscription expired because the payment was refunded in the Stripe Dashboard.", "paid-member-subscriptions"); ?>
+<?php __("Subscription expired because a Stripe dispute on its payment was lost.", "paid-member-subscriptions"); ?>
 <?php __("User attemped to setup a payment method for this subscription but failed. Reason: %s", "paid-member-subscriptions"); ?>
 <?php __("Card - One Time", "paid-member-subscriptions"); ?>
 <?php __("Please %slog in%s and try again.", "paid-member-subscriptions"); ?>
@@ -3511,6 +3539,7 @@
 <?php __("Import successfully!", "paid-member-subscriptions"); ?>
 <?php __("Page will refresh in 3 seconds...", "paid-member-subscriptions"); ?>
 <?php __("Please complete the reCaptcha.", "paid-member-subscriptions"); ?>
+<?php __("reCAPTCHA could not be verified. Please reload the page and try again.", "paid-member-subscriptions"); ?>
 <?php __("Could not validate reCAPTCHA. Please complete it again.", "paid-member-subscriptions"); ?>
 <?php __("Could not validate reCAPTCHA. Please try again.", "paid-member-subscriptions"); ?>
 <?php __("Click the BACK button on your browser, and try again.", "paid-member-subscriptions"); ?>

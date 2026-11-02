@@ -289,6 +289,27 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
 
             if( !empty( $payment ) ){
 
+                // The order ID comes from the request, so it can belong to a cheaper checkout
+                $paypal_order = $this->get_order( $paypal_order_id );
+
+                if( empty( $paypal_order['purchase_units'][0]['amount'] ) ){
+
+                    $payment->log_data( 'paypal_order_get_failed', array( 'order_id' => $paypal_order_id ) );
+                    $payment->update( array( 'status' => 'failed' ) );
+
+                    return false;
+
+                }
+
+                if( !$this->amount_matches_payment( $paypal_order['purchase_units'][0]['amount'], $payment ) ){
+
+                    $payment->log_data( 'paypal_order_amount_mismatch', array( 'order_id' => $paypal_order_id, 'amount' => $paypal_order['purchase_units'][0]['amount'] ) );
+                    $payment->update( array( 'status' => 'failed' ) );
+
+                    return false;
+
+                }
+
                 // Save order_id as payment meta
                 pms_add_payment_meta( $payment->id, 'paypal_order_id', $paypal_order_id );
 
@@ -928,6 +949,16 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
                 $payment->log_data( 'paypal_webhook_received', array( 'event_id' => $event->id, 'event_type' => $event_type, 'data' => $this->parse_webhook_response( $event ) ) );
 
                 if( $payment->status != 'completed' ){
+
+                    $checkout_data = pms_get_payment_meta( $payment->id, 'pms_checkout_data', true );
+
+                    // Renewal orders are built server-side from the payment, only checkout orders come from the request
+                    $is_psp_payment = is_array( $checkout_data ) && !empty( $checkout_data['form_location'] ) && $checkout_data['form_location'] == 'psp';
+
+                    if( !$is_psp_payment && ( empty( $resource->amount ) || !$this->amount_matches_payment( (array)$resource->amount, $payment ) ) ){
+                        $payment->log_data( 'paypal_order_amount_mismatch', array( 'capture_id' => $resource->id, 'amount' => !empty( $resource->amount ) ? (array)$resource->amount : array() ) );
+                        die();
+                    }
 
                     $payment->update( array( 'status' => 'completed', 'transaction_id' => $resource->id ) );
 
@@ -1716,13 +1747,14 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
         $order_breakdown = pms_calculate_payment_amount( $subscription_plan, array(), false, true );
         $order_currency  = apply_filters( 'pms_ppcp_create_order_currency', pms_get_active_currency(), $subscription_plan, $payment );
 
-        // If payment is provided, this is a PSP request and we need to use the saved Billing Amount from the subscription
+        // If payment is provided, this is a PSP request and we charge the renewal payment's amount
+        // - the payment starts from the subscription's billing amount, but filters such as a first-payment discount can change it
         if( !empty( $payment ) && !empty( $payment->member_subscription_id ) ){
 
             $subscription = pms_get_member_subscription( $payment->member_subscription_id );
 
-            if( !empty( $subscription ) && !empty( $subscription->billing_amount ) ){
-                $order_amount = apply_filters( 'pms_ppcp_psp_create_order_amount', $subscription->billing_amount, $subscription, $payment );
+            if( !empty( $subscription ) && !empty( $payment->amount ) ){
+                $order_amount = apply_filters( 'pms_ppcp_psp_create_order_amount', $payment->amount, $subscription, $payment );
 
                 $purchase_units = array(
                     'amount' => array(
@@ -2031,6 +2063,55 @@ Class PMS_Payment_Gateway_PayPal_Connect extends PMS_Payment_Gateway {
         }
 
         return false;
+
+    }
+
+    /**
+     * Get a PayPal order
+     *
+     * @param string $order_id The PayPal order ID
+     * @return array|bool The order on success, false on failure
+     */
+    private function get_order( $order_id ) {
+
+        if( empty( $order_id ) )
+            return false;
+
+        $request_url = $this->endpoint . '/v2/checkout/orders/' . $order_id;
+
+        $args = array(
+            'method'  => 'GET',
+            'headers' => $this->get_request_headers(),
+            'timeout' => 10,
+        );
+
+        $response = wp_remote_get( $request_url, $args );
+
+        if( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 )
+            return false;
+
+        return json_decode( wp_remote_retrieve_body( $response ), true );
+
+    }
+
+    /**
+     * Check that a PayPal amount (value and currency_code) is what the local payment expects
+     *
+     * @param array       $amount  PayPal amount object
+     * @param PMS_Payment $payment
+     * @return bool
+     */
+    private function amount_matches_payment( $amount, $payment ) {
+
+        if( !isset( $amount['value'], $amount['currency_code'] ) )
+            return false;
+
+        $payment_currency = !empty( $payment->currency ) ? $payment->currency : pms_get_active_currency();
+
+        if( strtoupper( $amount['currency_code'] ) !== strtoupper( $payment_currency ) )
+            return false;
+
+        return number_format( (float)$amount['value'], 2, '.', '' ) === number_format( (float)$payment->amount, 2, '.', '' );
 
     }
 

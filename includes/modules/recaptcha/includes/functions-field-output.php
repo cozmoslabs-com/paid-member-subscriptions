@@ -18,7 +18,7 @@ function pms_recaptcha_get_field_output( $form_location = 'register' ) {
     $settings = pms_recaptcha_get_settings();
 
     // Exit if this form does not have reCaptcha
-    if( empty( $settings['display_form'] ) || !in_array( $form_location, $settings['display_form'] ) )
+    if( ! pms_recaptcha_is_enabled_on_form( $form_location ) )
         return '';
 
     $field_errors = pms_errors()->get_error_messages( 'recaptcha-' . $form_location );
@@ -27,7 +27,7 @@ function pms_recaptcha_get_field_output( $form_location = 'register' ) {
     $output = '<div id="pms-recaptcha-' . esc_attr( $form_location ) . '-wrapper" class="pms-field">';
 
     if ( !empty( $settings['v3'] ) && $settings['v3'] === 'yes' ) {
-        $output .= '<div id="pms-recaptcha-' . esc_attr( $form_location ) . '" class="pms-recaptcha" data-sitekey="' . ( !empty( $settings['v3_site_key'] ) ? esc_attr( $settings['v3_site_key'] ) : '' ) . '" data-nonce="' . wp_create_nonce( 'pms_recaptcha_init_error' ) . '"><input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response"></div>';
+        $output .= '<div id="pms-recaptcha-' . esc_attr( $form_location ) . '" class="pms-recaptcha" data-sitekey="' . ( !empty( $settings['v3_site_key'] ) ? esc_attr( $settings['v3_site_key'] ) : '' ) . '"><input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response"></div>';
     } else {
         $output .= '<div id="pms-recaptcha-' . esc_attr( $form_location ) . '" class="pms-recaptcha g-recaptcha" data-sitekey="' . ( !empty( $settings['site_key'] ) ? esc_attr( $settings['site_key'] ) : '' ) . '" data-theme="' . apply_filters( 'pms_recaptcha_theme', 'light' ) . '" data-size="' . apply_filters( 'pms_recaptcha_size', 'normal' ) . '"></div>';
     }
@@ -159,5 +159,25 @@ function pms_recaptcha_get_settings(){
     $settings = get_option( 'pms_misc_settings', array() );
 
     return isset( $settings['recaptcha'] ) ? $settings['recaptcha'] : array();
+
+}
+
+
+/**
+ * Whether reCaptcha is added to and validated on a form
+ *
+ * Profile Builder checks that this function exists before it leaves the default WP forms this returns true for to PMS,
+ * so keep its name.
+ *
+ * @param string $form_location
+ *
+ * @return bool
+ *
+ */
+function pms_recaptcha_is_enabled_on_form( $form_location ) {
+
+    $settings = pms_recaptcha_get_settings();
+
+    return ! empty( $settings['display_form'] ) && in_array( $form_location, $settings['display_form'] );
 
 }

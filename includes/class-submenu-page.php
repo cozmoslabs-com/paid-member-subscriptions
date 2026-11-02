@@ -345,7 +345,7 @@ Class PMS_Submenu_Page {
             return;
 
         foreach( $this->admin_notices as $notice ) {
-            echo '<div class="' . esc_attr( $notice['type'] ) . ' pms-admin-notice">';
+            echo '<div class="' . esc_attr( $notice['type'] ) . ' pms-admin-notice pms-notice">';
                 echo '<p>' . esc_html( $notice['message'] ) . '</p>';
             echo '</div>';
         }

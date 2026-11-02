@@ -120,6 +120,31 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
     }
 
 
+    public function catch_admin_notice() {
+
+        parent::catch_admin_notice();
+
+        if( empty( $_GET['page'] ) || $_GET['page'] !== $this->menu_slug || empty( $_GET['cancel_failed'] ) )
+            return;
+
+        $failed_cancels = get_transient( $this->get_failed_cancels_transient() );
+
+        if( empty( $failed_cancels ) )
+            return;
+
+        delete_transient( $this->get_failed_cancels_transient() );
+
+        $this->add_admin_notice( pms_get_cancel_failed_admin_notice( $failed_cancels ), 'error pms-notice' );
+
+    }
+
+    private function get_failed_cancels_transient() {
+
+        return 'pms_edit_failed_cancels_' . get_current_user_id();
+
+    }
+
+
     /*
      * Method that processes data on members admin pages
      *
@@ -269,6 +294,21 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
             do_action( 'pms_before_edit_subscription_admin', $member_subscription );
 
+            if( isset( $_POST['status'] ) && in_array( $_POST['status'], array( 'canceled', 'abandoned' ) ) && $_POST['status'] != $member_subscription->status ) {
+
+                $confirm_cancel_subscription = pms_confirm_cancel_member_subscription( $member_subscription );
+
+                if( true !== $confirm_cancel_subscription ) {
+
+                    set_transient( $this->get_failed_cancels_transient(), array( $member_subscription->id => $confirm_cancel_subscription ), MINUTE_IN_SECONDS );
+
+                    wp_redirect( esc_url_raw( add_query_arg( array( 'cancel_failed' => 1 ), remove_query_arg( array( 'message', 'updated' ), pms_get_current_page_url() ) ) ) );
+                    exit;
+
+                }
+
+            }
+
             // When a subscription is edited by the admin, disable payment retry
             pms_update_member_subscription_meta( $member_subscription->id, 'pms_retry_payment', 'inactive' );
 
@@ -355,6 +395,7 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
             if( isset( $_REQUEST[ 'member_subscriptions' ] ) && !empty( $_REQUEST[ 'member_subscriptions' ] ) && $action == 'pms-cancel-subscriptions' ){
 
                 $canceled_subscriptions_count = 0;
+                $failed_cancels               = array();
                 $subscription_ids            = array_map( 'absint', $_REQUEST[ 'member_subscriptions' ] );
 
                 foreach( $subscription_ids as $id ){
@@ -363,10 +404,10 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
                     if( !is_null( $member_subscription ) ){
 
-                        $confirm_remove_subscription = apply_filters( 'pms_confirm_cancel_subscription', true, $member_subscription->user_id, $member_subscription->subscription_plan_id );
+                        $confirm_remove_subscription = pms_confirm_cancel_member_subscription( $member_subscription );
 
                         // If all is good remove the subscription, if not send an error
-                        if( true == $confirm_remove_subscription ) {
+                        if( true === $confirm_remove_subscription ) {
 
                             $subscription_data = array();
                             $subscription_data['status'] = 'canceled';
@@ -397,6 +438,10 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                                 
                             }
 
+                        } else {
+
+                            $failed_cancels[ $member_subscription->id ] = $confirm_remove_subscription;
+
                         }
 
                     }
@@ -404,6 +449,9 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
 
                 if( $canceled_subscriptions_count != 0 )
                     $this->add_admin_notice( sprintf( _n( '%d Member Subscription successfully canceled.', '%d Member Subscriptions successfully canceled.', $canceled_subscriptions_count, 'paid-member-subscriptions' ), $canceled_subscriptions_count ), 'updated' );
+
+                if( ! empty( $failed_cancels ) )
+                    $this->add_admin_notice( pms_get_cancel_failed_admin_notice( $failed_cancels ), 'error pms-notice' );
 
             }
 
@@ -1096,6 +1144,26 @@ Class PMS_Submenu_Page_Members extends PMS_Submenu_Page {
                 $formatted_amount = ! empty( $log['data']['formatted_amount'] ) ? $log['data']['formatted_amount'] : pms_format_price( $log['data']['amount'], $currency );
 
                 $message = sprintf( __( 'PWYW selected by user: %s.', 'paid-member-subscriptions' ), '<strong>' . esc_html( $formatted_amount ) . '</strong>' );
+                break;
+            case 'subscription_cancel_failed':
+                $who = esc_html( ucwords( $this->get_display_name( !empty( $log['data']['who'] ) ? $log['data']['who'] : '' ) ) );
+
+                if( !empty( $log['data']['error'] ) )
+                    $message = sprintf( __( 'Cancellation requested by <strong>%1$s</strong> failed at the payment gateway: %2$s', 'paid-member-subscriptions' ), $who, esc_html( $log['data']['error'] ) );
+                else
+                    $message = sprintf( __( 'Cancellation requested by <strong>%s</strong> failed at the payment gateway.', 'paid-member-subscriptions' ), $who );
+
+                break;
+            case 'paypal_previous_profile_canceled':
+                $message = sprintf( __( 'Canceled the previous PayPal profile <strong>%1$s</strong> after payment #%2$s.', 'paid-member-subscriptions' ), esc_html( $log['data']['profile_id'] ), esc_html( $log['data']['payment_id'] ) );
+                break;
+            case 'paypal_previous_profile_cancel_failed':
+                $message  = sprintf( __( 'Could not cancel the previous PayPal profile <strong>%1$s</strong> after payment #%2$s: %3$s', 'paid-member-subscriptions' ), esc_html( $log['data']['profile_id'] ), esc_html( $log['data']['payment_id'] ), esc_html( $log['data']['error'] ) );
+                $message .= ' ' . ( !empty( $log['data']['retry'] ) ? __( 'PMS retries every hour.', 'paid-member-subscriptions' ) : __( 'Cancel it in PayPal.', 'paid-member-subscriptions' ) );
+                break;
+            case 'paypal_cancel_retry_stopped':
+                $message  = sprintf( __( 'Stopped retrying to cancel the PayPal profile <strong>%1$s</strong> after %2$s failed attempts: %3$s', 'paid-member-subscriptions' ), esc_html( $log['data']['profile_id'] ), (int)$log['data']['retry_count'], esc_html( $log['data']['error'] ) );
+                $message .= ' ' . __( 'Cancel it in PayPal.', 'paid-member-subscriptions' );
                 break;
             default:
                 $message = __( 'Something went wrong.', 'paid-member-subscriptions' );

@@ -162,7 +162,7 @@ function pms_get_members( $args = array(), $count = false ) {
     $query_where = "WHERE 1=%d ";
 
     // Collect $wpdb->prepare() arguments in the same order their placeholders appear in $query_where.
-    // Status and search are bound as placeholders so untrusted input never becomes part of the format
+    // Filter values and search are bound as placeholders so untrusted input never becomes part of the format
     // string passed to prepare() (which would otherwise let a numbered %n$ directive be interpreted).
     $query_where_args = array( 1 );
 
@@ -174,18 +174,28 @@ function pms_get_members( $args = array(), $count = false ) {
     if( ! empty( $args['subscription_plan_id'] ) )
         $query_where = $query_where . " AND member_subscriptions.subscription_plan_id = " . (int)$args['subscription_plan_id'] . " ";
 
-    if( ! empty( $args['payment_gateway'] ) )
-        $query_where = $query_where . " AND payments.payment_gateway = '" . sanitize_text_field( $args['payment_gateway'] ) . "' ";
+    if( ! empty( $args['payment_gateway'] ) ) {
+        $query_where = $query_where . " AND payments.payment_gateway = %s ";
+        $query_where_args[] = sanitize_text_field( $args['payment_gateway'] );
+    }
 
-    if( ! empty( $args['start_date_beginning'] ) && ! empty( $args['start_date_end'] ) )
-        $query_where = $query_where . " AND member_subscriptions.start_date >= '" . sanitize_text_field( $args['start_date_beginning'] ) . "' AND member_subscriptions.start_date <= '" . sanitize_text_field( $args['start_date_end'] ) . "' ";
+    if( ! empty( $args['start_date_beginning'] ) && ! empty( $args['start_date_end'] ) ) {
+        $query_where = $query_where . " AND member_subscriptions.start_date >= %s AND member_subscriptions.start_date <= %s ";
+        $query_where_args[] = sanitize_text_field( $args['start_date_beginning'] );
+        $query_where_args[] = sanitize_text_field( $args['start_date_end'] );
+    }
 
-    if( ! empty( $args['expiration_date_beginning'] ) && ! empty( $args['expiration_date_end'] ) )
-        $query_where = $query_where . " AND member_subscriptions.expiration_date >= '" . sanitize_text_field( $args['expiration_date_beginning'] ) . "' AND member_subscriptions.expiration_date <= '" . sanitize_text_field( $args['expiration_date_end'] ) . "' ";
+    if( ! empty( $args['expiration_date_beginning'] ) && ! empty( $args['expiration_date_end'] ) ) {
+        $query_where = $query_where . " AND member_subscriptions.expiration_date >= %s AND member_subscriptions.expiration_date <= %s ";
+        $query_where_args[] = sanitize_text_field( $args['expiration_date_beginning'] );
+        $query_where_args[] = sanitize_text_field( $args['expiration_date_end'] );
+    }
 
     if( ! empty( $args['group_owner' ] ) ){
-        $query_where = $query_where . " AND ( member_subscriptions_meta.meta_key = 'pms_group_subscription_owner' AND member_subscriptions_meta.meta_value = '" . sanitize_text_field( $args['group_owner'] ) . "'
-        OR member_subscriptions_meta.meta_key = 'pms_group_name' AND member_subscriptions_meta.meta_value = '".sanitize_text_field( pms_get_member_subscription_meta( $args['group_owner'], 'pms_group_name', true ) )."') ";
+        $query_where = $query_where . " AND ( member_subscriptions_meta.meta_key = 'pms_group_subscription_owner' AND member_subscriptions_meta.meta_value = %s
+        OR member_subscriptions_meta.meta_key = 'pms_group_name' AND member_subscriptions_meta.meta_value = %s ) ";
+        $query_where_args[] = sanitize_text_field( $args['group_owner'] );
+        $query_where_args[] = sanitize_text_field( pms_get_member_subscription_meta( $args['group_owner'], 'pms_group_name', true ) );
     }
 
     // Add search query

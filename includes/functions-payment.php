@@ -185,8 +185,8 @@ function pms_get_payments( $args = array() ) {
 
     // Filter by transaction_id
     if( !empty( $args['transaction_id'] ) ) {
-        $transaction_id = sanitize_text_field( $args['transaction_id'] );
-        $query_where    = $query_where . " AND " . " pms_payments.transaction_id = '{$transaction_id}'";
+        $query_where        = $query_where . " AND " . " pms_payments.transaction_id = %s";
+        $query_where_args[] = sanitize_text_field( $args['transaction_id'] );
     }
 
     // Filter by member_subscription_id
@@ -607,40 +607,44 @@ function pms_get_payment_type_name( $payment_type_slug ) {
 
 
 /**
+ * Whether the renewal cron should charge this subscription now.
+ *
+ * @param PMS_Member_Subscription|null $subscription Member subscription object.
+ * @return bool
+ */
+function pms_is_member_subscription_renewal_due( $subscription ) {
+
+    if ( empty( $subscription->id ) || empty( $subscription->billing_next_payment ) ) {
+        return false;
+    }
+
+    $next_payment = strtotime( $subscription->billing_next_payment );
+
+    if ( $next_payment <= 0 || $next_payment > time() ) {
+        return false;
+    }
+
+    if ( $subscription->status == 'active' ) {
+        return true;
+    }
+
+    return $subscription->status == 'expired' && pms_is_payment_retry_enabled() && pms_get_member_subscription_meta( $subscription->id, 'pms_retry_payment', true ) == 'active';
+}
+
+/**
  * Attempt to process a subscription renewal when due (legacy daily cron and Action Scheduler).
  *
  * Acquires a per-subscription MySQL advisory lock (GET_LOCK) so concurrent renewal workers cannot
  * process the same member subscription at the same time. Returns early when the lock is not available.
+ * Under the lock the row is read again, because the caller's copy can predate a cancel, a moved
+ * billing date, or a renewal that another worker already charged.
  *
  * @param PMS_Member_Subscription $subscription Member subscription object.
  * @return void
  */
 function pms_maybe_process_member_subscription_renewal( $subscription ) {
 
-    if ( empty( $subscription->payment_gateway ) ) {
-        return;
-    }
-
-    if ( empty( $subscription->user_id ) ) {
-        return;
-    } elseif ( get_userdata( $subscription->user_id ) === false ) {
-        return;
-    }
-
     if ( empty( $subscription->id ) ) {
-        return;
-    }
-
-    $payment_gateway       = pms_get_payment_gateway( $subscription->payment_gateway );
-    $subscription_plan     = pms_get_subscription_plan( $subscription->subscription_plan_id );
-    $subscription_currency = pms_get_member_subscription_meta( $subscription->id, 'currency', true );
-    $current_billing_cycle = ( $subscription->has_installments() && pms_payment_gateway_supports_cycles( $subscription->payment_gateway ) ) ? pms_get_member_subscription_billing_processed_cycles( $subscription->id ) + 1 : false;
-
-    if ( is_null( $payment_gateway ) || ! method_exists( $payment_gateway, 'process_payment' ) ) {
-        return;
-    }
-
-    if ( ! apply_filters( 'pms_cron_process_member_subscriptions_process_subscription', true, $subscription ) ) {
         return;
     }
 
@@ -656,6 +660,35 @@ function pms_maybe_process_member_subscription_renewal( $subscription ) {
     }
 
     try {
+        $subscription = pms_get_member_subscription( $subscription->id );
+
+        if ( ! pms_is_member_subscription_renewal_due( $subscription ) ) {
+            return;
+        }
+
+        if ( empty( $subscription->payment_gateway ) ) {
+            return;
+        }
+
+        if ( empty( $subscription->user_id ) ) {
+            return;
+        } elseif ( get_userdata( $subscription->user_id ) === false ) {
+            return;
+        }
+
+        $payment_gateway       = pms_get_payment_gateway( $subscription->payment_gateway );
+        $subscription_plan     = pms_get_subscription_plan( $subscription->subscription_plan_id );
+        $subscription_currency = pms_get_member_subscription_meta( $subscription->id, 'currency', true );
+        $current_billing_cycle = ( $subscription->has_installments() && pms_payment_gateway_supports_cycles( $subscription->payment_gateway ) ) ? pms_get_member_subscription_billing_processed_cycles( $subscription->id ) + 1 : false;
+
+        if ( is_null( $payment_gateway ) || ! method_exists( $payment_gateway, 'process_payment' ) ) {
+            return;
+        }
+
+        if ( ! apply_filters( 'pms_cron_process_member_subscriptions_process_subscription', true, $subscription ) ) {
+            return;
+        }
+
         pms_process_member_subscription_renewal( $subscription, $payment_gateway, $subscription_plan, $subscription_currency, $current_billing_cycle );
     } finally {
         $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $lock_name ) );
@@ -1079,10 +1112,10 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
         return 0;
 
     // need to take into account PayWhatYouWant, Discounts and Taxes
-    $amount = apply_filters( 'pms_stripe_calculate_payment_amount', $subscription_plan->price, $subscription_plan ); // both filters are kept for backwards compatibility
-    $amount = apply_filters( 'pms_calculate_payment_amount', $amount, $subscription_plan, $request_data );
+    $amount = $subscription_plan->price;
 
     // Check PWYW pricing
+    // - applied before the filters below so Multiple Currencies can convert the entered price, e.g. for a currency PayPal does not accept
     if( function_exists( 'pms_in_pwyw_pricing_enabled' ) && pms_in_pwyw_pricing_enabled( $subscription_plan->id ) ){
 
         $subscription_price = isset( $request_data['subscription_price_' . $subscription_plan->id ] ) ? $request_data['subscription_price_' . $subscription_plan->id ] : ( isset( $_POST['subscription_price_' . $subscription_plan->id ] ) ? sanitize_text_field( $_POST['subscription_price_' . $subscription_plan->id ] ) : 0 );
@@ -1091,6 +1124,9 @@ function pms_calculate_payment_amount( $subscription_plan, $request_data = array
             $amount = floatval( $subscription_price );
 
     }
+
+    $amount = apply_filters( 'pms_stripe_calculate_payment_amount', $amount, $subscription_plan ); // both filters are kept for backwards compatibility
+    $amount = apply_filters( 'pms_calculate_payment_amount', $amount, $subscription_plan, $request_data );
 
     global $pms_prorate;
 

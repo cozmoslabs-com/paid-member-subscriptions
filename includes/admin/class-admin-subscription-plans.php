@@ -1700,7 +1700,7 @@ Class PMS_Custom_Post_Type_Subscription extends PMS_Custom_Post_Type {
         $messages = $this->get_admin_notices();
 
         if( isset( $_GET['pms-subscription-error'] ) && isset( $messages[ (int)$_GET['pms-subscription-error'] ] ) ){
-            echo '<div class="error pms-admin-notice">';
+            echo '<div class="error pms-admin-notice pms-notice">';
                 echo '<p>' . esc_html( $messages[ (int)$_GET['pms-subscription-error'] ] ) . '</p>';
             echo '</div>';
         }

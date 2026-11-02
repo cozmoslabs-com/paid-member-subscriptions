@@ -194,6 +194,20 @@ function pms_show_admin_notice_success_by_get(){
 
 }
 
+function pms_get_cancel_failed_admin_notice( $failed_cancels ) {
+
+    $count   = count( $failed_cancels );
+    $message = sprintf( _n( '%d Member Subscription could not be canceled with the payment gateway.', '%d Member Subscriptions could not be canceled with the payment gateway.', $count, 'paid-member-subscriptions' ), $count );
+
+    $gateway_errors = array_unique( array_filter( $failed_cancels ) );
+
+    if( ! empty( $gateway_errors ) )
+        $message .= ' ' . sprintf( __( 'Gateway error: %s', 'paid-member-subscriptions' ), implode( '; ', $gateway_errors ) );
+
+    return $message;
+
+}
+
 function pms_compare_subscription_plan_objects($a, $b) {
     return strcmp( $a->name, $b->name );
 }

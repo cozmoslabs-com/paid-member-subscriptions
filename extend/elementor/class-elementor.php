@@ -163,6 +163,30 @@ class PMS_Elementor {
             $dynamic_tags_manager->register(new \PMS_Elementor_Dynamic_Tag_Subscription_Plan);
         }
     }
+
+    public static function get_message_allowed_html( $element ) {
+        if( user_can( self::get_element_author( $element ), 'unfiltered_html' ) )
+            return pms_get_kses_allowed_html_with_iframes_and_forms();
+
+        return pms_wp_kses_allowed_html_iframe( wp_kses_allowed_html( 'post' ), 'post' );
+    }
+
+    private static function get_element_author( $element ) {
+        $document = \Elementor\Plugin::$instance->documents->get_current();
+
+        if( !$document )
+            return 0;
+
+        $post_id = $document->get_main_id();
+
+        // A global widget is rendered from the page, but its settings are stored in its own template unless it was saved as a draft
+        $data = \Elementor\Utils::find_element_recursive( $document->get_elements_data(), $element->get_id() );
+
+        if( !empty( $data['templateID'] ) && empty( $data['draft'] ) )
+            $post_id = $data['templateID'];
+
+        return (int) get_post_field( 'post_author', $post_id );
+    }
 }
 
 // Instantiate Plugin Class

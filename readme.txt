@@ -5,7 +5,7 @@ Tags: membership, paid membership, subscription, content restriction, membership
 Requires at least: 3.1
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -282,15 +282,17 @@ Please report security bugs found in the source code of the Paid Member Subscrip
 15. Available Add-ons for extending your membership site
 
 == Changelog ==
-= 3.1.3 =
-* Enhancement: Stripe Connect recurring Apple Pay checkouts request a merchant token so renewals keep working after a device change, and the Apple Pay sheet shows the amount that will be billed
-* Fix: Security issue regarding checkout with an unknown or inactive payment gateway. Thanks to Taegyeong Yun and the Patchstack team for the report
-* Fix: Stripe Connect redirect payments such as MobilePay now apply the new plan when an upgrade completes, and the payment log describes the redirect instead of showing Something went wrong
-* Fix: Stripe Connect webhooks can complete 3D Secure and redirect payments when the browser does not finish the checkout
-* Fix: Correctly handle PayPal Connect payments which return with a pending status initially
-* Fix: Fatal error in the Register block when subscription plan IDs are typed in the Advanced panel
-* Fix: TutorLMS category select on the subscription plan was cut off after a few categories
-* Misc: Added a filter to bypass PayPal Standard IPN amount verification: pms_paypal_ipn_bypass_amount_verification
-* Misc: Compatibility with invoice totals that follow the charged payment
+= 3.1.4 =
+* Fix: Security issue regarding unauthenticated cross-site scripting on the Profile Builder PayPal redirect. Thanks to dzaku and the Patchstack team for the report
+* Fix: Security issue regarding PayPal Connect order substitution. Thanks to Sangho Lee and the Patchstack team
+* Fix: Stripe Connect webhooks match the site when the home URL contains a subdirectory or a port
+* Fix: Process Stripe Connect dispute lost events and mark the payment as refunded
+* Fix: Harden subscription renewal process and add Stripe idempotency keys for renewal requests
+* Fix: Reject a Stripe Webhook when secret is saved and signature check fails
+* Fix: Send Billing Details to Stripe when they are preset in the form
+* Fix: Apply Stripe Connect 3D Secure plan changes and renewals when the webhook completes the payment first
+* Fix: Update the currency symbols for the Rwandan franc, Kazakhstani tenge, Kyrgyzstani som and Uzbekistani som
+* Fix: A charge on an old PayPal Standard profile no longer changes the subscription
+* Fix: Some back-end pages were not showing validation errors correctly
 
 [Click Here](https://www.cozmoslabs.com/docs/paid-member-subscriptions/free-changelog/?utm_source=wp.org&utm_medium=pms-description-page&utm_campaign=PMSFree) to view the full changelog.

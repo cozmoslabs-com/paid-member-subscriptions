@@ -250,7 +250,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         $redirect_url = add_query_arg( 'pms_redirect_token', $pms_gateway_data['redirect_token'], $redirect_url );
                 }
 
-                $message = '<meta http-equiv="Refresh" content="'. $redirect_delay .';url='. $redirect_url .'" />';
+                $message = '<meta http-equiv="Refresh" content="'. $redirect_delay .';url='. esc_url( $redirect_url ) .'" />';
 
                 $message .= '<p class="pms-wppb-paypal-redirect-message">' . __( 'You are being redirected to PayPal to complete the payment...', 'paid-member-subscriptions' ) . '<br>';
                 /* translators: %s: anchor tags */

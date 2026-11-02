@@ -117,12 +117,14 @@ jQuery( function($) {
             errors_output += '<p>' + validation_errors[i] + '</p>';
         }
 
-        if( $('.wrap h2').first().siblings('.pms-admin-notice').length > 0 ) {
+        var $page_title = $('.wrap h1, .wrap h2').first();
 
-            $('.wrap h2').first().siblings('.pms-admin-notice').html( errors_output );
+        if( $page_title.siblings('.pms-admin-notice.error').length > 0 ) {
+
+            $page_title.siblings('.pms-admin-notice.error').html( errors_output );
 
         } else {
-            $('.wrap h2').first().after( '<div class="error pms-admin-notice">' + errors_output + '</div>' )
+            $page_title.after( '<div class="error pms-admin-notice pms-notice">' + errors_output + '</div>' )
         }
 
     }

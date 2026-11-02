@@ -200,7 +200,7 @@ jQuery( function($) {
 
             if ( ( $pms_checked_subscription.data('fixed_membership') != 'on' && $pms_checked_subscription.data('duration') == 0 ) || ( $pms_checked_subscription.data('price') == 0 && !( $pms_checked_subscription.data('sign_up_fee') > 0 ) ) ) {
 
-                if ( typeof $pms_checked_subscription.data('discountedPrice') == 'undefined' )
+                if ( !$pms_checked_subscription.data('discountedPrice') )
                     $pms_auto_renew_field.hide()
                 else if ( typeof $pms_checked_subscription.data('isFullDiscount') != 'undefined' && $pms_checked_subscription.data('isFullDiscount') == true && $pms_checked_subscription.data('discountRecurringPayments') == 1 )
                     $pms_auto_renew_field.hide()

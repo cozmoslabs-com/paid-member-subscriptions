@@ -19,6 +19,14 @@ pms_recaptcha_callback = function() {
 
 };
 
+function pms_recaptcha_v3_submit_and_halt( form ){
+
+    form.submit();
+
+    return new Promise( () => {} );
+
+}
+
 async function pms_initialize_recaptcha_v3( event = null, current_form = null ){
 
     if( event ){
@@ -31,6 +39,9 @@ async function pms_initialize_recaptcha_v3( event = null, current_form = null ){
     if( current_form != null && current_form && current_form[0] ){
         currentForm = current_form[0]
     }
+
+    if( typeof grecaptcha === 'undefined' )
+        return event ? pms_recaptcha_v3_submit_and_halt( currentForm ) : true;
 
     /* Call the disable_form_submit_button function before submitting the form */
     if (typeof disable_form_submit_button === "function") {
@@ -55,13 +66,6 @@ async function pms_initialize_recaptcha_v3( event = null, current_form = null ){
 
                 let recaptchaResponse = currentForm.elements["g-recaptcha-response"];
                 jQuery(recaptchaResponse).val(token); // Set the recaptcha response
-
-                if( token === false ){
-                    if( event )
-                        return pmsRecaptchaInitializationError();
-                    else
-                        return false;
-                }
 
                 var submitForm = true
 
@@ -105,24 +109,7 @@ async function pms_initialize_recaptcha_v3( event = null, current_form = null ){
 
 }
 
-/* the callback function for when the captcha does not load propperly, maybe network problem or wrong keys  */
-function pmsRecaptchaInitializationError(){
-
-    window.pmsRecaptchaInitError = true;
-
-    var nonce = jQuery( ".pms-recaptcha" )[0]['dataset']['nonce'];
-
-    //add a captcha field so we do not just let the form submit if we do not have a captcha response
-    jQuery( ".pms-recaptcha" ).after( '<input type="hidden" id="pms_recaptcha_load_error" name="pms_recaptcha_load_error" value=' + nonce + '/>' );
-
-    /* make sure that if the invisible recaptcha did not load properly ( network error or wrong keys ) we can still submit the form */
-    jQuery("input[type=\'submit\']", jQuery( ".pms-recaptcha" ).closest("form") ).on("click", function(e){
-        jQuery(this).closest("form").submit();
-    });
-
-}
-
-jQuery( window ).on( "load", function () {   
+jQuery( window ).on( "load", function () {
 
     // Initialize with a delay
     setTimeout(function() {

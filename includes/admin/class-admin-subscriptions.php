@@ -116,6 +116,7 @@ class PMS_Submenu_Page_Subscriptions extends PMS_Submenu_Page {
             // Handle bulk cancel subscriptions
             if( $action == 'pms_subscriptions_bulk_cancel' ){
                 $subscription_ids = array_unique( array_filter( array_map( 'absint', $_REQUEST[ 'member_subscriptions' ] ) ) );
+                $failed_cancels   = array();
 
                 foreach( $subscription_ids as $id ){
 
@@ -124,11 +125,13 @@ class PMS_Submenu_Page_Subscriptions extends PMS_Submenu_Page {
                     if( is_null( $member_subscription ) || $member_subscription->status === 'canceled' )
                         continue;
 
-                    $confirm_remove_subscription = apply_filters( 'pms_confirm_cancel_subscription', true, $member_subscription->user_id, $member_subscription->subscription_plan_id );
+                    $confirm_remove_subscription = pms_confirm_cancel_member_subscription( $member_subscription );
 
                     // If all is good remove the subscription, if not send an error
-                    if( ! $confirm_remove_subscription )
+                    if( true !== $confirm_remove_subscription ) {
+                        $failed_cancels[ $member_subscription->id ] = $confirm_remove_subscription;
                         continue;
+                    }
 
                     $subscription_data = array();
                     $subscription_data['status'] = 'canceled';
@@ -167,6 +170,12 @@ class PMS_Submenu_Page_Subscriptions extends PMS_Submenu_Page {
                         'updated'        => 1,
                         'canceled_count' => $canceled_subscriptions_count,
                     );
+                }
+
+                if( ! empty( $failed_cancels ) ) {
+                    set_transient( $this->get_failed_cancels_transient(), $failed_cancels, MINUTE_IN_SECONDS );
+
+                    $redirect_args['cancel_failed'] = 1;
                 }
             }
 
@@ -254,6 +263,30 @@ class PMS_Submenu_Page_Subscriptions extends PMS_Submenu_Page {
         );
 
         add_screen_option( 'per_page', $args );
+
+    }
+
+    public function catch_admin_notice() {
+
+        parent::catch_admin_notice();
+
+        if( empty( $_GET['page'] ) || $_GET['page'] !== $this->menu_slug || empty( $_GET['cancel_failed'] ) )
+            return;
+
+        $failed_cancels = get_transient( $this->get_failed_cancels_transient() );
+
+        if( empty( $failed_cancels ) )
+            return;
+
+        delete_transient( $this->get_failed_cancels_transient() );
+
+        $this->add_admin_notice( pms_get_cancel_failed_admin_notice( $failed_cancels ), 'error pms-notice' );
+
+    }
+
+    private function get_failed_cancels_transient() {
+
+        return 'pms_bulk_failed_cancels_' . get_current_user_id();
 
     }
 

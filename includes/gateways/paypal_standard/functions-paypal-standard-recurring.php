@@ -453,8 +453,11 @@ function pms_in_ppsrp_ipn_listener( $payment_data, $post_data ) {
                         return;
                 }
 
+                $payment_profile_id = isset( $post_data['subscr_id'] ) ? sanitize_text_field( $post_data['subscr_id'] ) : '';
+                $old_profile        = !empty( $current_subscription ) && ( $current_subscription->payment_gateway != 'paypal_standard' || ( !empty( $current_subscription->payment_profile_id ) && $current_subscription->payment_profile_id != $payment_profile_id ) );
+
                 $plan            = pms_get_subscription_plan( $payment->subscription_id );
-                $expected_amount = pms_paypal_expected_recurring_amount( $payment, $plan, $current_subscription );
+                $expected_amount = pms_paypal_expected_recurring_amount( $payment, $plan, $old_profile ? null : $current_subscription );
                 $expected        = array(
                     'amount'   => $expected_amount,
                     'currency' => ! empty( $payment->currency ) ? $payment->currency : pms_get_active_currency(),
@@ -484,13 +487,25 @@ function pms_in_ppsrp_ipn_listener( $payment_data, $post_data ) {
 
                 $new_payment->update( array( 'type' => $payment_data['type'], 'transaction_id' => $payment_data['transaction_id'] ) );
 
-                if( function_exists( 'pms_add_member_subscription_log' ) && !empty ( $current_subscription->id ) )
-                    pms_add_member_subscription_log( $current_subscription->id, 'subscription_renewed_automatically' );
+                if( $old_profile ) {
 
-                /*
-                 * Handle member related information
-                 */
-                pms_in_ppsrp_update_member_subscription_data( $payment_data, $post_data );
+                    $cancel_result = pms_in_api_cancel_paypal_subscription( $payment_profile_id, 'cancel', 'Subscription canceled because the member\'s subscription no longer uses this PayPal profile.' );
+
+                    $log_data = array( 'profile_id' => $payment_profile_id, 'payment_id' => $new_payment->id );
+
+                    if( $cancel_result !== true )
+                        $log_data['cancel_error'] = $cancel_result['error'];
+
+                    pms_add_member_subscription_log( $current_subscription->id, 'paypal_old_profile_payment', $log_data );
+
+                } else {
+
+                    if( function_exists( 'pms_add_member_subscription_log' ) && !empty ( $current_subscription->id ) )
+                        pms_add_member_subscription_log( $current_subscription->id, 'subscription_renewed_automatically' );
+
+                    pms_in_ppsrp_update_member_subscription_data( $payment_data, $post_data );
+
+                }
 
             }
 
@@ -757,6 +772,11 @@ function pms_in_api_cancel_paypal_subscription( $payment_profile_id, $action = '
         if( isset( $body['ACK'] ) && strtolower( $body['ACK'] ) === 'success' )
             $confirmation = true;
 
+        if( isset( $body['L_ERRORCODE0'] ) && $body['L_ERRORCODE0'] == '11556' ) {
+            $confirmation = true;
+            $error        = NULL;
+        }
+
     }
 
     $subscription = pms_in_ppsrp_get_subscription_by_payment_profile( $payment_profile_id );
@@ -773,7 +793,70 @@ function pms_in_api_cancel_paypal_subscription( $payment_profile_id, $action = '
 
 
 }
-add_action( 'pms_api_cancel_paypal_subscription', 'pms_in_api_cancel_paypal_subscription', 10, 3 );
+
+
+function pms_in_ppsrp_retry_cancel_paypal_subscription( $user_id, $subscription_plan_id, $action ) {
+
+    $api_failed_attempts = get_option( 'pms_api_failed_attempts', array() );
+
+    if( !empty( $api_failed_attempts[$user_id][$subscription_plan_id]['retry_count'] ) && $api_failed_attempts[$user_id][$subscription_plan_id]['retry_count'] >= 10 ) {
+        wp_clear_scheduled_hook( 'pms_api_cancel_paypal_subscription', array( $user_id, $subscription_plan_id, $action ) );
+        return;
+    }
+
+    $payment_profile_id = !empty( $api_failed_attempts[$user_id][$subscription_plan_id]['payment_profile_id'] ) ? $api_failed_attempts[$user_id][$subscription_plan_id]['payment_profile_id'] : '';
+
+    $subscription = !empty( $payment_profile_id ) ? pms_in_ppsrp_get_subscription_by_payment_profile( $payment_profile_id ) : false;
+
+    $profile_bills_active_subscription = !empty( $subscription ) && $subscription->status == 'active' && in_array( $subscription->payment_gateway, array( 'paypal_express', 'paypal_standard' ) );
+
+    if( !empty( $payment_profile_id ) && !$profile_bills_active_subscription ) {
+
+        $cancel_result = pms_in_api_cancel_paypal_subscription( $payment_profile_id, $action, 'Retry cancel subscription request.' );
+
+        if( $cancel_result !== true ) {
+
+            $api_failed_attempts = get_option( 'pms_api_failed_attempts', array() );
+
+            $api_failed_attempts[$user_id][$subscription_plan_id]['retries'][] = array(
+                'time'  => time(),
+                'error' => $cancel_result['error']
+            );
+
+            $retry_count = !empty( $api_failed_attempts[$user_id][$subscription_plan_id]['retry_count'] ) ? $api_failed_attempts[$user_id][$subscription_plan_id]['retry_count'] + 1 : 1;
+
+            $api_failed_attempts[$user_id][$subscription_plan_id]['retry_count'] = $retry_count;
+
+            update_option( 'pms_api_failed_attempts', $api_failed_attempts, false );
+
+            if( $retry_count >= 10 ) {
+
+                wp_clear_scheduled_hook( 'pms_api_cancel_paypal_subscription', array( $user_id, $subscription_plan_id, $action ) );
+
+                $current_subscription = pms_get_current_subscription_from_tier( $user_id, $subscription_plan_id );
+
+                if( !empty( $current_subscription->id ) )
+                    pms_add_member_subscription_log( $current_subscription->id, 'paypal_cancel_retry_stopped', array( 'profile_id' => $payment_profile_id, 'retry_count' => $retry_count, 'error' => $cancel_result['error'] ) );
+
+            }
+
+            return;
+
+        }
+
+    }
+
+    $api_failed_attempts = get_option( 'pms_api_failed_attempts', array() );
+
+    if( isset( $api_failed_attempts[$user_id][$subscription_plan_id] ) ) {
+        unset( $api_failed_attempts[$user_id][$subscription_plan_id] );
+        update_option( 'pms_api_failed_attempts', $api_failed_attempts, false );
+    }
+
+    wp_clear_scheduled_hook( 'pms_api_cancel_paypal_subscription', array( $user_id, $subscription_plan_id, $action ) );
+
+}
+add_action( 'pms_api_cancel_paypal_subscription', 'pms_in_ppsrp_retry_cancel_paypal_subscription', 10, 3 );
 
 
 /*
@@ -816,7 +899,7 @@ add_action( 'pms_paypal_subscr_payment_before_upgrade_subscription', 'pms_in_can
  */
 function pms_in_api_cancel_paypal_subscription_upgrade_action( $user_id, $subscription_plan_id, $action, $confirmation, $error ) {
 
-    if( !in_array( $action, array( 'upgrade', 'renew' ) ) )
+    if( !in_array( $action, array( 'upgrade', 'renew', 'change', 'downgrade' ) ) )
         return;
 
     // Get payment_profile_id
@@ -930,54 +1013,12 @@ function pms_in_ppsrp_output_subscription_plan_action_renewal( $output, $subscri
 }
 add_filter( 'pms_output_subscription_plan_action_renewal', 'pms_in_ppsrp_output_subscription_plan_action_renewal', 10, 4 );
 
-add_action( 'pms_checkout_after_payment_is_processed', 'pms_in_ppsrp_cancel_subscription_before_subscription_actions', 999, 3 );
-function pms_in_ppsrp_cancel_subscription_before_subscription_actions( $payment_response, $subscription, $form_location ) {
-
-    if( !$payment_response )
-        return;
-
-    if( !in_array( $form_location, array( 'renew_subscription', 'change_subscription', 'downgrade_subscription', 'upgrade_subscription' ) ) )
-        return;
-
-    if( empty( $subscription ) || empty( $subscription->user_id ) )
-        return;
-
-    $user_id              = $subscription->user_id;
-    $subscription_plan_id = $subscription->subscription_plan_id;
-
-    if ( $user_id == 0 || empty( $subscription_plan_id ) )
-        return;
-
-    $payment_profile_id = pms_member_get_payment_profile_id( $user_id, $subscription_plan_id );
-
-    if( empty( $payment_profile_id ) || !pms_is_paypal_payment_profile_id( $payment_profile_id ) )
-        return;
-
-    $action = 'renew';
-
-    if( $form_location == 'change_subscription' )
-        $action = 'change';
-    elseif( $form_location == 'downgrade_subscription' )
-        $action = 'downgrade';
-    elseif( $form_location == 'upgrade_subscription' )
-        $action = 'upgrade';
-
-    $note = 'Subscription canceled because user manually renewed his subscription.';
-
-    if( $action == 'change' )
-        $note = 'Subscription canceled because user changed his subscription.';
-    elseif( $action == 'downgrade' )
-        $note = 'Subscription canceled because user downgraded his subscription.';
-    elseif( $action == 'upgrade' )
-        $note = 'Subscription canceled because user upgraded his subscription.';
-        
-    // Execute a profile cancellation api call to PayPal
-    $cancel_result = pms_in_api_cancel_paypal_subscription( $payment_profile_id, $action, $note );
-
-    // If something went wrong repeat cancellation api call to PayPal every hour until the subscription gets cancelled successfully
-    if( isset( $cancel_result['error'] ) && wp_get_schedule( 'pms_api_cancel_paypal_subscription', array( $user_id, $subscription_plan_id, 'renew' ) ) == false && pms_get_paypal_api_credentials() != false )
-        wp_schedule_event( time() + 60 * 60, 'hourly', 'pms_api_cancel_paypal_subscription', array( $user_id, $subscription_plan_id, 'renew' ) );
-}
+/**
+ * PMS Pro builds since March 2025 hook this name on pms_checkout_after_payment_is_processed. It stays, empty, because
+ * PHP 8 throws a TypeError for a hooked function that does not exist. Delete it once the minimum supported Pro version
+ * no longer hooks it.
+ */
+function pms_in_ppsrp_cancel_subscription_before_subscription_actions() {}
 
 /**
  * Cancel PayPal subscription when an admin deletes the subscription from the back-end
@@ -994,10 +1035,87 @@ function pms_in_ppsrp_cancel_subscription_on_admin_deletion( $subscription_id, $
         return;
 
     // Execute a profile cancellation api call to PayPal
-    pms_in_api_cancel_paypal_subscription( $data['payment_profile_id'], 'cancel', 'Subscription canceled because an admin deleted the members subscription.' );
+    $cancel_result = pms_in_api_cancel_paypal_subscription( $data['payment_profile_id'], 'cancel', 'Subscription canceled because an admin deleted the members subscription.' );
+
+    if( $cancel_result !== true )
+        pms_in_ppsrp_report_deleted_subscription_cancel_failure( $data, $cancel_result['error'] );
 
 }
 add_action( 'pms_member_subscription_delete', 'pms_in_ppsrp_cancel_subscription_on_admin_deletion', 10, 2 );
+
+/**
+ * @param array  $data  - the deleted subscription's data
+ * @param string $error
+ *
+ */
+function pms_in_ppsrp_report_deleted_subscription_cancel_failure( $data, $error ) {
+
+    $user_id = $data['user_id'];
+    $plan_id = $data['subscription_plan_id'];
+
+    $failed_attempts = get_option( 'pms_api_failed_attempts', array() );
+
+    if( !is_array( $failed_attempts ) )
+        $failed_attempts = array();
+
+    $retry = pms_get_paypal_api_credentials() != false && empty( $failed_attempts[$user_id][$plan_id] );
+
+    if( $retry ) {
+
+        $failed_attempts[$user_id][$plan_id] = array(
+            'payment_profile_id' => $data['payment_profile_id'],
+            'retry_count'        => 1,
+            'retries'            => array( array( 'time' => time(), 'error' => $error ) ),
+        );
+
+        update_option( 'pms_api_failed_attempts', $failed_attempts, false );
+
+        if( wp_get_schedule( 'pms_api_cancel_paypal_subscription', array( $user_id, $plan_id, 'cancel' ) ) == false )
+            wp_schedule_event( time() + HOUR_IN_SECONDS, 'hourly', 'pms_api_cancel_paypal_subscription', array( $user_id, $plan_id, 'cancel' ) );
+
+    }
+
+    $payments = pms_get_payments( array( 'user_id' => $data['user_id'], 'profile_id' => $data['payment_profile_id'], 'number' => 1, 'order' => 'DESC' ) );
+
+    if( !empty( $payments[0] ) )
+        $payments[0]->log_data( 'paypal_deleted_subscription_cancel_failed', array( 'profile_id' => $data['payment_profile_id'], 'subscription_id' => $data['id'], 'error' => $error, 'retry' => $retry, 'user' => get_current_user_id() ) );
+
+    $transient = 'pms_paypal_deleted_subscription_cancel_failures_' . get_current_user_id();
+    $failures  = get_transient( $transient );
+
+    if( !is_array( $failures ) )
+        $failures = array();
+
+    $failures[ $data['payment_profile_id'] ] = array( 'error' => $error, 'retry' => $retry );
+
+    set_transient( $transient, $failures, MINUTE_IN_SECONDS );
+
+}
+
+function pms_in_ppsrp_deleted_subscription_cancel_failure_notices() {
+
+    $transient = 'pms_paypal_deleted_subscription_cancel_failures_' . get_current_user_id();
+    $failures  = get_transient( $transient );
+
+    if( empty( $failures ) || !is_array( $failures ) )
+        return;
+
+    delete_transient( $transient );
+
+    foreach( $failures as $profile_id => $failure ) {
+
+        $message  = sprintf( __( 'The subscription was deleted, but PayPal could not cancel its profile %s.', 'paid-member-subscriptions' ), $profile_id );
+        $message .= ' ' . ( !empty( $failure['retry'] ) ? __( 'PMS retries every hour.', 'paid-member-subscriptions' ) : __( 'Cancel it in PayPal, or PayPal keeps charging the member.', 'paid-member-subscriptions' ) );
+
+        if( !empty( $failure['error'] ) )
+            $message .= ' ' . sprintf( __( 'PayPal error: %s', 'paid-member-subscriptions' ), $failure['error'] );
+
+        echo '<div class="error pms-notice pms-admin-notice"><p>' . esc_html( $message ) . '</p></div>';
+
+    }
+
+}
+add_action( 'admin_notices', 'pms_in_ppsrp_deleted_subscription_cancel_failure_notices' );
 
 /**
  * Cancel PayPal subscription when the status is changed to Canceled or Abandoned while in the back-end interface
@@ -1031,6 +1149,15 @@ function pms_in_paypal_add_subscription_log_messages( $message, $log ){
     switch ( $log['type'] ) {
         case 'paypal_subscription_setup':
             $message = __( 'Subscription setup successfully with PayPal.', 'paid-member-subscriptions' );
+            break;
+        case 'paypal_old_profile_payment':
+            $message = sprintf( __( 'PayPal charged payment #%1$s on the old profile <strong>%2$s</strong>. The subscription was not changed.', 'paid-member-subscriptions' ), esc_html( $log['data']['payment_id'] ), esc_html( $log['data']['profile_id'] ) );
+
+            if( array_key_exists( 'cancel_error', $log['data'] ) )
+                $message .= ' ' . sprintf( __( 'Canceling the profile at PayPal failed: %s', 'paid-member-subscriptions' ), esc_html( $log['data']['cancel_error'] ) );
+            else
+                $message .= ' ' . __( 'The profile was canceled at PayPal.', 'paid-member-subscriptions' );
+
             break;
     }
 

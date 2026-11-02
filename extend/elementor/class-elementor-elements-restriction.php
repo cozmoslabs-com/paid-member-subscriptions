@@ -258,7 +258,7 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 		if( $settings['pms_restriction_custom_messages'] == 'yes' ) {
 
 			if( $settings['pms_restriction_custom_messages_type'] == 'text' )
-				return $settings['pms_restriction_fallback_text'];
+				return wp_kses( $settings['pms_restriction_fallback_text'], PMS_Elementor::get_message_allowed_html( $element ) );
 			elseif( $settings['pms_restriction_custom_messages_type'] == 'template' ) {
 				return $this->render_template( $settings['pms_restriction_fallback_template'] );
 			}
@@ -317,6 +317,10 @@ class PMS_Elementor_Content_Restriction extends PMS_Elementor {
 	// Render an Elementor template based on ID
 	// Based on Elementor Pro template shortcode
 	public function render_template( $id ) {
+		// The control lists only published templates, but Elementor saves any ID the editor sends
+		if( get_post_status( $id ) != 'publish' && !current_user_can( 'read_post', $id ) )
+			return '';
+
 		return Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $id, true );
 	}
 
